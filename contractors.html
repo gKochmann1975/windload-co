@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔨</text></svg>">
+    <title>Wind Load Calculator for Contractors | Pass Permits Fast</title>
+    <meta name="description" content="Get wind load calculations that pass permit review the first time. No engineering degree needed. Results in minutes. ASCE 7-22 compliant. PE seal available.">
+    <link rel="canonical" href="https://windload.co/contractors">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #1a1a1a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            background:
+                linear-gradient(135deg, rgba(255, 165, 0, 0.1) 0%, transparent 50%),
+                linear-gradient(225deg, rgba(0, 24, 255, 0.1) 0%, transparent 50%),
+                #1a1a1a;
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 165, 0, 0.15);
+            border: 1px solid rgba(255, 165, 0, 0.3);
+            color: #ffa500;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            color: #ffa500;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        .pain-points {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .pain-point {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            border-left: 3px solid #ffa500;
+        }
+
+        .pain-icon {
+            font-size: 1.5rem;
+            flex-shrink: 0;
+        }
+
+        .pain-text strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .pain-text span {
+            font-size: 0.875rem;
+            color: #888;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+            color: #000;
+            box-shadow: 0 4px 20px rgba(255, 165, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 165, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Permit Card */
+        .permit-card {
+            background: #222;
+            border: 1px solid #333;
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .permit-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+
+        .permit-title {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .permit-stamp {
+            background: #10b981;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transform: rotate(-5deg);
+        }
+
+        .permit-details {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .permit-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #333;
+        }
+
+        .permit-label {
+            color: #888;
+        }
+
+        .permit-value {
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .permit-footer {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-top: 1rem;
+        }
+
+        .permit-pe {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .pe-badge {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #000;
+            font-size: 0.75rem;
+        }
+
+        .pe-info {
+            font-size: 0.875rem;
+        }
+
+        .pe-info strong {
+            display: block;
+        }
+
+        .pe-info span {
+            color: #888;
+        }
+
+        /* Stats */
+        .stats {
+            padding: 4rem 2rem;
+            background: #111;
+        }
+
+        .stats-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 1.5rem;
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #ffa500;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* How It Works */
+        .how-it-works {
+            padding: 6rem 2rem;
+            background: #1a1a1a;
+        }
+
+        .how-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .how-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .how-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .how-header p {
+            color: #888;
+            font-size: 1.125rem;
+        }
+
+        .steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .step {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid #333;
+            position: relative;
+        }
+
+        .step-number {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: #ffa500;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #000;
+            font-size: 1.25rem;
+        }
+
+        .step-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+        }
+
+        .step h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .step p {
+            color: #888;
+            font-size: 0.95rem;
+        }
+
+        /* Testimonial */
+        .testimonial {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #222 0%, #1a1a1a 100%);
+        }
+
+        .testimonial-container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .testimonial-quote {
+            font-size: 1.75rem;
+            font-weight: 500;
+            line-height: 1.4;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .author-info strong {
+            display: block;
+        }
+
+        .author-info span {
+            color: #888;
+            font-size: 0.875rem;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #ffa500 0%, #ff8c00 100%);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #000;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            color: rgba(0, 0, 0, 0.7);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-primary {
+            background: #000;
+            color: #ffa500;
+        }
+
+        .cta .btn-primary:hover {
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.875rem;
+            background: #111;
+        }
+
+        footer a {
+            color: #ffa500;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .permit-card {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .stats-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .steps {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .stat-value {
+                font-size: 2.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-grid">
+                <div class="hero-text">
+                    <div class="hero-badge">
+                        <span>🔨</span>
+                        <span>For Contractors & Builders</span>
+                    </div>
+
+                    <h1>Pass Permit Review <span>The First Time</span></h1>
+
+                    <p class="hero-subtitle">
+                        Stop waiting weeks for engineers. Get permit-ready wind load calculations in minutes. No engineering degree needed.
+                    </p>
+
+                    <div class="pain-points">
+                        <div class="pain-point">
+                            <span class="pain-icon">😤</span>
+                            <div class="pain-text">
+                                <strong>Tired of permit rejections?</strong>
+                                <span>Our calculations are ASCE 7-22 compliant and accepted by building departments nationwide</span>
+                            </div>
+                        </div>
+                        <div class="pain-point">
+                            <span class="pain-icon">⏰</span>
+                            <div class="pain-text">
+                                <strong>Can't wait 2 weeks for an engineer?</strong>
+                                <span>Get results in minutes. Need a PE stamp? We can turn that around in 24-48 hours</span>
+                            </div>
+                        </div>
+                        <div class="pain-point">
+                            <span class="pain-icon">💸</span>
+                            <div class="pain-text">
+                                <strong>Don't want to pay $500+ per calculation?</strong>
+                                <span>Unlimited calculations for one low monthly price. Calculate every project</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="hero-cta">
+                        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=contractors" class="btn btn-primary">
+                            Start Calculating Now
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="https://windload.solutions/professional-engineer-sign-seal-wind-load-pressures.html?utm_source=windload-co&utm_medium=landing&utm_campaign=contractors" class="btn btn-secondary">
+                            Get PE Seal
+                        </a>
+                    </div>
+                </div>
+
+                <div class="permit-visual">
+                    <div class="permit-card">
+                        <div class="permit-header">
+                            <span class="permit-title">Wind Load Calculation</span>
+                            <span class="permit-stamp">Approved</span>
+                        </div>
+
+                        <div class="permit-details">
+                            <div class="permit-row">
+                                <span class="permit-label">Project Address</span>
+                                <span class="permit-value">123 Ocean Drive, Miami</span>
+                            </div>
+                            <div class="permit-row">
+                                <span class="permit-label">Wind Speed</span>
+                                <span class="permit-value">180 mph (ASCE 7-22)</span>
+                            </div>
+                            <div class="permit-row">
+                                <span class="permit-label">Design Pressure</span>
+                                <span class="permit-value">-62.4 psf</span>
+                            </div>
+                            <div class="permit-row">
+                                <span class="permit-label">Code Compliance</span>
+                                <span class="permit-value">FBC 2023 / HVHZ</span>
+                            </div>
+                            <div class="permit-row">
+                                <span class="permit-label">Calculation Time</span>
+                                <span class="permit-value">3 minutes</span>
+                            </div>
+                        </div>
+
+                        <div class="permit-footer">
+                            <div class="permit-pe">
+                                <div class="pe-badge">PE</div>
+                                <div class="pe-info">
+                                    <strong>Professional Engineer Seal</strong>
+                                    <span>Available upon request</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats">
+        <div class="stats-container">
+            <div class="stat">
+                <div class="stat-value">3</div>
+                <div class="stat-label">Minutes to Calculate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">50</div>
+                <div class="stat-label">States Covered</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">24hr</div>
+                <div class="stat-label">PE Seal Turnaround</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">24</div>
+                <div class="stat-label">Years Experience</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works -->
+    <section class="how-it-works">
+        <div class="how-container">
+            <div class="how-header">
+                <h2>Simple as 1-2-3</h2>
+                <p>No engineering background required</p>
+            </div>
+
+            <div class="steps">
+                <div class="step">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">📍</div>
+                    <h3>Enter the Address</h3>
+                    <p>Just type the project address. We automatically look up wind speed, exposure, and code requirements.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">📏</div>
+                    <h3>Add Building Info</h3>
+                    <p>Enter basic details: building height, width, roof type. No technical jargon required.</p>
+                </div>
+
+                <div class="step">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">📄</div>
+                    <h3>Download Report</h3>
+                    <p>Get a professional PDF report ready for permit submission. Need a PE stamp? Add it with one click.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial">
+        <div class="testimonial-container">
+            <div class="testimonial-quote">
+                "Used to wait 2 weeks for an engineer and pay $400-500 per calculation. Now I get results in minutes and can bid jobs the same day. Game changer."
+            </div>
+            <div class="testimonial-author">
+                <div class="author-avatar">👷</div>
+                <div class="author-info">
+                    <strong>Mike R.</strong>
+                    <span>General Contractor, South Florida</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Stop Waiting. Start Building.</h2>
+        <p>Get your first wind load calculation in the next 5 minutes</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=contractors-cta" class="btn btn-primary">
+            Try It Free
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windload.solutions">Learn About Wind Loads</a> | <a href="https://windloadcalc.com">Calculator</a></p>
+    </footer>
+</body>
+</html>

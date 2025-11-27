@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌀</text></svg>">
+    <title>Hurricane Wind Load Calculator | Coastal Building Requirements</title>
+    <meta name="description" content="Hurricane-ready wind load calculations for coastal construction. ASCE 7-22 compliant. Protect your project from Atlantic and Gulf hurricanes. Free demo.">
+    <link rel="canonical" href="https://windload.co/hurricane">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a14;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Animated hurricane background */
+        .hero {
+            min-height: 100vh;
+            background: radial-gradient(ellipse at center, #1a1a2e 0%, #0a0a14 70%);
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+
+        /* Hurricane animation */
+        .hurricane-bg {
+            position: absolute;
+            top: 50%;
+            right: 10%;
+            transform: translate(0, -50%);
+            width: 500px;
+            height: 500px;
+            opacity: 0.15;
+            pointer-events: none;
+        }
+
+        .hurricane-ring {
+            position: absolute;
+            border: 2px solid rgba(255, 100, 100, 0.5);
+            border-radius: 50%;
+            animation: rotate 20s linear infinite;
+        }
+
+        .hurricane-ring:nth-child(1) {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+        }
+
+        .hurricane-ring:nth-child(2) {
+            width: 80%;
+            height: 80%;
+            top: 10%;
+            left: 10%;
+            animation-duration: 15s;
+            animation-direction: reverse;
+        }
+
+        .hurricane-ring:nth-child(3) {
+            width: 60%;
+            height: 60%;
+            top: 20%;
+            left: 20%;
+            animation-duration: 10s;
+        }
+
+        .hurricane-ring:nth-child(4) {
+            width: 40%;
+            height: 40%;
+            top: 30%;
+            left: 30%;
+            animation-duration: 7s;
+            animation-direction: reverse;
+        }
+
+        .hurricane-eye {
+            position: absolute;
+            width: 20%;
+            height: 20%;
+            top: 40%;
+            left: 40%;
+            background: radial-gradient(circle, #ff6464 0%, transparent 70%);
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.5; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.1); }
+        }
+
+        .hero-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .urgency-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: rgba(255, 100, 100, 0.15);
+            border: 1px solid rgba(255, 100, 100, 0.3);
+            color: #ff6464;
+            padding: 0.75rem 1.5rem;
+            border-radius: 100px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 2rem;
+            animation: urgencyPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes urgencyPulse {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 100, 100, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 100, 100, 0); }
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 6vw, 5rem);
+            font-weight: 900;
+            line-height: 1.05;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #ff6464 0%, #ff9f64 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.35rem;
+            color: #94a3b8;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 4rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 14px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-danger {
+            background: linear-gradient(135deg, #ff6464 0%, #ff4040 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(255, 100, 100, 0.4);
+        }
+
+        .btn-danger:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(255, 100, 100, 0.5);
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Affected States */
+        .affected-states {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .state-tag {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            color: #94a3b8;
+            transition: all 0.3s ease;
+        }
+
+        .state-tag:hover {
+            border-color: #ff6464;
+            color: #ff6464;
+        }
+
+        /* Wind Speed Section */
+        .wind-speeds {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, #0a0a14 0%, #12121e 100%);
+        }
+
+        .wind-speeds-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+        }
+
+        .speed-categories {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        .speed-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .speed-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .speed-card.cat1::before { background: #fcd34d; }
+        .speed-card.cat2::before { background: #fb923c; }
+        .speed-card.cat3::before { background: #f97316; }
+        .speed-card.cat4::before { background: #ef4444; }
+        .speed-card.cat5::before { background: #b91c1c; }
+
+        .speed-category {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .speed-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .speed-card.cat1 .speed-value { color: #fcd34d; }
+        .speed-card.cat2 .speed-value { color: #fb923c; }
+        .speed-card.cat3 .speed-value { color: #f97316; }
+        .speed-card.cat4 .speed-value { color: #ef4444; }
+        .speed-card.cat5 .speed-value { color: #b91c1c; }
+
+        .speed-range {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        /* Why It Matters */
+        .why-section {
+            padding: 6rem 2rem;
+            background: #12121e;
+        }
+
+        .why-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .why-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .why-card {
+            background: rgba(255, 100, 100, 0.05);
+            border: 1px solid rgba(255, 100, 100, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .why-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-card h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .why-card p {
+            color: #94a3b8;
+        }
+
+        .why-stat {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .why-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #ff6464;
+        }
+
+        .why-stat-label {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #ff6464 0%, #ff4040 100%);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-danger {
+            background: white;
+            color: #ff4040;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: #0a0a14;
+        }
+
+        footer a {
+            color: #ff6464;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hurricane-bg {
+                width: 300px;
+                height: 300px;
+                right: 5%;
+                opacity: 0.1;
+            }
+
+            .speed-categories {
+                grid-template-columns: repeat(3, 1fr);
+            }
+
+            .why-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .speed-categories {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .speed-card:last-child {
+                grid-column: span 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hurricane-bg">
+            <div class="hurricane-ring"></div>
+            <div class="hurricane-ring"></div>
+            <div class="hurricane-ring"></div>
+            <div class="hurricane-ring"></div>
+            <div class="hurricane-eye"></div>
+        </div>
+
+        <div class="hero-container">
+            <div class="urgency-badge">
+                <span>🌀</span>
+                <span>Hurricane Season: June 1 - November 30</span>
+            </div>
+
+            <h1>Build to Survive <span>The Storm</span></h1>
+
+            <p class="hero-subtitle">
+                Hurricane-rated wind load calculations for coastal construction. Know your design pressures before the next storm makes landfall.
+            </p>
+
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=hurricane" class="btn btn-danger">
+                    Calculate Wind Loads Now
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="https://windload.solutions/tornado-alley-wind-loads-safety.html?utm_source=windload-co&utm_medium=landing&utm_campaign=hurricane" class="btn btn-ghost">
+                    Storm Resources
+                </a>
+            </div>
+
+            <div class="affected-states">
+                <span class="state-tag">Florida</span>
+                <span class="state-tag">Texas</span>
+                <span class="state-tag">Louisiana</span>
+                <span class="state-tag">North Carolina</span>
+                <span class="state-tag">South Carolina</span>
+                <span class="state-tag">Georgia</span>
+                <span class="state-tag">Alabama</span>
+                <span class="state-tag">Mississippi</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wind Speeds -->
+    <section class="wind-speeds">
+        <div class="wind-speeds-container">
+            <div class="section-header">
+                <h2>Saffir-Simpson Hurricane Scale</h2>
+                <p>Design wind speeds must exceed these sustained wind speeds</p>
+            </div>
+
+            <div class="speed-categories">
+                <div class="speed-card cat1">
+                    <div class="speed-category">Category 1</div>
+                    <div class="speed-value">74-95</div>
+                    <div class="speed-range">mph sustained</div>
+                </div>
+                <div class="speed-card cat2">
+                    <div class="speed-category">Category 2</div>
+                    <div class="speed-value">96-110</div>
+                    <div class="speed-range">mph sustained</div>
+                </div>
+                <div class="speed-card cat3">
+                    <div class="speed-category">Category 3</div>
+                    <div class="speed-value">111-129</div>
+                    <div class="speed-range">mph sustained</div>
+                </div>
+                <div class="speed-card cat4">
+                    <div class="speed-category">Category 4</div>
+                    <div class="speed-value">130-156</div>
+                    <div class="speed-range">mph sustained</div>
+                </div>
+                <div class="speed-card cat5">
+                    <div class="speed-category">Category 5</div>
+                    <div class="speed-value">157+</div>
+                    <div class="speed-range">mph sustained</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why It Matters -->
+    <section class="why-section">
+        <div class="why-container">
+            <div class="section-header">
+                <h2>Why Accurate Wind Loads Matter</h2>
+                <p>The cost of getting it wrong far exceeds the cost of getting it right</p>
+            </div>
+
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="why-icon">💰</div>
+                    <h3>Property Damage</h3>
+                    <p>Hurricane-force winds cause billions in damage annually. Properly designed buildings survive while others fail.</p>
+                    <div class="why-stat">
+                        <span class="why-stat-value">$22B</span>
+                        <span class="why-stat-label">Average annual hurricane damage (2023)</span>
+                    </div>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">⚖️</div>
+                    <h3>Liability Protection</h3>
+                    <p>Code-compliant calculations protect you from liability. Document your design basis before the storm hits.</p>
+                    <div class="why-stat">
+                        <span class="why-stat-value">72%</span>
+                        <span class="why-stat-label">Of failures due to inadequate design</span>
+                    </div>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">📋</div>
+                    <h3>Insurance Requirements</h3>
+                    <p>Insurance companies increasingly require wind load documentation. Get ahead of underwriting requirements.</p>
+                    <div class="why-stat">
+                        <span class="why-stat-value">35%</span>
+                        <span class="why-stat-label">Premium increase for non-compliant buildings</span>
+                    </div>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">🏠</div>
+                    <h3>Business Continuity</h3>
+                    <p>Buildings that survive hurricanes keep businesses running. Design for resilience, not just minimum code.</p>
+                    <div class="why-stat">
+                        <span class="why-stat-value">40%</span>
+                        <span class="why-stat-label">Of businesses never reopen after major damage</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Don't Wait for the Warning</h2>
+        <p>Calculate your wind load requirements now, before hurricane season</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=hurricane-cta" class="btn btn-danger">
+            Start Calculating
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windload.solutions">Educational Resources</a> | <a href="https://windloadcalc.com">Calculator</a></p>
+    </footer>
+</body>
+</html>

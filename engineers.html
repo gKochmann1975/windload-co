@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🔧</text></svg>">
+    <title>Wind Load Calculator for Engineers | PE-Ready Results in Minutes</title>
+    <meta name="description" content="Professional wind load calculator built by engineers, for engineers. ASCE 7-22 compliant, PE seal services available. Save 10+ hours per project. Trusted since 2002.">
+    <link rel="canonical" href="https://windload.co/engineers">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Wind Load Calculator for Engineers">
+    <meta property="og:description" content="ASCE 7-22 compliant calculations with PE seal services. Save 10+ hours per project.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/engineers">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            line-height: 1.6;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(circle at 20% 50%, rgba(0, 24, 255, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #10b981;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #ffffff 0%, #a0a0a0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #0018ff 0%, #10b981 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-stats {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .stat {
+            text-align: left;
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0018ff;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0018ff 0%, #0010cc 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 24, 255, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 24, 255, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        /* Calculator Preview */
+        .calculator-preview {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .calculator-preview::before {
+            content: 'LIVE PREVIEW';
+            position: absolute;
+            top: -12px;
+            left: 24px;
+            background: #10b981;
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            letter-spacing: 0.05em;
+        }
+
+        .calc-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .calc-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .calc-dot.red { background: #ff5f56; }
+        .calc-dot.yellow { background: #ffbd2e; }
+        .calc-dot.green { background: #27ca40; }
+
+        .calc-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .calc-label {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        .calc-value {
+            color: #10b981;
+            font-weight: 600;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .calc-result {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: rgba(0, 24, 255, 0.1);
+            border: 1px solid rgba(0, 24, 255, 0.2);
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .calc-result-label {
+            font-size: 0.875rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0018ff;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        /* Features Section */
+        .features {
+            padding: 6rem 2rem;
+            background: #0a0a0a;
+        }
+
+        .features-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .features-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .features-header p {
+            color: #666;
+            font-size: 1.125rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0f0f1a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(0, 24, 255, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, rgba(0, 24, 255, 0.2) 0%, rgba(16, 185, 129, 0.2) 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        /* Social Proof */
+        .social-proof {
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+            text-align: center;
+        }
+
+        .proof-logos {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 3rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+            opacity: 0.6;
+        }
+
+        .proof-text {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        .proof-text strong {
+            color: #10b981;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #0018ff 0%, #0010aa 100%);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section .btn-primary {
+            background: white;
+            color: #0018ff;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .cta-section .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.875rem;
+            background: #0a0a0a;
+        }
+
+        footer a {
+            color: #0018ff;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-stats {
+                justify-content: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .calculator-preview {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .stat {
+                text-align: center;
+            }
+
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span>🔧</span>
+                    <span>Built by Engineers, for Engineers</span>
+                </div>
+
+                <h1>Stop Wasting Time on <span>Wind Load Calculations</span></h1>
+
+                <p class="hero-subtitle">
+                    ASCE 7-22 compliant results in minutes, not hours. PE seal services available.
+                    Trusted by structural engineers since 2002.
+                </p>
+
+                <div class="hero-stats">
+                    <div class="stat">
+                        <div class="stat-value">10+</div>
+                        <div class="stat-label">Hours Saved Per Project</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">24</div>
+                        <div class="stat-label">Years in Business</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-value">50</div>
+                        <div class="stat-label">States Supported</div>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=engineers" class="btn btn-primary">
+                        Start Calculating
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://windload.solutions/professional-engineer-sign-seal-wind-load-pressures.html?utm_source=windload-co&utm_medium=landing&utm_campaign=engineers" class="btn btn-secondary">
+                        PE Seal Services
+                    </a>
+                </div>
+            </div>
+
+            <div class="calculator-preview">
+                <div class="calc-header">
+                    <span class="calc-dot red"></span>
+                    <span class="calc-dot yellow"></span>
+                    <span class="calc-dot green"></span>
+                </div>
+
+                <div class="calc-row">
+                    <span class="calc-label">Location</span>
+                    <span class="calc-value">Miami, FL 33139</span>
+                </div>
+                <div class="calc-row">
+                    <span class="calc-label">Basic Wind Speed (V)</span>
+                    <span class="calc-value">180 mph</span>
+                </div>
+                <div class="calc-row">
+                    <span class="calc-label">Exposure Category</span>
+                    <span class="calc-value">D - Coastal</span>
+                </div>
+                <div class="calc-row">
+                    <span class="calc-label">Risk Category</span>
+                    <span class="calc-value">II - Standard</span>
+                </div>
+                <div class="calc-row">
+                    <span class="calc-label">Building Height</span>
+                    <span class="calc-value">35 ft</span>
+                </div>
+                <div class="calc-row">
+                    <span class="calc-label">ASCE 7 Edition</span>
+                    <span class="calc-value">7-22</span>
+                </div>
+
+                <div class="calc-result">
+                    <div class="calc-result-label">Design Wind Pressure (C&C)</div>
+                    <div class="calc-result-value">-62.4 psf</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="features-header">
+            <h2>Why Engineers Choose WindLoadCalc</h2>
+            <p>Professional-grade calculations without the professional-grade hassle</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant ASCE 7-22 Compliance</h3>
+                <p>Always current with the latest code. No more manual updates or checking if your spreadsheet is outdated.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📋</div>
+                <h3>Permit-Ready Reports</h3>
+                <p>Generate professional PDF reports that building officials accept. Every calculation documented and traceable.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏛️</div>
+                <h3>PE Seal Available</h3>
+                <p>Need a licensed PE stamp? We offer sign and seal services for calculations in all 50 states.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🌀</div>
+                <h3>HVHZ Compliant</h3>
+                <p>Full support for High Velocity Hurricane Zones. Miami-Dade and Broward County approved methodologies.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🏔️</div>
+                <h3>Topographic Factors</h3>
+                <p>Automatic Kzt calculations for hills, ridges, and escarpments. No more manual lookups.</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🔄</div>
+                <h3>C&C and MWFRS</h3>
+                <p>Both Components & Cladding and Main Wind Force Resisting System calculations in one platform.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Social Proof -->
+    <section class="social-proof">
+        <div class="proof-logos">
+            <span style="font-size: 1.5rem; font-weight: 700; color: #444;">ASCE</span>
+            <span style="font-size: 1.5rem; font-weight: 700; color: #444;">IBC</span>
+            <span style="font-size: 1.5rem; font-weight: 700; color: #444;">FBC</span>
+            <span style="font-size: 1.5rem; font-weight: 700; color: #444;">TDI</span>
+        </div>
+        <p class="proof-text">
+            <strong>Since 2002</strong> — Trusted by thousands of engineers across all 50 states
+        </p>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Save 10+ Hours Per Project?</h2>
+        <p>Join thousands of engineers who've switched from spreadsheets to WindLoadCalc</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=engineers-cta" class="btn btn-primary">
+            Start Free Trial
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windload.solutions">Educational Resources</a> | <a href="https://windloadcalc.com">Calculator</a></p>
+    </footer>
+
+    <!-- Analytics tracking -->
+    <script>
+        // Track page view with UTM params preserved
+        const urlParams = new URLSearchParams(window.location.search);
+        const utmSource = urlParams.get('utm_source') || 'direct';
+        const utmMedium = urlParams.get('utm_medium') || 'none';
+        const utmCampaign = urlParams.get('utm_campaign') || 'none';
+
+        console.log('Engineers Landing Page View:', { utmSource, utmMedium, utmCampaign });
+    </script>
+</body>
+</html>

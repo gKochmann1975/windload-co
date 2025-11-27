@@ -1,0 +1,691 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🏛️</text></svg>">
+    <title>Wind Load Tools for Architects | Design-Phase Calculations</title>
+    <meta name="description" content="Preliminary wind load calculations for architects. Get accurate design pressures early in your project. Spec the right products from day one. Free demo available.">
+    <link rel="canonical" href="https://windload.co/architects">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #fafafa;
+            color: #1a1a1a;
+            line-height: 1.6;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 90vh;
+            background: linear-gradient(180deg, #ffffff 0%, #f0f4f8 100%);
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+            color: #0f172a;
+        }
+
+        .hero h1 span {
+            color: #0018ff;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #64748b;
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-benefits {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .benefit {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            color: #334155;
+        }
+
+        .benefit-check {
+            width: 24px;
+            height: 24px;
+            background: #10b981;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 0.75rem;
+            flex-shrink: 0;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0018ff 0%, #0010cc 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(0, 24, 255, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(0, 24, 255, 0.4);
+        }
+
+        .btn-outline {
+            background: white;
+            color: #0018ff;
+            border: 2px solid #0018ff;
+        }
+
+        .btn-outline:hover {
+            background: #0018ff;
+            color: white;
+        }
+
+        /* Visual */
+        .hero-visual {
+            position: relative;
+        }
+
+        .building-card {
+            background: white;
+            border-radius: 24px;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .building-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+
+        .building-title {
+            font-weight: 700;
+            color: #0f172a;
+        }
+
+        .building-status {
+            background: #dcfce7;
+            color: #166534;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .building-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .spec {
+            text-align: center;
+            padding: 1rem;
+            background: #f8fafc;
+            border-radius: 12px;
+        }
+
+        .spec-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #0018ff;
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .window-req {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border: 1px solid #bae6fd;
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .window-req-title {
+            font-weight: 700;
+            color: #0369a1;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .window-req-value {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #0f172a;
+        }
+
+        .window-req-note {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.5rem;
+        }
+
+        /* Floating elements */
+        .float-card {
+            position: absolute;
+            background: white;
+            border-radius: 12px;
+            padding: 1rem 1.25rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            font-size: 0.875rem;
+        }
+
+        .float-card.top-right {
+            top: -20px;
+            right: -20px;
+        }
+
+        .float-card.bottom-left {
+            bottom: -20px;
+            left: -20px;
+        }
+
+        .float-icon {
+            font-size: 1.25rem;
+            margin-right: 0.5rem;
+        }
+
+        /* Features */
+        .features {
+            padding: 6rem 2rem;
+            background: white;
+        }
+
+        .features-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .features-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 4rem;
+        }
+
+        .features-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #0f172a;
+            margin-bottom: 1rem;
+        }
+
+        .features-header p {
+            color: #64748b;
+            font-size: 1.125rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            padding: 2rem;
+            border-radius: 20px;
+            border: 1px solid #e5e7eb;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover {
+            border-color: #0018ff;
+            box-shadow: 0 20px 40px rgba(0, 24, 255, 0.1);
+            transform: translateY(-4px);
+        }
+
+        .feature-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, #e0f2fe 0%, #dbeafe 100%);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.75rem;
+        }
+
+        .feature-card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* Use Case */
+        .use-case {
+            padding: 6rem 2rem;
+            background: #f8fafc;
+        }
+
+        .use-case-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .use-case h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #0f172a;
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .timeline {
+            position: relative;
+        }
+
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 24px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #e5e7eb;
+        }
+
+        .timeline-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .timeline-marker {
+            width: 50px;
+            height: 50px;
+            background: #0018ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            flex-shrink: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .timeline-content {
+            flex: 1;
+            background: white;
+            padding: 1.5rem;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .timeline-content h4 {
+            font-weight: 700;
+            color: #0f172a;
+            margin-bottom: 0.5rem;
+        }
+
+        .timeline-content p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+
+        /* CTA */
+        .cta {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, #0018ff 0%, #181E57 100%);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: #0018ff;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: #f8fafc;
+        }
+
+        footer a {
+            color: #0018ff;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                margin-left: auto;
+                margin-right: auto;
+            }
+
+            .hero-benefits {
+                align-items: center;
+            }
+
+            .hero-cta {
+                justify-content: center;
+            }
+
+            .building-card {
+                max-width: 500px;
+                margin: 0 auto;
+            }
+
+            .float-card {
+                display: none;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .building-specs {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-text">
+                <div class="hero-badge">
+                    <span>🏛️</span>
+                    <span>For Architecture Firms</span>
+                </div>
+
+                <h1>Know Your <span>Wind Loads</span> Before Design Development</h1>
+
+                <p class="hero-subtitle">
+                    Get accurate design pressures in the schematic phase. Spec the right windows, doors, and cladding from day one. Avoid costly redesigns.
+                </p>
+
+                <div class="hero-benefits">
+                    <div class="benefit">
+                        <span class="benefit-check">✓</span>
+                        <span>Know glazing requirements before specifying products</span>
+                    </div>
+                    <div class="benefit">
+                        <span class="benefit-check">✓</span>
+                        <span>Share accurate data with structural engineers</span>
+                    </div>
+                    <div class="benefit">
+                        <span class="benefit-check">✓</span>
+                        <span>Avoid value engineering surprises later</span>
+                    </div>
+                </div>
+
+                <div class="hero-cta">
+                    <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=architects" class="btn btn-primary">
+                        Try Free Demo
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://windload.solutions/wind-exposure-categories-guide.html?utm_source=windload-co&utm_medium=landing&utm_campaign=architects" class="btn btn-outline">
+                        Learn Basics
+                    </a>
+                </div>
+            </div>
+
+            <div class="hero-visual">
+                <div class="building-card">
+                    <div class="float-card top-right">
+                        <span class="float-icon">📍</span>
+                        <span>Miami Beach, FL</span>
+                    </div>
+                    <div class="float-card bottom-left">
+                        <span class="float-icon">⚡</span>
+                        <span>HVHZ Zone</span>
+                    </div>
+
+                    <div class="building-header">
+                        <span class="building-title">Ocean View Residences</span>
+                        <span class="building-status">Schematic Phase</span>
+                    </div>
+
+                    <div class="building-specs">
+                        <div class="spec">
+                            <div class="spec-value">12</div>
+                            <div class="spec-label">Stories</div>
+                        </div>
+                        <div class="spec">
+                            <div class="spec-value">180</div>
+                            <div class="spec-label">MPH Wind Speed</div>
+                        </div>
+                        <div class="spec">
+                            <div class="spec-value">D</div>
+                            <div class="spec-label">Exposure</div>
+                        </div>
+                        <div class="spec">
+                            <div class="spec-value">II</div>
+                            <div class="spec-label">Risk Category</div>
+                        </div>
+                    </div>
+
+                    <div class="window-req">
+                        <div class="window-req-title">Required Window Rating</div>
+                        <div class="window-req-value">DP70 or Higher</div>
+                        <div class="window-req-note">Based on -68.2 psf design pressure at corners</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features">
+        <div class="features-container">
+            <div class="features-header">
+                <h2>Design-Phase Wind Load Intelligence</h2>
+                <p>The information you need, when you need it</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🪟</div>
+                    <h3>Glazing Requirements</h3>
+                    <p>Know the design pressure requirements before you spec windows. Avoid specifying products that won't pass review.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Zone-by-Zone Pressures</h3>
+                    <p>See how pressures vary across your facade. Corners, parapets, and edges have different requirements.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🗣️</div>
+                    <h3>Engineer-Ready Data</h3>
+                    <p>Generate reports to share with your structural consultant. Start the conversation with real numbers.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">🗺️</div>
+                    <h3>Site-Specific Results</h3>
+                    <p>Just enter the address. We look up wind speed, exposure, and applicable codes automatically.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">⚠️</div>
+                    <h3>HVHZ Awareness</h3>
+                    <p>Working in South Florida? We flag HVHZ requirements and Miami-Dade NOA requirements.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>Budget Planning</h3>
+                    <p>Higher wind loads mean more expensive systems. Know what you're dealing with before pricing.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Use Case -->
+    <section class="use-case">
+        <div class="use-case-container">
+            <h2>How Architects Use WindLoadCalc</h2>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-marker">1</div>
+                    <div class="timeline-content">
+                        <h4>Schematic Design</h4>
+                        <p>Run preliminary wind loads to understand facade requirements. Make informed decisions about curtain wall vs storefront vs punched openings.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">2</div>
+                    <div class="timeline-content">
+                        <h4>Design Development</h4>
+                        <p>Refine calculations as building geometry is finalized. Share data with glazing consultants and structural engineers.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">3</div>
+                    <div class="timeline-content">
+                        <h4>Construction Documents</h4>
+                        <p>Include wind load requirements in specifications. Reference calculations for product submittals.</p>
+                    </div>
+                </div>
+
+                <div class="timeline-item">
+                    <div class="timeline-marker">4</div>
+                    <div class="timeline-content">
+                        <h4>Construction Admin</h4>
+                        <p>Verify submitted products meet design requirements. Quickly check alternates against wind load criteria.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <h2>Stop Guessing. Start Knowing.</h2>
+        <p>Get accurate wind load data in minutes, not days of engineering coordination</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=architects-cta" class="btn btn-primary">
+            Try Free Demo
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windload.solutions">Educational Resources</a> | <a href="https://windloadcalc.com">Calculator</a></p>
+    </footer>
+</body>
+</html>
