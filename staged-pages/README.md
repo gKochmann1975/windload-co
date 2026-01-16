@@ -6,16 +6,20 @@ This directory contains campaign pages queued for deployment to the live site.
 
 | Category | Pages | Status |
 |----------|-------|--------|
-| miami-dade | 2 | Ready |
+| miami-dade | 0 | Need more pages |
 | broward | 0 | Pending |
 | palm-beach | 0 | Pending |
 | monroe | 0 | Pending |
 
 ## Pages Ready for Deployment
 
+*No pages currently staged. Generate new pages to fill the pipeline.*
+
+## Already Deployed
+
 ### Miami-Dade County
-1. `miami-dade/window-replacement.html` - Window replacement wind load requirements
-2. `miami-dade/hurricane-shutters.html` - Hurricane shutter selection guide
+1. `window-replacement.html` - Window replacement wind load requirements (LIVE)
+2. `hurricane-shutters.html` - Hurricane shutter selection guide (LIVE)
 
 ## Deployment Process
 
