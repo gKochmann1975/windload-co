@@ -1,0 +1,1044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campaign Admin | WindLoad.co</title>
+    <meta name="robots" content="noindex, nofollow">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0c1220 0%, #1a1a2e 100%);
+            min-height: 100vh;
+            color: #e2e8f0;
+        }
+
+        /* Header */
+        .header {
+            background: rgba(15, 23, 42, 0.95);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            backdrop-filter: blur(10px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00e5ff 0%, #00b4d8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .admin-badge {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .header-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .header-subtitle {
+            font-size: 0.875rem;
+            color: #64748b;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .refresh-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.875rem;
+            transition: all 0.2s;
+        }
+
+        .refresh-btn:hover {
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Main Content */
+        .main-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .tab {
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: transparent;
+            border: none;
+            color: #94a3b8;
+        }
+
+        .tab:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .tab.active {
+            background: linear-gradient(135deg, #00e5ff 0%, #00b4d8 100%);
+            color: white;
+        }
+
+        .tab-count {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.125rem 0.5rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+        }
+
+        .tab.active .tab-count {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Goal Card */
+        .goal-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .goal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .goal-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .goal-icon {
+            color: #ef4444;
+            font-size: 1.25rem;
+        }
+
+        .goal-percent {
+            font-size: 1.75rem;
+            font-weight: 800;
+            color: #00e5ff;
+            text-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
+        }
+
+        .goal-progress {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 100px;
+            overflow: hidden;
+            margin-bottom: 1rem;
+        }
+
+        .goal-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444 0%, #f97316 100%);
+            border-radius: 100px;
+            transition: width 0.5s ease;
+        }
+
+        .goal-stats {
+            display: flex;
+            gap: 2rem;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .goal-stat strong {
+            color: white;
+        }
+
+        /* Stats Grid */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+        }
+
+        .stat-label {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-icon {
+            font-size: 0.9rem;
+        }
+
+        .stat-icon.live { color: #ef4444; }
+        .stat-icon.staged { color: #f59e0b; }
+        .stat-icon.today { color: #10b981; }
+        .stat-icon.week { color: #8b5cf6; }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        .stat-sub {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        .stat-sub.positive { color: #10b981; }
+
+        /* Auto Deploy Banner */
+        .auto-deploy-banner {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .auto-deploy-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .auto-deploy-icon {
+            color: #10b981;
+            font-size: 1.25rem;
+        }
+
+        .auto-deploy-title {
+            font-weight: 600;
+            color: #10b981;
+        }
+
+        .auto-deploy-subtitle {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        .auto-deploy-right {
+            text-align: right;
+        }
+
+        .auto-deploy-label {
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        .auto-deploy-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        /* Categories Section */
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+
+        .section-icon {
+            color: #00b4d8;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 2rem;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 1rem;
+            transition: all 0.2s;
+            cursor: pointer;
+        }
+
+        .category-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(0, 180, 216, 0.3);
+        }
+
+        .category-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+
+        .category-name {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+        }
+
+        .category-count {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+        }
+
+        /* Color coding for categories */
+        .cat-contractors .category-dot { background: #ef4444; }
+        .cat-architects .category-dot { background: #f59e0b; }
+        .cat-engineers .category-dot { background: #10b981; }
+        .cat-hvhz .category-dot { background: #8b5cf6; }
+        .cat-shutters .category-dot { background: #ec4899; }
+        .cat-windows .category-dot { background: #06b6d4; }
+        .cat-doors .category-dot { background: #84cc16; }
+        .cat-roofing .category-dot { background: #f97316; }
+        .cat-garage .category-dot { background: #6366f1; }
+        .cat-commercial .category-dot { background: #14b8a6; }
+        .cat-residential .category-dot { background: #a855f7; }
+        .cat-miami-dade .category-dot { background: #00e5ff; }
+        .cat-broward .category-dot { background: #00ff88; }
+        .cat-palm-beach .category-dot { background: #fbbf24; }
+        .cat-monroe .category-dot { background: #f472b6; }
+
+        /* Pages Table */
+        .pages-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .pages-header {
+            padding: 1rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .search-box {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: white;
+            font-size: 0.875rem;
+            width: 300px;
+        }
+
+        .search-box::placeholder {
+            color: #64748b;
+        }
+
+        .filter-dropdown {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            color: white;
+            font-size: 0.875rem;
+        }
+
+        .pages-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .pages-table th {
+            text-align: left;
+            padding: 0.75rem 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        .pages-table td {
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.875rem;
+        }
+
+        .pages-table tr:hover td {
+            background: rgba(0, 180, 216, 0.05);
+        }
+
+        .page-title {
+            font-weight: 600;
+            color: white;
+        }
+
+        .page-path {
+            font-size: 0.75rem;
+            color: #64748b;
+            font-family: monospace;
+        }
+
+        .page-category {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .page-date {
+            color: #94a3b8;
+        }
+
+        .page-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .status-live {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .status-staged {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .page-actions {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: #94a3b8;
+            padding: 0.375rem 0.75rem;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            transition: all 0.2s;
+        }
+
+        .action-btn:hover {
+            background: rgba(0, 180, 216, 0.2);
+            color: #00e5ff;
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 4rem 2rem;
+            color: #64748b;
+        }
+
+        .empty-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+            .categories-grid { grid-template-columns: repeat(3, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .stats-grid { grid-template-columns: 1fr; }
+            .categories-grid { grid-template-columns: repeat(2, 1fr); }
+            .header { flex-direction: column; gap: 1rem; text-align: center; }
+            .tabs { flex-wrap: wrap; justify-content: center; }
+        }
+
+        /* Login Screen */
+        .login-screen {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 2rem;
+        }
+
+        .login-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+
+        .login-logo {
+            font-size: 2rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #00e5ff 0%, #00b4d8 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-title {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: #94a3b8;
+        }
+
+        .login-input {
+            width: 100%;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .login-input::placeholder {
+            color: #64748b;
+        }
+
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #00e5ff 0%, #00b4d8 100%);
+            border: none;
+            border-radius: 8px;
+            padding: 1rem;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4);
+        }
+
+        .login-error {
+            color: #ef4444;
+            font-size: 0.875rem;
+            margin-top: 1rem;
+            display: none;
+        }
+
+        .hidden { display: none; }
+    </style>
+</head>
+<body>
+    <!-- Login Screen -->
+    <div id="loginScreen" class="login-screen">
+        <div class="login-card">
+            <div class="login-logo">WindLoad.co</div>
+            <div class="login-title">Campaign Admin</div>
+            <input type="password" id="adminKey" class="login-input" placeholder="Enter admin key">
+            <button onclick="login()" class="login-btn">Access Dashboard</button>
+            <div id="loginError" class="login-error">Invalid admin key</div>
+        </div>
+    </div>
+
+    <!-- Main Dashboard -->
+    <div id="dashboard" class="hidden">
+        <header class="header">
+            <div class="header-left">
+                <div>
+                    <span class="logo">WindLoad.co</span>
+                    <span class="admin-badge">Admin</span>
+                </div>
+                <div>
+                    <div class="header-title">Campaign Admin</div>
+                    <div class="header-subtitle">Content pipeline, campaign analytics, and page management</div>
+                </div>
+            </div>
+            <div class="header-right">
+                <button class="refresh-btn" onclick="refreshData()">↻ Refresh</button>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <!-- Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-tab="overview">
+                    ◉ Overview
+                </button>
+                <button class="tab" data-tab="deployed">
+                    ⊕ Deployed <span class="tab-count" id="deployedCount">2</span>
+                </button>
+                <button class="tab" data-tab="staged">
+                    📁 Staged <span class="tab-count" id="stagedCount">2</span>
+                </button>
+            </div>
+
+            <!-- Overview Tab -->
+            <div id="overview" class="tab-content active">
+                <!-- Goal Progress -->
+                <div class="goal-card">
+                    <div class="goal-header">
+                        <div class="goal-title">
+                            <span class="goal-icon">🎯</span>
+                            500 Page Goal
+                        </div>
+                        <div class="goal-percent" id="goalPercent">0.8%</div>
+                    </div>
+                    <div class="goal-progress">
+                        <div class="goal-progress-bar" id="goalBar" style="width: 0.8%"></div>
+                    </div>
+                    <div class="goal-stats">
+                        <span>Total Pages: <strong id="totalPages">4</strong> / 500</span>
+                        <span>Remaining: <strong id="remainingPages">496</strong></span>
+                        <span>Days to Goal: <strong id="daysToGoal">35</strong> @ 14/day</span>
+                    </div>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <span class="stat-icon live">📍</span>
+                            Live Campaigns
+                        </div>
+                        <div class="stat-value" id="liveCampaigns">2</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <span class="stat-icon staged">📦</span>
+                            Staged (Bank)
+                        </div>
+                        <div class="stat-value" id="stagedCampaigns">2</div>
+                        <div class="stat-sub" id="stagedDays">~0 days of content</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <span class="stat-icon today">🚀</span>
+                            Deployed Today
+                        </div>
+                        <div class="stat-value" id="deployedToday">0</div>
+                        <div class="stat-sub positive" id="todayRemaining">14 remaining</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">
+                            <span class="stat-icon week">📈</span>
+                            This Week
+                        </div>
+                        <div class="stat-value" id="deployedWeek">0</div>
+                        <div class="stat-sub">Target: 98 / week</div>
+                    </div>
+                </div>
+
+                <!-- Auto Deploy Banner -->
+                <div class="auto-deploy-banner">
+                    <div class="auto-deploy-left">
+                        <span class="auto-deploy-icon">▶</span>
+                        <div>
+                            <div class="auto-deploy-title">Auto-Deploy: Pending Setup</div>
+                            <div class="auto-deploy-subtitle">GitHub Actions deploys 1 page every 1.5 hours (14/day)</div>
+                        </div>
+                    </div>
+                    <div class="auto-deploy-right">
+                        <div class="auto-deploy-label">Pages in Bank</div>
+                        <div class="auto-deploy-value" id="pagesInBank">2</div>
+                    </div>
+                </div>
+
+                <!-- Categories by Location -->
+                <div class="section-title">
+                    <span class="section-icon">📍</span>
+                    Pages by Location
+                </div>
+                <div class="categories-grid" id="locationCategories">
+                    <div class="category-card cat-miami-dade">
+                        <div class="category-name"><span class="category-dot"></span>Miami-Dade</div>
+                        <div class="category-count">2</div>
+                    </div>
+                    <div class="category-card cat-broward">
+                        <div class="category-name"><span class="category-dot"></span>Broward</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-palm-beach">
+                        <div class="category-name"><span class="category-dot"></span>Palm Beach</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-monroe">
+                        <div class="category-name"><span class="category-dot"></span>Monroe (Keys)</div>
+                        <div class="category-count">0</div>
+                    </div>
+                </div>
+
+                <!-- Categories by Audience -->
+                <div class="section-title">
+                    <span class="section-icon">👥</span>
+                    Pages by Audience
+                </div>
+                <div class="categories-grid" id="audienceCategories">
+                    <div class="category-card cat-contractors">
+                        <div class="category-name"><span class="category-dot"></span>Contractors</div>
+                        <div class="category-count">2</div>
+                    </div>
+                    <div class="category-card cat-architects">
+                        <div class="category-name"><span class="category-dot"></span>Architects</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-engineers">
+                        <div class="category-name"><span class="category-dot"></span>Engineers</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-residential">
+                        <div class="category-name"><span class="category-dot"></span>Homeowners</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-commercial">
+                        <div class="category-name"><span class="category-dot"></span>Commercial</div>
+                        <div class="category-count">0</div>
+                    </div>
+                </div>
+
+                <!-- Categories by Product Type -->
+                <div class="section-title">
+                    <span class="section-icon">🏗️</span>
+                    Pages by Product Type
+                </div>
+                <div class="categories-grid" id="productCategories">
+                    <div class="category-card cat-windows">
+                        <div class="category-name"><span class="category-dot"></span>Windows</div>
+                        <div class="category-count">1</div>
+                    </div>
+                    <div class="category-card cat-shutters">
+                        <div class="category-name"><span class="category-dot"></span>Shutters</div>
+                        <div class="category-count">1</div>
+                    </div>
+                    <div class="category-card cat-doors">
+                        <div class="category-name"><span class="category-dot"></span>Doors</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-garage">
+                        <div class="category-name"><span class="category-dot"></span>Garage Doors</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-roofing">
+                        <div class="category-name"><span class="category-dot"></span>Roofing</div>
+                        <div class="category-count">0</div>
+                    </div>
+                    <div class="category-card cat-hvhz">
+                        <div class="category-name"><span class="category-dot"></span>HVHZ General</div>
+                        <div class="category-count">0</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Deployed Tab -->
+            <div id="deployed" class="tab-content">
+                <div class="pages-section">
+                    <div class="pages-header">
+                        <input type="text" class="search-box" placeholder="Search deployed pages..." id="deployedSearch">
+                        <select class="filter-dropdown" id="deployedFilter">
+                            <option value="all">All Categories</option>
+                            <option value="miami-dade">Miami-Dade</option>
+                            <option value="broward">Broward</option>
+                            <option value="palm-beach">Palm Beach</option>
+                            <option value="monroe">Monroe</option>
+                        </select>
+                    </div>
+                    <table class="pages-table">
+                        <thead>
+                            <tr>
+                                <th>Page</th>
+                                <th>Category</th>
+                                <th>Deployed</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="deployedTableBody">
+                            <tr>
+                                <td>
+                                    <div class="page-title">Window Replacement Wind Load Requirements</div>
+                                    <div class="page-path">/florida/miami-dade/window-replacement</div>
+                                </td>
+                                <td><span class="page-category cat-miami-dade"><span class="category-dot"></span>Miami-Dade</span></td>
+                                <td class="page-date">Jan 15, 2026</td>
+                                <td><span class="page-status status-live">Live</span></td>
+                                <td class="page-actions">
+                                    <button class="action-btn" onclick="window.open('https://windload.co/florida/miami-dade/window-replacement', '_blank')">View</button>
+                                    <button class="action-btn" onclick="copyUrl('/florida/miami-dade/window-replacement')">Copy</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="page-title">Hurricane Shutters Selection Guide</div>
+                                    <div class="page-path">/florida/miami-dade/hurricane-shutters</div>
+                                </td>
+                                <td><span class="page-category cat-miami-dade"><span class="category-dot"></span>Miami-Dade</span></td>
+                                <td class="page-date">Jan 15, 2026</td>
+                                <td><span class="page-status status-live">Live</span></td>
+                                <td class="page-actions">
+                                    <button class="action-btn" onclick="window.open('https://windload.co/florida/miami-dade/hurricane-shutters', '_blank')">View</button>
+                                    <button class="action-btn" onclick="copyUrl('/florida/miami-dade/hurricane-shutters')">Copy</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Staged Tab -->
+            <div id="staged" class="tab-content">
+                <div class="pages-section">
+                    <div class="pages-header">
+                        <input type="text" class="search-box" placeholder="Search staged pages..." id="stagedSearch">
+                        <select class="filter-dropdown" id="stagedFilter">
+                            <option value="all">All Categories</option>
+                            <option value="miami-dade">Miami-Dade</option>
+                            <option value="broward">Broward</option>
+                            <option value="palm-beach">Palm Beach</option>
+                            <option value="monroe">Monroe</option>
+                        </select>
+                    </div>
+                    <table class="pages-table">
+                        <thead>
+                            <tr>
+                                <th>Page</th>
+                                <th>Category</th>
+                                <th>Staged</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stagedTableBody">
+                            <tr>
+                                <td>
+                                    <div class="page-title">Window Replacement Wind Load Requirements</div>
+                                    <div class="page-path">/staged-pages/miami-dade/window-replacement.html</div>
+                                </td>
+                                <td><span class="page-category cat-miami-dade"><span class="category-dot"></span>Miami-Dade</span></td>
+                                <td class="page-date">Jan 15, 2026</td>
+                                <td><span class="page-status status-staged">Queued</span></td>
+                                <td class="page-actions">
+                                    <button class="action-btn" onclick="previewPage('/staged-pages/miami-dade/window-replacement.html')">Preview</button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="page-title">Hurricane Shutters Selection Guide</div>
+                                    <div class="page-path">/staged-pages/miami-dade/hurricane-shutters.html</div>
+                                </td>
+                                <td><span class="page-category cat-miami-dade"><span class="category-dot"></span>Miami-Dade</span></td>
+                                <td class="page-date">Jan 15, 2026</td>
+                                <td><span class="page-status status-staged">Queued</span></td>
+                                <td class="page-actions">
+                                    <button class="action-btn" onclick="previewPage('/staged-pages/miami-dade/hurricane-shutters.html')">Preview</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        // Campaign data (would be loaded from JSON in production)
+        const campaignData = {
+            goal: 500,
+            dailyTarget: 14,
+            deployed: [
+                {
+                    title: "Window Replacement Wind Load Requirements",
+                    path: "/florida/miami-dade/window-replacement",
+                    category: "miami-dade",
+                    productType: "windows",
+                    audience: "contractors",
+                    deployedAt: "2026-01-15",
+                    liveUrl: "https://windload.co/florida/miami-dade/window-replacement"
+                },
+                {
+                    title: "Hurricane Shutters Selection Guide",
+                    path: "/florida/miami-dade/hurricane-shutters",
+                    category: "miami-dade",
+                    productType: "shutters",
+                    audience: "contractors",
+                    deployedAt: "2026-01-15",
+                    liveUrl: "https://windload.co/florida/miami-dade/hurricane-shutters"
+                }
+            ],
+            staged: [
+                {
+                    title: "Window Replacement Wind Load Requirements",
+                    path: "/staged-pages/miami-dade/window-replacement.html",
+                    category: "miami-dade",
+                    productType: "windows",
+                    audience: "contractors",
+                    stagedAt: "2026-01-15"
+                },
+                {
+                    title: "Hurricane Shutters Selection Guide",
+                    path: "/staged-pages/miami-dade/hurricane-shutters.html",
+                    category: "miami-dade",
+                    productType: "shutters",
+                    audience: "contractors",
+                    stagedAt: "2026-01-15"
+                }
+            ]
+        };
+
+        // Login functionality
+        function login() {
+            const key = document.getElementById('adminKey').value;
+            // Simple key check - in production, this would validate against server
+            if (key === 'windload2026' || key === 'admin') {
+                document.getElementById('loginScreen').classList.add('hidden');
+                document.getElementById('dashboard').classList.remove('hidden');
+                localStorage.setItem('windload_admin_auth', 'true');
+            } else {
+                document.getElementById('loginError').style.display = 'block';
+            }
+        }
+
+        // Check if already logged in
+        if (localStorage.getItem('windload_admin_auth') === 'true') {
+            document.getElementById('loginScreen').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+        }
+
+        // Enter key login
+        document.getElementById('adminKey').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') login();
+        });
+
+        // Tab switching
+        document.querySelectorAll('.tab').forEach(tab => {
+            tab.addEventListener('click', function() {
+                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+                this.classList.add('active');
+                document.getElementById(this.dataset.tab).classList.add('active');
+            });
+        });
+
+        // Copy URL functionality
+        function copyUrl(path) {
+            navigator.clipboard.writeText('https://windload.co' + path);
+            alert('URL copied to clipboard!');
+        }
+
+        // Preview staged page
+        function previewPage(path) {
+            window.open('http://localhost:3000' + path, '_blank');
+        }
+
+        // Refresh data
+        function refreshData() {
+            // In production, this would fetch from API
+            location.reload();
+        }
+
+        // Update stats on load
+        function updateStats() {
+            const totalDeployed = campaignData.deployed.length;
+            const totalStaged = campaignData.staged.length;
+            const total = totalDeployed + totalStaged;
+            const percent = ((totalDeployed / campaignData.goal) * 100).toFixed(1);
+
+            document.getElementById('goalPercent').textContent = percent + '%';
+            document.getElementById('goalBar').style.width = percent + '%';
+            document.getElementById('totalPages').textContent = totalDeployed;
+            document.getElementById('remainingPages').textContent = campaignData.goal - totalDeployed;
+            document.getElementById('daysToGoal').textContent = Math.ceil((campaignData.goal - totalDeployed) / campaignData.dailyTarget);
+
+            document.getElementById('liveCampaigns').textContent = totalDeployed;
+            document.getElementById('stagedCampaigns').textContent = totalStaged;
+            document.getElementById('stagedDays').textContent = '~' + Math.floor(totalStaged / campaignData.dailyTarget) + ' days of content';
+            document.getElementById('pagesInBank').textContent = totalStaged;
+
+            document.getElementById('deployedCount').textContent = totalDeployed;
+            document.getElementById('stagedCount').textContent = totalStaged;
+        }
+
+        updateStats();
+    </script>
+</body>
+</html>
