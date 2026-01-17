@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fascia Board Wind Loads Broward County 2025 | Fascia Attachment Design | WindLoad.co</title>
+    <meta name="description" content="Calculate wind loads on fascia boards in Broward County FL. Animated guide shows how fascia experiences extreme outward forces during hurricanes that pull boards off the roof edge.">
+    <meta name="keywords" content="fascia wind loads, fascia board attachment, fascia hurricane damage, Broward County fascia requirements, roof edge trim wind, fascia blow off prevention">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/florida/broward/fascia-board-loads.html">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-56SE70Y0VP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-56SE70Y0VP');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fascia Board Wind Loads Broward County | Roof Edge Attachment Guide">
+    <meta property="og:description" content="See why fascia boards blow off during hurricanes and how to properly attach them in Broward County.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/fascia-board-loads.html">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --fascia-color: #ff8c42;
+            --pull-color: #a8e6cf;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--primary-dark); color: var(--text-light); line-height: 1.7; overflow-x: hidden; }
+
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .content-wrapper { position: relative; z-index: 1; }
+
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 212, 255, 0.2); }
+        .logo { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+        .nav-cta { background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple)); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4); }
+
+        .hero { padding: 80px 5% 40px; text-align: center; }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; }
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+        h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 20px; line-height: 1.2; }
+        h1 span { background: linear-gradient(135deg, var(--fascia-color), var(--pull-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { font-size: 1.3rem; color: var(--text-muted); max-width: 750px; margin: 0 auto 40px; }
+
+        .animation-stage { max-width: 900px; margin: 0 auto; padding: 0 5%; }
+        .fascia-demo { background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(26, 10, 46, 0.95)); border-radius: 25px; padding: 40px; border: 2px solid var(--fascia-color); }
+        .demo-title { text-align: center; font-size: 1.4rem; margin-bottom: 30px; color: var(--fascia-color); }
+
+        .fascia-visual { position: relative; height: 300px; margin-bottom: 30px; }
+        .fascia-visual svg { width: 100%; height: 100%; }
+
+        .roof-structure { fill: rgba(157, 78, 221, 0.3); stroke: var(--accent-purple); stroke-width: 2; }
+        .fascia-board { fill: rgba(255, 140, 66, 0.5); stroke: var(--fascia-color); stroke-width: 3; }
+        .nail-point { fill: var(--text-light); }
+
+        .pull-arrow { fill: var(--pull-color); animation: fasciaP ull 1.5s ease-in-out infinite; }
+        @keyframes fasciaPull { 0%, 100% { transform: translateX(0); opacity: 0.7; } 50% { transform: translateX(10px); opacity: 1; } }
+
+        .wind-flow { fill: none; stroke: var(--accent-cyan); stroke-width: 2; stroke-dasharray: 10, 5; animation: windMove 1s linear infinite; }
+        @keyframes windMove { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -30; } }
+
+        .pressure-label { font-size: 14px; fill: var(--text-light); font-weight: 600; }
+        .zone-label { font-size: 11px; fill: var(--text-muted); }
+
+        .data-display { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+        .data-card { background: rgba(0, 0, 0, 0.4); border-radius: 15px; padding: 25px; text-align: center; border: 1px solid rgba(255, 140, 66, 0.3); }
+        .data-value { font-size: 2.5rem; font-weight: 700; color: var(--fascia-color); }
+        .data-label { font-size: 0.9rem; color: var(--text-muted); margin-top: 5px; }
+
+        .story-section { padding: 80px 5%; max-width: 900px; margin: 0 auto; }
+        .story-block { background: linear-gradient(135deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.8)); border-radius: 20px; padding: 40px; margin-bottom: 30px; border-left: 4px solid var(--fascia-color); opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .story-block.visible { opacity: 1; transform: translateY(0); }
+        .story-block h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--fascia-color); }
+        .story-block p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 15px; }
+        .story-block strong { color: var(--accent-cyan); }
+
+        .code-box { background: rgba(0, 0, 0, 0.5); border-radius: 12px; padding: 20px; margin: 20px 0; font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--accent-cyan); border: 1px solid rgba(0, 212, 255, 0.3); }
+
+        .faq-section { padding: 60px 5%; max-width: 900px; margin: 0 auto; }
+        .faq-section h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; color: var(--fascia-color); }
+        .faq-item { background: rgba(45, 27, 78, 0.5); border-radius: 15px; padding: 25px; margin-bottom: 15px; border: 1px solid rgba(255, 140, 66, 0.2); }
+        .faq-item h3 { color: var(--accent-cyan); margin-bottom: 12px; font-size: 1.1rem; }
+        .faq-item p { color: var(--text-muted); }
+
+        .cta-section { padding: 80px 5%; text-align: center; background: linear-gradient(180deg, transparent, rgba(255, 140, 66, 0.05)); }
+        .cta-box { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95)); border-radius: 25px; padding: 50px 40px; border: 2px solid var(--fascia-color); }
+        .cta-box h2 { font-size: 2rem; margin-bottom: 15px; }
+        .cta-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
+        .cta-button { display: inline-block; background: linear-gradient(135deg, var(--fascia-color), var(--accent-magenta)); color: white; padding: 18px 45px; border-radius: 35px; text-decoration: none; font-weight: 700; font-size: 1.2rem; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(255, 140, 66, 0.3); }
+        .cta-button:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 50px rgba(255, 140, 66, 0.4); }
+
+        footer { padding: 40px 5%; text-align: center; border-top: 1px solid rgba(255, 140, 66, 0.2); color: var(--text-muted); }
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .data-display { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 15px; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind pressure does fascia board experience in Broward County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Fascia boards at the roof edge in Broward County experience negative (outward) pressures of -65 to -95 PSF depending on the building height and roof zone. Corner fascia can see pressures exceeding -110 PSF. This outward suction tries to pull the fascia board away from the rafter tails."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do fascia boards fail during hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Fascia boards fail because they are typically attached with only finish nails designed for holding the board in place, not resisting wind loads. When wind creates suction on the fascia face, these small nails pull out. The board peels away, often taking gutters and soffit with it, exposing the roof structure to wind-driven rain."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How should fascia boards be attached to resist wind in Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In high-wind areas like Broward County, fascia boards should be attached with ring-shank or screw-shank nails at 6 inches on center, or screws rated for the design pressure. Some installations use metal fascia clips that wrap around the board and fasten to the rafter tails with structural screws. The connection must resist the calculated outward wind pressure."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What happens when fascia blows off during a hurricane?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "When fascia blows off, it creates a chain reaction of damage. The exposed rafter tails let wind get under the roof edge, increasing uplift on the entire roof. Rain enters the attic and walls. The soffit usually follows since it was attached to the fascia. Gutters tear away. This cascading failure can lead to major structural damage."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "WindLoad.co", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Fascia Board Wind Loads", "item": "https://windload.co/florida/broward/fascia-board-loads.html"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="https://windload.co" class="logo">WindLoad.co</a>
+            <a href="https://windload.co" class="nav-cta">Get Wind Loads</a>
+        </header>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/florida/">Florida</a> /
+                <a href="https://windload.co/florida/broward/">Broward County</a> /
+                Fascia Board Wind Loads
+            </div>
+            <h1>The Fascia <span>Peel-Away Problem</span></h1>
+            <p class="subtitle">Your fascia board sits right at the roof edge where wind is strongest. When suction pulls on that flat face, tiny nails just cannot hold on. That is how water gets into your house.</p>
+        </section>
+
+        <section class="animation-stage">
+            <div class="fascia-demo">
+                <h2 class="demo-title">Wind Suction on Fascia Board</h2>
+                <div class="fascia-visual">
+                    <svg viewBox="0 0 800 280">
+                        <!-- Roof structure / rafter tails -->
+                        <polygon class="roof-structure" points="200,80 600,80 620,100 620,150 180,150 180,100"/>
+
+                        <!-- Individual rafter tails -->
+                        <rect class="roof-structure" x="220" y="100" width="20" height="80" rx="2"/>
+                        <rect class="roof-structure" x="320" y="100" width="20" height="80" rx="2"/>
+                        <rect class="roof-structure" x="420" y="100" width="20" height="80" rx="2"/>
+                        <rect class="roof-structure" x="520" y="100" width="20" height="80" rx="2"/>
+
+                        <!-- Fascia board -->
+                        <rect class="fascia-board" x="180" y="100" width="460" height="85"/>
+
+                        <!-- Nail points -->
+                        <circle class="nail-point" cx="230" cy="140" r="3"/>
+                        <circle class="nail-point" cx="330" cy="140" r="3"/>
+                        <circle class="nail-point" cx="430" cy="140" r="3"/>
+                        <circle class="nail-point" cx="530" cy="140" r="3"/>
+
+                        <!-- Wind flow hitting fascia -->
+                        <path class="wind-flow" d="M50 140 Q100 130 170 140"/>
+                        <path class="wind-flow" d="M50 160 Q100 150 170 160" style="animation-delay: 0.2s"/>
+
+                        <!-- Pull arrows (outward suction) -->
+                        <polygon class="pull-arrow" points="660,120 645,115 645,125"/>
+                        <polygon class="pull-arrow" points="660,145 645,140 645,150" style="animation-delay: 0.2s"/>
+                        <polygon class="pull-arrow" points="660,170 645,165 645,175" style="animation-delay: 0.4s"/>
+
+                        <!-- Suction zone indicator -->
+                        <rect x="640" y="100" width="30" height="85" fill="rgba(168, 230, 207, 0.2)" stroke="var(--pull-color)" stroke-width="1" stroke-dasharray="5,5"/>
+
+                        <!-- Pressure labels -->
+                        <text class="pressure-label" x="680" y="145">-85 PSF</text>
+                        <text class="zone-label" x="680" y="160">Pulling Outward</text>
+
+                        <text class="pressure-label" x="350" y="220">Each nail must resist 25+ lbs of pull!</text>
+
+                        <!-- Wind direction -->
+                        <text x="60" y="125" fill="var(--accent-cyan)" font-size="14" font-weight="600">WIND</text>
+                        <polygon points="95,130 95,120 110,125" fill="var(--accent-cyan)"/>
+
+                        <!-- Detail callout -->
+                        <circle cx="330" cy="140" r="15" fill="none" stroke="var(--accent-magenta)" stroke-width="2" stroke-dasharray="4,4"/>
+                        <line x1="345" y1="130" x2="400" y2="70" stroke="var(--accent-magenta)" stroke-width="1"/>
+                        <text x="405" y="60" fill="var(--accent-magenta)" font-size="11">Standard nail</text>
+                        <text x="405" y="75" fill="var(--accent-magenta)" font-size="11">pulls out easily</text>
+                    </svg>
+                </div>
+
+                <div class="data-display">
+                    <div class="data-card">
+                        <div class="data-value" data-target="85">0</div>
+                        <div class="data-label">PSF Outward Suction</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" data-target="6">0</div>
+                        <div class="data-label">Inch Max Nail Spacing</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" data-target="25">0</div>
+                        <div class="data-label">LBS Pull Per Nail</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="story-block">
+                <h3>The Flat Face Problem</h3>
+                <p>Think of your fascia board like a flag on a pole. When wind blows past it, the flat face catches the flow and creates suction - like a vacuum trying to <strong>suck the board off the house</strong>.</p>
+                <p>This is especially bad at the roof edge where wind speeds up as it flows over the eave. The fascia sits right in the <strong>high-pressure zone</strong> where suction is strongest.</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Why Finish Nails Fail</h3>
+                <p>Most fascia boards are installed with <strong>2-inch finish nails</strong> every 12-16 inches. These nails are smooth and slender - perfect for trim work where looks matter more than strength.</p>
+                <p>But when 85 PSF of suction pulls on that fascia, each nail needs to resist 25+ pounds. Smooth nails in wood just slide right out!</p>
+                <div class="code-box">
+                    Pull Force per Nail = Pressure x Area / Number of Nails<br>
+                    Example: 85 PSF x 0.5 SF / 2 nails = <strong>21 lbs per nail</strong><br>
+                    Smooth nail pullout capacity: only ~20 lbs!
+                </div>
+            </div>
+
+            <div class="story-block">
+                <h3>The Hurricane-Ready Fix</h3>
+                <p>In Broward County, we use <strong>ring-shank nails or screws</strong> spaced 6 inches apart instead of 12-16. Ring-shank nails grip the wood fibers and resist pullout 3-4 times better than smooth nails.</p>
+                <p>Even better: use <strong>fascia clips</strong> that wrap around the board and bolt to the rafter tails. These metal brackets can resist hundreds of pounds of pull.</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Fascia Board Questions</h2>
+
+            <div class="faq-item">
+                <h3>What wind pressure does fascia board experience in Broward County?</h3>
+                <p>Fascia boards at the roof edge in Broward County experience negative (outward) pressures of -65 to -95 PSF depending on the building height and roof zone. Corner fascia can see pressures exceeding -110 PSF. This outward suction tries to pull the fascia board away from the rafter tails.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Why do fascia boards fail during hurricanes?</h3>
+                <p>Fascia boards fail because they are typically attached with only finish nails designed for holding the board in place, not resisting wind loads. When wind creates suction on the fascia face, these small nails pull out. The board peels away, often taking gutters and soffit with it, exposing the roof structure to wind-driven rain.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How should fascia boards be attached to resist wind in Florida?</h3>
+                <p>In high-wind areas like Broward County, fascia boards should be attached with ring-shank or screw-shank nails at 6 inches on center, or screws rated for the design pressure. Some installations use metal fascia clips that wrap around the board and fasten to the rafter tails with structural screws. The connection must resist the calculated outward wind pressure.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What happens when fascia blows off during a hurricane?</h3>
+                <p>When fascia blows off, it creates a chain reaction of damage. The exposed rafter tails let wind get under the roof edge, increasing uplift on the entire roof. Rain enters the attic and walls. The soffit usually follows since it was attached to the fascia. Gutters tear away. This cascading failure can lead to major structural damage.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Get Your Fascia Wind Load Analysis</h2>
+                <p>Calculate exact outward pressures and fastener requirements for your fascia installation. PE-stamped calculations for Broward County permits.</p>
+                <a href="https://windload.co" class="cta-button">Get Fascia Analysis</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/florida/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 2 + 1,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? '#ff8c42' : '#00d4ff',
+                alpha: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width + 10) p.x = -10;
+                if (p.y > canvas.height || p.y < 0) p.vy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        function animateValue(element, target, duration = 2000) {
+            const start = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(target * easeOut);
+                element.textContent = current;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        const dataObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const values = entry.target.querySelectorAll('.data-value');
+                    values.forEach(v => {
+                        const target = parseFloat(v.dataset.target);
+                        animateValue(v, target);
+                    });
+                    dataObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.data-display').forEach(el => dataObserver.observe(el));
+
+        const storyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.story-block').forEach(block => storyObserver.observe(block));
+    </script>
+</body>
+</html>

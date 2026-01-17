@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Garage Door Header Sizing | Palm Beach Wind Load Calculator | WindLoad.co</title>
+    <meta name="description" content="Calculate garage door header sizes for Palm Beach County hurricanes. Animated guide shows how wide openings need stronger headers. Single, double, and triple garage door specifications.">
+    <meta name="keywords" content="garage door header size, garage header wind load, Palm Beach garage door, HVHZ garage header, wide opening header, LVL garage header">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/garage-header-sizing">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPC29V5WXL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QPC29V5WXL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Garage Door Header Sizing - Palm Beach County">
+    <meta property="og:description" content="Interactive calculator for garage door headers. See how opening width affects header requirements in hurricane zones.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/garage-header-sizing">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What size header do I need for a 16-foot garage door in Palm Beach?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A 16-foot garage door opening typically requires an engineered header like a 1-3/4 inch x 14 inch LVL beam or a steel W8x18 beam. Standard lumber headers cannot span this width safely in HVHZ wind zones. The header must carry both wind loads and any roof/floor loads above."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do garage doors have the biggest wind load problems?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Garage doors are often the largest opening in a house, sometimes 16 feet wide or more. More area means more total wind force. A 16x7 foot garage door in a 60 PSF wind zone takes 6,720 pounds of force - like a small car pushing against it. All that force transfers to the header."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use regular 2x lumber for a garage door header?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Only for single-car garages up to 9 feet wide, and even then you need doubled or tripled 2x12 lumber. Double-car and larger openings require engineered lumber (LVL, PSL) or steel beams. Using undersized headers in hurricane zones can cause catastrophic roof failure."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does building height affect garage header sizing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Taller buildings experience higher wind pressures, especially above 15 feet. A two-story home needs a bigger garage header than a single-story home with the same door size. Wind speed increases with height, and pressure increases with the square of speed."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Garage Header Sizing", "item": "https://windload.co/florida/palm-beach/garage-header-sizing"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-yellow: #ffd700;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover { transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .size-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .size-badge {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid var(--accent-yellow);
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .size-badge .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-yellow);
+        }
+
+        .size-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Interactive Garage */
+        .garage-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .garage-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .garage-view {
+            position: relative;
+            height: 350px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            padding-bottom: 20px;
+        }
+
+        .garage-structure {
+            position: relative;
+            width: 90%;
+            height: 280px;
+        }
+
+        .garage-wall-left, .garage-wall-right {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 100%;
+            background: linear-gradient(90deg, #666, #444);
+        }
+
+        .garage-wall-left { left: 0; }
+        .garage-wall-right { right: 0; }
+
+        .garage-header {
+            position: absolute;
+            top: 0;
+            left: 25px;
+            right: 25px;
+            height: 40px;
+            background: linear-gradient(180deg, #DEB887, #8B4513);
+            border: 3px solid var(--accent-yellow);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.5s ease;
+        }
+
+        .header-text {
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        .garage-door {
+            position: absolute;
+            bottom: 0;
+            left: 30px;
+            right: 30px;
+            background: linear-gradient(180deg, #555, #333);
+            border: 3px solid var(--accent-cyan);
+            transition: all 0.5s ease;
+        }
+
+        .door-panels {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+
+        .door-panel-row {
+            flex: 1;
+            border-bottom: 2px solid #222;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .door-panel-row:last-child {
+            border-bottom: none;
+        }
+
+        .door-window {
+            width: 60%;
+            height: 60%;
+            background: rgba(0, 212, 255, 0.2);
+            border: 2px solid rgba(0, 212, 255, 0.5);
+        }
+
+        /* Size selector */
+        .size-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .size-option {
+            background: rgba(255, 215, 0, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .size-option:hover {
+            border-color: var(--accent-yellow);
+        }
+
+        .size-option.active {
+            border-color: var(--accent-yellow);
+            background: rgba(255, 215, 0, 0.2);
+        }
+
+        .size-option .width {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-yellow);
+        }
+
+        .size-option .type {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Results display */
+        .results-panel {
+            margin-top: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .result-row:last-child {
+            border-bottom: none;
+        }
+
+        .result-label {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .result-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        .result-value.header-spec {
+            color: var(--accent-cyan);
+        }
+
+        /* Content sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .comparison-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .comparison-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .comparison-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .comparison-card:hover {
+            border-color: var(--accent-yellow);
+        }
+
+        .card-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+            color: var(--accent-yellow);
+        }
+
+        .comparison-card .width-range {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .header-type {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            display: inline-block;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .spec-list {
+            list-style: none;
+            text-align: left;
+        }
+
+        .spec-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 215, 0, 0.1);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-magenta));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-magenta));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            color: var(--primary-dark);
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-dark);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary-dark);
+            color: white;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-yellow); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .comparison-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .size-selector { flex-wrap: wrap; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="https://windload.co/#calculator" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Garage Header</span> Sizing Guide</h1>
+                <p class="hero-subtitle">Garage doors are the biggest weak point in a house during hurricanes. The wider the door, the bigger the header you need. Select your garage size below to see the header requirements.</p>
+
+                <div class="size-badges">
+                    <div class="size-badge">
+                        <span class="value">16'</span>
+                        <span class="label">Max Span</span>
+                    </div>
+                    <div class="size-badge">
+                        <span class="value">LVL</span>
+                        <span class="label">Engineered</span>
+                    </div>
+                    <div class="size-badge">
+                        <span class="value">6,720</span>
+                        <span class="label">Lbs Force</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="garage-container">
+                <div class="garage-title">Interactive Garage Header Calculator</div>
+
+                <div class="garage-view">
+                    <div class="garage-structure">
+                        <div class="garage-wall-left"></div>
+                        <div class="garage-wall-right"></div>
+                        <div class="garage-header" id="garageHeader">
+                            <span class="header-text" id="headerText">2x LVL 1-3/4"x14"</span>
+                        </div>
+                        <div class="garage-door" id="garageDoor" style="height: 220px;">
+                            <div class="door-panels">
+                                <div class="door-panel-row"><div class="door-window"></div></div>
+                                <div class="door-panel-row"></div>
+                                <div class="door-panel-row"></div>
+                                <div class="door-panel-row"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="size-selector">
+                    <div class="size-option" data-width="8" data-type="Single">
+                        <div class="width">8'</div>
+                        <div class="type">Single</div>
+                    </div>
+                    <div class="size-option" data-width="9" data-type="Single+">
+                        <div class="width">9'</div>
+                        <div class="type">Single+</div>
+                    </div>
+                    <div class="size-option active" data-width="16" data-type="Double">
+                        <div class="width">16'</div>
+                        <div class="type">Double</div>
+                    </div>
+                    <div class="size-option" data-width="18" data-type="Triple">
+                        <div class="width">18'</div>
+                        <div class="type">Triple</div>
+                    </div>
+                </div>
+
+                <div class="results-panel">
+                    <div class="result-row">
+                        <span class="result-label">Opening Width</span>
+                        <span class="result-value" id="resultWidth">16 feet</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Wind Force (60 PSF)</span>
+                        <span class="result-value" id="resultForce">6,720 lbs</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Required Header</span>
+                        <span class="result-value header-spec" id="resultHeader">2x LVL 1-3/4"x14"</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Header Types by <span class="highlight">Garage Size</span></h2>
+            <p>Bigger openings need stronger headers. Here is what you need for each garage configuration in Palm Beach County HVHZ zones.</p>
+        </div>
+
+        <div class="comparison-grid">
+            <div class="comparison-card">
+                <div class="card-icon">&#128663;</div>
+                <h3>Single Car</h3>
+                <div class="width-range">8-9 feet wide</div>
+                <div class="header-type">Doubled 2x12</div>
+                <ul class="spec-list">
+                    <li>Standard lumber OK for single</li>
+                    <li>Must be #2 or better grade</li>
+                    <li>Solid blocking at ends</li>
+                    <li>Simpson connectors required</li>
+                </ul>
+            </div>
+
+            <div class="comparison-card">
+                <div class="card-icon">&#128664;</div>
+                <h3>Double Car</h3>
+                <div class="width-range">16 feet wide</div>
+                <div class="header-type">LVL or Steel</div>
+                <ul class="spec-list">
+                    <li>Engineered lumber required</li>
+                    <li>1-3/4" x 14" LVL minimum</li>
+                    <li>Or W8x18 steel beam</li>
+                    <li>Post supports at each end</li>
+                </ul>
+            </div>
+
+            <div class="comparison-card">
+                <div class="card-icon">&#128666;</div>
+                <h3>Triple/RV</h3>
+                <div class="width-range">18+ feet wide</div>
+                <div class="header-type">Steel Required</div>
+                <ul class="spec-list">
+                    <li>Steel beam only at this width</li>
+                    <li>W10x22 or larger typical</li>
+                    <li>Engineer design required</li>
+                    <li>Special foundation support</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about garage door headers in hurricane zones.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What size header do I need for a 16-foot garage door in Palm Beach?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        A 16-foot garage door opening typically requires an engineered header like a 1-3/4 inch x 14 inch LVL beam or a steel W8x18 beam. Standard lumber headers cannot span this width safely in HVHZ wind zones. The header must carry both wind loads and any roof/floor loads above.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Why do garage doors have the biggest wind load problems?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Garage doors are often the largest opening in a house, sometimes 16 feet wide or more. More area means more total wind force. A 16x7 foot garage door in a 60 PSF wind zone takes 6,720 pounds of force - like a small car pushing against it. All that force transfers to the header.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I use regular 2x lumber for a garage door header?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Only for single-car garages up to 9 feet wide, and even then you need doubled or tripled 2x12 lumber. Double-car and larger openings require engineered lumber (LVL, PSL) or steel beams. Using undersized headers in hurricane zones can cause catastrophic roof failure.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How does building height affect garage header sizing?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Taller buildings experience higher wind pressures, especially above 15 feet. A two-story home needs a bigger garage header than a single-story home with the same door size. Wind speed increases with height, and pressure increases with the square of speed.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Garage Header</h2>
+            <p>Get precise header specifications for your garage door. PE-stamped calculations available.</p>
+            <div class="cta-buttons">
+                <a href="https://windload.co/#calculator" class="btn-primary">Calculate Wind Loads</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/door-header-loads">Door Header Loads</a></li>
+                    <li><a href="/florida/palm-beach/lintel-design">Lintel Design</a></li>
+                    <li><a href="/florida/palm-beach/opening-reinforcement">Opening Reinforcement</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Palm Beach County, FL - HVHZ Compliant</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 + 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) {
+                    this.x = -10;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(255, 215, 0, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Garage size selector
+        const sizeOptions = document.querySelectorAll('.size-option');
+        const garageHeader = document.getElementById('garageHeader');
+        const garageDoor = document.getElementById('garageDoor');
+        const headerText = document.getElementById('headerText');
+        const resultWidth = document.getElementById('resultWidth');
+        const resultForce = document.getElementById('resultForce');
+        const resultHeader = document.getElementById('resultHeader');
+
+        const headerSpecs = {
+            8: { header: '(2) 2x12 #2 SYP', force: 3360, height: 180 },
+            9: { header: '(3) 2x12 #2 SYP', force: 3780, height: 190 },
+            16: { header: '2x LVL 1-3/4"x14"', force: 6720, height: 220 },
+            18: { header: 'W10x22 Steel', force: 7560, height: 240 }
+        };
+
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                sizeOptions.forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+
+                const width = parseInt(option.dataset.width);
+                const spec = headerSpecs[width];
+
+                headerText.textContent = spec.header;
+                resultWidth.textContent = width + ' feet';
+                resultForce.textContent = spec.force.toLocaleString() + ' lbs';
+                resultHeader.textContent = spec.header;
+
+                // Animate door size
+                garageDoor.style.height = spec.height + 'px';
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.comparison-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

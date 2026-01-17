@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roof Overhang Wind Loads Miami-Dade 2025 | Soffit Uplift Calculations | WindLoad.co</title>
+    <meta name="description" content="Calculate wind loads on roof overhangs in Miami-Dade County FL. Animated guide shows how soffits experience extreme uplift pressures during hurricanes. ASCE 7-22 compliant.">
+    <meta name="keywords" content="roof overhang wind loads, soffit uplift pressure, eave wind design, Miami-Dade overhang requirements, HVHZ roof edge, hurricane roof damage">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/roof-overhang-loads.html">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-56SE70Y0VP"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-56SE70Y0VP');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Roof Overhang Wind Loads Miami-Dade | Soffit Uplift Guide">
+    <meta property="og:description" content="See why roof overhangs experience 2-3x higher wind loads than the main roof. Interactive uplift animation.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/roof-overhang-loads.html">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Roof Overhang Wind Loads - The Soffit Weak Point">
+    <meta name="twitter:description" content="Why overhangs fail first in hurricanes and how to design them properly.">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --overhang-color: #ff6b35;
+            --uplift-color: #00d4ff;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--primary-dark); color: var(--text-light); line-height: 1.7; overflow-x: hidden; }
+
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .content-wrapper { position: relative; z-index: 1; }
+
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 212, 255, 0.2); }
+        .logo { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+        .nav-cta { background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple)); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4); }
+
+        .hero { padding: 80px 5% 40px; text-align: center; }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; }
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+        h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 20px; line-height: 1.2; }
+        h1 span { background: linear-gradient(135deg, var(--overhang-color), var(--uplift-color)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { font-size: 1.3rem; color: var(--text-muted); max-width: 750px; margin: 0 auto 40px; }
+
+        .animation-stage { max-width: 900px; margin: 0 auto; padding: 0 5%; }
+        .overhang-demo { background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(26, 10, 46, 0.95)); border-radius: 25px; padding: 40px; border: 2px solid var(--overhang-color); }
+        .demo-title { text-align: center; font-size: 1.4rem; margin-bottom: 30px; color: var(--overhang-color); }
+
+        .roof-visual { position: relative; height: 300px; margin-bottom: 30px; }
+        .roof-visual svg { width: 100%; height: 100%; }
+
+        .roof-main { fill: rgba(157, 78, 221, 0.3); stroke: var(--accent-purple); stroke-width: 2; }
+        .overhang-section { fill: rgba(255, 107, 53, 0.4); stroke: var(--overhang-color); stroke-width: 3; }
+        .soffit-line { stroke: var(--overhang-color); stroke-width: 2; stroke-dasharray: 5, 5; }
+
+        .uplift-arrow { fill: var(--uplift-color); animation: upliftPulse 1.5s ease-in-out infinite; }
+        @keyframes upliftPulse { 0%, 100% { transform: translateY(0); opacity: 0.7; } 50% { transform: translateY(-15px); opacity: 1; } }
+
+        .wind-flow { fill: none; stroke: var(--accent-cyan); stroke-width: 2; stroke-dasharray: 10, 5; animation: windMove 1s linear infinite; }
+        @keyframes windMove { 0% { stroke-dashoffset: 0; } 100% { stroke-dashoffset: -30; } }
+
+        .pressure-label { font-size: 14px; fill: var(--text-light); font-weight: 600; }
+        .zone-label { font-size: 12px; fill: var(--text-muted); }
+
+        .data-display { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+        .data-card { background: rgba(0, 0, 0, 0.4); border-radius: 15px; padding: 25px; text-align: center; border: 1px solid rgba(255, 107, 53, 0.3); }
+        .data-value { font-size: 2.5rem; font-weight: 700; color: var(--overhang-color); }
+        .data-label { font-size: 0.9rem; color: var(--text-muted); margin-top: 5px; }
+        .data-card.animated .data-value { animation: countUp 2s ease-out forwards; }
+
+        .story-section { padding: 80px 5%; max-width: 900px; margin: 0 auto; }
+        .story-block { background: linear-gradient(135deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.8)); border-radius: 20px; padding: 40px; margin-bottom: 30px; border-left: 4px solid var(--overhang-color); opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .story-block.visible { opacity: 1; transform: translateY(0); }
+        .story-block h3 { font-size: 1.5rem; margin-bottom: 15px; color: var(--overhang-color); }
+        .story-block p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 15px; }
+        .story-block strong { color: var(--accent-cyan); }
+
+        .code-box { background: rgba(0, 0, 0, 0.5); border-radius: 12px; padding: 20px; margin: 20px 0; font-family: 'Courier New', monospace; font-size: 0.95rem; color: var(--accent-cyan); border: 1px solid rgba(0, 212, 255, 0.3); }
+
+        .faq-section { padding: 60px 5%; max-width: 900px; margin: 0 auto; }
+        .faq-section h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; color: var(--overhang-color); }
+        .faq-item { background: rgba(45, 27, 78, 0.5); border-radius: 15px; padding: 25px; margin-bottom: 15px; border: 1px solid rgba(255, 107, 53, 0.2); }
+        .faq-item h3 { color: var(--accent-cyan); margin-bottom: 12px; font-size: 1.1rem; }
+        .faq-item p { color: var(--text-muted); }
+
+        .cta-section { padding: 80px 5%; text-align: center; background: linear-gradient(180deg, transparent, rgba(255, 107, 53, 0.05)); }
+        .cta-box { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95)); border-radius: 25px; padding: 50px 40px; border: 2px solid var(--overhang-color); }
+        .cta-box h2 { font-size: 2rem; margin-bottom: 15px; }
+        .cta-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
+        .cta-button { display: inline-block; background: linear-gradient(135deg, var(--overhang-color), var(--accent-magenta)); color: white; padding: 18px 45px; border-radius: 35px; text-decoration: none; font-weight: 700; font-size: 1.2rem; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(255, 107, 53, 0.3); }
+        .cta-button:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 50px rgba(255, 107, 53, 0.4); }
+
+        footer { padding: 40px 5%; text-align: center; border-top: 1px solid rgba(255, 107, 53, 0.2); color: var(--text-muted); }
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .data-display { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 15px; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why do roof overhangs experience higher wind loads than the main roof?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Roof overhangs experience higher wind loads because wind accelerates as it wraps around the roof edge, creating intense suction on both the top and bottom of the overhang. The soffit underneath gets pulled by negative pressure while the top surface also experiences uplift. This double-sided attack can create loads 2-3 times higher than the main roof field."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the typical wind load on a roof overhang in Miami-Dade HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In Miami-Dade's High Velocity Hurricane Zone with 180+ mph design wind speeds, roof overhangs typically experience uplift pressures between -80 to -120 PSF. Corner overhangs can see even higher pressures exceeding -150 PSF. The exact value depends on overhang width, roof height, and exposure category."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How wide can a roof overhang be in Miami-Dade County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "While there is no strict maximum width, overhangs beyond 24 inches require increasingly robust connections. Most residential overhangs in HVHZ are kept to 12-18 inches to manage uplift forces. Wider overhangs need engineered connections with metal straps or hurricane clips rated for the calculated loads."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What causes soffit panels to blow off during hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Soffit panels fail when uplift pressure underneath the overhang exceeds their attachment capacity. Wind pushes up on the soffit while simultaneously pulling the roof structure upward. If soffit fasteners are too weak or spaced too far apart, the panels pop off, allowing wind and rain into the attic and potentially leading to roof failure."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "WindLoad.co", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Roof Overhang Wind Loads", "item": "https://windload.co/florida/miami-dade/roof-overhang-loads.html"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="https://windload.co" class="logo">WindLoad.co</a>
+            <a href="https://windload.co" class="nav-cta">Get Wind Loads</a>
+        </header>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/florida/">Florida</a> /
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade</a> /
+                Roof Overhang Wind Loads
+            </div>
+            <h1>The Roof Edge <span>Weak Point</span></h1>
+            <p class="subtitle">Your roof overhang sticks out like a shelf in a windstorm. Wind rushes under it and tries to rip it off - that is why soffits fail first. Let's show you exactly what happens.</p>
+        </section>
+
+        <section class="animation-stage">
+            <div class="overhang-demo">
+                <h2 class="demo-title">Wind Flow Around Roof Overhang</h2>
+                <div class="roof-visual">
+                    <svg viewBox="0 0 800 280">
+                        <!-- Main roof structure -->
+                        <polygon class="roof-main" points="150,180 400,50 650,180 650,200 150,200"/>
+
+                        <!-- Left overhang (highlighted) -->
+                        <polygon class="overhang-section" points="100,180 150,180 150,200 100,200"/>
+                        <line class="soffit-line" x1="100" y1="200" x2="150" y2="200"/>
+
+                        <!-- Right overhang (highlighted) -->
+                        <polygon class="overhang-section" points="650,180 700,180 700,200 650,200"/>
+                        <line class="soffit-line" x1="650" y1="200" x2="700" y2="200"/>
+
+                        <!-- Building wall -->
+                        <rect x="150" y="200" width="500" height="80" fill="rgba(45, 27, 78, 0.5)" stroke="var(--accent-purple)" stroke-width="2"/>
+
+                        <!-- Wind flow arrows -->
+                        <path class="wind-flow" d="M20 150 Q60 150 100 170"/>
+                        <path class="wind-flow" d="M20 180 Q60 180 100 190" style="animation-delay: 0.2s"/>
+                        <path class="wind-flow" d="M20 210 Q60 210 100 200" style="animation-delay: 0.4s"/>
+
+                        <!-- Uplift arrows under left overhang -->
+                        <polygon class="uplift-arrow" points="115,210 125,210 120,195"/>
+                        <polygon class="uplift-arrow" points="135,210 145,210 140,195" style="animation-delay: 0.3s"/>
+
+                        <!-- Uplift arrows under right overhang -->
+                        <polygon class="uplift-arrow" points="660,210 670,210 665,195" style="animation-delay: 0.5s"/>
+                        <polygon class="uplift-arrow" points="680,210 690,210 685,195" style="animation-delay: 0.7s"/>
+
+                        <!-- Top surface uplift on overhang -->
+                        <polygon class="uplift-arrow" points="115,175 125,175 120,160" style="animation-delay: 0.2s"/>
+                        <polygon class="uplift-arrow" points="675,175 685,175 680,160" style="animation-delay: 0.6s"/>
+
+                        <!-- Labels -->
+                        <text class="pressure-label" x="60" y="250">-95 PSF</text>
+                        <text class="zone-label" x="55" y="268">Overhang Uplift</text>
+
+                        <text class="pressure-label" x="380" y="130">-45 PSF</text>
+                        <text class="zone-label" x="365" y="148">Main Roof Field</text>
+
+                        <text class="pressure-label" x="720" y="185">-95 PSF</text>
+                        <text class="zone-label" x="715" y="203">Corner Zone</text>
+
+                        <!-- Wind direction indicator -->
+                        <text x="30" y="140" fill="var(--accent-cyan)" font-size="14" font-weight="600">WIND</text>
+                        <polygon points="70,145 70,135 85,140" fill="var(--accent-cyan)"/>
+                    </svg>
+                </div>
+
+                <div class="data-display">
+                    <div class="data-card animated">
+                        <div class="data-value" data-target="95">0</div>
+                        <div class="data-label">PSF Overhang Uplift</div>
+                    </div>
+                    <div class="data-card animated">
+                        <div class="data-value" data-target="2.1">0</div>
+                        <div class="data-label">x Higher Than Main Roof</div>
+                    </div>
+                    <div class="data-card animated">
+                        <div class="data-value" data-target="18">0</div>
+                        <div class="data-label">Inch Max Safe Overhang</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="story-block">
+                <h3>The Shelf in a Windstorm</h3>
+                <p>Picture your roof overhang like a shelf sticking out from a wall. Now imagine a powerful fan blowing from the side. The air <strong>rushes under the shelf</strong> and pushes up - hard. At the same time, air flowing over the top creates suction that also pulls upward.</p>
+                <p>Your overhang gets attacked from <strong>both directions at once</strong>. That is why it sees loads 2-3 times higher than the middle of your roof.</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Why Soffits Blow Off First</h3>
+                <p>Those soffit panels under your overhang are held up by small nails or staples. During a hurricane, the wind pressure underneath can reach <strong>95 pounds per square foot or more</strong>. That is like someone pushing up on every square foot with almost 100 pounds of force!</p>
+                <p>When those fasteners let go, the soffit panels fly away. Now wind and rain pour into your attic. This is how many roofs start to fail.</p>
+                <div class="code-box">
+                    Overhang Uplift = qz x GCp x Exposure Factor<br>
+                    Example: 35 psf x (-2.8) x 1.0 = <strong>-98 PSF uplift</strong>
+                </div>
+            </div>
+
+            <div class="story-block">
+                <h3>The Miami-Dade Solution</h3>
+                <p>In the High Velocity Hurricane Zone, we design overhangs with respect for wind. Smart builders keep overhangs to <strong>12-18 inches</strong> and use hurricane-rated fasteners. The soffit panels get screws every 6-8 inches instead of staples every 12 inches.</p>
+                <p>Wider overhangs need <strong>metal straps</strong> connecting the rafter tails directly to the wall studs below. No more relying on just nails to hold everything together!</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Roof Overhang Questions</h2>
+
+            <div class="faq-item">
+                <h3>Why do roof overhangs experience higher wind loads than the main roof?</h3>
+                <p>Roof overhangs experience higher wind loads because wind accelerates as it wraps around the roof edge, creating intense suction on both the top and bottom of the overhang. The soffit underneath gets pulled by negative pressure while the top surface also experiences uplift. This double-sided attack can create loads 2-3 times higher than the main roof field.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What is the typical wind load on a roof overhang in Miami-Dade HVHZ?</h3>
+                <p>In Miami-Dade's High Velocity Hurricane Zone with 180+ mph design wind speeds, roof overhangs typically experience uplift pressures between -80 to -120 PSF. Corner overhangs can see even higher pressures exceeding -150 PSF. The exact value depends on overhang width, roof height, and exposure category.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How wide can a roof overhang be in Miami-Dade County?</h3>
+                <p>While there is no strict maximum width, overhangs beyond 24 inches require increasingly robust connections. Most residential overhangs in HVHZ are kept to 12-18 inches to manage uplift forces. Wider overhangs need engineered connections with metal straps or hurricane clips rated for the calculated loads.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What causes soffit panels to blow off during hurricanes?</h3>
+                <p>Soffit panels fail when uplift pressure underneath the overhang exceeds their attachment capacity. Wind pushes up on the soffit while simultaneously pulling the roof structure upward. If soffit fasteners are too weak or spaced too far apart, the panels pop off, allowing wind and rain into the attic and potentially leading to roof failure.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Calculate Your Overhang Wind Loads</h2>
+                <p>Get exact uplift pressures for your specific overhang dimensions, roof height, and Miami-Dade location. PE-stamped calculations in 24 hours.</p>
+                <a href="https://windload.co" class="cta-button">Get Overhang Analysis</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade Wind Loads</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 2 + 1,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? '#ff6b35' : '#00d4ff',
+                alpha: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width + 10) p.x = -10;
+                if (p.y > canvas.height || p.y < 0) p.vy *= -1;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Animate data values
+        function animateValue(element, target, duration = 2000) {
+            const start = performance.now();
+            const isDecimal = target % 1 !== 0;
+            function update(currentTime) {
+                const elapsed = currentTime - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const easeOut = 1 - Math.pow(1 - progress, 3);
+                const current = target * easeOut;
+                element.textContent = isDecimal ? current.toFixed(1) : Math.round(current);
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        const dataObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const values = entry.target.querySelectorAll('.data-value');
+                    values.forEach(v => {
+                        const target = parseFloat(v.dataset.target);
+                        animateValue(v, target);
+                    });
+                    dataObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        document.querySelectorAll('.data-display').forEach(el => dataObserver.observe(el));
+
+        // Story blocks animation
+        const storyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.story-block').forEach(block => storyObserver.observe(block));
+    </script>
+</body>
+</html>

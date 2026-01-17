@@ -1,0 +1,961 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Lite Size vs Pressure | Palm Beach Wind Load Calculator | WindLoad.co</title>
+    <meta name="description" content="Calculate glass lite sizes for Palm Beach County wind pressure. Animated guide shows how bigger glass panels need thicker glass to resist hurricane forces per ASTM E1300.">
+    <meta name="keywords" content="glass lite size, window glass thickness, wind pressure glass, ASTM E1300, hurricane glass sizing, laminated glass calculator">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/glass-lite-size">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPC29V5WXL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QPC29V5WXL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Glass Lite Size vs Pressure - Palm Beach County">
+    <meta property="og:description" content="Interactive calculator showing how glass size affects thickness requirements for hurricane wind loads.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/glass-lite-size">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why does bigger glass need to be thicker?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Bigger glass has more surface area for wind to push on, but the same edges to hold it. Think of a big trampoline vs a small one - the big one sags more in the middle. Larger glass lites deflect more under pressure, so they need extra thickness to stay within safe limits."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the maximum glass size for residential windows in Palm Beach?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For HVHZ residential with standard 1/4 inch laminated glass, maximum is typically around 24 x 36 inches at 60 PSF design pressure. Larger windows up to 48 x 72 inches require 3/8 inch or thicker laminated glass. Very large openings may need 1/2 inch or insulated glass units."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I calculate glass thickness for wind load?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Use ASTM E1300 charts or software. Enter the glass width, height, design pressure, and support conditions. The chart gives minimum glass thickness for a 8 per 1000 probability of breakage. For laminated glass, use the combined thickness of the glass plies only, not the interlayer."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does aspect ratio affect glass thickness requirements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, square glass is stronger than long narrow glass of the same area. A 36 x 36 inch lite can be thinner than a 24 x 54 inch lite even though they have similar area. The short dimension controls deflection, so tall skinny windows need thicker glass."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Glass Lite Size", "item": "https://windload.co/florida/palm-beach/glass-lite-size"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-teal: #20b2aa;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+
+        .logo-icon {
+            width: 45px; height: 45px;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-primary); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover { transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .glass-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .glass-badge {
+            background: rgba(32, 178, 170, 0.15);
+            border: 1px solid var(--accent-teal);
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .glass-badge .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-teal);
+        }
+
+        .glass-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Glass Size Animation */
+        .glass-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(32, 178, 170, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .glass-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-teal);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .glass-demo {
+            position: relative;
+            height: 380px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass-pane {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(32, 178, 170, 0.3));
+            border: 4px solid var(--accent-teal);
+            border-radius: 4px;
+            transition: all 0.5s ease;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass-pane::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 60%;
+            bottom: 60%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3), transparent);
+            border-radius: 2px;
+        }
+
+        .glass-dimensions {
+            position: absolute;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .dim-width {
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .dim-height {
+            right: -40px;
+            top: 50%;
+            transform: translateY(-50%) rotate(90deg);
+        }
+
+        .thickness-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-teal);
+            color: var(--primary-dark);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Pressure meter */
+        .pressure-meter {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .pressure-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-teal);
+        }
+
+        .pressure-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Deflection visual */
+        .deflection-bar {
+            position: absolute;
+            bottom: 60px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 8px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .deflection-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .deflection-label {
+            position: absolute;
+            bottom: 75px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Size selector */
+        .size-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .size-option {
+            background: rgba(32, 178, 170, 0.1);
+            border: 2px solid rgba(32, 178, 170, 0.3);
+            padding: 0.75rem 1.25rem;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .size-option:hover { border-color: var(--accent-teal); }
+        .size-option.active {
+            border-color: var(--accent-teal);
+            background: rgba(32, 178, 170, 0.2);
+        }
+
+        .size-option .dims {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-teal);
+        }
+
+        .size-option .thick {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Content sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        /* Size chart */
+        .size-chart {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(32, 178, 170, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .chart-header {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            background: rgba(32, 178, 170, 0.2);
+            padding: 1rem;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .chart-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+
+        .chart-row.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .chart-row:last-child { border-bottom: none; }
+
+        .chart-row .size { color: var(--accent-teal); font-weight: 600; }
+        .chart-row .area { color: var(--text-secondary); }
+        .chart-row .thickness { color: var(--accent-cyan); font-weight: 600; }
+        .chart-row .pressure { color: var(--accent-magenta); }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(32, 178, 170, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible { opacity: 1; transform: translateY(0); }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover { background: rgba(32, 178, 170, 0.1); }
+
+        .faq-toggle {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .faq-item.open .faq-answer { max-height: 300px; }
+
+        .faq-answer-content { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-dark); }
+        .cta-content p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 2rem; color: var(--primary-dark); }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .btn-primary {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-dark);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { background: var(--primary-dark); color: white; }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(32, 178, 170, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 { font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--accent-cyan); }
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+        .footer-section a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+        .footer-section a:hover { color: var(--accent-teal); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(32, 178, 170, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p { color: var(--text-secondary); font-size: 0.85rem; }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .chart-header, .chart-row { grid-template-columns: repeat(2, 1fr); }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="https://windload.co/#calculator" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Glass Lite Size</span> vs Pressure</h1>
+                <p class="hero-subtitle">Bigger windows need thicker glass. It works like a trampoline - the bigger the surface, the more it sags in the middle when you push on it. Select different window sizes to see how glass thickness changes.</p>
+
+                <div class="glass-badges">
+                    <div class="glass-badge">
+                        <span class="value">60</span>
+                        <span class="label">PSF Design</span>
+                    </div>
+                    <div class="glass-badge">
+                        <span class="value">3/8"</span>
+                        <span class="label">Common</span>
+                    </div>
+                    <div class="glass-badge">
+                        <span class="value">E1300</span>
+                        <span class="label">ASTM Std</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="glass-container">
+                <div class="glass-title">Glass Size Calculator</div>
+
+                <div class="glass-demo">
+                    <div class="glass-pane" id="glassPane" style="width: 150px; height: 200px;">
+                        <span class="glass-dimensions dim-width" id="dimWidth">36"</span>
+                        <span class="glass-dimensions dim-height" id="dimHeight">48"</span>
+                    </div>
+
+                    <div class="thickness-indicator" id="thicknessIndicator">3/8" Laminated</div>
+
+                    <div class="pressure-meter">
+                        <div class="pressure-value">60</div>
+                        <div class="pressure-label">PSF Design Pressure</div>
+                    </div>
+
+                    <div class="deflection-label">Deflection at Center</div>
+                    <div class="deflection-bar">
+                        <div class="deflection-fill" id="deflectionFill" style="width: 40%;"></div>
+                    </div>
+                </div>
+
+                <div class="size-selector">
+                    <div class="size-option" data-w="24" data-h="36" data-thick="1/4&quot;" data-defl="25">
+                        <div class="dims">24 x 36</div>
+                        <div class="thick">1/4" glass</div>
+                    </div>
+                    <div class="size-option active" data-w="36" data-h="48" data-thick="3/8&quot;" data-defl="40">
+                        <div class="dims">36 x 48</div>
+                        <div class="thick">3/8" glass</div>
+                    </div>
+                    <div class="size-option" data-w="48" data-h="60" data-thick="1/2&quot;" data-defl="55">
+                        <div class="dims">48 x 60</div>
+                        <div class="thick">1/2" glass</div>
+                    </div>
+                    <div class="size-option" data-w="60" data-h="72" data-thick="5/8&quot;" data-defl="70">
+                        <div class="dims">60 x 72</div>
+                        <div class="thick">5/8" glass</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Size to Thickness <span class="highlight">Chart</span></h2>
+            <p>Common glass sizes and their minimum thickness at 60 PSF design pressure for Palm Beach County.</p>
+        </div>
+
+        <div class="size-chart">
+            <div class="chart-header">
+                <span>Size (W x H)</span>
+                <span>Area (sq ft)</span>
+                <span>Min Thickness</span>
+                <span>Pressure Rating</span>
+            </div>
+            <div class="chart-row">
+                <span class="size">24" x 36"</span>
+                <span class="area">6.0 sq ft</span>
+                <span class="thickness">1/4" Lam</span>
+                <span class="pressure">65 PSF</span>
+            </div>
+            <div class="chart-row">
+                <span class="size">36" x 48"</span>
+                <span class="area">12.0 sq ft</span>
+                <span class="thickness">3/8" Lam</span>
+                <span class="pressure">62 PSF</span>
+            </div>
+            <div class="chart-row">
+                <span class="size">48" x 60"</span>
+                <span class="area">20.0 sq ft</span>
+                <span class="thickness">1/2" Lam</span>
+                <span class="pressure">60 PSF</span>
+            </div>
+            <div class="chart-row">
+                <span class="size">60" x 72"</span>
+                <span class="area">30.0 sq ft</span>
+                <span class="thickness">5/8" Lam</span>
+                <span class="pressure">58 PSF</span>
+            </div>
+            <div class="chart-row">
+                <span class="size">72" x 84"</span>
+                <span class="area">42.0 sq ft</span>
+                <span class="thickness">3/4" Lam</span>
+                <span class="pressure">55 PSF</span>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about glass sizing for hurricane windows.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Why does bigger glass need to be thicker?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Bigger glass has more surface area for wind to push on, but the same edges to hold it. Think of a big trampoline vs a small one - the big one sags more in the middle. Larger glass lites deflect more under pressure, so they need extra thickness to stay within safe limits.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is the maximum glass size for residential windows in Palm Beach?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        For HVHZ residential with standard 1/4 inch laminated glass, maximum is typically around 24 x 36 inches at 60 PSF design pressure. Larger windows up to 48 x 72 inches require 3/8 inch or thicker laminated glass. Very large openings may need 1/2 inch or insulated glass units.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I calculate glass thickness for wind load?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Use ASTM E1300 charts or software. Enter the glass width, height, design pressure, and support conditions. The chart gives minimum glass thickness for a 8 per 1000 probability of breakage. For laminated glass, use the combined thickness of the glass plies only, not the interlayer.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Does aspect ratio affect glass thickness requirements?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, square glass is stronger than long narrow glass of the same area. A 36 x 36 inch lite can be thinner than a 24 x 54 inch lite even though they have similar area. The short dimension controls deflection, so tall skinny windows need thicker glass.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Glass Requirements</h2>
+            <p>Get precise glass thickness specifications for any window size. PE-stamped calculations available.</p>
+            <div class="cta-buttons">
+                <a href="https://windload.co/#calculator" class="btn-primary">Calculate Wind Loads</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/laminated-vs-tempered">Laminated vs Tempered</a></li>
+                    <li><a href="/florida/palm-beach/interlayer-thickness">Interlayer Thickness</a></li>
+                    <li><a href="/florida/palm-beach/impact-windows">Impact Windows</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Palm Beach County, FL - HVHZ Compliant</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas - glass shards
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class GlassShard {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.width = 5 + Math.random() * 15;
+                this.height = 3 + Math.random() * 8;
+                this.speedY = -Math.random() * 0.5 - 0.2;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.15 + 0.05;
+                this.rotation = Math.random() * 360;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += 0.5;
+                if (this.y < -20) {
+                    this.y = canvas.height + 20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = `rgba(32, 178, 170, ${this.opacity})`;
+                ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                ctx.restore();
+            }
+        }
+
+        const shards = [];
+        for (let i = 0; i < 40; i++) shards.push(new GlassShard());
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            shards.forEach(s => { s.update(); s.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Size selector
+        const sizeOptions = document.querySelectorAll('.size-option');
+        const glassPane = document.getElementById('glassPane');
+        const dimWidth = document.getElementById('dimWidth');
+        const dimHeight = document.getElementById('dimHeight');
+        const thicknessIndicator = document.getElementById('thicknessIndicator');
+        const deflectionFill = document.getElementById('deflectionFill');
+
+        sizeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                sizeOptions.forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+
+                const w = parseInt(option.dataset.w);
+                const h = parseInt(option.dataset.h);
+                const thick = option.dataset.thick;
+                const defl = option.dataset.defl;
+
+                // Scale pane size (visual only)
+                glassPane.style.width = (w * 2.5) + 'px';
+                glassPane.style.height = (h * 2.5) + 'px';
+
+                dimWidth.textContent = w + '"';
+                dimHeight.textContent = h + '"';
+                thicknessIndicator.textContent = thick + ' Laminated';
+                deflectionFill.style.width = defl + '%';
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.chart-row, .faq-item').forEach(el => observer.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

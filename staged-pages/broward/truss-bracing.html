@@ -1,0 +1,704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Truss Bracing for Wind Loads | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Learn how truss bracing resists wind loads in Broward County FL. Visual guide shows permanent bracing, lateral bracing, and diagonal bracing requirements for hurricanes.">
+    <meta name="keywords" content="truss bracing wind load, roof truss bracing, hurricane truss design, lateral bracing, diagonal bracing, Broward County trusses">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/florida/broward/truss-bracing.html">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJMTQMQJDZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WJMTQMQJDZ');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Truss Bracing for Wind Loads | Broward County FL">
+    <meta property="og:description" content="Visual guide to roof truss bracing requirements for hurricane wind resistance.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/truss-bracing.html">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --accent-yellow: #ffd700;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        .hero {
+            padding: 80px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .animation-section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .animation-container {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .truss-visual {
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 40px 20px;
+            position: relative;
+        }
+
+        .roof-assembly {
+            position: relative;
+            height: 250px;
+        }
+
+        .truss {
+            position: absolute;
+            width: 100%;
+            bottom: 0;
+        }
+
+        .truss-outline {
+            position: relative;
+            width: 100%;
+            height: 120px;
+        }
+
+        .top-chord-left, .top-chord-right {
+            position: absolute;
+            height: 8px;
+            background: linear-gradient(90deg, #8B4513, #654321);
+            border-radius: 2px;
+            bottom: 0;
+        }
+
+        .top-chord-left {
+            width: 52%;
+            left: 0;
+            transform-origin: left bottom;
+            transform: rotate(-25deg);
+        }
+
+        .top-chord-right {
+            width: 52%;
+            right: 0;
+            transform-origin: right bottom;
+            transform: rotate(25deg);
+        }
+
+        .bottom-chord {
+            position: absolute;
+            width: 100%;
+            height: 8px;
+            background: linear-gradient(90deg, #8B4513, #654321);
+            border-radius: 2px;
+            bottom: -60px;
+        }
+
+        .web-member {
+            position: absolute;
+            width: 6px;
+            background: #6B5344;
+            border-radius: 2px;
+        }
+
+        /* Bracing elements */
+        .lateral-brace {
+            position: absolute;
+            height: 6px;
+            background: var(--accent-yellow);
+            border-radius: 2px;
+            animation: braceGlow 2s ease-in-out infinite;
+        }
+
+        .diagonal-brace {
+            position: absolute;
+            width: 6px;
+            background: var(--accent-magenta);
+            border-radius: 2px;
+            animation: braceGlow 2s ease-in-out infinite;
+            animation-delay: 0.5s;
+        }
+
+        @keyframes braceGlow {
+            0%, 100% { box-shadow: 0 0 5px currentColor; opacity: 0.7; }
+            50% { box-shadow: 0 0 20px currentColor; opacity: 1; }
+        }
+
+        .lateral-brace-1 {
+            top: 20px;
+            left: 20%;
+            width: 60%;
+        }
+
+        .lateral-brace-2 {
+            top: 60px;
+            left: 15%;
+            width: 70%;
+            animation-delay: 0.3s;
+        }
+
+        .diagonal-brace-1 {
+            top: 15px;
+            left: 25%;
+            height: 50px;
+            transform: rotate(45deg);
+        }
+
+        .diagonal-brace-2 {
+            top: 15px;
+            right: 25%;
+            height: 50px;
+            transform: rotate(-45deg);
+            animation-delay: 0.8s;
+        }
+
+        .wind-force {
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            animation: windPush 1.5s ease-in-out infinite;
+        }
+
+        @keyframes windPush {
+            0%, 100% { transform: translateY(-50%) translateX(0); opacity: 0.5; }
+            50% { transform: translateY(-50%) translateX(15px); opacity: 1; }
+        }
+
+        .wind-arrow {
+            width: 35px;
+            height: 4px;
+            background: var(--accent-cyan);
+            position: relative;
+        }
+
+        .wind-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 8px solid transparent;
+            border-left: 12px solid var(--accent-cyan);
+        }
+
+        .brace-legend {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 8px;
+            border-radius: 4px;
+        }
+
+        .legend-lateral { background: var(--accent-yellow); }
+        .legend-diagonal { background: var(--accent-magenta); }
+
+        .legend-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .data-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .data-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px 35px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .data-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        .data-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .story-section {
+            padding: 40px 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-block {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-magenta);
+        }
+
+        .story-block h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .story-block p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .story-block strong { color: var(--accent-cyan); }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-yellow);
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p { color: var(--text-muted); line-height: 1.8; }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(233, 30, 140, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent-magenta);
+        }
+
+        .cta-box h2 { font-size: 2rem; margin-bottom: 15px; }
+        .cta-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(233, 30, 140, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .wind-force { display: none; }
+            .brace-legend { gap: 15px; }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "WindLoad.co", "item": "https://windload.co" },
+            { "@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/" },
+            { "@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/" },
+            { "@type": "ListItem", "position": 4, "name": "Truss Bracing", "item": "https://windload.co/florida/broward/truss-bracing.html" }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is permanent truss bracing and why is it required?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Permanent truss bracing connects multiple trusses together so they work as a team against wind. Without bracing, each truss acts alone and can topple sideways like dominoes. In Broward County hurricane zones, continuous lateral bracing and diagonal bracing are required to prevent this progressive collapse during high winds."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What types of truss bracing are needed for hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hurricane zones typically require three types: lateral bracing (horizontal members connecting truss top chords), diagonal bracing (angled members that triangulate the system), and bottom chord bracing in longer spans. The truss manufacturer's drawings show exact locations and sizes. Missing any bracing type weakens the whole roof system."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is temporary bracing during construction the same as permanent bracing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No, they are different. Temporary bracing holds trusses in place during installation until sheathing and permanent bracing are installed. Permanent bracing stays in the attic forever and resists wind loads throughout the building's life. Never remove permanent bracing - it is structural, not just for construction convenience."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where can I find the truss bracing requirements for my project?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The truss manufacturer provides detailed bracing drawings specific to your trusses and Broward County wind loads. These drawings are sealed by an engineer and show exact bracing member sizes, locations, and connection requirements. The framer must follow these drawings exactly - they are not suggestions, they are requirements."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="https://windload.co" class="logo">WindLoad.co</a>
+            <a href="https://windload.co" class="nav-cta">Get Wind Loads</a>
+        </header>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/florida/">Florida</a> /
+                <a href="https://windload.co/florida/broward/">Broward County</a> /
+                Truss Bracing
+            </div>
+            <h1>Truss Bracing: <span>Tying the Roof Together</span></h1>
+            <p class="subtitle">Why those boards in your attic are not just leftovers. Bracing keeps your trusses from falling like dominoes in a hurricane!</p>
+        </section>
+
+        <section class="animation-section">
+            <div class="animation-container">
+                <div class="truss-visual">
+                    <div class="roof-assembly">
+                        <div class="wind-force">
+                            <div class="wind-arrow"></div>
+                        </div>
+
+                        <div class="truss">
+                            <div class="truss-outline">
+                                <div class="top-chord-left"></div>
+                                <div class="top-chord-right"></div>
+                            </div>
+                            <div class="bottom-chord"></div>
+                        </div>
+
+                        <!-- Bracing elements -->
+                        <div class="lateral-brace lateral-brace-1"></div>
+                        <div class="lateral-brace lateral-brace-2"></div>
+                        <div class="diagonal-brace diagonal-brace-1"></div>
+                        <div class="diagonal-brace diagonal-brace-2"></div>
+                    </div>
+
+                    <div class="brace-legend">
+                        <div class="legend-item">
+                            <div class="legend-color legend-lateral"></div>
+                            <span class="legend-label">Lateral Bracing</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-diagonal"></div>
+                            <span class="legend-label">Diagonal Bracing</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-display">
+                    <div class="data-card">
+                        <div class="data-value" id="truss-spacing">24</div>
+                        <div class="data-label">Inch Truss Spacing</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" id="brace-spacing">8</div>
+                        <div class="data-label">Foot Brace Spacing</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" id="lateral-force">850</div>
+                        <div class="data-label">Lbs Lateral Wind</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="story-block">
+                <h3>Trusses Are Strong Front-to-Back, Weak Side-to-Side</h3>
+                <p>A roof truss is designed to carry weight from above - snow, shingles, your AC unit. But <strong>wind pushes from the side</strong>, and a single truss can easily tip over sideways. Imagine a row of books standing up - push one and they all fall!</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Bracing Links Them Into a Team</h3>
+                <p>Lateral bracing runs horizontally, <strong>connecting all the trusses together</strong> so they resist sideways forces as a group. Diagonal bracing creates triangles that prevent racking. Together, they turn a row of individual trusses into a solid roof system.</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Every Piece Has a Purpose</h3>
+                <p>Those boards in your attic are not construction leftovers - <strong>they are structural bracing</strong> required by the truss engineer. Removing them to make room for storage can cause catastrophic failure in the next hurricane. If it's nailed to trusses, leave it alone!</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What is permanent truss bracing and why is it required?</h3>
+                <p>Permanent truss bracing connects multiple trusses together so they work as a team against wind. Without bracing, each truss acts alone and can topple sideways like dominoes. In Broward County hurricane zones, continuous lateral bracing and diagonal bracing are required to prevent this progressive collapse during high winds.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What types of truss bracing are needed for hurricanes?</h3>
+                <p>Hurricane zones typically require three types: lateral bracing (horizontal members connecting truss top chords), diagonal bracing (angled members that triangulate the system), and bottom chord bracing in longer spans. The truss manufacturer's drawings show exact locations and sizes. Missing any bracing type weakens the whole roof system.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Is temporary bracing during construction the same as permanent bracing?</h3>
+                <p>No, they are different. Temporary bracing holds trusses in place during installation until sheathing and permanent bracing are installed. Permanent bracing stays in the attic forever and resists wind loads throughout the building's life. Never remove permanent bracing - it is structural, not just for construction convenience.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Where can I find the truss bracing requirements for my project?</h3>
+                <p>The truss manufacturer provides detailed bracing drawings specific to your trusses and Broward County wind loads. These drawings are sealed by an engineer and show exact bracing member sizes, locations, and connection requirements. The framer must follow these drawings exactly - they are not suggestions, they are requirements.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Get Your Roof System Analysis</h2>
+                <p>WindLoad.co calculates roof wind loads for Broward County truss systems. Ensure your bracing meets code requirements!</p>
+                <a href="https://windload.co" class="cta-button">Calculate Now</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>WindLoad.co - Professional Wind Load Calculations for Broward County</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/florida/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co/florida/">Florida</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 3 + 1,
+                color: Math.random() > 0.5 ? '#e91e8c' : '#00d4ff',
+                alpha: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.y > canvas.height) p.y = 0;
+                if (p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        function animateValue(id, start, end, duration) {
+            const el = document.getElementById(id);
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.round(start + (end - start) * progress);
+                el.textContent = current;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        setTimeout(() => {
+            animateValue('truss-spacing', 0, 24, 1000);
+            animateValue('brace-spacing', 0, 8, 1200);
+            animateValue('lateral-force', 0, 850, 1500);
+        }, 500);
+    </script>
+</body>
+</html>

@@ -1,0 +1,1208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lintel Design for Wind Loads | Palm Beach Masonry Calculator | WindLoad.co</title>
+    <meta name="description" content="Calculate masonry lintel designs for Palm Beach County wind loads. Animated guide shows steel angle lintels, concrete bond beams, and precast lintels for hurricane-resistant construction.">
+    <meta name="keywords" content="lintel wind load design, masonry lintel calculator, steel angle lintel, bond beam lintel, Palm Beach masonry, HVHZ lintel requirements">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/lintel-design">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPC29V5WXL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QPC29V5WXL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Lintel Design for Wind Loads - Palm Beach County">
+    <meta property="og:description" content="Interactive masonry lintel calculator. See how different lintel types perform under hurricane wind loads.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/lintel-design">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a lintel in masonry construction?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A lintel is a horizontal support that spans across the top of a door or window opening in a masonry wall. It carries the weight of the bricks or blocks above the opening. In Florida, lintels also must resist wind loads pushing in and pulling out during hurricanes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What types of lintels work best for hurricane zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Three main types work in Palm Beach County: steel angle lintels for smaller openings up to 6 feet, reinforced concrete bond beams for spans up to 12 feet, and precast concrete lintels for repetitive applications. Each must be sized for both dead load (masonry weight) and wind load."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How far should a lintel extend past the opening?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Lintels need bearing length on each side of the opening. Minimum is typically 4 inches for steel angles and 8 inches for concrete lintels. In high wind zones, engineers often specify 12 inches or more to handle lateral forces and prevent pullout during negative pressure cycles."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do masonry lintels need to be connected to the wall above?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, especially in hurricane zones. Steel lintels need welded anchors or straps tying them to bond beams above. Concrete lintels should have reinforcing bars extending into the wall. These connections prevent the lintel from displacing when wind pressure reverses between positive and negative."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Lintel Design", "item": "https://windload.co/florida/palm-beach/lintel-design"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-orange: #ff8c00;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover { transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .lintel-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .lintel-badge {
+            background: rgba(255, 140, 0, 0.15);
+            border: 1px solid var(--accent-orange);
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .lintel-badge .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+        }
+
+        .lintel-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Lintel Animation */
+        .lintel-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 140, 0, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .lintel-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .masonry-view {
+            position: relative;
+            height: 380px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            padding-bottom: 30px;
+        }
+
+        .wall-section {
+            position: relative;
+            width: 320px;
+            height: 320px;
+        }
+
+        /* Masonry blocks */
+        .block-row {
+            display: flex;
+            height: 30px;
+            margin-bottom: 3px;
+        }
+
+        .block {
+            width: 60px;
+            height: 100%;
+            background: linear-gradient(180deg, #a0a0a0, #808080);
+            border: 1px solid #606060;
+            margin-right: 3px;
+            opacity: 0;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+
+        .block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .block.half {
+            width: 28px;
+        }
+
+        /* Lintel beam */
+        .lintel-beam {
+            position: absolute;
+            left: 40px;
+            right: 40px;
+            height: 35px;
+            opacity: 0;
+            transform: translateY(-30px);
+            transition: all 0.5s ease;
+        }
+
+        .lintel-beam.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .lintel-beam.steel {
+            background: linear-gradient(180deg, #606060, #404040);
+            border: 3px solid var(--accent-orange);
+        }
+
+        .lintel-beam.concrete {
+            background: linear-gradient(180deg, #909090, #707070);
+            border: 3px solid var(--accent-cyan);
+        }
+
+        .lintel-beam.precast {
+            background: linear-gradient(180deg, #a0a0a0, #808080);
+            border: 3px solid var(--accent-magenta);
+        }
+
+        .lintel-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: white;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+
+        /* Opening */
+        .opening {
+            position: absolute;
+            background: rgba(0, 212, 255, 0.1);
+            border: 2px dashed rgba(0, 212, 255, 0.5);
+        }
+
+        /* Bearing markers */
+        .bearing {
+            position: absolute;
+            width: 30px;
+            height: 100%;
+            background: rgba(255, 140, 0, 0.3);
+            border: 2px solid var(--accent-orange);
+        }
+
+        .bearing-label {
+            position: absolute;
+            bottom: -25px;
+            font-size: 0.7rem;
+            color: var(--accent-orange);
+            white-space: nowrap;
+        }
+
+        /* Type selector */
+        .type-selector {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .type-option {
+            background: rgba(255, 140, 0, 0.1);
+            border: 2px solid rgba(255, 140, 0, 0.3);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .type-option:hover {
+            border-color: var(--accent-orange);
+        }
+
+        .type-option.active {
+            border-color: var(--accent-orange);
+            background: rgba(255, 140, 0, 0.2);
+        }
+
+        .type-option .name {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+        }
+
+        .type-option .span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Data panel */
+        .data-panel {
+            margin-top: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 12px;
+            padding: 1rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .data-item {
+            text-align: center;
+        }
+
+        .data-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+        }
+
+        .data-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Content sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .types-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .type-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .type-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .type-card:hover {
+            border-color: var(--accent-orange);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-icon.steel { background: linear-gradient(135deg, #606060, #404040); }
+        .card-icon.concrete { background: linear-gradient(135deg, #909090, #707070); }
+        .card-icon.precast { background: linear-gradient(135deg, #a0a0a0, #808080); }
+
+        .type-card h3 {
+            font-size: 1.25rem;
+            color: var(--accent-orange);
+        }
+
+        .type-card .subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .spec-list li:last-child {
+            border-bottom: none;
+        }
+
+        .spec-list .value {
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(255, 140, 0, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-orange); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 140, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .types-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .type-selector { flex-wrap: wrap; }
+            .data-panel { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="https://windload.co/#calculator" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Lintel Design</span> for Wind Loads</h1>
+                <p class="hero-subtitle">A lintel is like a little bridge over your window or door. It holds up the heavy bricks above while also fighting against hurricane winds trying to push it in or suck it out.</p>
+
+                <div class="lintel-badges">
+                    <div class="lintel-badge">
+                        <span class="value">12'</span>
+                        <span class="label">Max Span</span>
+                    </div>
+                    <div class="lintel-badge">
+                        <span class="value">8"</span>
+                        <span class="label">Min Bearing</span>
+                    </div>
+                    <div class="lintel-badge">
+                        <span class="value">L4x4</span>
+                        <span class="label">Steel Angle</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lintel-container">
+                <div class="lintel-title">Lintel Type Comparison</div>
+
+                <div class="masonry-view">
+                    <div class="wall-section" id="wallSection">
+                        <!-- Blocks will be generated by JS -->
+                    </div>
+                </div>
+
+                <div class="type-selector">
+                    <div class="type-option active" data-type="steel">
+                        <div class="name">Steel Angle</div>
+                        <div class="span">Up to 6'</div>
+                    </div>
+                    <div class="type-option" data-type="concrete">
+                        <div class="name">Bond Beam</div>
+                        <div class="span">Up to 12'</div>
+                    </div>
+                    <div class="type-option" data-type="precast">
+                        <div class="name">Precast</div>
+                        <div class="span">Up to 10'</div>
+                    </div>
+                </div>
+
+                <div class="data-panel">
+                    <div class="data-item">
+                        <div class="data-value" id="spanValue">6 ft</div>
+                        <div class="data-label">Max Span</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-value" id="bearingValue">4 in</div>
+                        <div class="data-label">Min Bearing</div>
+                    </div>
+                    <div class="data-item">
+                        <div class="data-value" id="sizeValue">L4x4x1/4</div>
+                        <div class="data-label">Size</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Lintel <span class="highlight">Types</span></h2>
+            <p>Different openings need different lintels. Here is when to use each type in Palm Beach County masonry construction.</p>
+        </div>
+
+        <div class="types-grid">
+            <div class="type-card">
+                <div class="card-header">
+                    <div class="card-icon steel">&#9632;</div>
+                    <div>
+                        <h3>Steel Angle</h3>
+                        <div class="subtitle">Hot-rolled steel L-shape</div>
+                    </div>
+                </div>
+                <ul class="spec-list">
+                    <li><span>Best for</span><span class="value">Small openings</span></li>
+                    <li><span>Max span</span><span class="value">6 feet</span></li>
+                    <li><span>Common size</span><span class="value">L4x4x1/4</span></li>
+                    <li><span>Bearing</span><span class="value">4" minimum</span></li>
+                    <li><span>Install</span><span class="value">Fast, light</span></li>
+                </ul>
+            </div>
+
+            <div class="type-card">
+                <div class="card-header">
+                    <div class="card-icon concrete">&#9632;</div>
+                    <div>
+                        <h3>Bond Beam</h3>
+                        <div class="subtitle">Reinforced concrete in CMU</div>
+                    </div>
+                </div>
+                <ul class="spec-list">
+                    <li><span>Best for</span><span class="value">Larger spans</span></li>
+                    <li><span>Max span</span><span class="value">12 feet</span></li>
+                    <li><span>Rebar</span><span class="value">#5 bars typical</span></li>
+                    <li><span>Bearing</span><span class="value">8" minimum</span></li>
+                    <li><span>Install</span><span class="value">Cast in place</span></li>
+                </ul>
+            </div>
+
+            <div class="type-card">
+                <div class="card-header">
+                    <div class="card-icon precast">&#9632;</div>
+                    <div>
+                        <h3>Precast</h3>
+                        <div class="subtitle">Factory-made concrete</div>
+                    </div>
+                </div>
+                <ul class="spec-list">
+                    <li><span>Best for</span><span class="value">Repetitive use</span></li>
+                    <li><span>Max span</span><span class="value">10 feet</span></li>
+                    <li><span>Depth</span><span class="value">8" typical</span></li>
+                    <li><span>Bearing</span><span class="value">6" minimum</span></li>
+                    <li><span>Install</span><span class="value">Crane lift</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about masonry lintels in hurricane zones.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is a lintel in masonry construction?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        A lintel is a horizontal support that spans across the top of a door or window opening in a masonry wall. It carries the weight of the bricks or blocks above the opening. In Florida, lintels also must resist wind loads pushing in and pulling out during hurricanes.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What types of lintels work best for hurricane zones?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Three main types work in Palm Beach County: steel angle lintels for smaller openings up to 6 feet, reinforced concrete bond beams for spans up to 12 feet, and precast concrete lintels for repetitive applications. Each must be sized for both dead load (masonry weight) and wind load.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How far should a lintel extend past the opening?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Lintels need bearing length on each side of the opening. Minimum is typically 4 inches for steel angles and 8 inches for concrete lintels. In high wind zones, engineers often specify 12 inches or more to handle lateral forces and prevent pullout during negative pressure cycles.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do masonry lintels need to be connected to the wall above?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, especially in hurricane zones. Steel lintels need welded anchors or straps tying them to bond beams above. Concrete lintels should have reinforcing bars extending into the wall. These connections prevent the lintel from displacing when wind pressure reverses between positive and negative.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Lintel Requirements</h2>
+            <p>Get precise lintel specifications for any opening size. PE-stamped calculations available.</p>
+            <div class="cta-buttons">
+                <a href="https://windload.co/#calculator" class="btn-primary">Calculate Wind Loads</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/door-header-loads">Door Header Loads</a></li>
+                    <li><a href="/florida/palm-beach/jamb-anchoring">Jamb Anchoring</a></li>
+                    <li><a href="/florida/palm-beach/opening-reinforcement">Opening Reinforcement</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Palm Beach County, FL - HVHZ Compliant</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Brick {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.width = 15 + Math.random() * 10;
+                this.height = 8 + Math.random() * 5;
+                this.speedY = -Math.random() * 1 - 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.2 + 0.1;
+                this.rotation = Math.random() * 10 - 5;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y < -20) this.reset();
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = `rgba(255, 140, 0, ${this.opacity})`;
+                ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                ctx.restore();
+            }
+        }
+
+        const bricks = [];
+        for (let i = 0; i < 30; i++) {
+            bricks.push(new Brick());
+        }
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            bricks.forEach(b => {
+                b.update();
+                b.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Wall building
+        const wallSection = document.getElementById('wallSection');
+        const lintelSpecs = {
+            steel: { span: '6 ft', bearing: '4 in', size: 'L4x4x1/4' },
+            concrete: { span: '12 ft', bearing: '8 in', size: '#5 @ 8" O.C.' },
+            precast: { span: '10 ft', bearing: '6 in', size: '8" x 8"' }
+        };
+
+        let currentType = 'steel';
+
+        function buildWall() {
+            wallSection.innerHTML = '';
+
+            // Build block rows
+            for (let row = 0; row < 10; row++) {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'block-row';
+                rowDiv.style.position = 'absolute';
+                rowDiv.style.top = (row * 33) + 'px';
+                rowDiv.style.left = '0';
+                rowDiv.style.right = '0';
+
+                // Skip middle rows for opening (rows 4-8)
+                if (row >= 4 && row < 9) {
+                    // Only edge blocks
+                    const leftBlock = document.createElement('div');
+                    leftBlock.className = 'block';
+                    leftBlock.style.position = 'absolute';
+                    leftBlock.style.left = '0';
+
+                    const rightBlock = document.createElement('div');
+                    rightBlock.className = 'block';
+                    rightBlock.style.position = 'absolute';
+                    rightBlock.style.right = '0';
+
+                    rowDiv.appendChild(leftBlock);
+                    rowDiv.appendChild(rightBlock);
+
+                    setTimeout(() => {
+                        leftBlock.classList.add('visible');
+                        rightBlock.classList.add('visible');
+                    }, row * 100);
+                } else {
+                    // Full row of blocks
+                    for (let col = 0; col < 5; col++) {
+                        const block = document.createElement('div');
+                        block.className = 'block';
+                        block.style.position = 'absolute';
+                        block.style.left = (col * 63) + 'px';
+                        rowDiv.appendChild(block);
+
+                        setTimeout(() => {
+                            block.classList.add('visible');
+                        }, row * 100 + col * 50);
+                    }
+                }
+
+                wallSection.appendChild(rowDiv);
+            }
+
+            // Add lintel
+            const lintel = document.createElement('div');
+            lintel.className = `lintel-beam ${currentType}`;
+            lintel.style.top = '100px';
+            lintel.innerHTML = `<span class="lintel-label">${currentType.toUpperCase()} LINTEL</span>`;
+            wallSection.appendChild(lintel);
+
+            setTimeout(() => lintel.classList.add('visible'), 800);
+
+            // Add opening indicator
+            const opening = document.createElement('div');
+            opening.className = 'opening';
+            opening.style.left = '63px';
+            opening.style.right = '63px';
+            opening.style.top = '135px';
+            opening.style.bottom = '33px';
+            wallSection.appendChild(opening);
+        }
+
+        buildWall();
+
+        // Type selector
+        const typeOptions = document.querySelectorAll('.type-option');
+        const spanValue = document.getElementById('spanValue');
+        const bearingValue = document.getElementById('bearingValue');
+        const sizeValue = document.getElementById('sizeValue');
+
+        typeOptions.forEach(option => {
+            option.addEventListener('click', () => {
+                typeOptions.forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+                currentType = option.dataset.type;
+
+                const spec = lintelSpecs[currentType];
+                spanValue.textContent = spec.span;
+                bearingValue.textContent = spec.bearing;
+                sizeValue.textContent = spec.size;
+
+                buildWall();
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.type-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

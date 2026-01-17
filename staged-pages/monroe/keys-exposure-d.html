@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Exposure Category D in the Florida Keys | Monroe County Wind Load | WindLoad.co</title>
+    <meta name="description" content="Understanding Exposure Category D wind loads in the Florida Keys. Learn why open water exposure creates the highest wind pressures and what it means for your building.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/keys-exposure-d.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5551;-81.7800">
+    <meta name="ICBM" content="24.5551, -81.7800">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Exposure Category D - Florida Keys Wind Load Calculations">
+    <meta property="og:description" content="See how open water exposure in the Keys creates maximum wind pressures and learn to calculate Exposure D loads.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/monroe/keys-exposure-d.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is Exposure Category D in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Exposure Category D is the most severe wind exposure classification. It applies when your building is surrounded by flat, unobstructed terrain and open water for at least one mile. In the Florida Keys, most buildings along the coast fall into this category because wind can blow across open ocean with nothing to slow it down."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does Exposure D create higher wind loads than other categories?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "When wind travels over open water or flat ground, nothing slows it down near the surface. Trees, buildings, and hills in other exposure categories act like speed bumps for wind. In Exposure D, the wind stays fast and strong all the way to your building. This means your walls and roof feel about 40% more pressure than the same building in a suburban neighborhood."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I know if my Keys property is Exposure D?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "If your building is within 600 feet of the shoreline in the Florida Keys, you are almost certainly Exposure D. Look upwind from your property - if you see open water, marshland, or flat sand with no trees or buildings for at least 5,000 feet, you are Exposure D. Most waterfront and near-waterfront Keys properties qualify."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What wind speed is used for Exposure D in Monroe County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Monroe County uses a basic wind speed of 180 mph for design. Combined with Exposure D, this creates some of the highest wind pressures in the entire country. A typical wall might see pressures of -45 to -65 PSF, while roof corners can exceed -100 PSF in suction."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Exposure Category D",
+                "item": "https://windload.co/staged-pages/monroe/keys-exposure-d.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+            --exposure-d: #ff6b35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-cyan);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--exposure-d), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Animation Stage */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            min-height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .exposure-scene {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            min-height: 400px;
+            position: relative;
+        }
+
+        /* Ocean and sky */
+        .ocean {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40%;
+            background: linear-gradient(180deg, #0077be 0%, #004a77 100%);
+        }
+
+        .ocean-waves {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 30px;
+            overflow: hidden;
+        }
+
+        .wave {
+            position: absolute;
+            width: 200%;
+            height: 100%;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120'%3E%3Cpath fill='%23006aa7' d='M0,60 C300,100 600,20 900,60 C1200,100 1200,60 1200,60 L1200,120 L0,120 Z'/%3E%3C/svg%3E") repeat-x;
+            animation: waveMove 4s linear infinite;
+        }
+
+        @keyframes waveMove {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* Building on island */
+        .island {
+            position: absolute;
+            bottom: 38%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            height: 30px;
+            background: linear-gradient(180deg, #c2b280 0%, #8b7355 100%);
+            border-radius: 50% 50% 0 0;
+        }
+
+        .building {
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 100px;
+            background: linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+            border: 2px solid #718096;
+        }
+
+        .building::before {
+            content: '';
+            position: absolute;
+            top: -30px;
+            left: -10px;
+            width: 100px;
+            height: 30px;
+            background: linear-gradient(135deg, #718096 0%, #4a5568 100%);
+            clip-path: polygon(0 100%, 50% 0, 100% 100%);
+        }
+
+        /* Wind arrows */
+        .wind-arrow {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--exposure-d));
+            border-radius: 2px;
+            animation: windBlow 1.5s ease-in-out infinite;
+        }
+
+        .wind-arrow::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: -6px;
+            border-left: 12px solid var(--exposure-d);
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+        }
+
+        @keyframes windBlow {
+            0% { opacity: 0; transform: translateX(-100px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(50px); }
+        }
+
+        /* Pressure indicator */
+        .pressure-display {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--exposure-d);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .pressure-label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .pressure-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--exposure-d);
+            font-family: 'Monaco', monospace;
+        }
+
+        .pressure-unit {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Exposure comparison */
+        .exposure-comparison {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+        }
+
+        .exposure-bar {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .exposure-bar:last-child {
+            margin-bottom: 0;
+        }
+
+        .exposure-label {
+            width: 80px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .bar-container {
+            width: 150px;
+            height: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1.5s ease-out;
+        }
+
+        .bar-fill.exp-b { background: #4ade80; }
+        .bar-fill.exp-c { background: #fbbf24; }
+        .bar-fill.exp-d { background: var(--exposure-d); }
+
+        .bar-value {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(233, 30, 140, 0.1));
+            border-left: 4px solid var(--exposure-d);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
+        }
+
+        .info-box h4 {
+            color: var(--exposure-d);
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .pressure-display {
+                position: relative;
+                top: auto;
+                right: auto;
+                margin: 1rem auto;
+            }
+
+            .exposure-comparison {
+                position: relative;
+                bottom: auto;
+                left: auto;
+                margin: 1rem auto;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="/" class="logo">Wind<span>Load</span>.co</a>
+            <nav>
+                <a href="/states.html">States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Exposure Category D</span>
+        </div>
+
+        <section class="hero">
+            <h1>Exposure D: Open Water, Maximum Wind</h1>
+            <p>In the Florida Keys, there is nothing between your building and the open ocean to slow down the wind. Watch how this creates the highest wind pressures in America.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="exposure-scene">
+                <!-- Ocean -->
+                <div class="ocean">
+                    <div class="ocean-waves">
+                        <div class="wave"></div>
+                    </div>
+                </div>
+
+                <!-- Island with building -->
+                <div class="island">
+                    <div class="building"></div>
+                </div>
+
+                <!-- Wind arrows -->
+                <div class="wind-arrow" style="top: 30%; left: 5%; width: 80px; animation-delay: 0s;"></div>
+                <div class="wind-arrow" style="top: 35%; left: 10%; width: 100px; animation-delay: 0.3s;"></div>
+                <div class="wind-arrow" style="top: 40%; left: 3%; width: 120px; animation-delay: 0.6s;"></div>
+                <div class="wind-arrow" style="top: 45%; left: 8%; width: 90px; animation-delay: 0.9s;"></div>
+                <div class="wind-arrow" style="top: 50%; left: 5%; width: 110px; animation-delay: 1.2s;"></div>
+            </div>
+
+            <div class="pressure-display">
+                <div class="pressure-label">Exposure D Pressure</div>
+                <div class="pressure-value" id="pressureValue">0</div>
+                <div class="pressure-unit">PSF (wall suction)</div>
+            </div>
+
+            <div class="exposure-comparison">
+                <div class="exposure-bar">
+                    <span class="exposure-label">Exposure B:</span>
+                    <div class="bar-container">
+                        <div class="bar-fill exp-b" id="barB" style="width: 0"></div>
+                    </div>
+                    <span class="bar-value" style="color: #4ade80;">-32 PSF</span>
+                </div>
+                <div class="exposure-bar">
+                    <span class="exposure-label">Exposure C:</span>
+                    <div class="bar-container">
+                        <div class="bar-fill exp-c" id="barC" style="width: 0"></div>
+                    </div>
+                    <span class="bar-value" style="color: #fbbf24;">-41 PSF</span>
+                </div>
+                <div class="exposure-bar">
+                    <span class="exposure-label">Exposure D:</span>
+                    <div class="bar-container">
+                        <div class="bar-fill exp-d" id="barD" style="width: 0"></div>
+                    </div>
+                    <span class="bar-value" style="color: var(--exposure-d);">-52 PSF</span>
+                </div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>Why the Keys Get Maximum Wind Pressure</h2>
+            <p>Picture yourself standing on a beach in the Florida Keys. Look out at the water - you can see for miles with nothing in the way. Now think about wind traveling across all that open ocean. There are no trees to slow it down. No buildings to break it up. No hills to redirect it.</p>
+            <p>That is Exposure Category D - the most severe wind exposure in the building code. When wind has nothing to slow it down, it hits your building at full speed from ground level all the way up.</p>
+
+            <div class="info-box">
+                <h4>The Numbers Tell the Story</h4>
+                <p>A house in a suburban neighborhood (Exposure B) might see -32 PSF of suction on its walls. The same house in the Keys with Exposure D sees -52 PSF - over 60% more pressure trying to pull the walls outward. Your windows, doors, and roof need to be much stronger to handle this difference.</p>
+            </div>
+
+            <p>The wind speed in Monroe County is 180 mph, which is already the highest in Florida. But Exposure D makes it even worse by applying a higher "exposure coefficient" that increases the calculated pressure. This is why buildings in the Keys need impact-rated windows, reinforced roof connections, and stronger wall bracing than almost anywhere else in the country.</p>
+            <p>If you are building or renovating in the Keys, understanding Exposure D is critical. Most waterfront properties, and many properties up to several blocks inland, will be classified as Exposure D. This affects every single wind pressure calculation for your permit.</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Get Your Exposure D Wind Load Analysis</h2>
+            <p>Accurate wind pressures for Monroe County permits - calculated for your exact location</p>
+            <a href="https://windload.co" class="cta-button">
+                Calculate Wind Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 3 + 2,
+                vy: Math.random() * 0.5 - 0.25,
+                size: Math.random() * 2 + 0.5,
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) {
+                    p.x = 0;
+                    p.y = Math.random() * canvas.height;
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#00d4ff';
+                ctx.globalAlpha = 0.2;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Animate pressure value
+        function animatePressure() {
+            const pressureEl = document.getElementById('pressureValue');
+            let current = 0;
+            const target = 52;
+            const interval = setInterval(() => {
+                current += 1;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(interval);
+                }
+                pressureEl.textContent = '-' + current;
+            }, 40);
+        }
+
+        // Animate comparison bars
+        function animateBars() {
+            setTimeout(() => { document.getElementById('barB').style.width = '61%'; }, 500);
+            setTimeout(() => { document.getElementById('barC').style.width = '79%'; }, 800);
+            setTimeout(() => { document.getElementById('barD').style.width = '100%'; }, 1100);
+        }
+
+        // Start animations when visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animatePressure();
+                    animateBars();
+                    observer.disconnect();
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.animation-stage'));
+    </script>
+</body>
+</html>

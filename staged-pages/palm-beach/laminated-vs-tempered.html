@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laminated vs Tempered Glass for Wind | Palm Beach Hurricane Guide | WindLoad.co</title>
+    <meta name="description" content="Compare laminated and tempered glass for Palm Beach County hurricanes. Animated guide shows how each glass type breaks and why laminated is required for impact-rated windows.">
+    <meta name="keywords" content="laminated vs tempered glass, hurricane glass comparison, impact rated glass, safety glass wind load, PVB interlayer, HVHZ glass requirements">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/laminated-vs-tempered">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPC29V5WXL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QPC29V5WXL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Laminated vs Tempered Glass for Wind - Palm Beach County">
+    <meta property="og:description" content="Interactive comparison of glass types for hurricane protection. See how laminated glass stays intact after impact.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/laminated-vs-tempered">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why is laminated glass required for hurricane windows instead of tempered?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Laminated glass stays together when broken because the plastic interlayer holds the pieces in place. Tempered glass shatters into small cubes that fall out completely, leaving an open hole. In hurricanes, that hole lets wind pressure and debris inside, which can blow off the roof."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between laminated and tempered glass?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Tempered glass is heat-treated to be 4-5x stronger than regular glass and breaks into small safe pieces. Laminated glass is two pieces of glass bonded to a plastic interlayer (PVB or SGP) that holds fragments together after breakage. Laminated can be tempered for even more strength."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is tempered glass ever acceptable for hurricane zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Only when protected by approved hurricane shutters. If shutters are deployed before a storm, tempered glass behind them is acceptable since the shutters block debris. However, impact-rated laminated glass works without shutters and many homeowners prefer it for convenience."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does laminated glass cost more than tempered?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, laminated glass typically costs 25-40% more than tempered of the same thickness. However, when you factor in the cost of hurricane shutters plus tempered glass, impact-rated laminated windows often cost about the same as tempered windows plus quality shutters."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Laminated vs Tempered", "item": "https://windload.co/florida/palm-beach/laminated-vs-tempered"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --glass-blue: #87ceeb;
+            --broken-red: #ff6b6b;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo { display: flex; align-items: center; gap: 0.75rem; text-decoration: none; }
+
+        .logo-icon {
+            width: 45px; height: 45px;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-primary); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover { transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--glass-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .compare-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .compare-badge {
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .compare-badge.lam {
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid var(--accent-cyan);
+        }
+
+        .compare-badge.temp {
+            background: rgba(255, 107, 107, 0.15);
+            border: 1px solid var(--broken-red);
+        }
+
+        .compare-badge .value {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .compare-badge.lam .value { color: var(--accent-cyan); }
+        .compare-badge.temp .value { color: var(--broken-red); }
+
+        .compare-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Comparison Demo */
+        .compare-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .compare-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .glass-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .glass-panel {
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .panel-label {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .panel-label.laminated { color: var(--accent-cyan); }
+        .panel-label.tempered { color: var(--broken-red); }
+
+        .glass-frame {
+            width: 140px;
+            height: 180px;
+            margin: 0 auto;
+            border: 4px solid #666;
+            border-radius: 4px;
+            background: linear-gradient(135deg, rgba(135, 206, 235, 0.4), rgba(135, 206, 235, 0.2));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-frame::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: 40%;
+            height: 30%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4), transparent);
+            border-radius: 2px;
+        }
+
+        /* Break patterns */
+        .crack-pattern {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .crack-pattern.visible { opacity: 1; }
+
+        .crack-pattern.laminated {
+            background:
+                linear-gradient(45deg, transparent 48%, rgba(255,255,255,0.5) 49%, rgba(255,255,255,0.5) 51%, transparent 52%),
+                linear-gradient(-45deg, transparent 48%, rgba(255,255,255,0.5) 49%, rgba(255,255,255,0.5) 51%, transparent 52%),
+                linear-gradient(90deg, transparent 48%, rgba(255,255,255,0.3) 49%, rgba(255,255,255,0.3) 51%, transparent 52%);
+            background-size: 30px 30px;
+        }
+
+        .crack-pattern.tempered {
+            background:
+                radial-gradient(circle at 20% 30%, rgba(0,0,0,0.8) 2px, transparent 3px),
+                radial-gradient(circle at 80% 40%, rgba(0,0,0,0.8) 2px, transparent 3px),
+                radial-gradient(circle at 50% 60%, rgba(0,0,0,0.8) 2px, transparent 3px),
+                radial-gradient(circle at 30% 80%, rgba(0,0,0,0.8) 2px, transparent 3px),
+                radial-gradient(circle at 70% 20%, rgba(0,0,0,0.8) 2px, transparent 3px);
+        }
+
+        .shatter-pieces {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            opacity: 0;
+        }
+
+        .shatter-pieces.visible {
+            animation: shatterFall 1.5s ease-out forwards;
+        }
+
+        @keyframes shatterFall {
+            0% { opacity: 1; transform: translateY(0); }
+            100% { opacity: 0; transform: translateY(100px); }
+        }
+
+        .piece {
+            position: absolute;
+            background: rgba(135, 206, 235, 0.6);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+
+        .result-badge {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            display: inline-block;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .result-badge.visible { opacity: 1; }
+
+        .result-badge.pass {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+        }
+
+        .result-badge.fail {
+            background: var(--broken-red);
+            color: white;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .play-btn:hover { transform: scale(1.05); }
+
+        /* Content sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        /* Comparison table */
+        .compare-table {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .compare-column {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .compare-column.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .compare-column.laminated { border: 2px solid var(--accent-cyan); }
+        .compare-column.tempered { border: 2px solid var(--broken-red); }
+
+        .column-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .column-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .column-header.laminated h3 { color: var(--accent-cyan); }
+        .column-header.tempered h3 { color: var(--broken-red); }
+
+        .column-header .tagline {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .feature-list {
+            list-style: none;
+        }
+
+        .feature-list li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.9rem;
+        }
+
+        .feature-list li:last-child { border-bottom: none; }
+
+        .feature-list .label { color: var(--text-secondary); }
+        .feature-list .value { font-weight: 600; }
+
+        .feature-list.laminated .value { color: var(--accent-cyan); }
+        .feature-list.tempered .value { color: var(--broken-red); }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(135, 206, 235, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible { opacity: 1; transform: translateY(0); }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover { background: rgba(135, 206, 235, 0.1); }
+
+        .faq-toggle {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--glass-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .faq-item.open .faq-answer { max-height: 300px; }
+
+        .faq-answer-content { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--glass-blue), var(--accent-cyan));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-dark); }
+        .cta-content p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 2rem; color: var(--primary-dark); }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .btn-primary {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-dark);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { background: var(--primary-dark); color: white; }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(135, 206, 235, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 { font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--accent-cyan); }
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+        .footer-section a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+        .footer-section a:hover { color: var(--glass-blue); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(135, 206, 235, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p { color: var(--text-secondary); font-size: 0.85rem; }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .compare-table { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .glass-comparison { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="https://windload.co/#calculator" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Laminated vs Tempered</span> for Wind</h1>
+                <p class="hero-subtitle">Both glass types are strong, but only one keeps the hole sealed when debris breaks through. Watch what happens when each glass type gets hit during a hurricane - one keeps you safe, one lets the storm in.</p>
+
+                <div class="compare-badges">
+                    <div class="compare-badge lam">
+                        <span class="value">Laminated</span>
+                        <span class="label">Stays intact</span>
+                    </div>
+                    <div class="compare-badge temp">
+                        <span class="value">Tempered</span>
+                        <span class="label">Falls out</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="compare-container">
+                <div class="compare-title">Impact Test Comparison</div>
+
+                <div class="glass-comparison">
+                    <div class="glass-panel">
+                        <div class="panel-label laminated">LAMINATED</div>
+                        <div class="glass-frame" id="lamFrame">
+                            <div class="crack-pattern laminated" id="lamCrack"></div>
+                        </div>
+                        <div class="result-badge pass" id="lamResult">ENVELOPE SEALED</div>
+                    </div>
+
+                    <div class="glass-panel">
+                        <div class="panel-label tempered">TEMPERED</div>
+                        <div class="glass-frame" id="tempFrame">
+                            <div class="crack-pattern tempered" id="tempCrack"></div>
+                            <div class="shatter-pieces" id="shatterPieces">
+                                <div class="piece" style="width:15px;height:12px;top:20%;left:30%;"></div>
+                                <div class="piece" style="width:10px;height:15px;top:40%;left:50%;"></div>
+                                <div class="piece" style="width:12px;height:10px;top:60%;left:20%;"></div>
+                                <div class="piece" style="width:18px;height:14px;top:30%;left:70%;"></div>
+                                <div class="piece" style="width:14px;height:11px;top:70%;left:60%;"></div>
+                            </div>
+                        </div>
+                        <div class="result-badge fail" id="tempResult">OPENING CREATED</div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="play-btn" id="playBtn">Simulate Debris Impact</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Side-by-Side <span class="highlight">Comparison</span></h2>
+            <p>Key differences between laminated and tempered glass for hurricane protection.</p>
+        </div>
+
+        <div class="compare-table">
+            <div class="compare-column laminated">
+                <div class="column-header laminated">
+                    <h3>Laminated Glass</h3>
+                    <div class="tagline">Stays together when broken</div>
+                </div>
+                <ul class="feature-list laminated">
+                    <li><span class="label">After impact</span><span class="value">Cracked but intact</span></li>
+                    <li><span class="label">Opening created</span><span class="value">No</span></li>
+                    <li><span class="label">Debris protection</span><span class="value">Continues working</span></li>
+                    <li><span class="label">Pressure cycles</span><span class="value">Passes 9000+</span></li>
+                    <li><span class="label">HVHZ approved</span><span class="value">Yes, standalone</span></li>
+                    <li><span class="label">Relative cost</span><span class="value">Higher</span></li>
+                </ul>
+            </div>
+
+            <div class="compare-column tempered">
+                <div class="column-header tempered">
+                    <h3>Tempered Glass</h3>
+                    <div class="tagline">Shatters into small pieces</div>
+                </div>
+                <ul class="feature-list tempered">
+                    <li><span class="label">After impact</span><span class="value">Cubes fall out</span></li>
+                    <li><span class="label">Opening created</span><span class="value">Yes, completely</span></li>
+                    <li><span class="label">Debris protection</span><span class="value">None after break</span></li>
+                    <li><span class="label">Pressure cycles</span><span class="value">N/A - open hole</span></li>
+                    <li><span class="label">HVHZ approved</span><span class="value">Only with shutters</span></li>
+                    <li><span class="label">Relative cost</span><span class="value">Lower</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about glass types for hurricane protection.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Why is laminated glass required for hurricane windows instead of tempered?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Laminated glass stays together when broken because the plastic interlayer holds the pieces in place. Tempered glass shatters into small cubes that fall out completely, leaving an open hole. In hurricanes, that hole lets wind pressure and debris inside, which can blow off the roof.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is the difference between laminated and tempered glass?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Tempered glass is heat-treated to be 4-5x stronger than regular glass and breaks into small safe pieces. Laminated glass is two pieces of glass bonded to a plastic interlayer (PVB or SGP) that holds fragments together after breakage. Laminated can be tempered for even more strength.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is tempered glass ever acceptable for hurricane zones?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Only when protected by approved hurricane shutters. If shutters are deployed before a storm, tempered glass behind them is acceptable since the shutters block debris. However, impact-rated laminated glass works without shutters and many homeowners prefer it for convenience.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Does laminated glass cost more than tempered?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, laminated glass typically costs 25-40% more than tempered of the same thickness. However, when you factor in the cost of hurricane shutters plus tempered glass, impact-rated laminated windows often cost about the same as tempered windows plus quality shutters.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Glass Requirements</h2>
+            <p>Get precise glass specifications for your windows and doors. PE-stamped calculations available.</p>
+            <div class="cta-buttons">
+                <a href="https://windload.co/#calculator" class="btn-primary">Calculate Wind Loads</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/glass-lite-size">Glass Lite Size</a></li>
+                    <li><a href="/florida/palm-beach/interlayer-thickness">Interlayer Thickness</a></li>
+                    <li><a href="/florida/palm-beach/impact-windows">Impact Windows</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Palm Beach County, FL - HVHZ Compliant</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class GlassShard {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = 5 + Math.random() * 10;
+                this.speedY = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 1;
+                this.opacity = Math.random() * 0.2 + 0.1;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 5;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotSpeed;
+                if (this.y > canvas.height + 20) this.reset();
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = `rgba(135, 206, 235, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.moveTo(0, -this.size/2);
+                ctx.lineTo(this.size/2, this.size/2);
+                ctx.lineTo(-this.size/2, this.size/2);
+                ctx.closePath();
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        const shards = [];
+        for (let i = 0; i < 30; i++) shards.push(new GlassShard());
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            shards.forEach(s => { s.update(); s.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Impact simulation
+        const playBtn = document.getElementById('playBtn');
+        const lamCrack = document.getElementById('lamCrack');
+        const tempCrack = document.getElementById('tempCrack');
+        const shatterPieces = document.getElementById('shatterPieces');
+        const lamResult = document.getElementById('lamResult');
+        const tempResult = document.getElementById('tempResult');
+        const tempFrame = document.getElementById('tempFrame');
+
+        let isPlaying = false;
+
+        function runImpact() {
+            if (isPlaying) return;
+            isPlaying = true;
+            playBtn.disabled = true;
+
+            // Reset
+            lamCrack.classList.remove('visible');
+            tempCrack.classList.remove('visible');
+            shatterPieces.classList.remove('visible');
+            lamResult.classList.remove('visible');
+            tempResult.classList.remove('visible');
+            tempFrame.style.background = 'linear-gradient(135deg, rgba(135, 206, 235, 0.4), rgba(135, 206, 235, 0.2))';
+
+            // Impact at same time
+            setTimeout(() => {
+                lamCrack.classList.add('visible');
+                tempCrack.classList.add('visible');
+            }, 500);
+
+            // Tempered shatters
+            setTimeout(() => {
+                shatterPieces.classList.add('visible');
+                tempFrame.style.background = 'transparent';
+            }, 800);
+
+            // Results
+            setTimeout(() => {
+                lamResult.classList.add('visible');
+                tempResult.classList.add('visible');
+            }, 1500);
+
+            // Reset for next
+            setTimeout(() => {
+                isPlaying = false;
+                playBtn.disabled = false;
+            }, 4000);
+        }
+
+        playBtn.addEventListener('click', runImpact);
+        setTimeout(runImpact, 1500);
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.compare-column, .faq-item').forEach(el => observer.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

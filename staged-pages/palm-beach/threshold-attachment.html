@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Threshold Attachment for Wind | Palm Beach Door Sill Calculator | WindLoad.co</title>
+    <meta name="description" content="Calculate door threshold attachment for Palm Beach County hurricanes. Animated guide shows sill pan flashing, anchor bolts, and water barrier systems for HVHZ compliance.">
+    <meta name="keywords" content="threshold wind load, door sill attachment, sill pan flashing, HVHZ threshold, hurricane door sill, water intrusion prevention">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/threshold-attachment">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPC29V5WXL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QPC29V5WXL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Threshold Attachment for Wind - Palm Beach County">
+    <meta property="og:description" content="Interactive guide for door threshold installation in hurricane zones. See anchor requirements and water management details.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/threshold-attachment">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why is threshold attachment so important for wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The threshold is the bottom anchor point for your entire door system. During hurricanes, negative pressure (suction) tries to pull doors outward from the bottom. If the threshold lifts, the door can fail completely. Thresholds also block wind-driven rain from entering under the door."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How should door thresholds be fastened in HVHZ zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "HVHZ thresholds typically need stainless steel screws or bolts every 8 to 12 inches into concrete or the subfloor. For concrete, use 1/4 inch Tapcons or wedge anchors. For wood floors, use #12 screws minimum 2 inches into solid framing. The threshold must also be sealed to the sill pan."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is a sill pan and why do I need one?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A sill pan is a waterproof tray under the door threshold that catches any water that gets past the weatherstrip. During hurricanes, water can be pushed horizontally at high pressure. The sill pan slopes to weep holes that drain water to the outside, preventing interior flooding."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do impact doors have special threshold requirements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, impact doors are heavier and experience greater forces during debris impact. Their thresholds need more fasteners - typically every 6 inches - and deeper embedment into the substrate. The manufacturer NOA specifies exact requirements that must be followed for the approval to be valid."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Threshold Attachment", "item": "https://windload.co/florida/palm-beach/threshold-attachment"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-blue: #4a90d9;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover { transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .threshold-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .threshold-badge {
+            background: rgba(74, 144, 217, 0.15);
+            border: 1px solid var(--accent-blue);
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .threshold-badge .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-blue);
+        }
+
+        .threshold-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Threshold Animation */
+        .threshold-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(74, 144, 217, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .threshold-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .cross-section {
+            position: relative;
+            height: 350px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .section-view {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 350px;
+            height: 200px;
+        }
+
+        /* Floor/slab */
+        .floor-slab {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: linear-gradient(180deg, #808080, #606060);
+            border-top: 3px solid #a0a0a0;
+        }
+
+        .slab-label {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        /* Sill pan */
+        .sill-pan {
+            position: absolute;
+            bottom: 55px;
+            left: 40px;
+            right: 40px;
+            height: 25px;
+            background: linear-gradient(180deg, #4a90d9, #2a5a8a);
+            border-radius: 0 0 4px 4px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .sill-pan.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .sill-pan-label {
+            position: absolute;
+            top: 5px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.65rem;
+            color: white;
+            white-space: nowrap;
+        }
+
+        /* Weep holes */
+        .weep-hole {
+            position: absolute;
+            bottom: 0;
+            width: 8px;
+            height: 8px;
+            background: #000;
+            border-radius: 50%;
+        }
+
+        .weep-hole:first-of-type { left: 10px; }
+        .weep-hole:last-of-type { right: 10px; }
+
+        /* Threshold */
+        .threshold {
+            position: absolute;
+            bottom: 75px;
+            left: 30px;
+            right: 30px;
+            height: 30px;
+            background: linear-gradient(180deg, #c0c0c0, #a0a0a0);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 2px;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .threshold.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .threshold-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+        }
+
+        /* Anchors */
+        .threshold-anchor {
+            position: absolute;
+            bottom: 60px;
+            width: 6px;
+            height: 50px;
+            background: linear-gradient(180deg, #e91e8c, #a0145a);
+            border-radius: 0 0 3px 3px;
+            opacity: 0;
+            transform: scaleY(0);
+            transform-origin: top;
+            transition: all 0.3s ease;
+        }
+
+        .threshold-anchor.visible {
+            opacity: 1;
+            transform: scaleY(1);
+        }
+
+        .anchor-head {
+            position: absolute;
+            top: -8px;
+            left: -4px;
+            width: 14px;
+            height: 8px;
+            background: #e91e8c;
+            border-radius: 2px;
+        }
+
+        /* Water droplets */
+        .water-drop {
+            position: absolute;
+            width: 6px;
+            height: 8px;
+            background: var(--accent-cyan);
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+        }
+
+        .water-drop.animate {
+            animation: waterFlow 2s ease-in-out forwards;
+        }
+
+        @keyframes waterFlow {
+            0% { opacity: 1; transform: translate(0, 0); }
+            50% { opacity: 1; transform: translate(10px, 30px); }
+            100% { opacity: 0; transform: translate(20px, 60px); }
+        }
+
+        /* Controls */
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .play-btn:hover { transform: scale(1.05); }
+
+        /* Live data */
+        .live-data {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .data-row:last-child { margin-bottom: 0; }
+
+        .data-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .data-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-blue);
+        }
+
+        /* Content sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .components-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .component-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(74, 144, 217, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .component-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .component-card:hover {
+            border-color: var(--accent-blue);
+        }
+
+        .component-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1.5rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .component-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-blue);
+        }
+
+        .component-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(74, 144, 217, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(74, 144, 217, 0.1);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(74, 144, 217, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-blue); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(74, 144, 217, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .components-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="https://windload.co/#calculator" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Threshold Attachment</span> for Wind</h1>
+                <p class="hero-subtitle">The door threshold is where your door meets the floor. It needs to be bolted down tight and sealed against water. Watch how the sill pan, threshold, and anchors work together during a storm.</p>
+
+                <div class="threshold-badges">
+                    <div class="threshold-badge">
+                        <span class="value">8"</span>
+                        <span class="label">Anchor Spacing</span>
+                    </div>
+                    <div class="threshold-badge">
+                        <span class="value">1/4"</span>
+                        <span class="label">Anchor Dia</span>
+                    </div>
+                    <div class="threshold-badge">
+                        <span class="value">Sill Pan</span>
+                        <span class="label">Required</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="threshold-container">
+                <div class="threshold-title">Threshold Cross-Section</div>
+
+                <div class="cross-section">
+                    <div class="section-view">
+                        <div class="floor-slab">
+                            <span class="slab-label">CONCRETE SLAB</span>
+                        </div>
+
+                        <div class="sill-pan" id="sillPan">
+                            <span class="sill-pan-label">SILL PAN FLASHING</span>
+                            <div class="weep-hole"></div>
+                            <div class="weep-hole"></div>
+                        </div>
+
+                        <div class="threshold" id="threshold">
+                            <span class="threshold-label">THRESHOLD</span>
+                        </div>
+
+                        <!-- Anchors -->
+                        <div class="threshold-anchor" id="anchor1" style="left: 50px;">
+                            <div class="anchor-head"></div>
+                        </div>
+                        <div class="threshold-anchor" id="anchor2" style="left: 120px;">
+                            <div class="anchor-head"></div>
+                        </div>
+                        <div class="threshold-anchor" id="anchor3" style="left: 190px;">
+                            <div class="anchor-head"></div>
+                        </div>
+                        <div class="threshold-anchor" id="anchor4" style="left: 260px;">
+                            <div class="anchor-head"></div>
+                        </div>
+
+                        <!-- Water drops -->
+                        <div class="water-drop" id="drop1" style="left: 80px; top: 60px;"></div>
+                        <div class="water-drop" id="drop2" style="left: 150px; top: 55px;"></div>
+                        <div class="water-drop" id="drop3" style="left: 220px; top: 65px;"></div>
+                    </div>
+
+                    <div class="live-data">
+                        <div class="data-row">
+                            <span class="data-label">Step</span>
+                            <span class="data-value" id="stepName">Ready</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Anchors</span>
+                            <span class="data-value" id="anchorStatus">0 / 4</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="play-btn" id="playBtn">Build Threshold Assembly</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Threshold <span class="highlight">Components</span></h2>
+            <p>Three parts work together to keep water out and hold the door down during hurricanes.</p>
+        </div>
+
+        <div class="components-grid">
+            <div class="component-card">
+                <div class="component-icon">&#128167;</div>
+                <h3>Sill Pan Flashing</h3>
+                <p>A waterproof tray under the threshold that catches any water getting past the weatherstrip. Weep holes drain water to the outside.</p>
+            </div>
+
+            <div class="component-card">
+                <div class="component-icon">&#9644;</div>
+                <h3>Threshold</h3>
+                <p>The aluminum or composite bar that seals against the door bottom. Must be bolted through the sill pan into the structure below.</p>
+            </div>
+
+            <div class="component-card">
+                <div class="component-icon">&#128297;</div>
+                <h3>Anchor Bolts</h3>
+                <p>Stainless steel bolts every 8-12 inches that hold everything down. Must penetrate at least 1.5 inches into concrete.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about door threshold installation in hurricane zones.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Why is threshold attachment so important for wind loads?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The threshold is the bottom anchor point for your entire door system. During hurricanes, negative pressure (suction) tries to pull doors outward from the bottom. If the threshold lifts, the door can fail completely. Thresholds also block wind-driven rain from entering under the door.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How should door thresholds be fastened in HVHZ zones?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        HVHZ thresholds typically need stainless steel screws or bolts every 8 to 12 inches into concrete or the subfloor. For concrete, use 1/4 inch Tapcons or wedge anchors. For wood floors, use #12 screws minimum 2 inches into solid framing. The threshold must also be sealed to the sill pan.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is a sill pan and why do I need one?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        A sill pan is a waterproof tray under the door threshold that catches any water that gets past the weatherstrip. During hurricanes, water can be pushed horizontally at high pressure. The sill pan slopes to weep holes that drain water to the outside, preventing interior flooding.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do impact doors have special threshold requirements?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, impact doors are heavier and experience greater forces during debris impact. Their thresholds need more fasteners - typically every 6 inches - and deeper embedment into the substrate. The manufacturer NOA specifies exact requirements that must be followed for the approval to be valid.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Threshold Requirements</h2>
+            <p>Get precise threshold fastening specifications for any door. PE-stamped calculations available.</p>
+            <div class="cta-buttons">
+                <a href="https://windload.co/#calculator" class="btn-primary">Calculate Wind Loads</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/jamb-anchoring">Jamb Anchoring</a></li>
+                    <li><a href="/florida/palm-beach/weatherstrip-rating">Weatherstrip Rating</a></li>
+                    <li><a href="/florida/palm-beach/door-header-loads">Door Header Loads</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Palm Beach County, FL - HVHZ Compliant</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas - water drops
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Drop {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = 3 + Math.random() * 5;
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.opacity = Math.random() * 0.3 + 0.2;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                if (this.y > canvas.height + 20) this.reset();
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(74, 144, 217, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.ellipse(this.x, this.y, this.size * 0.6, this.size, 0, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const drops = [];
+        for (let i = 0; i < 40; i++) {
+            drops.push(new Drop());
+        }
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            drops.forEach(d => {
+                d.update();
+                d.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Assembly animation
+        const playBtn = document.getElementById('playBtn');
+        const sillPan = document.getElementById('sillPan');
+        const threshold = document.getElementById('threshold');
+        const stepName = document.getElementById('stepName');
+        const anchorStatus = document.getElementById('anchorStatus');
+
+        let isPlaying = false;
+
+        function runAnimation() {
+            if (isPlaying) return;
+            isPlaying = true;
+            playBtn.disabled = true;
+
+            // Reset
+            sillPan.classList.remove('visible');
+            threshold.classList.remove('visible');
+            ['anchor1', 'anchor2', 'anchor3', 'anchor4'].forEach(id => {
+                document.getElementById(id).classList.remove('visible');
+            });
+            ['drop1', 'drop2', 'drop3'].forEach(id => {
+                document.getElementById(id).classList.remove('animate');
+            });
+
+            // Step 1: Sill pan
+            stepName.textContent = 'Sill Pan';
+            anchorStatus.textContent = '0 / 4';
+            setTimeout(() => sillPan.classList.add('visible'), 500);
+
+            // Step 2: Threshold
+            setTimeout(() => {
+                stepName.textContent = 'Threshold';
+                threshold.classList.add('visible');
+            }, 1200);
+
+            // Step 3: Anchors
+            setTimeout(() => {
+                stepName.textContent = 'Anchoring';
+                document.getElementById('anchor1').classList.add('visible');
+                anchorStatus.textContent = '1 / 4';
+            }, 2000);
+
+            setTimeout(() => {
+                document.getElementById('anchor2').classList.add('visible');
+                anchorStatus.textContent = '2 / 4';
+            }, 2300);
+
+            setTimeout(() => {
+                document.getElementById('anchor3').classList.add('visible');
+                anchorStatus.textContent = '3 / 4';
+            }, 2600);
+
+            setTimeout(() => {
+                document.getElementById('anchor4').classList.add('visible');
+                anchorStatus.textContent = '4 / 4';
+            }, 2900);
+
+            // Step 4: Water test
+            setTimeout(() => {
+                stepName.textContent = 'Water Draining';
+                document.getElementById('drop1').classList.add('animate');
+                document.getElementById('drop2').classList.add('animate');
+                document.getElementById('drop3').classList.add('animate');
+            }, 3500);
+
+            // Complete
+            setTimeout(() => {
+                stepName.textContent = 'Complete';
+                isPlaying = false;
+                playBtn.disabled = false;
+            }, 5500);
+        }
+
+        playBtn.addEventListener('click', runAnimation);
+        setTimeout(runAnimation, 1500);
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.component-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
