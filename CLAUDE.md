@@ -7,6 +7,16 @@ This document defines the quality standards and SEO rules for creating campaign 
 
 ## CRITICAL SEO RULES - Avoid Blacklisting
 
+### Google Violations That Will Get You Penalized
+
+| Violation | Penalty |
+|-----------|---------|
+| **Scaled Content Abuse** | Site demoted or deindexed |
+| **Thin Affiliate Content** | Pages removed from index |
+| **Doorway Pages** | Manual action + site-wide ranking drop |
+| **SpamBrain Detection** | Automatic deranking |
+| **Duplicate Content** | Pages filtered from results |
+
 ### 1. NO Duplicate Content
 - **NEVER copy/paste content between pages** - each page must be written fresh
 - **NEVER use templates with placeholder text** - all content must be original
@@ -19,7 +29,13 @@ This document defines the quality standards and SEO rules for creating campaign 
   - FAQ questions AND answers
   - CTA text and messaging
 
-### 2. NO Thin Content
+### 2. NO "Mad Libs" Content (Scaled Content Abuse)
+- Pages that only swap text but keep identical structure = **INSTANT PENALTY**
+- Google's SpamBrain specifically targets this pattern
+- **The Test:** Would a human immediately recognize two random pages as different?
+- If you can swap location names and nothing else changes → REJECTED
+
+### 3. NO Thin Content
 - Minimum 1,500 words of substantive content per page
 - Content must answer real user questions
 - Include specific, actionable information (numbers, requirements, processes)
@@ -52,6 +68,106 @@ When creating pages for similar topics (e.g., shutters in different counties):
 - Vary the angle/perspective of content
 - Use different statistics, examples, case studies
 - Change the structure and flow of information
+
+### 6. MANDATORY Visual Template Variety
+
+**Every campaign page MUST have a UNIQUE visual structure.** No two pages in any batch can share the same primary visualization type.
+
+#### Required Visual Differentiation (minimum 3 elements must differ):
+- Different primary chart/visualization types
+- Different section layouts (2-col vs 3-col vs full-width vs staggered)
+- Different card arrangements
+- Different data presentation methods
+
+#### Visual Template Rotation (use different ones for each page):
+
+| Template | Primary Visualization | Use Case |
+|----------|----------------------|----------|
+| **A: Data Story** | Trend line charts + threshold markers | Historical comparisons |
+| **B: Cost Analysis** | Stacked bar charts + margin erosion | Financial impact |
+| **C: Hidden Truth** | Waterfall chart + comparison | Revealing hidden costs |
+| **D: Executive Scorecard** | Gauge meters + traffic lights | Quick status overview |
+| **E: Process Timeline** | Gantt-style + milestones | Permit/approval process |
+| **F: Comparison Matrix** | Radar charts + feature tables | Product comparisons |
+| **G: Funnel Analysis** | Conversion funnel + drop-off | Lead qualification |
+| **H: Distribution View** | Heat maps + treemaps | Geographic/zone data |
+| **I: Diverging Analysis** | Scissors/diverging line charts | Before/after scenarios |
+| **J: Cumulative Impact** | Area charts with gap visualization | Accumulated costs/savings |
+| **K: Burndown Progress** | Bar chart with backlog line | Project tracking |
+
+#### Batch Rules:
+- **NEVER** use the same primary visualization twice in a batch of pages
+- **NEVER** create pages that look structurally identical
+- Track which templates have been used in `deployment-log.json`
+
+### 7. E-E-A-T Signals Required
+
+Google's E-E-A-T (Experience, Expertise, Authoritativeness, Trust) must be demonstrated:
+
+**Experience:**
+- Include real-world scenarios specific to the location/topic
+- Reference actual permit processes, timelines, challenges
+- Show understanding of local contractor/homeowner pain points
+
+**Expertise:**
+- Cite specific code sections (FBC, ASCE 7-22, local amendments)
+- Include accurate technical specifications
+- Use industry-standard terminology correctly
+
+**Authoritativeness:**
+- Link to official sources (building departments, code databases)
+- Reference real NOA numbers, product approvals
+- Include verifiable statistics
+
+**Trust:**
+- Clear company identification and contact info
+- Accurate, up-to-date information
+- No misleading claims or exaggerations
+
+### 8. GEO (Generative Engine Optimization) for AI Search
+
+AI search engines (ChatGPT, Perplexity, Google AI Overview, Bing Copilot) prioritize different signals than traditional SEO. Every campaign page must be optimized for BOTH.
+
+#### GEO-Specific Requirements:
+
+**Structured Answer Format:**
+- Include clear, direct answers to questions (not just keywords)
+- Use definition-style sentences: "Design pressure (DP) is..."
+- Provide complete, citable responses that AI can extract
+
+**Factual Density:**
+- Pack pages with specific facts, numbers, and data points
+- AI engines prefer quantifiable information over vague claims
+- Example: "Miami-Dade requires 180 MPH design wind speed" vs "high wind requirements"
+
+**Source Attribution:**
+- Reference authoritative sources AI can verify
+- Include code citations (ASCE 7-22, FBC 2023, local ordinances)
+- Link to official government/industry sources
+
+**Question-Answer Patterns:**
+- Structure content around natural language questions
+- Use FAQ schema markup
+- Include "What is...", "How to...", "Why does..." patterns
+
+**Semantic Completeness:**
+- Cover topics comprehensively (AI penalizes thin content more harshly)
+- Include related concepts and terminology
+- Answer follow-up questions preemptively
+
+**Citation-Worthy Content:**
+- Create content that AI would want to cite as a source
+- Include unique insights, calculations, or data not found elsewhere
+- Provide clear, quotable statements
+
+#### GEO Content Checklist:
+- [ ] Direct answer to primary question in first 100 words
+- [ ] At least 5 specific, verifiable facts per section
+- [ ] Code/regulation citations with section numbers
+- [ ] FAQ section with schema markup
+- [ ] Unique data or calculations
+- [ ] Clear definitions of technical terms
+- [ ] Authoritative external links
 
 ---
 
