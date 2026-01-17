@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Palm Beach Roof Wind Load Requirements | Roofing System Hurricane Calculations</title>
+    <meta name="description" content="Roof wind load calculations for Palm Beach County HVHZ. Metal roofing, tile, shingle, and flat roof systems per FBC 2024 and ASCE 7-22.">
+    <meta name="keywords" content="Palm Beach roof wind load, hurricane roofing, HVHZ roof requirements, metal roof wind rating, tile roof pressure, roof uplift">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/roof-systems">
+
+    <style>
+        :root {
+            --primary: #84cc16;
+            --primary-dark: #65a30d;
+            --secondary: #a3e635;
+            --accent: #f59e0b;
+            --dark: #0f1a08;
+            --darker: #080d04;
+            --light: #f7fee7;
+            --success: #22c55e;
+            --danger: #ef4444;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 26, 8, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(132, 204, 22, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: var(--darker);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        #roofCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(247, 254, 231, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(132, 204, 22, 0.1);
+            border: 1px solid rgba(132, 204, 22, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(247, 254, 231, 0.7);
+        }
+
+        /* Diverging Chart */
+        .diverging-chart {
+            background: rgba(15, 26, 8, 0.9);
+            border: 1px solid rgba(132, 204, 22, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .chart-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .diverging-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .diverging-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .div-label {
+            width: 80px;
+            font-size: 0.85rem;
+            text-align: right;
+            padding-right: 1rem;
+        }
+
+        .div-negative {
+            flex: 1;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .div-center {
+            width: 2px;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .div-positive {
+            flex: 1;
+        }
+
+        .div-bar {
+            height: 30px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            padding: 0 8px;
+            transition: width 1.5s ease;
+        }
+
+        .div-bar.neg {
+            background: linear-gradient(90deg, var(--danger), #fca5a5);
+            justify-content: flex-start;
+        }
+
+        .div-bar.pos {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            justify-content: flex-end;
+        }
+
+        .div-value {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--darker);
+        }
+
+        .div-legend {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 1.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-dot.neg { background: var(--danger); }
+        .legend-dot.pos { background: var(--primary); }
+
+        /* Roof Types */
+        .types-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .types-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .type-card {
+            background: rgba(15, 26, 8, 0.8);
+            border: 1px solid rgba(132, 204, 22, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .type-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .type-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-pressure {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0.75rem 0;
+        }
+
+        .type-specs {
+            list-style: none;
+            font-size: 0.85rem;
+        }
+
+        .type-specs li {
+            padding: 0.4rem 0;
+            border-bottom: 1px solid rgba(132, 204, 22, 0.1);
+        }
+
+        /* Requirements */
+        .requirements-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .requirements-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .requirement-card {
+            background: rgba(15, 26, 8, 0.6);
+            border: 1px solid rgba(132, 204, 22, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s ease;
+        }
+
+        .requirement-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .requirement-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(132, 204, 22, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .requirement-list li::before { content: '🏠'; }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            text-align: center;
+        }
+
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--darker); }
+        .cta-content p { font-size: 1.25rem; margin-bottom: 2rem; color: var(--dark); }
+
+        .btn-primary {
+            background: var(--darker);
+            color: var(--primary);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 26, 8, 0.95);
+            border: 1px solid rgba(132, 204, 22, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            z-index: 999;
+        }
+
+        .widget-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .widget-label {
+            font-size: 0.75rem;
+            color: rgba(247, 254, 231, 0.6);
+            text-align: center;
+        }
+
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: rgba(247, 254, 231, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .types-grid { grid-template-columns: repeat(2, 1fr); }
+            .requirements-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2rem; }
+            .hero-stats { grid-template-columns: 1fr; }
+            .types-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <span class="logo-text">WindLoad.co</span>
+            <a href="/#calculator" class="cta-button">Calculate Now</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <canvas id="roofCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Palm Beach <span>Roof System</span> Wind Loads</h1>
+                <p class="hero-subtitle">Comprehensive roof wind load calculations for HVHZ. Metal, tile, shingle, and flat roof systems engineered for 180+ mph design speeds.</p>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">180+</div>
+                        <div class="stat-label">MPH Design Speed</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">-150</div>
+                        <div class="stat-label">PSF Uplift (Corner)</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">+45</div>
+                        <div class="stat-label">PSF Downward</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="diverging-chart">
+                <div class="chart-header">
+                    <div class="chart-title">Roof Pressure by Zone</div>
+                </div>
+
+                <div class="diverging-bars">
+                    <div class="diverging-row">
+                        <span class="div-label">Corner</span>
+                        <div class="div-negative">
+                            <div class="div-bar neg" style="width: 100%;"><span class="div-value">-150 PSF</span></div>
+                        </div>
+                        <div class="div-center"></div>
+                        <div class="div-positive">
+                            <div class="div-bar pos" style="width: 30%;"><span class="div-value">+45</span></div>
+                        </div>
+                    </div>
+                    <div class="diverging-row">
+                        <span class="div-label">Edge</span>
+                        <div class="div-negative">
+                            <div class="div-bar neg" style="width: 75%;"><span class="div-value">-110 PSF</span></div>
+                        </div>
+                        <div class="div-center"></div>
+                        <div class="div-positive">
+                            <div class="div-bar pos" style="width: 25%;"><span class="div-value">+38</span></div>
+                        </div>
+                    </div>
+                    <div class="diverging-row">
+                        <span class="div-label">Field</span>
+                        <div class="div-negative">
+                            <div class="div-bar neg" style="width: 50%;"><span class="div-value">-75 PSF</span></div>
+                        </div>
+                        <div class="div-center"></div>
+                        <div class="div-positive">
+                            <div class="div-bar pos" style="width: 20%;"><span class="div-value">+30</span></div>
+                        </div>
+                    </div>
+                    <div class="diverging-row">
+                        <span class="div-label">Ridge</span>
+                        <div class="div-negative">
+                            <div class="div-bar neg" style="width: 60%;"><span class="div-value">-90 PSF</span></div>
+                        </div>
+                        <div class="div-center"></div>
+                        <div class="div-positive">
+                            <div class="div-bar pos" style="width: 22%;"><span class="div-value">+33</span></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="div-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot neg"></div>
+                        <span>Uplift (Suction)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot pos"></div>
+                        <span>Downward Pressure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="types-section">
+        <div class="section-header">
+            <h2>Roofing <span>Systems</span></h2>
+        </div>
+
+        <div class="types-grid">
+            <div class="type-card">
+                <h3>Metal Standing Seam</h3>
+                <div class="type-pressure">Class 90</div>
+                <ul class="type-specs">
+                    <li>24-26 gauge steel</li>
+                    <li>Concealed clips</li>
+                    <li>180+ mph rated</li>
+                </ul>
+            </div>
+            <div class="type-card">
+                <h3>Concrete Tile</h3>
+                <div class="type-pressure">HVHZ Rated</div>
+                <ul class="type-specs">
+                    <li>Foam adhesive</li>
+                    <li>Hurricane clips</li>
+                    <li>Secondary barrier</li>
+                </ul>
+            </div>
+            <div class="type-card">
+                <h3>Asphalt Shingle</h3>
+                <div class="type-pressure">Class H</div>
+                <ul class="type-specs">
+                    <li>6-nail pattern</li>
+                    <li>Enhanced starter</li>
+                    <li>Hip/ridge caps</li>
+                </ul>
+            </div>
+            <div class="type-card">
+                <h3>Flat/Low-Slope</h3>
+                <div class="type-pressure">FM 1-90+</div>
+                <ul class="type-specs">
+                    <li>Fully adhered</li>
+                    <li>Enhanced perimeter</li>
+                    <li>Metal edge detail</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements-section">
+        <div class="section-header">
+            <h2>Technical <span>Requirements</span></h2>
+        </div>
+
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <h3>Attachment</h3>
+                <ul class="requirement-list">
+                    <li>Enhanced fastener schedules</li>
+                    <li>Ring-shank or screw fasteners</li>
+                    <li>Increased edge zone density</li>
+                    <li>Clip spacing per pressure zone</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Secondary Barrier</h3>
+                <ul class="requirement-list">
+                    <li>Peel-and-stick underlayment</li>
+                    <li>Self-adhered at perimeters</li>
+                    <li>Sealed deck required</li>
+                    <li>Water intrusion prevention</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Edge Metal</h3>
+                <ul class="requirement-list">
+                    <li>FM-approved drip edge</li>
+                    <li>Continuous cleat system</li>
+                    <li>Corner reinforcement</li>
+                    <li>Fascia-mounted details</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Testing</h3>
+                <ul class="requirement-list">
+                    <li>Florida Product Approval</li>
+                    <li>Miami-Dade NOA</li>
+                    <li>TAS 100/105/107</li>
+                    <li>Uplift test certification</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Get Your Roof Calculations</h2>
+            <p>Instant wind load analysis for any roof type and zone. PE-certified reports.</p>
+            <a href="/#calculator" class="btn-primary">Calculate Now</a>
+        </div>
+    </section>
+
+    <div class="floating-widget">
+        <div class="widget-value">-150 PSF</div>
+        <div class="widget-label">Max Corner Uplift</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations per ASCE 7-22, FBC 2024</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('roofCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Draw roof tiles pattern
+        for (let i = 0; i < 50; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            const w = 30 + Math.random() * 40;
+            const h = 15 + Math.random() * 25;
+            ctx.fillStyle = `rgba(132, 204, 22, ${0.02 + Math.random() * 0.05})`;
+            ctx.beginPath();
+            ctx.moveTo(x, y + h);
+            ctx.lineTo(x + w/2, y);
+            ctx.lineTo(x + w, y + h);
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.type-card, .requirement-card').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

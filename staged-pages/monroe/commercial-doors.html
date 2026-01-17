@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monroe County Commercial Door Wind Loads | Florida Keys Business Entry Requirements</title>
+    <meta name="description" content="Commercial door wind load calculations for Monroe County HVHZ. Storefront entries, automatic doors, and overhead doors for Florida Keys businesses per FBC 2024.">
+    <meta name="keywords" content="Monroe County commercial doors, Florida Keys storefront entry, HVHZ commercial door, automatic door wind load, overhead door hurricane">
+    <link rel="canonical" href="https://windload.co/florida/monroe/commercial-doors">
+
+    <style>
+        :root {
+            --primary: #ec4899;
+            --primary-dark: #db2777;
+            --secondary: #f472b6;
+            --accent: #06b6d4;
+            --dark: #1a0a14;
+            --darker: #0d0509;
+            --light: #fdf2f8;
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 10, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(236, 72, 153, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--light); text-decoration: none; font-weight: 500; }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #doorCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(253, 242, 248, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(236, 72, 153, 0.1);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(253, 242, 248, 0.7);
+        }
+
+        /* Burndown Chart */
+        .burndown-chart {
+            background: rgba(26, 10, 20, 0.9);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .chart-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .chart-subtitle {
+            font-size: 0.9rem;
+            color: rgba(253, 242, 248, 0.6);
+        }
+
+        .burndown-visual {
+            height: 250px;
+            position: relative;
+            margin: 2rem 0;
+        }
+
+        .burndown-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .burndown-stages {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+        }
+
+        .stage {
+            text-align: center;
+            flex: 1;
+        }
+
+        .stage-name {
+            font-size: 0.75rem;
+            color: rgba(253, 242, 248, 0.6);
+        }
+
+        .stage-value {
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .burndown-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(236, 72, 153, 0.2);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-line {
+            width: 20px;
+            height: 3px;
+            border-radius: 2px;
+        }
+
+        .legend-line.ideal { background: rgba(236, 72, 153, 0.4); }
+        .legend-line.actual { background: var(--primary); }
+
+        /* Door Types */
+        .types-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .types-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .type-card {
+            background: rgba(26, 10, 20, 0.8);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .type-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .type-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 20px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .type-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-pressure {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 1rem 0;
+        }
+
+        .type-specs {
+            list-style: none;
+            text-align: left;
+        }
+
+        .type-specs li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(236, 72, 153, 0.1);
+            font-size: 0.9rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .type-specs .label { color: rgba(253, 242, 248, 0.6); }
+        .type-specs .value { color: var(--accent); font-weight: 600; }
+
+        /* Requirements */
+        .requirements-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .requirements-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .requirement-card {
+            background: rgba(26, 10, 20, 0.6);
+            border: 1px solid rgba(236, 72, 153, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s ease;
+        }
+
+        .requirement-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .requirement-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(236, 72, 153, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .requirement-list li::before { content: '🚪'; }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            text-align: center;
+        }
+
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta-content p { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9; }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(26, 10, 20, 0.95);
+            border: 1px solid rgba(236, 72, 153, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            z-index: 999;
+        }
+
+        .widget-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .widget-label {
+            font-size: 0.75rem;
+            color: rgba(253, 242, 248, 0.6);
+            text-align: center;
+        }
+
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: rgba(253, 242, 248, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .types-grid { grid-template-columns: 1fr; }
+            .requirements-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2rem; }
+            .hero-stats { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon"></div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="/#calculator" class="cta-button">Calculate Now</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <canvas id="doorCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Monroe County <span>Commercial Door</span> Requirements</h1>
+                <p class="hero-subtitle">Storefront entry, automatic door, and overhead door wind load calculations for Florida Keys businesses. HVHZ compliant at 185+ mph.</p>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">185+</div>
+                        <div class="stat-label">MPH Design Speed</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">±80</div>
+                        <div class="stat-label">PSF Entry Doors</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">100%</div>
+                        <div class="stat-label">Impact Required</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="burndown-chart">
+                <div class="chart-header">
+                    <div class="chart-title">Project Completion Burndown</div>
+                    <div class="chart-subtitle">Typical commercial door installation timeline</div>
+                </div>
+
+                <div class="burndown-visual">
+                    <svg class="burndown-svg" viewBox="0 0 400 200" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="burnGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" stop-color="rgba(236, 72, 153, 0.3)"/>
+                                <stop offset="100%" stop-color="rgba(236, 72, 153, 0.1)"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Ideal line (dashed) -->
+                        <line x1="0" y1="20" x2="400" y2="180" stroke="rgba(236, 72, 153, 0.3)" stroke-width="2" stroke-dasharray="5,5"/>
+                        <!-- Actual burndown -->
+                        <path id="burndownPath" fill="none" stroke="#ec4899" stroke-width="3"
+                            d="M0,20 L80,35 L160,70 L240,100 L320,150 L400,180"/>
+                        <!-- Area fill -->
+                        <path fill="url(#burnGrad)" d="M0,20 L80,35 L160,70 L240,100 L320,150 L400,180 L400,200 L0,200 Z"/>
+                        <!-- Milestone dots -->
+                        <circle cx="0" cy="20" r="6" fill="#ec4899"/>
+                        <circle cx="80" cy="35" r="6" fill="#ec4899"/>
+                        <circle cx="160" cy="70" r="6" fill="#ec4899"/>
+                        <circle cx="240" cy="100" r="6" fill="#ec4899"/>
+                        <circle cx="320" cy="150" r="6" fill="#ec4899"/>
+                        <circle cx="400" cy="180" r="6" fill="#22c55e"/>
+                    </svg>
+                </div>
+
+                <div class="burndown-stages">
+                    <div class="stage">
+                        <div class="stage-value">100%</div>
+                        <div class="stage-name">Design</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-value">80%</div>
+                        <div class="stage-name">Permit</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-value">50%</div>
+                        <div class="stage-name">Fabrication</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-value">25%</div>
+                        <div class="stage-name">Install</div>
+                    </div>
+                    <div class="stage">
+                        <div class="stage-value">0%</div>
+                        <div class="stage-name">Complete</div>
+                    </div>
+                </div>
+
+                <div class="burndown-legend">
+                    <div class="legend-item">
+                        <div class="legend-line ideal"></div>
+                        <span>Ideal Progress</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-line actual"></div>
+                        <span>Actual Progress</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="types-section">
+        <div class="section-header">
+            <h2>Commercial Door <span>Types</span></h2>
+            <p>Wind load requirements for common commercial door applications in Monroe County.</p>
+        </div>
+
+        <div class="types-grid">
+            <div class="type-card">
+                <div class="type-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <line x1="12" y1="3" x2="12" y2="21"/>
+                    </svg>
+                </div>
+                <h3>Storefront Entry</h3>
+                <div class="type-pressure">±80 PSF</div>
+                <ul class="type-specs">
+                    <li><span class="label">Max Width</span><span class="value">3' per leaf</span></li>
+                    <li><span class="label">Glass</span><span class="value">Laminated</span></li>
+                    <li><span class="label">Hardware</span><span class="value">316 SS</span></li>
+                    <li><span class="label">Impact</span><span class="value">Large Missile</span></li>
+                </ul>
+            </div>
+
+            <div class="type-card">
+                <div class="type-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M5 12h14"/>
+                        <path d="M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                <h3>Automatic Sliding</h3>
+                <div class="type-pressure">±75 PSF</div>
+                <ul class="type-specs">
+                    <li><span class="label">Max Opening</span><span class="value">12'</span></li>
+                    <li><span class="label">Track</span><span class="value">Reinforced</span></li>
+                    <li><span class="label">Backup</span><span class="value">Manual Override</span></li>
+                    <li><span class="label">Impact</span><span class="value">Large Missile</span></li>
+                </ul>
+            </div>
+
+            <div class="type-card">
+                <div class="type-icon">
+                    <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <rect x="3" y="8" width="18" height="12"/>
+                        <path d="M3 8l9-5 9 5"/>
+                    </svg>
+                </div>
+                <h3>Overhead/Sectional</h3>
+                <div class="type-pressure">±90 PSF</div>
+                <ul class="type-specs">
+                    <li><span class="label">Max Size</span><span class="value">20' × 16'</span></li>
+                    <li><span class="label">Material</span><span class="value">Steel/Aluminum</span></li>
+                    <li><span class="label">Wind Lock</span><span class="value">Required</span></li>
+                    <li><span class="label">Impact</span><span class="value">Optional</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements-section">
+        <div class="section-header">
+            <h2>Technical <span>Requirements</span></h2>
+        </div>
+
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <h3>Impact & Pressure</h3>
+                <ul class="requirement-list">
+                    <li>Large missile test: 9-lb 2×4 at 50 fps</li>
+                    <li>Cyclic pressure: 4,500+ cycles</li>
+                    <li>TAS 201, 202, 203 compliance</li>
+                    <li>Miami-Dade NOA required</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Hardware & Frames</h3>
+                <ul class="requirement-list">
+                    <li>316 stainless steel for coastal</li>
+                    <li>Reinforced aluminum frames</li>
+                    <li>Continuous hinges required</li>
+                    <li>Multi-point locking systems</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Automatic Systems</h3>
+                <ul class="requirement-list">
+                    <li>Emergency breakout capability</li>
+                    <li>Wind sensor shutoff at 40 mph</li>
+                    <li>Battery backup for egress</li>
+                    <li>ADA compliance maintained</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Overhead Doors</h3>
+                <ul class="requirement-list">
+                    <li>Wind lock engagement system</li>
+                    <li>Reinforced track bracing</li>
+                    <li>Bottom bar wind resistance</li>
+                    <li>Perimeter seal integrity</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Get Your Commercial Door Calculations</h2>
+            <p>Instant wind load analysis for any door type. PE-certified reports for permit submission.</p>
+            <div class="cta-buttons">
+                <a href="/#calculator" class="btn-primary">Calculate Now</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="floating-widget">
+        <div class="widget-value">185 mph</div>
+        <div class="widget-label">Florida Keys HVHZ</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations per ASCE 7-22, FBC 2024</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('doorCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class DoorFrame {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.width = 20 + Math.random() * 40;
+                this.height = 40 + Math.random() * 80;
+                this.opacity = 0.03 + Math.random() * 0.08;
+                this.speedY = -0.2 - Math.random() * 0.3;
+            }
+            update() {
+                this.y += this.speedY;
+                if (this.y < -this.height) this.reset();
+            }
+            draw() {
+                ctx.strokeStyle = `rgba(236, 72, 153, ${this.opacity})`;
+                ctx.lineWidth = 2;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
+                ctx.fillStyle = `rgba(236, 72, 153, ${this.opacity * 0.3})`;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+            }
+        }
+
+        const doors = Array.from({length: 30}, () => new DoorFrame());
+
+        function animate() {
+            ctx.fillStyle = 'rgba(13, 5, 9, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            doors.forEach(d => { d.update(); d.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.type-card, .requirement-card').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

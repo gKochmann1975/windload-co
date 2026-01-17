@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miami-Dade Balcony Railing Wind Loads | Guard Rail & Barrier Requirements</title>
+    <meta name="description" content="Balcony railing and guard rail wind load calculations for Miami-Dade HVHZ. High-rise barrier design, glass guard rails, and cable rail systems per FBC 2024.">
+    <meta name="keywords" content="Miami-Dade balcony railing, guard rail wind load, HVHZ barrier design, glass railing hurricane, high-rise balcony requirements">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/balcony-railings">
+
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --secondary: #f87171;
+            --accent: #fbbf24;
+            --dark: #1a0606;
+            --darker: #0d0303;
+            --light: #fef2f2;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 6, 6, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(220, 38, 38, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        #railCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(254, 242, 242, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(220, 38, 38, 0.1);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(254, 242, 242, 0.7);
+        }
+
+        /* Risk Matrix */
+        .risk-matrix {
+            background: rgba(26, 6, 6, 0.9);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .matrix-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .matrix-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .matrix-grid {
+            display: grid;
+            grid-template-columns: auto repeat(4, 1fr);
+            gap: 4px;
+        }
+
+        .matrix-label {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            color: rgba(254, 242, 242, 0.7);
+            padding: 0.5rem;
+        }
+
+        .matrix-label.vertical {
+            writing-mode: vertical-rl;
+            transform: rotate(180deg);
+        }
+
+        .matrix-cell {
+            aspect-ratio: 1;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 700;
+            color: var(--darker);
+            transition: transform 0.3s ease;
+        }
+
+        .matrix-cell:hover {
+            transform: scale(1.1);
+            z-index: 1;
+        }
+
+        .risk-low { background: linear-gradient(135deg, #22c55e, #4ade80); }
+        .risk-medium { background: linear-gradient(135deg, #fbbf24, #fcd34d); }
+        .risk-high { background: linear-gradient(135deg, #f97316, #fb923c); }
+        .risk-critical { background: linear-gradient(135deg, #dc2626, #f87171); }
+
+        .matrix-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            font-size: 0.8rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* Railing Types */
+        .types-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .types-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .type-card {
+            background: rgba(26, 6, 6, 0.8);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .type-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .type-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .type-pressure {
+            color: var(--primary);
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 1rem 0;
+        }
+
+        .type-specs {
+            list-style: none;
+        }
+
+        .type-specs li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(220, 38, 38, 0.1);
+            font-size: 0.9rem;
+        }
+
+        /* Requirements */
+        .requirements-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .requirements-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .requirement-card {
+            background: rgba(26, 6, 6, 0.6);
+            border: 1px solid rgba(220, 38, 38, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s ease;
+        }
+
+        .requirement-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .requirement-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(220, 38, 38, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .requirement-list li::before { content: '⚠️'; }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            text-align: center;
+        }
+
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta-content p { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9; }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            display: inline-block;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(26, 6, 6, 0.95);
+            border: 1px solid rgba(220, 38, 38, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            z-index: 999;
+        }
+
+        .widget-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .widget-label {
+            font-size: 0.75rem;
+            color: rgba(254, 242, 242, 0.6);
+            text-align: center;
+        }
+
+        footer {
+            background: var(--dark);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: rgba(254, 242, 242, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .types-grid { grid-template-columns: 1fr; }
+            .requirements-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2rem; }
+            .hero-stats { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <span class="logo-text">WindLoad.co</span>
+            <a href="/#calculator" class="cta-button">Calculate Now</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <canvas id="railCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Miami-Dade <span>Balcony Railing</span> Requirements</h1>
+                <p class="hero-subtitle">Guard rail and barrier wind load calculations for high-rise balconies. Glass, cable, and metal railings engineered for 180+ mph HVHZ conditions.</p>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">180+</div>
+                        <div class="stat-label">MPH Design Speed</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">50 PLF</div>
+                        <div class="stat-label">Lateral Load</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">42"</div>
+                        <div class="stat-label">Min Height</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="risk-matrix">
+                <div class="matrix-header">
+                    <div class="matrix-title">Height × Exposure Risk Matrix</div>
+                </div>
+
+                <div class="matrix-grid">
+                    <div class="matrix-label"></div>
+                    <div class="matrix-label">1-10</div>
+                    <div class="matrix-label">11-25</div>
+                    <div class="matrix-label">26-45</div>
+                    <div class="matrix-label">46+</div>
+
+                    <div class="matrix-label vertical">Exp D</div>
+                    <div class="matrix-cell risk-high">H</div>
+                    <div class="matrix-cell risk-high">H</div>
+                    <div class="matrix-cell risk-critical">C</div>
+                    <div class="matrix-cell risk-critical">C</div>
+
+                    <div class="matrix-label vertical">Exp C</div>
+                    <div class="matrix-cell risk-medium">M</div>
+                    <div class="matrix-cell risk-high">H</div>
+                    <div class="matrix-cell risk-high">H</div>
+                    <div class="matrix-cell risk-critical">C</div>
+
+                    <div class="matrix-label vertical">Exp B</div>
+                    <div class="matrix-cell risk-low">L</div>
+                    <div class="matrix-cell risk-medium">M</div>
+                    <div class="matrix-cell risk-high">H</div>
+                    <div class="matrix-cell risk-high">H</div>
+                </div>
+
+                <div class="matrix-legend">
+                    <div class="legend-item"><div class="legend-dot risk-low"></div><span>Low Risk</span></div>
+                    <div class="legend-item"><div class="legend-dot risk-medium"></div><span>Medium</span></div>
+                    <div class="legend-item"><div class="legend-dot risk-high"></div><span>High</span></div>
+                    <div class="legend-item"><div class="legend-dot risk-critical"></div><span>Critical</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="types-section">
+        <div class="section-header">
+            <h2>Railing <span>Systems</span></h2>
+        </div>
+
+        <div class="types-grid">
+            <div class="type-card">
+                <h3>Glass Guard Rails</h3>
+                <div class="type-pressure">50 PSF + Impact</div>
+                <ul class="type-specs">
+                    <li>Laminated safety glass</li>
+                    <li>Base shoe mount</li>
+                    <li>Impact-rated required</li>
+                </ul>
+            </div>
+            <div class="type-card">
+                <h3>Cable Rail Systems</h3>
+                <div class="type-pressure">50 PLF Lateral</div>
+                <ul class="type-specs">
+                    <li>316 stainless cable</li>
+                    <li>4" max spacing</li>
+                    <li>Tensioned system</li>
+                </ul>
+            </div>
+            <div class="type-card">
+                <h3>Metal Picket Rails</h3>
+                <div class="type-pressure">50 PLF + Wind</div>
+                <ul class="type-specs">
+                    <li>Aluminum or steel</li>
+                    <li>4" max opening</li>
+                    <li>Welded connections</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements-section">
+        <div class="section-header">
+            <h2>Technical <span>Requirements</span></h2>
+        </div>
+
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <h3>Load Requirements</h3>
+                <ul class="requirement-list">
+                    <li>50 PLF horizontal at top rail</li>
+                    <li>200 lb concentrated load</li>
+                    <li>25 PLF infill load</li>
+                    <li>Wind load per ASCE 7-22</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Height & Openings</h3>
+                <ul class="requirement-list">
+                    <li>42" minimum height required</li>
+                    <li>4" max sphere opening</li>
+                    <li>No climbable elements</li>
+                    <li>Top rail graspable</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Glass Requirements</h3>
+                <ul class="requirement-list">
+                    <li>Laminated safety glass</li>
+                    <li>Heat-strengthened minimum</li>
+                    <li>Impact testing for HVHZ</li>
+                    <li>Fail-safe design</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Anchorage</h3>
+                <ul class="requirement-list">
+                    <li>Continuous post embed</li>
+                    <li>Core-mounted anchors</li>
+                    <li>Corrosion-resistant</li>
+                    <li>PE-sealed design</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Get Your Railing Calculations</h2>
+            <p>Instant wind and live load analysis for any railing system. PE-certified reports.</p>
+            <a href="/#calculator" class="btn-primary">Calculate Now</a>
+        </div>
+    </section>
+
+    <div class="floating-widget">
+        <div class="widget-value">50 PLF</div>
+        <div class="widget-label">Top Rail Load</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations per ASCE 7-22, FBC 2024</p>
+    </footer>
+
+    <script>
+        const canvas = document.getElementById('railCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        // Draw railing pattern
+        for (let i = 0; i < 30; i++) {
+            const x = Math.random() * canvas.width;
+            const y = Math.random() * canvas.height;
+            ctx.strokeStyle = `rgba(220, 38, 38, ${0.03 + Math.random() * 0.05})`;
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y + 60 + Math.random() * 40);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(x - 20, y);
+            ctx.lineTo(x + 20, y);
+            ctx.stroke();
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.type-card, .requirement-card').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

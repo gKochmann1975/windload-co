@@ -1,0 +1,1700 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monroe County Boat House Wind Load Requirements | Florida Keys Marine Structure Protection</title>
+    <meta name="description" content="Boat house and marine structure wind load calculations for Monroe County and the Florida Keys. HVHZ-compliant covered slip, boat lift enclosure, and dock house engineering per FBC 2024.">
+    <meta name="keywords" content="Monroe County boat house wind load, Florida Keys marine structure, covered boat slip requirements, boat lift enclosure hurricane, dock house wind resistance, FBC marine building">
+    <link rel="canonical" href="https://windload.co/florida/monroe/boat-house-protection">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Monroe County Boat House Wind Load Calculator">
+    <meta property="og:description" content="Marine structure wind load calculations for Florida Keys HVHZ. Covered slips, boat lifts, and dock houses engineered to 185+ mph.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/boat-house-protection">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind speed must boat houses withstand in Monroe County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Boat houses in Monroe County (Florida Keys) must withstand 185+ mph design wind speeds per ASCE 7-22. The entire Florida Keys are in the HVHZ zone due to extreme hurricane exposure. Waterfront structures face additional uplift forces and require enhanced anchorage."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are boat houses considered enclosed or open structures for wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Classification depends on wall enclosure ratio. Structures with more than 80% of walls open are classified as open buildings with lower internal pressure coefficients but higher component loads. Partially enclosed structures (20-80% open) have the highest internal pressures and most stringent requirements."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What foundation requirements apply to waterfront boat houses?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Monroe County waterfront structures require pile foundations designed for scour, wave action, and wind loads. Minimum pile embedment is typically 15-20 feet in marine conditions. Concrete piles are preferred over wood for HVHZ zones. Foundation must resist both lateral and uplift forces from combined wind and wave loading."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do boat lifts within covered slips have different requirements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, boat lifts add complexity to wind load calculations. The lift structure must be designed for vessel weight plus wind on the boat. Canopy covers over lifts are considered appurtenances with specific component pressures. Cable and piling systems need redundancy for hurricane survival."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Monroe County", "item": "https://windload.co/florida/monroe"},
+            {"@type": "ListItem", "position": 4, "name": "Boat House Protection", "item": "https://windload.co/florida/monroe/boat-house-protection"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --secondary: #06b6d4;
+            --accent: #f97316;
+            --dark: #0c1222;
+            --darker: #060a12;
+            --light: #f0f9ff;
+            --success: #22c55e;
+            --warning: #eab308;
+            --danger: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(12, 18, 34, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Hero with Scorecard */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 120px 2rem 4rem;
+            overflow: hidden;
+        }
+
+        #oceanCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(240, 249, 255, 0.8);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .badge {
+            background: rgba(14, 165, 233, 0.15);
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .badge.warning {
+            background: rgba(249, 115, 22, 0.15);
+            border-color: rgba(249, 115, 22, 0.4);
+            color: var(--accent);
+        }
+
+        /* Executive Scorecard */
+        .scorecard {
+            background: rgba(12, 18, 34, 0.9);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .scorecard-header {
+            text-align: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        .scorecard-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .scorecard-subtitle {
+            font-size: 0.9rem;
+            color: rgba(240, 249, 255, 0.6);
+        }
+
+        .gauge-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .gauge-item {
+            text-align: center;
+        }
+
+        .gauge-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 1rem;
+        }
+
+        .gauge-svg {
+            width: 100%;
+            height: 100%;
+            transform: rotate(-90deg);
+        }
+
+        .gauge-bg {
+            fill: none;
+            stroke: rgba(14, 165, 233, 0.1);
+            stroke-width: 10;
+        }
+
+        .gauge-fill {
+            fill: none;
+            stroke-width: 10;
+            stroke-linecap: round;
+            transition: stroke-dashoffset 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .gauge-value {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.75rem;
+            font-weight: 800;
+        }
+
+        .gauge-label {
+            font-size: 0.85rem;
+            color: rgba(240, 249, 255, 0.7);
+        }
+
+        .gauge-status {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .status-excellent {
+            background: rgba(34, 197, 94, 0.2);
+            color: var(--success);
+        }
+
+        .status-good {
+            background: rgba(14, 165, 233, 0.2);
+            color: var(--primary);
+        }
+
+        .status-warning {
+            background: rgba(234, 179, 8, 0.2);
+            color: var(--warning);
+        }
+
+        .status-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger);
+        }
+
+        .overall-score {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(14, 165, 233, 0.2);
+            text-align: center;
+        }
+
+        .overall-value {
+            font-size: 4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--success), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .overall-label {
+            font-size: 0.9rem;
+            color: rgba(240, 249, 255, 0.6);
+        }
+
+        /* Structure Types Section */
+        .structures-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: rgba(240, 249, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .structures-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .structure-card {
+            background: rgba(12, 18, 34, 0.8);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 20px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .structure-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .structure-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-5px);
+        }
+
+        .structure-visual {
+            height: 180px;
+            background: linear-gradient(135deg, rgba(14, 165, 233, 0.2), rgba(6, 182, 212, 0.1));
+            position: relative;
+            overflow: hidden;
+        }
+
+        .structure-icon {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(14, 165, 233, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .structure-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--primary);
+        }
+
+        .wave-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(180deg, transparent, var(--dark));
+        }
+
+        .structure-content {
+            padding: 1.5rem;
+        }
+
+        .structure-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .structure-content .type {
+            color: var(--primary);
+            font-size: 0.85rem;
+            margin-bottom: 1rem;
+        }
+
+        .structure-specs {
+            list-style: none;
+        }
+
+        .structure-specs li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .structure-specs li:last-child {
+            border-bottom: none;
+        }
+
+        .structure-specs .label {
+            color: rgba(240, 249, 255, 0.6);
+        }
+
+        .structure-specs .value {
+            font-weight: 600;
+            color: var(--secondary);
+        }
+
+        /* Wind Zone Visualization */
+        .wind-zone-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .wind-zone-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .zone-visualization {
+            position: relative;
+            padding: 2rem;
+        }
+
+        .keys-map {
+            width: 100%;
+            height: 400px;
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .key-island {
+            position: absolute;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 50%;
+            opacity: 0.8;
+            animation: pulse-island 3s infinite;
+        }
+
+        @keyframes pulse-island {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 0.9; transform: scale(1.1); }
+        }
+
+        .island-label {
+            position: absolute;
+            color: var(--light);
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        .wind-arrow {
+            position: absolute;
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            animation: wind-blow 2s infinite;
+        }
+
+        @keyframes wind-blow {
+            0% { opacity: 0; transform: translateX(-20px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateX(30px); }
+        }
+
+        .zone-info {
+            padding-left: 2rem;
+        }
+
+        .zone-info h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .zone-info h3 span {
+            color: var(--accent);
+        }
+
+        .zone-info p {
+            color: rgba(240, 249, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .zone-stats {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .zone-stat {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(14, 165, 233, 0.1);
+            border-radius: 12px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .zone-stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .zone-stat-text {
+            font-size: 0.9rem;
+            color: rgba(240, 249, 255, 0.8);
+        }
+
+        /* Requirements Section */
+        .requirements-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
+        }
+
+        .requirements-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .requirement-card {
+            background: rgba(12, 18, 34, 0.6);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s ease;
+        }
+
+        .requirement-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .requirement-card h3 {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 1.25rem;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(14, 165, 233, 0.1);
+        }
+
+        .requirement-list li:last-child {
+            border-bottom: none;
+        }
+
+        .requirement-list li::before {
+            content: '⚓';
+            flex-shrink: 0;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: var(--darker);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(12, 18, 34, 0.6);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .faq-toggle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: rgba(240, 249, 255, 0.8);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--secondary) 100%);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(12, 18, 34, 0.95);
+            border: 1px solid rgba(14, 165, 233, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            z-index: 999;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            min-width: 220px;
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .widget-icon {
+            font-size: 1.5rem;
+        }
+
+        .widget-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(240, 249, 255, 0.8);
+        }
+
+        .widget-alert {
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid rgba(249, 115, 22, 0.4);
+            border-radius: 8px;
+            padding: 0.75rem;
+            text-align: center;
+        }
+
+        .widget-alert-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent);
+        }
+
+        .widget-alert-label {
+            font-size: 0.75rem;
+            color: rgba(240, 249, 255, 0.6);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(14, 165, 233, 0.2);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(240, 249, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(14, 165, 233, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(240, 249, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .structures-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .wind-zone-container {
+                grid-template-columns: 1fr;
+            }
+
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .structures-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .gauge-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widget {
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                min-width: auto;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/architects">Architects</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="/#calculator" class="cta-button">Calculate Now</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <canvas id="oceanCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Monroe County <span>Boat House</span> Wind Protection</h1>
+                <p class="hero-subtitle">Marine structure wind load calculations for the Florida Keys HVHZ. Covered slips, boat lifts, and dock houses engineered to survive Category 5 hurricanes.</p>
+
+                <div class="hero-badges">
+                    <span class="badge">185+ MPH Design Wind</span>
+                    <span class="badge">Exposure D Coastal</span>
+                    <span class="badge warning">Extreme HVHZ Zone</span>
+                </div>
+            </div>
+
+            <div class="scorecard">
+                <div class="scorecard-header">
+                    <div class="scorecard-title">Protection Readiness Scorecard</div>
+                    <div class="scorecard-subtitle">Florida Keys Marine Structure Assessment</div>
+                </div>
+
+                <div class="gauge-grid">
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+                                <circle class="gauge-fill" cx="50" cy="50" r="40"
+                                    stroke="url(#gaugeGreen)"
+                                    stroke-dasharray="251.2"
+                                    stroke-dashoffset="251.2"
+                                    data-target="38"/>
+                            </svg>
+                            <div class="gauge-value" style="color: #22c55e;">92</div>
+                        </div>
+                        <div class="gauge-label">Wind Resistance</div>
+                        <span class="gauge-status status-excellent">Excellent</span>
+                    </div>
+
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+                                <circle class="gauge-fill" cx="50" cy="50" r="40"
+                                    stroke="url(#gaugeBlue)"
+                                    stroke-dasharray="251.2"
+                                    stroke-dashoffset="251.2"
+                                    data-target="55"/>
+                            </svg>
+                            <div class="gauge-value" style="color: #0ea5e9;">78</div>
+                        </div>
+                        <div class="gauge-label">Foundation Score</div>
+                        <span class="gauge-status status-good">Good</span>
+                    </div>
+
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+                                <circle class="gauge-fill" cx="50" cy="50" r="40"
+                                    stroke="url(#gaugeYellow)"
+                                    stroke-dasharray="251.2"
+                                    stroke-dashoffset="251.2"
+                                    data-target="88"/>
+                            </svg>
+                            <div class="gauge-value" style="color: #eab308;">65</div>
+                        </div>
+                        <div class="gauge-label">Uplift Protection</div>
+                        <span class="gauge-status status-warning">Needs Review</span>
+                    </div>
+
+                    <div class="gauge-item">
+                        <div class="gauge-container">
+                            <svg class="gauge-svg" viewBox="0 0 100 100">
+                                <circle class="gauge-bg" cx="50" cy="50" r="40"/>
+                                <circle class="gauge-fill" cx="50" cy="50" r="40"
+                                    stroke="url(#gaugeGreen)"
+                                    stroke-dasharray="251.2"
+                                    stroke-dashoffset="251.2"
+                                    data-target="45"/>
+                            </svg>
+                            <div class="gauge-value" style="color: #22c55e;">82</div>
+                        </div>
+                        <div class="gauge-label">Code Compliance</div>
+                        <span class="gauge-status status-excellent">Compliant</span>
+                    </div>
+                </div>
+
+                <div class="overall-score">
+                    <div class="overall-value" id="overallScore">0</div>
+                    <div class="overall-label">Overall Protection Score</div>
+                </div>
+
+                <!-- SVG Gradient Definitions -->
+                <svg width="0" height="0">
+                    <defs>
+                        <linearGradient id="gaugeGreen" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#22c55e"/>
+                            <stop offset="100%" stop-color="#10b981"/>
+                        </linearGradient>
+                        <linearGradient id="gaugeBlue" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#0ea5e9"/>
+                            <stop offset="100%" stop-color="#06b6d4"/>
+                        </linearGradient>
+                        <linearGradient id="gaugeYellow" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" stop-color="#eab308"/>
+                            <stop offset="100%" stop-color="#f59e0b"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </section>
+
+    <section class="structures-section">
+        <div class="section-header">
+            <h2>Marine <span>Structure Types</span></h2>
+            <p>Wind load requirements vary by structure type, enclosure classification, and proximity to water.</p>
+        </div>
+
+        <div class="structures-grid">
+            <div class="structure-card">
+                <div class="structure-visual">
+                    <div class="structure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3"/>
+                            <path d="M9 21v-6a1 1 0 011-1h4a1 1 0 011 1v6"/>
+                        </svg>
+                    </div>
+                    <div class="wave-overlay"></div>
+                </div>
+                <div class="structure-content">
+                    <h3>Covered Boat Slip</h3>
+                    <div class="type">Open Structure Classification</div>
+                    <ul class="structure-specs">
+                        <li>
+                            <span class="label">Design Wind Speed</span>
+                            <span class="value">185 mph</span>
+                        </li>
+                        <li>
+                            <span class="label">Enclosure Type</span>
+                            <span class="value">Open Building</span>
+                        </li>
+                        <li>
+                            <span class="label">Roof Pressure</span>
+                            <span class="value">±65 PSF</span>
+                        </li>
+                        <li>
+                            <span class="label">Pile Depth</span>
+                            <span class="value">20+ feet</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="structure-card">
+                <div class="structure-visual">
+                    <div class="structure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="8" width="18" height="12" rx="1"/>
+                            <path d="M8 8V6a2 2 0 012-2h4a2 2 0 012 2v2"/>
+                            <line x1="12" y1="12" x2="12" y2="16"/>
+                        </svg>
+                    </div>
+                    <div class="wave-overlay"></div>
+                </div>
+                <div class="structure-content">
+                    <h3>Boat Lift Enclosure</h3>
+                    <div class="type">Partially Enclosed Structure</div>
+                    <ul class="structure-specs">
+                        <li>
+                            <span class="label">Design Wind Speed</span>
+                            <span class="value">185 mph</span>
+                        </li>
+                        <li>
+                            <span class="label">Enclosure Type</span>
+                            <span class="value">Partial</span>
+                        </li>
+                        <li>
+                            <span class="label">Internal Pressure</span>
+                            <span class="value">±18 PSF</span>
+                        </li>
+                        <li>
+                            <span class="label">Lift Capacity Add</span>
+                            <span class="value">+25% vessel</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="structure-card">
+                <div class="structure-visual">
+                    <div class="structure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 21h18"/>
+                            <path d="M5 21V7l7-4 7 4v14"/>
+                            <path d="M9 21v-6h6v6"/>
+                            <path d="M9 9h0.01"/>
+                            <path d="M15 9h0.01"/>
+                        </svg>
+                    </div>
+                    <div class="wave-overlay"></div>
+                </div>
+                <div class="structure-content">
+                    <h3>Dock House</h3>
+                    <div class="type">Enclosed Building</div>
+                    <ul class="structure-specs">
+                        <li>
+                            <span class="label">Design Wind Speed</span>
+                            <span class="value">185 mph</span>
+                        </li>
+                        <li>
+                            <span class="label">Enclosure Type</span>
+                            <span class="value">Enclosed</span>
+                        </li>
+                        <li>
+                            <span class="label">Impact Protection</span>
+                            <span class="value">Required</span>
+                        </li>
+                        <li>
+                            <span class="label">Flood Zone</span>
+                            <span class="value">VE Zone</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="wind-zone-section">
+        <div class="wind-zone-container">
+            <div class="zone-visualization">
+                <div class="keys-map" id="keysMap">
+                    <!-- Islands will be placed by JavaScript -->
+                </div>
+            </div>
+
+            <div class="zone-info">
+                <h3>Florida Keys <span>HVHZ</span> Requirements</h3>
+                <p>The entire Florida Keys chain is classified as High-Velocity Hurricane Zone (HVHZ), requiring the most stringent wind load designs in the United States. Marine structures face additional challenges from wave action, storm surge, and coastal exposure.</p>
+
+                <div class="zone-stats">
+                    <div class="zone-stat">
+                        <div class="zone-stat-value">185+</div>
+                        <div class="zone-stat-text">MPH design wind speed for all structures</div>
+                    </div>
+                    <div class="zone-stat">
+                        <div class="zone-stat-value">D</div>
+                        <div class="zone-stat-text">Exposure category for waterfront sites</div>
+                    </div>
+                    <div class="zone-stat">
+                        <div class="zone-stat-value">VE</div>
+                        <div class="zone-stat-text">FEMA flood zone with wave action</div>
+                    </div>
+                    <div class="zone-stat">
+                        <div class="zone-stat-value">100%</div>
+                        <div class="zone-stat-text">Impact-resistant glazing required</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements-section">
+        <div class="section-header">
+            <h2>Technical <span>Requirements</span></h2>
+            <p>Florida Building Code and ASCE 7-22 specifications for marine structures in Monroe County.</p>
+        </div>
+
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                    </svg>
+                    Foundation Requirements
+                </h3>
+                <ul class="requirement-list">
+                    <li>Concrete or steel piles minimum 15' embedment</li>
+                    <li>Scour analysis required for water-adjacent footings</li>
+                    <li>Corrosion-resistant hardware (316 SS or HDG)</li>
+                    <li>Combined wind and wave loading analysis</li>
+                    <li>Pile-to-cap connections designed for uplift</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                    Roof Systems
+                </h3>
+                <ul class="requirement-list">
+                    <li>Metal roofing with concealed fasteners preferred</li>
+                    <li>Enhanced fastener schedule at edges and corners</li>
+                    <li>Continuous load path to foundation</li>
+                    <li>Minimum 185 mph rated components</li>
+                    <li>Secondary water barrier for enclosed structures</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <line x1="3" y1="9" x2="21" y2="9"/>
+                    </svg>
+                    Openings & Glazing
+                </h3>
+                <ul class="requirement-list">
+                    <li>Large missile impact testing required (9-lb 2x4 at 50 fps)</li>
+                    <li>Shutters or impact glass for all openings</li>
+                    <li>Garage-style doors with wind locks</li>
+                    <li>Opening protection deployment plan</li>
+                    <li>TAS 201, 202, 203 compliance required</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <h3>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <path d="M14 2v6h6"/>
+                    </svg>
+                    Documentation
+                </h3>
+                <ul class="requirement-list">
+                    <li>PE-sealed structural calculations required</li>
+                    <li>Product approvals for all components</li>
+                    <li>Florida Product Approval (FL#) numbers</li>
+                    <li>Post-storm inspection protocols</li>
+                    <li>Marine survey for insurance</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span>Questions</span></h2>
+            <p>Expert guidance for marine structure professionals.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What wind speed must boat houses withstand in Monroe County?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Boat houses in Monroe County (Florida Keys) must withstand 185+ mph design wind speeds per ASCE 7-22. The entire Florida Keys are in the HVHZ zone due to extreme hurricane exposure. Waterfront structures face additional uplift forces and require enhanced anchorage. Combined wind and wave loads must be considered for structures over water.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Are boat houses considered enclosed or open structures for wind loads?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Classification depends on wall enclosure ratio. Structures with more than 80% of walls open are classified as open buildings with lower internal pressure coefficients but higher component loads. Partially enclosed structures (20-80% open) have the highest internal pressures and most stringent requirements. Fully enclosed dock houses follow standard enclosed building criteria.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What foundation requirements apply to waterfront boat houses?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Monroe County waterfront structures require pile foundations designed for scour, wave action, and wind loads. Minimum pile embedment is typically 15-20 feet in marine conditions. Concrete piles are preferred over wood for HVHZ zones. Foundation must resist both lateral and uplift forces from combined wind and wave loading. Geotechnical investigation is required for all new construction.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do boat lifts within covered slips have different requirements?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, boat lifts add complexity to wind load calculations. The lift structure must be designed for vessel weight plus wind on the boat hull. Canopy covers over lifts are considered appurtenances with specific component pressures. Cable and piling systems need redundancy for hurricane survival. Best practice is to remove vessels before storms, but the structure must be designed assuming the boat remains in place.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What permits are required for marine structure construction?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Marine structures in Monroe County require multiple permits: Monroe County Building Permit, Florida DEP Environmental Resource Permit, USACE Section 404/Section 10 permits, and potentially NOAA/NMFS consultation for habitat impacts. The permitting timeline can extend 6-18 months for waterfront construction. Pre-application meetings are strongly recommended.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Get Your Marine Structure Calculations</h2>
+            <p>Instant wind load analysis for boat houses, covered slips, and dock structures. PE-certified reports for permit submission.</p>
+            <div class="cta-buttons">
+                <a href="/#calculator" class="btn-primary">Calculate Now</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-header">
+            <span class="widget-icon">⚠️</span>
+            <span class="widget-title">Keys Zone Alert</span>
+        </div>
+        <div class="widget-alert">
+            <div class="widget-alert-value">HVHZ</div>
+            <div class="widget-alert-label">Extreme Wind Zone - 185 mph</div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/hvhz">HVHZ Zones</a></li>
+                    <li><a href="/exposure">Exposure Categories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Monroe County</h4>
+                <ul>
+                    <li><a href="/florida/monroe/hurricane-protection">Hurricane Protection</a></li>
+                    <li><a href="/florida/monroe/boat-house-protection">Boat Houses</a></li>
+                    <li><a href="/florida/monroe">All Monroe County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/codes">Building Codes</a></li>
+                    <li><a href="/asce-7">ASCE 7-22</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Calculations per ASCE 7-22, FBC 2024, and TAS protocols</p>
+        </div>
+    </footer>
+
+    <script>
+        // Ocean Wave Canvas Animation
+        const canvas = document.getElementById('oceanCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Wave particles
+        class WaveParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height * 0.6 + Math.random() * canvas.height * 0.4;
+                this.radius = 2 + Math.random() * 4;
+                this.opacity = 0.1 + Math.random() * 0.3;
+                this.speedX = 0.5 + Math.random() * 1.5;
+                this.amplitude = 10 + Math.random() * 20;
+                this.frequency = 0.01 + Math.random() * 0.02;
+                this.phase = Math.random() * Math.PI * 2;
+            }
+
+            update(time) {
+                this.x += this.speedX;
+                this.y += Math.sin(time * this.frequency + this.phase) * 0.5;
+
+                if (this.x > canvas.width + this.radius) {
+                    this.x = -this.radius;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(14, 165, 233, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        // Boat silhouette particles
+        class BoatParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -100;
+                this.y = canvas.height * 0.5 + Math.random() * 100;
+                this.width = 40 + Math.random() * 60;
+                this.height = 15 + Math.random() * 20;
+                this.speed = 0.3 + Math.random() * 0.7;
+                this.opacity = 0.05 + Math.random() * 0.1;
+                this.bobPhase = Math.random() * Math.PI * 2;
+            }
+
+            update(time) {
+                this.x += this.speed;
+                this.y += Math.sin(time * 0.02 + this.bobPhase) * 0.3;
+
+                if (this.x > canvas.width + this.width) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+
+                // Hull
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.lineTo(this.width * 0.1, this.height);
+                ctx.lineTo(this.width * 0.9, this.height);
+                ctx.lineTo(this.width, 0);
+                ctx.closePath();
+                ctx.fillStyle = `rgba(14, 165, 233, ${this.opacity})`;
+                ctx.fill();
+
+                // Cabin
+                ctx.fillStyle = `rgba(6, 182, 212, ${this.opacity * 0.8})`;
+                ctx.fillRect(this.width * 0.3, -this.height * 0.6, this.width * 0.4, this.height * 0.6);
+
+                ctx.restore();
+            }
+        }
+
+        const waveParticles = [];
+        const boatParticles = [];
+
+        for (let i = 0; i < 80; i++) {
+            waveParticles.push(new WaveParticle());
+        }
+
+        for (let i = 0; i < 5; i++) {
+            const boat = new BoatParticle();
+            boat.x = Math.random() * canvas.width;
+            boatParticles.push(boat);
+        }
+
+        let time = 0;
+
+        function animate() {
+            ctx.fillStyle = 'rgba(6, 10, 18, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            time++;
+
+            waveParticles.forEach(p => {
+                p.update(time);
+                p.draw();
+            });
+
+            boatParticles.forEach(b => {
+                b.update(time);
+                b.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Gauge Animation
+        function animateGauges() {
+            const gauges = document.querySelectorAll('.gauge-fill');
+            gauges.forEach(gauge => {
+                const target = parseFloat(gauge.dataset.target);
+                const offset = 251.2 * (target / 100);
+                gauge.style.strokeDashoffset = offset;
+            });
+
+            // Animate overall score
+            const overallScore = document.getElementById('overallScore');
+            let score = 0;
+            const targetScore = 79;
+            const scoreInterval = setInterval(() => {
+                score++;
+                overallScore.textContent = score;
+                if (score >= targetScore) {
+                    clearInterval(scoreInterval);
+                }
+            }, 30);
+        }
+
+        setTimeout(animateGauges, 500);
+
+        // Keys Map Visualization
+        const keysMap = document.getElementById('keysMap');
+        const islands = [
+            { name: 'Key Largo', x: 75, y: 20, size: 25 },
+            { name: 'Islamorada', x: 60, y: 35, size: 18 },
+            { name: 'Marathon', x: 45, y: 50, size: 20 },
+            { name: 'Big Pine Key', x: 30, y: 60, size: 22 },
+            { name: 'Key West', x: 10, y: 75, size: 28 }
+        ];
+
+        islands.forEach((island, index) => {
+            const el = document.createElement('div');
+            el.className = 'key-island';
+            el.style.left = island.x + '%';
+            el.style.top = island.y + '%';
+            el.style.width = island.size + 'px';
+            el.style.height = island.size + 'px';
+            el.style.animationDelay = (index * 0.3) + 's';
+            keysMap.appendChild(el);
+
+            const label = document.createElement('div');
+            label.className = 'island-label';
+            label.textContent = island.name;
+            label.style.left = (island.x + 3) + '%';
+            label.style.top = (island.y + 4) + '%';
+            keysMap.appendChild(label);
+        });
+
+        // Add wind arrows
+        for (let i = 0; i < 8; i++) {
+            const arrow = document.createElement('div');
+            arrow.className = 'wind-arrow';
+            arrow.style.left = (70 + Math.random() * 25) + '%';
+            arrow.style.top = (10 + i * 10) + '%';
+            arrow.style.animationDelay = (i * 0.2) + 's';
+            keysMap.appendChild(arrow);
+        }
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.structure-card, .requirement-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isOpen = faqItem.classList.contains('open');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('open');
+                });
+
+                if (!isOpen) {
+                    faqItem.classList.add('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
