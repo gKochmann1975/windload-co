@@ -5,6 +5,63 @@ This document defines the quality standards and SEO rules for creating campaign 
 
 ---
 
+## CRITICAL: TWO REPOSITORIES - READ THIS FIRST
+
+### Repository Structure
+
+There are TWO separate repositories. DO NOT confuse them:
+
+| Repository | Domain | Location | Purpose |
+|------------|--------|----------|---------|
+| **windload-co** | windload.co | `c:\Dev\windload-co` | Campaign pages (Florida landing pages) |
+| **windload-solutions** | windloadcalc.com | `c:\Dev\windload-solutions\website` | Main app + admin dashboard |
+
+### Campaign Page Workflow
+
+**ALL new campaign pages MUST go to `staged-pages/` folder ONLY:**
+
+```
+c:\Dev\windload-co\staged-pages\
+  ├── miami-dade\
+  │   └── *.html (staged pages)
+  ├── broward\
+  │   └── *.html (staged pages)
+  ├── palm-beach\
+  │   └── *.html (staged pages)
+  └── monroe\
+      └── *.html (staged pages)
+```
+
+**NEVER place new pages directly in `florida/` - that folder is for LIVE pages only.**
+
+### Auto-Deploy System
+
+GitHub Actions automatically deploys pages from `staged-pages/` to `florida/`:
+- **Schedule:** Every 2 hours (1 page per run)
+- **Workflow:** `.github/workflows/daily-deploy.yml`
+- **Script:** `scripts/deploy-daily-pages.js`
+
+This trains Google to check the site frequently for fresh content.
+
+### Admin Dashboard
+
+The Campaign Admin dashboard is located at:
+- **URL:** https://windloadcalc.com/admin.html
+- **File:** `c:\Dev\windload-solutions\website\admin.html`
+
+When creating new staged pages, you MUST also update the admin dashboard's `staged:` array to show the new pages.
+
+**DO NOT confuse with:** `c:\Dev\windload-co\campaign-admin.html` (this is a different file)
+
+### Deployment Tracking
+
+Update `deployment-log.json` to track:
+- Pages deployed to live (`deployments` array)
+- Pages waiting in staging (`staged` array)
+- Total counts and progress toward goal
+
+---
+
 ## CRITICAL SEO RULES - Avoid Blacklisting
 
 ### Google Violations That Will Get You Penalized
@@ -444,3 +501,77 @@ All deployed pages must be logged in `deployment-log.json`:
 Every campaign page should feel like it was **hand-crafted for that specific audience and location**. Users should find genuine value, and search engines should see completely original content.
 
 Quality over quantity. 10 excellent unique pages > 100 templated duplicates.
+
+---
+
+## CONTINUOUS IMPROVEMENT MANDATE
+
+### Every Page Must Be Same Quality or BETTER
+
+**This is non-negotiable:** Each new campaign page must match or exceed the quality of ALL previous pages. This creates a virtuous cycle of improvement.
+
+#### Quality Baseline (Set by Best Pages):
+1. **Animation Quality:** Canvas particle systems, scroll reveals, counters, shimmer text, fixed widgets, magnetic cards
+2. **Content Depth:** 1,500+ words, 5+ unique FAQs with detailed answers, multiple content sections
+3. **SEO/GEO:** Full schema markup (FAQPage, BreadcrumbList, HowTo or ItemList), geo meta tags, authoritative links
+4. **Visual Impact:** Unique visualization per template, smooth animations, professional polish
+5. **User Value:** Actionable information, specific numbers, clear next steps
+
+#### Before Creating Each Page, Ask:
+- [ ] Does this page have AT LEAST as many animations as the hurricane-shutters page?
+- [ ] Is the primary visualization (Gantt, gauge, radar, etc.) fully interactive and polished?
+- [ ] Are there unique insights not found on other pages?
+- [ ] Would a professional be impressed by this page?
+- [ ] Does this page teach something new?
+
+#### Learn From Every Page Created:
+After completing each page, identify:
+1. **What worked well** - add to this reference
+2. **New techniques discovered** - document for future use
+3. **Areas that could improve** - apply to next page
+
+#### Innovation Requirements:
+Each batch of pages should introduce AT LEAST one new:
+- Animation technique or effect
+- Content format or presentation style
+- Interactive element
+- Data visualization approach
+
+### Quality Tracking
+
+Track quality metrics in `deployment-log.json`:
+```json
+{
+  "path": "/florida/miami-dade/impact-doors",
+  "template": "E: Process Timeline",
+  "animations": ["canvas-particles", "gantt-bars", "progress-widget", "counters", "reveal"],
+  "qualityScore": "A",
+  "innovations": ["Animated Gantt chart", "Permit progress widget"],
+  "wordCount": 2100,
+  "faqCount": 6
+}
+```
+
+### The Standard
+
+**Reference pages for quality baseline:**
+1. `hurricane-shutters.html` - Full animation suite, radar effect, magnetic cards
+2. `impact-doors.html` - Gantt timeline, progress widget, process visualization
+
+**Every new page must compete with these for quality.**
+
+---
+
+## Animation Innovations Log
+
+Track new animation techniques as they're developed:
+
+| Page | Innovation | Code Reference |
+|------|------------|----------------|
+| hurricane-shutters | Canvas particle system | `class Particle` with glow effects |
+| hurricane-shutters | Radar pulse rings | `.radar-ring` with staggered delays |
+| hurricane-shutters | Magnetic card hover | 3D perspective transform on mousemove |
+| impact-doors | Animated Gantt bars | `scaleX` transform with staggered activation |
+| impact-doors | Progress phase widget | Fixed position with phase cycling |
+
+**Add to this table after each page to build institutional knowledge.**
