@@ -142,6 +142,327 @@
             background: #0c1220;
             color: #ffffff;
             line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           HURRICANE ANIMATION SYSTEM
+           ======================================== */
+
+        /* Animated Background Canvas */
+        #hurricane-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.6;
+        }
+
+        /* Hurricane Radar Effect */
+        .radar-container {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 800px;
+            height: 800px;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+
+        .radar-ring {
+            position: absolute;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 50%;
+            animation: radar-pulse 4s ease-out infinite;
+        }
+
+        .radar-ring:nth-child(1) { width: 200px; height: 200px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 0s; }
+        .radar-ring:nth-child(2) { width: 400px; height: 400px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 1s; }
+        .radar-ring:nth-child(3) { width: 600px; height: 600px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 2s; }
+        .radar-ring:nth-child(4) { width: 800px; height: 800px; top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: 3s; }
+
+        @keyframes radar-pulse {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(0.3); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        /* Radar Sweep Line */
+        .radar-sweep {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 50%;
+            height: 2px;
+            background: linear-gradient(90deg, rgba(0, 229, 255, 0.8), transparent);
+            transform-origin: left center;
+            animation: radar-sweep 6s linear infinite;
+        }
+
+        @keyframes radar-sweep {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-left.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-right.active {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal-scale.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        /* Stagger children animations */
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+
+        /* Floating Wind Debris */
+        .debris {
+            position: fixed;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0.4;
+        }
+
+        .debris::before {
+            content: '';
+            display: block;
+            width: 4px;
+            height: 4px;
+            background: rgba(0, 229, 255, 0.6);
+            border-radius: 50%;
+            box-shadow: 0 0 10px rgba(0, 229, 255, 0.8);
+        }
+
+        /* Pulsing Glow Effect */
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), 0 0 40px rgba(0, 229, 255, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.5), 0 0 80px rgba(0, 229, 255, 0.2); }
+        }
+
+        @keyframes text-glow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0, 229, 255, 0.3); }
+            50% { text-shadow: 0 0 40px rgba(0, 229, 255, 0.6), 0 0 60px rgba(0, 229, 255, 0.3); }
+        }
+
+        /* Wind Speed Counter Animation */
+        .counter-animate {
+            display: inline-block;
+            animation: counter-pop 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        @keyframes counter-pop {
+            0% { transform: scale(0.5); opacity: 0; }
+            50% { transform: scale(1.2); }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        /* Hurricane Warning Flash */
+        @keyframes warning-flash {
+            0%, 100% { border-left-color: #ff4757; }
+            50% { border-left-color: #ff6b7a; box-shadow: inset 0 0 30px rgba(255, 71, 87, 0.1); }
+        }
+
+        /* Wind Line Particles */
+        .wind-line {
+            position: fixed;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent);
+            pointer-events: none;
+            z-index: 1;
+            animation: wind-blow 3s linear infinite;
+        }
+
+        @keyframes wind-blow {
+            0% { transform: translateX(-100vw) scaleX(0.5); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100vw) scaleX(1.5); opacity: 0; }
+        }
+
+        /* Button Ripple Effect */
+        .btn-primary {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-primary:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        /* Magnetic Hover Effect for Cards */
+        .magnetic-card {
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Typewriter Effect for Hero */
+        .typewriter {
+            overflow: hidden;
+            border-right: 3px solid #00e5ff;
+            white-space: nowrap;
+            animation: typing 3s steps(40, end), blink-caret 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        @keyframes blink-caret {
+            from, to { border-color: transparent; }
+            50% { border-color: #00e5ff; }
+        }
+
+        /* Parallax Layer System */
+        .parallax-layer {
+            will-change: transform;
+            transition: transform 0.1s linear;
+        }
+
+        /* Shimmering Text */
+        .shimmer {
+            background: linear-gradient(
+                120deg,
+                #00e5ff 0%,
+                #00ff88 25%,
+                #00e5ff 50%,
+                #00b4d8 75%,
+                #00e5ff 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* Storm Intensity Indicator */
+        .storm-indicator {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(12, 18, 32, 0.9);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            padding: 12px 16px;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateX(100px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .storm-indicator.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .storm-indicator-label {
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 4px;
+        }
+
+        .storm-indicator-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ff4757;
+            animation: text-glow 2s ease-in-out infinite;
+        }
+
+        .storm-indicator-bar {
+            width: 100px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+
+        .storm-indicator-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #00ff88, #f59e0b, #ff4757);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* Section relative positioning for animations */
+        section {
+            position: relative;
+            z-index: 2;
         }
 
         /* Navigation */
@@ -296,7 +617,7 @@
             background: linear-gradient(90deg, rgba(255, 71, 87, 0.15) 0%, rgba(255, 71, 87, 0.05) 100%);
             border-left: 4px solid #ff4757;
             padding: 1.5rem 2rem;
-            margin: 3rem auto 0;
+            margin: 2rem auto 0;
             max-width: 900px;
             border-radius: 0 12px 12px 0;
         }
@@ -317,7 +638,7 @@
 
         /* Trust Badges */
         .trust-section {
-            padding: 3rem 2rem;
+            padding: 1.5rem 2rem 3rem;
             background: rgba(255, 255, 255, 0.02);
             text-align: center;
         }
@@ -732,6 +1053,27 @@
     </style>
 </head>
 <body>
+    <!-- Hurricane Animation Background -->
+    <canvas id="hurricane-bg"></canvas>
+
+    <!-- Radar Effect -->
+    <div class="radar-container">
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-ring"></div>
+        <div class="radar-sweep"></div>
+    </div>
+
+    <!-- Storm Intensity Indicator -->
+    <div class="storm-indicator" id="stormIndicator">
+        <div class="storm-indicator-label">Design Wind Speed</div>
+        <div class="storm-indicator-value" id="windSpeedValue">0 MPH</div>
+        <div class="storm-indicator-bar">
+            <div class="storm-indicator-fill" id="windSpeedBar"></div>
+        </div>
+    </div>
+
     <!-- Navigation -->
     <nav class="nav">
         <a href="/" class="nav-logo">
@@ -761,16 +1103,16 @@
 
     <!-- Hero Section -->
     <section class="hero">
-        <div class="hero-container">
-            <div class="hero-badge">Miami-Dade HVHZ Hurricane Shutters</div>
+        <div class="hero-container reveal">
+            <div class="hero-badge" style="animation: glow-pulse 2s ease-in-out infinite;">Miami-Dade HVHZ Hurricane Shutters</div>
 
-            <h1>What <span>Design Pressure Rating</span> Do Your Shutters Need?</h1>
+            <h1>What <span class="shimmer">Design Pressure Rating</span> Do Your Shutters Need?</h1>
 
             <p class="hero-intro">
                 Hurricane shutters in Miami-Dade County require a <strong>Miami-Dade NOA with large missile impact certification</strong>. But not all shutters are rated the same. Get the exact design pressure your openings need - then choose shutters that actually protect your building.
             </p>
 
-            <div class="hero-cta">
+            <div class="hero-cta stagger-children">
                 <a href="https://windloadcalc.com/wind-load-calculator-shop.html?utm_source=windload.co&utm_medium=landing&utm_campaign=shutters-miami&utm_content=hero-cta" class="btn btn-primary">
                     Calculate My Wind Load
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -784,7 +1126,7 @@
         </div>
 
         <!-- Warning Banner -->
-        <div class="warning-banner">
+        <div class="warning-banner reveal" style="animation: warning-flash 3s ease-in-out infinite;">
             <h3>
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                     <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -797,18 +1139,18 @@
     </section>
 
     <!-- Trust Badges -->
-    <section class="trust-section">
-        <div class="trust-badges">
+    <section class="trust-section reveal">
+        <div class="trust-badges stagger-children">
             <div class="trust-badge">
-                <span class="trust-badge-value">180 MPH</span>
+                <span class="trust-badge-value counter" data-target="180" data-suffix=" MPH">0 MPH</span>
                 <span class="trust-badge-label">Miami-Dade Design Wind Speed</span>
             </div>
             <div class="trust-badge">
-                <span class="trust-badge-value">Large Missile</span>
+                <span class="trust-badge-value" style="animation: text-glow 2s ease-in-out infinite;">Large Missile</span>
                 <span class="trust-badge-label">Impact Rating Required</span>
             </div>
             <div class="trust-badge">
-                <span class="trust-badge-value">NOA Required</span>
+                <span class="trust-badge-value" style="animation: text-glow 2s ease-in-out infinite 0.5s;">NOA Required</span>
                 <span class="trust-badge-label">Miami-Dade Product Approval</span>
             </div>
         </div>
@@ -817,18 +1159,18 @@
     <!-- Shutter Type Comparison -->
     <section class="comparison-section" id="shutter-types">
         <div class="section-container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>HVHZ-Approved Hurricane Shutter Types</h2>
                 <p>Compare design pressure ratings and costs for Miami-Dade County</p>
             </div>
 
-            <div class="shutter-grid">
-                <div class="shutter-card">
+            <div class="shutter-grid stagger-children">
+                <div class="shutter-card magnetic-card reveal-left">
                     <div class="shutter-type">Rollup Shutters</div>
-                    <div class="shutter-dp">+200/-200</div>
+                    <div class="shutter-dp counter" data-target="200" data-prefix="+">+0</div>
                     <div class="shutter-dp-label">Max Design Pressure (PSF)</div>
                     <div class="shutter-price">$45-75 / sq ft installed</div>
-                    <ul class="shutter-features">
+                    <ul class="shutter-features stagger-children">
                         <li>Highest wind load ratings</li>
                         <li>Motorized or manual operation</li>
                         <li>Clean look when retracted</li>
@@ -837,12 +1179,12 @@
                     </ul>
                 </div>
 
-                <div class="shutter-card featured">
+                <div class="shutter-card featured magnetic-card reveal-scale" style="animation: glow-pulse 3s ease-in-out infinite;">
                     <div class="shutter-type">Accordion Shutters</div>
-                    <div class="shutter-dp">+130/-195</div>
+                    <div class="shutter-dp shimmer">+130/-195</div>
                     <div class="shutter-dp-label">Max Design Pressure (PSF)</div>
                     <div class="shutter-price">$25-45 / sq ft installed</div>
-                    <ul class="shutter-features">
+                    <ul class="shutter-features stagger-children">
                         <li>Best value for high ratings</li>
                         <li>Quick manual deployment</li>
                         <li>Permanent mounting tracks</li>
@@ -851,12 +1193,12 @@
                     </ul>
                 </div>
 
-                <div class="shutter-card">
+                <div class="shutter-card magnetic-card reveal-right">
                     <div class="shutter-type">Storm Panels</div>
-                    <div class="shutter-dp">+80/-100</div>
+                    <div class="shutter-dp counter" data-target="80" data-prefix="+">+0</div>
                     <div class="shutter-dp-label">Typical Design Pressure (PSF)</div>
                     <div class="shutter-price">$15-25 / sq ft installed</div>
-                    <ul class="shutter-features">
+                    <ul class="shutter-features stagger-children">
                         <li>Most economical option</li>
                         <li>Removable - no permanent look</li>
                         <li>Requires storage space</li>
@@ -929,9 +1271,9 @@
     <section class="problem-section">
         <div class="section-container">
             <div class="problem-grid">
-                <div class="problem-card">
+                <div class="problem-card reveal-left magnetic-card">
                     <h3>The Shutter Installation Problem</h3>
-                    <ul>
+                    <ul class="stagger-children">
                         <li>You bought shutters based on a salesman's recommendation</li>
                         <li>The permit got rejected - shutters don't meet wind load</li>
                         <li>You have mismatched ratings across your building</li>
@@ -939,9 +1281,9 @@
                         <li>Corner windows need higher ratings you didn't account for</li>
                     </ul>
                 </div>
-                <div class="solution-card">
+                <div class="solution-card reveal-right magnetic-card">
                     <h3>The WindLoadCalc Solution</h3>
-                    <ul>
+                    <ul class="stagger-children">
                         <li>Get exact DP requirements for every opening</li>
                         <li>Know which shutter types qualify for each location</li>
                         <li>Documentation that passes permit review</li>
@@ -956,29 +1298,29 @@
     <!-- Steps -->
     <section class="steps-section">
         <div class="section-container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>How to Get Your Shutter Permit Approved</h2>
                 <p>The process for Miami-Dade County HVHZ shutter installation</p>
             </div>
 
-            <div class="steps-grid">
-                <div class="step-card">
-                    <span class="step-number">1</span>
+            <div class="steps-grid stagger-children">
+                <div class="step-card magnetic-card reveal">
+                    <span class="step-number" style="animation: glow-pulse 2s ease-in-out infinite;">1</span>
                     <h3>Calculate Wind Loads</h3>
                     <p>Get the required design pressure for each opening based on size, height, and location on the building.</p>
                 </div>
-                <div class="step-card">
-                    <span class="step-number">2</span>
+                <div class="step-card magnetic-card reveal">
+                    <span class="step-number" style="animation: glow-pulse 2s ease-in-out infinite 0.5s;">2</span>
                     <h3>Select Shutter Type</h3>
                     <p>Choose shutters with NOA ratings that meet or exceed your requirements. Match shutter type to your budget and needs.</p>
                 </div>
-                <div class="step-card">
-                    <span class="step-number">3</span>
+                <div class="step-card magnetic-card reveal">
+                    <span class="step-number" style="animation: glow-pulse 2s ease-in-out infinite 1s;">3</span>
                     <h3>Verify NOA Coverage</h3>
                     <p>Check the NOA document to ensure your specific opening sizes and configurations are covered.</p>
                 </div>
-                <div class="step-card">
-                    <span class="step-number">4</span>
+                <div class="step-card magnetic-card reveal">
+                    <span class="step-number" style="animation: glow-pulse 2s ease-in-out infinite 1.5s;">4</span>
                     <h3>Submit Permit Package</h3>
                     <p>Include wind load calculations, NOA documents, and installation specifications with your permit application.</p>
                 </div>
@@ -989,12 +1331,12 @@
     <!-- FAQ Section -->
     <section class="faq-section">
         <div class="section-container">
-            <div class="section-header">
+            <div class="section-header reveal">
                 <h2>Hurricane Shutter FAQs</h2>
                 <p>Common questions about shutter requirements in Miami-Dade</p>
             </div>
 
-            <div class="faq-list">
+            <div class="faq-list stagger-children">
                 <div class="faq-item open">
                     <div class="faq-question">What wind load rating do hurricane shutters need in Miami-Dade?</div>
                     <div class="faq-answer">
@@ -1041,10 +1383,10 @@
     </section>
 
     <!-- Final CTA -->
-    <section class="cta">
-        <h2>Get Your Exact Shutter Requirements</h2>
+    <section class="cta reveal-scale">
+        <h2 class="shimmer">Get Your Exact Shutter Requirements</h2>
         <p>Know the design pressure rating each opening needs before you buy. Stop guessing, start calculating.</p>
-        <a href="https://windloadcalc.com/wind-load-calculator-shop.html?utm_source=windload.co&utm_medium=landing&utm_campaign=shutters-miami&utm_content=bottom-cta" class="btn btn-primary">
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html?utm_source=windload.co&utm_medium=landing&utm_campaign=shutters-miami&utm_content=bottom-cta" class="btn btn-primary" style="animation: glow-pulse 2s ease-in-out infinite;">
             Calculate Now - Free to Start
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -1069,8 +1411,13 @@
         <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=footer&utm_campaign=shutters">Calculator</a></p>
     </footer>
 
-    <!-- FAQ Toggle Script -->
+    <!-- Hurricane Animation System -->
     <script>
+        // ========================================
+        // HURRICANE ANIMATION ENGINE
+        // ========================================
+
+        // FAQ Toggle
         document.querySelectorAll('.faq-question').forEach(question => {
             question.addEventListener('click', () => {
                 const item = question.parentElement;
@@ -1079,6 +1426,330 @@
                 if (!wasOpen) item.classList.add('open');
             });
         });
+
+        // ========================================
+        // CANVAS HURRICANE PARTICLE SYSTEM
+        // ========================================
+        const canvas = document.getElementById('hurricane-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let windLines = [];
+        let mouseX = 0, mouseY = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Track mouse for parallax effects
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        // Particle class for hurricane debris
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 3 + 2;
+                this.speedY = Math.random() * 2 - 1;
+                this.opacity = Math.random() * 0.5 + 0.2;
+                this.color = Math.random() > 0.7 ? '#00ff88' : '#00e5ff';
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.05 + 0.02;
+            }
+
+            update() {
+                this.wobble += this.wobbleSpeed;
+                this.x += this.speedX;
+                this.y += this.speedY + Math.sin(this.wobble) * 0.5;
+
+                if (this.x > canvas.width + 10) {
+                    this.x = -10;
+                    this.y = Math.random() * canvas.height;
+                }
+                if (this.y < -10 || this.y > canvas.height + 10) {
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+
+                // Glow effect
+                ctx.shadowBlur = 15;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Wind line class
+        class WindLine {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -200;
+                this.y = Math.random() * canvas.height;
+                this.length = Math.random() * 150 + 50;
+                this.speed = Math.random() * 8 + 4;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.x += this.speed;
+                if (this.x > canvas.width + 200) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                const gradient = ctx.createLinearGradient(this.x, this.y, this.x + this.length, this.y);
+                gradient.addColorStop(0, 'transparent');
+                gradient.addColorStop(0.5, `rgba(0, 229, 255, ${this.opacity})`);
+                gradient.addColorStop(1, 'transparent');
+
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x + this.length, this.y);
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        // Initialize particles and wind lines
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+        for (let i = 0; i < 15; i++) {
+            windLines.push(new WindLine());
+        }
+
+        // Animation loop
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw and update particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Draw and update wind lines
+            windLines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // ========================================
+        // SCROLL REVEAL ANIMATIONS
+        // ========================================
+        const revealElements = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
+
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            const revealPoint = 150;
+
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - revealPoint) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkReveal);
+        window.addEventListener('load', checkReveal);
+        // Trigger initial check
+        setTimeout(checkReveal, 100);
+
+        // ========================================
+        // COUNTER ANIMATION
+        // ========================================
+        const counters = document.querySelectorAll('.counter');
+        let countersAnimated = new Set();
+
+        function animateCounter(counter) {
+            if (countersAnimated.has(counter)) return;
+
+            const target = parseInt(counter.dataset.target);
+            const prefix = counter.dataset.prefix || '';
+            const suffix = counter.dataset.suffix || '';
+            const duration = 2000;
+            const steps = 60;
+            const stepTime = duration / steps;
+            let current = 0;
+            const increment = target / steps;
+
+            countersAnimated.add(counter);
+            counter.classList.add('counter-animate');
+
+            const updateCounter = () => {
+                current += increment;
+                if (current < target) {
+                    counter.textContent = prefix + Math.floor(current) + suffix;
+                    setTimeout(updateCounter, stepTime);
+                } else {
+                    counter.textContent = prefix + target + suffix;
+                }
+            };
+
+            updateCounter();
+        }
+
+        function checkCounters() {
+            counters.forEach(counter => {
+                const rect = counter.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100 && rect.bottom > 0) {
+                    animateCounter(counter);
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkCounters);
+        setTimeout(checkCounters, 500);
+
+        // ========================================
+        // STORM INTENSITY INDICATOR
+        // ========================================
+        const stormIndicator = document.getElementById('stormIndicator');
+        const windSpeedValue = document.getElementById('windSpeedValue');
+        const windSpeedBar = document.getElementById('windSpeedBar');
+        let indicatorShown = false;
+
+        function updateStormIndicator() {
+            const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+
+            if (scrollPercent > 0.05 && !indicatorShown) {
+                indicatorShown = true;
+                stormIndicator.classList.add('visible');
+
+                // Animate the wind speed counter
+                let speed = 0;
+                const targetSpeed = 180;
+                const interval = setInterval(() => {
+                    speed += 3;
+                    if (speed >= targetSpeed) {
+                        speed = targetSpeed;
+                        clearInterval(interval);
+                    }
+                    windSpeedValue.textContent = speed + ' MPH';
+                    windSpeedBar.style.width = (speed / 200 * 100) + '%';
+                }, 20);
+            }
+
+            if (scrollPercent < 0.02 && indicatorShown) {
+                indicatorShown = false;
+                stormIndicator.classList.remove('visible');
+            }
+        }
+
+        window.addEventListener('scroll', updateStormIndicator);
+
+        // ========================================
+        // MAGNETIC CARD HOVER EFFECT
+        // ========================================
+        document.querySelectorAll('.magnetic-card').forEach(card => {
+            card.addEventListener('mousemove', (e) => {
+                const rect = card.getBoundingClientRect();
+                const x = e.clientX - rect.left - rect.width / 2;
+                const y = e.clientY - rect.top - rect.height / 2;
+
+                card.style.transform = `perspective(1000px) rotateY(${x / 20}deg) rotateX(${-y / 20}deg) translateZ(10px)`;
+            });
+
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'perspective(1000px) rotateY(0) rotateX(0) translateZ(0)';
+            });
+        });
+
+        // ========================================
+        // PARALLAX SCROLL EFFECT
+        // ========================================
+        const radarContainer = document.querySelector('.radar-container');
+
+        window.addEventListener('scroll', () => {
+            const scrollY = window.scrollY;
+            if (radarContainer) {
+                radarContainer.style.transform = `translate(-50%, calc(-50% + ${scrollY * 0.3}px))`;
+            }
+        });
+
+        // ========================================
+        // BUTTON CLICK RIPPLE
+        // ========================================
+        document.querySelectorAll('.btn-primary').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                const rect = this.getBoundingClientRect();
+                const ripple = document.createElement('span');
+                ripple.style.cssText = `
+                    position: absolute;
+                    background: rgba(255,255,255,0.6);
+                    border-radius: 50%;
+                    transform: scale(0);
+                    animation: ripple-effect 0.6s ease-out;
+                    pointer-events: none;
+                    left: ${e.clientX - rect.left}px;
+                    top: ${e.clientY - rect.top}px;
+                    width: 10px;
+                    height: 10px;
+                    margin-left: -5px;
+                    margin-top: -5px;
+                `;
+                this.appendChild(ripple);
+                setTimeout(() => ripple.remove(), 600);
+            });
+        });
+
+        // Add ripple animation keyframes dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes ripple-effect {
+                to {
+                    transform: scale(40);
+                    opacity: 0;
+                }
+            }
+        `;
+        document.head.appendChild(style);
+
+        // ========================================
+        // SMOOTH SCROLL FOR ANCHOR LINKS
+        // ========================================
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        console.log('Hurricane Animation System initialized');
     </script>
 </body>
 </html>
