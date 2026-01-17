@@ -1,0 +1,1428 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Canopy and Awning Wind Loads Palm Beach County | Uplift Pressure Design</title>
+    <meta name="description" content="Canopies catch wind from above and below. Learn uplift vs downward pressure zones, attachment design, and why flexible canopies fail in Palm Beach hurricanes. Simple contractor guide.">
+    <link rel="canonical" href="https://windload.co/staged-pages/palm-beach/canopy-and-awning-loads.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County, Florida">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Canopy Wind Loads | Catch the Wind in Palm Beach County">
+    <meta property="og:description" content="Watch what happens to canopies in hurricane winds. Uplift and downward pressure zones animated.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/palm-beach/canopy-and-awning-loads.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "Why do canopies fail in hurricanes?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Canopies fail because they catch wind from multiple directions. Wind hitting the bottom creates uplift that wants to tear the canopy off. Wind over the top creates suction. Together, these forces are much higher than for a regular wall. Flexible fabric canopies also flutter and fatigue their connections."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What wind pressure should I design a canopy for in Palm Beach?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Palm Beach County has 170 mph design wind speed. For canopies, net pressures can exceed 80 psf uplift. This is much higher than wall pressures because wind acts on both top and bottom surfaces simultaneously. The exact pressure depends on height, size, and whether the canopy is attached to a building."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Should I use fabric or metal for canopies in Florida?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Rigid metal canopies resist hurricane forces better than fabric. If you must use fabric, choose high-strength architectural fabric with tested wind ratings, not standard awning fabric. Fabric should be removable before storms, or tensioned properly with engineered cable systems."
+            }
+        }, {
+            "@type": "Question",
+            "name": "How do I attach a canopy to resist uplift?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Canopy attachments must be designed for uplift, not just gravity. Use through-bolted connections, not lag screws into wood. The connection to the building must transfer loads into the structure. Steel columns need properly designed base plates with anchor bolts sized for the overturning moment."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Palm Beach County",
+            "item": "https://windload.co/staged-pages/palm-beach/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Canopy and Awning Loads",
+            "item": "https://windload.co/staged-pages/palm-beach/canopy-and-awning-loads.html"
+        }]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0c0f1a;
+            color: #ffffff;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas - Wind themed */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(12, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo span span {
+            color: #10b981;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #10b981;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            color: #6ee7b7;
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.02em;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, #10b981 0%, #34d399 50%, #6ee7b7 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            max-width: 540px;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            color: white;
+            box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(16, 185, 129, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        /* Canopy Animation Container */
+        .canopy-animation {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .canopy-svg {
+            width: 100%;
+            height: 450px;
+        }
+
+        /* Canopy Elements */
+        .building-wall {
+            fill: #374151;
+            stroke: #4b5563;
+            stroke-width: 2;
+        }
+
+        .canopy-rigid {
+            fill: #475569;
+            stroke: #10b981;
+            stroke-width: 3;
+        }
+
+        .canopy-fabric {
+            fill: #1e3a5f;
+            stroke: #3b82f6;
+            stroke-width: 2;
+        }
+
+        .canopy-fabric.flapping {
+            animation: flap 0.3s ease-in-out infinite;
+        }
+
+        @keyframes flap {
+            0%, 100% { d: path("M 80 180 Q 150 170 220 180 Q 290 190 360 175"); }
+            50% { d: path("M 80 180 Q 150 195 220 175 Q 290 160 360 180"); }
+        }
+
+        .support-column {
+            fill: #6b7280;
+            stroke: #9ca3af;
+            stroke-width: 2;
+        }
+
+        .pressure-arrow-up {
+            fill: none;
+            stroke: #ef4444;
+            stroke-width: 3;
+            marker-end: url(#arrowUp);
+        }
+
+        .pressure-arrow-down {
+            fill: none;
+            stroke: #3b82f6;
+            stroke-width: 3;
+            marker-end: url(#arrowDown);
+        }
+
+        .wind-flow {
+            fill: none;
+            stroke: #6ee7b7;
+            stroke-width: 2;
+            opacity: 0.5;
+        }
+
+        .wind-particle {
+            fill: #6ee7b7;
+            animation: windFlow 2s linear infinite;
+        }
+
+        @keyframes windFlow {
+            0% { transform: translateX(-50px); opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { transform: translateX(400px); opacity: 0; }
+        }
+
+        .pressure-zone {
+            opacity: 0.3;
+        }
+
+        .pressure-zone.uplift {
+            fill: rgba(239, 68, 68, 0.4);
+        }
+
+        .pressure-zone.downward {
+            fill: rgba(59, 130, 246, 0.4);
+        }
+
+        .label-text {
+            fill: #e2e8f0;
+            font-size: 11px;
+            font-weight: 600;
+        }
+
+        .value-text {
+            fill: #6ee7b7;
+            font-size: 14px;
+            font-weight: 700;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .warning-text {
+            fill: #ef4444;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Wind Speed Control */
+        .wind-control {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .wind-label {
+            font-size: 0.9rem;
+            color: #94a3b8;
+        }
+
+        .wind-slider {
+            width: 180px;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, #6ee7b7 0%, #fbbf24 50%, #ef4444 100%);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .wind-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .wind-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            font-family: 'SF Mono', Monaco, monospace;
+            min-width: 80px;
+            text-align: right;
+            color: #6ee7b7;
+        }
+
+        /* Floating Quick Stats Widget */
+        .quick-stats {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: rgba(12, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 16px;
+            padding: 1.25rem;
+            z-index: 90;
+            min-width: 200px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        .quick-stats-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .quick-stats-title {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #6ee7b7;
+        }
+
+        .stat-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+
+        .stat-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: #10b981;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .stat-value.danger {
+            color: #ef4444;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section:nth-child(even) {
+            background: rgba(16, 185, 129, 0.02);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.125rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .comparison-card.recommended {
+            border-color: rgba(16, 185, 129, 0.5);
+            background: rgba(16, 185, 129, 0.05);
+        }
+
+        .comparison-card.warning {
+            border-color: rgba(245, 158, 11, 0.5);
+            background: rgba(245, 158, 11, 0.05);
+        }
+
+        .comparison-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .comparison-icon {
+            width: 56px;
+            height: 56px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .comparison-card.recommended .comparison-icon {
+            background: rgba(16, 185, 129, 0.2);
+        }
+
+        .comparison-card.warning .comparison-icon {
+            background: rgba(245, 158, 11, 0.2);
+        }
+
+        .comparison-card h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .comparison-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        .comparison-card.recommended .comparison-badge {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .comparison-card.warning .comparison-badge {
+            background: rgba(245, 158, 11, 0.2);
+            color: #f59e0b;
+        }
+
+        .comparison-list {
+            list-style: none;
+        }
+
+        .comparison-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.95rem;
+            color: #94a3b8;
+        }
+
+        .comparison-list li:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-list li svg {
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        /* Pressure Calculator */
+        .calculator-card {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1) 0%, rgba(5, 150, 105, 0.05) 100%);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .calc-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .calc-title svg {
+            color: #10b981;
+        }
+
+        .slider-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .slider-label span {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .slider-label strong {
+            color: #6ee7b7;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
+
+        .calc-result {
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .calc-result.uplift {
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+        }
+
+        .calc-result.downward {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .calc-result-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .calc-result-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            font-family: 'SF Mono', Monaco, monospace;
+        }
+
+        .calc-result.uplift .calc-result-value {
+            color: #ef4444;
+        }
+
+        .calc-result.downward .calc-result-value {
+            color: #3b82f6;
+        }
+
+        .calc-result-unit {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        /* FAQ Accordion */
+        .faq-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question svg {
+            transition: transform 0.3s ease;
+            color: #10b981;
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(16, 185, 129, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #10b981;
+        }
+
+        .footer-text {
+            color: #475569;
+            font-size: 0.875rem;
+        }
+
+        .footer-text a {
+            color: #10b981;
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+
+            .canopy-animation {
+                order: -1;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .quick-stats {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                min-width: auto;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-results {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .hero-cta {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .wind-control {
+                flex-direction: column;
+                gap: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas - Wind streaks -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/states.html">States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
+                        <path d="M9.6 4.6A2 2 0 1 1 11 8H2"/>
+                        <path d="M12.6 19.4A2 2 0 1 0 14 16H2"/>
+                    </svg>
+                    Palm Beach County Contractors
+                </div>
+                <h1>Catch the <span class="highlight">Wind</span></h1>
+                <p class="hero-subtitle">
+                    Canopies experience wind from above and below at the same time. Watch the pressure zones shift as wind speed changes, and see why rigid beats flexible in hurricane country.
+                </p>
+                <div class="hero-cta">
+                    <a href="https://windloadcalc.com" class="btn btn-primary">
+                        Calculate Wind Loads
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#comparison" class="btn btn-secondary">
+                        Compare Canopy Types
+                    </a>
+                </div>
+            </div>
+
+            <div class="canopy-animation">
+                <svg class="canopy-svg" viewBox="0 0 420 450" id="canopy-svg">
+                    <defs>
+                        <marker id="arrowUp" markerWidth="10" markerHeight="7" refX="5" refY="7" orient="auto">
+                            <polygon points="5 0, 10 7, 0 7" fill="#ef4444"/>
+                        </marker>
+                        <marker id="arrowDown" markerWidth="10" markerHeight="7" refX="5" refY="0" orient="auto">
+                            <polygon points="0 0, 10 0, 5 7" fill="#3b82f6"/>
+                        </marker>
+                    </defs>
+
+                    <!-- Building wall -->
+                    <rect class="building-wall" x="30" y="120" width="50" height="280"/>
+                    <text class="label-text" x="55" y="260" text-anchor="middle" transform="rotate(-90 55 260)">BUILDING</text>
+
+                    <!-- Wind flow lines -->
+                    <g id="wind-flow-group">
+                        <path class="wind-flow" d="M -20 140 Q 100 130 200 160 Q 300 190 420 170" id="wind-top"/>
+                        <path class="wind-flow" d="M -20 220 Q 100 230 200 200 Q 300 170 420 190" id="wind-bottom"/>
+                    </g>
+
+                    <!-- Wind particles -->
+                    <g id="wind-particles">
+                        <circle class="wind-particle" cx="0" cy="150" r="3" style="animation-delay: 0s"/>
+                        <circle class="wind-particle" cx="0" cy="170" r="2" style="animation-delay: 0.5s"/>
+                        <circle class="wind-particle" cx="0" cy="210" r="3" style="animation-delay: 1s"/>
+                        <circle class="wind-particle" cx="0" cy="190" r="2" style="animation-delay: 1.5s"/>
+                    </g>
+
+                    <!-- Rigid canopy -->
+                    <g id="rigid-canopy">
+                        <rect class="canopy-rigid" x="80" y="170" width="280" height="12" rx="2"/>
+                        <text class="label-text" x="220" y="155" text-anchor="middle">RIGID METAL CANOPY</text>
+                    </g>
+
+                    <!-- Support columns -->
+                    <rect class="support-column" x="340" y="182" width="20" height="160"/>
+                    <rect class="support-column" x="130" y="182" width="20" height="160"/>
+
+                    <!-- Pressure zones -->
+                    <rect class="pressure-zone uplift" x="80" y="182" width="280" height="40" id="uplift-zone"/>
+                    <rect class="pressure-zone downward" x="80" y="130" width="280" height="40" id="downward-zone"/>
+
+                    <!-- Uplift arrows -->
+                    <g id="uplift-arrows">
+                        <line class="pressure-arrow-up" x1="120" y1="260" x2="120" y2="195"/>
+                        <line class="pressure-arrow-up" x1="180" y1="270" x2="180" y2="195"/>
+                        <line class="pressure-arrow-up" x1="240" y1="260" x2="240" y2="195"/>
+                        <line class="pressure-arrow-up" x1="300" y1="270" x2="300" y2="195"/>
+                    </g>
+
+                    <!-- Downward pressure arrows -->
+                    <g id="downward-arrows">
+                        <line class="pressure-arrow-down" x1="140" y1="100" x2="140" y2="165"/>
+                        <line class="pressure-arrow-down" x1="220" y1="90" x2="220" y2="165"/>
+                        <line class="pressure-arrow-down" x1="300" y1="100" x2="300" y2="165"/>
+                    </g>
+
+                    <!-- Pressure labels -->
+                    <text class="value-text" id="uplift-value" x="330" y="240">+42 psf</text>
+                    <text class="label-text" x="330" y="255">UPLIFT</text>
+
+                    <text class="value-text" id="downward-value" x="330" y="115" fill="#7dd3fc">-28 psf</text>
+                    <text class="label-text" x="330" y="130">SUCTION</text>
+
+                    <!-- Net pressure -->
+                    <rect x="80" y="360" width="280" height="60" fill="rgba(255,255,255,0.03)" rx="8"/>
+                    <text class="label-text" x="220" y="385" text-anchor="middle">NET UPLIFT PRESSURE</text>
+                    <text class="value-text" id="net-value" x="220" y="410" text-anchor="middle" font-size="20">70 psf</text>
+
+                    <!-- Ground line -->
+                    <line x1="80" y1="342" x2="380" y2="342" stroke="#4b5563" stroke-width="2" stroke-dasharray="5 3"/>
+                    <text class="label-text" x="400" y="345">GROUND</text>
+                </svg>
+
+                <div class="wind-control">
+                    <span class="wind-label">Wind Speed:</span>
+                    <input type="range" class="wind-slider" id="wind-slider" min="80" max="170" value="120">
+                    <span class="wind-value" id="wind-value">120 mph</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Section -->
+    <section class="content-section" id="comparison">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Rigid vs Fabric Canopies</h2>
+                <p>The right choice depends on whether it needs to survive the storm or be removed before it hits.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card recommended">
+                    <div class="comparison-header">
+                        <div class="comparison-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2">
+                                <rect x="3" y="8" width="18" height="4" rx="1"/>
+                                <line x1="6" y1="12" x2="6" y2="20"/>
+                                <line x1="18" y1="12" x2="18" y2="20"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Rigid Metal Canopy</h3>
+                            <span class="comparison-badge">Hurricane Rated</span>
+                        </div>
+                    </div>
+                    <ul class="comparison-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Stays in place during storms - no removal needed
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Engineered connections resist calculated loads
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            No flutter fatigue on connections
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            20-30 year lifespan with proper coating
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+                            Can get PE sealed wind load calculations
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card warning">
+                    <div class="comparison-header">
+                        <div class="comparison-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                                <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/>
+                                <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>
+                            </svg>
+                        </div>
+                        <div>
+                            <h3>Fabric Awning</h3>
+                            <span class="comparison-badge">Requires Storm Prep</span>
+                        </div>
+                    </div>
+                    <ul class="comparison-list">
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Must be removed before hurricanes
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Flutter causes fatigue at connection points
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Limited wind speed ratings (usually 75 mph max)
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            5-10 year fabric lifespan in Florida sun
+                        </li>
+                        <li>
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                            Harder to get permit approval in HVHZ
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pressure Calculator -->
+    <section class="content-section" id="calculator">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Canopy Pressure Estimator</h2>
+                <p>See how wind speed affects uplift pressure on your canopy.</p>
+            </div>
+
+            <div class="calculator-card">
+                <div class="calc-title">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M17.7 7.7a2.5 2.5 0 1 1 1.8 4.3H2"/>
+                    </svg>
+                    Wind Pressure Calculator
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Design Wind Speed</span>
+                        <strong id="calc-speed-value">170 mph</strong>
+                    </div>
+                    <input type="range" class="slider" id="calc-speed" min="120" max="180" value="170" step="5">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Canopy Height Above Ground</span>
+                        <strong id="calc-height-value">12 ft</strong>
+                    </div>
+                    <input type="range" class="slider" id="calc-height" min="8" max="30" value="12">
+                </div>
+
+                <div class="slider-group">
+                    <div class="slider-label">
+                        <span>Canopy Projection</span>
+                        <strong id="calc-projection-value">10 ft</strong>
+                    </div>
+                    <input type="range" class="slider" id="calc-projection" min="4" max="20" value="10">
+                </div>
+
+                <div class="calc-results">
+                    <div class="calc-result uplift">
+                        <div class="calc-result-label">Net Uplift Pressure</div>
+                        <div class="calc-result-value" id="calc-uplift">85</div>
+                        <div class="calc-result-unit">psf (upward)</div>
+                    </div>
+                    <div class="calc-result downward">
+                        <div class="calc-result-label">Downward Zone</div>
+                        <div class="calc-result-value" id="calc-downward">-42</div>
+                        <div class="calc-result-unit">psf (suction)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+                <p>Real answers about canopy wind loads.</p>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Why do canopies fail in hurricanes?
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Canopies fail because they catch wind from multiple directions. Wind hitting the bottom creates uplift that wants to tear the canopy off. Wind over the top creates suction. Together, these forces are much higher than for a regular wall. Flexible fabric canopies also flutter and fatigue their connections.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What wind pressure should I design a canopy for in Palm Beach?
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Palm Beach County has 170 mph design wind speed. For canopies, net pressures can exceed 80 psf uplift. This is much higher than wall pressures because wind acts on both top and bottom surfaces simultaneously. The exact pressure depends on height, size, and whether the canopy is attached to a building.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Should I use fabric or metal for canopies in Florida?
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Rigid metal canopies resist hurricane forces better than fabric. If you must use fabric, choose high-strength architectural fabric with tested wind ratings, not standard awning fabric. Fabric should be removable before storms, or tensioned properly with engineered cable systems.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do I attach a canopy to resist uplift?
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polyline points="6 9 12 15 18 9"/>
+                    </svg>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Canopy attachments must be designed for uplift, not just gravity. Use through-bolted connections, not lag screws into wood. The connection to the building must transfer loads into the structure. Steel columns need properly designed base plates with anchor bolts sized for the overturning moment.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Quick Stats Widget -->
+    <div class="quick-stats" id="quick-stats">
+        <div class="quick-stats-header">
+            <span class="quick-stats-title">Current Loads</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Wind Speed</span>
+            <span class="stat-value" id="stat-speed">120 mph</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Net Uplift</span>
+            <span class="stat-value" id="stat-uplift">70 psf</span>
+        </div>
+        <div class="stat-row">
+            <span class="stat-label">Status</span>
+            <span class="stat-value" id="stat-status">Moderate</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="/contractors.html">Contractors</a>
+            <a href="/engineers.html">Engineers</a>
+            <a href="/architects.html">Architects</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/pe.html">PE Seals</a>
+        </div>
+        <div class="footer-links">
+            <a href="/states.html">All States</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="/about.html">About</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+        <p class="footer-text">
+            &copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> |
+            Palm Beach County Canopy Resources
+        </p>
+    </footer>
+
+    <script>
+        // Particle Canvas - Wind streaks
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const windStreaks = [];
+        const streakCount = 30;
+
+        class WindStreak {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -100;
+                this.y = Math.random() * canvas.height;
+                this.length = Math.random() * 80 + 40;
+                this.speed = Math.random() * 8 + 4;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.x += this.speed;
+                if (this.x > canvas.width + 100) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.length, this.y);
+                ctx.strokeStyle = `rgba(110, 231, 183, ${this.opacity})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < streakCount; i++) {
+            const streak = new WindStreak();
+            streak.x = Math.random() * canvas.width;
+            windStreaks.push(streak);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            windStreaks.forEach(streak => {
+                streak.update();
+                streak.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Wind speed slider animation
+        const windSlider = document.getElementById('wind-slider');
+        const windValue = document.getElementById('wind-value');
+        const upliftValue = document.getElementById('uplift-value');
+        const downwardValue = document.getElementById('downward-value');
+        const netValue = document.getElementById('net-value');
+        const upliftArrows = document.getElementById('uplift-arrows');
+        const downwardArrows = document.getElementById('downward-arrows');
+
+        function calculatePressure(windSpeed) {
+            // Simplified pressure calculation: q = 0.00256 * V^2
+            const q = 0.00256 * windSpeed * windSpeed;
+            // Net coefficients for canopy (combined top and bottom)
+            const upliftCoef = 1.8;
+            const downwardCoef = 0.9;
+            return {
+                uplift: Math.round(q * upliftCoef),
+                downward: Math.round(q * downwardCoef),
+                net: Math.round(q * (upliftCoef + downwardCoef * 0.5))
+            };
+        }
+
+        function updateWindAnimation() {
+            const speed = parseInt(windSlider.value);
+            const pressures = calculatePressure(speed);
+
+            windValue.textContent = speed + ' mph';
+            windValue.style.color = speed > 140 ? '#ef4444' : speed > 100 ? '#fbbf24' : '#6ee7b7';
+
+            upliftValue.textContent = '+' + pressures.uplift + ' psf';
+            downwardValue.textContent = '-' + pressures.downward + ' psf';
+            netValue.textContent = pressures.net + ' psf';
+
+            // Scale arrow visibility based on pressure
+            const scale = Math.min(pressures.net / 70, 1.5);
+            upliftArrows.style.opacity = 0.5 + scale * 0.5;
+            downwardArrows.style.opacity = 0.3 + scale * 0.3;
+
+            // Update stats widget
+            document.getElementById('stat-speed').textContent = speed + ' mph';
+            document.getElementById('stat-uplift').textContent = pressures.net + ' psf';
+
+            const statusEl = document.getElementById('stat-status');
+            if (pressures.net > 80) {
+                statusEl.textContent = 'Extreme';
+                statusEl.className = 'stat-value danger';
+            } else if (pressures.net > 50) {
+                statusEl.textContent = 'High';
+                statusEl.className = 'stat-value';
+                statusEl.style.color = '#f59e0b';
+            } else {
+                statusEl.textContent = 'Moderate';
+                statusEl.className = 'stat-value';
+            }
+        }
+
+        windSlider.addEventListener('input', updateWindAnimation);
+        updateWindAnimation();
+
+        // Calculator
+        const calcSpeed = document.getElementById('calc-speed');
+        const calcHeight = document.getElementById('calc-height');
+        const calcProjection = document.getElementById('calc-projection');
+
+        function updateCalculator() {
+            const speed = parseInt(calcSpeed.value);
+            const height = parseInt(calcHeight.value);
+            const projection = parseInt(calcProjection.value);
+
+            document.getElementById('calc-speed-value').textContent = speed + ' mph';
+            document.getElementById('calc-height-value').textContent = height + ' ft';
+            document.getElementById('calc-projection-value').textContent = projection + ' ft';
+
+            // Calculate with height factor
+            const heightFactor = Math.pow(height / 15, 0.14); // Simplified exposure adjustment
+            const projectionFactor = 1 + (projection - 10) * 0.02; // Larger projection = higher loads
+
+            const q = 0.00256 * speed * speed * heightFactor * projectionFactor;
+            const uplift = Math.round(q * 2.0);
+            const downward = Math.round(q * 1.0);
+
+            document.getElementById('calc-uplift').textContent = uplift;
+            document.getElementById('calc-downward').textContent = '-' + downward;
+        }
+
+        calcSpeed.addEventListener('input', updateCalculator);
+        calcHeight.addEventListener('input', updateCalculator);
+        calcProjection.addEventListener('input', updateCalculator);
+        updateCalculator();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const faqItem = button.parentElement;
+                const isActive = faqItem.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('active');
+                });
+
+                if (!isActive) {
+                    faqItem.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Flashing & Sealants Miami-Dade | Wind-Driven Rain Protection Engineering</title>
+    <meta name="description" content="Miami-Dade flashing and sealant wind load calculations. Interactive animation showing water and wind penetration. PE-stamped engineering for HVHZ compliance.">
+    <meta name="keywords" content="flashing, sealants, Miami-Dade wind loads, water intrusion, wind-driven rain, HVHZ compliance, building envelope">
+    <link rel="canonical" href="https://getwindloads.com/florida/miami-dade/flashing-and-sealants.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Flashing & Sealants Miami-Dade | Seal the Deal">
+    <meta property="og:description" content="See how water and wind attack building joints. Interactive animation showing proper flashing installation sequence for hurricane protection.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getwindloads.com/florida/miami-dade/flashing-and-sealants.html">
+    <meta property="og:image" content="https://getwindloads.com/images/flashing-sealants-og.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Flashing & Sealants Miami-Dade">
+    <meta name="twitter:description" content="Interactive water intrusion animation. See how wind pressure drives rain into building joints.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why do flashings fail during Miami-Dade hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Flashings fail when wind pressure drives rain horizontally or even upward against normal drainage paths. At 180+ mph, water doesn't just fall - it's propelled with tremendous force into any gap. Proper flashing design accounts for these extreme pressures with multiple defense layers and pressure-equalized details."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is wind-driven rain pressure in Miami-Dade HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind-driven rain in Miami-Dade HVHZ can exert water pressures equivalent to 8-10 inches of standing water (about 4-5 PSF). This pressure forces water through gaps as small as 1/64 inch. Flashing and sealant systems must be designed to resist these pressures while allowing for thermal movement."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How should window flashings be installed in hurricane zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Window flashings must be installed in the correct sequence: sill pan first with end dams, then jamb flashings overlapping the sill, then head flashing overlapping jambs. Each layer sheds water to the layer below. Sealants are secondary - the geometry must work even if sealants fail."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do sealants need to be rated for Miami-Dade HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, sealants in Miami-Dade HVHZ must meet specific standards including AAMA 800 for sealant selection and TAS 204 for installation. They must maintain adhesion through thermal cycling, UV exposure, and hurricane conditions. High-movement silicone or hybrid sealants rated for +/-50% movement are typically required."
+                }
+            }
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://getwindloads.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Florida",
+                "item": "https://getwindloads.com/florida/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Miami-Dade",
+                "item": "https://getwindloads.com/florida/miami-dade/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Flashing & Sealants",
+                "item": "https://getwindloads.com/florida/miami-dade/flashing-and-sealants.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #0ea5e9;
+            --primary-dark: #0284c7;
+            --primary-light: #7dd3fc;
+            --secondary: #0f172a;
+            --accent: #f0f9ff;
+            --water: #38bdf8;
+            --wind: #94a3b8;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #0ea5e9 0%, #0284c7 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--secondary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(14, 165, 233, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-cta {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(14, 165, 233, 0.3);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 1rem;
+        }
+
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '/';
+            color: var(--text-light);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            background: var(--gradient);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 40px rgba(14, 165, 233, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(14, 165, 233, 0.4);
+        }
+
+        /* Water Intrusion Animation */
+        .water-animation {
+            background: linear-gradient(145deg, rgba(14, 165, 233, 0.1), rgba(15, 23, 42, 0.8));
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .animation-title {
+            color: var(--white);
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        /* Flashing Status */
+        .flashing-status {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .status-item {
+            text-align: center;
+        }
+
+        .status-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .status-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Wall Section Visual */
+        .wall-section-container {
+            position: relative;
+            height: 300px;
+            margin: 1rem 0;
+            overflow: hidden;
+            background: linear-gradient(180deg, #374151 0%, #1f2937 100%);
+            border-radius: 12px;
+        }
+
+        /* Wall Layers */
+        .wall-layer {
+            position: absolute;
+            background: #6b7280;
+        }
+
+        .wall-exterior {
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 30%;
+            background: linear-gradient(90deg, #9ca3af 0%, #6b7280 100%);
+        }
+
+        .wall-sheathing {
+            left: 30%;
+            top: 0;
+            bottom: 0;
+            width: 15%;
+            background: #d4a574;
+        }
+
+        .wall-interior {
+            left: 45%;
+            top: 0;
+            bottom: 0;
+            width: 55%;
+            background: #f5f5f4;
+        }
+
+        /* Window Opening */
+        .window-opening {
+            position: absolute;
+            left: 5%;
+            top: 20%;
+            width: 40%;
+            height: 60%;
+            background: #1e293b;
+            border: 2px solid #475569;
+        }
+
+        /* Flashing Layers */
+        .flashing {
+            position: absolute;
+            transition: opacity 0.5s, background 0.3s;
+        }
+
+        .flashing-sill {
+            left: 3%;
+            bottom: 18%;
+            width: 44%;
+            height: 8px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 0 0 4px 4px;
+            z-index: 10;
+        }
+
+        .flashing-jamb-left {
+            left: 3%;
+            top: 18%;
+            width: 8px;
+            height: 64%;
+            background: linear-gradient(180deg, #fbbf24, #f59e0b);
+            z-index: 11;
+        }
+
+        .flashing-jamb-right {
+            left: 43%;
+            top: 18%;
+            width: 8px;
+            height: 64%;
+            background: linear-gradient(180deg, #fbbf24, #f59e0b);
+            z-index: 11;
+        }
+
+        .flashing-head {
+            left: 3%;
+            top: 16%;
+            width: 46%;
+            height: 8px;
+            background: linear-gradient(90deg, #fbbf24, #f59e0b);
+            border-radius: 4px 4px 0 0;
+            z-index: 12;
+        }
+
+        .flashing.inactive {
+            opacity: 0.2;
+        }
+
+        /* Sealant Beads */
+        .sealant {
+            position: absolute;
+            background: #475569;
+            transition: opacity 0.5s;
+        }
+
+        .sealant-exterior {
+            left: 4%;
+            top: 19%;
+            width: 4px;
+            height: 62%;
+            border-radius: 2px;
+            z-index: 15;
+        }
+
+        .sealant-interior {
+            left: 42%;
+            top: 19%;
+            width: 4px;
+            height: 62%;
+            border-radius: 2px;
+            z-index: 15;
+        }
+
+        .sealant.inactive {
+            opacity: 0.2;
+        }
+
+        /* Water Droplets */
+        .water-droplet {
+            position: absolute;
+            width: 8px;
+            height: 12px;
+            background: radial-gradient(ellipse at center, rgba(56, 189, 248, 0.9), rgba(14, 165, 233, 0.6));
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            opacity: 0;
+            z-index: 20;
+        }
+
+        /* Wind Arrows */
+        .wind-arrow {
+            position: absolute;
+            right: 10%;
+            color: var(--wind);
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: windBlow 2s ease-in-out infinite;
+        }
+
+        @keyframes windBlow {
+            0%, 100% { opacity: 0; transform: translateX(20px); }
+            50% { opacity: 0.8; transform: translateX(-20px); }
+        }
+
+        /* Intrusion Indicator */
+        .intrusion-indicator {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.9);
+            padding: 1rem;
+            border-radius: 8px;
+            border: 1px solid rgba(14, 165, 233, 0.3);
+        }
+
+        .intrusion-label {
+            color: var(--text-light);
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .intrusion-value {
+            color: var(--white);
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .intrusion-value.safe {
+            color: #22c55e;
+        }
+
+        .intrusion-value.danger {
+            color: #ef4444;
+        }
+
+        /* Controls */
+        .animation-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .control-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 1rem;
+        }
+
+        .control-label {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            min-width: 100px;
+        }
+
+        .control-slider {
+            flex: 1;
+            -webkit-appearance: none;
+            height: 6px;
+            background: rgba(14, 165, 233, 0.2);
+            border-radius: 3px;
+            outline: none;
+        }
+
+        .control-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 18px;
+            height: 18px;
+            background: var(--gradient);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .control-value {
+            color: var(--primary);
+            font-weight: 600;
+            min-width: 70px;
+            text-align: right;
+        }
+
+        .toggle-row {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .toggle-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(14, 165, 233, 0.1);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn.active {
+            background: var(--gradient);
+            border-color: var(--primary);
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(14, 165, 233, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 100;
+            min-width: 180px;
+        }
+
+        .widget-title {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Content Sections */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 5rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Installation Steps */
+        .steps-section {
+            background: linear-gradient(180deg, rgba(14, 165, 233, 0.05), transparent);
+        }
+
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .step-card {
+            background: rgba(14, 165, 233, 0.05);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+            position: relative;
+        }
+
+        .step-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+        }
+
+        .step-number {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--gradient);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .step-icon {
+            font-size: 2.5rem;
+            margin: 1rem 0;
+        }
+
+        .step-card h4 {
+            color: var(--white);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-card p {
+            color: var(--text-light);
+            font-size: 0.875rem;
+            line-height: 1.5;
+        }
+
+        /* Defense Layers Section */
+        .defense-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .defense-card {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .defense-card:hover {
+            border-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .defense-card h3 {
+            color: var(--white);
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .defense-card h3 span {
+            font-size: 1.5rem;
+        }
+
+        .defense-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .defense-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-top: 1px solid rgba(14, 165, 233, 0.1);
+        }
+
+        .defense-stat-name {
+            color: var(--text-light);
+        }
+
+        .defense-stat-value {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(14, 165, 233, 0.02);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(14, 165, 233, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(14, 165, 233, 0.1);
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer-inner {
+            padding: 0 1.5rem 1.25rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            background: var(--white);
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 1;
+            background: rgba(15, 23, 42, 0.98);
+            border-top: 1px solid rgba(14, 165, 233, 0.2);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand h3 span {
+            color: var(--primary);
+        }
+
+        .footer-brand p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            color: var(--white);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(14, 165, 233, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .floating-widget {
+                display: none;
+            }
+
+            .steps-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .defense-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+
+            .control-row {
+                flex-wrap: wrap;
+            }
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="/" class="logo">Get<span>WindLoads</span></a>
+            <ul class="nav-links">
+                <li><a href="/florida-pro.html">Florida</a></li>
+                <li><a href="/states.html">States</a></li>
+                <li><a href="/pe.html">For Engineers</a></li>
+                <li><a href="/pricing.html">Pricing</a></li>
+            </ul>
+            <a href="/pricing.html" class="nav-cta">Get Quote</a>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="/florida-pro.html">Florida</a></li>
+            <li><a href="/florida/miami-dade/">Miami-Dade</a></li>
+            <li>Flashing & Sealants</li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Seal the <span>Deal</span></h1>
+                <p>Water finds every weakness. Wind makes it worse. In a Miami-Dade hurricane, rain doesn't fall - it flies sideways at 180 mph. Proper flashing and sealants create multiple lines of defense that keep water out even when individual components fail.</p>
+                <a href="/pricing.html" class="hero-cta">Get Waterproofing Specs</a>
+            </div>
+
+            <div class="water-animation">
+                <div class="animation-title">Wind-Driven Rain Simulator</div>
+
+                <div class="flashing-status">
+                    <div class="status-item">
+                        <div class="status-value" id="wind-speed-display">0</div>
+                        <div class="status-label">MPH Wind</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="rain-rate-display">0</div>
+                        <div class="status-label">IN/HR Rain</div>
+                    </div>
+                    <div class="status-item">
+                        <div class="status-value" id="pressure-display">0</div>
+                        <div class="status-label">PSF Pressure</div>
+                    </div>
+                </div>
+
+                <div class="wall-section-container" id="wall-container">
+                    <!-- Wall Layers -->
+                    <div class="wall-exterior"></div>
+                    <div class="wall-sheathing"></div>
+                    <div class="wall-interior"></div>
+
+                    <!-- Window Opening -->
+                    <div class="window-opening"></div>
+
+                    <!-- Flashing Layers -->
+                    <div class="flashing flashing-sill" id="flashing-sill"></div>
+                    <div class="flashing flashing-jamb-left" id="flashing-jamb-left"></div>
+                    <div class="flashing flashing-jamb-right" id="flashing-jamb-right"></div>
+                    <div class="flashing flashing-head" id="flashing-head"></div>
+
+                    <!-- Sealant Beads -->
+                    <div class="sealant sealant-exterior" id="sealant-exterior"></div>
+                    <div class="sealant sealant-interior" id="sealant-interior"></div>
+
+                    <!-- Wind Arrows -->
+                    <div class="wind-arrow" style="top: 30%;">&#10140;</div>
+                    <div class="wind-arrow" style="top: 50%; animation-delay: 0.3s;">&#10140;</div>
+                    <div class="wind-arrow" style="top: 70%; animation-delay: 0.6s;">&#10140;</div>
+
+                    <!-- Intrusion Indicator -->
+                    <div class="intrusion-indicator">
+                        <div class="intrusion-label">Water Intrusion</div>
+                        <div class="intrusion-value safe" id="intrusion-status">BLOCKED</div>
+                    </div>
+                </div>
+
+                <div class="animation-controls">
+                    <div class="control-row">
+                        <span class="control-label">Wind Speed</span>
+                        <input type="range" class="control-slider" id="wind-slider" min="0" max="200" value="0">
+                        <span class="control-value" id="wind-value">0 mph</span>
+                    </div>
+
+                    <div class="toggle-row">
+                        <button class="toggle-btn active" id="toggle-flashing" data-active="true">Flashing: ON</button>
+                        <button class="toggle-btn active" id="toggle-sealant" data-active="true">Sealant: ON</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">HVHZ Standards</div>
+        <div class="widget-stat">
+            <div class="stat-value">8"</div>
+            <div class="stat-label">Water Column</div>
+        </div>
+        <div class="widget-stat">
+            <div class="stat-value">TAS 202</div>
+            <div class="stat-label">Test Standard</div>
+        </div>
+        <div class="widget-stat">
+            <div class="stat-value">4 PSF</div>
+            <div class="stat-label">Min Resistance</div>
+        </div>
+    </div>
+
+    <!-- Installation Steps Section -->
+    <section class="section steps-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>The Right Sequence Matters</h2>
+                <p>Flashing must be installed in the correct order - each layer sheds water to the layer below.</p>
+            </div>
+
+            <div class="steps-grid reveal">
+                <div class="step-card">
+                    <div class="step-number">1</div>
+                    <div class="step-icon">⬜</div>
+                    <h4>Sill Pan First</h4>
+                    <p>Install sill pan with end dams. This catches any water that gets past the window and directs it outside.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">2</div>
+                    <div class="step-icon">📐</div>
+                    <h4>Jamb Flashings</h4>
+                    <p>Jamb flashings overlap sill pan by 2+ inches. They protect the vertical edges and shed water onto the sill.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">3</div>
+                    <div class="step-icon">⬛</div>
+                    <h4>Head Flashing</h4>
+                    <p>Head flashing overlaps jambs by 2+ inches. It's the first line of defense, shedding water to the sides.</p>
+                </div>
+
+                <div class="step-card">
+                    <div class="step-number">4</div>
+                    <div class="step-icon">💧</div>
+                    <h4>Seal the Gaps</h4>
+                    <p>Sealant at flanges and WRB laps. Remember: sealant is backup - geometry should work without it.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Defense Layers Section -->
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Multiple Lines of Defense</h2>
+                <p>Miami-Dade's extreme conditions require redundant protection systems.</p>
+            </div>
+
+            <div class="defense-grid reveal">
+                <div class="defense-card">
+                    <h3><span>🛡️</span> Primary Defense</h3>
+                    <p>The exterior cladding (stucco, siding, panels) deflects most rain before it reaches the building structure.</p>
+                    <div class="defense-stat">
+                        <span class="defense-stat-name">Stops</span>
+                        <span class="defense-stat-value">90% of water</span>
+                    </div>
+                    <div class="defense-stat">
+                        <span class="defense-stat-name">Weakness</span>
+                        <span class="defense-stat-value">Joints & Penetrations</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <h3><span>🔄</span> Drainage Plane</h3>
+                    <p>Weather-resistive barrier (WRB) and flashings create a continuous drainage path that directs water out.</p>
+                    <div class="defense-stat">
+                        <span class="defense-stat-name">Critical At</span>
+                        <span class="defense-stat-value">Transitions</span>
+                    </div>
+                    <div class="defense-stat">
+                        <span class="defense-stat-name">Overlap Required</span>
+                        <span class="defense-stat-value">2" minimum</span>
+                    </div>
+                </div>
+
+                <div class="defense-card">
+                    <h3><span>🔒</span> Air Barrier</h3>
+                    <p>Stops pressure-driven infiltration. Wind creates pressure that pushes water through tiny gaps.</p>
+                    <div class="defense-stat">
+                        <span class="defense-stat-name">Pressure</span>
+                        <span class="defense-stat-value">Up to 72 PSF</span>
+                    </div>
+                    <div class="defense-stat">
+                        <span class="defense-stat-name">Gap Tolerance</span>
+                        <span class="defense-stat-value">1/64" max</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Frequently Asked Questions</h2>
+                <p>Common questions about flashing and sealants in Miami-Dade</p>
+            </div>
+
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Why do flashings fail during Miami-Dade hurricanes?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Flashings fail when wind pressure drives rain horizontally or even upward against normal drainage paths. At 180+ mph, water doesn't just fall - it's propelled with tremendous force into any gap. Proper flashing design accounts for these extreme pressures with multiple defense layers and pressure-equalized details.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is wind-driven rain pressure in Miami-Dade HVHZ?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Wind-driven rain in Miami-Dade HVHZ can exert water pressures equivalent to 8-10 inches of standing water (about 4-5 PSF). This pressure forces water through gaps as small as 1/64 inch. Flashing and sealant systems must be designed to resist these pressures while allowing for thermal movement.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How should window flashings be installed in hurricane zones?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Window flashings must be installed in the correct sequence: sill pan first with end dams, then jamb flashings overlapping the sill, then head flashing overlapping jambs. Each layer sheds water to the layer below. Sealants are secondary - the geometry must work even if sealants fail.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do sealants need to be rated for Miami-Dade HVHZ?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes, sealants in Miami-Dade HVHZ must meet specific standards including AAMA 800 for sealant selection and TAS 204 for installation. They must maintain adhesion through thermal cycling, UV exposure, and hurricane conditions. High-movement silicone or hybrid sealants rated for +/-50% movement are typically required.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="section-container">
+            <h2>Get Your Waterproofing Details</h2>
+            <p>Professional PE-stamped flashing and sealant specifications for Miami-Dade HVHZ compliance.</p>
+            <a href="/pricing.html" class="cta-button">Start Your Project</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Get<span>WindLoads</span></h3>
+                    <p>Professional wind load calculations for Florida contractors. PE-stamped, code-compliant, fast turnaround.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="/florida-pro.html">Florida</a></li>
+                        <li><a href="/states.html">All States</a></li>
+                        <li><a href="/pricing.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="/pe.html">For Engineers</a></li>
+                        <li><a href="/contractors.html">For Contractors</a></li>
+                        <li><a href="/architects.html">For Architects</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Miami-Dade</h4>
+                    <ul>
+                        <li><a href="/florida/miami-dade/impact-testing-standards.html">Impact Testing</a></li>
+                        <li><a href="/florida/miami-dade/expansion-joint-covers.html">Expansion Joints</a></li>
+                        <li><a href="/florida/miami-dade/concrete-anchor-design.html">Anchor Design</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GetWindLoads. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Canvas - Rain particles
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const rainDrops = [];
+        const maxDrops = 200;
+        let windSpeed = 0;
+
+        function createRainDrop() {
+            return {
+                x: Math.random() * canvas.width * 1.5,
+                y: -20,
+                length: Math.random() * 20 + 10,
+                speed: Math.random() * 5 + 10,
+                opacity: Math.random() * 0.5 + 0.3
+            };
+        }
+
+        // Initialize drops
+        for (let i = 0; i < 50; i++) {
+            const drop = createRainDrop();
+            drop.y = Math.random() * canvas.height;
+            rainDrops.push(drop);
+        }
+
+        function animateRain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Adjust drop count based on wind
+            const targetDrops = Math.min(maxDrops, 50 + windSpeed);
+            while (rainDrops.length < targetDrops && windSpeed > 0) {
+                rainDrops.push(createRainDrop());
+            }
+
+            // Calculate wind angle
+            const windAngle = Math.min(60, windSpeed * 0.3);
+            const windRadians = windAngle * Math.PI / 180;
+
+            rainDrops.forEach((drop, index) => {
+                // Update position
+                drop.y += drop.speed;
+                drop.x -= Math.tan(windRadians) * drop.speed * 1.5;
+
+                // Reset if off screen
+                if (drop.y > canvas.height || drop.x < -50) {
+                    drop.y = -20;
+                    drop.x = Math.random() * canvas.width * 1.5 + (windSpeed > 0 ? canvas.width * 0.3 : 0);
+                }
+
+                // Draw drop
+                if (windSpeed > 0) {
+                    ctx.save();
+                    ctx.translate(drop.x, drop.y);
+                    ctx.rotate(-windRadians);
+
+                    ctx.beginPath();
+                    ctx.moveTo(0, 0);
+                    ctx.lineTo(0, drop.length);
+                    ctx.strokeStyle = `rgba(56, 189, 248, ${drop.opacity})`;
+                    ctx.lineWidth = 2;
+                    ctx.stroke();
+
+                    ctx.restore();
+                }
+            });
+
+            // Remove excess drops when wind decreases
+            while (rainDrops.length > targetDrops) {
+                rainDrops.pop();
+            }
+
+            requestAnimationFrame(animateRain);
+        }
+        animateRain();
+
+        // Water Intrusion Animation
+        const windSlider = document.getElementById('wind-slider');
+        const windValue = document.getElementById('wind-value');
+        const windSpeedDisplay = document.getElementById('wind-speed-display');
+        const rainRateDisplay = document.getElementById('rain-rate-display');
+        const pressureDisplay = document.getElementById('pressure-display');
+        const intrusionStatus = document.getElementById('intrusion-status');
+
+        const toggleFlashing = document.getElementById('toggle-flashing');
+        const toggleSealant = document.getElementById('toggle-sealant');
+
+        const flashings = {
+            sill: document.getElementById('flashing-sill'),
+            jambLeft: document.getElementById('flashing-jamb-left'),
+            jambRight: document.getElementById('flashing-jamb-right'),
+            head: document.getElementById('flashing-head')
+        };
+
+        const sealants = {
+            exterior: document.getElementById('sealant-exterior'),
+            interior: document.getElementById('sealant-interior')
+        };
+
+        const wallContainer = document.getElementById('wall-container');
+        let waterDroplets = [];
+        let flashingEnabled = true;
+        let sealantEnabled = true;
+
+        function createWaterDroplet() {
+            const droplet = document.createElement('div');
+            droplet.className = 'water-droplet';
+            droplet.style.right = '15%';
+            droplet.style.top = (20 + Math.random() * 60) + '%';
+            wallContainer.appendChild(droplet);
+            return droplet;
+        }
+
+        function updateSimulation() {
+            const wind = parseInt(windSlider.value);
+            windSpeed = wind;
+            windValue.textContent = wind + ' mph';
+            windSpeedDisplay.textContent = wind;
+
+            // Calculate rain rate and pressure
+            const rainRate = Math.round(wind * 0.1);
+            const pressure = (wind * wind * 0.00256 * 0.6).toFixed(1);
+            rainRateDisplay.textContent = rainRate;
+            pressureDisplay.textContent = pressure;
+
+            // Update wind arrow visibility
+            const arrows = document.querySelectorAll('.wind-arrow');
+            arrows.forEach(arrow => {
+                arrow.style.opacity = wind > 50 ? '0.8' : '0';
+            });
+
+            // Determine intrusion status
+            let intrusion = false;
+            const highPressure = wind >= 100;
+
+            if (!flashingEnabled && wind > 30) {
+                intrusion = true;
+            } else if (!sealantEnabled && wind > 80) {
+                intrusion = true;
+            } else if (!flashingEnabled && !sealantEnabled && wind > 20) {
+                intrusion = true;
+            } else if (highPressure && (!flashingEnabled || !sealantEnabled)) {
+                intrusion = true;
+            }
+
+            // Update intrusion display
+            if (intrusion) {
+                intrusionStatus.textContent = 'LEAKING!';
+                intrusionStatus.className = 'intrusion-value danger';
+
+                // Add water droplets
+                if (waterDroplets.length < 5 && Math.random() > 0.7) {
+                    const droplet = createWaterDroplet();
+                    droplet.style.opacity = '1';
+                    waterDroplets.push({
+                        element: droplet,
+                        startTime: Date.now()
+                    });
+                }
+            } else {
+                intrusionStatus.textContent = 'BLOCKED';
+                intrusionStatus.className = 'intrusion-value safe';
+            }
+
+            // Animate and remove old droplets
+            waterDroplets = waterDroplets.filter(drop => {
+                const age = Date.now() - drop.startTime;
+                if (age > 2000) {
+                    drop.element.remove();
+                    return false;
+                }
+                const currentTop = parseFloat(drop.element.style.top);
+                drop.element.style.top = (currentTop + 0.5) + '%';
+                drop.element.style.opacity = Math.max(0, 1 - age / 2000);
+                return true;
+            });
+
+            requestAnimationFrame(updateSimulation);
+        }
+
+        windSlider.addEventListener('input', () => {
+            // Animation handled in updateSimulation
+        });
+
+        toggleFlashing.addEventListener('click', () => {
+            flashingEnabled = !flashingEnabled;
+            toggleFlashing.classList.toggle('active', flashingEnabled);
+            toggleFlashing.textContent = 'Flashing: ' + (flashingEnabled ? 'ON' : 'OFF');
+
+            Object.values(flashings).forEach(f => {
+                f.classList.toggle('inactive', !flashingEnabled);
+            });
+        });
+
+        toggleSealant.addEventListener('click', () => {
+            sealantEnabled = !sealantEnabled;
+            toggleSealant.classList.toggle('active', sealantEnabled);
+            toggleSealant.textContent = 'Sealant: ' + (sealantEnabled ? 'ON' : 'OFF');
+
+            Object.values(sealants).forEach(s => {
+                s.classList.toggle('inactive', !sealantEnabled);
+            });
+        });
+
+        // Start simulation
+        updateSimulation();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function checkReveal() {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                if (rect.top < windowHeight * 0.85) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkReveal);
+        checkReveal();
+    </script>
+</body>
+</html>

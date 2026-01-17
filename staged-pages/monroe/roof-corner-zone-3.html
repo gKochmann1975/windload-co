@@ -1,0 +1,751 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Roof Corner Zone 3 - Why Corners Have Highest Pressure | WindLoad.co</title>
+    <meta name="description" content="Animated visualization of why roof corners (Zone 3) experience the highest wind pressures. Learn how vortices create extreme suction at roof corners.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/roof-corner-zone-3.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5557;-81.7826">
+    <meta name="ICBM" content="24.5557, -81.7826">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Roof Corner Zone 3 - Understanding Extreme Wind Pressure">
+    <meta property="og:description" content="See why roof corners face the most intense wind forces with our animated vortex visualization.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/monroe/roof-corner-zone-3.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why do roof corners have the highest wind pressure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Roof corners (Zone 3) experience the highest pressures because wind creates rotating vortices as it flows over the roof edges and wraps around corners. These vortices generate intense localized suction that can be 2-3 times stronger than pressures in the middle of the roof."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is Zone 3 in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone 3 is the roof corner zone in ASCE 7 wind load calculations. It's the area where two roof edges meet at a corner. This zone is typically a square area at each corner, with dimensions equal to the zone width 'a' (usually 4-10% of building dimension or 3 feet minimum)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much higher are Zone 3 pressures compared to Zone 1?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone 3 (corner) pressures are typically 50-80% higher than Zone 1 (field) pressures. For example, if Zone 1 has -38 PSF suction, Zone 3 might have -67 PSF suction. This is why roof corners are the most common location for hurricane damage."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Roof Corner Zone 3",
+                "item": "https://windload.co/staged-pages/monroe/roof-corner-zone-3.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+            --danger-red: #ff3366;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-cyan);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--danger-red), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* 3D Roof Animation Stage */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            min-height: 550px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roof-3d-container {
+            perspective: 1000px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+        }
+
+        .roof-3d {
+            width: 350px;
+            height: 350px;
+            position: relative;
+            transform-style: preserve-3d;
+            transform: rotateX(55deg) rotateZ(-30deg);
+            animation: gentleRotate 20s ease-in-out infinite;
+        }
+
+        @keyframes gentleRotate {
+            0%, 100% { transform: rotateX(55deg) rotateZ(-30deg); }
+            50% { transform: rotateX(55deg) rotateZ(-35deg); }
+        }
+
+        .roof-surface {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #2a3f5f, #1a2f4f);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Zone Overlays */
+        .zone {
+            position: absolute;
+            transition: all 0.5s ease;
+        }
+
+        .zone-1 {
+            top: 30%;
+            left: 30%;
+            width: 40%;
+            height: 40%;
+            background: rgba(74, 222, 128, 0.3);
+            border: 2px dashed #4ade80;
+        }
+
+        .zone-2 {
+            position: absolute;
+            background: rgba(251, 191, 36, 0.3);
+            border: 2px dashed #fbbf24;
+        }
+
+        .zone-2.top { top: 0; left: 15%; width: 70%; height: 15%; }
+        .zone-2.right { top: 15%; right: 0; width: 15%; height: 70%; }
+        .zone-2.bottom { bottom: 0; left: 15%; width: 70%; height: 15%; }
+        .zone-2.left { top: 15%; left: 0; width: 15%; height: 70%; }
+
+        .zone-3 {
+            width: 15%;
+            height: 15%;
+            background: rgba(255, 51, 102, 0.5);
+            border: 3px solid var(--danger-red);
+            animation: pulseCorner 1.5s ease-in-out infinite;
+        }
+
+        .zone-3.tl { top: 0; left: 0; }
+        .zone-3.tr { top: 0; right: 0; }
+        .zone-3.bl { bottom: 0; left: 0; }
+        .zone-3.br { bottom: 0; right: 0; }
+
+        @keyframes pulseCorner {
+            0%, 100% {
+                box-shadow: 0 0 20px var(--danger-red), inset 0 0 20px rgba(255, 51, 102, 0.3);
+            }
+            50% {
+                box-shadow: 0 0 40px var(--danger-red), inset 0 0 40px rgba(255, 51, 102, 0.5);
+            }
+        }
+
+        /* Vortex Animation */
+        .vortex {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--danger-red);
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        .vortex.v1 { top: -5%; left: -5%; animation-duration: 0.8s; }
+        .vortex.v2 { top: -5%; right: -5%; animation-duration: 1s; }
+        .vortex.v3 { bottom: -5%; left: -5%; animation-duration: 0.9s; }
+        .vortex.v4 { bottom: -5%; right: -5%; animation-duration: 1.1s; }
+
+        .vortex::before {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 2px solid var(--accent-magenta);
+            border-radius: 50%;
+            border-bottom-color: transparent;
+            animation: spin 0.6s linear infinite reverse;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Pressure Labels */
+        .pressure-label {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-family: 'Monaco', monospace;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transform: rotateX(-55deg) rotateZ(30deg);
+        }
+
+        .pressure-label.zone1 {
+            top: 45%;
+            left: 45%;
+            color: #4ade80;
+            border: 1px solid #4ade80;
+        }
+
+        .pressure-label.zone2 {
+            top: 5%;
+            left: 55%;
+            color: #fbbf24;
+            border: 1px solid #fbbf24;
+        }
+
+        .pressure-label.zone3 {
+            top: -15%;
+            left: -15%;
+            color: var(--danger-red);
+            border: 2px solid var(--danger-red);
+            font-size: 1.1rem;
+            animation: labelPulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes labelPulse {
+            0%, 100% { transform: rotateX(-55deg) rotateZ(30deg) scale(1); }
+            50% { transform: rotateX(-55deg) rotateZ(30deg) scale(1.1); }
+        }
+
+        /* Info Panel */
+        .info-panel {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--danger-red);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 280px;
+        }
+
+        .info-panel h3 {
+            color: var(--danger-red);
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .info-panel p {
+            color: var(--text-light);
+            font-size: 1rem;
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .pressure-comparison {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .pressure-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .pressure-bar label {
+            width: 60px;
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .bar {
+            height: 20px;
+            border-radius: 4px;
+            transition: width 1s ease-out;
+        }
+
+        .bar.z1 { background: #4ade80; width: 0; }
+        .bar.z2 { background: #fbbf24; width: 0; }
+        .bar.z3 { background: var(--danger-red); width: 0; }
+
+        .bar-value {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .warning-box {
+            background: linear-gradient(135deg, rgba(255, 51, 102, 0.2), rgba(233, 30, 140, 0.1));
+            border-left: 4px solid var(--danger-red);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
+        }
+
+        .warning-box h4 {
+            color: var(--danger-red);
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .info-panel {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                max-width: 100%;
+                margin-top: 2rem;
+            }
+
+            .roof-3d {
+                width: 280px;
+                height: 280px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                display: none;
+            }
+
+            .roof-3d {
+                width: 220px;
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="/" class="logo">Wind<span>Load</span>.co</a>
+            <nav>
+                <a href="/states.html">States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Roof Corner Zone 3</span>
+        </div>
+
+        <section class="hero">
+            <h1>Zone 3: The Danger Zone</h1>
+            <p>Watch vortices form at roof corners and discover why this is where roofs fail first during hurricanes.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="roof-3d-container">
+                <div class="roof-3d">
+                    <div class="roof-surface">
+                        <!-- Zone 1: Field (center) -->
+                        <div class="zone zone-1"></div>
+
+                        <!-- Zone 2: Edges -->
+                        <div class="zone zone-2 top"></div>
+                        <div class="zone zone-2 right"></div>
+                        <div class="zone zone-2 bottom"></div>
+                        <div class="zone zone-2 left"></div>
+
+                        <!-- Zone 3: Corners -->
+                        <div class="zone zone-3 tl">
+                            <div class="vortex v1"></div>
+                        </div>
+                        <div class="zone zone-3 tr">
+                            <div class="vortex v2"></div>
+                        </div>
+                        <div class="zone zone-3 bl">
+                            <div class="vortex v3"></div>
+                        </div>
+                        <div class="zone zone-3 br">
+                            <div class="vortex v4"></div>
+                        </div>
+
+                        <!-- Pressure Labels -->
+                        <div class="pressure-label zone1" id="labelZ1">-38 PSF</div>
+                        <div class="pressure-label zone2" id="labelZ2">-53 PSF</div>
+                        <div class="pressure-label zone3" id="labelZ3">-67 PSF</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="info-panel">
+                <h3>Why Corners Fail First</h3>
+                <p>As wind flows over the roof and hits the corners, it creates spinning vortices. These vortices act like mini-tornadoes, creating intense suction that can rip off shingles, tiles, and even roof decking.</p>
+                <div class="pressure-comparison">
+                    <div class="pressure-bar">
+                        <label>Zone 1:</label>
+                        <div class="bar z1" id="bar1"></div>
+                        <span class="bar-value" style="color: #4ade80;">-38 PSF</span>
+                    </div>
+                    <div class="pressure-bar">
+                        <label>Zone 2:</label>
+                        <div class="bar z2" id="bar2"></div>
+                        <span class="bar-value" style="color: #fbbf24;">-53 PSF</span>
+                    </div>
+                    <div class="pressure-bar">
+                        <label>Zone 3:</label>
+                        <div class="bar z3" id="bar3"></div>
+                        <span class="bar-value" style="color: var(--danger-red);">-67 PSF</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>The Science of Roof Corner Failure</h2>
+            <p>When wind hits your house, it doesn't just push against the walls. It flows up and over the roof like water flowing over a rock in a stream. At the corners, this flow gets disturbed and creates something called "conical vortices."</p>
+            <p>Think of it like a whirlpool in water, but upside-down on your roof. These spinning vortices create incredibly strong suction - strong enough to lift roof materials that are designed to stay put.</p>
+
+            <div class="warning-box">
+                <h4>Why This Matters in Monroe County</h4>
+                <p>With design wind speeds of 180 mph, Zone 3 corner pressures can exceed -67 PSF. That's like having a 67-pound weight trying to pull up on every square foot of your roof corner. A 10 ft x 10 ft corner area experiences over 6,700 pounds of uplift force!</p>
+            </div>
+
+            <p>This is why building codes require special attention to roof corners. Extra fasteners, stronger underlayment, and sometimes even mechanical attachments are needed to keep the roof attached during a major hurricane.</p>
+            <p>When you see photos of hurricane damage where just the corners of roofs are missing - now you know why. Zone 3 is where the wind attacks hardest, and it's where your roof needs the most protection.</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Calculate Zone 3 Pressures for Your Roof</h2>
+            <p>Get exact corner pressure values for Monroe County building permits</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=monroe&utm_campaign=roof-corner-zone3" class="cta-button">
+                Calculate Roof Pressures
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas with directional wind
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 100; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 2 + 1,
+                vy: -Math.random() * 0.5,
+                size: Math.random() * 1.5 + 0.5,
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) {
+                    p.x = 0;
+                    p.y = Math.random() * canvas.height;
+                }
+                if (p.y < 0) p.y = canvas.height;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#00d4ff';
+                ctx.globalAlpha = 0.25;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Animate pressure bars
+        function animateBars() {
+            const bar1 = document.getElementById('bar1');
+            const bar2 = document.getElementById('bar2');
+            const bar3 = document.getElementById('bar3');
+
+            setTimeout(() => { bar1.style.width = '56%'; }, 500);
+            setTimeout(() => { bar2.style.width = '79%'; }, 1000);
+            setTimeout(() => { bar3.style.width = '100%'; }, 1500);
+        }
+
+        // Animate labels
+        const labels = ['labelZ1', 'labelZ2', 'labelZ3'];
+        const targetValues = [38, 53, 67];
+
+        function animateLabels() {
+            labels.forEach((labelId, i) => {
+                const label = document.getElementById(labelId);
+                let current = 0;
+                const interval = setInterval(() => {
+                    current += 1;
+                    if (current >= targetValues[i]) {
+                        current = targetValues[i];
+                        clearInterval(interval);
+                    }
+                    label.textContent = '-' + current + ' PSF';
+                }, 30);
+            });
+        }
+
+        // Start animations when visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateBars();
+                    animateLabels();
+                    observer.disconnect();
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.animation-stage'));
+    </script>
+</body>
+</html>

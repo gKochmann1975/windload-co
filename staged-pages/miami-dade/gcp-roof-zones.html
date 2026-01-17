@@ -1,0 +1,1177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Roof Pressure Zones Miami-Dade: Zone 1, 2, 3 Wind Loads | WindLoad.co</title>
+    <meta name="description" content="Interactive guide to roof pressure zones for Miami-Dade wind load calculations. Learn Zone 1 (field), Zone 2 (edge), and Zone 3 (corner) GCp coefficients.">
+    <link rel="canonical" href="https://windload.co/miami-dade/gcp-roof-zones.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Roof Pressure Zones Miami-Dade: Zone 1, 2, 3 Wind Loads">
+    <meta property="og:description" content="Visualize how roof corners, edges, and field experience different wind pressures in Miami-Dade County calculations.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/miami-dade/gcp-roof-zones.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Miami-Dade", "item": "https://windload.co/miami-dade/"},
+            {"@type": "ListItem", "position": 3, "name": "Roof Pressure Zones", "item": "https://windload.co/miami-dade/gcp-roof-zones.html"}
+        ]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are the roof pressure zones in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ASCE 7 defines three roof zones for low-slope roofs: Zone 1 (field/interior), Zone 2 (perimeter/edge), and Zone 3 (corner). Each zone has different GCp coefficients reflecting the varying wind pressures across the roof surface."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do roof corners have the highest wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind flowing over roof corners creates intense vortices called conical vortices. These spinning wind patterns generate extreme suction pressures that can be 2-3 times higher than the center of the roof."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are typical Zone 3 GCp values for flat roofs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For flat roofs with small effective areas (10 sq ft), Zone 3 GCp can reach -2.8 to -3.0 for negative pressure. This is significantly higher than Zone 1's typical -1.0 to -1.4 range."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How are roof zone boundaries calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone boundaries use dimension 'a' which equals 10% of least horizontal dimension or 40% of roof height, whichever is smaller, but not less than 4% of least dimension or 3 feet. Zone 2 extends 'a' from edges, Zone 3 covers the corner squares of dimension 'a x a'."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --zone1-color: #4CAF50;
+            --zone2-color: #FFC107;
+            --zone3-color: #f44336;
+            --bg-dark: #0d0015;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-cyan); }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 2rem 0 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(244, 67, 54, 0.2));
+            border: 1px solid var(--zone3-color);
+            color: var(--zone3-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h1 .zone1 { color: var(--zone1-color); }
+        h1 .zone2 { color: var(--zone2-color); }
+        h1 .zone3 { color: var(--zone3-color); }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Interactive Roof Diagram - Top View */
+        .roof-diagram {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            height: 550px;
+            margin: 3rem auto;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--bg-dark) 100%);
+            border-radius: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .diagram-title {
+            position: absolute;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            z-index: 10;
+        }
+
+        /* Roof Top View */
+        .roof-top-view {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 400px;
+            height: 300px;
+            background: #1a1a2e;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            display: grid;
+            grid-template-columns: 50px 1fr 50px;
+            grid-template-rows: 50px 1fr 50px;
+        }
+
+        .roof-zone {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        /* Zone 3 - Corners */
+        .zone3 {
+            background: rgba(244, 67, 54, 0.4);
+            border: 2px solid var(--zone3-color);
+        }
+
+        .zone3:hover, .zone3.active {
+            background: rgba(244, 67, 54, 0.6);
+            box-shadow: 0 0 30px rgba(244, 67, 54, 0.5);
+        }
+
+        /* Zone 2 - Edges */
+        .zone2 {
+            background: rgba(255, 193, 7, 0.3);
+            border: 2px solid var(--zone2-color);
+        }
+
+        .zone2:hover, .zone2.active {
+            background: rgba(255, 193, 7, 0.5);
+            box-shadow: 0 0 25px rgba(255, 193, 7, 0.4);
+        }
+
+        /* Zone 1 - Field */
+        .zone1 {
+            background: rgba(76, 175, 80, 0.2);
+            border: 2px solid var(--zone1-color);
+            grid-column: 2;
+            grid-row: 2;
+        }
+
+        .zone1:hover, .zone1.active {
+            background: rgba(76, 175, 80, 0.4);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .zone-number {
+            font-size: 1.5rem;
+            font-weight: 900;
+            opacity: 0.8;
+        }
+
+        .zone3 .zone-number { color: var(--zone3-color); }
+        .zone2 .zone-number { color: var(--zone2-color); }
+        .zone1 .zone-number { color: var(--zone1-color); }
+
+        /* Conical Vortex Animation */
+        .vortex-animation {
+            position: absolute;
+            pointer-events: none;
+        }
+
+        .vortex {
+            position: absolute;
+            border: 2px solid var(--zone3-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            border-right-color: transparent;
+            animation: vortexRotate 2s linear infinite;
+        }
+
+        @keyframes vortexRotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .vortex-1 { width: 30px; height: 30px; animation-duration: 1s; }
+        .vortex-2 { width: 50px; height: 50px; animation-duration: 1.5s; margin: -10px 0 0 -10px; }
+        .vortex-3 { width: 70px; height: 70px; animation-duration: 2s; margin: -20px 0 0 -20px; }
+
+        .corner-vortex {
+            position: absolute;
+            width: 70px;
+            height: 70px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .corner-vortex.top-left { top: 65px; left: calc(50% - 200px - 35px); }
+        .corner-vortex.top-right { top: 65px; right: calc(50% - 200px - 35px); }
+        .corner-vortex.bottom-left { bottom: 95px; left: calc(50% - 200px - 35px); }
+        .corner-vortex.bottom-right { bottom: 95px; right: calc(50% - 200px - 35px); }
+
+        .roof-diagram:hover .corner-vortex,
+        .zone3.active ~ .corner-vortex {
+            opacity: 1;
+        }
+
+        /* GCp Legend Panel */
+        .gcp-legend {
+            position: absolute;
+            right: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .legend-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .legend-item {
+            padding: 0.75rem;
+            border-radius: 10px;
+            margin-bottom: 0.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .legend-item.z1 {
+            background: rgba(76, 175, 80, 0.2);
+            border: 1px solid var(--zone1-color);
+        }
+
+        .legend-item.z2 {
+            background: rgba(255, 193, 7, 0.2);
+            border: 1px solid var(--zone2-color);
+        }
+
+        .legend-item.z3 {
+            background: rgba(244, 67, 54, 0.2);
+            border: 1px solid var(--zone3-color);
+        }
+
+        .legend-zone {
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .legend-gcp {
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .z1 .legend-gcp { color: var(--zone1-color); }
+        .z2 .legend-gcp { color: var(--zone2-color); }
+        .z3 .legend-gcp { color: var(--zone3-color); }
+
+        /* Wind Direction Indicator */
+        .wind-direction {
+            position: absolute;
+            left: 1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .wind-arrow-big {
+            width: 80px;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            border-radius: 3px;
+            position: relative;
+            animation: windPulse 2s ease-in-out infinite;
+        }
+
+        .wind-arrow-big::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: -7px;
+            border: 10px solid transparent;
+            border-left: 15px solid var(--accent-magenta);
+        }
+
+        @keyframes windPulse {
+            0%, 100% { transform: scaleX(1); opacity: 0.8; }
+            50% { transform: scaleX(1.1); opacity: 1; }
+        }
+
+        .wind-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Pressure Scale */
+        .pressure-scale {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+        }
+
+        .scale-bar {
+            width: 200px;
+            height: 20px;
+            background: linear-gradient(90deg, var(--zone1-color), var(--zone2-color), var(--zone3-color));
+            border-radius: 10px;
+        }
+
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            width: 200px;
+            font-size: 0.75rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Story Sections */
+        .story-section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .story-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .story-visual {
+            background: rgba(26, 10, 46, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        /* Pressure Comparison Bars */
+        .pressure-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .pressure-bar-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .bar-label {
+            width: 70px;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .bar-track {
+            flex: 1;
+            height: 35px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 17px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .bar-fill {
+            height: 100%;
+            border-radius: 17px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+            font-weight: 700;
+            animation: growBar 1.5s ease-out forwards;
+            transform-origin: left;
+            transform: scaleX(0);
+        }
+
+        @keyframes growBar {
+            to { transform: scaleX(1); }
+        }
+
+        .bar-fill.z1 {
+            background: linear-gradient(90deg, var(--zone1-color), #2E7D32);
+            width: 35%;
+        }
+
+        .bar-fill.z2 {
+            background: linear-gradient(90deg, var(--zone2-color), #F57C00);
+            width: 60%;
+        }
+
+        .bar-fill.z3 {
+            background: linear-gradient(90deg, var(--zone3-color), #C62828);
+            width: 100%;
+        }
+
+        /* 3D Roof Visualization */
+        .roof-3d-container {
+            perspective: 800px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .roof-3d {
+            width: 200px;
+            height: 150px;
+            transform-style: preserve-3d;
+            transform: rotateX(50deg) rotateZ(-30deg);
+            position: relative;
+        }
+
+        .roof-surface {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg,
+                rgba(244, 67, 54, 0.6) 0%,
+                rgba(244, 67, 54, 0.6) 15%,
+                rgba(255, 193, 7, 0.4) 15%,
+                rgba(255, 193, 7, 0.4) 25%,
+                rgba(76, 175, 80, 0.3) 25%,
+                rgba(76, 175, 80, 0.3) 75%,
+                rgba(255, 193, 7, 0.4) 75%,
+                rgba(255, 193, 7, 0.4) 85%,
+                rgba(244, 67, 54, 0.6) 85%);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .suction-arrows {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .suction-arrow {
+            position: absolute;
+            width: 3px;
+            background: linear-gradient(0deg, transparent, var(--zone3-color));
+            animation: suctionPull 1.5s ease-in-out infinite;
+        }
+
+        @keyframes suctionPull {
+            0%, 100% { transform: translateY(0) scaleY(1); opacity: 0.5; }
+            50% { transform: translateY(-20px) scaleY(1.3); opacity: 1; }
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(76, 175, 80, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--zone1-color);
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--zone1-color);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.1), rgba(244, 67, 54, 0.1));
+            border-radius: 30px;
+            margin: 4rem 0;
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--zone1-color), var(--zone3-color));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(76, 175, 80, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(76, 175, 80, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--zone1-color); }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .roof-diagram {
+                height: 500px;
+            }
+
+            .roof-top-view {
+                width: 280px;
+                height: 210px;
+                grid-template-columns: 35px 1fr 35px;
+                grid-template-rows: 35px 1fr 35px;
+            }
+
+            .gcp-legend {
+                right: 0.5rem;
+                padding: 1rem;
+            }
+
+            .wind-direction {
+                left: 0.5rem;
+            }
+
+            .corner-vortex { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="/" class="logo">Wind<span>Load</span>.co</a>
+            <nav>
+                <a href="/states.html">States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Roof Pressure Zones</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">Components & Cladding (C&C)</div>
+            <h1>Roof Pressure Zones<br><span class="zone1">1</span> <span class="zone2">2</span> <span class="zone3">3</span></h1>
+            <p class="hero-subtitle">Roof corners can see triple the suction pressure of the center! Click zones to explore why Miami-Dade roofing needs zone-specific design.</p>
+        </section>
+
+        <!-- Interactive Roof Diagram -->
+        <div class="roof-diagram">
+            <div class="diagram-title">Roof Plan View - Click Zones</div>
+
+            <!-- Wind Direction -->
+            <div class="wind-direction">
+                <div class="wind-arrow-big"></div>
+                <div class="wind-label">Wind</div>
+            </div>
+
+            <!-- Corner Vortices -->
+            <div class="corner-vortex top-left">
+                <div class="vortex vortex-1"></div>
+                <div class="vortex vortex-2"></div>
+                <div class="vortex vortex-3"></div>
+            </div>
+            <div class="corner-vortex top-right">
+                <div class="vortex vortex-1"></div>
+                <div class="vortex vortex-2"></div>
+                <div class="vortex vortex-3"></div>
+            </div>
+            <div class="corner-vortex bottom-left">
+                <div class="vortex vortex-1"></div>
+                <div class="vortex vortex-2"></div>
+                <div class="vortex vortex-3"></div>
+            </div>
+            <div class="corner-vortex bottom-right">
+                <div class="vortex vortex-1"></div>
+                <div class="vortex vortex-2"></div>
+                <div class="vortex vortex-3"></div>
+            </div>
+
+            <!-- Roof Top View -->
+            <div class="roof-top-view">
+                <!-- Row 1 -->
+                <div class="roof-zone zone3" data-zone="3" onclick="activateZone(3)">
+                    <span class="zone-number">3</span>
+                </div>
+                <div class="roof-zone zone2" data-zone="2" onclick="activateZone(2)">
+                    <span class="zone-number">2</span>
+                </div>
+                <div class="roof-zone zone3" data-zone="3" onclick="activateZone(3)">
+                    <span class="zone-number">3</span>
+                </div>
+
+                <!-- Row 2 -->
+                <div class="roof-zone zone2" data-zone="2" onclick="activateZone(2)">
+                    <span class="zone-number">2</span>
+                </div>
+                <div class="roof-zone zone1" data-zone="1" onclick="activateZone(1)">
+                    <span class="zone-number">1</span>
+                </div>
+                <div class="roof-zone zone2" data-zone="2" onclick="activateZone(2)">
+                    <span class="zone-number">2</span>
+                </div>
+
+                <!-- Row 3 -->
+                <div class="roof-zone zone3" data-zone="3" onclick="activateZone(3)">
+                    <span class="zone-number">3</span>
+                </div>
+                <div class="roof-zone zone2" data-zone="2" onclick="activateZone(2)">
+                    <span class="zone-number">2</span>
+                </div>
+                <div class="roof-zone zone3" data-zone="3" onclick="activateZone(3)">
+                    <span class="zone-number">3</span>
+                </div>
+            </div>
+
+            <!-- GCp Legend -->
+            <div class="gcp-legend">
+                <div class="legend-title">GCp (10 sq ft)</div>
+                <div class="legend-item z1" id="legendZ1">
+                    <div class="legend-zone">Zone 1 (Field)</div>
+                    <div class="legend-gcp">-1.0</div>
+                </div>
+                <div class="legend-item z2" id="legendZ2">
+                    <div class="legend-zone">Zone 2 (Edge)</div>
+                    <div class="legend-gcp">-1.8</div>
+                </div>
+                <div class="legend-item z3" id="legendZ3">
+                    <div class="legend-zone">Zone 3 (Corner)</div>
+                    <div class="legend-gcp">-2.8</div>
+                </div>
+            </div>
+
+            <!-- Pressure Scale -->
+            <div class="pressure-scale">
+                <span style="font-size: 0.75rem; color: var(--text-muted);">Low</span>
+                <div>
+                    <div class="scale-bar"></div>
+                    <div class="scale-labels">
+                        <span>Zone 1</span>
+                        <span>Zone 2</span>
+                        <span>Zone 3</span>
+                    </div>
+                </div>
+                <span style="font-size: 0.75rem; color: var(--text-muted);">High</span>
+            </div>
+        </div>
+
+        <!-- Story Section 1 -->
+        <section class="story-section" id="story1">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h2>Conical Vortices: The Corner Killers</h2>
+                    <p>When wind flows over a flat roof, something strange happens at the corners. The wind separates and spins into cone-shaped vortices that touch down right at the corner.</p>
+                    <p>These conical vortices create intense suction - like a tiny tornado on each corner of your roof. That's why Zone 3 experiences pressures 2-3 times higher than the middle of the roof.</p>
+                    <p>In Miami-Dade with 180+ mph winds, Zone 3 corner pressures can exceed 100 psf suction! That's enough to rip off roof membranes, tear out mechanical equipment, and lift pavers right off the roof.</p>
+                </div>
+                <div class="story-visual">
+                    <div class="roof-3d-container">
+                        <div class="roof-3d">
+                            <div class="roof-surface"></div>
+                            <div class="suction-arrows">
+                                <div class="suction-arrow" style="left: 10%; top: 10%; height: 40px;"></div>
+                                <div class="suction-arrow" style="right: 10%; top: 10%; height: 40px; animation-delay: 0.2s;"></div>
+                                <div class="suction-arrow" style="left: 10%; bottom: 10%; height: 40px; animation-delay: 0.4s;"></div>
+                                <div class="suction-arrow" style="right: 10%; bottom: 10%; height: 40px; animation-delay: 0.6s;"></div>
+                                <div class="suction-arrow" style="left: 50%; top: 50%; height: 15px; animation-delay: 0.8s;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 1rem; color: var(--zone3-color); font-size: 0.875rem;">Suction intensity varies by zone</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 2 -->
+        <section class="story-section" id="story2">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="pressure-bars">
+                        <div class="pressure-bar-item">
+                            <div class="bar-label" style="color: var(--zone1-color);">Zone 1</div>
+                            <div class="bar-track">
+                                <div class="bar-fill z1">-1.0</div>
+                            </div>
+                        </div>
+                        <div class="pressure-bar-item">
+                            <div class="bar-label" style="color: var(--zone2-color);">Zone 2</div>
+                            <div class="bar-track">
+                                <div class="bar-fill z2">-1.8</div>
+                            </div>
+                        </div>
+                        <div class="pressure-bar-item">
+                            <div class="bar-label" style="color: var(--zone3-color);">Zone 3</div>
+                            <div class="bar-track">
+                                <div class="bar-fill z3">-2.8</div>
+                            </div>
+                        </div>
+                    </div>
+                    <p style="text-align: center; margin-top: 1rem; color: var(--text-muted); font-size: 0.875rem;">GCp values for 10 sq ft effective area</p>
+                </div>
+                <div class="story-content">
+                    <h2>Nearly 3x the Pressure!</h2>
+                    <p>Look at those numbers: Zone 3 has a GCp of -2.8 compared to Zone 1's -1.0. That means corner pressures are nearly three times higher than the roof field.</p>
+                    <p>This is why roofing specifications in Miami-Dade often call for enhanced attachment at perimeters and corners - more fasteners, closer spacing, thicker adhesive, or mechanical anchors.</p>
+                    <p>Smart engineers and contractors use "enhanced perimeter and corner zones" with specific attachment patterns that recognize these pressure differences.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 3 -->
+        <section class="story-section" id="story3">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h2>Zone Boundaries</h2>
+                    <p>Just like wall zones, roof zone boundaries are based on dimension "a" - the smaller of 10% of roof width or 40% of roof height, with minimums.</p>
+                    <p>Zone 3 occupies the corner squares (a x a). Zone 2 extends "a" distance from all edges, except where Zone 3 takes over at corners. Zone 1 fills the remaining interior.</p>
+                    <p>For a 100 ft x 60 ft building that's 30 ft tall, "a" would be about 6 feet. So Zone 3 covers 6 ft x 6 ft at each corner, Zone 2 extends 6 ft from edges, and Zone 1 covers the center field.</p>
+                </div>
+                <div class="story-visual">
+                    <div style="padding: 1.5rem; background: rgba(0,0,0,0.5); border-radius: 15px;">
+                        <div style="font-family: monospace; font-size: 1.1rem; color: var(--accent-cyan); text-align: center; margin-bottom: 1rem;">
+                            a = min(0.1L, 0.4h)
+                        </div>
+                        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+                            <div style="padding: 1rem; background: rgba(244, 67, 54, 0.2); border-radius: 10px; text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Zone 3</div>
+                                <div style="font-weight: 700; color: var(--zone3-color);">a x a corners</div>
+                            </div>
+                            <div style="padding: 1rem; background: rgba(255, 193, 7, 0.2); border-radius: 10px; text-align: center;">
+                                <div style="font-size: 0.75rem; color: var(--text-muted);">Zone 2</div>
+                                <div style="font-weight: 700; color: var(--zone2-color);">a from edge</div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 1rem; padding: 1rem; background: rgba(76, 175, 80, 0.2); border-radius: 10px; text-align: center;">
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Zone 1</div>
+                            <div style="font-weight: 700; color: var(--zone1-color);">Interior field (remainder)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What are the roof pressure zones in wind load calculations?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    ASCE 7 defines three roof zones for low-slope roofs: Zone 1 (field/interior), Zone 2 (perimeter/edge), and Zone 3 (corner). Each zone has different GCp coefficients reflecting how wind pressures vary - highest at corners, intermediate at edges, lowest in the field.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Why do roof corners have the highest wind loads?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Wind flowing over roof corners creates intense vortices called conical vortices. These spinning wind patterns generate extreme suction pressures that can be 2-3 times higher than the center of the roof, which is why Zone 3 has the highest GCp values.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What are typical Zone 3 GCp values for flat roofs?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    For flat roofs with small effective areas (10 sq ft), Zone 3 GCp can reach -2.8 to -3.0 for negative pressure (suction). This is significantly higher than Zone 1's typical -1.0 to -1.4 range, requiring much stronger attachments at corners.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    How are roof zone boundaries calculated?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Zone boundaries use dimension "a" which equals 10% of least horizontal dimension or 40% of roof height, whichever is smaller, but not less than 4% of least dimension or 3 feet. Zone 2 extends "a" from edges, Zone 3 covers the corner squares of dimension "a x a".
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Get Zone-Specific Roof Pressures</h2>
+            <p>Our calculator automatically computes Zone 1, 2, and 3 pressures for all roof surfaces. Essential for Miami-Dade roofing specifications and product approval.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=roof-zones" class="cta-button">
+                Calculate Roof Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/miami-dade/basic-wind-speed.html">Basic Wind Speed</a>
+                <a href="/miami-dade/exposure-category-d.html">Exposure D</a>
+                <a href="/miami-dade/gcp-wall-zones.html">Wall Zones</a>
+                <a href="/miami-dade/velocity-pressure-qz.html">Velocity Pressure</a>
+                <a href="/miami-dade/design-pressure-formula.html">Design Formula</a>
+            </div>
+            <div class="footer-links">
+                <a href="/states.html">All States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+            <p class="footer-text">&copy; 2002-2025 WindLoad.co - Trusted Wind Load Calculations Since 2002</p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 50;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = 0.5 + Math.random();
+                this.vy = -0.5 - Math.random() * 2;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.zone = Math.floor(Math.random() * 3);
+                this.colors = ['76, 175, 80', '255, 193, 7', '244, 67, 54'];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.opacity *= 0.995;
+
+                if (this.y < -10 || this.opacity < 0.01) {
+                    this.reset();
+                    this.y = canvas.height + 10;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.colors[this.zone]}, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Zone interaction
+        function activateZone(zone) {
+            document.querySelectorAll('.roof-zone').forEach(z => z.classList.remove('active'));
+            document.querySelectorAll('.legend-item').forEach(l => l.style.transform = 'scale(1)');
+
+            document.querySelectorAll(`[data-zone="${zone}"]`).forEach(z => z.classList.add('active'));
+
+            const legendId = `legendZ${zone}`;
+            document.getElementById(legendId).style.transform = 'scale(1.05)';
+            document.getElementById(legendId).style.boxShadow = `0 0 20px rgba(${zone === 1 ? '76,175,80' : zone === 2 ? '255,193,7' : '244,67,54'}, 0.5)`;
+        }
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Topographic Factor Kzt Explained | Hills, Ridges & Escarpments | Broward County FL</title>
+    <meta name="description" content="Learn how hills, ridges, and escarpments increase wind speed with the Kzt topographic factor in Broward County FL. Animated terrain shows wind speed-up effect per ASCE 7-22.">
+    <meta name="keywords" content="topographic factor Kzt, wind speed up, hill effect wind, escarpment wind loads, ridge wind pressure, ASCE 7 topography, Broward County terrain">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/broward/topographic-factor-kzt.html">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Topographic Factor Kzt - Hills Speed Up Wind | Broward County FL">
+    <meta property="og:description" content="Animated terrain shows how hills and ridges accelerate wind. Learn when Kzt > 1.0 applies.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/broward/topographic-factor-kzt.html">
+    <meta property="og:image" content="https://windload.co/images/topographic-kzt-og.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Topographic Factor Kzt - Wind Speed-Up">
+    <meta name="twitter:description" content="Animation shows how terrain features accelerate wind for building design.">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --accent-brown: #8b5a2b;
+            --accent-green: #4caf50;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        .hero {
+            padding: 80px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-brown), var(--accent-green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .terrain-stage {
+            padding: 60px 5%;
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        .terrain-container {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.7), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(139, 90, 43, 0.3);
+        }
+
+        .terrain-visual {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: linear-gradient(180deg, #1a0a2e 0%, #2d1b4e 60%, #3d2b5e 100%);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        #terrain-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .terrain-ground {
+            fill: url(#terrainGradient);
+        }
+
+        .flat-ground {
+            fill: #3d2b5e;
+        }
+
+        .hill-feature {
+            fill: url(#hillGradient);
+            transition: all 0.5s ease;
+        }
+
+        .building-on-hill {
+            fill: var(--accent-cyan);
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .building-flat {
+            fill: var(--text-muted);
+            stroke: white;
+            stroke-width: 1;
+            opacity: 0.6;
+        }
+
+        .wind-stream {
+            fill: none;
+            stroke: var(--accent-cyan);
+            stroke-width: 2;
+            stroke-dasharray: 10, 5;
+            animation: windFlow 2s linear infinite;
+        }
+
+        .wind-stream.fast {
+            stroke: var(--accent-magenta);
+            stroke-width: 3;
+            stroke-dasharray: 15, 5;
+            animation: windFlowFast 1s linear infinite;
+        }
+
+        @keyframes windFlow {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -30; }
+        }
+
+        @keyframes windFlowFast {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -40; }
+        }
+
+        .speed-indicator {
+            fill: none;
+            stroke: var(--accent-magenta);
+            stroke-width: 3;
+        }
+
+        .terrain-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .terrain-btn {
+            background: linear-gradient(135deg, var(--primary-mid), var(--primary-dark));
+            border: 2px solid var(--accent-brown);
+            color: var(--text-light);
+            padding: 15px 30px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .terrain-btn:hover, .terrain-btn.active {
+            background: linear-gradient(135deg, var(--accent-brown), var(--accent-green));
+            border-color: transparent;
+        }
+
+        .terrain-btn .icon {
+            font-size: 1.5rem;
+        }
+
+        .kzt-readout {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .kzt-card {
+            background: rgba(26, 10, 46, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 2px solid transparent;
+            transition: all 0.4s ease;
+        }
+
+        .kzt-card.active {
+            border-color: var(--accent-magenta);
+            box-shadow: 0 0 30px rgba(233, 30, 140, 0.3);
+        }
+
+        .kzt-label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .kzt-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            transition: color 0.3s;
+        }
+
+        .kzt-card.active .kzt-value {
+            color: var(--accent-magenta);
+        }
+
+        .kzt-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 10px;
+        }
+
+        .florida-note {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.2), rgba(139, 90, 43, 0.2));
+            border: 1px solid var(--accent-green);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 5%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .florida-note h3 {
+            color: var(--accent-green);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .florida-note p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .florida-note strong {
+            color: var(--accent-cyan);
+        }
+
+        .story-section {
+            padding: 80px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .story-card {
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.8));
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(139, 90, 43, 0.3);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .story-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-card.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .story-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            color: var(--accent-brown);
+        }
+
+        .story-card p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+            line-height: 1.8;
+        }
+
+        .story-card strong {
+            color: var(--accent-green);
+        }
+
+        .formula-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            margin-top: 20px;
+            text-align: center;
+            border: 1px solid var(--accent-purple);
+        }
+
+        .formula-box .formula {
+            font-size: 1.3rem;
+            font-family: 'Courier New', monospace;
+            color: var(--accent-cyan);
+        }
+
+        .conditions-list {
+            list-style: none;
+            margin-top: 15px;
+        }
+
+        .conditions-list li {
+            padding: 10px 0;
+            color: var(--text-muted);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .conditions-list li::before {
+            content: '';
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: var(--accent-brown);
+            flex-shrink: 0;
+        }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-brown);
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(139, 90, 43, 0.2);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
+        }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(139, 90, 43, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent-brown);
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-brown), var(--accent-green));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(139, 90, 43, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(139, 90, 43, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(139, 90, 43, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .kzt-readout {
+                grid-template-columns: 1fr;
+            }
+
+            .terrain-visual {
+                height: 300px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the topographic factor Kzt?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kzt is a wind speed-up factor that accounts for increased wind speeds over hills, ridges, and escarpments. When wind flows over elevated terrain features, it accelerates similar to water speeding up over rocks in a stream. Kzt can increase wind pressure by up to 80% (Kzt up to 1.8) at the crest of significant terrain features."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Kzt apply to buildings in Broward County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For most of Broward County, Kzt = 1.0 because the terrain is relatively flat. The topographic speed-up factor only applies when buildings are located on or near hills, ridges, or escarpments that meet specific height and slope requirements defined in ASCE 7. Florida's generally flat coastal terrain rarely triggers Kzt > 1.0."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What terrain features require Kzt > 1.0?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kzt > 1.0 applies to: (1) 2D ridges - long elevated features, (2) 2D escarpments - cliff-like edges, and (3) 3D axisymmetric hills - isolated elevated features. The feature must have H/Lh >= 0.2 (where H is height and Lh is horizontal distance to half-height), and the building must be in the upper half of the hill or within a certain distance downwind."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much can Kzt increase wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kzt can range from 1.0 (no increase) to about 1.8 (80% increase in velocity pressure) depending on terrain feature geometry and building location. Since pressure is proportional to velocity squared, even a Kzt of 1.3 (speed-up factor) results in 69% higher velocity pressure than flat terrain."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where in the Kzt formula does it appear?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kzt is part of the velocity pressure formula: qz = 0.00256 x Kz x Kzt x Kd x Ke x V squared. When Kzt = 1.0 (flat terrain), it has no effect. When Kzt > 1.0, it directly multiplies the velocity pressure, significantly increasing wind loads for buildings on elevated terrain."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "WindLoad.co",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Broward County",
+                "item": "https://windload.co/broward/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Topographic Factor Kzt",
+                "item": "https://windload.co/broward/topographic-factor-kzt.html"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <div class="logo">WindLoad.co</div>
+            <a href="https://windload.co" class="nav-cta">Get Wind Loads</a>
+        </header>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/broward/">Broward County</a> /
+                Topographic Factor Kzt
+            </div>
+            <h1>Hills Make Wind <span>Speed Up!</span></h1>
+            <p class="subtitle">Watch how wind accelerates over terrain features - and why your building on a hill needs stronger design. The Kzt factor explained!</p>
+        </section>
+
+        <section class="terrain-stage">
+            <div class="terrain-container">
+                <div class="terrain-visual">
+                    <svg id="terrain-svg" viewBox="0 0 1000 350" preserveAspectRatio="xMidYMax meet">
+                        <defs>
+                            <linearGradient id="terrainGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#8b5a2b"/>
+                                <stop offset="100%" style="stop-color:#3d2b5e"/>
+                            </linearGradient>
+                            <linearGradient id="hillGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#4caf50"/>
+                                <stop offset="50%" style="stop-color:#8b5a2b"/>
+                                <stop offset="100%" style="stop-color:#3d2b5e"/>
+                            </linearGradient>
+                            <linearGradient id="skyGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#1a0a2e"/>
+                                <stop offset="100%" style="stop-color:#2d1b4e"/>
+                            </linearGradient>
+                        </defs>
+
+                        <!-- Sky background -->
+                        <rect x="0" y="0" width="1000" height="350" fill="url(#skyGradient)"/>
+
+                        <!-- Terrain feature - will change based on selection -->
+                        <g id="terrain-feature">
+                            <!-- Flat terrain (default) -->
+                            <rect class="flat-ground" x="0" y="280" width="1000" height="70"/>
+                        </g>
+
+                        <!-- Wind streams - slow baseline -->
+                        <g id="wind-streams">
+                            <path class="wind-stream" d="M0 100 Q250 100 500 100 T1000 100"/>
+                            <path class="wind-stream" d="M0 150 Q250 150 500 150 T1000 150"/>
+                            <path class="wind-stream" d="M0 200 Q250 200 500 200 T1000 200"/>
+                        </g>
+
+                        <!-- Building on flat -->
+                        <rect class="building-flat" id="flat-building" x="150" y="230" width="40" height="50"/>
+
+                        <!-- Building on feature (hidden initially) -->
+                        <rect class="building-on-hill" id="hill-building" x="480" y="150" width="40" height="50" style="display:none"/>
+
+                        <!-- Speed labels -->
+                        <text x="50" y="80" fill="var(--accent-cyan)" font-size="14" id="speed-label-1">V = 180 mph</text>
+                        <text x="500" y="80" fill="var(--accent-magenta)" font-size="16" font-weight="bold" id="speed-label-2" style="display:none">V = 212 mph</text>
+                    </svg>
+                </div>
+
+                <div class="terrain-controls">
+                    <button class="terrain-btn active" data-terrain="flat">
+                        <span class="icon">___</span>
+                        <span>Flat Terrain</span>
+                    </button>
+                    <button class="terrain-btn" data-terrain="hill">
+                        <span class="icon">/\</span>
+                        <span>Hill (3D)</span>
+                    </button>
+                    <button class="terrain-btn" data-terrain="ridge">
+                        <span class="icon">/\_</span>
+                        <span>Ridge (2D)</span>
+                    </button>
+                    <button class="terrain-btn" data-terrain="escarpment">
+                        <span class="icon">_/</span>
+                        <span>Escarpment</span>
+                    </button>
+                </div>
+
+                <div class="kzt-readout">
+                    <div class="kzt-card active" id="kzt-flat">
+                        <div class="kzt-label">Flat Terrain</div>
+                        <div class="kzt-value">1.00</div>
+                        <div class="kzt-note">No speed-up effect</div>
+                    </div>
+                    <div class="kzt-card" id="kzt-moderate">
+                        <div class="kzt-label">Moderate Slope</div>
+                        <div class="kzt-value">1.30</div>
+                        <div class="kzt-note">+30% velocity = +69% pressure</div>
+                    </div>
+                    <div class="kzt-card" id="kzt-steep">
+                        <div class="kzt-label">Steep Feature</div>
+                        <div class="kzt-value">1.80</div>
+                        <div class="kzt-note">+80% velocity = +224% pressure!</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="florida-note">
+            <h3>Good News for Broward County!</h3>
+            <p>Most of Broward County is <strong>flat coastal terrain</strong>, so K<sub>zt</sub> = 1.0 for the vast majority of projects. You only need to consider K<sub>zt</sub> > 1.0 if building near significant hills, ridges, or escarpments - which are rare in South Florida!</p>
+        </div>
+
+        <section class="story-section">
+            <div class="story-grid">
+                <div class="story-card">
+                    <h3>Wind is Like Water</h3>
+                    <p>Imagine a river flowing toward a large rock. The water has to go <strong>over or around</strong> the obstacle, and it speeds up as it squeezes past. Wind does the exact same thing over hills - it compresses and accelerates at the crest.</p>
+                </div>
+
+                <div class="story-card">
+                    <h3>The Speed-Up Zone</h3>
+                    <p>The maximum speed-up happens at the <strong>crest of the hill</strong> and extends downwind for a distance. A building right on top of a steep hill might experience <strong>80% faster wind</strong> than one on flat ground nearby!</p>
+                </div>
+
+                <div class="story-card full-width">
+                    <h3>When Does Kzt Apply?</h3>
+                    <p>ASCE 7 requires K<sub>zt</sub> > 1.0 only when specific conditions are met. The terrain feature must be significant enough to cause measurable speed-up:</p>
+                    <ul class="conditions-list">
+                        <li>Hill, ridge, or escarpment with H/L<sub>h</sub> >= 0.2 (steep enough)</li>
+                        <li>Building in upper half of hill or within 2H downwind of crest</li>
+                        <li>Terrain is unobstructed upwind for 100H or 2 miles (whichever is less)</li>
+                        <li>Feature protrudes above surrounding terrain by at least 15 feet</li>
+                    </ul>
+                </div>
+
+                <div class="story-card">
+                    <h3>The Math Impact</h3>
+                    <p>Since pressure is proportional to <strong>velocity squared</strong>, even small speed-ups have big effects:</p>
+                    <div class="formula-box">
+                        <div class="formula">K<sub>zt</sub> = (1 + K<sub>1</sub>K<sub>2</sub>K<sub>3</sub>)<sup>2</sup></div>
+                    </div>
+                    <p style="margin-top: 15px;">A 20% wind speed increase (K<sub>zt</sub>=1.44) means 44% more pressure on your building!</p>
+                </div>
+
+                <div class="story-card">
+                    <h3>Three Terrain Types</h3>
+                    <p>ASCE 7 categorizes terrain features into:</p>
+                    <ul class="conditions-list">
+                        <li><strong style="color: var(--accent-cyan);">2D Ridge:</strong> Long elevated feature (like a mountain range)</li>
+                        <li><strong style="color: var(--accent-cyan);">2D Escarpment:</strong> Cliff or steep drop-off</li>
+                        <li><strong style="color: var(--accent-cyan);">3D Hill:</strong> Isolated elevated feature (typical hill)</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What is the topographic factor Kzt?</h3>
+                <p>Kzt is a wind speed-up factor that accounts for increased wind speeds over hills, ridges, and escarpments. When wind flows over elevated terrain features, it accelerates similar to water speeding up over rocks in a stream. Kzt can increase wind pressure by up to 80% (Kzt up to 1.8) at the crest of significant terrain features.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Does Kzt apply to buildings in Broward County?</h3>
+                <p>For most of Broward County, Kzt = 1.0 because the terrain is relatively flat. The topographic speed-up factor only applies when buildings are located on or near hills, ridges, or escarpments that meet specific height and slope requirements defined in ASCE 7. Florida's generally flat coastal terrain rarely triggers Kzt greater than 1.0.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What terrain features require Kzt > 1.0?</h3>
+                <p>Kzt greater than 1.0 applies to: (1) 2D ridges - long elevated features, (2) 2D escarpments - cliff-like edges, and (3) 3D axisymmetric hills - isolated elevated features. The feature must have H/Lh >= 0.2 (where H is height and Lh is horizontal distance to half-height), and the building must be in the upper half of the hill or within a certain distance downwind.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How much can Kzt increase wind loads?</h3>
+                <p>Kzt can range from 1.0 (no increase) to about 1.8 (80% increase in velocity pressure) depending on terrain feature geometry and building location. Since pressure is proportional to velocity squared, even a Kzt of 1.3 (speed-up factor) results in 69% higher velocity pressure than flat terrain.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Where in the wind load formula does Kzt appear?</h3>
+                <p>Kzt is part of the velocity pressure formula: qz = 0.00256 x Kz x Kzt x Kd x Ke x V squared. When Kzt = 1.0 (flat terrain), it has no effect. When Kzt greater than 1.0, it directly multiplies the velocity pressure, significantly increasing wind loads for buildings on elevated terrain.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Get Accurate Wind Loads for Your Site</h2>
+                <p>Our calculator accounts for topographic conditions when needed. Enter your project location and get ASCE 7-22 compliant wind loads for Broward County.</p>
+                <a href="https://windload.co" class="cta-button">Calculate Wind Loads Now</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Background - Flowing over terrain
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 70;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height * 0.7,
+                vx: Math.random() * 2 + 1,
+                vy: 0,
+                size: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? '#8b5a2b' : '#4caf50',
+                alpha: Math.random() * 0.4 + 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                // Simulate terrain effect - particles speed up in middle
+                const centerInfluence = 1 - Math.abs(p.x - canvas.width / 2) / (canvas.width / 2);
+                const speedBoost = 1 + centerInfluence * 1.5;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * speedBoost, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                // Trail showing speed
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x - p.vx * speedBoost * 8, p.y);
+                ctx.strokeStyle = p.color + Math.floor(p.alpha * 128).toString(16).padStart(2, '0');
+                ctx.lineWidth = p.size * 0.5;
+                ctx.stroke();
+
+                p.x += p.vx * speedBoost;
+
+                if (p.x > canvas.width + 20) {
+                    p.x = -10;
+                    p.y = Math.random() * canvas.height * 0.7;
+                }
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Terrain visualization
+        const terrainFeature = document.getElementById('terrain-feature');
+        const windStreams = document.getElementById('wind-streams');
+        const flatBuilding = document.getElementById('flat-building');
+        const hillBuilding = document.getElementById('hill-building');
+        const speedLabel2 = document.getElementById('speed-label-2');
+        const kztCards = document.querySelectorAll('.kzt-card');
+
+        const terrainConfigs = {
+            flat: {
+                svg: `<rect class="flat-ground" x="0" y="280" width="1000" height="70"/>`,
+                streams: `
+                    <path class="wind-stream" d="M0 100 Q250 100 500 100 T1000 100"/>
+                    <path class="wind-stream" d="M0 150 Q250 150 500 150 T1000 150"/>
+                    <path class="wind-stream" d="M0 200 Q250 200 500 200 T1000 200"/>
+                `,
+                kzt: 'flat',
+                showHillBuilding: false
+            },
+            hill: {
+                svg: `
+                    <rect class="flat-ground" x="0" y="280" width="1000" height="70"/>
+                    <ellipse class="hill-feature" cx="500" cy="280" rx="200" ry="100"/>
+                `,
+                streams: `
+                    <path class="wind-stream" d="M0 200 Q200 200 350 180 T500 120"/>
+                    <path class="wind-stream fast" d="M350 180 Q500 100 650 180 T1000 200"/>
+                    <path class="wind-stream" d="M0 150 Q200 150 350 120 T500 80"/>
+                `,
+                kzt: 'moderate',
+                showHillBuilding: true,
+                buildingY: 145
+            },
+            ridge: {
+                svg: `
+                    <rect class="flat-ground" x="0" y="280" width="1000" height="70"/>
+                    <polygon class="hill-feature" points="300,280 500,180 700,280"/>
+                `,
+                streams: `
+                    <path class="wind-stream" d="M0 200 Q200 200 400 160"/>
+                    <path class="wind-stream fast" d="M400 160 Q500 100 600 160"/>
+                    <path class="wind-stream" d="M600 160 Q800 200 1000 200"/>
+                `,
+                kzt: 'moderate',
+                showHillBuilding: true,
+                buildingY: 135
+            },
+            escarpment: {
+                svg: `
+                    <rect class="flat-ground" x="0" y="280" width="400" height="70"/>
+                    <rect class="flat-ground" x="400" y="200" width="600" height="150"/>
+                    <polygon class="hill-feature" points="400,280 400,200 500,200"/>
+                `,
+                streams: `
+                    <path class="wind-stream" d="M0 220 Q200 220 350 220"/>
+                    <path class="wind-stream fast" d="M350 220 Q450 150 550 150 T1000 150"/>
+                    <path class="wind-stream" d="M0 180 Q200 180 350 180 Q450 110 550 110"/>
+                `,
+                kzt: 'steep',
+                showHillBuilding: true,
+                buildingY: 150
+            }
+        };
+
+        document.querySelectorAll('.terrain-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.terrain-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                const terrain = this.dataset.terrain;
+                const config = terrainConfigs[terrain];
+
+                // Update terrain
+                terrainFeature.innerHTML = config.svg;
+                windStreams.innerHTML = config.streams;
+
+                // Toggle buildings
+                flatBuilding.style.display = config.showHillBuilding ? 'none' : 'block';
+                hillBuilding.style.display = config.showHillBuilding ? 'block' : 'none';
+                speedLabel2.style.display = config.showHillBuilding ? 'block' : 'none';
+
+                if (config.buildingY) {
+                    hillBuilding.setAttribute('y', config.buildingY);
+                }
+
+                // Update Kzt cards
+                kztCards.forEach(card => card.classList.remove('active'));
+                document.getElementById('kzt-' + config.kzt).classList.add('active');
+            });
+        });
+
+        // Story cards scroll animation
+        const storyCards = document.querySelectorAll('.story-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        storyCards.forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>

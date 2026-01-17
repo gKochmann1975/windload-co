@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enclosure Classification Explained | Enclosed vs Partially Enclosed | Broward County FL</title>
+    <meta name="description" content="Learn how building enclosure classification affects wind loads in Broward County FL. Animated comparison of enclosed, partially enclosed, and open buildings per ASCE 7-22.">
+    <meta name="keywords" content="enclosure classification, partially enclosed building, enclosed building wind, open building wind loads, GCpi internal pressure, Broward County ASCE 7">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/broward/enclosure-classification.html">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Building Enclosure Classification - Enclosed vs Open | Broward County FL">
+    <meta property="og:description" content="Animated comparison shows how enclosure type changes internal pressure and wind loads.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/broward/enclosure-classification.html">
+    <meta property="og:image" content="https://windload.co/images/enclosure-classification-og.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Enclosure Classification - Internal Pressure Changes Everything">
+    <meta name="twitter:description" content="Interactive guide to enclosed vs partially enclosed building classifications.">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --enclosed-color: #4caf50;
+            --partial-color: #ff9800;
+            --open-color: #f44336;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        .hero {
+            padding: 80px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--partial-color), var(--enclosed-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .comparison-stage {
+            padding: 60px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .buildings-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+
+        .building-card {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 30px;
+            border: 3px solid transparent;
+            transition: all 0.5s ease;
+            cursor: pointer;
+        }
+
+        .building-card.enclosed { border-color: var(--enclosed-color); }
+        .building-card.partial { border-color: var(--partial-color); }
+        .building-card.open { border-color: var(--open-color); }
+
+        .building-card.active {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+        }
+
+        .building-card.enclosed.active { box-shadow: 0 20px 50px rgba(76, 175, 80, 0.3); }
+        .building-card.partial.active { box-shadow: 0 20px 50px rgba(255, 152, 0, 0.3); }
+        .building-card.open.active { box-shadow: 0 20px 50px rgba(244, 67, 54, 0.3); }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 5px;
+        }
+
+        .building-card.enclosed .card-title { color: var(--enclosed-color); }
+        .building-card.partial .card-title { color: var(--partial-color); }
+        .building-card.open .card-title { color: var(--open-color); }
+
+        .card-subtitle {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .building-visual {
+            height: 200px;
+            position: relative;
+            margin: 20px 0;
+        }
+
+        .building-visual svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .building-shell {
+            fill: none;
+            stroke-width: 3;
+        }
+
+        .enclosed .building-shell { stroke: var(--enclosed-color); fill: rgba(76, 175, 80, 0.1); }
+        .partial .building-shell { stroke: var(--partial-color); fill: rgba(255, 152, 0, 0.1); }
+        .open .building-shell { stroke: var(--open-color); fill: none; }
+
+        .building-opening {
+            fill: rgba(0, 0, 0, 0.5);
+            stroke-width: 2;
+        }
+
+        .wind-flow {
+            fill: none;
+            stroke: var(--accent-cyan);
+            stroke-width: 2;
+            stroke-dasharray: 8, 4;
+            animation: windDash 1s linear infinite;
+        }
+
+        @keyframes windDash {
+            0% { stroke-dashoffset: 0; }
+            100% { stroke-dashoffset: -24; }
+        }
+
+        .internal-pressure {
+            transition: all 0.5s ease;
+        }
+
+        .pressure-positive {
+            fill: rgba(255, 71, 87, 0.3);
+            stroke: #ff4757;
+            stroke-width: 2;
+        }
+
+        .pressure-negative {
+            fill: rgba(55, 66, 250, 0.3);
+            stroke: #3742fa;
+            stroke-width: 2;
+        }
+
+        .gcpi-display {
+            text-align: center;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .gcpi-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .gcpi-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .enclosed .gcpi-value { color: var(--enclosed-color); }
+        .partial .gcpi-value { color: var(--partial-color); }
+        .open .gcpi-value { color: var(--open-color); }
+
+        .gcpi-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .criteria-list {
+            margin-top: 20px;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .criteria-list h4 {
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+
+        .criteria-list ul {
+            list-style: none;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .criteria-list li {
+            padding: 5px 0;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .criteria-list li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            margin-top: 8px;
+            flex-shrink: 0;
+        }
+
+        .enclosed .criteria-list li::before { background: var(--enclosed-color); }
+        .partial .criteria-list li::before { background: var(--partial-color); }
+        .open .criteria-list li::before { background: var(--open-color); }
+
+        .impact-section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .impact-visual {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.7), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 40px;
+            border: 1px solid rgba(255, 152, 0, 0.3);
+        }
+
+        .impact-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--partial-color);
+        }
+
+        .pressure-comparison {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 30px;
+        }
+
+        .pressure-scenario {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+        }
+
+        .scenario-title {
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .pressure-calc {
+            font-family: 'Courier New', monospace;
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 2;
+        }
+
+        .pressure-calc .result {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--accent-magenta);
+        }
+
+        .story-section {
+            padding: 80px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-block {
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.8));
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--partial-color);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .story-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-block h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--partial-color);
+        }
+
+        .story-block p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .story-block strong {
+            color: var(--accent-cyan);
+        }
+
+        .warning-box {
+            background: rgba(244, 67, 54, 0.15);
+            border: 2px solid var(--open-color);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 40px 5%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .warning-box h3 {
+            color: var(--open-color);
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .warning-box p {
+            color: var(--text-muted);
+            font-size: 1.05rem;
+        }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--partial-color);
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 152, 0, 0.2);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
+        }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(255, 152, 0, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--partial-color);
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--partial-color), var(--enclosed-color));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(255, 152, 0, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(255, 152, 0, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 152, 0, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .buildings-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pressure-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are the building enclosure classifications in ASCE 7?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ASCE 7 defines three enclosure classifications: Enclosed (openings less than 1% of wall area), Partially Enclosed (openings exceed the 1% threshold with specific distribution requirements), and Open (80% or more of each wall is open). Each classification has different internal pressure coefficients (GCpi) that significantly affect wind load calculations."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What GCpi value applies to enclosed buildings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Enclosed buildings use GCpi = plus or minus 0.18. This relatively low internal pressure coefficient applies when total openings are less than 1% of the gross wall area on each wall, or less than 4 square feet, whichever is smaller. Both positive and negative internal pressure must be checked."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When is a building classified as partially enclosed?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A building is partially enclosed when: (1) Total area of openings on one wall exceeds 1.1 times the sum of openings on all other walls, AND (2) Total area of openings on that wall exceeds 4 sq ft or 1% of gross wall area. This typically occurs when a large door or window fails during a storm."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does partially enclosed classification increase wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Partially enclosed buildings use GCpi = plus or minus 0.55, which is 3 times higher than enclosed buildings. When wind enters through a large opening on the windward side, it pressurizes the interior, adding to the outward forces on walls and roof. This can increase design loads by 30-50% or more."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I avoid partially enclosed classification in hurricane zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In Broward County's Wind-Borne Debris Region, glazing must be impact-resistant or protected by shutters to qualify as enclosed. Without protection, the building must be designed as partially enclosed. Using impact-rated windows and doors allows the lower GCpi = 0.18 and significantly reduces structural requirements."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "WindLoad.co",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Broward County",
+                "item": "https://windload.co/broward/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Enclosure Classification",
+                "item": "https://windload.co/broward/enclosure-classification.html"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <div class="logo">WindLoad.co</div>
+            <a href="https://windload.co" class="nav-cta">Get Wind Loads</a>
+        </header>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/broward/">Broward County</a> /
+                Enclosure Classification
+            </div>
+            <h1>Is Your Building <span>Sealed or Leaky?</span></h1>
+            <p class="subtitle">How you classify your building's openings can change wind loads by 50% or more. Enclosed, partially enclosed, or open - the GCpi makes a huge difference!</p>
+        </section>
+
+        <section class="comparison-stage">
+            <div class="buildings-grid">
+                <div class="building-card enclosed active" data-type="enclosed">
+                    <div class="card-header">
+                        <h3 class="card-title">ENCLOSED</h3>
+                        <p class="card-subtitle">Minimal openings, sealed tight</p>
+                    </div>
+
+                    <div class="building-visual">
+                        <svg viewBox="0 0 200 180">
+                            <!-- Building shell -->
+                            <rect class="building-shell" x="20" y="40" width="160" height="120" rx="5"/>
+
+                            <!-- Roof -->
+                            <polygon class="building-shell" points="20,40 100,5 180,40"/>
+
+                            <!-- Small windows (representing <1% openings) -->
+                            <rect class="building-opening" x="40" y="70" width="25" height="30" stroke="var(--enclosed-color)"/>
+                            <rect class="building-opening" x="135" y="70" width="25" height="30" stroke="var(--enclosed-color)"/>
+                            <rect class="building-opening" x="85" y="110" width="30" height="50" stroke="var(--enclosed-color)"/>
+
+                            <!-- Internal pressure indicator -->
+                            <circle class="internal-pressure pressure-positive" cx="100" cy="100" r="20" opacity="0.5"/>
+                            <text x="100" y="105" fill="white" font-size="14" text-anchor="middle">Low</text>
+                        </svg>
+                    </div>
+
+                    <div class="gcpi-display">
+                        <div class="gcpi-label">Internal Pressure (GCpi)</div>
+                        <div class="gcpi-value">+/-0.18</div>
+                        <div class="gcpi-note">Lowest internal pressure</div>
+                    </div>
+
+                    <div class="criteria-list">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            <li>Total openings in each wall < 1% of gross wall area</li>
+                            <li>OR total openings < 4 sq ft per wall</li>
+                            <li>In WBDR: Glazing must be impact-resistant</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="building-card partial" data-type="partial">
+                    <div class="card-header">
+                        <h3 class="card-title">PARTIALLY ENCLOSED</h3>
+                        <p class="card-subtitle">Dominant opening on one wall</p>
+                    </div>
+
+                    <div class="building-visual">
+                        <svg viewBox="0 0 200 180">
+                            <!-- Building shell -->
+                            <rect class="building-shell" x="20" y="40" width="160" height="120" rx="5"/>
+
+                            <!-- Roof -->
+                            <polygon class="building-shell" points="20,40 100,5 180,40"/>
+
+                            <!-- Large opening on windward wall -->
+                            <rect class="building-opening" x="20" y="80" width="8" height="60" fill="rgba(0,0,0,0.8)" stroke="var(--partial-color)" stroke-width="3"/>
+
+                            <!-- Wind flowing in -->
+                            <path class="wind-flow" d="M0 110 Q10 110 28 110"/>
+                            <path class="wind-flow" d="M28 110 Q60 90 100 100 T160 110" style="animation-delay: 0.3s"/>
+
+                            <!-- Small openings on other walls -->
+                            <rect class="building-opening" x="135" y="90" width="20" height="25" stroke="var(--partial-color)"/>
+
+                            <!-- Internal pressure - high -->
+                            <circle class="internal-pressure pressure-positive" cx="100" cy="100" r="35" opacity="0.6"/>
+                            <text x="100" y="105" fill="white" font-size="12" text-anchor="middle">HIGH!</text>
+                        </svg>
+                    </div>
+
+                    <div class="gcpi-display">
+                        <div class="gcpi-label">Internal Pressure (GCpi)</div>
+                        <div class="gcpi-value">+/-0.55</div>
+                        <div class="gcpi-note">3x higher than enclosed!</div>
+                    </div>
+
+                    <div class="criteria-list">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            <li>Openings on one wall > 1.1x sum of other walls</li>
+                            <li>AND that wall's openings > 4 sq ft or 1%</li>
+                            <li>Common when glazing fails in hurricane</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="building-card open" data-type="open">
+                    <div class="card-header">
+                        <h3 class="card-title">OPEN</h3>
+                        <p class="card-subtitle">80%+ of each wall is open</p>
+                    </div>
+
+                    <div class="building-visual">
+                        <svg viewBox="0 0 200 180">
+                            <!-- Building shell - just columns -->
+                            <line class="building-shell" x1="25" y1="40" x2="25" y2="160" stroke-width="6"/>
+                            <line class="building-shell" x1="175" y1="40" x2="175" y2="160" stroke-width="6"/>
+
+                            <!-- Roof -->
+                            <polygon class="building-shell" points="20,40 100,5 180,40"/>
+                            <line class="building-shell" x1="20" y1="40" x2="180" y2="40" stroke-width="4"/>
+
+                            <!-- Wind flowing through -->
+                            <path class="wind-flow" d="M0 80 Q50 80 100 80 T200 80"/>
+                            <path class="wind-flow" d="M0 110 Q50 110 100 110 T200 110" style="animation-delay: 0.2s"/>
+                            <path class="wind-flow" d="M0 140 Q50 140 100 140 T200 140" style="animation-delay: 0.4s"/>
+
+                            <!-- No internal pressure difference -->
+                            <text x="100" y="105" fill="var(--text-muted)" font-size="11" text-anchor="middle">No enclosure</text>
+                        </svg>
+                    </div>
+
+                    <div class="gcpi-display">
+                        <div class="gcpi-label">Internal Pressure (GCpi)</div>
+                        <div class="gcpi-value">0.00</div>
+                        <div class="gcpi-note">No internal pressure (wind flows through)</div>
+                    </div>
+
+                    <div class="criteria-list">
+                        <h4>Requirements:</h4>
+                        <ul>
+                            <li>Each wall 80% or more open</li>
+                            <li>Carports, pavilions, canopies</li>
+                            <li>Uses different MWFRS provisions</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="impact-section">
+            <div class="impact-visual">
+                <h2 class="impact-title">The Real Impact: +/-0.18 vs +/-0.55</h2>
+                <div class="pressure-comparison">
+                    <div class="pressure-scenario">
+                        <h3 class="scenario-title">Enclosed Building (GCpi = 0.18)</h3>
+                        <div class="pressure-calc">
+                            External: -45.0 psf (suction)<br>
+                            Internal: +45 x 0.18 = +8.1 psf<br>
+                            <span class="result">Net: -53.1 psf</span>
+                        </div>
+                    </div>
+                    <div class="pressure-scenario">
+                        <h3 class="scenario-title">Partially Enclosed (GCpi = 0.55)</h3>
+                        <div class="pressure-calc">
+                            External: -45.0 psf (suction)<br>
+                            Internal: +45 x 0.55 = +24.8 psf<br>
+                            <span class="result">Net: -69.8 psf (+31%)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="warning-box">
+            <h3>Broward County Wind-Borne Debris Region Warning</h3>
+            <p>In Broward County's WBDR, <strong>all glazing must be impact-resistant or protected</strong> to qualify as "enclosed." Unprotected glass is assumed to break in a hurricane, automatically triggering "partially enclosed" classification with GCpi = 0.55. This can add 30-50% to your structural requirements!</p>
+        </div>
+
+        <section class="story-section">
+            <div class="story-block">
+                <h3>The Balloon Effect</h3>
+                <p>Imagine your building is a balloon. When it's sealed (enclosed), air pressure inside and outside stay balanced - the balloon holds its shape easily. But poke a hole facing the wind, and suddenly <strong>air rushes in</strong>, inflating the balloon and pushing outward on all sides.</p>
+                <p>That's exactly what happens when a window breaks on the windward wall during a hurricane. The building tries to <strong>explode from inside</strong>.</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Why Glazing Protection Matters</h3>
+                <p>Impact-resistant windows aren't just about keeping debris out - they're about <strong>keeping your building classified as enclosed</strong>. A single broken window can:</p>
+                <ul style="margin-left: 20px; color: var(--text-muted);">
+                    <li style="margin: 10px 0;">Triple your internal pressure coefficient (0.18 to 0.55)</li>
+                    <li style="margin: 10px 0;">Add 30-50% to roof and wall design pressures</li>
+                    <li style="margin: 10px 0;">Overload connections designed for lower loads</li>
+                    <li style="margin: 10px 0;">Lead to progressive failure of the structure</li>
+                </ul>
+            </div>
+
+            <div class="story-block">
+                <h3>The Engineer's Choice</h3>
+                <p>Engineers in Broward County face a decision: specify <strong>impact-rated glazing</strong> and design for enclosed pressures, or use standard glazing and design the entire structure for partially enclosed loads.</p>
+                <p>Usually, impact windows are cheaper than beefing up every connection, beam, and fastener to handle the higher GCpi. But you need to run the numbers for your specific project!</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What are the building enclosure classifications in ASCE 7?</h3>
+                <p>ASCE 7 defines three enclosure classifications: Enclosed (openings less than 1% of wall area), Partially Enclosed (openings exceed the 1% threshold with specific distribution requirements), and Open (80% or more of each wall is open). Each classification has different internal pressure coefficients (GCpi) that significantly affect wind load calculations.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What GCpi value applies to enclosed buildings?</h3>
+                <p>Enclosed buildings use GCpi = plus or minus 0.18. This relatively low internal pressure coefficient applies when total openings are less than 1% of the gross wall area on each wall, or less than 4 square feet, whichever is smaller. Both positive and negative internal pressure must be checked.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>When is a building classified as partially enclosed?</h3>
+                <p>A building is partially enclosed when: (1) Total area of openings on one wall exceeds 1.1 times the sum of openings on all other walls, AND (2) Total area of openings on that wall exceeds 4 sq ft or 1% of gross wall area. This typically occurs when a large door or window fails during a storm.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Why does partially enclosed classification increase wind loads?</h3>
+                <p>Partially enclosed buildings use GCpi = plus or minus 0.55, which is 3 times higher than enclosed buildings. When wind enters through a large opening on the windward side, it pressurizes the interior, adding to the outward forces on walls and roof. This can increase design loads by 30-50% or more.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How do I avoid partially enclosed classification in hurricane zones?</h3>
+                <p>In Broward County's Wind-Borne Debris Region, glazing must be impact-resistant or protected by shutters to qualify as enclosed. Without protection, the building must be designed as partially enclosed. Using impact-rated windows and doors allows the lower GCpi = 0.18 and significantly reduces structural requirements.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Get Wind Loads for Your Enclosure Type</h2>
+                <p>Our calculator applies the correct GCpi based on your building's enclosure classification. Enclosed or partially enclosed - we calculate both scenarios instantly.</p>
+                <a href="https://windload.co" class="cta-button">Calculate Wind Loads Now</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 80;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 2 + 1,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1,
+                color: ['#4caf50', '#ff9800', '#f44336'][Math.floor(Math.random() * 3)],
+                alpha: Math.random() * 0.4 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x > canvas.width + 10) p.x = -10;
+                if (p.y > canvas.height) p.y = 0;
+                if (p.y < 0) p.y = canvas.height;
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Building card interactions
+        const buildingCards = document.querySelectorAll('.building-card');
+
+        buildingCards.forEach(card => {
+            card.addEventListener('click', function() {
+                buildingCards.forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Auto-cycle through cards
+        let currentCard = 0;
+        function cycleCards() {
+            buildingCards.forEach(c => c.classList.remove('active'));
+            buildingCards[currentCard].classList.add('active');
+            currentCard = (currentCard + 1) % 3;
+        }
+
+        setInterval(cycleCards, 4000);
+
+        // Story blocks scroll animation
+        const storyBlocks = document.querySelectorAll('.story-block');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        storyBlocks.forEach(block => observer.observe(block));
+    </script>
+</body>
+</html>

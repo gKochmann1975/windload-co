@@ -1,0 +1,1706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Concrete Anchor Design for Wind Loads | Miami-Dade HVHZ Calculator</title>
+    <meta name="description" content="Calculate concrete anchor embedment depth for hurricane wind loads in Miami-Dade. See pullout force vs depth. Simple anchor design for general contractors.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/concrete-anchor-design">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Concrete Anchor Design for Wind Loads | Hold Fast">
+    <meta property="og:description" content="Calculate concrete anchor embedment depth for hurricane wind loads. Visual pullout force calculator for Miami-Dade HVHZ.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/concrete-anchor-design">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How deep should concrete anchors be for hurricane wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Concrete anchor embedment depth depends on the pullout force from wind loads. In Miami-Dade HVHZ with 180 mph winds, typical embedment depths range from 4 inches for light loads to 8+ inches for heavy equipment. Deeper anchors resist more force - generally each inch of embedment adds 500-1000 lbs of pullout capacity depending on anchor type and concrete strength."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What anchor types are approved for Miami-Dade hurricane zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Miami-Dade HVHZ approved anchor types include: Post-installed mechanical anchors (wedge anchors, sleeve anchors), Post-installed adhesive anchors (epoxy, hybrid), Cast-in-place anchors, and Powder-actuated fasteners. All must have product approvals showing capacity data for the specific application. Adhesive anchors require special inspection in HVHZ."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I calculate anchor pullout force from wind load?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Anchor pullout force equals the wind uplift force divided by the number of anchors, with a safety factor. For example: If wind creates 2,000 lbs uplift on equipment with 4 anchors, each anchor sees 500 lbs. Apply a safety factor of 2-4 depending on code requirements. So each anchor needs 1,000-2,000 lb capacity. Always verify with engineering calculations."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What concrete strength is needed for hurricane anchor installation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Minimum 3,000 psi concrete is typically required for anchor installations. However, 4,000-5,000 psi concrete provides significantly higher anchor capacity. The anchor capacity tables in product approvals show different values for different concrete strengths. Older buildings may have lower concrete strength - testing may be required."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do concrete anchors need inspection in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, concrete anchors in Miami-Dade HVHZ typically require special inspection. Adhesive anchors always require continuous special inspection during installation. Mechanical anchors may require periodic inspection. The building official determines inspection requirements based on the project scope and structural importance."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Concrete Anchor Design", "item": "https://windload.co/florida/miami-dade/concrete-anchor-design"}
+        ]
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0a0a12;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas Background - Concrete/Stone Theme */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.7;
+        }
+
+        /* Floating Stats Widget */
+        .floating-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(10, 10, 18, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 16px;
+            padding: 16px 20px;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(139, 92, 246, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .floating-widget.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .widget-title {
+            font-size: 0.7rem;
+            color: #8b5cf6;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .widget-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .widget-stat {
+            text-align: center;
+        }
+
+        .widget-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #a78bfa;
+        }
+
+        .widget-label {
+            font-size: 0.65rem;
+            color: #64748b;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 10, 18, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo span span { color: #8b5cf6; }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: #8b5cf6; }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+        .breadcrumb a:hover { color: #8b5cf6; }
+        .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
+        .breadcrumb-current { color: #94a3b8; font-size: 0.875rem; }
+
+        /* Hero Section with Anchor Animation */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            color: #a78bfa;
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #8b5cf6 0%, #a78bfa 50%, #c4b5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+            box-shadow: 0 4px 25px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(139, 92, 246, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+
+        /* Anchor Animation Container */
+        .anchor-animation {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .anchor-visual {
+            position: relative;
+            height: 400px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+        }
+
+        /* Concrete Block */
+        .concrete-block {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            height: 280px;
+            background: linear-gradient(180deg, #4a4a5a 0%, #3a3a4a 50%, #2a2a3a 100%);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .concrete-texture {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(255,255,255,0.05) 1px, transparent 1px),
+                radial-gradient(circle at 80% 60%, rgba(255,255,255,0.03) 2px, transparent 2px),
+                radial-gradient(circle at 40% 80%, rgba(255,255,255,0.04) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+
+        .concrete-label {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Anchor Bolt */
+        .anchor-bolt {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            transition: all 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 5;
+        }
+
+        .bolt-head {
+            width: 40px;
+            height: 20px;
+            background: linear-gradient(180deg, #c4c4c4 0%, #888 100%);
+            border-radius: 4px;
+            margin: 0 auto;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        .bolt-shaft {
+            width: 16px;
+            height: var(--shaft-height, 100px);
+            background: linear-gradient(90deg, #666 0%, #999 50%, #666 100%);
+            margin: 0 auto;
+            position: relative;
+            transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .bolt-threads {
+            position: absolute;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 60%;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 3px,
+                rgba(0,0,0,0.3) 3px,
+                rgba(0,0,0,0.3) 5px
+            );
+        }
+
+        .bolt-expansion {
+            width: 30px;
+            height: 30px;
+            background: linear-gradient(135deg, #ffd700 0%, #ffaa00 100%);
+            clip-path: polygon(50% 100%, 0% 40%, 20% 0%, 80% 0%, 100% 40%);
+            margin: 0 auto;
+            transition: all 0.5s ease;
+        }
+
+        .anchor-bolt.expanded .bolt-expansion {
+            width: 50px;
+            animation: expand-pulse 1s ease-in-out infinite;
+        }
+
+        @keyframes expand-pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        /* Stress Lines */
+        .stress-lines {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            left: 50%;
+            bottom: 50px;
+            transform: translateX(-50%);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .stress-lines.visible {
+            opacity: 1;
+        }
+
+        .stress-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, rgba(255, 100, 100, 0.6), transparent);
+            height: 2px;
+            transform-origin: center center;
+            animation: stress-pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes stress-pulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+
+        /* Force Arrow */
+        .force-arrow {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .force-arrow.visible {
+            opacity: 1;
+            animation: pull-up 1s ease-in-out infinite;
+        }
+
+        @keyframes pull-up {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-10px); }
+        }
+
+        .arrow-shaft {
+            width: 4px;
+            height: 60px;
+            background: linear-gradient(180deg, #ff4757, transparent);
+        }
+
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 20px solid #ff4757;
+        }
+
+        .force-label {
+            margin-top: 10px;
+            font-weight: 700;
+            color: #ff4757;
+            font-size: 1.2rem;
+        }
+
+        /* Depth Indicator */
+        .depth-indicator {
+            position: absolute;
+            right: 20px;
+            top: 120px;
+            bottom: 20px;
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .depth-scale {
+            height: 100%;
+            width: 4px;
+            background: rgba(139, 92, 246, 0.3);
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .depth-marker {
+            position: absolute;
+            right: 15px;
+            font-size: 0.7rem;
+            color: #64748b;
+        }
+
+        .depth-value {
+            position: absolute;
+            left: 20px;
+            background: #8b5cf6;
+            color: white;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-weight: 700;
+            font-size: 0.9rem;
+            white-space: nowrap;
+            transition: all 0.5s ease;
+        }
+
+        /* Controls */
+        .anchor-controls {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .control-label span:first-child {
+            color: #94a3b8;
+        }
+
+        .control-label span:last-child {
+            color: #a78bfa;
+            font-weight: 700;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(139, 92, 246, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.5);
+            transition: transform 0.2s;
+        }
+
+        .slider::-webkit-slider-thumb:hover {
+            transform: scale(1.1);
+        }
+
+        /* Results Display */
+        .results-display {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-card {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #a78bfa;
+        }
+
+        .result-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Content Sections */
+        section {
+            position: relative;
+            z-index: 2;
+            padding: 5rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Anchor Types Section */
+        .anchor-types {
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.05) 0%, transparent 100%);
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .type-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .type-card:hover {
+            border-color: rgba(139, 92, 246, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(139, 92, 246, 0.15);
+        }
+
+        .type-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .type-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .type-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .type-specs {
+            list-style: none;
+            font-size: 0.85rem;
+            color: #64748b;
+        }
+
+        .type-specs li {
+            padding: 0.3rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .type-specs li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: #8b5cf6;
+            border-radius: 50%;
+        }
+
+        /* Capacity Calculator Section */
+        .capacity-section {
+            background: #0a0a12;
+        }
+
+        .capacity-calculator {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .calc-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .calc-inputs {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .input-group select,
+        .input-group input {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .input-group select:focus,
+        .input-group input:focus {
+            border-color: #8b5cf6;
+        }
+
+        .input-group select option {
+            background: #1a1a2e;
+        }
+
+        .calc-results {
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .calc-result-item {
+            text-align: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .calc-result-item:last-child {
+            border-bottom: none;
+        }
+
+        .calc-result-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #a78bfa;
+        }
+
+        .calc-result-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Installation Steps */
+        .steps-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(139, 92, 246, 0.05) 100%);
+        }
+
+        .steps-timeline {
+            position: relative;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .steps-timeline::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, #8b5cf6, transparent);
+        }
+
+        .step-item {
+            display: flex;
+            gap: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8b5cf6, #7c3aed);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            font-size: 1.25rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 20px rgba(139, 92, 246, 0.4);
+        }
+
+        .step-content h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: #0a0a12;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #8b5cf6;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 50%, #6d28d9 100%);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: #7c3aed;
+        }
+
+        .cta .btn-primary:hover {
+            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: #0a0a12;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        footer a { color: #8b5cf6; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                gap: 3rem;
+            }
+
+            .types-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+                margin: 0 auto;
+            }
+
+            .calc-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .btn {
+                justify-content: center;
+            }
+
+            .anchor-visual {
+                height: 350px;
+            }
+
+            .floating-widget {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+
+            .widget-stats {
+                justify-content: space-around;
+            }
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(139, 92, 246, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(139, 92, 246, 0.6); }
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Floating Stats Widget -->
+    <div class="floating-widget" id="floatingWidget">
+        <div class="widget-title">Quick Anchor Facts</div>
+        <div class="widget-stats">
+            <div class="widget-stat">
+                <div class="widget-value" id="widgetDepth">6"</div>
+                <div class="widget-label">Min. Embedment</div>
+            </div>
+            <div class="widget-stat">
+                <div class="widget-value">3000+</div>
+                <div class="widget-label">PSI Concrete</div>
+            </div>
+            <div class="widget-stat">
+                <div class="widget-value">180</div>
+                <div class="widget-label">MPH Wind</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_8b5cf6.svg" alt="" class="logo-img">
+            <span>Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/florida/miami-dade/">Miami-Dade</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=nav&utm_campaign=anchors">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/florida-pro.html">Florida</a>
+            <span>/</span>
+            <a href="/florida/miami-dade/">Miami-Dade</a>
+            <span>/</span>
+            <span class="breadcrumb-current">Concrete Anchor Design</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-text reveal">
+                <div class="hero-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>
+                    </svg>
+                    Miami-Dade HVHZ Anchor Design
+                </div>
+
+                <h1>Hold Fast: <span>Anchor Embedment</span> for Hurricane Winds</h1>
+
+                <p class="hero-subtitle">
+                    Think of anchors like roots of a tree. The deeper they go into the concrete, the harder it is for wind to pull them out. See exactly how deep your anchors need to be to resist 180 mph hurricane winds.
+                </p>
+
+                <div class="hero-cta">
+                    <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=anchors-miami" class="btn btn-primary">
+                        Calculate Wind Uplift
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="#calculator" class="btn btn-secondary">
+                        Try Anchor Calculator
+                    </a>
+                </div>
+            </div>
+
+            <!-- Interactive Anchor Animation -->
+            <div class="anchor-animation reveal">
+                <div class="anchor-visual">
+                    <!-- Force Arrow -->
+                    <div class="force-arrow" id="forceArrow">
+                        <div class="arrow-head"></div>
+                        <div class="arrow-shaft"></div>
+                        <div class="force-label" id="forceLabel">2,500 lbs</div>
+                    </div>
+
+                    <!-- The Anchor Bolt -->
+                    <div class="anchor-bolt" id="anchorBolt">
+                        <div class="bolt-head"></div>
+                        <div class="bolt-shaft" id="boltShaft">
+                            <div class="bolt-threads"></div>
+                        </div>
+                        <div class="bolt-expansion"></div>
+                    </div>
+
+                    <!-- Stress Lines in Concrete -->
+                    <div class="stress-lines" id="stressLines">
+                        <!-- Generated by JavaScript -->
+                    </div>
+
+                    <!-- Concrete Block -->
+                    <div class="concrete-block">
+                        <div class="concrete-texture"></div>
+                        <div class="concrete-label">Concrete Foundation</div>
+                    </div>
+
+                    <!-- Depth Indicator -->
+                    <div class="depth-indicator">
+                        <div class="depth-scale">
+                            <div class="depth-marker" style="top: 0%;">0"</div>
+                            <div class="depth-marker" style="top: 25%;">2"</div>
+                            <div class="depth-marker" style="top: 50%;">4"</div>
+                            <div class="depth-marker" style="top: 75%;">6"</div>
+                            <div class="depth-marker" style="top: 100%;">8"</div>
+                            <div class="depth-value" id="depthValue" style="top: 50%;">4" Embedment</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Controls -->
+                <div class="anchor-controls">
+                    <div class="control-group">
+                        <div class="control-label">
+                            <span>Embedment Depth</span>
+                            <span id="depthDisplay">4 inches</span>
+                        </div>
+                        <input type="range" class="slider" id="depthSlider" min="2" max="10" value="4" step="0.5">
+                    </div>
+
+                    <div class="control-group">
+                        <div class="control-label">
+                            <span>Wind Uplift Force</span>
+                            <span id="forceDisplay">2,500 lbs</span>
+                        </div>
+                        <input type="range" class="slider" id="forceSlider" min="500" max="8000" value="2500" step="100">
+                    </div>
+
+                    <div class="results-display">
+                        <div class="result-card">
+                            <div class="result-value" id="capacityResult">3,200</div>
+                            <div class="result-label">Anchor Capacity (lbs)</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="safetyResult">1.28</div>
+                            <div class="result-label">Safety Factor</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Anchor Types Section -->
+    <section class="anchor-types">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Anchor Types for Hurricane Zones</h2>
+                <p>Each anchor type has different strengths. Pick the right one for your job.</p>
+            </div>
+
+            <div class="types-grid">
+                <div class="type-card reveal">
+                    <div class="type-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                            <path d="M12 2v20M8 6l4-4 4 4M8 18l4 4 4-4"/>
+                        </svg>
+                    </div>
+                    <h3>Wedge Anchors</h3>
+                    <p>The workhorse of concrete anchors. A wedge at the bottom expands when you tighten the nut, gripping the concrete tight.</p>
+                    <ul class="type-specs">
+                        <li>Best for solid concrete</li>
+                        <li>High pullout capacity</li>
+                        <li>Permanent installation</li>
+                        <li>4,000-8,000 lb capacity typical</li>
+                    </ul>
+                </div>
+
+                <div class="type-card reveal">
+                    <div class="type-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/><path d="M12 6v12M6 12h12"/>
+                        </svg>
+                    </div>
+                    <h3>Epoxy Anchors</h3>
+                    <p>Chemical adhesive bonds a threaded rod to the concrete. Like super glue for steel and concrete - creates the strongest connection.</p>
+                    <ul class="type-specs">
+                        <li>Highest capacity available</li>
+                        <li>Works in cracked concrete</li>
+                        <li>Requires special inspection</li>
+                        <li>6,000-15,000 lb capacity typical</li>
+                    </ul>
+                </div>
+
+                <div class="type-card reveal">
+                    <div class="type-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                            <path d="M4 4h16v16H4z"/><path d="M9 9h6v6H9z"/>
+                        </svg>
+                    </div>
+                    <h3>Sleeve Anchors</h3>
+                    <p>A metal sleeve expands against the hole walls. Good for medium-duty applications and easier to install than wedge anchors.</p>
+                    <ul class="type-specs">
+                        <li>Easier installation</li>
+                        <li>Good for block walls</li>
+                        <li>Removable in some cases</li>
+                        <li>2,000-5,000 lb capacity typical</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Capacity Calculator Section -->
+    <section class="capacity-section" id="calculator">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Quick Anchor Capacity Estimator</h2>
+                <p>Get a rough idea of anchor requirements. Always verify with engineering calculations.</p>
+            </div>
+
+            <div class="capacity-calculator reveal">
+                <div class="calc-grid">
+                    <div class="calc-inputs">
+                        <div class="input-group">
+                            <label>Anchor Type</label>
+                            <select id="anchorType">
+                                <option value="wedge">Wedge Anchor</option>
+                                <option value="epoxy">Epoxy Anchor</option>
+                                <option value="sleeve">Sleeve Anchor</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Anchor Diameter</label>
+                            <select id="anchorDiameter">
+                                <option value="0.375">3/8" (0.375")</option>
+                                <option value="0.5" selected>1/2" (0.5")</option>
+                                <option value="0.625">5/8" (0.625")</option>
+                                <option value="0.75">3/4" (0.75")</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Concrete Strength (psi)</label>
+                            <select id="concreteStrength">
+                                <option value="3000">3,000 psi</option>
+                                <option value="4000" selected>4,000 psi</option>
+                                <option value="5000">5,000 psi</option>
+                                <option value="6000">6,000 psi</option>
+                            </select>
+                        </div>
+                        <div class="input-group">
+                            <label>Embedment Depth (inches)</label>
+                            <input type="number" id="embedmentDepth" value="5" min="2" max="12" step="0.5">
+                        </div>
+                    </div>
+                    <div class="calc-results">
+                        <div class="calc-result-item">
+                            <div class="calc-result-value" id="pulloutCapacity">4,850</div>
+                            <div class="calc-result-label">Pullout Capacity (lbs)</div>
+                        </div>
+                        <div class="calc-result-item">
+                            <div class="calc-result-value" id="allowableLoad">1,213</div>
+                            <div class="calc-result-label">Allowable Load (lbs)</div>
+                        </div>
+                        <div class="calc-result-item">
+                            <div class="calc-result-value" id="minSpacing">6"</div>
+                            <div class="calc-result-label">Min. Anchor Spacing</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Installation Steps -->
+    <section class="steps-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Proper Anchor Installation</h2>
+                <p>Follow these steps for anchors that actually hold during hurricanes.</p>
+            </div>
+
+            <div class="steps-timeline">
+                <div class="step-item reveal">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Drill the Right Size Hole</h3>
+                        <p>Use a hammer drill with a carbide bit matching the anchor diameter. Drill 1/2" deeper than embedment depth to allow for dust.</p>
+                    </div>
+                </div>
+                <div class="step-item reveal">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Clean Out All the Dust</h3>
+                        <p>This is where most anchors fail. Use a brush and compressed air to remove ALL concrete dust. Dust weakens the grip by 30-50%.</p>
+                    </div>
+                </div>
+                <div class="step-item reveal">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Install to Proper Depth</h3>
+                        <p>Mark your anchor at the correct embedment depth. Hammer or set until the mark is flush with the concrete surface.</p>
+                    </div>
+                </div>
+                <div class="step-item reveal">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Torque to Specification</h3>
+                        <p>Use a torque wrench to tighten to the manufacturer's spec. Over-tightening cracks concrete. Under-tightening means the anchor won't expand.</p>
+                    </div>
+                </div>
+                <div class="step-item reveal">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3>Verify with Inspection</h3>
+                        <p>Miami-Dade HVHZ requires special inspection for most anchor installations. Document everything for the inspector.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Anchor Design FAQs</h2>
+                <p>Common questions from contractors about hurricane anchors</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item open">
+                    <div class="faq-question">How deep should concrete anchors be for hurricane wind loads?</div>
+                    <div class="faq-answer">
+                        Embedment depth depends on the pullout force from wind loads. In Miami-Dade HVHZ with 180 mph design winds, typical embedment depths range from 4 inches for light loads to 8+ inches for heavy equipment. As a rule of thumb: deeper anchors resist more force. Generally each inch of embedment adds 500-1000 lbs of pullout capacity depending on anchor type and concrete strength.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What anchor types are approved for Miami-Dade hurricane zones?</div>
+                    <div class="faq-answer">
+                        Miami-Dade HVHZ approved anchor types include: Post-installed mechanical anchors (wedge anchors, sleeve anchors), post-installed adhesive anchors (epoxy, hybrid systems), cast-in-place anchors, and powder-actuated fasteners. All must have product approvals showing capacity data for the specific application. Adhesive (epoxy) anchors always require special inspection in HVHZ.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How do I calculate anchor pullout force from wind load?</div>
+                    <div class="faq-answer">
+                        Anchor pullout force equals the wind uplift force divided by the number of anchors, with a safety factor applied. For example: If wind creates 2,000 lbs uplift on a piece of equipment attached with 4 anchors, each anchor sees 500 lbs of force. Apply a safety factor of 2-4 depending on code requirements. So each anchor needs 1,000-2,000 lb capacity. Always verify with professional engineering calculations.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What concrete strength is needed for hurricane anchor installation?</div>
+                    <div class="faq-answer">
+                        Minimum 3,000 psi concrete is typically required for anchor installations. However, 4,000-5,000 psi concrete provides significantly higher anchor capacity - often 20-30% more. The anchor capacity tables in product approvals show different values for different concrete strengths. Older buildings may have lower or unknown concrete strength - core testing may be required before anchor installation.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do concrete anchors need inspection in Miami-Dade?</div>
+                    <div class="faq-answer">
+                        Yes, concrete anchors in Miami-Dade HVHZ typically require special inspection. Adhesive (epoxy) anchors always require continuous special inspection during installation by a qualified inspector. Mechanical anchors may require periodic inspection depending on the project. The building official determines specific inspection requirements based on project scope and structural importance.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta reveal">
+        <h2>Calculate Your Wind Uplift Forces</h2>
+        <p>Know exactly how much force your anchors need to resist. Get ASCE 7-22 compliant calculations in minutes.</p>
+        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=anchors-miami-cta" class="btn btn-primary">
+            Start Calculating Now
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            <a href="/florida/miami-dade/">Miami-Dade County</a> ·
+            <a href="/florida/miami-dade/hurricane-shutters">Hurricane Shutters</a> ·
+            <a href="/florida/miami-dade/hvac-equipment-anchoring">HVAC Anchoring</a> ·
+            <a href="/florida-pro.html">All Florida</a>
+        </p>
+        <p>
+            <a href="/contractors.html">Contractors</a> ·
+            <a href="/pe.html">PE Seals</a> ·
+            <a href="/pricing.html">Pricing</a> ·
+            <a href="/about.html">About</a>
+        </p>
+        <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=footer&utm_campaign=anchors">Calculator</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // ========================================
+        // PARTICLE CANVAS - CONCRETE DUST THEME
+        // ========================================
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                // Concrete dust colors
+                const colors = ['#8b5cf6', '#a78bfa', '#c4b5fd', '#6b7280'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.y > canvas.height) {
+                    this.y = -10;
+                    this.x = Math.random() * canvas.width;
+                }
+                if (this.x < 0 || this.x > canvas.width) {
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 80; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // ========================================
+        // ANCHOR ANIMATION SYSTEM
+        // ========================================
+        const depthSlider = document.getElementById('depthSlider');
+        const forceSlider = document.getElementById('forceSlider');
+        const depthDisplay = document.getElementById('depthDisplay');
+        const forceDisplay = document.getElementById('forceDisplay');
+        const boltShaft = document.getElementById('boltShaft');
+        const anchorBolt = document.getElementById('anchorBolt');
+        const forceArrow = document.getElementById('forceArrow');
+        const forceLabel = document.getElementById('forceLabel');
+        const stressLines = document.getElementById('stressLines');
+        const depthValue = document.getElementById('depthValue');
+        const capacityResult = document.getElementById('capacityResult');
+        const safetyResult = document.getElementById('safetyResult');
+        const widgetDepth = document.getElementById('widgetDepth');
+
+        // Create stress lines
+        function createStressLines() {
+            stressLines.innerHTML = '';
+            for (let i = 0; i < 12; i++) {
+                const line = document.createElement('div');
+                line.className = 'stress-line';
+                const angle = (i / 12) * 360;
+                const length = 40 + Math.random() * 60;
+                line.style.cssText = `
+                    width: ${length}px;
+                    left: 50%;
+                    top: 50%;
+                    transform: rotate(${angle}deg) translateX(20px);
+                    animation-delay: ${i * 0.1}s;
+                `;
+                stressLines.appendChild(line);
+            }
+        }
+        createStressLines();
+
+        function updateAnchorAnimation() {
+            const depth = parseFloat(depthSlider.value);
+            const force = parseFloat(forceSlider.value);
+
+            // Update displays
+            depthDisplay.textContent = `${depth} inches`;
+            forceDisplay.textContent = `${force.toLocaleString()} lbs`;
+            forceLabel.textContent = `${force.toLocaleString()} lbs`;
+
+            // Calculate shaft height based on depth (visual scaling)
+            const shaftHeight = 30 + (depth * 15);
+            boltShaft.style.height = `${shaftHeight}px`;
+
+            // Position bolt based on depth
+            const concreteTop = 280; // pixels from bottom
+            const boltBottom = concreteTop - (depth * 15);
+            anchorBolt.style.bottom = `${boltBottom}px`;
+
+            // Update depth indicator
+            const depthPercent = ((depth - 2) / 8) * 100;
+            depthValue.style.top = `${Math.min(depthPercent, 95)}%`;
+            depthValue.textContent = `${depth}" Embedment`;
+            widgetDepth.textContent = `${depth}"`;
+
+            // Calculate capacity (simplified formula for demonstration)
+            const baseCapacity = 800; // per inch for 1/2" wedge in 4000psi
+            const capacity = Math.round(baseCapacity * depth);
+            capacityResult.textContent = capacity.toLocaleString();
+
+            // Calculate safety factor
+            const safety = (capacity / force).toFixed(2);
+            safetyResult.textContent = safety;
+
+            // Update visual indicators based on safety
+            if (safety >= 2) {
+                safetyResult.style.color = '#10b981'; // Green - safe
+                anchorBolt.classList.add('expanded');
+            } else if (safety >= 1) {
+                safetyResult.style.color = '#f59e0b'; // Yellow - marginal
+                anchorBolt.classList.remove('expanded');
+            } else {
+                safetyResult.style.color = '#ef4444'; // Red - unsafe
+                anchorBolt.classList.remove('expanded');
+            }
+
+            // Show/hide stress lines based on force
+            if (force > 2000) {
+                stressLines.classList.add('visible');
+            } else {
+                stressLines.classList.remove('visible');
+            }
+
+            // Show force arrow when there's significant force
+            if (force > 1000) {
+                forceArrow.classList.add('visible');
+            } else {
+                forceArrow.classList.remove('visible');
+            }
+        }
+
+        depthSlider.addEventListener('input', updateAnchorAnimation);
+        forceSlider.addEventListener('input', updateAnchorAnimation);
+
+        // Initial animation state
+        updateAnchorAnimation();
+
+        // ========================================
+        // CAPACITY CALCULATOR
+        // ========================================
+        const anchorTypeSelect = document.getElementById('anchorType');
+        const anchorDiameterSelect = document.getElementById('anchorDiameter');
+        const concreteStrengthSelect = document.getElementById('concreteStrength');
+        const embedmentDepthInput = document.getElementById('embedmentDepth');
+        const pulloutCapacityEl = document.getElementById('pulloutCapacity');
+        const allowableLoadEl = document.getElementById('allowableLoad');
+        const minSpacingEl = document.getElementById('minSpacing');
+
+        // Simplified capacity calculation (for demonstration)
+        function calculateCapacity() {
+            const type = anchorTypeSelect.value;
+            const diameter = parseFloat(anchorDiameterSelect.value);
+            const concrete = parseInt(concreteStrengthSelect.value);
+            const depth = parseFloat(embedmentDepthInput.value);
+
+            // Base capacity factors (simplified)
+            const typeFactors = { wedge: 1.0, epoxy: 1.4, sleeve: 0.7 };
+            const diameterFactor = diameter / 0.5; // Normalized to 1/2"
+            const concreteFactor = Math.sqrt(concrete / 4000);
+
+            // Calculate pullout capacity
+            const baseCapacity = 800; // lbs per inch for 1/2" in 4000psi concrete
+            const pullout = Math.round(
+                baseCapacity * depth * typeFactors[type] * diameterFactor * concreteFactor
+            );
+
+            // Allowable load with safety factor of 4
+            const allowable = Math.round(pullout / 4);
+
+            // Minimum spacing (typically 6x diameter)
+            const spacing = Math.round(diameter * 6 * 10) / 10;
+
+            pulloutCapacityEl.textContent = pullout.toLocaleString();
+            allowableLoadEl.textContent = allowable.toLocaleString();
+            minSpacingEl.textContent = `${spacing}"`;
+        }
+
+        anchorTypeSelect.addEventListener('change', calculateCapacity);
+        anchorDiameterSelect.addEventListener('change', calculateCapacity);
+        concreteStrengthSelect.addEventListener('change', calculateCapacity);
+        embedmentDepthInput.addEventListener('input', calculateCapacity);
+
+        calculateCapacity();
+
+        // ========================================
+        // FLOATING WIDGET
+        // ========================================
+        const floatingWidget = document.getElementById('floatingWidget');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                floatingWidget.classList.add('visible');
+            } else {
+                floatingWidget.classList.remove('visible');
+            }
+        });
+
+        // ========================================
+        // SCROLL REVEAL
+        // ========================================
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkReveal);
+        window.addEventListener('load', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // ========================================
+        // FAQ ACCORDION
+        // ========================================
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        console.log('Hold Fast - Anchor Animation System initialized');
+    </script>
+</body>
+</html>

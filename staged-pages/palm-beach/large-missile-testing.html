@@ -1,0 +1,1361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Large Missile Impact Testing | 9lb 2x4 at 50fps Animation | WindLoad.co</title>
+    <meta name="description" content="Animated visualization of large missile impact testing per ASTM E1886. Watch a 9-pound 2x4 lumber projectile strike at 50 feet per second and learn what this wind load test means for hurricane protection.">
+    <meta name="keywords" content="large missile test, 9lb 2x4 test, 50fps impact test, ASTM E1886, hurricane debris test, wind borne debris, HVHZ impact testing, TAS 201">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/large-missile-testing">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Large Missile Impact Testing - 9lb 2x4 at 50fps Animated">
+    <meta property="og:description" content="Visual animation of the large missile impact test. See how hurricane debris testing works for wind load certification in Florida.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/large-missile-testing">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is large missile impact testing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Large missile testing fires a 9-pound 2x4 lumber section (8 feet long) at 50 feet per second (34 mph) at the test specimen. This simulates flying debris during hurricanes and is required for HVHZ impact-rated products per ASTM E1886 and TAS 201."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is 50 feet per second used for large missile tests?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "50 fps (34 mph) represents the typical velocity of wind-borne debris in a Category 3+ hurricane. While winds exceed 130 mph, large debris like lumber doesn't travel at wind speed due to air resistance and tumbling."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What happens after the missile impact?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "After impact, the specimen must pass cyclic pressure testing - 9,000 cycles alternating between positive and negative design pressure. This simulates hours of hurricane wind pressure changes. No opening in the building envelope can occur."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where does the missile hit during testing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Per ASTM E1886, the missile must impact the most vulnerable points: center of glass panes, meeting rails, hardware locations, and corners. Multiple impacts at different locations are required for complete certification."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Large Missile Testing", "item": "https://windload.co/florida/palm-beach/large-missile-testing"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-orange: #ff6b35;
+            --accent-brown: #8B4513;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover { transform: translateY(-2px); }
+
+        /* Hero with Missile Animation */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .spec-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .spec-badge {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid var(--accent-orange);
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .spec-badge .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+        }
+
+        .spec-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Large Missile Test Animation */
+        .missile-test-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 107, 53, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .test-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-orange);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-arena {
+            position: relative;
+            height: 350px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Cannon/Launcher */
+        .cannon {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 80px;
+            height: 50px;
+        }
+
+        .cannon-body {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, #555, #333);
+            border-radius: 0 10px 10px 0;
+            position: relative;
+        }
+
+        .cannon-barrel {
+            position: absolute;
+            right: -30px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 25px;
+            background: linear-gradient(180deg, #444, #222);
+            border-radius: 0 5px 5px 0;
+        }
+
+        /* 2x4 Lumber Missile */
+        .lumber-missile {
+            position: absolute;
+            left: 110px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 120px;
+            height: 20px;
+            background: linear-gradient(180deg, #DEB887, #8B4513, #654321);
+            border-radius: 2px;
+            box-shadow: 2px 2px 10px rgba(0,0,0,0.5);
+            opacity: 0;
+            z-index: 10;
+        }
+
+        .lumber-missile::before {
+            content: '';
+            position: absolute;
+            top: 2px;
+            left: 5px;
+            right: 5px;
+            height: 3px;
+            background: rgba(255,255,255,0.2);
+            border-radius: 1px;
+        }
+
+        .lumber-missile.flying {
+            animation: lumberFlight 0.8s ease-out forwards;
+        }
+
+        @keyframes lumberFlight {
+            0% { left: 110px; opacity: 1; transform: translateY(-50%) rotate(0deg); }
+            50% { opacity: 1; transform: translateY(-50%) rotate(-5deg); }
+            80% { left: calc(100% - 280px); opacity: 1; }
+            81% { opacity: 0; }
+            100% { left: calc(100% - 280px); opacity: 0; }
+        }
+
+        /* Target Window */
+        .target-window {
+            position: absolute;
+            right: 60px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 150px;
+            height: 200px;
+        }
+
+        .window-frame-large {
+            width: 100%;
+            height: 100%;
+            border: 5px solid var(--accent-cyan);
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-target {
+            position: absolute;
+            top: 8px;
+            left: 8px;
+            right: 8px;
+            bottom: 8px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(0,212,255,0.1));
+        }
+
+        /* Impact Effect */
+        .impact-zone {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0;
+            height: 0;
+            pointer-events: none;
+        }
+
+        .impact-ring {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 10px;
+            height: 10px;
+            border: 3px solid var(--accent-orange);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .impact-ring.active {
+            animation: impactExpand 0.6s ease-out forwards;
+        }
+
+        @keyframes impactExpand {
+            0% { width: 10px; height: 10px; opacity: 1; }
+            100% { width: 150px; height: 150px; opacity: 0; }
+        }
+
+        /* Crack Web */
+        .crack-web {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            opacity: 0;
+        }
+
+        .crack-web.visible {
+            opacity: 1;
+        }
+
+        .crack-web svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .crack-web line {
+            stroke: rgba(255, 255, 255, 0.7);
+            stroke-width: 2;
+            stroke-dasharray: 100;
+            stroke-dashoffset: 100;
+        }
+
+        .crack-web.visible line {
+            animation: crackDraw 0.5s ease-out forwards;
+        }
+
+        @keyframes crackDraw {
+            to { stroke-dashoffset: 0; }
+        }
+
+        /* Speed Display */
+        .speed-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            border-radius: 12px;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .speed-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-orange);
+            font-family: 'Courier New', monospace;
+        }
+
+        .speed-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Status Badge */
+        .test-status-badge {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.75rem 2rem;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .test-status-badge.pass {
+            background: #00ff88;
+            color: var(--primary-dark);
+        }
+
+        .test-status-badge.visible {
+            opacity: 1;
+        }
+
+        /* Controls */
+        .test-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1.5rem;
+        }
+
+        .launch-btn {
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .launch-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(255, 107, 53, 0.5);
+        }
+
+        .launch-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .test-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Spec Cards */
+        .specs-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .specs-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .spec-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .spec-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .spec-card:hover {
+            border-color: var(--accent-orange);
+            transform: translateY(-5px);
+        }
+
+        .spec-icon {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 2rem;
+        }
+
+        .spec-card h3 {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-card .unit {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .spec-card p {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Impact Zones */
+        .zones-section {
+            background: var(--primary-dark);
+        }
+
+        .zones-visual {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 3rem;
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        .window-diagram {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto 2rem;
+            border: 6px solid var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.1);
+            border-radius: 4px;
+        }
+
+        .impact-point {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            background: var(--accent-orange);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: white;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .impact-point:hover {
+            transform: scale(1.2);
+            box-shadow: 0 0 20px var(--accent-orange);
+        }
+
+        .impact-point.center { top: 50%; left: 50%; transform: translate(-50%, -50%); }
+        .impact-point.corner1 { top: 20px; left: 20px; }
+        .impact-point.corner2 { top: 20px; right: 20px; }
+        .impact-point.corner3 { bottom: 20px; left: 20px; }
+        .impact-point.corner4 { bottom: 20px; right: 20px; }
+        .impact-point.edge { top: 50%; right: 20px; transform: translateY(-50%); }
+
+        .zone-legend {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .zone-item {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .zone-item .number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+        }
+
+        .zone-item .desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--bg-dark);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 107, 53, 0.1);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-orange); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 107, 53, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .specs-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .specs-grid { grid-template-columns: 1fr; }
+            .zone-legend { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="/#calculator" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Large Missile</span> Impact Testing</h1>
+                <p class="hero-subtitle">A 9-pound 2x4 lumber section launches at 50 feet per second - that's what your impact-rated window must survive before it can be installed in a hurricane zone. Watch the test in action.</p>
+
+                <div class="spec-badges">
+                    <div class="spec-badge">
+                        <span class="value">9 lb</span>
+                        <span class="label">Missile Weight</span>
+                    </div>
+                    <div class="spec-badge">
+                        <span class="value">50 fps</span>
+                        <span class="label">Impact Speed</span>
+                    </div>
+                    <div class="spec-badge">
+                        <span class="value">2x4</span>
+                        <span class="label">Lumber Size</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="missile-test-container">
+                <div class="test-title">ASTM E1886 / TAS 201 Large Missile Test</div>
+
+                <div class="test-arena">
+                    <div class="cannon">
+                        <div class="cannon-body"></div>
+                        <div class="cannon-barrel"></div>
+                    </div>
+
+                    <div class="lumber-missile" id="lumberMissile"></div>
+
+                    <div class="target-window">
+                        <div class="window-frame-large">
+                            <div class="glass-target">
+                                <div class="impact-zone">
+                                    <div class="impact-ring" id="impactRing"></div>
+                                </div>
+                                <div class="crack-web" id="crackWeb">
+                                    <svg viewBox="0 0 120 120">
+                                        <line x1="60" y1="60" x2="60" y2="10"/>
+                                        <line x1="60" y1="60" x2="95" y2="25"/>
+                                        <line x1="60" y1="60" x2="110" y2="60"/>
+                                        <line x1="60" y1="60" x2="95" y2="95"/>
+                                        <line x1="60" y1="60" x2="60" y2="110"/>
+                                        <line x1="60" y1="60" x2="25" y2="95"/>
+                                        <line x1="60" y1="60" x2="10" y2="60"/>
+                                        <line x1="60" y1="60" x2="25" y2="25"/>
+                                    </svg>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="speed-display">
+                        <div class="speed-value" id="speedValue">0</div>
+                        <div class="speed-label">ft/sec</div>
+                    </div>
+
+                    <div class="test-status-badge pass" id="statusBadge">IMPACT RESISTANCE - PASS</div>
+                </div>
+
+                <div class="test-controls">
+                    <button class="launch-btn" id="launchBtn">Fire Missile</button>
+                    <div class="test-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">34</div>
+                            <div class="stat-label">MPH Equivalent</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">8 ft</div>
+                            <div class="stat-label">Lumber Length</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section specs-section">
+        <div class="section-header">
+            <h2>Large Missile <span class="highlight">Test Specifications</span></h2>
+            <p>The numbers behind the most demanding debris impact test.</p>
+        </div>
+
+        <div class="specs-grid">
+            <div class="spec-card">
+                <div class="spec-icon">&#128230;</div>
+                <h3>9</h3>
+                <div class="unit">Pounds</div>
+                <p>Weight of the 2x4 lumber missile section, representing typical construction debris in hurricane winds.</p>
+            </div>
+
+            <div class="spec-card">
+                <div class="spec-icon">&#128640;</div>
+                <h3>50</h3>
+                <div class="unit">Feet/Second</div>
+                <p>Launch velocity equals 34 mph - the calculated speed of wind-borne debris in Category 3+ hurricanes.</p>
+            </div>
+
+            <div class="spec-card">
+                <div class="spec-icon">&#128296;</div>
+                <h3>8</h3>
+                <div class="unit">Feet Long</div>
+                <p>Standard 2x4 lumber length. The missile must strike end-on perpendicular to the test specimen.</p>
+            </div>
+
+            <div class="spec-card">
+                <div class="spec-icon">&#128260;</div>
+                <h3>9,000</h3>
+                <div class="unit">Pressure Cycles</div>
+                <p>After impact, specimens must survive cyclic pressure testing simulating hours of hurricane conditions.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section zones-section">
+        <div class="section-header">
+            <h2>Required <span class="highlight">Impact Points</span></h2>
+            <p>Testing must target the most vulnerable areas of the window or door.</p>
+        </div>
+
+        <div class="zones-visual">
+            <div class="window-diagram">
+                <div class="impact-point center">1</div>
+                <div class="impact-point corner1">2</div>
+                <div class="impact-point corner2">3</div>
+                <div class="impact-point corner3">4</div>
+                <div class="impact-point corner4">5</div>
+                <div class="impact-point edge">6</div>
+            </div>
+
+            <div class="zone-legend">
+                <div class="zone-item">
+                    <div class="number">1</div>
+                    <div class="desc">Center of glass pane</div>
+                </div>
+                <div class="zone-item">
+                    <div class="number">2-5</div>
+                    <div class="desc">Glass corners (all four)</div>
+                </div>
+                <div class="zone-item">
+                    <div class="number">6</div>
+                    <div class="desc">Meeting rail / Lock area</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about large missile impact testing.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is large missile impact testing?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Large missile testing fires a 9-pound 2x4 lumber section (8 feet long) at 50 feet per second (34 mph) at the test specimen. This simulates flying debris during hurricanes and is required for HVHZ impact-rated products per ASTM E1886 and TAS 201.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Why is 50 feet per second used for large missile tests?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        50 fps (34 mph) represents the typical velocity of wind-borne debris in a Category 3+ hurricane. While winds exceed 130 mph, large debris like lumber doesn't travel at wind speed due to air resistance and tumbling motion.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What happens after the missile impact?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        After impact, the specimen must pass cyclic pressure testing - 9,000 cycles alternating between positive and negative design pressure. This simulates hours of hurricane wind pressure changes. No opening in the building envelope can occur.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Where does the missile hit during testing?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Per ASTM E1886, the missile must impact the most vulnerable points: center of glass panes, meeting rails, hardware locations, and corners. Multiple impacts at different locations are required for complete certification.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Impact Requirements</h2>
+            <p>Determine if your project needs large missile impact testing based on wind zone and exposure.</p>
+            <div class="cta-buttons">
+                <a href="/#calculator" class="btn-primary">Calculate Wind Loads</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/small-missile-testing">Small Missile Testing</a></li>
+                    <li><a href="/florida/palm-beach/impact-vs-non-impact">Impact vs Non-Impact</a></li>
+                    <li><a href="/florida/palm-beach/hvhz-requirements">HVHZ Requirements</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Testing per ASTM E1886/E1996 and Miami-Dade TAS 201</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Canvas - Wood debris
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class WoodChip {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.width = 4 + Math.random() * 10;
+                this.height = 2 + Math.random() * 4;
+                this.speedX = 1 + Math.random() * 3;
+                this.speedY = (Math.random() - 0.5) * 2;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 10;
+                this.opacity = 0.1 + Math.random() * 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotSpeed;
+
+                if (this.x > canvas.width + 20) {
+                    this.x = -20;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = `rgba(139, 69, 19, ${this.opacity})`;
+                ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                ctx.restore();
+            }
+        }
+
+        const woodChips = [];
+        for (let i = 0; i < 40; i++) {
+            woodChips.push(new WoodChip());
+        }
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            woodChips.forEach(chip => {
+                chip.update();
+                chip.draw();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Missile Launch Animation
+        const launchBtn = document.getElementById('launchBtn');
+        const lumberMissile = document.getElementById('lumberMissile');
+        const speedValue = document.getElementById('speedValue');
+        const impactRing = document.getElementById('impactRing');
+        const crackWeb = document.getElementById('crackWeb');
+        const statusBadge = document.getElementById('statusBadge');
+
+        let isAnimating = false;
+
+        function launchMissile() {
+            if (isAnimating) return;
+            isAnimating = true;
+            launchBtn.disabled = true;
+
+            // Reset
+            statusBadge.classList.remove('visible');
+            crackWeb.classList.remove('visible');
+            impactRing.classList.remove('active');
+
+            // Speed countdown
+            let speed = 0;
+            const speedInterval = setInterval(() => {
+                speed += 2;
+                speedValue.textContent = speed;
+                if (speed >= 50) {
+                    clearInterval(speedInterval);
+                }
+            }, 30);
+
+            // Launch missile
+            lumberMissile.classList.add('flying');
+
+            // Impact effects
+            setTimeout(() => {
+                impactRing.classList.add('active');
+            }, 640);
+
+            setTimeout(() => {
+                crackWeb.classList.add('visible');
+            }, 700);
+
+            setTimeout(() => {
+                statusBadge.classList.add('visible');
+            }, 1200);
+
+            // Reset for next launch
+            setTimeout(() => {
+                lumberMissile.classList.remove('flying');
+                speedValue.textContent = '0';
+                isAnimating = false;
+                launchBtn.disabled = false;
+            }, 3000);
+        }
+
+        launchBtn.addEventListener('click', launchMissile);
+
+        // Auto-launch on load
+        setTimeout(launchMissile, 1000);
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.spec-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isOpen = faqItem.classList.contains('open');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('open');
+                });
+
+                if (!isOpen) {
+                    faqItem.classList.add('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Glazing Size vs Wind Load - Larger Glass Higher Force | WindLoad.co</title>
+    <meta name="description" content="Interactive animation showing how larger glass areas multiply total wind force. See why big windows need stronger frames even at the same pressure rating.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/glazing-size-pressure.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5557;-81.7826">
+    <meta name="ICBM" content="24.5557, -81.7826">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Glazing Size vs Wind Load - The Math Behind Bigger Windows">
+    <meta property="og:description" content="Watch total wind force grow as window size increases. Same pressure, bigger area, much more force.">
+    <meta property="og:type" content="article">
+    <meta property:og:url" content="https://windload.co/staged-pages/monroe/glazing-size-pressure.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Does bigger glass mean higher wind pressure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The wind pressure (PSF) stays the same regardless of glass size - it's determined by location, wind speed, and zone. However, the TOTAL FORCE increases directly with area. A 10 sq ft window at 50 PSF experiences 500 lbs of force, while a 30 sq ft window at the same 50 PSF experiences 1,500 lbs of force."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do larger windows sometimes have lower pressure ratings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ASCE 7 includes an 'effective wind area' factor. Larger components can sometimes use slightly lower design pressures because they average out the peak pressure spikes that occur over small areas. However, the total force is still higher due to the larger area."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I calculate total force on a window?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Total Force (lbs) = Pressure (PSF) x Area (sq ft). For a 4ft x 5ft window (20 sq ft) at 60 PSF pressure, the total force is 20 x 60 = 1,200 pounds. This is the force the frame, glass, and anchors must resist."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Glazing Size vs Pressure",
+                "item": "https://windload.co/staged-pages/monroe/glazing-size-pressure.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-cyan);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Interactive Size Animation */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+        }
+
+        .animation-title {
+            text-align: center;
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .size-demo {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        /* Glass Panel Visualization */
+        .glass-container {
+            position: relative;
+            width: 100%;
+            max-width: 500px;
+            height: 350px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+
+        .glass-panel {
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.2), rgba(0, 212, 255, 0.4));
+            border: 4px solid var(--accent-cyan);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-panel::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            animation: glassShine 3s ease-in-out infinite;
+        }
+
+        @keyframes glassShine {
+            0%, 100% { transform: translateX(-100%) rotate(45deg); }
+            50% { transform: translateX(100%) rotate(45deg); }
+        }
+
+        .glass-dimensions {
+            font-size: 1rem;
+            color: var(--text-light);
+            background: rgba(0, 0, 0, 0.7);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 600;
+            z-index: 1;
+        }
+
+        /* Force Arrows */
+        .force-arrows {
+            position: absolute;
+            left: -60px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .force-arrow {
+            color: var(--accent-magenta);
+            font-size: 1.5rem;
+            opacity: 0;
+            animation: pushArrow 1s ease-in-out infinite;
+        }
+
+        @keyframes pushArrow {
+            0%, 100% { opacity: 0; transform: translateX(-10px); }
+            50% { opacity: 1; transform: translateX(10px); }
+        }
+
+        /* Size Slider */
+        .size-control {
+            width: 100%;
+            max-width: 400px;
+            margin: 1.5rem 0;
+        }
+
+        .size-control label {
+            display: block;
+            text-align: center;
+            margin-bottom: 0.75rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .size-slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .size-slider::-moz-range-thumb {
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+            border: none;
+        }
+
+        /* Results Display */
+        .results-display {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 1rem;
+        }
+
+        .result-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .result-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 900;
+            font-family: 'Monaco', monospace;
+        }
+
+        .result-box:nth-child(1) .result-value { color: var(--accent-cyan); }
+        .result-box:nth-child(2) .result-value { color: var(--text-light); }
+        .result-box:nth-child(3) .result-value { color: var(--accent-magenta); }
+
+        .result-unit {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Formula Display */
+        .formula-box {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            text-align: center;
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .formula {
+            font-size: 1.5rem;
+            font-family: 'Monaco', monospace;
+            color: var(--text-light);
+        }
+
+        .formula .equals {
+            color: var(--accent-cyan);
+            margin: 0 0.5rem;
+        }
+
+        .formula .highlight {
+            color: var(--accent-magenta);
+            font-weight: 700;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .example-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .example-card {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .example-card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .example-card .math {
+            font-family: 'Monaco', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.75rem;
+            border-radius: 8px;
+            margin-bottom: 0.75rem;
+        }
+
+        .example-card .math .result {
+            color: var(--accent-magenta);
+            font-weight: 700;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .results-display {
+                grid-template-columns: 1fr;
+            }
+
+            nav {
+                display: none;
+            }
+
+            .force-arrows {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="/" class="logo">Wind<span>Load</span>.co</a>
+            <nav>
+                <a href="/states.html">States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Glazing Size vs Pressure</span>
+        </div>
+
+        <section class="hero">
+            <h1>Bigger Glass = Bigger Force</h1>
+            <p>Drag the slider to see how the same wind pressure creates dramatically different forces on different size windows.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="animation-title">Interactive: Watch Force Grow With Size</div>
+
+            <div class="size-demo">
+                <div class="glass-container">
+                    <div class="force-arrows" id="forceArrows">
+                        <!-- Arrows added dynamically -->
+                    </div>
+                    <div class="glass-panel" id="glassPanel">
+                        <div class="glass-dimensions" id="glassDimensions">3' x 4'</div>
+                    </div>
+                </div>
+
+                <div class="size-control">
+                    <label>Adjust Window Size</label>
+                    <input type="range" class="size-slider" id="sizeSlider" min="1" max="10" value="3" step="0.5">
+                </div>
+
+                <div class="results-display">
+                    <div class="result-box">
+                        <div class="result-label">Area</div>
+                        <div class="result-value" id="areaValue">12</div>
+                        <div class="result-unit">sq ft</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-label">Pressure</div>
+                        <div class="result-value">60</div>
+                        <div class="result-unit">PSF (constant)</div>
+                    </div>
+                    <div class="result-box">
+                        <div class="result-label">Total Force</div>
+                        <div class="result-value" id="forceValue">720</div>
+                        <div class="result-unit">pounds</div>
+                    </div>
+                </div>
+
+                <div class="formula-box">
+                    <div class="formula">
+                        <span id="formulaArea">12</span> sq ft
+                        <span class="equals">x</span>
+                        60 PSF
+                        <span class="equals">=</span>
+                        <span class="highlight" id="formulaForce">720 lbs</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>Understanding the Force Multiplier</h2>
+            <p>Wind pressure is measured in PSF (pounds per square foot). This number tells you how hard the wind pushes on each square foot of glass. But the TOTAL force the window must resist depends on its size.</p>
+            <p>Think of it like this: if someone pushes on your chest with 10 pounds of force, that's manageable. But if 10 people each push with 10 pounds (100 pounds total), you'll fall over. Same pressure per person, but more "area" being pushed creates more total force.</p>
+
+            <div class="example-grid">
+                <div class="example-card">
+                    <h4>Small Bathroom Window</h4>
+                    <div class="math">2' x 3' = 6 sq ft</div>
+                    <div class="math">6 sq ft x 60 PSF = <span class="result">360 lbs</span></div>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Standard frame handles this easily</p>
+                </div>
+                <div class="example-card">
+                    <h4>Living Room Picture Window</h4>
+                    <div class="math">5' x 6' = 30 sq ft</div>
+                    <div class="math">30 sq ft x 60 PSF = <span class="result">1,800 lbs</span></div>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Heavy-duty frame and anchors needed</p>
+                </div>
+                <div class="example-card">
+                    <h4>Storefront Glass Wall</h4>
+                    <div class="math">10' x 8' = 80 sq ft</div>
+                    <div class="math">80 sq ft x 60 PSF = <span class="result">4,800 lbs</span></div>
+                    <p style="font-size: 0.9rem; color: var(--text-muted); margin: 0;">Structural engineering required</p>
+                </div>
+            </div>
+
+            <p>This is why architects and engineers carefully size each piece of glass. A beautiful floor-to-ceiling window in Monroe County might experience over 5,000 pounds of wind force during a hurricane. The glass, frame, and anchors must all be engineered to handle this load.</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Calculate Exact Forces for Your Glazing</h2>
+            <p>Get pressure and force calculations for any window size in Monroe County</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=monroe&utm_campaign=glazing-size" class="cta-button">
+                Calculate Glazing Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 1.5 + 0.5,
+                vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 1.5 + 0.5,
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#e91e8c';
+                ctx.globalAlpha = 0.2;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Size Slider Interaction
+        const slider = document.getElementById('sizeSlider');
+        const glassPanel = document.getElementById('glassPanel');
+        const glassDimensions = document.getElementById('glassDimensions');
+        const areaValue = document.getElementById('areaValue');
+        const forceValue = document.getElementById('forceValue');
+        const formulaArea = document.getElementById('formulaArea');
+        const formulaForce = document.getElementById('formulaForce');
+        const forceArrows = document.getElementById('forceArrows');
+
+        const PRESSURE = 60; // PSF constant
+
+        function updateGlass() {
+            const size = parseFloat(slider.value);
+
+            // Calculate dimensions (aspect ratio roughly 3:4)
+            const width = size;
+            const height = size * 1.33;
+            const area = Math.round(width * height);
+            const force = area * PRESSURE;
+
+            // Update panel size
+            const minPx = 80;
+            const maxPx = 280;
+            const panelWidth = minPx + (size - 1) / 9 * (maxPx - minPx);
+            const panelHeight = panelWidth * 1.33;
+
+            glassPanel.style.width = panelWidth + 'px';
+            glassPanel.style.height = Math.min(panelHeight, 320) + 'px';
+
+            // Update text
+            glassDimensions.textContent = Math.round(width) + "' x " + Math.round(height) + "'";
+            areaValue.textContent = area;
+            forceValue.textContent = force.toLocaleString();
+            formulaArea.textContent = area;
+            formulaForce.textContent = force.toLocaleString() + ' lbs';
+
+            // Update force arrows
+            const arrowCount = Math.min(Math.floor(size / 1.5), 8);
+            forceArrows.innerHTML = '';
+            for (let i = 0; i < arrowCount; i++) {
+                const arrow = document.createElement('span');
+                arrow.className = 'force-arrow';
+                arrow.innerHTML = '&#x2192;';
+                arrow.style.animationDelay = (i * 0.1) + 's';
+                forceArrows.appendChild(arrow);
+            }
+        }
+
+        slider.addEventListener('input', updateGlass);
+
+        // Initial update
+        updateGlass();
+
+        // Auto-animate slider for demo
+        let autoDirection = 1;
+        let autoValue = 3;
+
+        function autoAnimate() {
+            autoValue += autoDirection * 0.1;
+            if (autoValue >= 10) autoDirection = -1;
+            if (autoValue <= 1) autoDirection = 1;
+
+            slider.value = autoValue;
+            updateGlass();
+        }
+
+        // Run auto-animation for 10 seconds, then let user take over
+        const autoInterval = setInterval(autoAnimate, 100);
+        setTimeout(() => clearInterval(autoInterval), 10000);
+
+        // Stop auto-animation on user interaction
+        slider.addEventListener('mousedown', () => clearInterval(autoInterval));
+        slider.addEventListener('touchstart', () => clearInterval(autoInterval));
+    </script>
+</body>
+</html>

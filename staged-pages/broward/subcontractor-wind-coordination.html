@@ -1,0 +1,1193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+    <title>GC and Subcontractor Wind Load Coordination | Broward County HVHZ</title>
+    <meta name="description" content="Coordinate wind load requirements between general contractors and window/door subs in Broward County. Avoid conflicts with proper pressure ratings and product specs.">
+    <link rel="canonical" href="https://windload.co/broward/subcontractor-wind-coordination">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County, Florida">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="GC and Subcontractor Wind Load Coordination | Broward County">
+    <meta property="og:description" content="Coordinate wind loads between GC and window/door subs. Avoid HVHZ compliance conflicts.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/broward/subcontractor-wind-coordination">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Contractors",
+            "item": "https://windload.co/contractors"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Subcontractor Coordination",
+            "item": "https://windload.co/broward/subcontractor-wind-coordination"
+        }]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "Who is responsible for wind load calculations - GC or subcontractor?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The general contractor typically orders wind load calculations as part of the permit package. However, window and door subcontractors must select products that meet the calculated pressures. Both parties share responsibility for compliance."
+            }
+        }, {
+            "@type": "Question",
+            "name": "How do I share wind load requirements with subcontractors?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Provide subcontractors with wind load calculations before they quote. Include design pressures for each opening size. Specify that products must meet or exceed calculated pressures. Require NOA documentation in their submittal package."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What happens if the sub orders products with wrong wind ratings?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Products with insufficient wind ratings will fail permit review or inspection. The sub must replace them at their cost if they deviated from specifications. Clear communication upfront about pressure requirements prevents this costly mistake."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Should wind loads be in the subcontract agreement?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, always include wind load requirements in subcontract agreements. Specify the design pressures, require HVHZ-rated products with valid NOAs, and make the sub responsible for product compliance. This protects both parties from disputes."
+            }
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --gc-color: #e91e8c;
+            --sub-color: #00d4ff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.3);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .nav-logo span {
+            color: var(--accent-magenta);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.1) 0%, transparent 50%),
+                        linear-gradient(225deg, rgba(0, 212, 255, 0.1) 0%, transparent 50%);
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            color: var(--accent-magenta);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 4vw, 3rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            margin-bottom: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, #c4157a 100%);
+            color: #fff;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.5);
+        }
+
+        /* Coordination Animation */
+        .coordination-animation {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            height: 480px;
+        }
+
+        .coord-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .coord-header h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .parties-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            position: relative;
+            padding: 0 1rem;
+        }
+
+        .party {
+            width: 140px;
+            text-align: center;
+        }
+
+        .party-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .gc-avatar {
+            background: linear-gradient(135deg, var(--gc-color), #c4157a);
+        }
+
+        .sub-avatar {
+            background: linear-gradient(135deg, var(--sub-color), #0099cc);
+        }
+
+        .party-label {
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .party-role {
+            font-size: 0.75rem;
+            color: #888;
+        }
+
+        .message-flow {
+            position: absolute;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .flow-message {
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.4s ease;
+            white-space: nowrap;
+        }
+
+        .flow-message.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .flow-message.gc {
+            background: rgba(233, 30, 140, 0.2);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            color: var(--gc-color);
+        }
+
+        .flow-message.sub {
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--sub-color);
+        }
+
+        .flow-arrow {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .flow-arrow.visible {
+            opacity: 1;
+        }
+
+        .flow-arrow.left svg {
+            transform: scaleX(-1);
+        }
+
+        .data-exchange {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .exchange-title {
+            font-size: 0.8rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 0.75rem;
+        }
+
+        .exchange-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .exchange-item {
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            opacity: 0;
+            transform: translateY(10px);
+            transition: all 0.3s ease;
+        }
+
+        .exchange-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .exchange-item.gc {
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            color: var(--gc-color);
+        }
+
+        .exchange-item.sub {
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            color: var(--sub-color);
+        }
+
+        .success-indicator {
+            position: absolute;
+            bottom: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem;
+            background: rgba(16, 185, 129, 0.15);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 100px;
+            color: #10b981;
+            font-weight: 700;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+
+        .success-indicator.visible {
+            opacity: 1;
+        }
+
+        /* Workflow Section */
+        .workflow-section {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .workflow-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .workflow-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .workflow-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .workflow-steps {
+            position: relative;
+        }
+
+        .workflow-line {
+            position: absolute;
+            left: 40px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--gc-color), var(--sub-color));
+        }
+
+        .workflow-step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+
+        .workflow-step.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .step-marker {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-marker.gc {
+            background: linear-gradient(135deg, var(--gc-color), #c4157a);
+        }
+
+        .step-marker.sub {
+            background: linear-gradient(135deg, var(--sub-color), #0099cc);
+        }
+
+        .step-content {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .step-content h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-content p {
+            color: #888;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .step-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .step-tag.gc {
+            background: rgba(233, 30, 140, 0.15);
+            color: var(--gc-color);
+        }
+
+        .step-tag.sub {
+            background: rgba(0, 212, 255, 0.15);
+            color: var(--sub-color);
+        }
+
+        /* Values Section */
+        .values-section {
+            padding: 6rem 2rem;
+        }
+
+        .values-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .values-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .values-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+        }
+
+        .values-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .value-card {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            opacity: 0;
+            transform: scale(0.9);
+            transition: all 0.5s ease;
+        }
+
+        .value-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .value-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .value-label {
+            font-size: 0.875rem;
+            color: #888;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .faq-header h2 {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #888;
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 300px;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA */
+        .cta {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, #9b1260 100%);
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-primary {
+            background: #fff;
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #666;
+            font-size: 0.875rem;
+            background: rgba(0, 0, 0, 0.5);
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        footer a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+            }
+
+            .coordination-animation {
+                height: auto;
+                min-height: 500px;
+            }
+
+            .workflow-step {
+                grid-template-columns: 60px 1fr;
+            }
+
+            .workflow-line {
+                left: 30px;
+            }
+
+            .step-marker {
+                width: 60px;
+                height: 60px;
+                font-size: 1.25rem;
+            }
+
+            .values-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .values-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .parties-container {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+
+            .party {
+                width: 100%;
+            }
+
+            .message-flow {
+                position: relative;
+                top: 0;
+                width: 100%;
+                margin: 1rem 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="content-wrapper">
+        <!-- Navigation -->
+        <nav class="nav">
+            <a href="/" class="nav-logo">Wind<span>Load</span>.co</a>
+            <div class="nav-links">
+                <a href="/contractors.html">Contractors</a>
+                <a href="/states.html">States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </nav>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-text">
+                    <div class="hero-badge">Broward County Coordination</div>
+                    <h1>GC + Sub = <span class="highlight">Wind Load Success</span></h1>
+                    <p class="hero-subtitle">
+                        When general contractors and window/door subs do not share wind load requirements, permits fail. Learn how to coordinate for HVHZ compliance.
+                    </p>
+                    <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=broward-coordination" class="btn btn-primary">
+                        Get Shareable Wind Loads
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                </div>
+
+                <div class="coordination-animation">
+                    <div class="coord-header">
+                        <h3>Wind Load Coordination Flow</h3>
+                    </div>
+
+                    <div class="parties-container">
+                        <div class="party">
+                            <div class="party-avatar gc-avatar">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                    <path d="M3 21h18"/>
+                                    <path d="M9 8h1"/>
+                                    <path d="M9 12h1"/>
+                                    <path d="M9 16h1"/>
+                                    <path d="M14 8h1"/>
+                                    <path d="M14 12h1"/>
+                                    <path d="M14 16h1"/>
+                                    <path d="M5 21V5a2 2 0 012-2h10a2 2 0 012 2v16"/>
+                                </svg>
+                            </div>
+                            <div class="party-label">General Contractor</div>
+                            <div class="party-role">Orders wind loads</div>
+                        </div>
+
+                        <div class="message-flow">
+                            <div class="flow-arrow left" id="arrow1">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--gc-color)" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                            <div class="flow-message gc" id="msg1">Design pressures</div>
+                            <div class="flow-message gc" id="msg2">NOA requirements</div>
+                            <div class="flow-arrow" id="arrow2">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--sub-color)" stroke-width="2">
+                                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                                </svg>
+                            </div>
+                            <div class="flow-message sub" id="msg3">Product submittals</div>
+                            <div class="flow-message sub" id="msg4">Pressure verification</div>
+                        </div>
+
+                        <div class="party">
+                            <div class="party-avatar sub-avatar">
+                                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2">
+                                    <rect x="2" y="4" width="20" height="16" rx="2"/>
+                                    <line x1="2" y1="10" x2="22" y2="10"/>
+                                    <line x1="12" y1="4" x2="12" y2="20"/>
+                                </svg>
+                            </div>
+                            <div class="party-label">Window/Door Sub</div>
+                            <div class="party-role">Selects products</div>
+                        </div>
+                    </div>
+
+                    <div class="data-exchange">
+                        <div class="exchange-title">Shared Information</div>
+                        <div class="exchange-items">
+                            <span class="exchange-item gc" id="item1">+45/-62 psf</span>
+                            <span class="exchange-item gc" id="item2">180 mph</span>
+                            <span class="exchange-item gc" id="item3">HVHZ Required</span>
+                            <span class="exchange-item sub" id="item4">NOA 21-0101</span>
+                            <span class="exchange-item sub" id="item5">+55/-75 psf rated</span>
+                            <span class="exchange-item sub" id="item6">Impact tested</span>
+                        </div>
+                    </div>
+
+                    <div class="success-indicator" id="successBadge">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20 6 9 17 4 12"/>
+                        </svg>
+                        Coordinated Successfully
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Workflow Section -->
+        <section class="workflow-section">
+            <div class="workflow-container">
+                <div class="workflow-header">
+                    <h2>The Coordination Workflow</h2>
+                </div>
+
+                <div class="workflow-steps">
+                    <div class="workflow-line"></div>
+
+                    <div class="workflow-step">
+                        <div class="step-marker gc">1</div>
+                        <div class="step-content">
+                            <h3>GC Orders Wind Load Calculations</h3>
+                            <p>Before getting quotes from window/door subs, the GC gets wind load calculations for the project. This establishes the design pressures every product must meet.</p>
+                            <span class="step-tag gc">GC Responsibility</span>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-marker gc">2</div>
+                        <div class="step-content">
+                            <h3>Share Pressures with Sub</h3>
+                            <p>Include the wind load report when requesting sub quotes. Specify that products must meet or exceed the calculated pressures. Require HVHZ-rated products with valid NOAs.</p>
+                            <span class="step-tag gc">GC Sends to Sub</span>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-marker sub">3</div>
+                        <div class="step-content">
+                            <h3>Sub Selects Compliant Products</h3>
+                            <p>The sub chooses products rated for the specified pressures. Each product must have an NOA showing it meets or exceeds the design requirements.</p>
+                            <span class="step-tag sub">Sub Responsibility</span>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-marker sub">4</div>
+                        <div class="step-content">
+                            <h3>Sub Submits Product Package</h3>
+                            <p>The sub provides product cut sheets, NOA documents, and pressure ratings. The GC verifies each product meets the calculated requirements before approval.</p>
+                            <span class="step-tag sub">Sub Sends to GC</span>
+                        </div>
+                    </div>
+
+                    <div class="workflow-step">
+                        <div class="step-marker gc">5</div>
+                        <div class="step-content">
+                            <h3>GC Verifies and Submits Permit</h3>
+                            <p>The GC confirms product ratings match or exceed design pressures. Wind loads plus product NOAs go into the permit package. Everything is documented and coordinated.</p>
+                            <span class="step-tag gc">GC Finalizes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Values Section -->
+        <section class="values-section">
+            <div class="values-container">
+                <div class="values-header">
+                    <h2>Coordination Numbers</h2>
+                </div>
+                <div class="values-grid">
+                    <div class="value-card">
+                        <div class="value-number" data-target="2">0</div>
+                        <div class="value-label">Parties Involved</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-number" data-target="5">0</div>
+                        <div class="value-label">Workflow Steps</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-number" data-target="180">0</div>
+                        <div class="value-label">MPH Required</div>
+                    </div>
+                    <div class="value-card">
+                        <div class="value-number" data-target="100" data-suffix="%">0</div>
+                        <div class="value-label">Compliance Goal</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="faq-container">
+                <div class="faq-header">
+                    <h2>Coordination FAQs</h2>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Who is responsible for wind load calculations?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        The general contractor typically orders wind load calculations as part of the permit package. However, window and door subcontractors must select products that meet the calculated pressures. Both parties share responsibility for compliance.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        How do I share requirements with subcontractors?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Provide subcontractors with wind load calculations before they quote. Include design pressures for each opening size. Specify that products must meet or exceed calculated pressures. Require NOA documentation in their submittal package.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        What if the sub orders wrong products?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Products with insufficient wind ratings will fail permit review or inspection. The sub must replace them at their cost if they deviated from specifications. Clear communication upfront about pressure requirements prevents this costly mistake.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">
+                        Should wind loads be in the subcontract?
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        Yes, always include wind load requirements in subcontract agreements. Specify the design pressures, require HVHZ-rated products with valid NOAs, and make the sub responsible for product compliance. This protects both parties from disputes.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA -->
+        <section class="cta">
+            <h2>Get Wind Loads to Share</h2>
+            <p>Generate professional wind load reports you can share with subs. Clear pressures. Easy coordination.</p>
+            <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=landing&utm_campaign=broward-coordination-cta" class="btn btn-primary">
+                Generate Your Report
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p>
+                <a href="/contractors.html">Contractors</a> |
+                <a href="/engineers.html">Engineers</a> |
+                <a href="/architects.html">Architects</a> |
+                <a href="/florida-pro.html">Florida</a>
+            </p>
+            <p>&copy; 2002-2025 WindLoad.co | <a href="https://windload.solutions">Wind Load Solutions</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? '#e91e8c' : '#00d4ff',
+                alpha: Math.random() * 0.4 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = p.alpha;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Coordination Animation
+        const elements = {
+            arrow1: document.getElementById('arrow1'),
+            msg1: document.getElementById('msg1'),
+            msg2: document.getElementById('msg2'),
+            arrow2: document.getElementById('arrow2'),
+            msg3: document.getElementById('msg3'),
+            msg4: document.getElementById('msg4'),
+            item1: document.getElementById('item1'),
+            item2: document.getElementById('item2'),
+            item3: document.getElementById('item3'),
+            item4: document.getElementById('item4'),
+            item5: document.getElementById('item5'),
+            item6: document.getElementById('item6'),
+            successBadge: document.getElementById('successBadge')
+        };
+
+        const sequence = [
+            { el: 'arrow1', delay: 500 },
+            { el: 'msg1', delay: 300 },
+            { el: 'item1', delay: 200 },
+            { el: 'msg2', delay: 300 },
+            { el: 'item2', delay: 200 },
+            { el: 'item3', delay: 200 },
+            { el: 'arrow2', delay: 500 },
+            { el: 'msg3', delay: 300 },
+            { el: 'item4', delay: 200 },
+            { el: 'msg4', delay: 300 },
+            { el: 'item5', delay: 200 },
+            { el: 'item6', delay: 200 },
+            { el: 'successBadge', delay: 500 }
+        ];
+
+        function runAnimation() {
+            let totalDelay = 0;
+
+            sequence.forEach(step => {
+                totalDelay += step.delay;
+                setTimeout(() => {
+                    elements[step.el].classList.add('visible');
+                }, totalDelay);
+            });
+
+            setTimeout(() => {
+                Object.values(elements).forEach(el => el.classList.remove('visible'));
+                setTimeout(runAnimation, 1500);
+            }, totalDelay + 3500);
+        }
+
+        setTimeout(runAnimation, 1000);
+
+        // Workflow Steps Animation
+        const workflowSteps = document.querySelectorAll('.workflow-step');
+        const stepObserver = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.classList.add('visible');
+                    }, index * 150);
+                }
+            });
+        }, { threshold: 0.2 });
+        workflowSteps.forEach(step => stepObserver.observe(step));
+
+        // Value Cards Animation
+        const valueCards = document.querySelectorAll('.value-card');
+        const valueObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    const numberEl = entry.target.querySelector('.value-number');
+                    const target = parseInt(numberEl.dataset.target);
+                    const suffix = numberEl.dataset.suffix || '';
+                    animateCounter(numberEl, target, suffix);
+                }
+            });
+        }, { threshold: 0.5 });
+        valueCards.forEach(card => valueObserver.observe(card));
+
+        function animateCounter(element, target, suffix) {
+            let current = 0;
+            const increment = target / 40;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target + suffix;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current) + suffix;
+                }
+            }, 30);
+        }
+
+        // FAQ Toggle
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                item.classList.toggle('open');
+            });
+        });
+    </script>
+</body>
+</html>

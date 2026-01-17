@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Zone 4 vs Zone 5 Wind Pressure - Wall Field vs Corner | WindLoad.co</title>
+    <meta name="description" content="Split-screen animation comparing Zone 4 (wall field) and Zone 5 (wall corner) wind pressures. See why corners need stronger windows and doors.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/zone-4-vs-zone-5.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5557;-81.7826">
+    <meta name="ICBM" content="24.5557, -81.7826">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Zone 4 vs Zone 5 Wind Pressure Comparison">
+    <meta property="og:description" content="Visual comparison of wall field vs corner zone wind pressures. Understand why corner windows cost more.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/monroe/zone-4-vs-zone-5.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the difference between Zone 4 and Zone 5 in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone 4 is the 'wall field' - the middle sections of walls away from corners. Zone 5 is 'wall corners' - areas within a distance 'a' from building corners. Zone 5 experiences 20-40% higher wind pressures than Zone 4 because wind accelerates and creates stronger suction as it wraps around corners."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why are Zone 5 corner pressures higher than Zone 4?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "When wind hits a building and flows around corners, it speeds up (like water flowing through a narrow channel). This acceleration creates stronger suction forces. Additionally, vortices form at corners, creating localized high-pressure areas. This is why corner windows and doors need higher pressure ratings."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How wide is Zone 5 on a building wall?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone 5 width equals the smaller of: 10% of the least horizontal dimension OR 40% of building height, but not less than 4% of least dimension or 3 feet. For a typical home, Zone 5 is usually 3-6 feet from each corner."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Zone 4 vs Zone 5",
+                "item": "https://windload.co/staged-pages/monroe/zone-4-vs-zone-5.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+            --zone4-color: #4ade80;
+            --zone5-color: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--accent-cyan);
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--zone4-color), var(--zone5-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Split Screen Animation Stage */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+            overflow: hidden;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 500px;
+        }
+
+        .zone-panel {
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .zone-panel.zone4 {
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.1), transparent);
+            border-right: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .zone-panel.zone5 {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), transparent);
+        }
+
+        .zone-label {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .zone4 .zone-label {
+            color: var(--zone4-color);
+        }
+
+        .zone5 .zone-label {
+            color: var(--zone5-color);
+        }
+
+        .zone-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+        }
+
+        .zone-location {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Animated Pressure Gauge */
+        .pressure-gauge {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            position: relative;
+            margin: 1rem 0;
+        }
+
+        .zone4 .pressure-gauge {
+            background: conic-gradient(
+                var(--zone4-color) 0deg,
+                var(--zone4-color) var(--pressure-angle, 0deg),
+                rgba(74, 222, 128, 0.2) var(--pressure-angle, 0deg),
+                rgba(74, 222, 128, 0.2) 360deg
+            );
+            box-shadow: 0 0 40px rgba(74, 222, 128, 0.3);
+        }
+
+        .zone5 .pressure-gauge {
+            background: conic-gradient(
+                var(--zone5-color) 0deg,
+                var(--zone5-color) var(--pressure-angle, 0deg),
+                rgba(239, 68, 68, 0.2) var(--pressure-angle, 0deg),
+                rgba(239, 68, 68, 0.2) 360deg
+            );
+            box-shadow: 0 0 40px rgba(239, 68, 68, 0.3);
+        }
+
+        .gauge-inner {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            background: var(--primary-dark);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .pressure-value {
+            font-size: 2rem;
+            font-weight: 900;
+            font-family: 'Monaco', monospace;
+        }
+
+        .zone4 .pressure-value {
+            color: var(--zone4-color);
+        }
+
+        .zone5 .pressure-value {
+            color: var(--zone5-color);
+        }
+
+        .pressure-unit {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Wind Flow Animation */
+        .wind-arrows {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .arrow {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0;
+            animation: flowArrow 3s linear infinite;
+        }
+
+        .zone4 .arrow {
+            color: var(--zone4-color);
+        }
+
+        .zone5 .arrow {
+            color: var(--zone5-color);
+        }
+
+        @keyframes flowArrow {
+            0% {
+                transform: translateX(-50px);
+                opacity: 0;
+            }
+            20% {
+                opacity: 0.8;
+            }
+            80% {
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+        }
+
+        /* Building Diagram */
+        .building-diagram {
+            display: flex;
+            justify-content: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .building-svg {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Comparison Stats */
+        .comparison-stats {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-label {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-magenta);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(233, 30, 140, 0.2);
+            color: var(--accent-magenta);
+        }
+
+        .comparison-table td {
+            background: rgba(0, 0, 0, 0.2);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .split-container {
+                grid-template-columns: 1fr;
+            }
+
+            .zone-panel.zone4 {
+                border-right: none;
+                border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+            }
+
+            .comparison-stats {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="/" class="logo">Wind<span>Load</span>.co</a>
+            <nav>
+                <a href="/states.html">States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Zone 4 vs Zone 5</span>
+        </div>
+
+        <section class="hero">
+            <h1>Zone 4 vs Zone 5</h1>
+            <p>Watch the dramatic difference between wall field and wall corner wind pressures. Same building, very different forces.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="split-container">
+                <div class="zone-panel zone4">
+                    <div class="wind-arrows">
+                        <span class="arrow" style="top: 20%; left: 0; animation-delay: 0s;">&#x2192;</span>
+                        <span class="arrow" style="top: 40%; left: 0; animation-delay: 0.5s;">&#x2192;</span>
+                        <span class="arrow" style="top: 60%; left: 0; animation-delay: 1s;">&#x2192;</span>
+                        <span class="arrow" style="top: 80%; left: 0; animation-delay: 1.5s;">&#x2192;</span>
+                    </div>
+                    <div class="zone-label">Zone 4</div>
+                    <div class="zone-name">Wall Field</div>
+                    <div class="zone-location">Middle of the wall</div>
+                    <div class="pressure-gauge" id="gauge4">
+                        <div class="gauge-inner">
+                            <div class="pressure-value" id="value4">0</div>
+                            <div class="pressure-unit">PSF</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zone-panel zone5">
+                    <div class="wind-arrows">
+                        <span class="arrow" style="top: 15%; left: 0; animation-delay: 0s;">&#x2192;</span>
+                        <span class="arrow" style="top: 30%; left: 0; animation-delay: 0.3s;">&#x2192;</span>
+                        <span class="arrow" style="top: 45%; left: 0; animation-delay: 0.6s;">&#x2192;</span>
+                        <span class="arrow" style="top: 60%; left: 0; animation-delay: 0.9s;">&#x2192;</span>
+                        <span class="arrow" style="top: 75%; left: 0; animation-delay: 1.2s;">&#x2192;</span>
+                        <span class="arrow" style="top: 90%; left: 0; animation-delay: 1.5s;">&#x2192;</span>
+                    </div>
+                    <div class="zone-label">Zone 5</div>
+                    <div class="zone-name">Wall Corner</div>
+                    <div class="zone-location">Within 4-6 ft of corner</div>
+                    <div class="pressure-gauge" id="gauge5">
+                        <div class="gauge-inner">
+                            <div class="pressure-value" id="value5">0</div>
+                            <div class="pressure-unit">PSF</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="comparison-stats">
+                <div class="stat-item">
+                    <div class="stat-label">Pressure Difference</div>
+                    <div class="stat-value" id="diffValue">0%</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Zone 4 (Field)</div>
+                    <div class="stat-value" style="color: var(--zone4-color);">-48.3 PSF</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-label">Zone 5 (Corner)</div>
+                    <div class="stat-value" style="color: var(--zone5-color);">-67.4 PSF</div>
+                </div>
+            </div>
+
+            <div class="building-diagram">
+                <svg class="building-svg" width="400" height="200" viewBox="0 0 400 200">
+                    <!-- Building outline -->
+                    <rect x="50" y="50" width="300" height="120" fill="none" stroke="#ffffff" stroke-width="2"/>
+
+                    <!-- Zone 5 corners (highlighted) -->
+                    <rect x="50" y="50" width="40" height="120" fill="rgba(239, 68, 68, 0.3)" stroke="#ef4444" stroke-width="2">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+                    </rect>
+                    <rect x="310" y="50" width="40" height="120" fill="rgba(239, 68, 68, 0.3)" stroke="#ef4444" stroke-width="2">
+                        <animate attributeName="opacity" values="0.3;0.8;0.3" dur="2s" repeatCount="indefinite"/>
+                    </rect>
+
+                    <!-- Zone 4 middle -->
+                    <rect x="90" y="50" width="220" height="120" fill="rgba(74, 222, 128, 0.2)" stroke="#4ade80" stroke-width="1" stroke-dasharray="5,5"/>
+
+                    <!-- Labels -->
+                    <text x="70" y="115" fill="#ef4444" font-size="12" font-weight="bold">Z5</text>
+                    <text x="330" y="115" fill="#ef4444" font-size="12" font-weight="bold">Z5</text>
+                    <text x="190" y="115" fill="#4ade80" font-size="14" font-weight="bold">ZONE 4</text>
+
+                    <!-- Wind arrows -->
+                    <path d="M10 80 L40 80" stroke="#00d4ff" stroke-width="2" marker-end="url(#arrowhead)">
+                        <animate attributeName="stroke-dashoffset" values="20;0" dur="1s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M10 110 L40 110" stroke="#00d4ff" stroke-width="2">
+                        <animate attributeName="stroke-dashoffset" values="20;0" dur="1s" repeatCount="indefinite"/>
+                    </path>
+                    <path d="M10 140 L40 140" stroke="#00d4ff" stroke-width="2">
+                        <animate attributeName="stroke-dashoffset" values="20;0" dur="1s" repeatCount="indefinite"/>
+                    </path>
+                    <text x="10" y="170" fill="#00d4ff" font-size="12">WIND</text>
+
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#00d4ff"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>Why Corners Get Hit Harder</h2>
+            <p>Imagine holding your hand out a car window. When your palm faces the wind, you feel the push. Now angle your hand - the wind flows around it faster. The same thing happens at building corners, but much more dramatically.</p>
+            <p>When wind hits a building and wraps around the corners, it speeds up. This is called the Venturi effect. Faster wind creates stronger suction, which is why Zone 5 (corners) can experience 40% more pressure than Zone 4 (the middle of the wall).</p>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Factor</th>
+                        <th>Zone 4 (Field)</th>
+                        <th>Zone 5 (Corner)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Location</td>
+                        <td>Middle of wall</td>
+                        <td>Within 4-6 ft of corner</td>
+                    </tr>
+                    <tr>
+                        <td>Negative Pressure</td>
+                        <td>-48.3 PSF</td>
+                        <td>-67.4 PSF</td>
+                    </tr>
+                    <tr>
+                        <td>Window Cost Impact</td>
+                        <td>Standard rating</td>
+                        <td>Premium rating needed</td>
+                    </tr>
+                    <tr>
+                        <td>Why Higher?</td>
+                        <td>Uniform flow</td>
+                        <td>Wind acceleration + vortices</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <p>This is why building codes require engineers to calculate different pressures for different zones. A window in the middle of your wall might be fine at 50 PSF rating, but that same window in a corner would fail - it needs at least 70 PSF rating!</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Get Accurate Zone Pressures for Your Project</h2>
+            <p>Don't guess which windows you need - get exact calculations for every zone</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=monroe&utm_campaign=zone4-vs-zone5" class="cta-button">
+                Calculate Zone Pressures
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 1 + 0.5,
+                vy: (Math.random() - 0.5) * 0.2,
+                size: Math.random() * 2 + 1,
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#00d4ff';
+                ctx.globalAlpha = 0.3;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Animate pressure gauges
+        const gauge4 = document.getElementById('gauge4');
+        const gauge5 = document.getElementById('gauge5');
+        const value4 = document.getElementById('value4');
+        const value5 = document.getElementById('value5');
+        const diffValue = document.getElementById('diffValue');
+
+        const targetPressure4 = 48.3;
+        const targetPressure5 = 67.4;
+
+        let currentPressure4 = 0;
+        let currentPressure5 = 0;
+
+        function animatePressures() {
+            currentPressure4 += (targetPressure4 - currentPressure4) * 0.02;
+            currentPressure5 += (targetPressure5 - currentPressure5) * 0.02;
+
+            const angle4 = (currentPressure4 / 100) * 360;
+            const angle5 = (currentPressure5 / 100) * 360;
+
+            gauge4.style.setProperty('--pressure-angle', angle4 + 'deg');
+            gauge5.style.setProperty('--pressure-angle', angle5 + 'deg');
+
+            value4.textContent = '-' + currentPressure4.toFixed(1);
+            value5.textContent = '-' + currentPressure5.toFixed(1);
+
+            const diff = ((currentPressure5 - currentPressure4) / currentPressure4 * 100);
+            diffValue.textContent = '+' + diff.toFixed(0) + '%';
+
+            if (Math.abs(currentPressure5 - targetPressure5) > 0.1) {
+                requestAnimationFrame(animatePressures);
+            }
+        }
+
+        // Start animation when in view
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animatePressures();
+                    observer.disconnect();
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.animation-stage'));
+    </script>
+</body>
+</html>
