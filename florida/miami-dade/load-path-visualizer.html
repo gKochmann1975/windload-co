@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Wind Load Path Visualizer | Follow the Force - Miami-Dade HVHZ</title>
+    <meta name="description" content="See how wind forces travel through your building from roof to foundation. Interactive animation shows the load path every contractor needs to understand for HVHZ construction.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/load-path-visualizer.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Wind Load Path Visualizer | Follow the Force">
+    <meta property="og:description" content="Watch wind forces travel through a building. Interactive animation for Miami-Dade contractors.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/load-path-visualizer.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is a wind load path?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A wind load path is the route wind forces take through your building structure. Wind hits the roof, transfers to walls, travels through connections, down to the foundation, and into the ground. Every connection in this path must be strong enough to handle the force."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Why is continuous load path important in HVHZ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In High-Velocity Hurricane Zones, wind speeds reach 185 mph. If any link in the load path is weak, the building can fail. Hurricane straps, anchor bolts, and connections must form an unbroken chain from roof to foundation. One missing strap can cause roof failure."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What are the main components of a load path?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The main components are: roof sheathing connected to trusses/rafters, trusses connected to top plates with hurricane straps, walls connected to floor with anchor bolts or hold-downs, and foundation connected to ground with proper embedment. Each connection must be designed for calculated wind loads."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida-pro.html"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Miami-Dade",
+            "item": "https://windload.co/florida/miami-dade/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Load Path Visualizer",
+            "item": "https://windload.co/florida/miami-dade/load-path-visualizer.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-primary: #ffffff;
+            --text-secondary: #b4a5c7;
+            --force-color: #ff6b35;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo span span { color: var(--accent-magenta); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            backdrop-filter: blur(10px);
+            max-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat { margin-bottom: 1rem; }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            color: var(--accent-magenta);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Building Visualizer */
+        .building-visualizer {
+            display: grid;
+            grid-template-columns: 1fr 300px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .building-canvas-container {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        #buildingCanvas {
+            width: 100%;
+            height: 500px;
+            display: block;
+        }
+
+        .force-meter {
+            position: absolute;
+            left: 2rem;
+            top: 2rem;
+            background: rgba(13, 0, 21, 0.9);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .force-meter-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .force-meter-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--force-color);
+        }
+
+        .force-meter-unit {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: rgba(26, 10, 46, 0.8);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .control-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .control-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+        }
+
+        .control-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-magenta);
+            cursor: pointer;
+            box-shadow: 0 0 10px var(--accent-magenta);
+        }
+
+        .component-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .component-btn {
+            padding: 0.75rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .component-btn:hover {
+            border-color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .component-btn.active {
+            border-color: var(--accent-magenta);
+            background: rgba(233, 30, 140, 0.2);
+        }
+
+        .component-indicator {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--text-secondary);
+        }
+
+        .component-btn.active .component-indicator {
+            background: var(--accent-magenta);
+            box-shadow: 0 0 10px var(--accent-magenta);
+        }
+
+        /* Section Styles */
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Load Path Steps */
+        .loadpath-section {
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .loadpath-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .loadpath-step {
+            display: grid;
+            grid-template-columns: 80px 1fr;
+            gap: 2rem;
+            align-items: center;
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .loadpath-step::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0%;
+            background: linear-gradient(90deg, rgba(255, 107, 53, 0.2), transparent);
+            transition: width 1s ease;
+        }
+
+        .loadpath-step.animated::before {
+            width: 100%;
+        }
+
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--force-color));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 900;
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .step-force {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--force-color);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-weight: 600;
+            font-size: 0.875rem;
+        }
+
+        /* Connection Types Section */
+        .connections-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(26, 10, 46, 0.5));
+            position: relative;
+            z-index: 1;
+        }
+
+        .connections-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .connection-card {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .connection-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .connection-icon {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.2), rgba(0, 212, 255, 0.2));
+            border-radius: 20px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .connection-icon svg {
+            width: 40px;
+            height: 40px;
+            stroke: var(--accent-cyan);
+        }
+
+        .connection-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .connection-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .connection-capacity {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-magenta);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-magenta), #c4177a);
+            color: white;
+            box-shadow: 0 4px 25px rgba(233, 30, 140, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(233, 30, 140, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            margin-left: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.875rem;
+        }
+
+        .footer-text a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .building-visualizer {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+
+            .connections-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .loadpath-step {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .step-number {
+                margin: 0 auto;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="" class="logo-img">
+            <span>Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/miami-dade/">Miami-Dade</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <div class="floating-widget">
+        <div class="widget-title">Force Tracker</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetForce">185</div>
+            <div class="widget-stat-label">MPH Wind</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetPressure">62</div>
+            <div class="widget-stat-label">PSF Pressure</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value">5</div>
+            <div class="widget-stat-label">Load Path Links</div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-header">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                    Interactive Load Path
+                </div>
+                <h1><span class="gradient-text">Follow the Force</span></h1>
+                <p class="hero-subtitle">
+                    Wind doesn't just push on your building - it travels through it. Watch the force move from roof to foundation. Every connection matters. One weak link and the chain breaks.
+                </p>
+            </div>
+
+            <div class="building-visualizer">
+                <div class="building-canvas-container">
+                    <canvas id="buildingCanvas"></canvas>
+                    <div class="force-meter">
+                        <div class="force-meter-label">Current Force</div>
+                        <div class="force-meter-value" id="currentForce">0</div>
+                        <div class="force-meter-unit">lbs/ft</div>
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <h3 class="control-title">Control Wind Force</h3>
+
+                    <div class="control-group">
+                        <div class="control-label">
+                            <span>Wind Speed</span>
+                            <span id="windSpeedValue">185 mph</span>
+                        </div>
+                        <input type="range" class="control-slider" id="windSpeed" min="100" max="200" value="185">
+                    </div>
+
+                    <div class="control-group">
+                        <div class="control-label">
+                            <span>Building Height</span>
+                            <span id="heightValue">30 ft</span>
+                        </div>
+                        <input type="range" class="control-slider" id="buildingHeight" min="15" max="60" value="30">
+                    </div>
+
+                    <div class="component-buttons">
+                        <button class="component-btn active" data-component="roof">
+                            <span class="component-indicator"></span>
+                            Roof - Where force enters
+                        </button>
+                        <button class="component-btn" data-component="truss">
+                            <span class="component-indicator"></span>
+                            Trusses - Force spreads out
+                        </button>
+                        <button class="component-btn" data-component="wall">
+                            <span class="component-indicator"></span>
+                            Walls - Force travels down
+                        </button>
+                        <button class="component-btn" data-component="foundation">
+                            <span class="component-indicator"></span>
+                            Foundation - Force meets ground
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="loadpath-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>The Complete Load Path</h2>
+                <p>Follow the force step by step. Each link must be strong enough to pass the load to the next.</p>
+            </div>
+
+            <div class="loadpath-steps">
+                <div class="loadpath-step" data-step="1">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Wind Hits the Roof</h3>
+                        <p class="step-description">Hurricane wind creates pressure on your roof. In HVHZ at 185 mph, that's about 62 pounds pushing on every square foot. The roof sheathing catches this force first.</p>
+                        <span class="step-force">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8h1a4 4 0 0 1 0 8h-1"/><path d="M2 8h16v9a4 4 0 0 1-4 4H6a4 4 0 0 1-4-4V8z"/></svg>
+                            62 PSF Pressure
+                        </span>
+                    </div>
+                </div>
+
+                <div class="loadpath-step" data-step="2">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Sheathing to Trusses</h3>
+                        <p class="step-description">Nails transfer force from plywood to trusses. That 6-inch nailing pattern in HVHZ? Each nail carries part of the load. Miss the pattern and force concentrates - bad news.</p>
+                        <span class="step-force">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14"/><path d="M5 12h14"/></svg>
+                            Nail Pattern Critical
+                        </span>
+                    </div>
+                </div>
+
+                <div class="loadpath-step" data-step="3">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Trusses to Top Plate</h3>
+                        <p class="step-description">Hurricane straps connect trusses to the wall's top plate. These metal connectors are rated for specific uplift loads. A typical strap might hold 1,500+ pounds. No strap? Roof flies off.</p>
+                        <span class="step-force">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20"/><path d="M2 12h20"/></svg>
+                            1,500+ lb Capacity
+                        </span>
+                    </div>
+                </div>
+
+                <div class="loadpath-step" data-step="4">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Walls to Foundation</h3>
+                        <p class="step-description">Anchor bolts or hold-downs connect walls to the foundation. Force from above travels through studs to the bottom plate, then through bolts into concrete. Spacing matters.</p>
+                        <span class="step-force">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+                            Bolt Spacing Key
+                        </span>
+                    </div>
+                </div>
+
+                <div class="loadpath-step" data-step="5">
+                    <div class="step-number">5</div>
+                    <div class="step-content">
+                        <h3 class="step-title">Foundation to Earth</h3>
+                        <p class="step-description">The foundation spreads force into the ground. Proper depth and reinforcement let the earth absorb all that hurricane energy. The force finally stops here.</p>
+                        <span class="step-force">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+                            Force Dissipates
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="connections-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Critical Connections</h2>
+                <p>These are the heroes of your load path. Each one rated for specific forces.</p>
+            </div>
+
+            <div class="connections-grid">
+                <div class="connection-card">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M12 12v10"/>
+                        </svg>
+                    </div>
+                    <h3 class="connection-name">Hurricane Straps</h3>
+                    <p class="connection-desc">Metal connectors that tie trusses to walls. The most critical connection in HVHZ. Different types for different loads.</p>
+                    <span class="connection-capacity">Up to 2,000 lb uplift</span>
+                </div>
+
+                <div class="connection-card">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                            <path d="M12 4v16"/>
+                        </svg>
+                    </div>
+                    <h3 class="connection-name">Anchor Bolts</h3>
+                    <p class="connection-desc">Embedded in concrete, these bolts connect the wood frame to the foundation. Typical spacing is 6 feet maximum.</p>
+                    <span class="connection-capacity">4,000+ lb each</span>
+                </div>
+
+                <div class="connection-card">
+                    <div class="connection-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
+                        </svg>
+                    </div>
+                    <h3 class="connection-name">Hold-Downs</h3>
+                    <p class="connection-desc">Heavy-duty connectors for shear walls. These resist the overturning force that tries to flip your building.</p>
+                    <span class="connection-capacity">5,000+ lb capacity</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Understanding load paths made simple</p>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What is a wind load path?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        A wind load path is the route wind forces take through your building structure. Wind hits the roof, transfers to walls, travels through connections, down to the foundation, and into the ground. Every connection in this path must be strong enough to handle the force. Think of it like a chain - it's only as strong as its weakest link.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Why is continuous load path important in HVHZ?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        In High-Velocity Hurricane Zones, wind speeds reach 185 mph. If any link in the load path is weak, the building can fail. Hurricane straps, anchor bolts, and connections must form an unbroken chain from roof to foundation. One missing strap can cause roof failure. This is why inspectors check every single connection.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What are the main components of a load path?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The main components are: roof sheathing connected to trusses/rafters, trusses connected to top plates with hurricane straps, walls connected to floor with anchor bolts or hold-downs, and foundation connected to ground with proper embedment. Each connection must be designed for calculated wind loads.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I know if my connections are strong enough?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        A wind load calculation tells you exactly how much force each connection needs to handle. Our calculator determines the loads based on your location, building size, and exposure. Then you select connectors rated for those loads. It's math - and we make it easy.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Know Your Forces</h2>
+        <p>Get accurate wind load calculations to size your connections correctly.</p>
+        <div>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=load-path" class="btn btn-primary">
+                Calculate Wind Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/florida/miami-dade/fastener-spacing-guide.html" class="btn btn-secondary">Fastener Guide</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/permit-checklist.html">Permit Checklist</a>
+            <a href="/florida/miami-dade/wind-zone-map.html">Wind Zone Map</a>
+            <a href="/florida/miami-dade/inspection-timeline.html">Inspection Timeline</a>
+            <a href="/florida/miami-dade/fastener-spacing-guide.html">Fastener Guide</a>
+            <a href="/florida/miami-dade/crew-safety-hvhz.html">Crew Safety</a>
+        </div>
+        <div class="footer-links">
+            <a href="/contractors.html">Contractors</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+        </div>
+        <p class="footer-text">
+            &copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> |
+            <a href="https://windloadcalc.com">WindLoadCalc.com</a>
+        </p>
+    </footer>
+
+    <script>
+        // Particle Animation - Force/Arrow themed
+        const particleCanvas = document.getElementById('particle-canvas');
+        const pCtx = particleCanvas.getContext('2d');
+
+        function resizeParticleCanvas() {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+        }
+        resizeParticleCanvas();
+        window.addEventListener('resize', resizeParticleCanvas);
+
+        class ForceArrow {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -50;
+                this.y = Math.random() * particleCanvas.height * 0.6 + 100;
+                this.speed = Math.random() * 4 + 3;
+                this.size = Math.random() * 15 + 10;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.x += this.speed;
+                if (this.x > particleCanvas.width + 50) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                pCtx.save();
+                pCtx.translate(this.x, this.y);
+                pCtx.globalAlpha = this.opacity;
+
+                // Arrow body
+                pCtx.strokeStyle = '#ff6b35';
+                pCtx.lineWidth = 2;
+                pCtx.beginPath();
+                pCtx.moveTo(-this.size, 0);
+                pCtx.lineTo(0, 0);
+                pCtx.stroke();
+
+                // Arrow head
+                pCtx.beginPath();
+                pCtx.moveTo(0, 0);
+                pCtx.lineTo(-8, -4);
+                pCtx.lineTo(-8, 4);
+                pCtx.closePath();
+                pCtx.fillStyle = '#ff6b35';
+                pCtx.fill();
+
+                pCtx.restore();
+            }
+        }
+
+        const forceArrows = [];
+        for (let i = 0; i < 25; i++) {
+            const arrow = new ForceArrow();
+            arrow.x = Math.random() * particleCanvas.width;
+            forceArrows.push(arrow);
+        }
+
+        function animateForceArrows() {
+            pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+            forceArrows.forEach(arrow => {
+                arrow.update();
+                arrow.draw();
+            });
+            requestAnimationFrame(animateForceArrows);
+        }
+        animateForceArrows();
+
+        // Building Canvas Animation
+        const buildingCanvas = document.getElementById('buildingCanvas');
+        const ctx = buildingCanvas.getContext('2d');
+
+        function resizeBuildingCanvas() {
+            const container = buildingCanvas.parentElement;
+            buildingCanvas.width = container.clientWidth - 64;
+            buildingCanvas.height = 500;
+        }
+        resizeBuildingCanvas();
+        window.addEventListener('resize', resizeBuildingCanvas);
+
+        let windSpeed = 185;
+        let buildingHeight = 30;
+        let activeComponent = 'roof';
+        let forceParticles = [];
+
+        class LoadPathParticle {
+            constructor(startX, startY) {
+                this.x = startX;
+                this.y = startY;
+                this.targetY = buildingCanvas.height - 80;
+                this.speed = 3;
+                this.size = 6;
+                this.opacity = 1;
+                this.phase = 0;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.x += Math.sin(this.y * 0.05) * 0.5;
+                this.opacity = Math.max(0, 1 - (this.y - 100) / (this.targetY - 100));
+
+                if (this.y > this.targetY) {
+                    return false;
+                }
+                return true;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ff6b35';
+                ctx.shadowColor = '#ff6b35';
+                ctx.shadowBlur = 10;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        function drawBuilding() {
+            const w = buildingCanvas.width;
+            const h = buildingCanvas.height;
+            const centerX = w / 2;
+
+            ctx.clearRect(0, 0, w, h);
+
+            // Ground
+            ctx.fillStyle = '#2a1a40';
+            ctx.fillRect(0, h - 50, w, 50);
+
+            // Foundation
+            const foundationWidth = 300;
+            const foundationHeight = 30;
+            ctx.fillStyle = activeComponent === 'foundation' ? '#e91e8c' : '#4a3a60';
+            ctx.fillRect(centerX - foundationWidth/2, h - 80, foundationWidth, foundationHeight);
+
+            // Walls
+            const wallWidth = 250;
+            const wallHeight = 200;
+            const wallTop = h - 80 - wallHeight;
+            ctx.fillStyle = activeComponent === 'wall' ? '#e91e8c' : '#3a2a50';
+            ctx.fillRect(centerX - wallWidth/2, wallTop, 20, wallHeight);
+            ctx.fillRect(centerX + wallWidth/2 - 20, wallTop, 20, wallHeight);
+
+            // Trusses
+            ctx.strokeStyle = activeComponent === 'truss' ? '#e91e8c' : '#5a4a70';
+            ctx.lineWidth = 4;
+            for (let i = 0; i < 5; i++) {
+                const x = centerX - wallWidth/2 + 30 + i * 50;
+                ctx.beginPath();
+                ctx.moveTo(x, wallTop);
+                ctx.lineTo(x, wallTop - 60);
+                ctx.stroke();
+            }
+
+            // Roof
+            ctx.fillStyle = activeComponent === 'roof' ? '#e91e8c' : '#6a5a80';
+            ctx.beginPath();
+            ctx.moveTo(centerX - 160, wallTop - 60);
+            ctx.lineTo(centerX, wallTop - 130);
+            ctx.lineTo(centerX + 160, wallTop - 60);
+            ctx.closePath();
+            ctx.fill();
+
+            // Hurricane straps visualization
+            ctx.fillStyle = '#00d4ff';
+            for (let i = 0; i < 5; i++) {
+                const x = centerX - wallWidth/2 + 30 + i * 50;
+                ctx.fillRect(x - 3, wallTop - 5, 6, 10);
+            }
+
+            // Anchor bolts visualization
+            for (let i = 0; i < 4; i++) {
+                const x = centerX - foundationWidth/2 + 50 + i * 70;
+                ctx.fillStyle = '#00d4ff';
+                ctx.beginPath();
+                ctx.arc(x, h - 80, 5, 0, Math.PI * 2);
+                ctx.fill();
+            }
+
+            // Wind arrows
+            ctx.strokeStyle = '#ff6b35';
+            ctx.lineWidth = 3;
+            for (let i = 0; i < 5; i++) {
+                const y = wallTop - 100 + i * 40;
+                const startX = 50;
+                ctx.beginPath();
+                ctx.moveTo(startX, y);
+                ctx.lineTo(startX + 60, y);
+                ctx.stroke();
+                // Arrow head
+                ctx.beginPath();
+                ctx.moveTo(startX + 60, y);
+                ctx.lineTo(startX + 50, y - 5);
+                ctx.lineTo(startX + 50, y + 5);
+                ctx.closePath();
+                ctx.fillStyle = '#ff6b35';
+                ctx.fill();
+            }
+
+            // Draw force particles
+            forceParticles.forEach(p => p.draw());
+
+            // Labels
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('ROOF', centerX, wallTop - 100);
+            ctx.fillText('TRUSSES', centerX, wallTop - 30);
+            ctx.fillText('WALLS', centerX, wallTop + wallHeight/2);
+            ctx.fillText('FOUNDATION', centerX, h - 60);
+        }
+
+        function spawnForceParticle() {
+            const centerX = buildingCanvas.width / 2;
+            const startX = centerX + (Math.random() - 0.5) * 200;
+            forceParticles.push(new LoadPathParticle(startX, 100));
+        }
+
+        function animate() {
+            // Update particles
+            forceParticles = forceParticles.filter(p => p.update());
+
+            // Spawn new particles
+            if (Math.random() < 0.1) {
+                spawnForceParticle();
+            }
+
+            drawBuilding();
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+
+        // Controls
+        const windSpeedSlider = document.getElementById('windSpeed');
+        const windSpeedValue = document.getElementById('windSpeedValue');
+        const heightSlider = document.getElementById('buildingHeight');
+        const heightValue = document.getElementById('heightValue');
+        const currentForce = document.getElementById('currentForce');
+        const widgetForce = document.getElementById('widgetForce');
+        const widgetPressure = document.getElementById('widgetPressure');
+
+        function updateForce() {
+            const speed = parseInt(windSpeedSlider.value);
+            windSpeedValue.textContent = speed + ' mph';
+            widgetForce.textContent = speed;
+
+            // Simplified pressure calculation
+            const pressure = Math.round(0.00256 * speed * speed * 0.85);
+            currentForce.textContent = pressure;
+            widgetPressure.textContent = pressure;
+        }
+
+        windSpeedSlider.addEventListener('input', updateForce);
+
+        heightSlider.addEventListener('input', function() {
+            heightValue.textContent = this.value + ' ft';
+            buildingHeight = parseInt(this.value);
+        });
+
+        // Component buttons
+        document.querySelectorAll('.component-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.component-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                activeComponent = this.dataset.component;
+            });
+        });
+
+        updateForce();
+
+        // Load path steps animation on scroll
+        const loadpathSteps = document.querySelectorAll('.loadpath-step');
+
+        function animateSteps() {
+            loadpathSteps.forEach(step => {
+                const rect = step.getBoundingClientRect();
+                if (rect.top < window.innerHeight * 0.8) {
+                    step.classList.add('animated');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', animateSteps);
+        animateSteps();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

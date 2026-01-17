@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Diaphragm Design Palm Beach | The Floor is Your Friend</title>
+    <meta name="description" content="Watch forces flow like water across a floor or roof diaphragm. Interactive animation shows how floors and roofs distribute wind forces in Palm Beach County buildings.">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/diaphragm-design.html">
+
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County, Florida">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Diaphragm Design | The Floor is Your Friend in Palm Beach">
+    <meta property="og:description" content="Interactive animation shows how floor and roof decks distribute wind forces like water flowing across a surface.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/diaphragm-design.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is a diaphragm in building construction?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A diaphragm is a flat structural element (like a floor or roof) that transfers lateral forces to the vertical resisting elements (shear walls). Think of it like a pool table - when you push on one side, the rigid surface transfers that push to the legs on the opposite side."
+            }
+        }, {
+            "@type": "Question",
+            "name": "How do diaphragms help resist wind loads?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "When wind pushes on walls, it creates forces that need to travel to the foundation. Diaphragms collect these forces from the walls and roof and distribute them to the shear walls. Without proper diaphragms, forces would concentrate at single points and cause failures."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What makes a good roof diaphragm for hurricane resistance?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A good hurricane-resistant roof diaphragm has structural sheathing (plywood or OSB) with tight nailing patterns - typically 8d nails at 4-6 inch spacing at edges. All panel edges must be supported, and the sheathing must be properly connected to the top plates of walls below."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Palm Beach County",
+            "item": "https://windload.co/florida/palm-beach/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Diaphragm Design",
+            "item": "https://windload.co/florida/palm-beach/diaphragm-design.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --flow-blue: #2196f3;
+            --wood-color: #8d6e63;
+            --force-yellow: #ffc107;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-magenta);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            min-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(33, 150, 243, 0.15);
+            border: 1px solid rgba(33, 150, 243, 0.3);
+            color: var(--flow-blue);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--flow-blue) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        /* Diaphragm Animation Scene */
+        .diaphragm-scene {
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            margin: 3rem auto;
+            background: linear-gradient(180deg, #1a0a2e 0%, #2d1f4e 100%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            perspective: 1000px;
+        }
+
+        /* 3D Floor/Roof View */
+        .diaphragm-3d {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            height: 300px;
+            transform: translate(-50%, -50%) rotateX(60deg) rotateZ(-30deg);
+            transform-style: preserve-3d;
+        }
+
+        .floor-deck {
+            width: 100%;
+            height: 100%;
+            background: var(--wood-color);
+            border: 4px solid #6d4c41;
+            position: relative;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Floor Grid Pattern */
+        .floor-grid {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    transparent,
+                    transparent 49px,
+                    rgba(0, 0, 0, 0.3) 49px,
+                    rgba(0, 0, 0, 0.3) 50px
+                ),
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 49px,
+                    rgba(0, 0, 0, 0.3) 49px,
+                    rgba(0, 0, 0, 0.3) 50px
+                );
+        }
+
+        /* Shear Walls (edges) */
+        .edge-wall {
+            position: absolute;
+            background: #455a64;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .edge-wall.top {
+            top: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            transform: rotateX(-90deg);
+            transform-origin: bottom;
+        }
+
+        .edge-wall.bottom {
+            bottom: -20px;
+            left: 0;
+            right: 0;
+            height: 20px;
+            transform: rotateX(90deg);
+            transform-origin: top;
+        }
+
+        .edge-wall.left {
+            top: 0;
+            left: -20px;
+            bottom: 0;
+            width: 20px;
+            transform: rotateY(90deg);
+            transform-origin: right;
+        }
+
+        .edge-wall.right {
+            top: 0;
+            right: -20px;
+            bottom: 0;
+            width: 20px;
+            transform: rotateY(-90deg);
+            transform-origin: left;
+        }
+
+        /* Force Flow Animation */
+        .force-flow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .flow-particle {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: radial-gradient(circle, var(--flow-blue), transparent);
+            border-radius: 50%;
+            opacity: 0;
+        }
+
+        .flow-particle.active {
+            animation: flowAcross 2s ease-in-out forwards;
+        }
+
+        @keyframes flowAcross {
+            0% {
+                opacity: 0;
+                transform: translateX(0) translateY(0);
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+                transform: translateX(var(--flow-x)) translateY(var(--flow-y));
+            }
+        }
+
+        /* Wind Input Arrow */
+        .wind-input {
+            position: absolute;
+            top: 50%;
+            left: 5%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .wind-input.active {
+            opacity: 1;
+        }
+
+        .wind-input-arrow {
+            width: 80px;
+            height: 20px;
+            background: linear-gradient(90deg, transparent, var(--force-yellow));
+            position: relative;
+        }
+
+        .wind-input-arrow::after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-left: 20px solid var(--force-yellow);
+        }
+
+        .wind-label {
+            color: var(--force-yellow);
+            font-weight: 700;
+            font-size: 0.9rem;
+            writing-mode: vertical-rl;
+        }
+
+        /* Output to Shear Walls */
+        .output-arrows {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 20% 0;
+            opacity: 0;
+            transition: opacity 0.5s ease 0.5s;
+        }
+
+        .output-arrows.active {
+            opacity: 1;
+        }
+
+        .output-arrow {
+            width: 40px;
+            height: 12px;
+            background: linear-gradient(90deg, var(--accent-cyan), transparent);
+            position: relative;
+            margin-right: 30px;
+        }
+
+        .output-arrow::before {
+            content: '';
+            position: absolute;
+            left: -12px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 15px solid var(--accent-cyan);
+        }
+
+        /* Status Panel */
+        .status-panel {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 1rem;
+            width: 200px;
+        }
+
+        .status-title {
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .status-label { color: #94a3b8; }
+        .status-value { color: white; font-weight: 600; }
+        .status-value.active { color: var(--flow-blue); }
+
+        /* Controls */
+        .diaphragm-controls {
+            max-width: 900px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .flow-btn {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--flow-blue), var(--accent-cyan));
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .flow-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
+        }
+
+        .flow-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .control-hint {
+            margin-top: 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section:nth-child(even) {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Analogy Cards */
+        .analogy-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .analogy-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .analogy-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .analogy-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .analogy-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* Nailing Requirements */
+        .nailing-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .nailing-table th,
+        .nailing-table td {
+            padding: 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .nailing-table th {
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .nailing-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer { max-height: 500px; }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            background: white;
+            color: var(--primary-dark);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a:hover { color: white; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .analogy-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .diaphragm-scene { height: 400px; }
+            .diaphragm-3d {
+                width: 280px;
+                height: 210px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>WindLoad.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/">Florida</a>
+            <a href="/states.html">All States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Force Flow</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-input">0</div>
+            <div class="widget-stat-label">Input Force (lbs)</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-dist">0%</div>
+            <div class="widget-stat-label">Distributed</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-status">Ready</div>
+            <div class="widget-stat-label">Status</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Force Distribution</div>
+            <h1>The Floor is <span class="highlight">Your Friend</span></h1>
+            <p class="hero-subtitle">
+                Click the button below to see how forces flow across a floor or roof like water in a pool. Wind enters from one side, the diaphragm spreads it out, and it exits to the shear walls evenly distributed.
+            </p>
+
+            <!-- Diaphragm Animation Scene -->
+            <div class="diaphragm-scene">
+                <!-- Status Panel -->
+                <div class="status-panel">
+                    <div class="status-title">Diaphragm Status</div>
+                    <div class="status-row">
+                        <span class="status-label">Wind Force:</span>
+                        <span class="status-value" id="status-force">0 lbs</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Distribution:</span>
+                        <span class="status-value" id="status-dist">Idle</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">To Left Wall:</span>
+                        <span class="status-value" id="status-left">0 lbs</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">To Right Wall:</span>
+                        <span class="status-value" id="status-right">0 lbs</span>
+                    </div>
+                </div>
+
+                <!-- Wind Input -->
+                <div class="wind-input" id="wind-input">
+                    <div class="wind-label">WIND<br>3000 lbs</div>
+                    <div class="wind-input-arrow"></div>
+                </div>
+
+                <!-- 3D Diaphragm View -->
+                <div class="diaphragm-3d">
+                    <div class="floor-deck">
+                        <div class="floor-grid"></div>
+                        <div class="force-flow" id="force-flow"></div>
+                        <div class="edge-wall top"></div>
+                        <div class="edge-wall bottom"></div>
+                        <div class="edge-wall left"></div>
+                        <div class="edge-wall right"></div>
+                    </div>
+                </div>
+
+                <!-- Output Arrows -->
+                <div class="output-arrows" id="output-arrows">
+                    <div class="output-arrow"></div>
+                    <div class="output-arrow"></div>
+                    <div class="output-arrow"></div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="diaphragm-controls">
+                <button class="flow-btn" id="flow-btn" onclick="startFlow()">
+                    Show Force Flow
+                </button>
+                <p class="control-hint">Watch how the floor deck distributes wind force to the shear walls</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Analogy Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Think of It Like Water</h2>
+                <p>Diaphragms work by spreading out concentrated forces, just like these everyday examples</p>
+            </div>
+
+            <div class="analogy-grid">
+                <div class="analogy-card">
+                    <div class="analogy-icon">&#x1F3B1;</div>
+                    <div class="analogy-title">Pool Table</div>
+                    <div class="analogy-desc">
+                        Push on one corner of a pool table and the force travels across the rigid surface to all four legs. The table top is acting as a diaphragm, distributing your push evenly.
+                    </div>
+                </div>
+
+                <div class="analogy-card">
+                    <div class="analogy-icon">&#x1F4C4;</div>
+                    <div class="analogy-title">Sheet of Paper</div>
+                    <div class="analogy-desc">
+                        A single sheet of paper is weak, but if you fold it into a box shape, it becomes rigid. The flat surfaces act as diaphragms, transferring forces to the edges.
+                    </div>
+                </div>
+
+                <div class="analogy-card">
+                    <div class="analogy-icon">&#x1F6F9;</div>
+                    <div class="analogy-title">Skateboard</div>
+                    <div class="analogy-desc">
+                        Stand on a skateboard and push sideways. The deck transfers your weight and push to both sets of wheels. Without the rigid deck, you would fall through.
+                    </div>
+                </div>
+
+                <div class="analogy-card">
+                    <div class="analogy-icon">&#x1F30A;</div>
+                    <div class="analogy-title">Swimming Pool</div>
+                    <div class="analogy-desc">
+                        Pour water in one corner of a pool and it spreads across the entire surface. Forces in a diaphragm flow the same way, seeking the path to the shear walls.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nailing Requirements Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Nailing Makes the Difference</h2>
+                <p>The diaphragm only works if it is properly connected. Here are typical requirements for Palm Beach County</p>
+            </div>
+
+            <table class="nailing-table">
+                <thead>
+                    <tr>
+                        <th>Wind Zone</th>
+                        <th>Edge Nailing</th>
+                        <th>Field Nailing</th>
+                        <th>Panel Thickness</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>130-150 mph</td>
+                        <td>8d @ 6" o.c.</td>
+                        <td>8d @ 12" o.c.</td>
+                        <td>7/16" min</td>
+                    </tr>
+                    <tr>
+                        <td>150-170 mph</td>
+                        <td>8d @ 4" o.c.</td>
+                        <td>8d @ 8" o.c.</td>
+                        <td>15/32" recommended</td>
+                    </tr>
+                    <tr>
+                        <td>170-180 mph</td>
+                        <td>10d @ 4" o.c.</td>
+                        <td>8d @ 6" o.c.</td>
+                        <td>15/32" min</td>
+                    </tr>
+                    <tr>
+                        <td>180+ mph</td>
+                        <td>10d @ 3" o.c.</td>
+                        <td>10d @ 6" o.c.</td>
+                        <td>19/32" recommended</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+                <p>What contractors ask about diaphragm design</p>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Is my floor automatically a diaphragm?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Not necessarily. A floor only acts as a diaphragm if it has structural sheathing with proper nailing. Hardwood floors, tile, and carpet over particleboard do not create effective diaphragms. The subfloor sheathing must be structural-grade plywood or OSB, properly nailed, with all edges supported. Many older homes lack proper diaphragm construction.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What happens if there is a large hole in the diaphragm?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Large openings like stairwells or skylights interrupt force flow. Forces must go around the opening, concentrating at the corners. This requires special reinforcement - usually additional framing and strapping around the opening edges. Think of it like water flowing around a rock in a stream - it speeds up and creates turbulence at the edges.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How does a truss roof create a diaphragm?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The roof sheathing (plywood or OSB) nailed to the top chords of trusses creates the diaphragm. The trusses themselves provide out-of-plane support, but it is the continuous sheathing that allows lateral forces to flow across the roof. This is why proper roof sheathing nailing is so critical in hurricane zones.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Do I need blocking at all panel edges?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Ideally yes, but code allows some flexibility. Panel edges parallel to framing can use H-clips for spacing in some cases. However, in high wind zones like Palm Beach County, full blocking or tongue-and-groove panels are often required to achieve the diaphragm capacity needed. Check your engineered plans for specific blocking requirements.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is the chord in a diaphragm?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The chord is the edge member that carries tension and compression forces. When the diaphragm flexes under load, one edge is in tension (being pulled apart) and the opposite edge is in compression. Usually the top plates of walls serve as chords for roof diaphragms. These members must be continuous or properly spliced to carry the forces without breaking.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Calculate Your Diaphragm Requirements</h2>
+        <p>Get wind load calculations that determine your roof and floor diaphragm needs</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=palm-beach&utm_campaign=diaphragm-design" class="cta-btn">
+            Start Calculating
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Palm Beach Topics</h4>
+                <a href="./coastal-setback.html">Coastal Setback</a>
+                <a href="./flood-zone-wind.html">Flood Zone + Wind</a>
+                <a href="./elevated-structures.html">Elevated Structures</a>
+                <a href="./breakaway-walls.html">Breakaway Walls</a>
+                <a href="./corrosion-resistance.html">Corrosion Resistance</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Topics</h4>
+                <a href="./anchor-bolt-patterns.html">Anchor Bolts</a>
+                <a href="./shear-wall-basics.html">Shear Walls</a>
+                <a href="./diaphragm-design.html">Diaphragm Design</a>
+                <a href="./continuous-load-path.html">Load Path</a>
+                <a href="./hurricane-straps.html">Hurricane Straps</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/states.html">All States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/contractors.html">For Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="https://windload.solutions">Resources</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a>. Trusted by contractors for over 20 years.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * 0.3 - 0.15;
+                this.opacity = Math.random() * 0.2 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(33, 150, 243, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const particles = Array.from({ length: 40 }, () => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Force Flow Animation
+        let isFlowing = false;
+
+        function startFlow() {
+            if (isFlowing) return;
+            isFlowing = true;
+
+            const btn = document.getElementById('flow-btn');
+            btn.disabled = true;
+            btn.textContent = 'Forces Flowing...';
+
+            // Show wind input
+            document.getElementById('wind-input').classList.add('active');
+
+            // Update status
+            document.getElementById('status-force').textContent = '3000 lbs';
+            document.getElementById('status-dist').textContent = 'Active';
+            document.getElementById('status-dist').classList.add('active');
+            document.getElementById('widget-input').textContent = '3000';
+            document.getElementById('widget-status').textContent = 'Active';
+
+            // Create flow particles
+            const flowContainer = document.getElementById('force-flow');
+            flowContainer.innerHTML = '';
+
+            let distributed = 0;
+            const totalParticles = 20;
+
+            for (let i = 0; i < totalParticles; i++) {
+                setTimeout(() => {
+                    const particle = document.createElement('div');
+                    particle.className = 'flow-particle';
+                    particle.style.left = '0%';
+                    particle.style.top = (20 + Math.random() * 60) + '%';
+                    particle.style.setProperty('--flow-x', '380px');
+                    particle.style.setProperty('--flow-y', (Math.random() * 40 - 20) + 'px');
+
+                    flowContainer.appendChild(particle);
+
+                    setTimeout(() => {
+                        particle.classList.add('active');
+                    }, 50);
+
+                    distributed = Math.min(100, Math.round((i + 1) / totalParticles * 100));
+                    document.getElementById('widget-dist').textContent = distributed + '%';
+
+                }, i * 100);
+            }
+
+            // Show output arrows after delay
+            setTimeout(() => {
+                document.getElementById('output-arrows').classList.add('active');
+                document.getElementById('status-left').textContent = '1500 lbs';
+                document.getElementById('status-right').textContent = '1500 lbs';
+            }, 1500);
+
+            // Reset after animation
+            setTimeout(() => {
+                btn.disabled = false;
+                btn.textContent = 'Show Force Flow Again';
+                isFlowing = false;
+            }, 3000);
+        }
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

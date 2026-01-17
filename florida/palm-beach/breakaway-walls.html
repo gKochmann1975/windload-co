@@ -1,0 +1,1383 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Breakaway Walls Palm Beach County | Designed to Let Go</title>
+    <meta name="description" content="Watch the satisfying animation of breakaway walls releasing during flooding while the building survives. Learn why walls that break away actually save your building in Palm Beach County.">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/breakaway-walls.html">
+
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County, Florida">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Breakaway Walls | Designed to Let Go in Palm Beach County">
+    <meta property="og:description" content="Interactive animation shows flood waters hitting a wall that breaks away while the building survives. Satisfying release animation.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/breakaway-walls.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is a breakaway wall and why do I need one?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A breakaway wall is designed to collapse under flood forces without damaging the main building structure. In VE flood zones, any walls below the Base Flood Elevation must be breakaway walls. They protect your building by allowing flood water to flow through rather than pushing against the entire structure."
+            }
+        }, {
+            "@type": "Question",
+            "name": "At what water pressure do breakaway walls release?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "FEMA requires breakaway walls to fail when water loads exceed 10-20 pounds per square foot (psf). This ensures they break away during significant flooding before the force can damage the main structure. Walls that resist more than 20 psf require engineering certification."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Can I enclose the area under my elevated building in Palm Beach County?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "In VE flood zones, enclosures below BFE must use breakaway walls or remain open. In AE zones, you have more options including flood-proofed enclosures. Either way, the space below BFE cannot be used for living area and must have proper flood vents or breakaway construction."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Palm Beach County",
+            "item": "https://windload.co/florida/palm-beach/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Breakaway Walls",
+            "item": "https://windload.co/florida/palm-beach/breakaway-walls.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --water-blue: #2196f3;
+            --water-dark: #1565c0;
+            --debris-brown: #795548;
+            --success-green: #4caf50;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-magenta);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            min-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            color: var(--success-green);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--success-green) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        /* Breakaway Animation Scene */
+        .breakaway-scene {
+            width: 100%;
+            max-width: 1000px;
+            height: 500px;
+            margin: 3rem auto;
+            background: linear-gradient(180deg, #1a0a2e 0%, #2d1f4e 50%, #5d4037 50%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Water Container */
+        .water-container {
+            position: absolute;
+            bottom: 50%;
+            left: 0;
+            width: 100%;
+            height: 0;
+            overflow: visible;
+            transition: height 1s ease;
+        }
+
+        .water-body {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(33, 150, 243, 0.6) 0%, rgba(21, 101, 192, 0.8) 100%);
+        }
+
+        .water-surface {
+            position: absolute;
+            top: -10px;
+            left: 0;
+            width: 300%;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 20'%3E%3Cpath fill='%2364b5f6' d='M0,10 Q50,0 100,10 T200,10 T300,10 T400,10 T500,10 T600,10 T700,10 T800,10 T900,10 T1000,10 T1100,10 T1200,10 L1200,20 L0,20 Z'/%3E%3C/svg%3E");
+            background-size: 400px 20px;
+            animation: waveMotion 2s linear infinite;
+        }
+
+        @keyframes waveMotion {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-33.33%); }
+        }
+
+        /* Debris in Water */
+        .debris {
+            position: absolute;
+            font-size: 1.5rem;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .debris.visible {
+            opacity: 1;
+            animation: floatDebris 3s ease-in-out infinite;
+        }
+
+        @keyframes floatDebris {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(15deg); }
+        }
+
+        /* Building Structure */
+        .building-structure {
+            position: absolute;
+            bottom: 50%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 200px;
+        }
+
+        .building-upper {
+            width: 200px;
+            height: 150px;
+            background: linear-gradient(180deg, #546e7a 0%, #455a64 100%);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            z-index: 20;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .upper-windows {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            padding: 15px;
+            height: 100%;
+        }
+
+        .upper-window {
+            background: linear-gradient(180deg, #ffd54f 0%, #ffb300 100%);
+            border-radius: 3px;
+        }
+
+        .building-stilts {
+            display: flex;
+            justify-content: space-between;
+            height: 80px;
+            padding: 0 20px;
+        }
+
+        .stilt-column {
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(180deg, #78909c 0%, #546e7a 100%);
+            border-radius: 4px 4px 0 0;
+        }
+
+        /* Breakaway Walls */
+        .breakaway-wall {
+            position: absolute;
+            bottom: 0;
+            width: 70px;
+            height: 60px;
+            background: linear-gradient(180deg, #90a4ae 0%, #78909c 100%);
+            border: 2px dashed var(--accent-magenta);
+            transition: all 0.8s ease;
+            z-index: 10;
+        }
+
+        .breakaway-wall.left {
+            left: 20px;
+        }
+
+        .breakaway-wall.right {
+            right: 20px;
+        }
+
+        .breakaway-wall::after {
+            content: 'BREAKAWAY';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-90deg);
+            font-size: 0.6rem;
+            color: var(--accent-magenta);
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .breakaway-wall.broken {
+            transform: translateY(200px) rotate(45deg);
+            opacity: 0;
+        }
+
+        .breakaway-wall.broken.left {
+            transform: translate(-100px, 200px) rotate(-30deg);
+        }
+
+        .breakaway-wall.broken.right {
+            transform: translate(100px, 200px) rotate(30deg);
+        }
+
+        /* Status Indicator */
+        .status-indicator {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-size: 1.25rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            transition: all 0.3s ease;
+            z-index: 30;
+        }
+
+        .status-safe {
+            background: var(--success-green);
+            color: white;
+        }
+
+        .status-warning {
+            background: #ff9800;
+            color: black;
+        }
+
+        .status-release {
+            background: var(--accent-magenta);
+            color: white;
+            animation: statusPulse 0.5s ease infinite;
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.05); }
+        }
+
+        /* Pressure Gauge */
+        .pressure-gauge {
+            position: absolute;
+            bottom: 60%;
+            left: 20px;
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 1rem;
+            width: 150px;
+        }
+
+        .gauge-title {
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .gauge-bar {
+            height: 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .gauge-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success-green), #ff9800, var(--accent-magenta));
+            border-radius: 10px;
+            transition: width 0.5s ease;
+            width: 0%;
+        }
+
+        .gauge-value {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+        }
+
+        .gauge-label { color: #94a3b8; }
+        .gauge-number { color: white; font-weight: 700; }
+
+        /* Release Threshold Line */
+        .threshold-marker {
+            position: absolute;
+            left: 60%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--accent-magenta);
+        }
+
+        .threshold-label {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.6rem;
+            color: var(--accent-magenta);
+            white-space: nowrap;
+        }
+
+        /* Controls */
+        .flood-control {
+            max-width: 1000px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .control-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .flood-btn {
+            padding: 1rem 2rem;
+            border: none;
+            border-radius: 12px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .flood-btn.start {
+            background: linear-gradient(135deg, var(--water-blue), var(--water-dark));
+            color: white;
+        }
+
+        .flood-btn.start:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(33, 150, 243, 0.4);
+        }
+
+        .flood-btn.reset {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .flood-btn.reset:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .control-instructions {
+            margin-top: 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section:nth-child(even) {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Why Break Section */
+        .why-break-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .why-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .why-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .why-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .why-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .why-desc {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* Wall Types */
+        .wall-types {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .wall-type-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .wall-visual {
+            height: 100px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wall-sample {
+            width: 60px;
+            height: 80px;
+            background: #78909c;
+            border-radius: 4px;
+        }
+
+        .wall-sample.lattice {
+            background: repeating-linear-gradient(
+                45deg,
+                #78909c,
+                #78909c 4px,
+                transparent 4px,
+                transparent 8px
+            );
+        }
+
+        .wall-sample.louver {
+            background: repeating-linear-gradient(
+                0deg,
+                #78909c,
+                #78909c 6px,
+                transparent 6px,
+                transparent 10px
+            );
+        }
+
+        .wall-sample.insulated {
+            background: linear-gradient(90deg, #78909c 30%, #ffeb3b 30%, #ffeb3b 70%, #78909c 70%);
+        }
+
+        .wall-type-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .wall-type-desc {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer { max-height: 500px; }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            background: white;
+            color: var(--primary-dark);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a:hover { color: white; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .why-break-grid { grid-template-columns: 1fr; }
+            .wall-types { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .breakaway-scene { height: 400px; }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>WindLoad.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/">Florida</a>
+            <a href="/states.html">All States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Status</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-pressure">0</div>
+            <div class="widget-stat-label">psf Pressure</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-depth">0</div>
+            <div class="widget-stat-label">ft Depth</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-status">Safe</div>
+            <div class="widget-stat-label">Wall Status</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Smart Flood Protection</div>
+            <h1>Designed to <span class="highlight">Let Go</span></h1>
+            <p class="hero-subtitle">
+                It sounds backwards, but walls that break away during flooding actually save your building. Watch the animation below. When water pressure gets too high, the walls release and let flood water flow through instead of pushing your whole building over.
+            </p>
+
+            <!-- Breakaway Animation Scene -->
+            <div class="breakaway-scene" id="breakaway-scene">
+                <!-- Status Indicator -->
+                <div class="status-indicator status-safe" id="status-indicator">SAFE - WALLS INTACT</div>
+
+                <!-- Pressure Gauge -->
+                <div class="pressure-gauge">
+                    <div class="gauge-title">Water Pressure</div>
+                    <div class="gauge-bar">
+                        <div class="gauge-fill" id="gauge-fill"></div>
+                        <div class="threshold-marker">
+                            <div class="threshold-label">Release</div>
+                        </div>
+                    </div>
+                    <div class="gauge-value">
+                        <span class="gauge-label">Pressure</span>
+                        <span class="gauge-number" id="pressure-display">0 psf</span>
+                    </div>
+                </div>
+
+                <!-- Water -->
+                <div class="water-container" id="water-container">
+                    <div class="water-body"></div>
+                    <div class="water-surface"></div>
+                    <div class="debris" id="debris1" style="left: 20%; top: 20%;">&#x1F332;</div>
+                    <div class="debris" id="debris2" style="left: 70%; top: 40%;">&#x1F4E6;</div>
+                    <div class="debris" id="debris3" style="left: 40%; top: 60%;">&#x1FAB5;</div>
+                </div>
+
+                <!-- Building -->
+                <div class="building-structure">
+                    <div class="building-upper">
+                        <div class="upper-windows">
+                            <div class="upper-window"></div>
+                            <div class="upper-window"></div>
+                            <div class="upper-window"></div>
+                            <div class="upper-window"></div>
+                            <div class="upper-window"></div>
+                            <div class="upper-window"></div>
+                            <div class="upper-window"></div>
+                            <div class="upper-window"></div>
+                        </div>
+                    </div>
+                    <div class="building-stilts">
+                        <div class="stilt-column"></div>
+                        <div class="stilt-column"></div>
+                        <div class="stilt-column"></div>
+                        <div class="stilt-column"></div>
+                    </div>
+                    <div class="breakaway-wall left" id="wall-left"></div>
+                    <div class="breakaway-wall right" id="wall-right"></div>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="flood-control">
+                <div class="control-buttons">
+                    <button class="flood-btn start" id="start-btn" onclick="startFlood()">
+                        Start Flood Simulation
+                    </button>
+                    <button class="flood-btn reset" onclick="resetScene()">
+                        Reset
+                    </button>
+                </div>
+                <p class="control-instructions">
+                    Watch the water rise. When pressure exceeds 15 psf, the breakaway walls release and the building survives.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Break Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Why Walls That Break Are Better</h2>
+                <p>It seems wrong, but breakaway walls protect your building in four important ways</p>
+            </div>
+
+            <div class="why-break-grid">
+                <div class="why-card">
+                    <div class="why-icon">&#x1F4A8;</div>
+                    <div class="why-title">Reduce Total Force</div>
+                    <div class="why-desc">
+                        When walls break away, flood water flows through instead of pushing against a solid wall. This can reduce the force on your building by 80% or more. Less force means less chance of structural failure.
+                    </div>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">&#x1F3D7;</div>
+                    <div class="why-title">Protect the Foundation</div>
+                    <div class="why-desc">
+                        A solid wall transfers all the water force to your foundation. Piles and columns can only handle so much lateral load. Breakaway walls keep that force manageable and save your foundation.
+                    </div>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">&#x1F3E0;</div>
+                    <div class="why-title">Save the Living Space</div>
+                    <div class="why-desc">
+                        The space below BFE is just storage or parking. The walls are cheap to replace. Your living space above is what matters. Breakaway walls sacrifice the cheap part to save the expensive part.
+                    </div>
+                </div>
+
+                <div class="why-card">
+                    <div class="why-icon">&#x1F4B0;</div>
+                    <div class="why-title">Lower Insurance Costs</div>
+                    <div class="why-desc">
+                        Proper breakaway wall construction is required for National Flood Insurance Program compliance. Without it, you may not be able to get flood insurance or your premiums will be much higher.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wall Types Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Types of Breakaway Walls</h2>
+                <p>Several construction methods meet the breakaway requirement</p>
+            </div>
+
+            <div class="wall-types">
+                <div class="wall-type-card">
+                    <div class="wall-visual">
+                        <div class="wall-sample lattice"></div>
+                    </div>
+                    <div class="wall-type-name">Lattice Panels</div>
+                    <div class="wall-type-desc">
+                        Open lattice allows water through immediately. Lowest resistance but provides minimal privacy or storage protection.
+                    </div>
+                </div>
+
+                <div class="wall-type-card">
+                    <div class="wall-visual">
+                        <div class="wall-sample louver"></div>
+                    </div>
+                    <div class="wall-type-name">Louver Panels</div>
+                    <div class="wall-type-desc">
+                        Horizontal slats break away individually. Better appearance than lattice while still releasing under flood pressure.
+                    </div>
+                </div>
+
+                <div class="wall-type-card">
+                    <div class="wall-visual">
+                        <div class="wall-sample insulated"></div>
+                    </div>
+                    <div class="wall-type-name">Insulated Panels</div>
+                    <div class="wall-type-desc">
+                        Solid panels with engineered connections. Best appearance and weather protection, but must be properly designed to release.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+                <p>What contractors ask about breakaway walls</p>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    At what pressure must breakaway walls release?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        FEMA requires breakaway walls to fail when water loads reach between 10 and 20 pounds per square foot (psf). Walls designed to resist more than 20 psf need engineering certification and must still ultimately fail before transferring damaging loads to the main structure. The exact release pressure depends on your specific design and local requirements.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Do I need breakaway walls in all flood zones?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Breakaway walls are required in VE (Coastal High Hazard) zones for any enclosure below BFE. In AE zones, you have more options including solid flood-proofed enclosures for non-residential uses. However, many Palm Beach County coastal AE zones have wave action potential, making breakaway walls the better choice even when not strictly required.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can breakaway walls provide security?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, but with limits. Breakaway walls can include lockable doors and windows for day-to-day security. However, they cannot be designed to resist forced entry to the point where they would also resist flood forces. The priority is flood safety over security. Many owners use security cameras and lighting rather than trying to make the below-BFE space burglar-proof.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What happens to utilities when walls break away?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        All electrical, HVAC, and plumbing equipment must be located above BFE. Any utilities that pass through breakaway wall areas should use flexible connections that can accommodate wall movement without breaking. Water heaters, air handlers, electrical panels, and similar equipment cannot be located in breakaway wall enclosures.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How much does it cost to replace breakaway walls after a flood?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Replacement costs vary by wall type and size, but typically range from $2,000 to $10,000 for a typical elevated home. This is a small price compared to rebuilding a foundation or entire structure. Many homeowners keep spare panels or materials on hand for quick replacement after a storm. Some flood insurance policies cover breakaway wall replacement.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Design Your Elevated Structure Right</h2>
+        <p>Get wind load calculations that account for breakaway wall requirements</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=palm-beach&utm_campaign=breakaway-walls" class="cta-btn">
+            Calculate Now
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Palm Beach Topics</h4>
+                <a href="./coastal-setback.html">Coastal Setback</a>
+                <a href="./flood-zone-wind.html">Flood Zone + Wind</a>
+                <a href="./elevated-structures.html">Elevated Structures</a>
+                <a href="./breakaway-walls.html">Breakaway Walls</a>
+                <a href="./corrosion-resistance.html">Corrosion Resistance</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Topics</h4>
+                <a href="./anchor-bolt-patterns.html">Anchor Bolts</a>
+                <a href="./shear-wall-basics.html">Shear Walls</a>
+                <a href="./diaphragm-design.html">Diaphragm Design</a>
+                <a href="./continuous-load-path.html">Load Path</a>
+                <a href="./hurricane-straps.html">Hurricane Straps</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/states.html">All States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/contractors.html">For Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="https://windload.solutions">Resources</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a>. Trusted by contractors for over 20 years.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Animation - Water bubbles themed
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Bubble {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + Math.random() * 50;
+                this.size = Math.random() * 6 + 2;
+                this.speedY = -(Math.random() * 2 + 1);
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.05 + 0.02;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.wobble += this.wobbleSpeed;
+                this.x += Math.sin(this.wobble) * 0.5;
+
+                if (this.y < -this.size) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(33, 150, 243, ${this.opacity})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+
+                // Highlight
+                ctx.beginPath();
+                ctx.arc(this.x - this.size * 0.3, this.y - this.size * 0.3, this.size * 0.2, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity * 0.5})`;
+                ctx.fill();
+            }
+        }
+
+        const bubbles = Array.from({ length: 40 }, () => new Bubble());
+
+        function animateBubbles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            bubbles.forEach(b => {
+                b.update();
+                b.draw();
+            });
+            requestAnimationFrame(animateBubbles);
+        }
+        animateBubbles();
+
+        // Flood Animation
+        let isFlooding = false;
+        let floodLevel = 0;
+        let wallsBroken = false;
+
+        const waterContainer = document.getElementById('water-container');
+        const wallLeft = document.getElementById('wall-left');
+        const wallRight = document.getElementById('wall-right');
+        const statusIndicator = document.getElementById('status-indicator');
+        const gaugeFill = document.getElementById('gauge-fill');
+        const pressureDisplay = document.getElementById('pressure-display');
+        const widgetPressure = document.getElementById('widget-pressure');
+        const widgetDepth = document.getElementById('widget-depth');
+        const widgetStatus = document.getElementById('widget-status');
+        const debris1 = document.getElementById('debris1');
+        const debris2 = document.getElementById('debris2');
+        const debris3 = document.getElementById('debris3');
+        const startBtn = document.getElementById('start-btn');
+
+        function startFlood() {
+            if (isFlooding) return;
+            isFlooding = true;
+            startBtn.disabled = true;
+            startBtn.textContent = 'Flooding...';
+
+            animateFlood();
+        }
+
+        function animateFlood() {
+            if (floodLevel < 100) {
+                floodLevel += 0.5;
+
+                // Update water level
+                const waterHeight = (floodLevel / 100) * 50; // Max 50% of scene height
+                waterContainer.style.height = waterHeight + '%';
+
+                // Calculate pressure (simplified: depth in feet * 62.4 lb/ft3 / 144 = psf per foot depth)
+                const depthFeet = (floodLevel / 100) * 8; // Max 8 feet
+                const pressure = Math.round(depthFeet * 5); // Simplified calculation
+
+                // Update displays
+                gaugeFill.style.width = Math.min(pressure / 25 * 100, 100) + '%';
+                pressureDisplay.textContent = pressure + ' psf';
+                widgetPressure.textContent = pressure;
+                widgetDepth.textContent = depthFeet.toFixed(1);
+
+                // Show debris
+                if (floodLevel > 30) {
+                    debris1.classList.add('visible');
+                }
+                if (floodLevel > 50) {
+                    debris2.classList.add('visible');
+                }
+                if (floodLevel > 70) {
+                    debris3.classList.add('visible');
+                }
+
+                // Update status
+                if (pressure < 10) {
+                    statusIndicator.className = 'status-indicator status-safe';
+                    statusIndicator.textContent = 'SAFE - WALLS INTACT';
+                    widgetStatus.textContent = 'Safe';
+                } else if (pressure < 15) {
+                    statusIndicator.className = 'status-indicator status-warning';
+                    statusIndicator.textContent = 'WARNING - PRESSURE RISING';
+                    widgetStatus.textContent = 'Warning';
+                } else if (!wallsBroken) {
+                    // Trigger wall breakaway!
+                    wallsBroken = true;
+                    statusIndicator.className = 'status-indicator status-release';
+                    statusIndicator.textContent = 'WALLS RELEASED - BUILDING SAFE!';
+                    widgetStatus.textContent = 'Released';
+
+                    wallLeft.classList.add('broken');
+                    wallRight.classList.add('broken');
+                }
+
+                requestAnimationFrame(animateFlood);
+            } else {
+                startBtn.textContent = 'Complete!';
+            }
+        }
+
+        function resetScene() {
+            isFlooding = false;
+            floodLevel = 0;
+            wallsBroken = false;
+
+            waterContainer.style.height = '0';
+            wallLeft.classList.remove('broken');
+            wallRight.classList.remove('broken');
+            debris1.classList.remove('visible');
+            debris2.classList.remove('visible');
+            debris3.classList.remove('visible');
+
+            statusIndicator.className = 'status-indicator status-safe';
+            statusIndicator.textContent = 'SAFE - WALLS INTACT';
+            gaugeFill.style.width = '0%';
+            pressureDisplay.textContent = '0 psf';
+
+            widgetPressure.textContent = '0';
+            widgetDepth.textContent = '0';
+            widgetStatus.textContent = 'Safe';
+
+            startBtn.disabled = false;
+            startBtn.textContent = 'Start Flood Simulation';
+        }
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1505 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Components and Cladding Wind Loads | Broward County | WindLoad.co</title>
+    <meta name="description" content="Understand component and cladding (C&C) wind loads for Broward County buildings. Learn how the skin of your building fights hurricane forces.">
+    <meta name="keywords" content="components and cladding, C&C wind loads, building envelope, wall panels, roofing, Broward County, HVHZ, wind pressure">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Components and Cladding Wind Loads | Broward County">
+    <meta property="og:description" content="Master C&C wind loads for building exteriors in Broward County HVHZ. Protect every panel, fastener, and connection.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/component-cladding.html">
+    <meta property="og:image" content="https://windload.co/images/component-cladding-og.jpg">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://windload.co/florida/broward/component-cladding.html">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are Components and Cladding (C&C) in wind engineering?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Components and Cladding (C&C) refers to the exterior skin of a building - roof panels, wall panels, windows, doors, and their connections. Unlike the main structure (MWFRS), C&C elements experience localized wind pressures that can be 2-3 times higher, especially at corners and edges where wind accelerates."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why are C&C pressures higher than MWFRS pressures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "C&C elements are smaller and experience localized pressure spikes. Wind creates vortices at corners and edges, creating suction zones with much higher negative pressures. A 4x4 foot roof panel at a corner can see pressures 3 times higher than the building's average."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are wind zones for C&C design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Buildings are divided into zones based on wind flow patterns. Zone 1 is the interior field (lowest pressures), Zone 2 is perimeter edges, and Zone 3 is corners (highest pressures). Roof zones work similarly with Zone 1 (interior), Zone 2 (perimeter), and Zone 3 (corners/ridge)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does effective wind area affect C&C pressures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Smaller effective wind areas see higher pressures. A 10 sq ft panel experiences much higher unit pressure than a 100 sq ft panel. This is why small elements like roof tiles, soffits, and trim often fail first in hurricanes - they see the highest localized loads."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What C&C requirements apply in Broward County HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "All C&C in Broward County must be designed for 180+ mph wind speeds. Products need Miami-Dade NOA approval. Fastener patterns must meet increased spacing requirements at corners and edges. Testing per TAS 201/202/203 is required for all exterior products."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co/"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Components & Cladding", "item": "https://windload.co/florida/broward/component-cladding.html"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-orange: #ff8c42;
+            --accent-green: #00e676;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+            --card-bg: rgba(255,255,255,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 5% 1rem;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+            margin: 0 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-light), var(--accent-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Building Animation Container */
+        .animation-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .building-exploded {
+            width: 450px;
+            height: 400px;
+            position: relative;
+        }
+
+        .layer {
+            position: absolute;
+            transition: all 0.6s ease;
+            cursor: pointer;
+        }
+
+        .layer svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Layer positions when exploded */
+        .exploded .layer-roof {
+            transform: translateY(-60px);
+        }
+
+        .exploded .layer-exterior {
+            transform: translateX(70px);
+        }
+
+        .exploded .layer-structure {
+            transform: translateX(0);
+        }
+
+        .exploded .layer-interior {
+            transform: translateX(-70px);
+        }
+
+        /* Layer Controls */
+        .layer-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .layer-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 30px;
+            color: var(--text-light);
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .layer-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .layer-btn.active {
+            border-color: var(--accent-orange);
+            background: rgba(255, 140, 66, 0.2);
+        }
+
+        .layer-btn[data-layer="roof"] { border-color: var(--accent-cyan); }
+        .layer-btn[data-layer="exterior"] { border-color: var(--accent-orange); }
+        .layer-btn[data-layer="structure"] { border-color: var(--accent-magenta); }
+
+        /* Explode Toggle */
+        .explode-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1rem 1.5rem;
+            background: var(--card-bg);
+            border-radius: 30px;
+            backdrop-filter: blur(10px);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--accent-orange);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 24px;
+            height: 24px;
+            background: var(--text-light);
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(28px);
+        }
+
+        /* Layer Info Panel */
+        .layer-info {
+            margin-top: 1.5rem;
+            padding: 1.5rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+            min-height: 120px;
+            max-width: 400px;
+            border-left: 4px solid var(--accent-orange);
+        }
+
+        .layer-info h3 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-orange);
+        }
+
+        .layer-info p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .pressure-badge {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.4rem 1rem;
+            background: rgba(255, 140, 66, 0.2);
+            border: 1px solid var(--accent-orange);
+            border-radius: 20px;
+            font-size: 0.9rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 5rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Zone Diagram */
+        .zone-diagram-container {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .zone-diagram {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .zone-diagram h3 {
+            margin-bottom: 1.5rem;
+            text-align: center;
+        }
+
+        .zone-svg {
+            width: 100%;
+            max-width: 300px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .zone-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .zone-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .zone-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .zone-1 { background: var(--accent-green); }
+        .zone-2 { background: var(--accent-orange); }
+        .zone-3 { background: var(--accent-magenta); }
+
+        /* Pressure Cards */
+        .pressure-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .pressure-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pressure-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .pressure-card.zone1::before { background: var(--accent-green); }
+        .pressure-card.zone2::before { background: var(--accent-orange); }
+        .pressure-card.zone3::before { background: var(--accent-magenta); }
+
+        .pressure-card .zone-number {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pressure-card.zone1 .zone-number { color: var(--accent-green); }
+        .pressure-card.zone2 .zone-number { color: var(--accent-orange); }
+        .pressure-card.zone3 .zone-number { color: var(--accent-magenta); }
+
+        .pressure-card h4 {
+            margin-bottom: 1rem;
+        }
+
+        .pressure-card .pressure-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .pressure-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* Component List */
+        .component-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .component-item {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .component-item:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-orange);
+        }
+
+        .component-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .component-item span {
+            font-weight: 500;
+        }
+
+        /* Calculator */
+        .calculator-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .calc-input-group select,
+        .calc-input-group input {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .calc-input-group select option {
+            background: var(--primary-dark);
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .calc-result-item {
+            text-align: center;
+            padding: 1.25rem;
+            border-radius: 12px;
+        }
+
+        .calc-result-item.zone1 { background: rgba(0, 230, 118, 0.1); border: 1px solid var(--accent-green); }
+        .calc-result-item.zone2 { background: rgba(255, 140, 66, 0.1); border: 1px solid var(--accent-orange); }
+        .calc-result-item.zone3 { background: rgba(233, 30, 140, 0.1); border: 1px solid var(--accent-magenta); }
+
+        .calc-result-item .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .calc-result-item.zone1 .value { color: var(--accent-green); }
+        .calc-result-item.zone2 .value { color: var(--accent-orange); }
+        .calc-result-item.zone3 .value { color: var(--accent-magenta); }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-orange);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(180deg, rgba(26, 10, 46, 0.95), rgba(26, 10, 46, 0.85));
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 140, 66, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            min-width: 170px;
+        }
+
+        .widget-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .widget-stat {
+            margin-bottom: 0.75rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .widget-stat .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .widget-stat .value {
+            font-weight: 700;
+        }
+
+        .widget-stat .value.z1 { color: var(--accent-green); }
+        .widget-stat .value.z2 { color: var(--accent-orange); }
+        .widget-stat .value.z3 { color: var(--accent-magenta); }
+
+        .widget-layer {
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            text-align: center;
+        }
+
+        .widget-layer .current {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .widget-layer .layer-name {
+            font-weight: 700;
+            color: var(--accent-orange);
+            font-size: 1.1rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 5%;
+            background: linear-gradient(180deg, transparent, rgba(255, 140, 66, 0.1));
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--accent-orange), var(--accent-magenta));
+            color: var(--text-light);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 140, 66, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 3rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-orange);
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--text-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .building-exploded {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .floating-widget {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .zone-diagram-container {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-row {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-results {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="logo">WindLoad.co</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/florida/">Florida</a></li>
+            <li><a href="/florida/broward/">Broward</a></li>
+            <li><a href="/pricing.html">Pricing</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumb">
+        <a href="/">Home</a><span>/</span>
+        <a href="/florida/">Florida</a><span>/</span>
+        <a href="/florida/broward/">Broward</a><span>/</span>
+        Components & Cladding
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>The Skin of Your Building</h1>
+            <p>Every panel, tile, and connection on your building's exterior faces different wind forces. Understand the layers that protect what's inside.</p>
+            <p style="color: var(--accent-orange); font-size: 1rem;">Toggle the exploded view to see each layer. Click layers to learn more.</p>
+        </div>
+
+        <div class="animation-container">
+            <div class="building-exploded" id="buildingLayers">
+                <!-- Roof Layer -->
+                <div class="layer layer-roof" data-layer="roof">
+                    <svg viewBox="0 0 450 400">
+                        <defs>
+                            <linearGradient id="roofGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#00d4ff;stop-opacity:0.8"/>
+                                <stop offset="100%" style="stop-color:#00a0c0;stop-opacity:0.6"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Roof panels -->
+                        <polygon points="75,180 225,80 375,180" fill="url(#roofGrad)" stroke="#00d4ff" stroke-width="2"/>
+                        <!-- Roof tiles pattern -->
+                        <line x1="120" y1="155" x2="175" y2="115" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="165" y1="165" x2="225" y2="120" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="225" y1="120" x2="285" y2="165" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <line x1="275" y1="115" x2="330" y2="155" stroke="#00d4ff" stroke-width="1" opacity="0.5"/>
+                        <!-- Zone indicators -->
+                        <circle cx="225" cy="130" r="8" fill="#00e676" opacity="0.8"/>
+                        <circle cx="130" cy="160" r="6" fill="#ff8c42" opacity="0.8"/>
+                        <circle cx="320" cy="160" r="6" fill="#ff8c42" opacity="0.8"/>
+                        <circle cx="95" cy="175" r="5" fill="#e91e8c" opacity="0.8"/>
+                        <circle cx="355" cy="175" r="5" fill="#e91e8c" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <!-- Exterior Wall Layer -->
+                <div class="layer layer-exterior" data-layer="exterior">
+                    <svg viewBox="0 0 450 400">
+                        <defs>
+                            <linearGradient id="extGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#ff8c42;stop-opacity:0.7"/>
+                                <stop offset="100%" style="stop-color:#cc6a30;stop-opacity:0.5"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Wall panels -->
+                        <rect x="85" y="180" width="130" height="170" fill="url(#extGrad)" stroke="#ff8c42" stroke-width="2" rx="3"/>
+                        <rect x="235" y="180" width="130" height="170" fill="url(#extGrad)" stroke="#ff8c42" stroke-width="2" rx="3"/>
+                        <!-- Panel divisions -->
+                        <line x1="150" y1="180" x2="150" y2="350" stroke="#ff8c42" stroke-width="1" opacity="0.5"/>
+                        <line x1="85" y1="265" x2="215" y2="265" stroke="#ff8c42" stroke-width="1" opacity="0.5"/>
+                        <line x1="300" y1="180" x2="300" y2="350" stroke="#ff8c42" stroke-width="1" opacity="0.5"/>
+                        <line x1="235" y1="265" x2="365" y2="265" stroke="#ff8c42" stroke-width="1" opacity="0.5"/>
+                        <!-- Zone indicators -->
+                        <circle cx="150" cy="220" r="6" fill="#00e676" opacity="0.8"/>
+                        <circle cx="300" cy="220" r="6" fill="#00e676" opacity="0.8"/>
+                        <circle cx="95" cy="190" r="5" fill="#e91e8c" opacity="0.8"/>
+                        <circle cx="355" cy="190" r="5" fill="#e91e8c" opacity="0.8"/>
+                    </svg>
+                </div>
+
+                <!-- Structure Layer -->
+                <div class="layer layer-structure" data-layer="structure">
+                    <svg viewBox="0 0 450 400">
+                        <defs>
+                            <linearGradient id="structGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#e91e8c;stop-opacity:0.6"/>
+                                <stop offset="100%" style="stop-color:#b0157a;stop-opacity:0.4"/>
+                            </linearGradient>
+                        </defs>
+                        <!-- Main frame -->
+                        <rect x="95" y="180" width="10" height="170" fill="url(#structGrad)" stroke="#e91e8c" stroke-width="2"/>
+                        <rect x="345" y="180" width="10" height="170" fill="url(#structGrad)" stroke="#e91e8c" stroke-width="2"/>
+                        <!-- Cross beams -->
+                        <rect x="95" y="175" width="260" height="10" fill="url(#structGrad)" stroke="#e91e8c" stroke-width="2"/>
+                        <rect x="95" y="260" width="260" height="8" fill="url(#structGrad)" stroke="#e91e8c" stroke-width="2"/>
+                        <!-- Roof truss -->
+                        <line x1="100" y1="175" x2="225" y2="90" stroke="#e91e8c" stroke-width="3"/>
+                        <line x1="350" y1="175" x2="225" y2="90" stroke="#e91e8c" stroke-width="3"/>
+                        <line x1="160" y1="140" x2="290" y2="140" stroke="#e91e8c" stroke-width="2"/>
+                        <!-- Studs -->
+                        <rect x="150" y="185" width="6" height="75" fill="url(#structGrad)" stroke="#e91e8c" stroke-width="1"/>
+                        <rect x="220" y="185" width="6" height="75" fill="url(#structGrad)" stroke="#e91e8c" stroke-width="1"/>
+                        <rect x="290" y="185" width="6" height="75" fill="url(#structGrad)" stroke="#e91e8c" stroke-width="1"/>
+                    </svg>
+                </div>
+
+                <!-- Interior Layer (ghost) -->
+                <div class="layer layer-interior" data-layer="interior">
+                    <svg viewBox="0 0 450 400">
+                        <!-- Interior space indicator -->
+                        <rect x="110" y="190" width="230" height="150" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.2)" stroke-width="1" stroke-dasharray="5,5" rx="5"/>
+                        <text x="225" y="270" text-anchor="middle" fill="rgba(255,255,255,0.4)" font-size="14">INTERIOR SPACE</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="explode-toggle">
+                <div class="toggle-switch" id="explodeToggle"></div>
+                <span>Exploded View: <span id="explodeStatus">OFF</span></span>
+            </div>
+
+            <div class="layer-controls">
+                <button class="layer-btn active" data-layer="roof">Roofing</button>
+                <button class="layer-btn" data-layer="exterior">Wall Panels</button>
+                <button class="layer-btn" data-layer="structure">Structure</button>
+            </div>
+
+            <div class="layer-info" id="layerInfo">
+                <h3>Roofing Components</h3>
+                <p>Roof panels, tiles, shingles, and their fasteners. Experience the highest uplift pressures, especially at edges and corners.</p>
+                <span class="pressure-badge">Zone 3 corners: up to -115 PSF</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zone Explanation Section -->
+    <section class="content-section">
+        <h2 class="section-title">Understanding Wind Zones</h2>
+        <p class="section-subtitle">Wind doesn't hit your building evenly. Corners and edges see forces 2-3 times higher than the middle.</p>
+
+        <div class="zone-diagram-container">
+            <div class="zone-diagram">
+                <h3>Wall Zones</h3>
+                <svg class="zone-svg" viewBox="0 0 200 200">
+                    <!-- Zone 1 - Center -->
+                    <rect x="40" y="40" width="120" height="120" fill="rgba(0, 230, 118, 0.3)" stroke="#00e676" stroke-width="2"/>
+                    <text x="100" y="105" text-anchor="middle" fill="#00e676" font-size="16" font-weight="bold">1</text>
+
+                    <!-- Zone 2 - Edges -->
+                    <rect x="5" y="40" width="35" height="120" fill="rgba(255, 140, 66, 0.3)" stroke="#ff8c42" stroke-width="2"/>
+                    <rect x="160" y="40" width="35" height="120" fill="rgba(255, 140, 66, 0.3)" stroke="#ff8c42" stroke-width="2"/>
+                    <text x="22" y="105" text-anchor="middle" fill="#ff8c42" font-size="14" font-weight="bold">2</text>
+                    <text x="177" y="105" text-anchor="middle" fill="#ff8c42" font-size="14" font-weight="bold">2</text>
+
+                    <!-- Zone 3 - Corners -->
+                    <rect x="5" y="5" width="35" height="35" fill="rgba(233, 30, 140, 0.3)" stroke="#e91e8c" stroke-width="2"/>
+                    <rect x="160" y="5" width="35" height="35" fill="rgba(233, 30, 140, 0.3)" stroke="#e91e8c" stroke-width="2"/>
+                    <rect x="5" y="160" width="35" height="35" fill="rgba(233, 30, 140, 0.3)" stroke="#e91e8c" stroke-width="2"/>
+                    <rect x="160" y="160" width="35" height="35" fill="rgba(233, 30, 140, 0.3)" stroke="#e91e8c" stroke-width="2"/>
+                    <text x="22" y="27" text-anchor="middle" fill="#e91e8c" font-size="12" font-weight="bold">3</text>
+                    <text x="177" y="27" text-anchor="middle" fill="#e91e8c" font-size="12" font-weight="bold">3</text>
+                    <text x="22" y="182" text-anchor="middle" fill="#e91e8c" font-size="12" font-weight="bold">3</text>
+                    <text x="177" y="182" text-anchor="middle" fill="#e91e8c" font-size="12" font-weight="bold">3</text>
+                </svg>
+                <div class="zone-legend">
+                    <div class="zone-item"><div class="zone-color zone-1"></div> Zone 1</div>
+                    <div class="zone-item"><div class="zone-color zone-2"></div> Zone 2</div>
+                    <div class="zone-item"><div class="zone-color zone-3"></div> Zone 3</div>
+                </div>
+            </div>
+
+            <div class="zone-diagram">
+                <h3>Roof Zones</h3>
+                <svg class="zone-svg" viewBox="0 0 200 200">
+                    <!-- Zone 1 - Center -->
+                    <polygon points="50,80 100,40 150,80 150,150 50,150" fill="rgba(0, 230, 118, 0.3)" stroke="#00e676" stroke-width="2"/>
+                    <text x="100" y="115" text-anchor="middle" fill="#00e676" font-size="16" font-weight="bold">1</text>
+
+                    <!-- Zone 2 - Edges/Perimeter -->
+                    <polygon points="20,95 50,80 50,150 20,150" fill="rgba(255, 140, 66, 0.3)" stroke="#ff8c42" stroke-width="2"/>
+                    <polygon points="150,80 180,95 180,150 150,150" fill="rgba(255, 140, 66, 0.3)" stroke="#ff8c42" stroke-width="2"/>
+                    <polygon points="50,150 150,150 150,180 50,180" fill="rgba(255, 140, 66, 0.3)" stroke="#ff8c42" stroke-width="2"/>
+                    <text x="35" y="125" text-anchor="middle" fill="#ff8c42" font-size="12" font-weight="bold">2</text>
+                    <text x="165" y="125" text-anchor="middle" fill="#ff8c42" font-size="12" font-weight="bold">2</text>
+
+                    <!-- Zone 3 - Corners and Ridge -->
+                    <polygon points="5,95 20,95 20,150 5,180" fill="rgba(233, 30, 140, 0.3)" stroke="#e91e8c" stroke-width="2"/>
+                    <polygon points="180,95 195,95 195,180 180,150" fill="rgba(233, 30, 140, 0.3)" stroke="#e91e8c" stroke-width="2"/>
+                    <polygon points="80,25 100,15 120,25 100,40" fill="rgba(233, 30, 140, 0.3)" stroke="#e91e8c" stroke-width="2"/>
+                    <text x="12" y="140" text-anchor="middle" fill="#e91e8c" font-size="10" font-weight="bold">3</text>
+                    <text x="188" y="140" text-anchor="middle" fill="#e91e8c" font-size="10" font-weight="bold">3</text>
+                    <text x="100" y="32" text-anchor="middle" fill="#e91e8c" font-size="10" font-weight="bold">3</text>
+                </svg>
+                <div class="zone-legend">
+                    <div class="zone-item"><div class="zone-color zone-1"></div> Field</div>
+                    <div class="zone-item"><div class="zone-color zone-2"></div> Perimeter</div>
+                    <div class="zone-item"><div class="zone-color zone-3"></div> Corner/Ridge</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pressure by Zone -->
+    <section class="content-section" style="background: rgba(255, 140, 66, 0.05);">
+        <h2 class="section-title">Pressure by Zone</h2>
+        <p class="section-subtitle">Based on 180 mph design wind speed for Broward County HVHZ. Values shown are negative (suction) pressures.</p>
+
+        <div class="pressure-cards">
+            <div class="pressure-card zone1">
+                <div class="zone-number">1</div>
+                <h4>Interior Field</h4>
+                <div class="pressure-value">-48 PSF</div>
+                <p>Lowest pressures. Standard fastener patterns apply. Most of your building area.</p>
+            </div>
+
+            <div class="pressure-card zone2">
+                <div class="zone-number">2</div>
+                <h4>Perimeter Edges</h4>
+                <div class="pressure-value">-78 PSF</div>
+                <p>60% higher than field. Increased fastener density required. Width = 10% of least dimension.</p>
+            </div>
+
+            <div class="pressure-card zone3">
+                <div class="zone-number">3</div>
+                <h4>Corners</h4>
+                <div class="pressure-value">-115 PSF</div>
+                <p>Highest pressures. Maximum fastener density. Special reinforced connections needed.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Common C&C Elements -->
+    <section class="content-section">
+        <h2 class="section-title">What Counts as C&C?</h2>
+        <p class="section-subtitle">Everything on the outside of your building that isn't part of the main frame.</p>
+
+        <div class="component-grid">
+            <div class="component-item">
+                <div class="component-icon">&#9632;</div>
+                <span>Roof Tiles</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9633;</div>
+                <span>Metal Panels</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9635;</div>
+                <span>Windows</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9636;</div>
+                <span>Doors</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9637;</div>
+                <span>Soffits</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9638;</div>
+                <span>Fascia</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9639;</div>
+                <span>Gutters</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9640;</div>
+                <span>Skylights</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9641;</div>
+                <span>Louvers</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9642;</div>
+                <span>Canopies</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9643;</div>
+                <span>Wall Cladding</span>
+            </div>
+            <div class="component-item">
+                <div class="component-icon">&#9644;</div>
+                <span>Parapets</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="content-section" style="background: rgba(0,0,0,0.2);">
+        <h2 class="section-title">C&C Pressure Calculator</h2>
+        <p class="section-subtitle">Estimate component pressures for all three zones based on your building.</p>
+
+        <div class="calculator-box">
+            <div class="calc-row">
+                <div class="calc-input-group">
+                    <label>Component Type</label>
+                    <select id="componentType">
+                        <option value="roof">Roof Components</option>
+                        <option value="wall">Wall Components</option>
+                    </select>
+                </div>
+                <div class="calc-input-group">
+                    <label>Design Wind Speed (mph)</label>
+                    <input type="number" id="calcWindSpeed" value="180" min="100" max="200">
+                </div>
+            </div>
+
+            <div class="calc-row">
+                <div class="calc-input-group">
+                    <label>Effective Wind Area (sq ft)</label>
+                    <input type="number" id="effectiveArea" value="10" min="1" max="500">
+                </div>
+                <div class="calc-input-group">
+                    <label>Mean Roof Height (ft)</label>
+                    <input type="number" id="roofHeight" value="30" min="10" max="100">
+                </div>
+            </div>
+
+            <div class="calc-results">
+                <div class="calc-result-item zone1">
+                    <div class="label">Zone 1</div>
+                    <div class="value" id="zone1Result">-48</div>
+                    <div class="label">PSF</div>
+                </div>
+                <div class="calc-result-item zone2">
+                    <div class="label">Zone 2</div>
+                    <div class="value" id="zone2Result">-78</div>
+                    <div class="label">PSF</div>
+                </div>
+                <div class="calc-result-item zone3">
+                    <div class="label">Zone 3</div>
+                    <div class="value" id="zone3Result">-115</div>
+                    <div class="label">PSF</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+                Based on ASCE 7-22 Chapter 30 Components and Cladding provisions<br>
+                Exposure Category C | Enclosed Building Classification
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="content-section">
+        <h2 class="section-title">Common Questions</h2>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What are Components and Cladding (C&C) in wind engineering?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Components and Cladding (C&C) refers to the exterior skin of a building - roof panels, wall panels, windows, doors, and their connections. Unlike the main structure (MWFRS), C&C elements experience localized wind pressures that can be 2-3 times higher, especially at corners and edges where wind accelerates around the building.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Why are C&C pressures higher than MWFRS pressures?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        C&C elements are smaller and experience localized pressure spikes. Wind creates vortices at corners and edges, creating suction zones with much higher negative pressures. A 4x4 foot roof panel at a corner can see pressures 3 times higher than the building's average. The main structure averages these out, but individual panels cannot.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What are wind zones for C&C design?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Buildings are divided into zones based on wind flow patterns. Zone 1 is the interior field (lowest pressures), Zone 2 is perimeter edges, and Zone 3 is corners (highest pressures). Roof zones work similarly with Zone 1 (interior), Zone 2 (perimeter), and Zone 3 (corners/ridge). Each zone requires different fastener patterns.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How does effective wind area affect C&C pressures?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Smaller effective wind areas see higher pressures. A 10 sq ft panel experiences much higher unit pressure than a 100 sq ft panel. This is why small elements like roof tiles, soffits, and trim often fail first in hurricanes - they see the highest localized loads. The code accounts for this with area-dependent pressure coefficients.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What C&C requirements apply in Broward County HVHZ?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        All C&C in Broward County must be designed for 180+ mph wind speeds. Products need Miami-Dade NOA approval. Fastener patterns must meet increased spacing requirements at corners and edges. Testing per TAS 201/202/203 is required for all exterior products. Every component must have documentation showing it meets HVHZ requirements.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="section-title">Get Your C&C Pressure Schedule</h2>
+        <p class="section-subtitle">Our engineers provide complete component and cladding pressure schedules for every zone of your Broward County project.</p>
+        <a href="/pricing.html" class="cta-button">Start Your Wind Load Report</a>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Zone Pressures</div>
+        <div class="widget-stat">
+            <span class="label">Zone 1</span>
+            <span class="value z1" id="widgetZ1">-48 PSF</span>
+        </div>
+        <div class="widget-stat">
+            <span class="label">Zone 2</span>
+            <span class="value z2" id="widgetZ2">-78 PSF</span>
+        </div>
+        <div class="widget-stat">
+            <span class="label">Zone 3</span>
+            <span class="value z3" id="widgetZ3">-115 PSF</span>
+        </div>
+        <div class="widget-layer">
+            <div class="current">Selected Layer</div>
+            <div class="layer-name" id="widgetLayer">Roofing</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Broward County</h4>
+                <a href="/florida/broward/hurricane-shutters.html">Hurricane Shutters</a>
+                <a href="/florida/broward/impact-doors.html">Impact Doors</a>
+                <a href="/florida/broward/window-replacement.html">Window Replacement</a>
+                <a href="/florida/broward/exposure-categories.html">Exposure Categories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Wind Engineering</h4>
+                <a href="/florida/broward/structural-connections.html">Structural Connections</a>
+                <a href="/florida/broward/uplift-resistance.html">Uplift Resistance</a>
+                <a href="/florida/broward/pressure-equalization.html">Pressure Equalization</a>
+                <a href="/florida/broward/debris-impact.html">Debris Impact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/pe.html">PE Certification</a>
+                <a href="/states.html">All States</a>
+                <a href="/contractors.html">Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="/engineers.html">Engineers</a>
+                <a href="/architects.html">Architects</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Engineering for Broward County</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle System - Building material themed
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 4 + 2;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                // Building material colors
+                const colors = ['#ff8c42', '#00d4ff', '#e91e8c', '#ffffff'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+
+                if (this.x > canvas.width + 20) this.x = -20;
+                if (this.x < -20) this.x = canvas.width + 20;
+                if (this.y > canvas.height + 20) this.y = -20;
+                if (this.y < -20) this.y = canvas.height + 20;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = this.color;
+
+                // Draw as small rectangles (building panels)
+                ctx.fillRect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 60; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Exploded View Toggle
+        const buildingLayers = document.getElementById('buildingLayers');
+        const explodeToggle = document.getElementById('explodeToggle');
+        const explodeStatus = document.getElementById('explodeStatus');
+
+        explodeToggle.addEventListener('click', () => {
+            const isExploded = buildingLayers.classList.toggle('exploded');
+            explodeToggle.classList.toggle('active', isExploded);
+            explodeStatus.textContent = isExploded ? 'ON' : 'OFF';
+        });
+
+        // Layer Selection
+        const layerBtns = document.querySelectorAll('.layer-btn');
+        const layerInfo = document.getElementById('layerInfo');
+        const widgetLayer = document.getElementById('widgetLayer');
+
+        const layerData = {
+            roof: {
+                title: 'Roofing Components',
+                description: 'Roof panels, tiles, shingles, and their fasteners. Experience the highest uplift pressures, especially at edges and corners.',
+                pressure: 'Zone 3 corners: up to -115 PSF',
+                color: '#00d4ff'
+            },
+            exterior: {
+                title: 'Wall Panels & Cladding',
+                description: 'Exterior wall panels, siding, stucco, and facade elements. Must resist both positive and negative pressures.',
+                pressure: 'Zone 3 corners: up to -95 PSF',
+                color: '#ff8c42'
+            },
+            structure: {
+                title: 'Primary Structure (MWFRS)',
+                description: 'Main structural frame designed for overall wind loads. Transfers loads to foundation. Not C&C, but supports all C&C elements.',
+                pressure: 'Designed for building averages',
+                color: '#e91e8c'
+            }
+        };
+
+        layerBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                layerBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const layer = btn.dataset.layer;
+                const data = layerData[layer];
+
+                layerInfo.innerHTML = `
+                    <h3 style="color: ${data.color}">${data.title}</h3>
+                    <p>${data.description}</p>
+                    <span class="pressure-badge" style="border-color: ${data.color}; background: ${data.color}22">${data.pressure}</span>
+                `;
+                layerInfo.style.borderLeftColor = data.color;
+
+                widgetLayer.textContent = data.title.split(' ')[0];
+                widgetLayer.style.color = data.color;
+
+                // Highlight corresponding layer
+                document.querySelectorAll('.layer').forEach(l => {
+                    l.style.opacity = l.dataset.layer === layer ? '1' : '0.4';
+                });
+            });
+        });
+
+        // Click on layers directly
+        document.querySelectorAll('.layer').forEach(layer => {
+            layer.addEventListener('click', () => {
+                const layerName = layer.dataset.layer;
+                if (layerName !== 'interior') {
+                    const btn = document.querySelector(`.layer-btn[data-layer="${layerName}"]`);
+                    if (btn) btn.click();
+                }
+            });
+        });
+
+        // Calculator
+        const componentType = document.getElementById('componentType');
+        const calcWindSpeed = document.getElementById('calcWindSpeed');
+        const effectiveArea = document.getElementById('effectiveArea');
+        const roofHeight = document.getElementById('roofHeight');
+
+        function updateCalculator() {
+            const speed = parseFloat(calcWindSpeed.value);
+            const area = parseFloat(effectiveArea.value);
+            const height = parseFloat(roofHeight.value);
+            const isRoof = componentType.value === 'roof';
+
+            // Simplified C&C pressure calculation
+            const Kz = Math.pow(height / 33, 0.286);
+            const qh = 0.00256 * Kz * speed * speed;
+
+            // Area factor (smaller areas = higher pressures)
+            const areaFactor = Math.max(0.8, Math.min(1.5, 1.5 - Math.log10(area) * 0.2));
+
+            // Zone coefficients (simplified)
+            let GCp1, GCp2, GCp3;
+            if (isRoof) {
+                GCp1 = -0.9 * areaFactor;
+                GCp2 = -1.5 * areaFactor;
+                GCp3 = -2.2 * areaFactor;
+            } else {
+                GCp1 = -0.85 * areaFactor;
+                GCp2 = -1.3 * areaFactor;
+                GCp3 = -1.8 * areaFactor;
+            }
+
+            const z1 = Math.round(qh * GCp1);
+            const z2 = Math.round(qh * GCp2);
+            const z3 = Math.round(qh * GCp3);
+
+            document.getElementById('zone1Result').textContent = z1;
+            document.getElementById('zone2Result').textContent = z2;
+            document.getElementById('zone3Result').textContent = z3;
+
+            // Update widget
+            document.getElementById('widgetZ1').textContent = z1 + ' PSF';
+            document.getElementById('widgetZ2').textContent = z2 + ' PSF';
+            document.getElementById('widgetZ3').textContent = z3 + ' PSF';
+        }
+
+        componentType.addEventListener('change', updateCalculator);
+        calcWindSpeed.addEventListener('input', updateCalculator);
+        effectiveArea.addEventListener('input', updateCalculator);
+        roofHeight.addEventListener('input', updateCalculator);
+
+        updateCalculator();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq-answer').style.maxHeight = '0';
+                });
+
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

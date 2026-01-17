@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Product Substitution Guide Miami-Dade | When Plans Change</title>
+    <meta name="description" content="How to substitute products in Miami-Dade HVHZ projects. Interactive comparison tool shows spec changes when swapping windows, doors, and roofing.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/product-substitution.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Product Substitution Guide Miami-Dade | When Plans Change">
+    <meta property="og:description" content="Interactive comparison tool shows spec changes when swapping products in HVHZ projects.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/product-substitution.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "Can I substitute products in a Miami-Dade HVHZ project?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Yes, but the substitute product must meet or exceed the original specifications. This includes design pressure ratings, impact resistance, and must have a valid NOA number. You may need updated wind load calculations if specs change significantly."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What specs must match when substituting products?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Key specs include: Design Pressure (positive and negative), Impact Rating (Large Missile Level), Wind Zone (HVHZ), Water Penetration resistance, Air Infiltration rating, and valid NOA number with current expiration date."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Do I need new calculations when substituting products?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "If the substitute product has different design pressure ratings or you are changing sizes significantly, you may need updated wind load calculations to verify the new product meets requirements. This is especially true if the new product has lower ratings."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Miami-Dade",
+            "item": "https://windload.co/florida/miami-dade/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Product Substitution",
+            "item": "https://windload.co/florida/miami-dade/product-substitution.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --swap-orange: #f97316;
+            --success-green: #10b981;
+            --warning-yellow: #fbbf24;
+            --danger-red: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img {
+            height: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--swap-orange);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            min-width: 180px;
+            backdrop-filter: blur(10px);
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--swap-orange);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        .widget-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(249, 115, 22, 0.15);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            color: var(--swap-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-header h1 .highlight {
+            background: linear-gradient(135deg, var(--swap-orange), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+        }
+
+        /* Product Comparison Animation */
+        .comparison-stage {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 2rem;
+            perspective: 1000px;
+        }
+
+        .product-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 320px;
+            transition: all 0.5s ease;
+            position: relative;
+        }
+
+        .product-card.original {
+            border-color: var(--accent-cyan);
+        }
+
+        .product-card.substitute {
+            border-color: var(--swap-orange);
+        }
+
+        .product-card.swapping {
+            animation: cardFlip 0.8s ease-in-out;
+        }
+
+        @keyframes cardFlip {
+            0% { transform: rotateY(0deg); opacity: 1; }
+            50% { transform: rotateY(90deg); opacity: 0.5; }
+            100% { transform: rotateY(0deg); opacity: 1; }
+        }
+
+        .card-label {
+            position: absolute;
+            top: -12px;
+            left: 20px;
+            background: var(--primary-dark);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .original .card-label {
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+        }
+
+        .substitute .card-label {
+            color: var(--swap-orange);
+            border: 1px solid var(--swap-orange);
+        }
+
+        .product-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-manufacturer {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+
+        .spec-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.5s ease;
+        }
+
+        .spec-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .spec-value {
+            font-weight: 600;
+            transition: all 0.5s ease;
+        }
+
+        .spec-value.morphing {
+            animation: morphValue 0.5s ease-in-out;
+        }
+
+        @keyframes morphValue {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.2); opacity: 0.5; }
+        }
+
+        .spec-value.better {
+            color: var(--success-green);
+        }
+
+        .spec-value.same {
+            color: var(--accent-cyan);
+        }
+
+        .spec-value.worse {
+            color: var(--danger-red);
+        }
+
+        /* Swap Button */
+        .swap-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .swap-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--swap-orange), var(--accent-magenta));
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(249, 115, 22, 0.4);
+        }
+
+        .swap-btn:hover {
+            transform: scale(1.1);
+            box-shadow: 0 15px 50px rgba(249, 115, 22, 0.5);
+        }
+
+        .swap-btn.swapping {
+            animation: swapSpin 0.8s ease-in-out;
+        }
+
+        @keyframes swapSpin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(180deg); }
+        }
+
+        .swap-btn svg {
+            width: 40px;
+            height: 40px;
+            color: #fff;
+        }
+
+        .swap-label {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        /* Product Selector Section */
+        .selector-section {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+        }
+
+        .product-selector {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .selector-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .selector-card:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .selector-card.active {
+            border-color: var(--swap-orange);
+            background: rgba(249, 115, 22, 0.1);
+        }
+
+        .selector-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .selector-name {
+            font-weight: 600;
+        }
+
+        /* Compatibility Checker */
+        .compatibility-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .compatibility-checker {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .checker-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .check-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .check-icon.pass {
+            background: rgba(16, 185, 129, 0.2);
+            color: var(--success-green);
+        }
+
+        .check-icon.warning {
+            background: rgba(251, 191, 36, 0.2);
+            color: var(--warning-yellow);
+        }
+
+        .check-icon.fail {
+            background: rgba(239, 68, 68, 0.2);
+            color: var(--danger-red);
+        }
+
+        .check-content h4 {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .check-content p {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.5rem;
+            color: var(--swap-orange);
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            color: #94a3b8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--swap-orange), var(--accent-magenta));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+
+        .btn-dark:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .footer-text a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        @media (max-width: 968px) {
+            .comparison-stage {
+                flex-direction: column;
+            }
+
+            .swap-container {
+                transform: rotate(90deg);
+            }
+
+            .product-card {
+                width: 100%;
+                max-width: 320px;
+            }
+
+            .floating-widget {
+                position: fixed;
+                right: 10px;
+                top: auto;
+                bottom: 10px;
+                transform: none;
+                display: flex;
+                gap: 1rem;
+                min-width: auto;
+                padding: 1rem;
+            }
+
+            .widget-stat {
+                margin-bottom: 0;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>WindLoad.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Swap Status</div>
+        <div class="widget-stat">
+            <div class="widget-value" id="compatScore">--</div>
+            <div class="widget-label">Compatibility</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-value" id="specDiff">0</div>
+            <div class="widget-label">Specs Changed</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-header">
+                <div class="hero-badge">Product Substitution Guide</div>
+                <h1>When Plans <span class="highlight">Change</span></h1>
+                <p class="hero-subtitle">
+                    Click the swap button to see how specs change between products.
+                    Watch the values morph and learn what needs to match.
+                </p>
+            </div>
+
+            <div class="comparison-stage">
+                <div class="product-card original" id="originalCard">
+                    <span class="card-label">Original</span>
+                    <h3 class="product-name" id="origName">Impact Window Series A</h3>
+                    <p class="product-manufacturer" id="origMfg">ABC Windows Corp</p>
+                    <div class="spec-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Design Pressure</span>
+                            <span class="spec-value same" id="origDP">+75/-75 psf</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Impact Rating</span>
+                            <span class="spec-value same" id="origImpact">Large Missile D</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">NOA Number</span>
+                            <span class="spec-value same" id="origNOA">NOA 21-0101.05</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Wind Zone</span>
+                            <span class="spec-value same" id="origZone">HVHZ</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Water Penetration</span>
+                            <span class="spec-value same" id="origWater">15 psf</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="swap-container">
+                    <button class="swap-btn" id="swapBtn" onclick="performSwap()">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M7 16V4M7 4L3 8M7 4L11 8"/>
+                            <path d="M17 8V20M17 20L21 16M17 20L13 16"/>
+                        </svg>
+                    </button>
+                    <span class="swap-label">Click to Compare</span>
+                </div>
+
+                <div class="product-card substitute" id="substituteCard">
+                    <span class="card-label">Substitute</span>
+                    <h3 class="product-name" id="subName">Hurricane Shield Pro</h3>
+                    <p class="product-manufacturer" id="subMfg">Guardian Glass LLC</p>
+                    <div class="spec-list">
+                        <div class="spec-item">
+                            <span class="spec-label">Design Pressure</span>
+                            <span class="spec-value" id="subDP">+80/-80 psf</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Impact Rating</span>
+                            <span class="spec-value" id="subImpact">Large Missile D</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">NOA Number</span>
+                            <span class="spec-value" id="subNOA">NOA 22-0234.02</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Wind Zone</span>
+                            <span class="spec-value" id="subZone">HVHZ</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Water Penetration</span>
+                            <span class="spec-value" id="subWater">12 psf</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Product Selector -->
+    <section class="selector-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Select Product Type</h2>
+                <p>Choose a category to see common substitution scenarios</p>
+            </div>
+
+            <div class="product-selector">
+                <div class="selector-card active" onclick="selectCategory('windows')">
+                    <div class="selector-icon">&#128295;</div>
+                    <div class="selector-name">Impact Windows</div>
+                </div>
+                <div class="selector-card" onclick="selectCategory('doors')">
+                    <div class="selector-icon">&#128682;</div>
+                    <div class="selector-name">Entry Doors</div>
+                </div>
+                <div class="selector-card" onclick="selectCategory('garage')">
+                    <div class="selector-icon">&#127968;</div>
+                    <div class="selector-name">Garage Doors</div>
+                </div>
+                <div class="selector-card" onclick="selectCategory('shutters')">
+                    <div class="selector-icon">&#128737;</div>
+                    <div class="selector-name">Shutters</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Compatibility Checker -->
+    <section class="compatibility-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Substitution Checklist</h2>
+                <p>Every swap must pass these checks</p>
+            </div>
+
+            <div class="compatibility-checker">
+                <div class="checker-grid">
+                    <div class="check-item">
+                        <div class="check-icon pass">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="check-content">
+                            <h4>Design Pressure Match</h4>
+                            <p>Substitute must meet or exceed original positive and negative pressure ratings</p>
+                        </div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon pass">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="check-content">
+                            <h4>Impact Rating</h4>
+                            <p>Must have same or higher missile impact level for HVHZ compliance</p>
+                        </div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon pass">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="check-content">
+                            <h4>Valid NOA</h4>
+                            <p>New product must have current, unexpired NOA for Miami-Dade HVHZ</p>
+                        </div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon warning">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                                <line x1="12" y1="9" x2="12" y2="13"/>
+                                <line x1="12" y1="17" x2="12.01" y2="17"/>
+                            </svg>
+                        </div>
+                        <div class="check-content">
+                            <h4>Size Compatibility</h4>
+                            <p>Verify NOA covers the specific sizes you need - larger sizes may have lower ratings</p>
+                        </div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon pass">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="check-content">
+                            <h4>Installation Method</h4>
+                            <p>Installation must follow NOA-approved methods for the substitute product</p>
+                        </div>
+                    </div>
+                    <div class="check-item">
+                        <div class="check-icon pass">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="20 6 9 17 4 12"/>
+                            </svg>
+                        </div>
+                        <div class="check-content">
+                            <h4>Documentation</h4>
+                            <p>Submit substitution request with both product specs for architect/engineer approval</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I substitute products in a Miami-Dade HVHZ project?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, but the substitute product must meet or exceed the original specifications. This includes design pressure ratings, impact resistance, and must have a valid NOA number. You may need updated wind load calculations if specs change significantly.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What specs must match when substituting products?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Key specs include: Design Pressure (positive and negative), Impact Rating (Large Missile Level), Wind Zone (HVHZ), Water Penetration resistance, Air Infiltration rating, and valid NOA number with current expiration date.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do I need new calculations when substituting products?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>If the substitute product has different design pressure ratings or you are changing sizes significantly, you may need updated wind load calculations to verify the new product meets requirements. This is especially true if the new product has lower ratings.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Who needs to approve a product substitution?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>The architect or engineer of record must approve substitutions. For significant changes, the building department may also need to review. Submit a formal substitution request with both product specifications for comparison.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Verify Your Substitute Works</h2>
+        <p>Get wind load calculations to confirm your new product meets requirements.</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=miami-dade&utm_campaign=product-sub" class="btn btn-dark">
+            Calculate Required Pressures
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/pre-hurricane-prep.html">Pre-Hurricane Prep</a>
+            <a href="/florida/miami-dade/post-storm-assessment.html">Post-Storm Assessment</a>
+            <a href="/florida/miami-dade/noa-search-guide.html">NOA Search Guide</a>
+            <a href="/florida/miami-dade/field-measurement.html">Field Measurement</a>
+            <a href="/florida/miami-dade/submittal-prep.html">Submittal Prep</a>
+        </div>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/change-order-wind.html">Change Orders</a>
+            <a href="/florida/miami-dade/rfi-responses.html">RFI Responses</a>
+            <a href="/florida/miami-dade/closeout-documents.html">Closeout Docs</a>
+            <a href="/florida/miami-dade/warranty-requirements.html">Warranty</a>
+        </div>
+        <p class="footer-text">
+            &copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> |
+            <a href="https://windloadcalc.com">WindLoadCalc.com</a>
+        </p>
+    </footer>
+
+    <script>
+        // Particle canvas - Swap/exchange particles
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class SwapParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = (Math.random() - 0.5) * 2;
+                this.speedY = (Math.random() - 0.5) * 2;
+                this.color = Math.random() > 0.5 ? 'rgba(249, 115, 22, 0.3)' : 'rgba(0, 212, 255, 0.3)';
+                this.life = 1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 0.005;
+
+                if (this.life <= 0 || this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color.replace('0.3', this.life * 0.3);
+                ctx.fill();
+            }
+        }
+
+        const particles = Array(60).fill(null).map(() => new SwapParticle());
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Product data
+        const products = {
+            windows: {
+                original: {
+                    name: 'Impact Window Series A',
+                    mfg: 'ABC Windows Corp',
+                    dp: '+75/-75 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 21-0101.05',
+                    zone: 'HVHZ',
+                    water: '15 psf'
+                },
+                substitute: {
+                    name: 'Hurricane Shield Pro',
+                    mfg: 'Guardian Glass LLC',
+                    dp: '+80/-80 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 22-0234.02',
+                    zone: 'HVHZ',
+                    water: '12 psf'
+                }
+            },
+            doors: {
+                original: {
+                    name: 'Storm Entry Door 3000',
+                    mfg: 'SecureDoor Inc',
+                    dp: '+65/-65 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 20-0567.03',
+                    zone: 'HVHZ',
+                    water: '12 psf'
+                },
+                substitute: {
+                    name: 'Hurricane Shield Entry',
+                    mfg: 'Miami Door Co',
+                    dp: '+70/-70 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 23-0089.01',
+                    zone: 'HVHZ',
+                    water: '15 psf'
+                }
+            },
+            garage: {
+                original: {
+                    name: 'WindMaster Garage 2000',
+                    mfg: 'Garage Pro Systems',
+                    dp: '+55/-60 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 21-0345.02',
+                    zone: 'HVHZ',
+                    water: 'N/A'
+                },
+                substitute: {
+                    name: 'StormShield Garage XL',
+                    mfg: 'Hurricane Doors LLC',
+                    dp: '+60/-65 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 22-0678.01',
+                    zone: 'HVHZ',
+                    water: 'N/A'
+                }
+            },
+            shutters: {
+                original: {
+                    name: 'Roll-Down Storm Pro',
+                    mfg: 'ShutterMax Inc',
+                    dp: '+80/-85 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 21-0789.04',
+                    zone: 'HVHZ',
+                    water: 'N/A'
+                },
+                substitute: {
+                    name: 'Accordion Hurricane Elite',
+                    mfg: 'SecureHome Systems',
+                    dp: '+75/-80 psf',
+                    impact: 'Large Missile D',
+                    noa: 'NOA 22-0456.02',
+                    zone: 'HVHZ',
+                    water: 'N/A'
+                }
+            }
+        };
+
+        let currentCategory = 'windows';
+        let hasSwapped = false;
+
+        function selectCategory(category) {
+            currentCategory = category;
+            hasSwapped = false;
+
+            document.querySelectorAll('.selector-card').forEach(c => c.classList.remove('active'));
+            event.target.closest('.selector-card').classList.add('active');
+
+            updateCards();
+        }
+
+        function updateCards() {
+            const data = products[currentCategory];
+
+            document.getElementById('origName').textContent = data.original.name;
+            document.getElementById('origMfg').textContent = data.original.mfg;
+            document.getElementById('origDP').textContent = data.original.dp;
+            document.getElementById('origImpact').textContent = data.original.impact;
+            document.getElementById('origNOA').textContent = data.original.noa;
+            document.getElementById('origZone').textContent = data.original.zone;
+            document.getElementById('origWater').textContent = data.original.water;
+
+            document.getElementById('subName').textContent = data.substitute.name;
+            document.getElementById('subMfg').textContent = data.substitute.mfg;
+            document.getElementById('subDP').textContent = data.substitute.dp;
+            document.getElementById('subImpact').textContent = data.substitute.impact;
+            document.getElementById('subNOA').textContent = data.substitute.noa;
+            document.getElementById('subZone').textContent = data.substitute.zone;
+            document.getElementById('subWater').textContent = data.substitute.water;
+
+            // Reset comparison indicators
+            document.querySelectorAll('.spec-value').forEach(el => {
+                el.classList.remove('better', 'worse', 'same', 'morphing');
+            });
+
+            document.getElementById('compatScore').textContent = '--';
+            document.getElementById('specDiff').textContent = '0';
+        }
+
+        function performSwap() {
+            const btn = document.getElementById('swapBtn');
+            const cards = document.querySelectorAll('.product-card');
+
+            btn.classList.add('swapping');
+            cards.forEach(card => card.classList.add('swapping'));
+
+            setTimeout(() => {
+                btn.classList.remove('swapping');
+                cards.forEach(card => card.classList.remove('swapping'));
+                compareProducts();
+            }, 800);
+        }
+
+        function compareProducts() {
+            hasSwapped = true;
+            const data = products[currentCategory];
+            let changes = 0;
+
+            // Compare each spec
+            const comparisons = [
+                { orig: 'origDP', sub: 'subDP', key: 'dp' },
+                { orig: 'origImpact', sub: 'subImpact', key: 'impact' },
+                { orig: 'origZone', sub: 'subZone', key: 'zone' },
+                { orig: 'origWater', sub: 'subWater', key: 'water' }
+            ];
+
+            comparisons.forEach(comp => {
+                const origEl = document.getElementById(comp.sub);
+                const origVal = data.original[comp.key];
+                const subVal = data.substitute[comp.key];
+
+                origEl.classList.add('morphing');
+
+                setTimeout(() => {
+                    origEl.classList.remove('morphing');
+
+                    if (origVal === subVal) {
+                        origEl.classList.add('same');
+                    } else {
+                        changes++;
+                        // Determine if better or worse (simplified logic)
+                        if (comp.key === 'dp') {
+                            const origNum = parseInt(origVal.match(/\d+/)[0]);
+                            const subNum = parseInt(subVal.match(/\d+/)[0]);
+                            origEl.classList.add(subNum >= origNum ? 'better' : 'worse');
+                        } else if (comp.key === 'water' && origVal !== 'N/A' && subVal !== 'N/A') {
+                            const origNum = parseInt(origVal);
+                            const subNum = parseInt(subVal);
+                            origEl.classList.add(subNum <= origNum ? 'better' : 'worse');
+                        } else {
+                            origEl.classList.add('same');
+                        }
+                    }
+                }, 500);
+            });
+
+            setTimeout(() => {
+                document.getElementById('specDiff').textContent = changes;
+                document.getElementById('compatScore').textContent = changes <= 1 ? 'OK' : 'Review';
+                document.getElementById('compatScore').style.color = changes <= 1 ? '#10b981' : '#fbbf24';
+            }, 600);
+        }
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

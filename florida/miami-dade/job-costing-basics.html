@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Job Costing Basics for Contractors | Know Your Numbers - Miami-Dade HVHZ</title>
+    <meta name="description" content="Interactive job costing calculator for Miami-Dade contractors. Input costs and watch the profit meter move. See where your dollars go with animated money flow visualization.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/job-costing-basics.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Job Costing Basics for Contractors | Know Your Numbers">
+    <meta property="og:description" content="Interactive profit calculator with animated money flow. Know your margins before you bid.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/job-costing-basics.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What profit margin should contractors target in HVHZ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Most successful contractors target 15-25% net profit margin. HVHZ work often commands higher margins due to specialized requirements and expertise. Factor in overhead (typically 10-20% of direct costs) before calculating profit."
+            }
+        }, {
+            "@type": "Question",
+            "name": "How do I estimate labor costs for hurricane construction?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Calculate total labor hours, multiply by your burdened labor rate (wages + benefits + taxes). HVHZ work requires more time for proper fastener installation and inspections. Add 15-20% buffer for inspection delays and rework."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What costs are often overlooked in job estimates?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common missed costs include: permit fees, PE seal costs, material delivery, equipment rental, waste disposal, insurance per-job costs, inspection delays, punch list time, and warranty callbacks. These can add 10-15% to your base estimate."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida-pro.html"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Miami-Dade",
+            "item": "https://windload.co/florida/miami-dade/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Job Costing Basics",
+            "item": "https://windload.co/florida/miami-dade/job-costing-basics.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-primary: #ffffff;
+            --text-secondary: #b4a5c7;
+            --profit-green: #10b981;
+            --loss-red: #ef4444;
+            --money-gold: #ffd700;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo span span { color: var(--accent-magenta); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            backdrop-filter: blur(10px);
+            max-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat { margin-bottom: 1rem; }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-value.profit { color: var(--profit-green); }
+        .widget-stat-value.loss { color: var(--loss-red); }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            color: var(--accent-magenta);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Layout */
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Input Panel */
+        .cost-inputs {
+            background: rgba(26, 10, 46, 0.8);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .cost-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .cost-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .cost-input-wrapper {
+            position: relative;
+        }
+
+        .cost-input-wrapper::before {
+            content: '$';
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+
+        .cost-input {
+            width: 100%;
+            padding: 1rem 1rem 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .cost-input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .cost-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            margin-top: 0.5rem;
+        }
+
+        .cost-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--money-gold);
+            cursor: pointer;
+        }
+
+        .contract-input {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(16, 185, 129, 0.05));
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .contract-input:focus {
+            border-color: var(--profit-green);
+        }
+
+        /* Profit Display */
+        .profit-display {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        /* Profit Meter */
+        .profit-meter {
+            position: relative;
+            width: 100%;
+            height: 250px;
+            margin-bottom: 2rem;
+        }
+
+        .meter-dial {
+            position: relative;
+            width: 250px;
+            height: 130px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .meter-bg {
+            position: absolute;
+            width: 250px;
+            height: 250px;
+            border-radius: 50%;
+            background: conic-gradient(
+                from 180deg,
+                var(--loss-red) 0deg 45deg,
+                #f59e0b 45deg 90deg,
+                var(--profit-green) 90deg 180deg,
+                transparent 180deg
+            );
+            opacity: 0.3;
+        }
+
+        .meter-needle {
+            position: absolute;
+            bottom: 5px;
+            left: 50%;
+            width: 6px;
+            height: 100px;
+            background: linear-gradient(to top, var(--accent-magenta), var(--accent-cyan));
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(-90deg);
+            transition: transform 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border-radius: 3px;
+        }
+
+        .meter-center {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 30px;
+            background: var(--primary-dark);
+            border: 4px solid var(--money-gold);
+            border-radius: 50%;
+        }
+
+        .meter-labels {
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            margin-top: 10px;
+        }
+
+        .meter-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .meter-label.loss { color: var(--loss-red); }
+        .meter-label.break { color: #f59e0b; }
+        .meter-label.profit { color: var(--profit-green); }
+
+        /* Profit Summary */
+        .profit-summary {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .summary-value {
+            font-size: 1.75rem;
+            font-weight: 800;
+            margin-bottom: 0.25rem;
+        }
+
+        .summary-value.profit { color: var(--profit-green); }
+        .summary-value.loss { color: var(--loss-red); }
+        .summary-value.neutral { color: var(--money-gold); }
+
+        .summary-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Money Flow */
+        .money-flow {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .flow-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .flow-bar {
+            height: 40px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .flow-segment {
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+            transition: width 0.5s ease;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+
+        .flow-materials { background: #8B4513; }
+        .flow-labor { background: #1e40af; }
+        .flow-overhead { background: #7c3aed; }
+        .flow-profit { background: var(--profit-green); }
+        .flow-loss { background: var(--loss-red); }
+
+        .flow-legend {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.75rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* Cost Breakdown Section */
+        .breakdown-section {
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .breakdown-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .breakdown-card {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .breakdown-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .breakdown-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.2), rgba(0, 212, 255, 0.2));
+            border-radius: 16px;
+            margin: 0 auto 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .breakdown-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: var(--accent-cyan);
+        }
+
+        .breakdown-percent {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 0.5rem;
+        }
+
+        .breakdown-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .breakdown-desc {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(26, 10, 46, 0.5));
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-magenta);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-magenta), #c4177a);
+            color: white;
+            box-shadow: 0 4px 25px rgba(233, 30, 140, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(233, 30, 140, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            margin-left: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.875rem;
+        }
+
+        .footer-text a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .calculator-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+
+            .breakdown-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .profit-summary {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="" class="logo-img">
+            <span>Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/miami-dade/">Miami-Dade</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <div class="floating-widget">
+        <div class="widget-title">Profit Tracker</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value profit" id="widgetProfit">$0</div>
+            <div class="widget-stat-label">Net Profit</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetMargin">0%</div>
+            <div class="widget-stat-label">Profit Margin</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value">15-25%</div>
+            <div class="widget-stat-label">Target Range</div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-header">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <line x1="12" y1="1" x2="12" y2="23"/>
+                        <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                    Job Costing Calculator
+                </div>
+                <h1><span class="gradient-text">Know Your Numbers</span></h1>
+                <p class="hero-subtitle">
+                    Input your costs and contract price. Watch the profit meter move and see exactly where every dollar goes. In HVHZ, knowing your margins can make or break your business.
+                </p>
+            </div>
+
+            <div class="calculator-layout">
+                <div class="cost-inputs">
+                    <h3 class="panel-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="1" y="4" width="22" height="16" rx="2"/>
+                            <line x1="1" y1="10" x2="23" y2="10"/>
+                        </svg>
+                        Enter Your Costs
+                    </h3>
+
+                    <div class="cost-group">
+                        <div class="cost-label">
+                            <span>Contract Price</span>
+                            <span id="contractValue">$50,000</span>
+                        </div>
+                        <div class="cost-input-wrapper">
+                            <input type="number" class="cost-input contract-input" id="contractPrice" value="50000">
+                        </div>
+                    </div>
+
+                    <div class="cost-group">
+                        <div class="cost-label">
+                            <span>Materials Cost</span>
+                            <span id="materialsValue">$20,000</span>
+                        </div>
+                        <input type="range" class="cost-slider" id="materialsCost" min="0" max="50000" value="20000">
+                    </div>
+
+                    <div class="cost-group">
+                        <div class="cost-label">
+                            <span>Labor Cost</span>
+                            <span id="laborValue">$15,000</span>
+                        </div>
+                        <input type="range" class="cost-slider" id="laborCost" min="0" max="40000" value="15000">
+                    </div>
+
+                    <div class="cost-group">
+                        <div class="cost-label">
+                            <span>Overhead (permits, insurance, etc.)</span>
+                            <span id="overheadValue">$5,000</span>
+                        </div>
+                        <input type="range" class="cost-slider" id="overheadCost" min="0" max="20000" value="5000">
+                    </div>
+
+                    <div class="cost-group">
+                        <div class="cost-label">
+                            <span>PE Seal & Engineering</span>
+                            <span id="engineeringValue">$500</span>
+                        </div>
+                        <input type="range" class="cost-slider" id="engineeringCost" min="0" max="5000" value="500">
+                    </div>
+                </div>
+
+                <div class="profit-display">
+                    <h3 class="panel-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20"/>
+                            <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                        </svg>
+                        Profit Analysis
+                    </h3>
+
+                    <div class="profit-meter">
+                        <div class="meter-dial">
+                            <div class="meter-bg"></div>
+                            <div class="meter-needle" id="profitNeedle"></div>
+                            <div class="meter-center"></div>
+                        </div>
+                        <div class="meter-labels">
+                            <span class="meter-label loss">LOSS</span>
+                            <span class="meter-label break">BREAK EVEN</span>
+                            <span class="meter-label profit">PROFIT</span>
+                        </div>
+                    </div>
+
+                    <div class="profit-summary">
+                        <div class="summary-card">
+                            <div class="summary-value profit" id="netProfit">$9,500</div>
+                            <div class="summary-label">Net Profit</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value profit" id="profitMargin">19%</div>
+                            <div class="summary-label">Profit Margin</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value neutral" id="totalCosts">$40,500</div>
+                            <div class="summary-label">Total Costs</div>
+                        </div>
+                        <div class="summary-card">
+                            <div class="summary-value neutral" id="hourlyRate">$75</div>
+                            <div class="summary-label">Effective Hourly</div>
+                        </div>
+                    </div>
+
+                    <div class="money-flow">
+                        <div class="flow-title">Where Your Dollar Goes</div>
+                        <div class="flow-bar" id="flowBar">
+                            <div class="flow-segment flow-materials" id="flowMaterials" style="width: 40%;">Materials</div>
+                            <div class="flow-segment flow-labor" id="flowLabor" style="width: 30%;">Labor</div>
+                            <div class="flow-segment flow-overhead" id="flowOverhead" style="width: 11%;">Overhead</div>
+                            <div class="flow-segment flow-profit" id="flowProfit" style="width: 19%;">Profit</div>
+                        </div>
+                        <div class="flow-legend">
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background: #8B4513;"></div>
+                                <span>Materials</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background: #1e40af;"></div>
+                                <span>Labor</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background: #7c3aed;"></div>
+                                <span>Overhead</span>
+                            </div>
+                            <div class="legend-item">
+                                <div class="legend-dot" style="background: var(--profit-green);"></div>
+                                <span>Profit</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="breakdown-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Typical Cost Breakdown</h2>
+                <p>Where money typically goes on HVHZ construction projects</p>
+            </div>
+
+            <div class="breakdown-cards">
+                <div class="breakdown-card">
+                    <div class="breakdown-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2"/>
+                            <path d="M16 3H8v4h8V3z"/>
+                        </svg>
+                    </div>
+                    <div class="breakdown-percent">35-45%</div>
+                    <div class="breakdown-name">Materials</div>
+                    <div class="breakdown-desc">Sheathing, fasteners, straps, and all HVHZ-approved products. Usually your biggest expense.</div>
+                </div>
+
+                <div class="breakdown-card">
+                    <div class="breakdown-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                            <circle cx="9" cy="7" r="4"/>
+                            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+                        </svg>
+                    </div>
+                    <div class="breakdown-percent">25-35%</div>
+                    <div class="breakdown-name">Labor</div>
+                    <div class="breakdown-desc">Your crew's time including burdened labor rate. HVHZ takes longer due to extra fasteners and inspections.</div>
+                </div>
+
+                <div class="breakdown-card">
+                    <div class="breakdown-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            <polyline points="9 22 9 12 15 12 15 22"/>
+                        </svg>
+                    </div>
+                    <div class="breakdown-percent">10-15%</div>
+                    <div class="breakdown-name">Overhead</div>
+                    <div class="breakdown-desc">Permits, insurance, equipment, vehicle costs, office expenses. Often underestimated.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Common questions about job costing in HVHZ</p>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What profit margin should contractors target in HVHZ?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Most successful contractors target 15-25% net profit margin. HVHZ work often commands higher margins due to specialized requirements and expertise. Factor in overhead (typically 10-20% of direct costs) before calculating profit. Remember: revenue is vanity, profit is sanity.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I estimate labor costs for hurricane construction?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Calculate total labor hours, multiply by your burdened labor rate (wages + benefits + taxes). HVHZ work requires more time for proper fastener installation and inspections. Add 15-20% buffer for inspection delays and rework. Track actual hours on jobs to improve future estimates.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What costs are often overlooked in job estimates?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Common missed costs include: permit fees, PE seal costs, material delivery, equipment rental, waste disposal, insurance per-job costs, inspection delays, punch list time, and warranty callbacks. These can add 10-15% to your base estimate. Build a checklist and use it every time.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Should I include PE seal costs in my bids?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, always include PE seal and engineering costs in your estimates. In HVHZ, this is a required cost you can't avoid. It's typically $200-$1000 depending on project complexity. Including it protects your margin and sets proper expectations with clients. We can help with fast turnaround PE seals.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Get Accurate Wind Load Reports</h2>
+        <p>Fast PE-sealed calculations so you can bid with confidence. Know your engineering costs upfront.</p>
+        <div>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=job-costing" class="btn btn-primary">
+                Get PE-Sealed Report
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/florida/miami-dade/crew-safety-hvhz.html" class="btn btn-secondary">Crew Safety</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/permit-checklist.html">Permit Checklist</a>
+            <a href="/florida/miami-dade/wind-zone-map.html">Wind Zone Map</a>
+            <a href="/florida/miami-dade/material-takeoff.html">Material Takeoff</a>
+            <a href="/florida/miami-dade/contractor-liability.html">Contractor Liability</a>
+            <a href="/florida/miami-dade/crew-safety-hvhz.html">Crew Safety</a>
+        </div>
+        <div class="footer-links">
+            <a href="/contractors.html">Contractors</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+        </div>
+        <p class="footer-text">
+            &copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> |
+            <a href="https://windloadcalc.com">WindLoadCalc.com</a>
+        </p>
+    </footer>
+
+    <script>
+        // Particle Animation - Money/Dollar themed
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class DollarParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 12 + 8;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.2 + 0.05;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.x < -30 || this.x > canvas.width + 30 || this.y < -30 || this.y > canvas.height + 30) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.fillStyle = '#ffd700';
+                ctx.font = `bold ${this.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText('$', 0, 0);
+                ctx.restore();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 30; i++) {
+            particles.push(new DollarParticle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Calculator Logic
+        const contractPrice = document.getElementById('contractPrice');
+        const materialsCost = document.getElementById('materialsCost');
+        const laborCost = document.getElementById('laborCost');
+        const overheadCost = document.getElementById('overheadCost');
+        const engineeringCost = document.getElementById('engineeringCost');
+
+        const contractValue = document.getElementById('contractValue');
+        const materialsValue = document.getElementById('materialsValue');
+        const laborValue = document.getElementById('laborValue');
+        const overheadValue = document.getElementById('overheadValue');
+        const engineeringValue = document.getElementById('engineeringValue');
+
+        const netProfit = document.getElementById('netProfit');
+        const profitMargin = document.getElementById('profitMargin');
+        const totalCosts = document.getElementById('totalCosts');
+        const hourlyRate = document.getElementById('hourlyRate');
+        const profitNeedle = document.getElementById('profitNeedle');
+
+        const flowMaterials = document.getElementById('flowMaterials');
+        const flowLabor = document.getElementById('flowLabor');
+        const flowOverhead = document.getElementById('flowOverhead');
+        const flowProfit = document.getElementById('flowProfit');
+
+        const widgetProfit = document.getElementById('widgetProfit');
+        const widgetMargin = document.getElementById('widgetMargin');
+
+        function formatCurrency(num) {
+            return '$' + num.toLocaleString();
+        }
+
+        function calculateProfit() {
+            const contract = parseInt(contractPrice.value) || 0;
+            const materials = parseInt(materialsCost.value) || 0;
+            const labor = parseInt(laborCost.value) || 0;
+            const overhead = parseInt(overheadCost.value) || 0;
+            const engineering = parseInt(engineeringCost.value) || 0;
+
+            // Update value displays
+            contractValue.textContent = formatCurrency(contract);
+            materialsValue.textContent = formatCurrency(materials);
+            laborValue.textContent = formatCurrency(labor);
+            overheadValue.textContent = formatCurrency(overhead);
+            engineeringValue.textContent = formatCurrency(engineering);
+
+            // Calculate totals
+            const total = materials + labor + overhead + engineering;
+            const profit = contract - total;
+            const margin = contract > 0 ? Math.round((profit / contract) * 100) : 0;
+
+            // Update profit displays
+            netProfit.textContent = formatCurrency(profit);
+            netProfit.className = 'summary-value ' + (profit >= 0 ? 'profit' : 'loss');
+
+            profitMargin.textContent = margin + '%';
+            profitMargin.className = 'summary-value ' + (margin >= 15 ? 'profit' : margin >= 0 ? 'neutral' : 'loss');
+
+            totalCosts.textContent = formatCurrency(total);
+
+            // Estimated hourly rate (assuming 200 labor hours)
+            const laborHours = Math.max(100, labor / 35); // Rough estimate
+            const effectiveHourly = laborHours > 0 ? Math.round(profit / laborHours) : 0;
+            hourlyRate.textContent = formatCurrency(effectiveHourly);
+
+            // Update widget
+            widgetProfit.textContent = formatCurrency(profit);
+            widgetProfit.className = 'widget-stat-value ' + (profit >= 0 ? 'profit' : 'loss');
+            widgetMargin.textContent = margin + '%';
+
+            // Update profit meter needle (-90 = loss, 0 = break even, 90 = max profit)
+            let needleAngle = -90;
+            if (margin < 0) {
+                needleAngle = Math.max(-90, -90 + (margin / -50) * 45);
+            } else if (margin > 0) {
+                needleAngle = Math.min(90, (margin / 30) * 90);
+            }
+            profitNeedle.style.transform = `translateX(-50%) rotate(${needleAngle}deg)`;
+
+            // Update money flow bar
+            if (contract > 0) {
+                const materialsPercent = (materials / contract) * 100;
+                const laborPercent = (labor / contract) * 100;
+                const overheadPercent = ((overhead + engineering) / contract) * 100;
+                const profitPercent = Math.max(0, (profit / contract) * 100);
+
+                flowMaterials.style.width = materialsPercent + '%';
+                flowMaterials.textContent = materialsPercent > 10 ? 'Materials' : '';
+
+                flowLabor.style.width = laborPercent + '%';
+                flowLabor.textContent = laborPercent > 10 ? 'Labor' : '';
+
+                flowOverhead.style.width = overheadPercent + '%';
+                flowOverhead.textContent = overheadPercent > 8 ? 'Overhead' : '';
+
+                flowProfit.style.width = profitPercent + '%';
+                flowProfit.className = 'flow-segment ' + (profit >= 0 ? 'flow-profit' : 'flow-loss');
+                flowProfit.textContent = profitPercent > 8 ? (profit >= 0 ? 'Profit' : 'Loss') : '';
+            }
+        }
+
+        // Event listeners
+        contractPrice.addEventListener('input', calculateProfit);
+        materialsCost.addEventListener('input', calculateProfit);
+        laborCost.addEventListener('input', calculateProfit);
+        overheadCost.addEventListener('input', calculateProfit);
+        engineeringCost.addEventListener('input', calculateProfit);
+
+        // Initial calculation
+        calculateProfit();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

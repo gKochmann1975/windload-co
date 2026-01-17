@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Effective Wind Area Explained | Broward County | WindLoad.co</title>
+    <meta name="description" content="Understand effective wind area and how component size affects wind pressure in Broward County. Smaller elements face higher loads.">
+    <meta name="keywords" content="effective wind area, tributary area, component size, wind pressure coefficients, Broward County, HVHZ, C&C design">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Effective Wind Area Explained | Broward County">
+    <meta property="og:description" content="See why smaller building components experience higher wind pressures. Interactive demonstration for Broward County HVHZ.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/effective-wind-area.html">
+    <meta property="og:image" content="https://windload.co/images/effective-wind-area-og.jpg">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://windload.co/florida/broward/effective-wind-area.html">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is effective wind area?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Effective wind area is the area used to determine wind pressure coefficients for building components. It's calculated as the span length squared, or the actual tributary area, whichever is larger. This accounts for how wind pressure averages out over larger surfaces but concentrates on smaller elements."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do smaller components have higher wind pressures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Smaller components experience localized pressure spikes that don't average out like they do on larger surfaces. A 2-foot wide panel catches the full force of a pressure gust, while a 20-foot wall section averages multiple gusts together, reducing the peak pressure per square foot."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is effective wind area calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Effective wind area = span^2 or tributary area, whichever is larger. For a window with a 3-foot span and 15 sq ft area: span^2 = 9 sq ft, so effective area = 15 sq ft (the larger value). For a narrow soffit panel 1 foot wide by 10 feet long: span^2 = 1 sq ft, actual = 10 sq ft, so effective area = 10 sq ft."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What components are most affected by effective wind area?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Small, narrow components are most affected: roof tiles, soffit panels, fascia, small windows, trim pieces, and individual cladding panels. These elements often see 50-100% higher pressures than large wall sections due to their small effective wind areas."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does ASCE 7-22 use effective wind area?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ASCE 7-22 provides pressure coefficient curves that vary with effective wind area. Smaller areas (10 sq ft and below) use higher coefficients, while larger areas (500+ sq ft) use lower coefficients. The transition is logarithmic, with significant changes between 10-100 sq ft."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co/"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Effective Wind Area", "item": "https://windload.co/florida/broward/effective-wind-area.html"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-lime: #c6ff00;
+            --accent-purple: #aa00ff;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+            --card-bg: rgba(255,255,255,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-lime), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 5% 1rem;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+            margin: 0 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-light), var(--accent-lime));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Animation Container */
+        .animation-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .resize-demo {
+            width: 450px;
+            height: 400px;
+            position: relative;
+            background: var(--card-bg);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        /* Resizable Panel */
+        .resizable-panel {
+            position: relative;
+            background: linear-gradient(135deg, rgba(198, 255, 0, 0.2), rgba(0, 212, 255, 0.1));
+            border: 3px solid var(--accent-lime);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: grab;
+        }
+
+        .resizable-panel:active {
+            cursor: grabbing;
+        }
+
+        .panel-dimensions {
+            text-align: center;
+            pointer-events: none;
+        }
+
+        .panel-dimensions .size {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-lime);
+        }
+
+        .panel-dimensions .area {
+            font-size: 1rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Resize Handles */
+        .resize-handle {
+            position: absolute;
+            background: var(--accent-lime);
+            border-radius: 50%;
+            width: 16px;
+            height: 16px;
+            cursor: nwse-resize;
+        }
+
+        .resize-handle.br {
+            bottom: -8px;
+            right: -8px;
+        }
+
+        .resize-handle.bl {
+            bottom: -8px;
+            left: -8px;
+            cursor: nesw-resize;
+        }
+
+        .resize-handle.tr {
+            top: -8px;
+            right: -8px;
+            cursor: nesw-resize;
+        }
+
+        .resize-handle.tl {
+            top: -8px;
+            left: -8px;
+        }
+
+        /* Pressure Indicator */
+        .pressure-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0,0,0,0.5);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .pressure-indicator .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .pressure-indicator .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-purple);
+        }
+
+        .pressure-indicator .trend {
+            font-size: 0.85rem;
+            margin-top: 0.25rem;
+        }
+
+        .pressure-indicator .trend.higher {
+            color: var(--accent-magenta);
+        }
+
+        .pressure-indicator .trend.lower {
+            color: var(--accent-cyan);
+        }
+
+        /* Pressure Arrows */
+        .pressure-arrows {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .pressure-arrow {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            opacity: 0.7;
+        }
+
+        .pressure-arrow .shaft {
+            background: var(--accent-purple);
+            height: 3px;
+            transition: width 0.3s;
+        }
+
+        .pressure-arrow .head {
+            width: 0;
+            height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid var(--accent-purple);
+        }
+
+        /* Controls */
+        .demo-controls {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .preset-btn {
+            padding: 0.8rem 1.5rem;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 25px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .preset-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .preset-btn.active {
+            border-color: var(--accent-lime);
+            background: rgba(198, 255, 0, 0.2);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .stat-box {
+            text-align: center;
+        }
+
+        .stat-box .value {
+            font-size: 1.3rem;
+            font-weight: 700;
+        }
+
+        .stat-box .value.area { color: var(--accent-lime); }
+        .stat-box .value.span { color: var(--accent-cyan); }
+        .stat-box .value.ewa { color: var(--accent-purple); }
+        .stat-box .value.coeff { color: var(--accent-magenta); }
+
+        .stat-box .label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 5rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Component Cards */
+        .component-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .component-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .component-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .component-card.small::before { background: var(--accent-magenta); }
+        .component-card.medium::before { background: var(--accent-purple); }
+        .component-card.large::before { background: var(--accent-cyan); }
+
+        .component-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .component-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .component-card .area-range {
+            color: var(--accent-lime);
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .component-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .component-card .examples {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .component-card .example-tag {
+            padding: 0.3rem 0.8rem;
+            background: rgba(255,255,255,0.1);
+            border-radius: 15px;
+            font-size: 0.8rem;
+        }
+
+        .pressure-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .component-card.small .pressure-badge {
+            background: rgba(233, 30, 140, 0.2);
+            color: var(--accent-magenta);
+        }
+
+        .component-card.medium .pressure-badge {
+            background: rgba(170, 0, 255, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .component-card.large .pressure-badge {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        /* Coefficient Graph */
+        .graph-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .graph-title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--accent-lime);
+        }
+
+        .coefficient-graph {
+            width: 100%;
+            height: 300px;
+            position: relative;
+        }
+
+        .graph-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .graph-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        /* Calculator */
+        .calculator-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-input-group {
+            margin-bottom: 1rem;
+        }
+
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .calc-input-group input,
+        .calc-input-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .calc-input-group select option {
+            background: var(--primary-dark);
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .calc-result-item {
+            text-align: center;
+            padding: 1.25rem;
+            border-radius: 12px;
+        }
+
+        .calc-result-item.ewa {
+            background: rgba(198, 255, 0, 0.1);
+            border: 1px solid var(--accent-lime);
+        }
+
+        .calc-result-item.pressure {
+            background: rgba(170, 0, 255, 0.1);
+            border: 1px solid var(--accent-purple);
+        }
+
+        .calc-result-item .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result-item .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+
+        .calc-result-item.ewa .value { color: var(--accent-lime); }
+        .calc-result-item.pressure .value { color: var(--accent-purple); }
+
+        .calc-result-item .unit {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-lime);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(180deg, rgba(26, 10, 46, 0.95), rgba(26, 10, 46, 0.85));
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(198, 255, 0, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            min-width: 170px;
+        }
+
+        .widget-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .widget-stat .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .widget-stat .value.area { color: var(--accent-lime); }
+        .widget-stat .value.ewa { color: var(--accent-purple); }
+        .widget-stat .value.pressure { color: var(--accent-magenta); }
+
+        .size-indicator {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .size-indicator.small {
+            background: rgba(233, 30, 140, 0.2);
+            color: var(--accent-magenta);
+        }
+
+        .size-indicator.medium {
+            background: rgba(170, 0, 255, 0.2);
+            color: var(--accent-purple);
+        }
+
+        .size-indicator.large {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 5%;
+            background: linear-gradient(180deg, transparent, rgba(198, 255, 0, 0.1));
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--accent-lime), var(--accent-cyan));
+            color: var(--primary-dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(198, 255, 0, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 3rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-lime);
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--text-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .resize-demo {
+                width: 100%;
+                max-width: 350px;
+                height: 350px;
+            }
+
+            .floating-widget {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .stats-row {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .calc-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="logo">WindLoad.co</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/florida/">Florida</a></li>
+            <li><a href="/florida/broward/">Broward</a></li>
+            <li><a href="/pricing.html">Pricing</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumb">
+        <a href="/">Home</a><span>/</span>
+        <a href="/florida/">Florida</a><span>/</span>
+        <a href="/florida/broward/">Broward</a><span>/</span>
+        Effective Wind Area
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Size Changes Everything</h1>
+            <p>A roof tile faces different forces than an entire wall. Smaller elements catch concentrated gusts that larger surfaces average out.</p>
+            <p style="color: var(--accent-lime); font-size: 1rem;">Drag the panel corners to resize. Watch the pressure change in real time.</p>
+        </div>
+
+        <div class="animation-container">
+            <div class="resize-demo" id="resizeDemo">
+                <!-- Pressure Arrows -->
+                <div class="pressure-arrows" id="pressureArrows"></div>
+
+                <!-- Resizable Panel -->
+                <div class="resizable-panel" id="resizablePanel" style="width: 120px; height: 120px;">
+                    <div class="panel-dimensions">
+                        <div class="size" id="panelSize">4' x 4'</div>
+                        <div class="area" id="panelArea">16 sq ft</div>
+                    </div>
+                    <div class="resize-handle br" data-corner="br"></div>
+                    <div class="resize-handle bl" data-corner="bl"></div>
+                    <div class="resize-handle tr" data-corner="tr"></div>
+                    <div class="resize-handle tl" data-corner="tl"></div>
+                </div>
+
+                <!-- Pressure Indicator -->
+                <div class="pressure-indicator">
+                    <div class="label">Design Pressure</div>
+                    <div class="value" id="pressureValue">-68</div>
+                    <div class="label">PSF</div>
+                    <div class="trend higher" id="pressureTrend">Smaller = Higher</div>
+                </div>
+            </div>
+
+            <div class="demo-controls">
+                <button class="preset-btn" data-w="60" data-h="60">2' x 2'</button>
+                <button class="preset-btn active" data-w="120" data-h="120">4' x 4'</button>
+                <button class="preset-btn" data-w="180" data-h="120">6' x 4'</button>
+                <button class="preset-btn" data-w="240" data-h="180">8' x 6'</button>
+            </div>
+
+            <div class="stats-row">
+                <div class="stat-box">
+                    <div class="value area" id="statArea">16</div>
+                    <div class="label">Actual Area (ft²)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value span" id="statSpan">4</div>
+                    <div class="label">Span (ft)</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value ewa" id="statEwa">16</div>
+                    <div class="label">Effective Area</div>
+                </div>
+                <div class="stat-box">
+                    <div class="value coeff" id="statCoeff">-1.4</div>
+                    <div class="label">GCp Coeff</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Component Size Categories -->
+    <section class="content-section">
+        <h2 class="section-title">Why Size Matters</h2>
+        <p class="section-subtitle">Wind pressure coefficients vary dramatically with component size. Small elements can see 50%+ higher pressures.</p>
+
+        <div class="component-cards">
+            <div class="component-card small">
+                <span class="pressure-badge">+50% Pressure</span>
+                <div class="icon">&#9632;</div>
+                <h3>Small Components</h3>
+                <div class="area-range">Under 10 sq ft</div>
+                <p>Highest pressure coefficients. Can't average out localized wind gusts. Each piece must resist peak forces.</p>
+                <div class="examples">
+                    <span class="example-tag">Roof tiles</span>
+                    <span class="example-tag">Soffit panels</span>
+                    <span class="example-tag">Fascia</span>
+                    <span class="example-tag">Small vents</span>
+                </div>
+            </div>
+
+            <div class="component-card medium">
+                <span class="pressure-badge">Standard Pressure</span>
+                <div class="icon">&#9633;</div>
+                <h3>Medium Components</h3>
+                <div class="area-range">10 - 100 sq ft</div>
+                <p>Transition zone where coefficients reduce. Most windows, doors, and typical panels fall here.</p>
+                <div class="examples">
+                    <span class="example-tag">Windows</span>
+                    <span class="example-tag">Doors</span>
+                    <span class="example-tag">Skylight</span>
+                    <span class="example-tag">Wall panels</span>
+                </div>
+            </div>
+
+            <div class="component-card large">
+                <span class="pressure-badge">-30% Pressure</span>
+                <div class="icon">&#9634;</div>
+                <h3>Large Components</h3>
+                <div class="area-range">Over 100 sq ft</div>
+                <p>Lowest coefficients. Pressure gusts average out over the large surface area. Benefits from spatial averaging.</p>
+                <div class="examples">
+                    <span class="example-tag">Wall sections</span>
+                    <span class="example-tag">Roof areas</span>
+                    <span class="example-tag">Curtain walls</span>
+                    <span class="example-tag">Large panels</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Coefficient Graph Section -->
+    <section class="content-section" style="background: rgba(198, 255, 0, 0.03);">
+        <h2 class="section-title">Pressure Coefficient vs Area</h2>
+        <p class="section-subtitle">See how the GCp coefficient changes as effective wind area increases.</p>
+
+        <div class="graph-container">
+            <h3 class="graph-title">Zone 3 Corner - Roof Components (Negative Pressure)</h3>
+            <div class="coefficient-graph">
+                <svg class="graph-svg" viewBox="0 0 700 280">
+                    <!-- Grid -->
+                    <g stroke="rgba(255,255,255,0.1)" stroke-width="1">
+                        <line x1="60" y1="20" x2="60" y2="240"/>
+                        <line x1="60" y1="240" x2="680" y2="240"/>
+                        <!-- Horizontal grid lines -->
+                        <line x1="60" y1="60" x2="680" y2="60" stroke-dasharray="5,5"/>
+                        <line x1="60" y1="100" x2="680" y2="100" stroke-dasharray="5,5"/>
+                        <line x1="60" y1="140" x2="680" y2="140" stroke-dasharray="5,5"/>
+                        <line x1="60" y1="180" x2="680" y2="180" stroke-dasharray="5,5"/>
+                        <!-- Vertical grid lines -->
+                        <line x1="160" y1="20" x2="160" y2="240" stroke-dasharray="5,5"/>
+                        <line x1="320" y1="20" x2="320" y2="240" stroke-dasharray="5,5"/>
+                        <line x1="480" y1="20" x2="480" y2="240" stroke-dasharray="5,5"/>
+                        <line x1="640" y1="20" x2="640" y2="240" stroke-dasharray="5,5"/>
+                    </g>
+
+                    <!-- Axis Labels -->
+                    <g fill="#b0b0b0" font-size="12">
+                        <!-- Y axis labels (GCp values) -->
+                        <text x="50" y="65" text-anchor="end">-2.8</text>
+                        <text x="50" y="105" text-anchor="end">-2.4</text>
+                        <text x="50" y="145" text-anchor="end">-2.0</text>
+                        <text x="50" y="185" text-anchor="end">-1.6</text>
+                        <text x="50" y="245" text-anchor="end">-1.2</text>
+                        <!-- X axis labels (Area) -->
+                        <text x="60" y="260" text-anchor="middle">10</text>
+                        <text x="160" y="260" text-anchor="middle">20</text>
+                        <text x="320" y="260" text-anchor="middle">50</text>
+                        <text x="480" y="260" text-anchor="middle">100</text>
+                        <text x="640" y="260" text-anchor="middle">500</text>
+                    </g>
+
+                    <!-- Axis Titles -->
+                    <text x="370" y="278" fill="#b0b0b0" font-size="12" text-anchor="middle">Effective Wind Area (sq ft)</text>
+                    <text x="15" y="130" fill="#b0b0b0" font-size="12" text-anchor="middle" transform="rotate(-90, 15, 130)">GCp Coefficient</text>
+
+                    <!-- Coefficient Curve -->
+                    <path d="M60,40 Q120,60 160,90 Q240,120 320,160 Q400,190 480,210 L640,220"
+                          fill="none" stroke="url(#curveGradient)" stroke-width="4" stroke-linecap="round"/>
+
+                    <defs>
+                        <linearGradient id="curveGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                            <stop offset="0%" style="stop-color:#e91e8c"/>
+                            <stop offset="50%" style="stop-color:#aa00ff"/>
+                            <stop offset="100%" style="stop-color:#00d4ff"/>
+                        </linearGradient>
+                    </defs>
+
+                    <!-- Data Points -->
+                    <circle cx="60" cy="40" r="6" fill="#e91e8c"/>
+                    <circle cx="160" cy="90" r="6" fill="#c020b0"/>
+                    <circle cx="320" cy="160" r="6" fill="#aa00ff"/>
+                    <circle cx="480" cy="210" r="6" fill="#5080ff"/>
+                    <circle cx="640" cy="220" r="6" fill="#00d4ff"/>
+
+                    <!-- Labels on points -->
+                    <text x="60" y="30" fill="#e91e8c" font-size="11" text-anchor="middle">-2.8</text>
+                    <text x="160" y="80" fill="#c020b0" font-size="11" text-anchor="middle">-2.3</text>
+                    <text x="320" y="150" fill="#aa00ff" font-size="11" text-anchor="middle">-1.8</text>
+                    <text x="480" y="200" fill="#5080ff" font-size="11" text-anchor="middle">-1.4</text>
+                    <text x="640" y="210" fill="#00d4ff" font-size="11" text-anchor="middle">-1.2</text>
+                </svg>
+            </div>
+            <div class="graph-legend">
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #e91e8c;"></div>
+                    <span>Small (&lt;20 ft²)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #aa00ff;"></div>
+                    <span>Medium (20-100 ft²)</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background: #00d4ff;"></div>
+                    <span>Large (&gt;100 ft²)</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="content-section">
+        <h2 class="section-title">Effective Wind Area Calculator</h2>
+        <p class="section-subtitle">Calculate your component's effective wind area and resulting design pressure.</p>
+
+        <div class="calculator-box">
+            <div class="calc-row">
+                <div class="calc-input-group">
+                    <label>Component Width (ft)</label>
+                    <input type="number" id="calcWidth" value="4" min="0.5" max="50" step="0.5">
+                </div>
+                <div class="calc-input-group">
+                    <label>Component Height/Length (ft)</label>
+                    <input type="number" id="calcHeight" value="4" min="0.5" max="50" step="0.5">
+                </div>
+            </div>
+
+            <div class="calc-row">
+                <div class="calc-input-group">
+                    <label>Wind Zone</label>
+                    <select id="calcZone">
+                        <option value="1">Zone 1 - Interior Field</option>
+                        <option value="2">Zone 2 - Perimeter</option>
+                        <option value="3" selected>Zone 3 - Corner</option>
+                    </select>
+                </div>
+                <div class="calc-input-group">
+                    <label>Component Location</label>
+                    <select id="calcLocation">
+                        <option value="roof" selected>Roof</option>
+                        <option value="wall">Wall</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calc-input-group">
+                <label>Design Wind Speed (mph)</label>
+                <input type="number" id="calcWindSpeed" value="180" min="100" max="200">
+            </div>
+
+            <div class="calc-results">
+                <div class="calc-result-item ewa">
+                    <div class="label">Effective Wind Area</div>
+                    <div class="value" id="calcEwa">16</div>
+                    <div class="unit">sq ft</div>
+                </div>
+                <div class="calc-result-item pressure">
+                    <div class="label">Design Pressure</div>
+                    <div class="value" id="calcPressure">-68</div>
+                    <div class="unit">PSF</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+                Effective Wind Area = max(span², tributary area)<br>
+                Based on ASCE 7-22 Chapter 30 with 180 mph wind speed
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="content-section" style="background: rgba(0,0,0,0.2);">
+        <h2 class="section-title">Common Questions</h2>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What is effective wind area?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Effective wind area is the area used to determine wind pressure coefficients for building components. It's calculated as the span length squared, or the actual tributary area, whichever is larger. This accounts for how wind pressure averages out over larger surfaces but concentrates on smaller elements.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Why do smaller components have higher wind pressures?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Smaller components experience localized pressure spikes that don't average out like they do on larger surfaces. A 2-foot wide panel catches the full force of a pressure gust, while a 20-foot wall section averages multiple gusts together, reducing the peak pressure per square foot. Wind creates turbulence and vortices that hit small areas with concentrated force.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How is effective wind area calculated?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Effective wind area = span² or tributary area, whichever is larger. For a window with a 3-foot span and 15 sq ft area: span² = 9 sq ft, so effective area = 15 sq ft (the larger value). For a narrow soffit panel 1 foot wide by 10 feet long: span² = 1 sq ft, actual = 10 sq ft, so effective area = 10 sq ft. The span is the shorter dimension of the component.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What components are most affected by effective wind area?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Small, narrow components are most affected: roof tiles, soffit panels, fascia, small windows, trim pieces, and individual cladding panels. These elements often see 50-100% higher pressures than large wall sections due to their small effective wind areas. This is why these elements often fail first in hurricanes.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How does ASCE 7-22 use effective wind area?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        ASCE 7-22 provides pressure coefficient curves that vary with effective wind area. Smaller areas (10 sq ft and below) use higher coefficients, while larger areas (500+ sq ft) use lower coefficients. The transition is logarithmic, with significant changes between 10-100 sq ft. The code requires you to look up coefficients based on your calculated effective area.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="section-title">Get Component-Specific Pressures</h2>
+        <p class="section-subtitle">Our engineers calculate effective wind areas and pressures for every component in your Broward County project.</p>
+        <a href="/pricing.html" class="cta-button">Start Your Wind Load Report</a>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Current Panel</div>
+        <div class="widget-stat">
+            <div class="label">Actual Area</div>
+            <div class="value area" id="widgetArea">16 ft²</div>
+        </div>
+        <div class="widget-stat">
+            <div class="label">Effective Area</div>
+            <div class="value ewa" id="widgetEwa">16 ft²</div>
+        </div>
+        <div class="widget-stat">
+            <div class="label">Pressure</div>
+            <div class="value pressure" id="widgetPressure">-68 PSF</div>
+        </div>
+        <div class="size-indicator medium" id="sizeIndicator">
+            MEDIUM
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Broward County</h4>
+                <a href="/florida/broward/hurricane-shutters.html">Hurricane Shutters</a>
+                <a href="/florida/broward/impact-doors.html">Impact Doors</a>
+                <a href="/florida/broward/window-replacement.html">Window Replacement</a>
+                <a href="/florida/broward/exposure-categories.html">Exposure Categories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Wind Engineering</h4>
+                <a href="/florida/broward/structural-connections.html">Structural Connections</a>
+                <a href="/florida/broward/component-cladding.html">Components & Cladding</a>
+                <a href="/florida/broward/mean-roof-height.html">Mean Roof Height</a>
+                <a href="/florida/broward/pressure-equalization.html">Pressure Equalization</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/pe.html">PE Certification</a>
+                <a href="/states.html">All States</a>
+                <a href="/contractors.html">Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="/engineers.html">Engineers</a>
+                <a href="/architects.html">Architects</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Engineering for Broward County</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle System - Grid/area themed
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 6 + 4;
+                this.speedX = (Math.random() - 0.5) * 0.3;
+                this.speedY = (Math.random() - 0.5) * 0.3;
+                this.opacity = Math.random() * 0.15 + 0.05;
+                this.rotation = Math.random() * Math.PI / 4;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width + 20) this.x = -20;
+                if (this.x < -20) this.x = canvas.width + 20;
+                if (this.y > canvas.height + 20) this.y = -20;
+                if (this.y < -20) this.y = canvas.height + 20;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.strokeStyle = '#c6ff00';
+                ctx.lineWidth = 1;
+                ctx.strokeRect(-this.size/2, -this.size/2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Resizable Panel
+        const panel = document.getElementById('resizablePanel');
+        const panelSize = document.getElementById('panelSize');
+        const panelArea = document.getElementById('panelArea');
+        const pressureValue = document.getElementById('pressureValue');
+        const pressureTrend = document.getElementById('pressureTrend');
+        const statArea = document.getElementById('statArea');
+        const statSpan = document.getElementById('statSpan');
+        const statEwa = document.getElementById('statEwa');
+        const statCoeff = document.getElementById('statCoeff');
+
+        // Widget elements
+        const widgetArea = document.getElementById('widgetArea');
+        const widgetEwa = document.getElementById('widgetEwa');
+        const widgetPressure = document.getElementById('widgetPressure');
+        const sizeIndicator = document.getElementById('sizeIndicator');
+
+        const baseWindSpeed = 180;
+        const baseQz = 83; // Approximate qz at 30ft for 180mph
+
+        function calculateGCp(effectiveArea) {
+            // Simplified GCp curve for Zone 3 roof
+            if (effectiveArea <= 10) {
+                return -2.8;
+            } else if (effectiveArea <= 20) {
+                return -2.8 + (effectiveArea - 10) / 10 * 0.5;
+            } else if (effectiveArea <= 50) {
+                return -2.3 + (effectiveArea - 20) / 30 * 0.5;
+            } else if (effectiveArea <= 100) {
+                return -1.8 + (effectiveArea - 50) / 50 * 0.4;
+            } else {
+                return -1.4 + Math.min((effectiveArea - 100) / 400 * 0.2, 0.2);
+            }
+        }
+
+        function updatePanel(width, height) {
+            panel.style.width = width + 'px';
+            panel.style.height = height + 'px';
+
+            // Convert pixels to feet (30px = 1 foot)
+            const widthFt = width / 30;
+            const heightFt = height / 30;
+            const area = widthFt * heightFt;
+            const span = Math.min(widthFt, heightFt);
+            const spanSquared = span * span;
+            const effectiveArea = Math.max(area, spanSquared);
+
+            // Calculate pressure
+            const GCp = calculateGCp(effectiveArea);
+            const pressure = Math.round(baseQz * GCp);
+
+            // Update displays
+            panelSize.textContent = widthFt.toFixed(1) + "' x " + heightFt.toFixed(1) + "'";
+            panelArea.textContent = area.toFixed(1) + " sq ft";
+            pressureValue.textContent = pressure;
+
+            statArea.textContent = area.toFixed(1);
+            statSpan.textContent = span.toFixed(1);
+            statEwa.textContent = effectiveArea.toFixed(1);
+            statCoeff.textContent = GCp.toFixed(2);
+
+            // Update widget
+            widgetArea.textContent = area.toFixed(1) + " ft²";
+            widgetEwa.textContent = effectiveArea.toFixed(1) + " ft²";
+            widgetPressure.textContent = pressure + " PSF";
+
+            // Update size indicator
+            if (effectiveArea < 20) {
+                sizeIndicator.className = 'size-indicator small';
+                sizeIndicator.textContent = 'SMALL';
+                pressureTrend.className = 'trend higher';
+                pressureTrend.textContent = 'Smaller = Higher Pressure';
+            } else if (effectiveArea < 100) {
+                sizeIndicator.className = 'size-indicator medium';
+                sizeIndicator.textContent = 'MEDIUM';
+                pressureTrend.className = 'trend';
+                pressureTrend.textContent = 'Moderate pressure';
+            } else {
+                sizeIndicator.className = 'size-indicator large';
+                sizeIndicator.textContent = 'LARGE';
+                pressureTrend.className = 'trend lower';
+                pressureTrend.textContent = 'Larger = Lower Pressure';
+            }
+
+            // Update preset buttons
+            document.querySelectorAll('.preset-btn').forEach(btn => {
+                const btnW = parseInt(btn.dataset.w);
+                const btnH = parseInt(btn.dataset.h);
+                btn.classList.toggle('active', Math.abs(btnW - width) < 5 && Math.abs(btnH - height) < 5);
+            });
+        }
+
+        // Drag resize functionality
+        let isResizing = false;
+        let currentHandle = null;
+        let startX, startY, startWidth, startHeight, startLeft, startTop;
+
+        document.querySelectorAll('.resize-handle').forEach(handle => {
+            handle.addEventListener('mousedown', (e) => {
+                isResizing = true;
+                currentHandle = handle.dataset.corner;
+                startX = e.clientX;
+                startY = e.clientY;
+                startWidth = panel.offsetWidth;
+                startHeight = panel.offsetHeight;
+                e.preventDefault();
+            });
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isResizing) return;
+
+            const dx = e.clientX - startX;
+            const dy = e.clientY - startY;
+
+            let newWidth = startWidth;
+            let newHeight = startHeight;
+
+            switch(currentHandle) {
+                case 'br':
+                    newWidth = Math.max(40, Math.min(300, startWidth + dx));
+                    newHeight = Math.max(40, Math.min(300, startHeight + dy));
+                    break;
+                case 'bl':
+                    newWidth = Math.max(40, Math.min(300, startWidth - dx));
+                    newHeight = Math.max(40, Math.min(300, startHeight + dy));
+                    break;
+                case 'tr':
+                    newWidth = Math.max(40, Math.min(300, startWidth + dx));
+                    newHeight = Math.max(40, Math.min(300, startHeight - dy));
+                    break;
+                case 'tl':
+                    newWidth = Math.max(40, Math.min(300, startWidth - dx));
+                    newHeight = Math.max(40, Math.min(300, startHeight - dy));
+                    break;
+            }
+
+            updatePanel(newWidth, newHeight);
+        });
+
+        document.addEventListener('mouseup', () => {
+            isResizing = false;
+            currentHandle = null;
+        });
+
+        // Preset buttons
+        document.querySelectorAll('.preset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const w = parseInt(btn.dataset.w);
+                const h = parseInt(btn.dataset.h);
+                updatePanel(w, h);
+            });
+        });
+
+        // Calculator
+        const calcWidth = document.getElementById('calcWidth');
+        const calcHeight = document.getElementById('calcHeight');
+        const calcZone = document.getElementById('calcZone');
+        const calcLocation = document.getElementById('calcLocation');
+        const calcWindSpeed = document.getElementById('calcWindSpeed');
+        const calcEwa = document.getElementById('calcEwa');
+        const calcPressure = document.getElementById('calcPressure');
+
+        function getZoneMultiplier(zone, location) {
+            const multipliers = {
+                roof: { 1: 0.65, 2: 0.85, 3: 1.0 },
+                wall: { 1: 0.6, 2: 0.75, 3: 0.9 }
+            };
+            return multipliers[location][zone];
+        }
+
+        function updateCalculator() {
+            const width = parseFloat(calcWidth.value);
+            const height = parseFloat(calcHeight.value);
+            const zone = parseInt(calcZone.value);
+            const location = calcLocation.value;
+            const windSpeed = parseFloat(calcWindSpeed.value);
+
+            const area = width * height;
+            const span = Math.min(width, height);
+            const effectiveArea = Math.max(area, span * span);
+
+            const baseGCp = calculateGCp(effectiveArea);
+            const zoneMultiplier = getZoneMultiplier(zone, location);
+            const adjustedGCp = baseGCp * zoneMultiplier;
+
+            const qz = 0.00256 * 1.0 * windSpeed * windSpeed; // Simplified
+            const pressure = Math.round(qz * adjustedGCp);
+
+            calcEwa.textContent = effectiveArea.toFixed(1);
+            calcPressure.textContent = pressure;
+        }
+
+        calcWidth.addEventListener('input', updateCalculator);
+        calcHeight.addEventListener('input', updateCalculator);
+        calcZone.addEventListener('change', updateCalculator);
+        calcLocation.addEventListener('change', updateCalculator);
+        calcWindSpeed.addEventListener('input', updateCalculator);
+
+        updateCalculator();
+
+        // Initialize panel
+        updatePanel(120, 120);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq-answer').style.maxHeight = '0';
+                });
+
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

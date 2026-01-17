@@ -1,0 +1,1386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pressure Equalization in Hurricane Design | Broward County | WindLoad.co</title>
+    <meta name="description" content="Learn how pressure equalization protects Broward County buildings during hurricanes. Balance internal and external forces to prevent structural failure.">
+    <meta name="keywords" content="pressure equalization, internal pressure, external pressure, hurricane design, Broward County, wind load, building envelope">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pressure Equalization in Hurricane Design | Broward County">
+    <meta property="og:description" content="Understand how balancing internal and external pressure protects buildings during hurricanes in Broward County.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/pressure-equalization.html">
+    <meta property="og:image" content="https://windload.co/images/pressure-equalization-og.jpg">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://windload.co/florida/broward/pressure-equalization.html">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is pressure equalization in hurricane design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pressure equalization is a design strategy that allows controlled air movement between inside and outside of a building to balance pressure differences during high winds. When external pressure drops suddenly, having intentional ventilation points prevents the building from exploding outward."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do buildings fail from pressure differences?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "During a hurricane, wind creates low pressure outside the building while inside pressure stays high. This pressure difference, if uncontrolled, can exceed 100 PSF, causing roofs to lift off and walls to blow out. Think of it like a balloon being squeezed - something has to give."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does Broward County's HVHZ affect pressure design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Broward County is in the High Velocity Hurricane Zone (HVHZ), requiring designs for 180+ mph winds. This means pressure differences are more extreme, making proper equalization critical. Buildings must use either fully enclosed design or controlled ventilation strategies."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What's the difference between enclosed and partially enclosed buildings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Enclosed buildings have minimal openings and rely on impact-rated windows and doors to maintain interior pressure. Partially enclosed buildings have unprotected openings, causing much higher internal pressure coefficients (0.55 vs 0.18), requiring significantly stronger structural design."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use vents for pressure equalization in HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, but all vents must be hurricane-rated with NOA approval. Soffit vents, ridge vents, and gable vents need to resist debris impact while allowing controlled airflow. Standard residential vents will fail and create dangerous partially enclosed conditions."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co/"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Pressure Equalization", "item": "https://windload.co/florida/broward/pressure-equalization.html"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-balance: #7c4dff;
+            --accent-warning: #ff6b35;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+            --card-bg: rgba(255,255,255,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-balance));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 5% 1rem;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+            margin: 0 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-light), var(--accent-balance));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Animation Container */
+        .animation-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .building-box {
+            width: 400px;
+            height: 350px;
+            position: relative;
+        }
+
+        .building-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Pressure Controls */
+        .pressure-controls {
+            display: flex;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        .pressure-dial {
+            text-align: center;
+        }
+
+        .pressure-dial label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .dial-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .dial-value.internal {
+            color: var(--accent-warning);
+        }
+
+        .dial-value.external {
+            color: var(--accent-cyan);
+        }
+
+        .dial-value.difference {
+            color: var(--accent-balance);
+        }
+
+        .wind-slider {
+            width: 300px;
+            margin: 2rem auto 0;
+            text-align: center;
+        }
+
+        .wind-slider label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .wind-slider input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-warning));
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .wind-slider input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--text-light);
+            border: 3px solid var(--accent-balance);
+            cursor: grab;
+        }
+
+        /* Vent Toggle */
+        .vent-toggle {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 60px;
+            height: 32px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 16px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: var(--accent-balance);
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 4px;
+            left: 4px;
+            width: 24px;
+            height: 24px;
+            background: var(--text-light);
+            border-radius: 50%;
+            transition: transform 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            transform: translateX(28px);
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 5rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Scenario Grid */
+        .scenario-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .scenario-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .scenario-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-balance));
+        }
+
+        .scenario-card.danger::before {
+            background: linear-gradient(90deg, var(--accent-warning), var(--accent-magenta));
+        }
+
+        .scenario-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-balance));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .scenario-card.danger .scenario-icon {
+            background: linear-gradient(135deg, var(--accent-warning), var(--accent-magenta));
+        }
+
+        .scenario-card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 1rem;
+        }
+
+        .scenario-card p {
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .pressure-bar {
+            height: 12px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .pressure-bar .fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease;
+        }
+
+        .coefficient-badge {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: rgba(124, 77, 255, 0.2);
+            border: 1px solid var(--accent-balance);
+            border-radius: 20px;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Vent Types Section */
+        .vent-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .vent-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .vent-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-balance);
+        }
+
+        .vent-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .vent-card h4 {
+            margin-bottom: 0.5rem;
+        }
+
+        .vent-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .noa-badge {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.3rem 0.8rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-balance));
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Calculator Section */
+        .calculator-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .calc-input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .calc-input-group select,
+        .calc-input-group input {
+            width: 100%;
+            padding: 1rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .calc-input-group select option {
+            background: var(--primary-dark);
+        }
+
+        .calc-result {
+            text-align: center;
+            padding: 2rem;
+            background: linear-gradient(135deg, rgba(124, 77, 255, 0.2), rgba(0, 212, 255, 0.1));
+            border-radius: 16px;
+            margin-top: 1.5rem;
+        }
+
+        .calc-result .big-number {
+            font-size: 3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-balance), var(--accent-cyan));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .calc-result .unit {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+        }
+
+        .calc-result .label {
+            display: block;
+            margin-top: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-balance);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(180deg, rgba(26, 10, 46, 0.95), rgba(26, 10, 46, 0.85));
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(124, 77, 255, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            min-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .widget-stat .value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .widget-stat .value.internal {
+            color: var(--accent-warning);
+        }
+
+        .widget-stat .value.external {
+            color: var(--accent-cyan);
+        }
+
+        .widget-stat .value.balanced {
+            color: var(--accent-balance);
+        }
+
+        .balance-indicator {
+            margin-top: 1rem;
+            padding: 0.75rem;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .balance-indicator.safe {
+            background: rgba(0, 200, 83, 0.2);
+            color: #00c853;
+            border: 1px solid rgba(0, 200, 83, 0.3);
+        }
+
+        .balance-indicator.warning {
+            background: rgba(255, 193, 7, 0.2);
+            color: #ffc107;
+            border: 1px solid rgba(255, 193, 7, 0.3);
+        }
+
+        .balance-indicator.danger {
+            background: rgba(255, 107, 53, 0.2);
+            color: var(--accent-warning);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 5%;
+            background: linear-gradient(180deg, transparent, rgba(124, 77, 255, 0.1));
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--accent-balance), var(--accent-cyan));
+            color: var(--primary-dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(124, 77, 255, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 3rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-balance);
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--text-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .building-box {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .floating-widget {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .pressure-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="logo">WindLoad.co</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/florida/">Florida</a></li>
+            <li><a href="/florida/broward/">Broward</a></li>
+            <li><a href="/pricing.html">Pricing</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumb">
+        <a href="/">Home</a><span>/</span>
+        <a href="/florida/">Florida</a><span>/</span>
+        <a href="/florida/broward/">Broward</a><span>/</span>
+        Pressure Equalization
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Balance the Forces</h1>
+            <p>When wind hits your building, pressure fights to get in. Learn how to control it, not fight it.</p>
+            <p style="color: var(--accent-balance); font-size: 1rem;">Watch the pressure battle unfold. Move the slider to increase wind speed.</p>
+        </div>
+
+        <div class="animation-container">
+            <div class="building-box">
+                <svg class="building-svg" viewBox="0 0 400 350">
+                    <!-- Building Structure -->
+                    <defs>
+                        <linearGradient id="buildingGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#2d1b4e"/>
+                            <stop offset="100%" style="stop-color:#1a0a2e"/>
+                        </linearGradient>
+                        <filter id="glow">
+                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feMerge>
+                                <feMergeNode in="coloredBlur"/>
+                                <feMergeNode in="SourceGraphic"/>
+                            </feMerge>
+                        </filter>
+                    </defs>
+
+                    <!-- Building -->
+                    <rect x="100" y="80" width="200" height="220" fill="url(#buildingGrad)" stroke="#7c4dff" stroke-width="2" rx="5"/>
+
+                    <!-- Roof -->
+                    <polygon points="100,80 200,30 300,80" fill="url(#buildingGrad)" stroke="#7c4dff" stroke-width="2"/>
+
+                    <!-- Windows -->
+                    <rect x="130" y="120" width="40" height="50" fill="#0a0520" stroke="#00d4ff" stroke-width="2" rx="3"/>
+                    <rect x="230" y="120" width="40" height="50" fill="#0a0520" stroke="#00d4ff" stroke-width="2" rx="3"/>
+                    <rect x="130" y="200" width="40" height="50" fill="#0a0520" stroke="#00d4ff" stroke-width="2" rx="3"/>
+                    <rect x="230" y="200" width="40" height="50" fill="#0a0520" stroke="#00d4ff" stroke-width="2" rx="3"/>
+
+                    <!-- Door -->
+                    <rect x="175" y="230" width="50" height="70" fill="#0a0520" stroke="#00d4ff" stroke-width="2" rx="3"/>
+
+                    <!-- Vents -->
+                    <g class="vent-group" opacity="0.3">
+                        <!-- Soffit Vents -->
+                        <rect class="vent soffit-left" x="105" y="75" width="30" height="8" fill="#7c4dff" rx="2"/>
+                        <rect class="vent soffit-right" x="265" y="75" width="30" height="8" fill="#7c4dff" rx="2"/>
+
+                        <!-- Ridge Vent -->
+                        <rect class="vent ridge" x="175" y="28" width="50" height="6" fill="#7c4dff" rx="2"/>
+
+                        <!-- Gable Vent -->
+                        <circle class="vent gable" cx="200" cy="55" r="10" fill="#7c4dff"/>
+                    </g>
+
+                    <!-- External Pressure Arrows -->
+                    <g class="external-pressure" opacity="0">
+                        <!-- Left side arrows -->
+                        <path class="ext-arrow" d="M30,150 L80,150" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        <path class="ext-arrow" d="M30,200 L80,200" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        <path class="ext-arrow" d="M30,250 L80,250" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead)"/>
+
+                        <!-- Top arrows (suction) -->
+                        <path class="ext-arrow-up" d="M150,20 L150,60" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead-up)"/>
+                        <path class="ext-arrow-up" d="M200,5 L200,25" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead-up)"/>
+                        <path class="ext-arrow-up" d="M250,20 L250,60" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead-up)"/>
+
+                        <!-- Right side arrows (suction - pointing away) -->
+                        <path class="ext-arrow-right" d="M320,150 L370,150" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead)"/>
+                        <path class="ext-arrow-right" d="M320,200 L370,200" stroke="#00d4ff" stroke-width="3" marker-end="url(#arrowhead)"/>
+                    </g>
+
+                    <!-- Internal Pressure Arrows -->
+                    <g class="internal-pressure" opacity="0">
+                        <!-- Outward pushing arrows -->
+                        <path class="int-arrow" d="M150,140 L120,140" stroke="#ff6b35" stroke-width="2"/>
+                        <path class="int-arrow" d="M250,140 L280,140" stroke="#ff6b35" stroke-width="2"/>
+                        <path class="int-arrow" d="M150,220 L120,220" stroke="#ff6b35" stroke-width="2"/>
+                        <path class="int-arrow" d="M250,220 L280,220" stroke="#ff6b35" stroke-width="2"/>
+                        <path class="int-arrow" d="M200,100 L200,70" stroke="#ff6b35" stroke-width="2"/>
+                    </g>
+
+                    <!-- Airflow indicators when vents active -->
+                    <g class="airflow-indicators" opacity="0">
+                        <circle class="airflow" cx="120" cy="79" r="4" fill="#7c4dff"/>
+                        <circle class="airflow" cx="280" cy="79" r="4" fill="#7c4dff"/>
+                        <circle class="airflow" cx="200" cy="31" r="4" fill="#7c4dff"/>
+                        <circle class="airflow" cx="200" cy="55" r="4" fill="#7c4dff"/>
+                    </g>
+
+                    <!-- Pressure indicator in center -->
+                    <text class="pressure-text" x="200" y="175" text-anchor="middle" fill="#fff" font-size="14" font-weight="bold" opacity="0.8">BALANCED</text>
+
+                    <!-- Arrow markers -->
+                    <defs>
+                        <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#00d4ff"/>
+                        </marker>
+                        <marker id="arrowhead-up" markerWidth="7" markerHeight="10" refX="3.5" refY="0" orient="auto">
+                            <polygon points="0 10, 3.5 0, 7 10" fill="#00d4ff"/>
+                        </marker>
+                    </defs>
+                </svg>
+            </div>
+
+            <div class="wind-slider">
+                <label>Wind Speed: <span id="windSpeedDisplay">0</span> mph</label>
+                <input type="range" id="windSlider" min="0" max="180" value="0">
+            </div>
+
+            <div class="vent-toggle">
+                <div class="toggle-switch" id="ventToggle"></div>
+                <span>Hurricane-Rated Vents: <span id="ventStatus">OFF</span></span>
+            </div>
+
+            <div class="pressure-controls">
+                <div class="pressure-dial">
+                    <label>External Pressure</label>
+                    <div class="dial-value external" id="externalPressure">0</div>
+                    <span>PSF</span>
+                </div>
+                <div class="pressure-dial">
+                    <label>Internal Pressure</label>
+                    <div class="dial-value internal" id="internalPressure">0</div>
+                    <span>PSF</span>
+                </div>
+                <div class="pressure-dial">
+                    <label>Net Pressure</label>
+                    <div class="dial-value difference" id="netPressure">0</div>
+                    <span>PSF</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Pressure Matters Section -->
+    <section class="content-section">
+        <h2 class="section-title">Why Pressure Wants to Destroy Your Building</h2>
+        <p class="section-subtitle">Think of your building as a balloon. Wind pushes on one side while creating suction on others. Without control, something has to give.</p>
+
+        <div class="scenario-grid">
+            <div class="scenario-card">
+                <div class="scenario-icon">&#9670;</div>
+                <h3>Enclosed Building</h3>
+                <p>All openings protected with impact-rated products. Interior pressure stays low and stable.</p>
+                <div class="pressure-bar">
+                    <div class="fill" style="width: 18%; background: linear-gradient(90deg, #00d4ff, #7c4dff);"></div>
+                </div>
+                <span class="coefficient-badge">GCpi = ±0.18</span>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">This is what you want. Minimal internal pressure means less stress on walls and roof.</p>
+            </div>
+
+            <div class="scenario-card danger">
+                <div class="scenario-icon">&#9888;</div>
+                <h3>Partially Enclosed</h3>
+                <p>One unprotected opening fails. Wind rushes in. Interior pressure skyrockets instantly.</p>
+                <div class="pressure-bar">
+                    <div class="fill" style="width: 55%; background: linear-gradient(90deg, #ff6b35, #e91e8c);"></div>
+                </div>
+                <span class="coefficient-badge" style="background: rgba(255, 107, 53, 0.2); border-color: var(--accent-warning);">GCpi = ±0.55</span>
+                <p style="margin-top: 1rem; font-size: 0.9rem;">300% higher internal pressure. Roof wants to lift off. Walls want to push out.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Vent Types Section -->
+    <section class="content-section" style="background: rgba(124, 77, 255, 0.05);">
+        <h2 class="section-title">Hurricane-Rated Vents</h2>
+        <p class="section-subtitle">Proper ventilation helps equalize pressure without letting debris in. All vents in HVHZ must pass impact testing.</p>
+
+        <div class="vent-types">
+            <div class="vent-card">
+                <div class="vent-icon">&#9650;</div>
+                <h4>Ridge Vents</h4>
+                <p>Run along roof peak. Allow hot air to escape while rain and debris stay out.</p>
+                <span class="noa-badge">NOA Required</span>
+            </div>
+
+            <div class="vent-card">
+                <div class="vent-icon">&#9644;</div>
+                <h4>Soffit Vents</h4>
+                <p>Under the eaves. Pull in cooler air from below. Critical for attic pressure balance.</p>
+                <span class="noa-badge">NOA Required</span>
+            </div>
+
+            <div class="vent-card">
+                <div class="vent-icon">&#9711;</div>
+                <h4>Gable Vents</h4>
+                <p>At wall peaks. Allow cross-ventilation. Most vulnerable - need reinforced covers.</p>
+                <span class="noa-badge">NOA Required</span>
+            </div>
+
+            <div class="vent-card">
+                <div class="vent-icon">&#9632;</div>
+                <h4>Turbine Vents</h4>
+                <p>Spin to exhaust air. Must lock down during storms to prevent failure.</p>
+                <span class="noa-badge">NOA Required</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="content-section">
+        <h2 class="section-title">Internal Pressure Calculator</h2>
+        <p class="section-subtitle">See how building classification changes your structural requirements.</p>
+
+        <div class="calculator-box">
+            <div class="calc-input-group">
+                <label>Building Enclosure Classification</label>
+                <select id="enclosureType">
+                    <option value="enclosed">Enclosed (all openings protected)</option>
+                    <option value="partial">Partially Enclosed (unprotected openings)</option>
+                    <option value="open">Open (80%+ wall area open)</option>
+                </select>
+            </div>
+
+            <div class="calc-input-group">
+                <label>Design Wind Speed (mph)</label>
+                <input type="number" id="calcWindSpeed" value="180" min="100" max="200">
+            </div>
+
+            <div class="calc-input-group">
+                <label>Building Height (feet)</label>
+                <input type="number" id="calcHeight" value="30" min="10" max="100">
+            </div>
+
+            <div class="calc-result">
+                <div class="big-number" id="calcResult">±8.6</div>
+                <span class="unit">PSF</span>
+                <span class="label">Internal Pressure (pi)</span>
+            </div>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.9rem;">
+                Based on ASCE 7-22: pi = qh × (GCpi)<br>
+                Where qh = velocity pressure at mean roof height
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="content-section" style="background: rgba(0,0,0,0.2);">
+        <h2 class="section-title">Common Questions</h2>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What is pressure equalization in hurricane design?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Pressure equalization is a design strategy that allows controlled air movement between inside and outside of a building to balance pressure differences during high winds. When external pressure drops suddenly, having intentional ventilation points prevents the building from exploding outward. Think of it like pressure relief valves on a tank.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Why do buildings fail from pressure differences?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        During a hurricane, wind creates low pressure outside the building while inside pressure stays high. This pressure difference, if uncontrolled, can exceed 100 PSF, causing roofs to lift off and walls to blow out. Think of it like a balloon being squeezed - something has to give. Proper design controls where that pressure goes.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How does Broward County's HVHZ affect pressure design?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Broward County is in the High Velocity Hurricane Zone (HVHZ), requiring designs for 180+ mph winds. This means pressure differences are more extreme, making proper equalization critical. Buildings must use either fully enclosed design or controlled ventilation strategies. Every opening must be impact-rated or protected.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What's the difference between enclosed and partially enclosed buildings?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Enclosed buildings have minimal openings and rely on impact-rated windows and doors to maintain interior pressure. Partially enclosed buildings have unprotected openings, causing much higher internal pressure coefficients (0.55 vs 0.18), requiring significantly stronger structural design. One broken window can change your building from enclosed to partially enclosed instantly.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I use vents for pressure equalization in HVHZ?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, but all vents must be hurricane-rated with NOA approval. Soffit vents, ridge vents, and gable vents need to resist debris impact while allowing controlled airflow. Standard residential vents will fail and create dangerous partially enclosed conditions. Products must have current Miami-Dade NOA numbers.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="section-title">Get Your Pressure Analysis</h2>
+        <p class="section-subtitle">Our engineers calculate exact internal pressure coefficients for your Broward County project. Know your numbers before you build.</p>
+        <a href="/pricing.html" class="cta-button">Start Your Wind Load Report</a>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Live Pressure</div>
+        <div class="widget-stat">
+            <div class="label">Internal</div>
+            <div class="value internal" id="widgetInternal">0 PSF</div>
+        </div>
+        <div class="widget-stat">
+            <div class="label">External</div>
+            <div class="value external" id="widgetExternal">0 PSF</div>
+        </div>
+        <div class="widget-stat">
+            <div class="label">Net Force</div>
+            <div class="value balanced" id="widgetNet">0 PSF</div>
+        </div>
+        <div class="balance-indicator safe" id="balanceIndicator">
+            BALANCED
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Broward County</h4>
+                <a href="/florida/broward/hurricane-shutters.html">Hurricane Shutters</a>
+                <a href="/florida/broward/impact-doors.html">Impact Doors</a>
+                <a href="/florida/broward/window-replacement.html">Window Replacement</a>
+                <a href="/florida/broward/exposure-categories.html">Exposure Categories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Wind Engineering</h4>
+                <a href="/florida/broward/structural-connections.html">Structural Connections</a>
+                <a href="/florida/broward/uplift-resistance.html">Uplift Resistance</a>
+                <a href="/florida/broward/water-intrusion.html">Water Intrusion</a>
+                <a href="/florida/broward/debris-impact.html">Debris Impact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/pe.html">PE Certification</a>
+                <a href="/states.html">All States</a>
+                <a href="/contractors.html">Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="/engineers.html">Engineers</a>
+                <a href="/architects.html">Architects</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Engineering for Broward County</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle System - Pressure themed
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let windSpeed = 0;
+        let ventsActive = false;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.baseSpeedX = (Math.random() - 0.3) * 2;
+                this.baseSpeedY = (Math.random() - 0.5) * 1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.hue = Math.random() > 0.5 ? 270 : 190; // Purple or cyan
+            }
+
+            update() {
+                const windFactor = windSpeed / 50;
+                this.x += this.baseSpeedX + windFactor * 3;
+                this.y += this.baseSpeedY + (ventsActive ? Math.sin(Date.now() / 500) * 0.5 : 0);
+
+                if (this.x > canvas.width + 10) this.x = -10;
+                if (this.x < -10) this.x = canvas.width + 10;
+                if (this.y > canvas.height + 10) this.y = -10;
+                if (this.y < -10) this.y = canvas.height + 10;
+            }
+
+            draw() {
+                const adjustedHue = ventsActive ? 270 : (windSpeed > 100 ? 30 : this.hue);
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${adjustedHue}, 80%, 60%, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 80; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Animation Controls
+        const windSlider = document.getElementById('windSlider');
+        const windSpeedDisplay = document.getElementById('windSpeedDisplay');
+        const externalPressure = document.getElementById('externalPressure');
+        const internalPressure = document.getElementById('internalPressure');
+        const netPressure = document.getElementById('netPressure');
+        const ventToggle = document.getElementById('ventToggle');
+        const ventStatus = document.getElementById('ventStatus');
+        const pressureText = document.querySelector('.pressure-text');
+        const externalPressureGroup = document.querySelector('.external-pressure');
+        const internalPressureGroup = document.querySelector('.internal-pressure');
+        const ventGroup = document.querySelector('.vent-group');
+        const airflowIndicators = document.querySelector('.airflow-indicators');
+
+        // Widget elements
+        const widgetInternal = document.getElementById('widgetInternal');
+        const widgetExternal = document.getElementById('widgetExternal');
+        const widgetNet = document.getElementById('widgetNet');
+        const balanceIndicator = document.getElementById('balanceIndicator');
+
+        function calculatePressures(speed, ventsOn) {
+            // Simplified pressure calculation
+            const velocityPressure = 0.00256 * speed * speed; // qz = 0.00256 * V^2
+            const externalCoeff = 0.8; // Simplified external pressure coefficient
+            const internalCoeff = ventsOn ? 0.18 : (speed > 100 ? 0.55 : 0.18);
+
+            const extP = velocityPressure * externalCoeff;
+            const intP = velocityPressure * internalCoeff;
+            const netP = extP - intP;
+
+            return { external: extP, internal: intP, net: netP };
+        }
+
+        function updateAnimation() {
+            const speed = parseInt(windSlider.value);
+            windSpeed = speed;
+            windSpeedDisplay.textContent = speed;
+
+            const pressures = calculatePressures(speed, ventsActive);
+
+            externalPressure.textContent = pressures.external.toFixed(1);
+            internalPressure.textContent = pressures.internal.toFixed(1);
+            netPressure.textContent = pressures.net.toFixed(1);
+
+            // Update widget
+            widgetInternal.textContent = pressures.internal.toFixed(1) + ' PSF';
+            widgetExternal.textContent = pressures.external.toFixed(1) + ' PSF';
+            widgetNet.textContent = pressures.net.toFixed(1) + ' PSF';
+
+            // Update SVG animations
+            const opacity = Math.min(speed / 100, 1);
+            externalPressureGroup.style.opacity = opacity;
+            internalPressureGroup.style.opacity = opacity * (ventsActive ? 0.3 : 0.8);
+
+            // Update pressure text and balance indicator
+            if (speed < 30) {
+                pressureText.textContent = 'CALM';
+                balanceIndicator.className = 'balance-indicator safe';
+                balanceIndicator.textContent = 'BALANCED';
+            } else if (ventsActive || speed < 100) {
+                pressureText.textContent = 'BALANCED';
+                balanceIndicator.className = 'balance-indicator safe';
+                balanceIndicator.textContent = 'CONTROLLED';
+            } else {
+                pressureText.textContent = 'DANGER';
+                balanceIndicator.className = 'balance-indicator danger';
+                balanceIndicator.textContent = 'HIGH RISK';
+            }
+
+            // Vent glow effect
+            if (ventsActive && speed > 30) {
+                ventGroup.style.opacity = '1';
+                airflowIndicators.style.opacity = '1';
+            } else {
+                ventGroup.style.opacity = '0.3';
+                airflowIndicators.style.opacity = '0';
+            }
+        }
+
+        windSlider.addEventListener('input', updateAnimation);
+
+        ventToggle.addEventListener('click', () => {
+            ventsActive = !ventsActive;
+            ventToggle.classList.toggle('active', ventsActive);
+            ventStatus.textContent = ventsActive ? 'ON' : 'OFF';
+            updateAnimation();
+        });
+
+        // Calculator functionality
+        const enclosureType = document.getElementById('enclosureType');
+        const calcWindSpeed = document.getElementById('calcWindSpeed');
+        const calcHeight = document.getElementById('calcHeight');
+        const calcResult = document.getElementById('calcResult');
+
+        function updateCalculator() {
+            const speed = parseFloat(calcWindSpeed.value);
+            const height = parseFloat(calcHeight.value);
+            const enclosure = enclosureType.value;
+
+            // Velocity pressure at height
+            const Kz = Math.pow(height / 33, 0.286); // Simplified exposure coefficient
+            const qh = 0.00256 * Kz * speed * speed;
+
+            // Internal pressure coefficient
+            let GCpi;
+            switch(enclosure) {
+                case 'enclosed': GCpi = 0.18; break;
+                case 'partial': GCpi = 0.55; break;
+                case 'open': GCpi = 0.0; break;
+            }
+
+            const pi = qh * GCpi;
+            calcResult.textContent = '±' + pi.toFixed(1);
+        }
+
+        enclosureType.addEventListener('change', updateCalculator);
+        calcWindSpeed.addEventListener('input', updateCalculator);
+        calcHeight.addEventListener('input', updateCalculator);
+        updateCalculator();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq-answer').style.maxHeight = '0';
+                });
+
+                // Open clicked if wasn't active
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+
+        // Airflow animation
+        function animateAirflow() {
+            if (ventsActive && windSpeed > 30) {
+                document.querySelectorAll('.airflow').forEach((dot, i) => {
+                    const time = Date.now() / 1000 + i;
+                    const scale = 0.5 + Math.sin(time * 3) * 0.5;
+                    dot.style.transform = `scale(${scale})`;
+                    dot.style.opacity = scale;
+                });
+            }
+            requestAnimationFrame(animateAirflow);
+        }
+        animateAirflow();
+
+        // Initial update
+        updateAnimation();
+    </script>
+</body>
+</html>

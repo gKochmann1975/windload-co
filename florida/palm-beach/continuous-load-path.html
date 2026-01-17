@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Continuous Load Path Palm Beach | Unbroken Chain Guide</title>
+    <meta name="description" content="Trace the load path from roof to ground with a glowing animated line. Full building cutaway shows every connection in the chain that keeps your building together during hurricanes.">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/continuous-load-path.html">
+
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County, Florida">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Continuous Load Path | Unbroken Chain in Palm Beach County">
+    <meta property="og:description" content="Interactive building cutaway where you trace the load path from roof to foundation with glowing animated connections.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/continuous-load-path.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is a continuous load path?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A continuous load path is an unbroken chain of structural connections from the roof to the foundation. Every piece of the building must be connected to the piece below it, all the way down. If any link breaks, the chain fails and the building can come apart in a hurricane."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What are the key connections in a load path?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The main connections are: roof sheathing to rafters/trusses, rafters to top plate (hurricane straps), top plate to studs, studs to bottom plate, bottom plate to foundation (anchor bolts). Each connection must be strong enough to transfer the full wind load to the next element in the chain."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Why is the load path important in Palm Beach County?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Palm Beach County experiences some of the highest wind loads in the country. During a hurricane, uplift forces try to lift the roof off, and lateral forces try to push the building over. Only a complete, properly designed load path can transfer these forces safely to the ground."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Palm Beach County",
+            "item": "https://windload.co/florida/palm-beach/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Continuous Load Path",
+            "item": "https://windload.co/florida/palm-beach/continuous-load-path.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --chain-gold: #ffc107;
+            --connection-green: #4caf50;
+            --structure-gray: #607d8b;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-magenta);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            min-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 193, 7, 0.15);
+            border: 1px solid rgba(255, 193, 7, 0.3);
+            color: var(--chain-gold);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--chain-gold) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        /* Building Cutaway Scene */
+        .cutaway-scene {
+            width: 100%;
+            max-width: 900px;
+            height: 600px;
+            margin: 3rem auto;
+            background: linear-gradient(180deg, #1a0a2e 0%, #2d1f4e 80%, #5d4037 80%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(255, 193, 7, 0.3);
+        }
+
+        /* Building Structure */
+        .building-cutaway {
+            position: absolute;
+            bottom: 20%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 350px;
+            height: 400px;
+        }
+
+        /* Foundation */
+        .foundation {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: #78909c;
+            border: 3px solid #546e7a;
+        }
+
+        .foundation::before {
+            content: 'FOUNDATION';
+            position: absolute;
+            bottom: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: #94a3b8;
+            letter-spacing: 0.1em;
+        }
+
+        /* Anchor Bolts */
+        .anchor-bolts {
+            position: absolute;
+            top: -5px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 40px;
+        }
+
+        .anchor-bolt {
+            width: 12px;
+            height: 25px;
+            background: linear-gradient(180deg, #90a4ae, #607d8b);
+            border-radius: 2px 2px 0 0;
+        }
+
+        /* Wall Studs */
+        .wall-studs {
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            right: 0;
+            height: 200px;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 20px;
+        }
+
+        .stud {
+            width: 16px;
+            height: 100%;
+            background: linear-gradient(90deg, #8d6e63, #a1887f, #8d6e63);
+            border-radius: 2px;
+        }
+
+        /* Bottom Plate */
+        .bottom-plate {
+            position: absolute;
+            bottom: 35px;
+            left: 10px;
+            right: 10px;
+            height: 15px;
+            background: #8d6e63;
+            border: 2px solid #6d4c41;
+        }
+
+        /* Top Plate */
+        .top-plate {
+            position: absolute;
+            bottom: 235px;
+            left: 10px;
+            right: 10px;
+            height: 15px;
+            background: #8d6e63;
+            border: 2px solid #6d4c41;
+        }
+
+        /* Rafters */
+        .rafters {
+            position: absolute;
+            bottom: 250px;
+            left: -30px;
+            right: -30px;
+            height: 120px;
+        }
+
+        .rafter {
+            position: absolute;
+            width: 14px;
+            background: linear-gradient(90deg, #8d6e63, #a1887f, #8d6e63);
+            transform-origin: bottom center;
+        }
+
+        .rafter-left {
+            bottom: 0;
+            left: 50%;
+            height: 130px;
+            transform: translateX(-100%) rotate(25deg);
+        }
+
+        .rafter-right {
+            bottom: 0;
+            left: 50%;
+            height: 130px;
+            transform: rotate(-25deg);
+        }
+
+        /* Roof Sheathing */
+        .roof-sheathing {
+            position: absolute;
+            bottom: 250px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .sheathing-left,
+        .sheathing-right {
+            position: absolute;
+            bottom: 0;
+            width: 180px;
+            height: 20px;
+            background: #a1887f;
+            border: 2px solid #8d6e63;
+        }
+
+        .sheathing-left {
+            right: 50%;
+            transform-origin: bottom right;
+            transform: rotate(25deg);
+        }
+
+        .sheathing-right {
+            left: 50%;
+            transform-origin: bottom left;
+            transform: rotate(-25deg);
+        }
+
+        /* Connection Points */
+        .connection-point {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background: var(--structure-gray);
+            border-radius: 50%;
+            border: 3px solid rgba(255, 193, 7, 0.5);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 20;
+        }
+
+        .connection-point:hover {
+            transform: scale(1.3);
+            box-shadow: 0 0 15px var(--chain-gold);
+        }
+
+        .connection-point.active {
+            background: var(--chain-gold);
+            box-shadow: 0 0 20px var(--chain-gold);
+            animation: pulseGlow 1s ease-in-out infinite;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { box-shadow: 0 0 20px var(--chain-gold); }
+            50% { box-shadow: 0 0 40px var(--chain-gold); }
+        }
+
+        /* Load Path Line */
+        .load-path-svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 15;
+        }
+
+        .load-path-line {
+            fill: none;
+            stroke: var(--chain-gold);
+            stroke-width: 4;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            stroke-dasharray: 1000;
+            stroke-dashoffset: 1000;
+            filter: drop-shadow(0 0 10px var(--chain-gold));
+        }
+
+        .load-path-line.animated {
+            animation: drawPath 3s ease forwards;
+        }
+
+        @keyframes drawPath {
+            to {
+                stroke-dashoffset: 0;
+            }
+        }
+
+        /* Connection Labels */
+        .connection-label {
+            position: absolute;
+            background: rgba(26, 10, 46, 0.95);
+            color: white;
+            padding: 0.5rem 0.75rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+            z-index: 25;
+            border: 1px solid var(--chain-gold);
+        }
+
+        .connection-label.visible {
+            opacity: 1;
+        }
+
+        /* Status Display */
+        .status-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--chain-gold);
+            border-radius: 12px;
+            padding: 1rem;
+            width: 220px;
+        }
+
+        .status-title {
+            font-size: 0.7rem;
+            color: var(--chain-gold);
+            text-transform: uppercase;
+            margin-bottom: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+
+        .chain-status {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .chain-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+        }
+
+        .chain-link-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease;
+        }
+
+        .chain-link-icon.complete {
+            background: var(--connection-green);
+        }
+
+        .chain-link-name {
+            color: #94a3b8;
+        }
+
+        .chain-link-name.complete {
+            color: white;
+        }
+
+        /* Controls */
+        .path-controls {
+            max-width: 900px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+
+        .trace-btn {
+            padding: 1rem 2.5rem;
+            background: linear-gradient(135deg, var(--chain-gold), var(--accent-cyan));
+            border: none;
+            border-radius: 12px;
+            color: var(--primary-dark);
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .trace-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 193, 7, 0.4);
+        }
+
+        .trace-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .control-hint {
+            margin-top: 1rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section:nth-child(even) {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Chain Links Grid */
+        .chain-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .chain-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            align-items: flex-start;
+        }
+
+        .chain-number {
+            width: 40px;
+            height: 40px;
+            background: var(--chain-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--primary-dark);
+            flex-shrink: 0;
+        }
+
+        .chain-content h3 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+            color: var(--accent-cyan);
+        }
+
+        .chain-content p {
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        /* Weak Link Section */
+        .weak-links {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .weak-card {
+            background: rgba(244, 67, 54, 0.1);
+            border: 1px solid rgba(244, 67, 54, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .weak-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .weak-title {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #f44336;
+        }
+
+        .weak-desc {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer { max-height: 500px; }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            background: white;
+            color: var(--primary-dark);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a:hover { color: white; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .chain-grid { grid-template-columns: 1fr; }
+            .weak-links { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .cutaway-scene { height: 500px; }
+            .building-cutaway {
+                width: 280px;
+                height: 320px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>WindLoad.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/">Florida</a>
+            <a href="/states.html">All States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Load Path</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-links">0/6</div>
+            <div class="widget-stat-label">Links Complete</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-status">Ready</div>
+            <div class="widget-stat-label">Chain Status</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-force">--</div>
+            <div class="widget-stat-label">Force at Ground</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Structural Integrity</div>
+            <h1><span class="highlight">Unbroken Chain</span></h1>
+            <p class="hero-subtitle">
+                Click the button below to trace the load path from roof to ground. Watch as each connection lights up in sequence. Every link must be solid, or the whole chain fails during a hurricane.
+            </p>
+
+            <!-- Building Cutaway Scene -->
+            <div class="cutaway-scene">
+                <!-- Status Display -->
+                <div class="status-display">
+                    <div class="status-title">Chain Status</div>
+                    <div class="chain-status">
+                        <div class="chain-link" id="link1">
+                            <div class="chain-link-icon" id="icon1"></div>
+                            <span class="chain-link-name" id="name1">Roof Sheathing</span>
+                        </div>
+                        <div class="chain-link" id="link2">
+                            <div class="chain-link-icon" id="icon2"></div>
+                            <span class="chain-link-name" id="name2">Hurricane Straps</span>
+                        </div>
+                        <div class="chain-link" id="link3">
+                            <div class="chain-link-icon" id="icon3"></div>
+                            <span class="chain-link-name" id="name3">Top Plate</span>
+                        </div>
+                        <div class="chain-link" id="link4">
+                            <div class="chain-link-icon" id="icon4"></div>
+                            <span class="chain-link-name" id="name4">Wall Studs</span>
+                        </div>
+                        <div class="chain-link" id="link5">
+                            <div class="chain-link-icon" id="icon5"></div>
+                            <span class="chain-link-name" id="name5">Bottom Plate</span>
+                        </div>
+                        <div class="chain-link" id="link6">
+                            <div class="chain-link-icon" id="icon6"></div>
+                            <span class="chain-link-name" id="name6">Anchor Bolts</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Building Cutaway -->
+                <div class="building-cutaway">
+                    <!-- Roof Sheathing -->
+                    <div class="roof-sheathing">
+                        <div class="sheathing-left"></div>
+                        <div class="sheathing-right"></div>
+                    </div>
+
+                    <!-- Rafters -->
+                    <div class="rafters">
+                        <div class="rafter rafter-left"></div>
+                        <div class="rafter rafter-right"></div>
+                    </div>
+
+                    <!-- Top Plate -->
+                    <div class="top-plate"></div>
+
+                    <!-- Wall Studs -->
+                    <div class="wall-studs">
+                        <div class="stud"></div>
+                        <div class="stud"></div>
+                        <div class="stud"></div>
+                        <div class="stud"></div>
+                        <div class="stud"></div>
+                    </div>
+
+                    <!-- Bottom Plate -->
+                    <div class="bottom-plate"></div>
+
+                    <!-- Foundation -->
+                    <div class="foundation">
+                        <div class="anchor-bolts">
+                            <div class="anchor-bolt"></div>
+                            <div class="anchor-bolt"></div>
+                            <div class="anchor-bolt"></div>
+                            <div class="anchor-bolt"></div>
+                        </div>
+                    </div>
+
+                    <!-- Connection Points -->
+                    <div class="connection-point" id="cp1" style="top: 5%; left: 50%; transform: translateX(-50%);"></div>
+                    <div class="connection-point" id="cp2" style="top: 30%; left: 25%;"></div>
+                    <div class="connection-point" id="cp3" style="top: 30%; right: 25%;"></div>
+                    <div class="connection-point" id="cp4" style="top: 42%; left: 50%; transform: translateX(-50%);"></div>
+                    <div class="connection-point" id="cp5" style="top: 85%; left: 50%; transform: translateX(-50%);"></div>
+                    <div class="connection-point" id="cp6" style="bottom: 2%; left: 50%; transform: translateX(-50%);"></div>
+
+                    <!-- SVG for Load Path Line -->
+                    <svg class="load-path-svg" viewBox="0 0 350 400">
+                        <path class="load-path-line" id="load-path" d="M175,20 L175,60 L90,120 L90,160 L175,160 L175,340 L175,390"/>
+                    </svg>
+                </div>
+            </div>
+
+            <!-- Controls -->
+            <div class="path-controls">
+                <button class="trace-btn" id="trace-btn" onclick="traceLoadPath()">
+                    Trace the Load Path
+                </button>
+                <p class="control-hint">Watch the force travel from roof to foundation through every connection</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Chain Links Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>The Six Links of the Chain</h2>
+                <p>Every hurricane-resistant building needs these connections working together</p>
+            </div>
+
+            <div class="chain-grid">
+                <div class="chain-card">
+                    <div class="chain-number">1</div>
+                    <div class="chain-content">
+                        <h3>Roof Sheathing to Rafters</h3>
+                        <p>Nails connect plywood or OSB to rafters/trusses. Tight nailing pattern prevents sheathing from peeling off in uplift.</p>
+                    </div>
+                </div>
+
+                <div class="chain-card">
+                    <div class="chain-number">2</div>
+                    <div class="chain-content">
+                        <h3>Rafters to Top Plate</h3>
+                        <p>Hurricane straps or clips tie each rafter to the wall below. This is often the weakest link in older homes.</p>
+                    </div>
+                </div>
+
+                <div class="chain-card">
+                    <div class="chain-number">3</div>
+                    <div class="chain-content">
+                        <h3>Top Plate Continuity</h3>
+                        <p>Double top plates must be overlapped and nailed. Metal straps may be needed at splices to maintain tension.</p>
+                    </div>
+                </div>
+
+                <div class="chain-card">
+                    <div class="chain-number">4</div>
+                    <div class="chain-content">
+                        <h3>Top Plate to Studs</h3>
+                        <p>End nailing connects plate to studs. For higher loads, metal connectors may be required.</p>
+                    </div>
+                </div>
+
+                <div class="chain-card">
+                    <div class="chain-number">5</div>
+                    <div class="chain-content">
+                        <h3>Studs to Bottom Plate</h3>
+                        <p>Similar to top connection. Bottom plate must be continuous and properly nailed to studs.</p>
+                    </div>
+                </div>
+
+                <div class="chain-card">
+                    <div class="chain-number">6</div>
+                    <div class="chain-content">
+                        <h3>Bottom Plate to Foundation</h3>
+                        <p>Anchor bolts embed in concrete and bolt through the sill plate. Spacing depends on wind load.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Weak Links Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Common Weak Links</h2>
+                <p>Where load paths typically fail in Palm Beach County</p>
+            </div>
+
+            <div class="weak-links">
+                <div class="weak-card">
+                    <div class="weak-icon">&#x1F4A8;</div>
+                    <div class="weak-title">Missing Hurricane Straps</div>
+                    <div class="weak-desc">Older homes often have toenailed rafters only, which can pull out under 100 mph winds.</div>
+                </div>
+
+                <div class="weak-card">
+                    <div class="weak-icon">&#x1F528;</div>
+                    <div class="weak-title">Wrong Nailing Pattern</div>
+                    <div class="weak-desc">Too few nails or wrong size reduces sheathing capacity by 50% or more.</div>
+                </div>
+
+                <div class="weak-card">
+                    <div class="weak-icon">&#x1F9F1;</div>
+                    <div class="weak-title">Inadequate Anchor Bolts</div>
+                    <div class="weak-desc">Old construction may have bolts at 6-foot spacing when 4-foot is needed.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+                <p>What contractors ask about continuous load paths</p>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do I know if my existing building has a continuous load path?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        You need to inspect each connection point. Look in the attic for hurricane straps on every rafter. Check the crawl space or slab edge for anchor bolts. If the home was built before 2002 in Florida, it likely has gaps in the load path. A professional wind mitigation inspection can document what you have and what is missing.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I retrofit a continuous load path?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, but it is often difficult and expensive. Hurricane straps can be added in the attic. Secondary water resistance can be added to roof sheathing. Anchor bolts are harder - you may need to drill through the existing sill plate and epoxy bolts into the concrete. A structural engineer should design any retrofit to ensure it actually completes the load path without creating new weak points.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What happens if one link in the chain is weak?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The chain is only as strong as its weakest link. If hurricane straps can hold 3,000 pounds but the anchor bolts can only hold 1,500 pounds, the building fails at 1,500 pounds of wind force. This is why the entire load path must be engineered together. Strengthening one connection without strengthening the others just moves where the failure occurs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Do load paths matter for single-story buildings?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Absolutely. Single-story buildings are often more vulnerable because they have larger roof areas relative to their weight. A typical single-story home can experience 15,000 pounds of uplift on the roof during a Category 3 hurricane. Without a proper load path, that roof is leaving. The only difference from multi-story is that there are fewer connection levels to worry about.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How does the load path affect insurance rates?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Florida requires insurers to offer discounts for wind mitigation features, including load path connections. A wind mitigation inspection documents what you have. Single wraps (hurricane straps around trusses) get better discounts than clips. Double wraps get the best discounts. Completing the load path from roof to foundation can reduce your wind insurance premium by 30-50% in Palm Beach County.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Calculate Your Load Path Requirements</h2>
+        <p>Get wind load calculations that ensure your connections can handle the forces</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=palm-beach&utm_campaign=continuous-load-path" class="cta-btn">
+            Start Calculating
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Palm Beach Topics</h4>
+                <a href="./coastal-setback.html">Coastal Setback</a>
+                <a href="./flood-zone-wind.html">Flood Zone + Wind</a>
+                <a href="./elevated-structures.html">Elevated Structures</a>
+                <a href="./breakaway-walls.html">Breakaway Walls</a>
+                <a href="./corrosion-resistance.html">Corrosion Resistance</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Topics</h4>
+                <a href="./anchor-bolt-patterns.html">Anchor Bolts</a>
+                <a href="./shear-wall-basics.html">Shear Walls</a>
+                <a href="./diaphragm-design.html">Diaphragm Design</a>
+                <a href="./continuous-load-path.html">Load Path</a>
+                <a href="./hurricane-straps.html">Hurricane Straps</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/states.html">All States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/contractors.html">For Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="https://windload.solutions">Resources</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a>. Trusted by contractors for over 20 years.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.3 - 0.15;
+                this.speedY = Math.random() * 0.3 - 0.15;
+                this.opacity = Math.random() * 0.2 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 193, 7, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const particles = Array.from({ length: 40 }, () => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Load Path Tracing Animation
+        let isTracing = false;
+        let completedLinks = 0;
+
+        function traceLoadPath() {
+            if (isTracing) return;
+            isTracing = true;
+
+            const btn = document.getElementById('trace-btn');
+            btn.disabled = true;
+            btn.textContent = 'Tracing...';
+
+            // Reset
+            completedLinks = 0;
+            document.getElementById('widget-links').textContent = '0/6';
+            document.getElementById('widget-status').textContent = 'Tracing';
+
+            // Animate the path line
+            const pathLine = document.getElementById('load-path');
+            pathLine.classList.remove('animated');
+            void pathLine.offsetWidth; // Trigger reflow
+            pathLine.classList.add('animated');
+
+            // Activate connection points and status in sequence
+            const connectionPoints = ['cp1', 'cp2', 'cp4', 'cp5', 'cp6'];
+            const chainIcons = ['icon1', 'icon2', 'icon3', 'icon4', 'icon5', 'icon6'];
+            const chainNames = ['name1', 'name2', 'name3', 'name4', 'name5', 'name6'];
+
+            chainIcons.forEach((id, index) => {
+                setTimeout(() => {
+                    document.getElementById(id).classList.add('complete');
+                    document.getElementById(chainNames[index]).classList.add('complete');
+
+                    if (index < connectionPoints.length) {
+                        document.getElementById(connectionPoints[index]).classList.add('active');
+                    }
+
+                    completedLinks = index + 1;
+                    document.getElementById('widget-links').textContent = completedLinks + '/6';
+
+                    if (completedLinks === 6) {
+                        document.getElementById('widget-status').textContent = 'Complete';
+                        document.getElementById('widget-force').textContent = '100%';
+                        btn.textContent = 'Chain Complete!';
+
+                        setTimeout(() => {
+                            btn.disabled = false;
+                            btn.textContent = 'Trace Again';
+                            isTracing = false;
+                        }, 2000);
+                    }
+                }, index * 500);
+            });
+        }
+
+        // Connection point hover effects
+        document.querySelectorAll('.connection-point').forEach(point => {
+            point.addEventListener('mouseenter', function() {
+                this.classList.add('active');
+            });
+            point.addEventListener('mouseleave', function() {
+                if (!isTracing) {
+                    this.classList.remove('active');
+                }
+            });
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

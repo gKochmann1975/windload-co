@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miami-Dade High-Rise Window Requirements | Tower Glazing Wind Loads</title>
+    <meta name="description" content="High-rise window wind load calculations for Miami-Dade County HVHZ. Tower glazing, penthouse windows, and elevated floor requirements per FBC 2024 and ASCE 7-22.">
+    <meta name="keywords" content="Miami-Dade high-rise windows, tower glazing wind load, penthouse window requirements, elevated floor glazing, HVHZ high-rise glass, skyscraper window pressure">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/high-rise-windows">
+
+    <!-- Schema.org -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads apply to high-rise windows in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "High-rise windows in Miami-Dade must resist 180+ mph design wind speeds with pressures increasing by floor. Ground level windows typically require ±65 PSF while upper floors (40+ stories) may require ±95+ PSF. Corner zones add approximately 50% to these requirements."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does floor height affect window wind load requirements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind pressure increases with height due to reduced ground friction. ASCE 7-22 velocity pressure coefficients (Kz) range from 0.85 at ground level to 1.75+ above 500 feet. This means top-floor windows may require 40-50% higher ratings than ground floor units."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #60a5fa;
+            --accent: #f59e0b;
+            --dark: #0a1628;
+            --darker: #050d18;
+            --light: #eff6ff;
+            --success: #22c55e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(10, 22, 40, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--light); text-decoration: none; font-weight: 500; }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #towerCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(239, 246, 255, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(239, 246, 255, 0.7);
+        }
+
+        /* Cumulative Chart */
+        .cumulative-chart {
+            background: rgba(10, 22, 40, 0.9);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .chart-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .chart-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .chart-subtitle {
+            font-size: 0.9rem;
+            color: rgba(239, 246, 255, 0.6);
+        }
+
+        .chart-area {
+            height: 300px;
+            position: relative;
+            border-left: 2px solid rgba(59, 130, 246, 0.3);
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            margin-left: 50px;
+            margin-bottom: 30px;
+        }
+
+        .y-axis {
+            position: absolute;
+            left: -50px;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            color: rgba(239, 246, 255, 0.6);
+        }
+
+        .cumulative-line {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 0;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.4), rgba(59, 130, 246, 0.1));
+            transition: height 2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .cumulative-path {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .floor-markers {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            font-size: 0.75rem;
+            color: rgba(239, 246, 255, 0.6);
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--primary);
+        }
+
+        /* Floor Zones Section */
+        .zones-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .zones-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .zone-card {
+            background: rgba(10, 22, 40, 0.8);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .zone-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .zone-floors {
+            font-size: 0.9rem;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .zone-pressure {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--light);
+        }
+
+        .zone-height {
+            font-size: 0.8rem;
+            color: rgba(239, 246, 255, 0.6);
+            margin-top: 0.5rem;
+        }
+
+        .zone-bar {
+            height: 8px;
+            background: rgba(59, 130, 246, 0.2);
+            border-radius: 4px;
+            margin-top: 1rem;
+            overflow: hidden;
+        }
+
+        .zone-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        /* Requirements Grid */
+        .requirements-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .requirements-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .requirement-card {
+            background: rgba(10, 22, 40, 0.6);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s ease;
+        }
+
+        .requirement-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .requirement-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+
+        .requirement-list li::before {
+            content: '🏢';
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+            text-align: center;
+        }
+
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta-content p { font-size: 1.25rem; margin-bottom: 2rem; opacity: 0.9; }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10, 22, 40, 0.95);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            z-index: 999;
+            min-width: 180px;
+        }
+
+        .widget-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            text-align: center;
+        }
+
+        .widget-label {
+            font-size: 0.75rem;
+            color: rgba(239, 246, 255, 0.6);
+            text-align: center;
+        }
+
+        footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+            padding: 3rem 2rem;
+            text-align: center;
+            color: rgba(239, 246, 255, 0.5);
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .zones-grid { grid-template-columns: repeat(2, 1fr); }
+            .requirements-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2rem; }
+            .hero-stats { grid-template-columns: 1fr; }
+            .zones-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="/#calculator" class="cta-button">Calculate Now</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <canvas id="towerCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Miami-Dade <span>High-Rise Window</span> Requirements</h1>
+                <p class="hero-subtitle">Tower glazing wind load calculations for HVHZ compliance. Pressure requirements increase with elevation—from ground floor to penthouse.</p>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">180+</div>
+                        <div class="stat-label">MPH Design Speed</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">±95</div>
+                        <div class="stat-label">PSF Top Floor</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">60+</div>
+                        <div class="stat-label">Story Coverage</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="cumulative-chart">
+                <div class="chart-header">
+                    <div class="chart-title">Cumulative Pressure by Floor</div>
+                    <div class="chart-subtitle">Wind pressure increases with building height</div>
+                </div>
+
+                <div class="chart-area">
+                    <div class="y-axis">
+                        <span>±95 PSF</span>
+                        <span>±85 PSF</span>
+                        <span>±75 PSF</span>
+                        <span>±65 PSF</span>
+                        <span>Ground</span>
+                    </div>
+                    <svg class="cumulative-path" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        <defs>
+                            <linearGradient id="areaGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" stop-color="rgba(59, 130, 246, 0.6)"/>
+                                <stop offset="100%" stop-color="rgba(59, 130, 246, 0.1)"/>
+                            </linearGradient>
+                        </defs>
+                        <path id="cumulativePath" fill="url(#areaGrad)" stroke="#3b82f6" stroke-width="0.5"
+                            d="M0,100 L0,100 L25,100 L50,100 L75,100 L100,100 L100,100 Z"/>
+                    </svg>
+                </div>
+
+                <div class="floor-markers">
+                    <span>Floor 1</span>
+                    <span>Floor 15</span>
+                    <span>Floor 30</span>
+                    <span>Floor 45</span>
+                    <span>Floor 60+</span>
+                </div>
+
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot"></div>
+                        <span>Design Pressure (PSF)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="zones-section">
+        <div class="section-header">
+            <h2>Pressure by <span>Floor Zone</span></h2>
+            <p>ASCE 7-22 velocity pressure increases with height above ground.</p>
+        </div>
+
+        <div class="zones-grid">
+            <div class="zone-card">
+                <div class="zone-floors">Floors 1-10</div>
+                <div class="zone-pressure">±65 PSF</div>
+                <div class="zone-height">0 - 100 ft</div>
+                <div class="zone-bar"><div class="zone-bar-fill" style="width: 68%;"></div></div>
+            </div>
+            <div class="zone-card">
+                <div class="zone-floors">Floors 11-25</div>
+                <div class="zone-pressure">±78 PSF</div>
+                <div class="zone-height">100 - 250 ft</div>
+                <div class="zone-bar"><div class="zone-bar-fill" style="width: 82%;"></div></div>
+            </div>
+            <div class="zone-card">
+                <div class="zone-floors">Floors 26-45</div>
+                <div class="zone-pressure">±88 PSF</div>
+                <div class="zone-height">250 - 450 ft</div>
+                <div class="zone-bar"><div class="zone-bar-fill" style="width: 92%;"></div></div>
+            </div>
+            <div class="zone-card">
+                <div class="zone-floors">Floors 46+</div>
+                <div class="zone-pressure">±95 PSF</div>
+                <div class="zone-height">450+ ft</div>
+                <div class="zone-bar"><div class="zone-bar-fill" style="width: 100%;"></div></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements-section">
+        <div class="section-header">
+            <h2>Technical <span>Requirements</span></h2>
+        </div>
+
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <h3>Impact Testing</h3>
+                <ul class="requirement-list">
+                    <li>Large missile test: 9-lb 2×4 at 50 fps</li>
+                    <li>Cyclic pressure: 4,500+ cycles</li>
+                    <li>TAS 201, 202, 203 compliance</li>
+                    <li>Miami-Dade NOA required</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Glass Specifications</h3>
+                <ul class="requirement-list">
+                    <li>Laminated with 0.090" PVB minimum</li>
+                    <li>Heat-strengthened outer lite</li>
+                    <li>Insulated units for thermal performance</li>
+                    <li>Low-E coating for solar control</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Frame Requirements</h3>
+                <ul class="requirement-list">
+                    <li>Thermally broken aluminum</li>
+                    <li>Structural silicone glazing option</li>
+                    <li>Continuous anchors to structure</li>
+                    <li>Movement accommodation joints</li>
+                </ul>
+            </div>
+            <div class="requirement-card">
+                <h3>Documentation</h3>
+                <ul class="requirement-list">
+                    <li>PE-sealed calculations per floor zone</li>
+                    <li>Product approvals for each pressure tier</li>
+                    <li>Wind tunnel study for 40+ stories</li>
+                    <li>Special inspection protocol</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Get Your High-Rise Calculations</h2>
+            <p>Instant wind load analysis by floor and zone. PE-certified reports for permit submission.</p>
+            <div class="cta-buttons">
+                <a href="/#calculator" class="btn-primary">Calculate Now</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <div class="floating-widget">
+        <div class="widget-value">+40%</div>
+        <div class="widget-label">Pressure Increase<br>Ground to Top</div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations per ASCE 7-22, FBC 2024</p>
+    </footer>
+
+    <script>
+        // Tower animation canvas
+        const canvas = document.getElementById('towerCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class WindowLight {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = 3 + Math.random() * 6;
+                this.opacity = 0;
+                this.maxOpacity = 0.1 + Math.random() * 0.3;
+                this.speed = 0.01 + Math.random() * 0.02;
+                this.phase = Math.random() * Math.PI * 2;
+            }
+            update() {
+                this.phase += this.speed;
+                this.opacity = this.maxOpacity * (0.5 + Math.sin(this.phase) * 0.5);
+            }
+            draw() {
+                ctx.fillStyle = `rgba(59, 130, 246, ${this.opacity})`;
+                ctx.fillRect(this.x, this.y, this.size, this.size * 1.5);
+            }
+        }
+
+        const lights = Array.from({length: 100}, () => new WindowLight());
+
+        function animate() {
+            ctx.fillStyle = 'rgba(5, 13, 24, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            lights.forEach(l => { l.update(); l.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Cumulative chart animation
+        setTimeout(() => {
+            const path = document.getElementById('cumulativePath');
+            path.setAttribute('d', 'M0,100 L0,68 L25,55 L50,40 L75,25 L100,15 L100,100 Z');
+        }, 500);
+
+        // Scroll observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(e => e.isIntersecting && e.target.classList.add('visible'));
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.zone-card, .requirement-card').forEach(el => observer.observe(el));
+    </script>
+</body>
+</html>

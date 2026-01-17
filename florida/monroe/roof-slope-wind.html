@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-MBFRKVFWGC');</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+    <title>Roof Slope and Wind Loads | How Pitch Affects Wind Pressure</title>
+    <meta name="description" content="See how roof pitch changes wind pressure direction and magnitude. Interactive slider shows how steep and flat roofs experience different wind forces in the Florida Keys.">
+    <link rel="canonical" href="https://windload.co/florida/monroe/roof-slope-wind.html">
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida Keys">
+
+    <meta property="og:title" content="Roof Slope and Wind Loads | Angle of Attack">
+    <meta property="og:description" content="Interactive visualization showing how roof pitch affects wind pressure. Adjust the angle and watch forces change.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/roof-slope-wind.html">
+
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"FAQPage","mainEntity":[{"@type":"Question","name":"How does roof pitch affect wind loads?","acceptedAnswer":{"@type":"Answer","text":"Roof pitch dramatically affects both the direction and magnitude of wind forces. Low-slope roofs (under 10 degrees) experience mostly uplift suction. As pitch increases, the windward side begins to experience positive pressure while the leeward side still sees suction. Very steep roofs act more like walls, with the windward slope receiving direct pressure."}},{"@type":"Question","name":"What is the best roof pitch for hurricane resistance?","acceptedAnswer":{"@type":"Answer","text":"There is no single best pitch, but roofs between 4:12 and 6:12 (18-27 degrees) often balance aerodynamics and water shedding well. Hip roofs generally perform better than gable roofs. The key is proper attachment at every connection point, regardless of pitch."}},{"@type":"Question","name":"Why do flat roofs experience uplift?","acceptedAnswer":{"@type":"Answer","text":"Wind flowing over a flat roof creates low pressure above the roof surface (like an airplane wing). This suction pulls the roof upward. The edges and corners experience even greater suction because wind accelerates as it separates from the building edge."}},{"@type":"Question","name":"Do steep roofs have higher or lower wind loads?","acceptedAnswer":{"@type":"Answer","text":"Steep roofs have different wind loads, not necessarily higher or lower overall. The windward slope of a steep roof receives more direct pressure (pushing down and in), while the leeward slope still experiences uplift. The total force depends on roof geometry, wind direction, and building shape."}}]}
+    </script>
+
+    <script type="application/ld+json">
+    {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://windload.co"},{"@type":"ListItem","position":2,"name":"Florida","item":"https://windload.co/florida-pro.html"},{"@type":"ListItem","position":3,"name":"Monroe County","item":"https://windload.co/florida/monroe/"},{"@type":"ListItem","position":4,"name":"Roof Slope Wind","item":"https://windload.co/florida/monroe/roof-slope-wind.html"}]}
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-deep: #0d0015;
+            --text-primary: #ffffff;
+            --text-secondary: #b4a5c7;
+            --roof-brown: #8b4513;
+            --uplift-blue: #4169e1;
+            --pressure-orange: #ff6b35;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--pressure-orange), var(--uplift-blue));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 107, 53, 0.15);
+            border: 1px solid rgba(255, 107, 53, 0.3);
+            color: var(--pressure-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .roof-simulator {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(180deg, rgba(65, 105, 225, 0.1) 0%, rgba(255, 107, 53, 0.1) 100%);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        #roofCanvas { width: 100%; height: 100%; }
+
+        .pitch-control {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            right: 1rem;
+            background: rgba(13, 0, 21, 0.95);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pitch-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .pitch-label { font-weight: 600; }
+
+        .pitch-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+        }
+
+        .pitch-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--uplift-blue), var(--accent-cyan), var(--pressure-orange));
+        }
+
+        .pitch-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+
+        .force-indicators {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .force-indicator {
+            background: rgba(13, 0, 21, 0.95);
+            padding: 0.75rem 1rem;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            min-width: 160px;
+        }
+
+        .force-arrow {
+            width: 30px;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .force-text {
+            flex: 1;
+        }
+
+        .force-name {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+
+        .force-value {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+
+        .section { padding: 6rem 2rem; position: relative; z-index: 1; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .section-header p { color: var(--text-secondary); font-size: 1.125rem; max-width: 600px; margin: 0 auto; }
+
+        .pitch-comparison {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .pitch-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pitch-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-cyan);
+        }
+
+        .pitch-card-visual {
+            height: 80px;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .pitch-card-visual canvas { width: 100%; height: 100%; }
+
+        .pitch-card-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .pitch-card-angle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .pitch-card-forces {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .force-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+        }
+
+        .force-row span:first-child { color: var(--text-secondary); }
+
+        .faq-list { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(255, 255, 255, 0.03); }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--pressure-orange), var(--uplift-blue));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s; }
+        .faq-item.active .faq-answer { max-height: 500px; }
+        .faq-answer-content { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); line-height: 1.8; }
+
+        .floating-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), rgba(26, 10, 46, 0.95));
+            border: 1px solid var(--pressure-orange);
+            border-radius: 20px;
+            padding: 1.5rem;
+            z-index: 90;
+            box-shadow: 0 10px 40px rgba(255, 107, 53, 0.2);
+            min-width: 180px;
+        }
+
+        .widget-title { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
+        .widget-stat { display: flex; justify-content: space-between; margin-bottom: 0.75rem; }
+        .widget-stat:last-child { margin-bottom: 0; }
+        .widget-stat-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .widget-stat-value { font-weight: 700; color: var(--accent-cyan); }
+
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--pressure-orange) 0%, var(--uplift-blue) 100%);
+            text-align: center;
+        }
+
+        .cta-section h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta-section p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-white { background: white; color: var(--primary-dark); }
+        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+
+        footer { padding: 3rem 2rem; background: var(--bg-deep); border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-content { max-width: 1200px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-column h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent-cyan); }
+        .footer-column a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .footer-column a:hover { color: var(--accent-magenta); }
+        .footer-bottom { text-align: center; padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); color: var(--text-secondary); font-size: 0.875rem; }
+        .footer-bottom a { color: var(--accent-cyan); text-decoration: none; }
+
+        @media (max-width: 968px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; }
+            .hero-subtitle { margin: 0 auto 2rem; }
+            .roof-simulator { height: 400px; }
+            .pitch-comparison { grid-template-columns: repeat(2, 1fr); }
+            .floating-widget { bottom: 1rem; right: 1rem; left: 1rem; min-width: unset; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 640px) {
+            .pitch-comparison { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav class="nav">
+        <a href="/" class="nav-logo"><img src="/assets/windload.co_00b4d8.svg" alt=""><span>Wind<span style="color:var(--accent-cyan);">Load</span>.co</span></a>
+        <div class="nav-links">
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/states.html">States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">Roof Aerodynamics</div>
+                <h1>Angle of <span>Attack</span></h1>
+                <p class="hero-subtitle">
+                    Flat roofs get lifted. Steep roofs get pushed. Drag the slider to change the roof pitch and watch how wind force arrows change direction and size. The angle matters more than you think.
+                </p>
+                <a href="https://windloadcalc.com" class="btn btn-white" style="background: linear-gradient(135deg, var(--pressure-orange), var(--uplift-blue)); color: white;">
+                    Calculate Roof Pressures
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+            </div>
+            <div class="roof-simulator">
+                <canvas id="roofCanvas"></canvas>
+                <div class="force-indicators">
+                    <div class="force-indicator">
+                        <div class="force-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#4169e1" stroke-width="3"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+                        </div>
+                        <div class="force-text">
+                            <div class="force-name">Uplift</div>
+                            <div class="force-value" id="upliftValue" style="color: var(--uplift-blue);">-45 psf</div>
+                        </div>
+                    </div>
+                    <div class="force-indicator">
+                        <div class="force-arrow">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff6b35" stroke-width="3"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </div>
+                        <div class="force-text">
+                            <div class="force-name">Pressure</div>
+                            <div class="force-value" id="pressureVal" style="color: var(--pressure-orange);">+15 psf</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="pitch-control">
+                    <div class="pitch-header">
+                        <span class="pitch-label">Roof Pitch</span>
+                        <span class="pitch-value" id="pitchDisplay">4:12 (18°)</span>
+                    </div>
+                    <input type="range" class="pitch-slider" id="pitchSlider" min="0" max="45" value="18">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Common Roof Pitches</h2>
+                <p>See how different roof angles experience wind forces differently. Each has its own advantages and challenges.</p>
+            </div>
+            <div class="pitch-comparison">
+                <div class="pitch-card">
+                    <div class="pitch-card-visual"><canvas id="flatRoofCanvas"></canvas></div>
+                    <div class="pitch-card-title">Flat Roof</div>
+                    <div class="pitch-card-angle">0-2:12 (0-10°)</div>
+                    <div class="pitch-card-forces">
+                        <div class="force-row"><span>Uplift</span><span style="color: var(--uplift-blue);">High</span></div>
+                        <div class="force-row"><span>Pressure</span><span style="color: var(--pressure-orange);">None</span></div>
+                        <div class="force-row"><span>Edge Suction</span><span style="color: #ff4444;">Severe</span></div>
+                    </div>
+                </div>
+                <div class="pitch-card">
+                    <div class="pitch-card-visual"><canvas id="lowRoofCanvas"></canvas></div>
+                    <div class="pitch-card-title">Low Slope</div>
+                    <div class="pitch-card-angle">3:12-4:12 (14-18°)</div>
+                    <div class="pitch-card-forces">
+                        <div class="force-row"><span>Uplift</span><span style="color: var(--uplift-blue);">Moderate</span></div>
+                        <div class="force-row"><span>Pressure</span><span style="color: var(--pressure-orange);">Low</span></div>
+                        <div class="force-row"><span>Balance</span><span style="color: #4caf50;">Good</span></div>
+                    </div>
+                </div>
+                <div class="pitch-card">
+                    <div class="pitch-card-visual"><canvas id="medRoofCanvas"></canvas></div>
+                    <div class="pitch-card-title">Standard</div>
+                    <div class="pitch-card-angle">5:12-7:12 (22-30°)</div>
+                    <div class="pitch-card-forces">
+                        <div class="force-row"><span>Uplift</span><span style="color: var(--uplift-blue);">Low-Mod</span></div>
+                        <div class="force-row"><span>Pressure</span><span style="color: var(--pressure-orange);">Moderate</span></div>
+                        <div class="force-row"><span>Water Shed</span><span style="color: #4caf50;">Excellent</span></div>
+                    </div>
+                </div>
+                <div class="pitch-card">
+                    <div class="pitch-card-visual"><canvas id="steepRoofCanvas"></canvas></div>
+                    <div class="pitch-card-title">Steep</div>
+                    <div class="pitch-card-angle">8:12+ (34°+)</div>
+                    <div class="pitch-card-forces">
+                        <div class="force-row"><span>Uplift</span><span style="color: var(--uplift-blue);">Low</span></div>
+                        <div class="force-row"><span>Pressure</span><span style="color: var(--pressure-orange);">High</span></div>
+                        <div class="force-row"><span>Windward</span><span style="color: #ffaa00;">Like a wall</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="background: rgba(26,10,46,0.3);">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Roof Pitch Questions</h2>
+                <p>Understanding how angle affects wind pressure on your roof.</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">How does roof pitch affect wind loads?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><div class="faq-answer-content">Roof pitch dramatically affects both the direction and magnitude of wind forces. Low-slope roofs (under 10 degrees) experience mostly uplift suction. As pitch increases, the windward side begins to experience positive pressure while the leeward side still sees suction. Very steep roofs act more like walls, with the windward slope receiving direct pressure pushing down and into the roof structure.</div></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">What is the best roof pitch for hurricane resistance?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><div class="faq-answer-content">There is no single best pitch, but roofs between 4:12 and 6:12 (18-27 degrees) often balance aerodynamics and water shedding well. Hip roofs generally perform better than gable roofs because they present sloped surfaces to wind from all directions. The key is proper attachment at every connection point, regardless of pitch. Clips, straps, and proper fastening matter more than pitch alone.</div></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Why do flat roofs experience uplift?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><div class="faq-answer-content">Wind flowing over a flat roof creates low pressure above the roof surface, similar to how an airplane wing generates lift. This suction pulls the roof upward. The edges and corners experience even greater suction because wind accelerates as it separates from the building edge. This is why flat roof edges often fail first in high winds.</div></div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">Do steep roofs have higher or lower wind loads?<span class="faq-icon">+</span></button>
+                    <div class="faq-answer"><div class="faq-answer-content">Steep roofs have different wind loads, not necessarily higher or lower overall. The windward slope of a steep roof receives more direct pressure (pushing down and into the structure), while the leeward slope still experiences uplift. The total force on the structure depends on roof geometry, wind direction, and building shape. Steep roofs often have less edge suction but more direct wind pressure.</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Calculate Your Roof Wind Pressures</h2>
+        <p>Get exact pressure coefficients for your specific roof pitch and geometry.</p>
+        <a href="https://windloadcalc.com" class="btn btn-white">Start Calculating<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+    </section>
+
+    <div class="floating-widget">
+        <div class="widget-title">Pitch Reference</div>
+        <div class="widget-stat"><span class="widget-stat-label">4:12</span><span class="widget-stat-value">18.4°</span></div>
+        <div class="widget-stat"><span class="widget-stat-label">6:12</span><span class="widget-stat-value">26.6°</span></div>
+        <div class="widget-stat"><span class="widget-stat-label">9:12</span><span class="widget-stat-value">36.9°</span></div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column"><h4>Monroe County</h4><a href="/florida/monroe/keys-wind-speeds.html">Keys Wind Speeds</a><a href="/florida/monroe/stilt-home-requirements.html">Stilt Homes</a><a href="/florida/monroe/dock-and-deck-loads.html">Docks & Decks</a><a href="/florida/monroe/salt-spray-zone.html">Salt Spray Zone</a></div>
+                <div class="footer-column"><h4>Technical</h4><a href="/florida/monroe/velocity-pressure.html">Velocity Pressure</a><a href="/florida/monroe/topographic-effects.html">Topographic Effects</a><a href="/florida/monroe/roof-slope-wind.html">Roof Slope</a><a href="/florida/monroe/soffit-requirements.html">Soffit Requirements</a></div>
+                <div class="footer-column"><h4>Resources</h4><a href="/florida-pro.html">Florida Pro</a><a href="/states.html">All States</a><a href="/pe.html">PE Seals</a><a href="/pricing.html">Pricing</a></div>
+                <div class="footer-column"><h4>Company</h4><a href="/about.html">About</a><a href="/compare.html">Compare</a><a href="https://windloadcalc.com">Calculator</a><a href="https://windload.solutions">Resources</a></div>
+            </div>
+            <div class="footer-bottom"><p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="https://windloadcalc.com">WindLoadCalc.com</a></p></div>
+        </div>
+    </footer>
+
+    <script>
+        const particleCanvas = document.getElementById('particleCanvas');
+        const pCtx = particleCanvas.getContext('2d');
+        function resizeCanvas() { particleCanvas.width = window.innerWidth; particleCanvas.height = window.innerHeight; }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const windParticles = [];
+        for (let i = 0; i < 50; i++) {
+            windParticles.push({ x: Math.random() * particleCanvas.width, y: Math.random() * particleCanvas.height, speed: Math.random() * 4 + 2, size: Math.random() * 3 + 1, opacity: Math.random() * 0.3 + 0.1 });
+        }
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+            windParticles.forEach(p => {
+                p.x += p.speed;
+                if (p.x > particleCanvas.width) { p.x = -10; p.y = Math.random() * particleCanvas.height; }
+                pCtx.beginPath();
+                pCtx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                pCtx.fillStyle = `rgba(0, 212, 255, ${p.opacity})`;
+                pCtx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        const roofCanvas = document.getElementById('roofCanvas');
+        const rCtx = roofCanvas.getContext('2d');
+        const pitchSlider = document.getElementById('pitchSlider');
+
+        function resizeRoofCanvas() {
+            const container = roofCanvas.parentElement;
+            roofCanvas.width = container.offsetWidth;
+            roofCanvas.height = container.offsetHeight - 100;
+        }
+        resizeRoofCanvas();
+        window.addEventListener('resize', resizeRoofCanvas);
+
+        let time = 0;
+
+        function drawRoof() {
+            rCtx.clearRect(0, 0, roofCanvas.width, roofCanvas.height);
+            time += 0.03;
+
+            const pitch = parseInt(pitchSlider.value);
+            const pitchRatio = Math.round(Math.tan(pitch * Math.PI / 180) * 12);
+            document.getElementById('pitchDisplay').textContent = `${pitchRatio}:12 (${pitch}°)`;
+
+            const centerX = roofCanvas.width * 0.5;
+            const baseY = roofCanvas.height * 0.7;
+            const houseWidth = 200;
+            const houseHeight = 100;
+            const roofOverhang = 20;
+
+            const roofHeight = Math.tan(pitch * Math.PI / 180) * (houseWidth / 2 + roofOverhang);
+
+            // House body
+            rCtx.fillStyle = '#3c3c50';
+            rCtx.fillRect(centerX - houseWidth/2, baseY - houseHeight, houseWidth, houseHeight);
+
+            // Roof
+            rCtx.fillStyle = '#8b4513';
+            rCtx.beginPath();
+            rCtx.moveTo(centerX - houseWidth/2 - roofOverhang, baseY - houseHeight);
+            rCtx.lineTo(centerX, baseY - houseHeight - roofHeight);
+            rCtx.lineTo(centerX + houseWidth/2 + roofOverhang, baseY - houseHeight);
+            rCtx.closePath();
+            rCtx.fill();
+
+            // Wind flow lines
+            const windY = baseY - houseHeight - roofHeight/2;
+            for (let i = 0; i < 6; i++) {
+                const startY = windY - 60 + i * 25;
+                rCtx.strokeStyle = `rgba(0, 212, 255, ${0.2 + i * 0.05})`;
+                rCtx.lineWidth = 2;
+                rCtx.beginPath();
+
+                for (let x = 0; x < centerX - houseWidth/2 - 30; x += 5) {
+                    const y = startY + Math.sin(x / 30 + time) * 3;
+                    if (x === 0) rCtx.moveTo(x, y);
+                    else rCtx.lineTo(x, y);
+                }
+
+                // Flow over roof
+                const roofStartX = centerX - houseWidth/2 - roofOverhang;
+                for (let x = roofStartX; x <= centerX + houseWidth/2 + roofOverhang + 50; x += 5) {
+                    let y = startY;
+                    if (x < centerX) {
+                        const progress = (x - roofStartX) / (centerX - roofStartX);
+                        const roofY = baseY - houseHeight - roofHeight * progress;
+                        y = Math.min(startY, roofY - 30 - i * 10) + Math.sin(x / 20 + time) * 3;
+                    } else {
+                        const progress = (x - centerX) / (centerX + houseWidth/2 + roofOverhang + 50 - centerX);
+                        const roofY = baseY - houseHeight - roofHeight * (1 - Math.min(1, progress * 1.5));
+                        y = Math.min(startY + progress * 40, roofY - 20) + Math.sin(x / 20 + time) * 5;
+                    }
+                    rCtx.lineTo(x, y);
+                }
+                rCtx.stroke();
+            }
+
+            // Calculate forces based on pitch
+            const uplift = Math.round(-60 + pitch * 0.8);
+            const pressure = Math.round(pitch * 1.5);
+
+            document.getElementById('upliftValue').textContent = uplift + ' psf';
+            document.getElementById('pressureVal').textContent = '+' + pressure + ' psf';
+
+            // Uplift arrows
+            const upliftMag = Math.abs(uplift) / 60;
+            for (let i = 0; i < 4; i++) {
+                const arrowX = centerX - houseWidth/3 + i * (houseWidth * 0.22);
+                const arrowBaseY = baseY - houseHeight - (roofHeight * (1 - Math.abs(i - 1.5) / 2));
+                const arrowLen = 30 + upliftMag * 40;
+
+                rCtx.strokeStyle = `rgba(65, 105, 225, ${0.5 + upliftMag * 0.5})`;
+                rCtx.lineWidth = 3;
+                rCtx.beginPath();
+                rCtx.moveTo(arrowX, arrowBaseY);
+                rCtx.lineTo(arrowX, arrowBaseY - arrowLen);
+                rCtx.moveTo(arrowX, arrowBaseY - arrowLen);
+                rCtx.lineTo(arrowX - 8, arrowBaseY - arrowLen + 12);
+                rCtx.moveTo(arrowX, arrowBaseY - arrowLen);
+                rCtx.lineTo(arrowX + 8, arrowBaseY - arrowLen + 12);
+                rCtx.stroke();
+            }
+
+            // Pressure arrows on windward slope
+            if (pitch > 5) {
+                const pressMag = pressure / 60;
+                for (let i = 0; i < 3; i++) {
+                    const progress = 0.3 + i * 0.25;
+                    const arrowX = centerX - houseWidth/2 - roofOverhang + (centerX - (centerX - houseWidth/2 - roofOverhang)) * progress - 30;
+                    const arrowY = baseY - houseHeight - roofHeight * progress;
+                    const arrowLen = 20 + pressMag * 50;
+                    const angle = pitch * Math.PI / 180;
+
+                    rCtx.strokeStyle = `rgba(255, 107, 53, ${0.5 + pressMag * 0.5})`;
+                    rCtx.lineWidth = 3;
+                    rCtx.beginPath();
+                    rCtx.moveTo(arrowX, arrowY);
+                    const endX = arrowX + Math.cos(angle - Math.PI/2) * arrowLen + arrowLen * 0.7;
+                    const endY = arrowY + Math.sin(angle - Math.PI/2) * arrowLen;
+                    rCtx.lineTo(endX, endY);
+                    rCtx.stroke();
+                }
+            }
+
+            requestAnimationFrame(drawRoof);
+        }
+        drawRoof();
+
+        // Mini roof canvases
+        function drawMiniRoof(canvasId, pitchDeg) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+
+            const centerX = canvas.width / 2;
+            const baseY = canvas.height * 0.85;
+            const width = canvas.width * 0.7;
+            const roofH = Math.tan(pitchDeg * Math.PI / 180) * (width / 2);
+
+            ctx.fillStyle = '#3c3c50';
+            ctx.fillRect(centerX - width/2, baseY - 30, width, 30);
+
+            ctx.fillStyle = '#8b4513';
+            ctx.beginPath();
+            ctx.moveTo(centerX - width/2 - 5, baseY - 30);
+            ctx.lineTo(centerX, baseY - 30 - roofH);
+            ctx.lineTo(centerX + width/2 + 5, baseY - 30);
+            ctx.closePath();
+            ctx.fill();
+
+            // Uplift arrow
+            ctx.strokeStyle = 'rgba(65, 105, 225, 0.7)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(centerX, baseY - 35 - roofH/2);
+            ctx.lineTo(centerX, baseY - 35 - roofH/2 - 15);
+            ctx.stroke();
+        }
+
+        drawMiniRoof('flatRoofCanvas', 5);
+        drawMiniRoof('lowRoofCanvas', 18);
+        drawMiniRoof('medRoofCanvas', 26);
+        drawMiniRoof('steepRoofCanvas', 40);
+
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+                if (!wasActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

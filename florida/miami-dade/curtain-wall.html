@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Miami-Dade Curtain Wall Wind Load Requirements | High-Rise Facade Engineering</title>
+    <meta name="description" content="Curtain wall wind load calculations for Miami-Dade County HVHZ. Unitized and stick-built facade systems, structural glazing, and mullion design per FBC 2024 and ASCE 7-22.">
+    <meta name="keywords" content="Miami-Dade curtain wall wind load, high-rise facade engineering, structural glazing HVHZ, mullion design pressure, unitized curtain wall hurricane, stick-built facade wind">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/curtain-wall">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Miami-Dade Curtain Wall Wind Load Calculator">
+    <meta property="og:description" content="High-rise curtain wall wind load calculations for Miami-Dade HVHZ. Facade engineering for 180+ mph design speeds.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/curtain-wall">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads apply to curtain walls in Miami-Dade County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Curtain walls in Miami-Dade HVHZ must resist design wind speeds of 180+ mph. Components and cladding pressures vary by height, with upper floors experiencing significantly higher pressures. Corner zones require approximately 50% higher pressures than field-of-wall areas. Typical design pressures range from ±65 PSF at lower levels to ±95+ PSF at building tops."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between unitized and stick-built curtain wall systems?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Unitized systems are factory-assembled panels installed as complete units, offering better quality control and faster installation. Stick-built systems are assembled on-site from individual components, providing more flexibility but requiring more field labor. Both must meet identical wind load requirements in HVHZ zones."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What mullion sizes are typical for HVHZ curtain walls?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mullion depths typically range from 6\" to 10\" for HVHZ applications, depending on span and pressure requirements. High-rise buildings often require 8-10\" mullions at upper floors due to increased wind pressures. Aluminum mullion wall thickness is typically 0.125\" to 0.250\" depending on structural requirements."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What testing is required for curtain walls in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Curtain walls require Miami-Dade NOA with testing per TAS 201 (large missile impact), TAS 202 (uniform static air pressure), and TAS 203 (cyclic wind pressure). Additional testing includes ASTM E330 for structural performance, ASTM E331 for water penetration, and AAMA 501.4 for seismic mockup where applicable."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade"},
+            {"@type": "ListItem", "position": 4, "name": "Curtain Wall", "item": "https://windload.co/florida/miami-dade/curtain-wall"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --secondary: #a78bfa;
+            --accent: #f472b6;
+            --dark: #0f0a1f;
+            --darker: #080510;
+            --light: #faf5ff;
+            --success: #34d399;
+            --warning: #fbbf24;
+            --danger: #f87171;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--darker);
+            color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 10, 31, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            text-decoration: none;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(139, 92, 246, 0.3);
+        }
+
+        /* Hero with Waterfall Chart */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            padding: 120px 2rem 4rem;
+            overflow: hidden;
+        }
+
+        #facadeCanvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: rgba(250, 245, 255, 0.8);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .stat-box {
+            background: rgba(139, 92, 246, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: rgba(250, 245, 255, 0.7);
+            margin-top: 0.25rem;
+        }
+
+        /* Waterfall Chart Container */
+        .waterfall-container {
+            background: rgba(15, 10, 31, 0.9);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .waterfall-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .waterfall-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .waterfall-subtitle {
+            font-size: 0.9rem;
+            color: rgba(250, 245, 255, 0.6);
+        }
+
+        .waterfall-chart {
+            position: relative;
+            height: 350px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            padding: 0 1rem;
+        }
+
+        .waterfall-bar-group {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: relative;
+        }
+
+        .waterfall-bar {
+            width: 50px;
+            background: linear-gradient(180deg, var(--primary), var(--secondary));
+            border-radius: 6px 6px 0 0;
+            position: relative;
+            transition: height 1s cubic-bezier(0.4, 0, 0.2, 1);
+            height: 0;
+        }
+
+        .waterfall-bar.negative {
+            background: linear-gradient(180deg, var(--accent), #f472b6);
+            align-self: flex-start;
+            position: absolute;
+            border-radius: 0 0 6px 6px;
+        }
+
+        .waterfall-connector {
+            position: absolute;
+            height: 2px;
+            background: rgba(139, 92, 246, 0.4);
+            top: 0;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.85rem;
+            font-weight: 700;
+            color: var(--primary);
+            white-space: nowrap;
+        }
+
+        .bar-label {
+            margin-top: 0.75rem;
+            font-size: 0.75rem;
+            color: rgba(250, 245, 255, 0.7);
+            text-align: center;
+            max-width: 70px;
+        }
+
+        .waterfall-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+            color: rgba(250, 245, 255, 0.7);
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        .legend-color.positive {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+        }
+
+        .legend-color.negative {
+            background: linear-gradient(135deg, var(--accent), #f472b6);
+        }
+
+        /* Facade Systems Section */
+        .systems-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--darker) 0%, var(--dark) 100%);
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: rgba(250, 245, 255, 0.7);
+            font-size: 1.1rem;
+        }
+
+        .systems-comparison {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+        }
+
+        .system-card {
+            background: rgba(15, 10, 31, 0.8);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 24px;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .system-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .system-visual {
+            height: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .system-visual.unitized {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(167, 139, 250, 0.2));
+        }
+
+        .system-visual.stick {
+            background: linear-gradient(135deg, rgba(244, 114, 182, 0.3), rgba(251, 113, 133, 0.2));
+        }
+
+        .grid-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: grid;
+            gap: 4px;
+            padding: 20px;
+        }
+
+        .grid-pattern.unitized-grid {
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(3, 1fr);
+        }
+
+        .grid-pattern.stick-grid {
+            grid-template-columns: repeat(6, 1fr);
+            grid-template-rows: repeat(4, 1fr);
+        }
+
+        .grid-cell {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        .grid-cell:hover {
+            background: rgba(139, 92, 246, 0.3);
+            transform: scale(1.05);
+        }
+
+        .system-content {
+            padding: 2rem;
+        }
+
+        .system-content h3 {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .system-content .type {
+            color: var(--primary);
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .system-features {
+            list-style: none;
+        }
+
+        .system-features li {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.1);
+            font-size: 0.95rem;
+        }
+
+        .system-features li:last-child {
+            border-bottom: none;
+        }
+
+        .system-features li::before {
+            content: '▸';
+            color: var(--primary);
+            font-weight: bold;
+        }
+
+        .system-metrics {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .metric {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+        }
+
+        .metric-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--primary);
+        }
+
+        .metric-label {
+            font-size: 0.75rem;
+            color: rgba(250, 245, 255, 0.6);
+        }
+
+        /* Height-Based Pressure Section */
+        .pressure-section {
+            padding: 6rem 2rem;
+            background: var(--dark);
+        }
+
+        .pressure-visualization {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .building-tower {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(180deg, rgba(139, 92, 246, 0.2), rgba(139, 92, 246, 0.05));
+            border: 2px solid rgba(139, 92, 246, 0.4);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .floor-zone {
+            position: absolute;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .floor-zone:hover {
+            background: rgba(139, 92, 246, 0.2);
+        }
+
+        .floor-zone.active {
+            background: linear-gradient(90deg, rgba(139, 92, 246, 0.4), transparent);
+            border-left: 4px solid var(--primary);
+        }
+
+        .floor-label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--light);
+        }
+
+        .floor-pressure {
+            position: absolute;
+            right: -80px;
+            font-size: 0.8rem;
+            color: var(--accent);
+            font-weight: 600;
+            opacity: 0;
+            transform: translateX(-10px);
+            transition: all 0.3s ease;
+        }
+
+        .floor-zone:hover .floor-pressure,
+        .floor-zone.active .floor-pressure {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pressure-details {
+            padding: 2rem;
+        }
+
+        .pressure-details h3 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .pressure-details h3 span {
+            color: var(--accent);
+        }
+
+        .pressure-details > p {
+            color: rgba(250, 245, 255, 0.7);
+            margin-bottom: 2rem;
+        }
+
+        .pressure-breakdown {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .pressure-row {
+            display: grid;
+            grid-template-columns: 1fr 100px 120px;
+            align-items: center;
+            padding: 1rem;
+            background: rgba(139, 92, 246, 0.1);
+            border-radius: 12px;
+            opacity: 0;
+            transform: translateX(-20px);
+            transition: all 0.5s ease;
+        }
+
+        .pressure-row.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .pressure-row .zone {
+            font-weight: 600;
+        }
+
+        .pressure-row .height {
+            color: rgba(250, 245, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        .pressure-row .value {
+            text-align: right;
+            font-weight: 700;
+            color: var(--primary);
+            font-size: 1.1rem;
+        }
+
+        /* Requirements Section */
+        .requirements-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--dark) 0%, var(--darker) 100%);
+        }
+
+        .requirements-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .requirement-card {
+            background: rgba(15, 10, 31, 0.6);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 16px;
+            padding: 2rem;
+            opacity: 0;
+            transform: scale(0.95);
+            transition: all 0.5s ease;
+        }
+
+        .requirement-card.visible {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .requirement-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .requirement-icon svg {
+            width: 28px;
+            height: 28px;
+            stroke: white;
+        }
+
+        .requirement-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+
+        .requirement-list {
+            list-style: none;
+        }
+
+        .requirement-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: rgba(250, 245, 255, 0.8);
+        }
+
+        .requirement-list li::before {
+            content: '◆';
+            color: var(--primary);
+            font-size: 0.6rem;
+            margin-top: 0.4rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: var(--darker);
+        }
+
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(15, 10, 31, 0.6);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .faq-toggle {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--primary);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: rgba(250, 245, 255, 0.8);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--accent) 100%);
+            text-align: center;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(15, 10, 31, 0.95);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 16px;
+            padding: 1.25rem;
+            z-index: 999;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
+            min-width: 200px;
+        }
+
+        .widget-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .widget-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .widget-title {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: rgba(250, 245, 255, 0.8);
+        }
+
+        .widget-meter {
+            height: 8px;
+            background: rgba(139, 92, 246, 0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 0.5rem;
+        }
+
+        .widget-meter-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            width: 0%;
+            animation: meterFill 2s ease forwards;
+        }
+
+        @keyframes meterFill {
+            to { width: 85%; }
+        }
+
+        .widget-value {
+            text-align: center;
+            font-size: 0.8rem;
+            color: rgba(250, 245, 255, 0.6);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--dark);
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--primary);
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section li {
+            margin-bottom: 0.75rem;
+        }
+
+        .footer-section a {
+            color: rgba(250, 245, 255, 0.7);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: rgba(250, 245, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+            }
+
+            .systems-comparison {
+                grid-template-columns: 1fr;
+            }
+
+            .pressure-visualization {
+                grid-template-columns: 1fr;
+            }
+
+            .requirements-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 {
+                font-size: 2rem;
+            }
+
+            .hero-stats {
+                grid-template-columns: 1fr;
+            }
+
+            .waterfall-bar {
+                width: 35px;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widget {
+                bottom: 15px;
+                right: 15px;
+                left: 15px;
+                min-width: auto;
+            }
+
+            .building-tower {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="nav-content">
+            <a href="/" class="logo">
+                <div class="logo-icon">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <span class="logo-text">WindLoad.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="/florida">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="/architects">Architects</a></li>
+                <li><a href="/pricing">Pricing</a></li>
+            </ul>
+            <a href="/#calculator" class="cta-button">Calculate Now</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <canvas id="facadeCanvas"></canvas>
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Miami-Dade <span>Curtain Wall</span> Wind Engineering</h1>
+                <p class="hero-subtitle">High-rise facade wind load calculations for HVHZ compliance. Unitized and stick-built systems engineered to 180+ mph with full pressure cascades.</p>
+
+                <div class="hero-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">180+</div>
+                        <div class="stat-label">MPH Design Speed</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">±95</div>
+                        <div class="stat-label">PSF Max Pressure</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">60</div>
+                        <div class="stat-label">Story Capacity</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="waterfall-container">
+                <div class="waterfall-header">
+                    <div class="waterfall-title">Wind Load Component Cascade</div>
+                    <div class="waterfall-subtitle">Pressure buildup by height zone (50-story reference)</div>
+                </div>
+
+                <div class="waterfall-chart" id="waterfallChart">
+                    <div class="waterfall-bar-group">
+                        <div class="waterfall-bar" data-height="80" style="background: linear-gradient(180deg, #22c55e, #10b981);">
+                            <span class="bar-value">+28</span>
+                        </div>
+                        <div class="bar-label">Base Qz (0-30ft)</div>
+                    </div>
+                    <div class="waterfall-bar-group">
+                        <div class="waterfall-bar" data-height="120">
+                            <span class="bar-value">+15</span>
+                        </div>
+                        <div class="bar-label">Low Zone (30-100ft)</div>
+                    </div>
+                    <div class="waterfall-bar-group">
+                        <div class="waterfall-bar" data-height="160">
+                            <span class="bar-value">+18</span>
+                        </div>
+                        <div class="bar-label">Mid Zone (100-300ft)</div>
+                    </div>
+                    <div class="waterfall-bar-group">
+                        <div class="waterfall-bar" data-height="200">
+                            <span class="bar-value">+22</span>
+                        </div>
+                        <div class="bar-label">High Zone (300-500ft)</div>
+                    </div>
+                    <div class="waterfall-bar-group">
+                        <div class="waterfall-bar" data-height="240">
+                            <span class="bar-value">+12</span>
+                        </div>
+                        <div class="bar-label">Top Zone (500ft+)</div>
+                    </div>
+                    <div class="waterfall-bar-group">
+                        <div class="waterfall-bar" data-height="280" style="background: linear-gradient(180deg, var(--accent), #f472b6);">
+                            <span class="bar-value">=95</span>
+                        </div>
+                        <div class="bar-label">Total Design PSF</div>
+                    </div>
+                </div>
+
+                <div class="waterfall-legend">
+                    <div class="legend-item">
+                        <div class="legend-color positive"></div>
+                        <span>Pressure Addition</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color negative"></div>
+                        <span>Final Design Pressure</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="systems-section">
+        <div class="section-header">
+            <h2>Curtain Wall <span>System Types</span></h2>
+            <p>Compare unitized and stick-built facade systems for Miami-Dade HVHZ high-rise applications.</p>
+        </div>
+
+        <div class="systems-comparison">
+            <div class="system-card">
+                <div class="system-visual unitized">
+                    <div class="grid-pattern unitized-grid">
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                    </div>
+                </div>
+                <div class="system-content">
+                    <h3>Unitized System</h3>
+                    <div class="type">Factory-Assembled Panels</div>
+                    <ul class="system-features">
+                        <li>Pre-glazed units with factory quality control</li>
+                        <li>Faster installation – 15-20 panels/day/crew</li>
+                        <li>Better weather protection during construction</li>
+                        <li>Interlocking split mullion connections</li>
+                        <li>Easier replacement of damaged units</li>
+                    </ul>
+                    <div class="system-metrics">
+                        <div class="metric">
+                            <div class="metric-value">±95</div>
+                            <div class="metric-label">PSF Max Pressure</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">6-8"</div>
+                            <div class="metric-label">Mullion Depth</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="system-card">
+                <div class="system-visual stick">
+                    <div class="grid-pattern stick-grid">
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                        <div class="grid-cell"></div>
+                    </div>
+                </div>
+                <div class="system-content">
+                    <h3>Stick-Built System</h3>
+                    <div class="type">Field-Assembled Components</div>
+                    <ul class="system-features">
+                        <li>On-site assembly of mullions and glass</li>
+                        <li>Greater flexibility for complex geometry</li>
+                        <li>Lower shipping costs for remote sites</li>
+                        <li>Continuous mullion runs possible</li>
+                        <li>More field labor intensive</li>
+                    </ul>
+                    <div class="system-metrics">
+                        <div class="metric">
+                            <div class="metric-value">±95</div>
+                            <div class="metric-label">PSF Max Pressure</div>
+                        </div>
+                        <div class="metric">
+                            <div class="metric-value">8-10"</div>
+                            <div class="metric-label">Mullion Depth</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pressure-section">
+        <div class="section-header">
+            <h2>Height-Based <span>Pressure Zones</span></h2>
+            <p>Wind pressure increases with building height. Select a zone to see detailed requirements.</p>
+        </div>
+
+        <div class="pressure-visualization">
+            <div class="building-tower" id="buildingTower">
+                <!-- Floor zones will be generated by JavaScript -->
+            </div>
+
+            <div class="pressure-details">
+                <h3>Pressure by <span>Elevation</span></h3>
+                <p>ASCE 7-22 velocity pressure coefficients (Kz) increase with height above ground level. Corner zones require approximately 50% higher pressures than field-of-wall areas at all heights.</p>
+
+                <div class="pressure-breakdown">
+                    <div class="pressure-row">
+                        <div class="zone">0 - 30 ft (Ground)</div>
+                        <div class="height">Floors 1-3</div>
+                        <div class="value">±65 PSF</div>
+                    </div>
+                    <div class="pressure-row">
+                        <div class="zone">30 - 100 ft (Low)</div>
+                        <div class="height">Floors 4-10</div>
+                        <div class="value">±72 PSF</div>
+                    </div>
+                    <div class="pressure-row">
+                        <div class="zone">100 - 300 ft (Mid)</div>
+                        <div class="height">Floors 11-30</div>
+                        <div class="value">±82 PSF</div>
+                    </div>
+                    <div class="pressure-row">
+                        <div class="zone">300 - 500 ft (High)</div>
+                        <div class="height">Floors 31-50</div>
+                        <div class="value">±90 PSF</div>
+                    </div>
+                    <div class="pressure-row">
+                        <div class="zone">500+ ft (Top)</div>
+                        <div class="height">Floors 51+</div>
+                        <div class="value">±95+ PSF</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements-section">
+        <div class="section-header">
+            <h2>Technical <span>Requirements</span></h2>
+            <p>FBC 2024 and Miami-Dade specifications for high-rise curtain wall systems.</p>
+        </div>
+
+        <div class="requirements-grid">
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    </svg>
+                </div>
+                <h3>Impact Testing</h3>
+                <ul class="requirement-list">
+                    <li>Large missile: 9-lb 2×4 at 50 fps</li>
+                    <li>Small missile: 10 steel balls at 80 fps</li>
+                    <li>TAS 201, 202, 203 compliance</li>
+                    <li>Cyclic pressure after impact</li>
+                    <li>Glass retention verification</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        <line x1="3" y1="9" x2="21" y2="9"/>
+                        <line x1="9" y1="21" x2="9" y2="9"/>
+                    </svg>
+                </div>
+                <h3>Mullion Requirements</h3>
+                <ul class="requirement-list">
+                    <li>Aluminum 6063-T6 or 6061-T6</li>
+                    <li>Wall thickness: 0.125" - 0.250"</li>
+                    <li>Thermal break for coastal zones</li>
+                    <li>Deflection limit: L/175 or 3/4"</li>
+                    <li>Stack joint movement: ±1/4"</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"/>
+                        <path d="M8 12l2 2 4-4"/>
+                    </svg>
+                </div>
+                <h3>Glass Specifications</h3>
+                <ul class="requirement-list">
+                    <li>Laminated with 0.090" PVB minimum</li>
+                    <li>Heat-strengthened outer lite preferred</li>
+                    <li>IGU: 1" typical insulated units</li>
+                    <li>Structural silicone for SSG systems</li>
+                    <li>Edge bite: 1/2" minimum</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                        <path d="M14 2v6h6"/>
+                    </svg>
+                </div>
+                <h3>Documentation</h3>
+                <ul class="requirement-list">
+                    <li>Miami-Dade NOA required</li>
+                    <li>PE-sealed shop drawings</li>
+                    <li>Structural calculations package</li>
+                    <li>Product approval for anchors</li>
+                    <li>Field quality assurance plan</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                        <path d="M2 17l10 5 10-5"/>
+                        <path d="M2 12l10 5 10-5"/>
+                    </svg>
+                </div>
+                <h3>Anchor Design</h3>
+                <ul class="requirement-list">
+                    <li>Dead load + wind load + seismic</li>
+                    <li>Slotted connections for movement</li>
+                    <li>Hot-dip galvanized or stainless</li>
+                    <li>Minimum 2 anchors per mullion</li>
+                    <li>Special inspection required</li>
+                </ul>
+            </div>
+
+            <div class="requirement-card">
+                <div class="requirement-icon">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 16V8a2 2 0 00-1-1.73l-7-4a2 2 0 00-2 0l-7 4A2 2 0 003 8v8a2 2 0 001 1.73l7 4a2 2 0 002 0l7-4A2 2 0 0021 16z"/>
+                    </svg>
+                </div>
+                <h3>Mockup Testing</h3>
+                <ul class="requirement-list">
+                    <li>ASTM E330 structural test</li>
+                    <li>ASTM E331 water penetration</li>
+                    <li>AAMA 501.1 water at design pressure</li>
+                    <li>AAMA 501.4 seismic mockup</li>
+                    <li>Impact testing per TAS 201</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span>Questions</span></h2>
+            <p>Expert answers for facade engineers and architects.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What wind loads apply to curtain walls in Miami-Dade County?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Curtain walls in Miami-Dade HVHZ must resist design wind speeds of 180+ mph. Components and cladding pressures vary by height, with upper floors experiencing significantly higher pressures. Corner zones (Zone 5) require approximately 50% higher pressures than field-of-wall (Zone 4) areas. Typical design pressures range from ±65 PSF at lower levels to ±95+ PSF at building tops for 50+ story structures.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is the difference between unitized and stick-built curtain wall systems?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Unitized systems are factory-assembled panels installed as complete units, offering better quality control and faster installation (15-20 panels/day/crew). They use interlocking split mullion connections. Stick-built systems are assembled on-site from individual mullions and glass, providing more flexibility for complex geometry but requiring more field labor. Both must meet identical wind load and impact requirements in HVHZ zones.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What mullion sizes are typical for HVHZ curtain walls?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Mullion depths typically range from 6" to 10" for HVHZ applications, depending on span and pressure requirements. Unitized systems typically use 6-8" depths while stick-built often requires 8-10" for equivalent performance. High-rise buildings often require deeper mullions at upper floors due to increased wind pressures. Aluminum mullion wall thickness is typically 0.125" to 0.250" depending on structural demands.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What testing is required for curtain walls in Miami-Dade?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Curtain walls require Miami-Dade NOA with testing per TAS 201 (large missile impact at 50 fps), TAS 202 (uniform static air pressure to 1.5× design), and TAS 203 (cyclic wind pressure with 4,500+ cycles). Additional testing includes ASTM E330 for structural performance at 1.5× design, ASTM E331 for water penetration at 6.24 PSF minimum, and AAMA 501.4 for seismic mockup testing where applicable.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How are corner pressures different from field-of-wall?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Corner zones (Zone 5 in ASCE 7) experience approximately 50% higher negative pressures than field-of-wall areas (Zone 4) due to flow separation and vortex formation. The corner zone extends from building edges a distance equal to 10% of least horizontal dimension or 0.4× building height (whichever is smaller, but not less than 4% or 3 feet). Corner mullions often require additional reinforcement or thicker walls.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Get Your Curtain Wall Calculations</h2>
+            <p>Instant wind load analysis for any height and zone configuration. PE-certified reports for permit submission.</p>
+            <div class="cta-buttons">
+                <a href="/#calculator" class="btn-primary">Calculate Now</a>
+                <a href="/pricing" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-header">
+            <div class="widget-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <line x1="3" y1="9" x2="21" y2="9"/>
+                </svg>
+            </div>
+            <span class="widget-title">Facade Compliance</span>
+        </div>
+        <div class="widget-meter">
+            <div class="widget-meter-fill"></div>
+        </div>
+        <div class="widget-value">HVHZ Rated: 180+ mph</div>
+    </div>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="/florida">Florida Requirements</a></li>
+                    <li><a href="/hvhz">HVHZ Zones</a></li>
+                    <li><a href="/exposure">Exposure Categories</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="/architects">For Architects</a></li>
+                    <li><a href="/contractors">For Contractors</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Miami-Dade</h4>
+                <ul>
+                    <li><a href="/florida/miami-dade/impact-doors">Impact Doors</a></li>
+                    <li><a href="/florida/miami-dade/commercial-wind-loads">Commercial</a></li>
+                    <li><a href="/florida/miami-dade/curtain-wall">Curtain Wall</a></li>
+                    <li><a href="/florida/miami-dade">All Miami-Dade</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/codes">Building Codes</a></li>
+                    <li><a href="/asce-7">ASCE 7-22</a></li>
+                    <li><a href="/pricing">Pricing</a></li>
+                    <li><a href="/about">About Us</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Calculations per ASCE 7-22, FBC 2024, and TAS protocols</p>
+        </div>
+    </footer>
+
+    <script>
+        // Facade Grid Canvas Animation
+        const canvas = document.getElementById('facadeCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Glass panel particles
+        class FacadePanel {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.width = 30 + Math.random() * 50;
+                this.height = 50 + Math.random() * 80;
+                this.opacity = 0.02 + Math.random() * 0.06;
+                this.speedY = -0.2 - Math.random() * 0.3;
+                this.speedX = (Math.random() - 0.5) * 0.2;
+                this.hue = 260 + Math.random() * 40;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+
+                if (this.y < -this.height) {
+                    this.y = canvas.height + this.height;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                // Panel
+                ctx.fillStyle = `hsla(${this.hue}, 70%, 60%, ${this.opacity})`;
+                ctx.fillRect(this.x, this.y, this.width, this.height);
+
+                // Frame
+                ctx.strokeStyle = `hsla(${this.hue}, 80%, 70%, ${this.opacity * 1.5})`;
+                ctx.lineWidth = 1;
+                ctx.strokeRect(this.x, this.y, this.width, this.height);
+
+                // Mullion lines
+                ctx.strokeStyle = `hsla(${this.hue}, 60%, 50%, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.moveTo(this.x + this.width / 2, this.y);
+                ctx.lineTo(this.x + this.width / 2, this.y + this.height);
+                ctx.stroke();
+            }
+        }
+
+        const panels = [];
+        for (let i = 0; i < 40; i++) {
+            panels.push(new FacadePanel());
+        }
+
+        function animate() {
+            ctx.fillStyle = 'rgba(8, 5, 16, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            panels.forEach(panel => {
+                panel.update();
+                panel.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Waterfall Chart Animation
+        function animateWaterfall() {
+            const bars = document.querySelectorAll('.waterfall-bar');
+            bars.forEach((bar, index) => {
+                setTimeout(() => {
+                    const height = bar.dataset.height;
+                    bar.style.height = height + 'px';
+                }, index * 200);
+            });
+        }
+
+        setTimeout(animateWaterfall, 500);
+
+        // Building Tower Visualization
+        const buildingTower = document.getElementById('buildingTower');
+        const zones = [
+            { label: 'Floors 51+', pressure: '±95 PSF', height: 15 },
+            { label: 'Floors 31-50', pressure: '±90 PSF', height: 20 },
+            { label: 'Floors 11-30', pressure: '±82 PSF', height: 30 },
+            { label: 'Floors 4-10', pressure: '±72 PSF', height: 20 },
+            { label: 'Floors 1-3', pressure: '±65 PSF', height: 15 }
+        ];
+
+        let currentTop = 0;
+        zones.forEach((zone, index) => {
+            const zoneEl = document.createElement('div');
+            zoneEl.className = 'floor-zone';
+            zoneEl.style.top = currentTop + '%';
+            zoneEl.style.height = zone.height + '%';
+            zoneEl.innerHTML = `
+                <span class="floor-label">${zone.label}</span>
+                <span class="floor-pressure">${zone.pressure}</span>
+            `;
+
+            zoneEl.addEventListener('mouseenter', () => {
+                document.querySelectorAll('.floor-zone').forEach(z => z.classList.remove('active'));
+                zoneEl.classList.add('active');
+            });
+
+            buildingTower.appendChild(zoneEl);
+            currentTop += zone.height;
+        });
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.system-card, .requirement-card, .faq-item, .pressure-row').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isOpen = faqItem.classList.contains('open');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('open');
+                });
+
+                if (!isOpen) {
+                    faqItem.classList.add('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

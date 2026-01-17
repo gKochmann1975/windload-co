@@ -1,0 +1,1503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Florida Keys Salt Spray Zone | Corrosion Requirements for Coastal Construction</title>
+    <meta name="description" content="Understand salt spray corrosion zones in the Florida Keys. Learn how distance from water affects material requirements and corrosion protection for your construction project.">
+    <link rel="canonical" href="https://windload.co/florida/monroe/salt-spray-zone.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida Keys">
+    <meta name="geo.position" content="24.5551;-81.7800">
+    <meta name="ICBM" content="24.5551, -81.7800">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Florida Keys Salt Spray Zone | Corrosion Protection Guide">
+    <meta property="og:description" content="Distance from water determines corrosion requirements. Interactive visualization showing how salt spray affects building materials in the Florida Keys.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/salt-spray-zone.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is the salt spray zone in the Florida Keys?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "The salt spray zone is the area near saltwater where airborne salt particles can reach and corrode building materials. In the Florida Keys, nearly everything is in the salt spray zone since most locations are within 3,000 feet of saltwater on at least one side."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What hardware is required in the salt spray zone?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Within 3,000 feet of saltwater, Florida Building Code requires stainless steel or hot-dipped galvanized fasteners and connectors. Standard galvanized hardware is not sufficient. The closer to water, the more corrosion-resistant your materials need to be."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Does salt spray affect wind load calculations?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Salt spray does not directly change wind load numbers, but it affects how you achieve those loads. Corroded connections lose strength over time, so you need materials that maintain their rated capacity in corrosive environments. A connector that rusts through cannot resist the loads it was designed for."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What distance from water requires special corrosion protection?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Florida Building Code specifies 3,000 feet from saltwater as the salt spray zone boundary. Within this zone, enhanced corrosion protection is required for metal fasteners and connectors. In the Keys, since most areas are surrounded by water, you should assume everything needs corrosion-resistant hardware."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida-pro.html"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Monroe County",
+            "item": "https://windload.co/florida/monroe/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Salt Spray Zone",
+            "item": "https://windload.co/florida/monroe/salt-spray-zone.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-deep: #0d0015;
+            --text-primary: #ffffff;
+            --text-secondary: #b4a5c7;
+            --rust-orange: #d4622a;
+            --corrosion-red: #8b3a3a;
+            --steel-gray: #708090;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-deep);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 6rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--rust-orange), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 500px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 98, 42, 0.15);
+            border: 1px solid rgba(212, 98, 42, 0.3);
+            color: var(--rust-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        /* Salt Spray Visualization */
+        .spray-viz-container {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            background: linear-gradient(180deg, rgba(0, 85, 170, 0.1) 0%, rgba(139, 58, 58, 0.1) 100%);
+            border-radius: 24px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            overflow: hidden;
+        }
+
+        #sprayCanvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .distance-display {
+            position: absolute;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(13, 0, 21, 0.95);
+            padding: 1rem 2rem;
+            border-radius: 100px;
+            border: 1px solid var(--accent-cyan);
+            text-align: center;
+        }
+
+        .distance-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .distance-value {
+            font-size: 1.5rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+        }
+
+        .corrosion-meter {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(13, 0, 21, 0.95);
+            padding: 1rem 1.5rem;
+            border-radius: 12px;
+            border: 1px solid var(--rust-orange);
+        }
+
+        .meter-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+        }
+
+        .meter-bar {
+            width: 150px;
+            height: 12px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--rust-orange), var(--corrosion-red));
+            border-radius: 6px;
+            position: relative;
+        }
+
+        .meter-indicator {
+            position: absolute;
+            top: -4px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+            transition: left 0.3s ease;
+        }
+
+        .meter-text {
+            margin-top: 0.5rem;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--rust-orange);
+        }
+
+        /* Sections */
+        .section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Zone Cards */
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .zone-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .zone-card.severe {
+            border-color: var(--corrosion-red);
+        }
+
+        .zone-card.severe:hover {
+            box-shadow: 0 20px 60px rgba(139, 58, 58, 0.3);
+        }
+
+        .zone-card.moderate {
+            border-color: var(--rust-orange);
+        }
+
+        .zone-card.moderate:hover {
+            box-shadow: 0 20px 60px rgba(212, 98, 42, 0.3);
+        }
+
+        .zone-card.mild {
+            border-color: var(--accent-cyan);
+        }
+
+        .zone-card.mild:hover {
+            box-shadow: 0 20px 60px rgba(0, 212, 255, 0.2);
+        }
+
+        .zone-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .zone-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .zone-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .zone-distance {
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.85rem;
+        }
+
+        .zone-card.severe .zone-distance {
+            background: rgba(139, 58, 58, 0.3);
+            color: #ff6b6b;
+        }
+
+        .zone-card.moderate .zone-distance {
+            background: rgba(212, 98, 42, 0.3);
+            color: var(--rust-orange);
+        }
+
+        .zone-card.mild .zone-distance {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent-cyan);
+        }
+
+        .zone-requirements {
+            list-style: none;
+        }
+
+        .zone-requirements li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-secondary);
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+        }
+
+        .zone-requirements li:last-child {
+            border-bottom: none;
+        }
+
+        .zone-requirements li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            margin-top: 0.5rem;
+            flex-shrink: 0;
+        }
+
+        .zone-card.severe .zone-requirements li::before {
+            background: var(--corrosion-red);
+        }
+
+        .zone-card.moderate .zone-requirements li::before {
+            background: var(--rust-orange);
+        }
+
+        .zone-card.mild .zone-requirements li::before {
+            background: var(--accent-cyan);
+        }
+
+        /* Distance Slider Tool */
+        .distance-tool {
+            background: linear-gradient(135deg, rgba(26, 10, 46, 0.5) 0%, rgba(13, 0, 21, 0.5) 100%);
+            border-radius: 24px;
+            padding: 3rem;
+            border: 1px solid rgba(212, 98, 42, 0.3);
+        }
+
+        .tool-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .tool-controls {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .slider-group {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .slider-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .slider-label {
+            font-weight: 600;
+        }
+
+        .slider-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+        }
+
+        .distance-slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--corrosion-red), var(--rust-orange), var(--accent-cyan));
+        }
+
+        .distance-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .tool-output {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .output-title {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .output-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .output-item:last-child {
+            border-bottom: none;
+        }
+
+        .output-label {
+            color: var(--text-secondary);
+        }
+
+        .output-value {
+            font-weight: 700;
+        }
+
+        /* Material Comparison */
+        .materials-section {
+            background: rgba(26, 10, 46, 0.3);
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .material-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .material-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-cyan);
+        }
+
+        .material-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .material-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .material-rating {
+            display: flex;
+            justify-content: center;
+            gap: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .rating-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .rating-dot.filled {
+            background: var(--accent-cyan);
+        }
+
+        .material-note {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(26, 10, 46, 0.3);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--rust-orange), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), rgba(26, 10, 46, 0.95));
+            border: 1px solid var(--rust-orange);
+            border-radius: 20px;
+            padding: 1.5rem;
+            z-index: 90;
+            box-shadow: 0 10px 40px rgba(212, 98, 42, 0.3);
+            min-width: 200px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.75rem;
+        }
+
+        .widget-stat:last-child {
+            margin-bottom: 0;
+        }
+
+        .widget-stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .widget-stat-value {
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        /* CTA and Footer */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--rust-orange) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-white {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        .btn-white:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        footer {
+            padding: 3rem 2rem;
+            background: var(--bg-deep);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-column h4 {
+            font-size: 0.9rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-column a {
+            display: block;
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-column a:hover {
+            color: var(--rust-orange);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 968px) {
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-subtitle {
+                margin: 0 auto 2rem;
+            }
+
+            .spray-viz-container {
+                height: 400px;
+            }
+
+            .tool-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widget {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                min-width: unset;
+            }
+
+            .nav-links {
+                display: none;
+            }
+        }
+
+        @media (max-width: 640px) {
+            .zones-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_00b4d8.svg" alt="">
+            <span>Wind<span style="color: var(--accent-cyan);">Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/states.html">States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <div class="hero-badge">Coastal Corrosion</div>
+                <h1>The <span>Corrosion Zone</span></h1>
+                <p class="hero-subtitle">
+                    Salt is invisible but deadly to metal. The closer you build to water, the faster things rust. Watch how distance from the ocean changes what materials you need for your Florida Keys project.
+                </p>
+                <a href="https://windloadcalc.com" class="btn btn-white" style="background: linear-gradient(135deg, var(--rust-orange), var(--accent-cyan)); color: white;">
+                    Get Material Specs
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+            <div class="spray-viz-container">
+                <canvas id="sprayCanvas"></canvas>
+                <div class="distance-display">
+                    <div class="distance-label">Distance from Water</div>
+                    <div class="distance-value" id="distanceValue">0 ft</div>
+                </div>
+                <div class="corrosion-meter">
+                    <div class="meter-label">Corrosion Risk</div>
+                    <div class="meter-bar">
+                        <div class="meter-indicator" id="meterIndicator" style="left: 0%;"></div>
+                    </div>
+                    <div class="meter-text" id="meterText">Severe</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Corrosion Zones -->
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Corrosion Zones Explained</h2>
+                <p>Florida Building Code defines specific requirements based on distance from saltwater. Here is what you need to know for each zone.</p>
+            </div>
+            <div class="zones-grid">
+                <div class="zone-card severe">
+                    <div class="zone-header">
+                        <span class="zone-title">Severe Zone</span>
+                        <span class="zone-distance">0-1,000 ft</span>
+                    </div>
+                    <ul class="zone-requirements">
+                        <li>316 stainless steel fasteners required</li>
+                        <li>Marine-grade aluminum or stainless connectors</li>
+                        <li>Maximum corrosion protection coatings</li>
+                        <li>Annual inspection recommended</li>
+                        <li>No standard galvanized hardware allowed</li>
+                    </ul>
+                </div>
+                <div class="zone-card moderate">
+                    <div class="zone-header">
+                        <span class="zone-title">Moderate Zone</span>
+                        <span class="zone-distance">1,000-3,000 ft</span>
+                    </div>
+                    <ul class="zone-requirements">
+                        <li>304 stainless or hot-dipped galvanized</li>
+                        <li>G185 galvanized connectors minimum</li>
+                        <li>Protective coatings on exposed metal</li>
+                        <li>Bi-annual inspection recommended</li>
+                        <li>Dissimilar metal contact must be isolated</li>
+                    </ul>
+                </div>
+                <div class="zone-card mild">
+                    <div class="zone-header">
+                        <span class="zone-title">Standard Zone</span>
+                        <span class="zone-distance">3,000+ ft</span>
+                    </div>
+                    <ul class="zone-requirements">
+                        <li>Hot-dipped galvanized acceptable</li>
+                        <li>Standard G90 connectors allowed</li>
+                        <li>Basic protective coatings</li>
+                        <li>Standard inspection schedule</li>
+                        <li>Note: Rare in the Florida Keys</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Distance Tool -->
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Distance Matters</h2>
+                <p>Drag the slider to see how requirements change as you move closer to or farther from saltwater.</p>
+            </div>
+            <div class="distance-tool">
+                <div class="tool-grid">
+                    <div class="tool-controls">
+                        <div class="slider-group">
+                            <div class="slider-header">
+                                <span class="slider-label">Distance from Saltwater</span>
+                                <span class="slider-value" id="toolDistance">500 ft</span>
+                            </div>
+                            <input type="range" class="distance-slider" id="distanceSlider" min="0" max="4000" value="500">
+                        </div>
+                        <div style="padding: 1.5rem; background: rgba(0,0,0,0.2); border-radius: 12px;">
+                            <p style="color: var(--text-secondary); font-size: 0.9rem;">
+                                <strong style="color: var(--rust-orange);">Florida Keys Reality:</strong> Most locations in Monroe County are within 1,000 feet of saltwater on at least one side. The Keys are narrow, so you are almost always in the severe or moderate corrosion zone.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="tool-output">
+                        <div class="output-title">Required Materials</div>
+                        <div class="output-item">
+                            <span class="output-label">Zone Classification</span>
+                            <span class="output-value" id="outZone" style="color: var(--corrosion-red);">Severe</span>
+                        </div>
+                        <div class="output-item">
+                            <span class="output-label">Fastener Type</span>
+                            <span class="output-value" id="outFastener">316 Stainless</span>
+                        </div>
+                        <div class="output-item">
+                            <span class="output-label">Connector Standard</span>
+                            <span class="output-value" id="outConnector">Marine Grade</span>
+                        </div>
+                        <div class="output-item">
+                            <span class="output-label">Inspection Cycle</span>
+                            <span class="output-value" id="outInspection">Annual</span>
+                        </div>
+                        <div class="output-item">
+                            <span class="output-label">Cost Factor</span>
+                            <span class="output-value" id="outCost">2.5x standard</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Material Comparison -->
+    <section class="section materials-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Material Corrosion Resistance</h2>
+                <p>Not all metals handle salt spray equally. Choose the right material for your location.</p>
+            </div>
+            <div class="materials-grid">
+                <div class="material-card">
+                    <div class="material-icon" style="background: rgba(192, 192, 192, 0.2);">
+                        <span style="color: #c0c0c0;">SS</span>
+                    </div>
+                    <div class="material-name">316 Stainless Steel</div>
+                    <div class="material-rating">
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                    </div>
+                    <div class="material-note">Best choice. Marine-grade with molybdenum for maximum corrosion resistance.</div>
+                </div>
+                <div class="material-card">
+                    <div class="material-icon" style="background: rgba(192, 192, 192, 0.15);">
+                        <span style="color: #a0a0a0;">SS</span>
+                    </div>
+                    <div class="material-name">304 Stainless Steel</div>
+                    <div class="material-rating">
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot"></div>
+                    </div>
+                    <div class="material-note">Good choice. Works for moderate zones. Less expensive than 316.</div>
+                </div>
+                <div class="material-card">
+                    <div class="material-icon" style="background: rgba(180, 180, 180, 0.15);">
+                        <span style="color: #888;">HDG</span>
+                    </div>
+                    <div class="material-name">Hot-Dip Galvanized</div>
+                    <div class="material-rating">
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot"></div>
+                        <div class="rating-dot"></div>
+                    </div>
+                    <div class="material-note">OK for 1,000+ ft from water. Coating thickness matters. G185 minimum.</div>
+                </div>
+                <div class="material-card">
+                    <div class="material-icon" style="background: rgba(139, 69, 19, 0.2);">
+                        <span style="color: #8b4513;">Cu</span>
+                    </div>
+                    <div class="material-name">Silicon Bronze</div>
+                    <div class="material-rating">
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                    </div>
+                    <div class="material-note">Excellent for wood connections. Traditional marine fastener material.</div>
+                </div>
+                <div class="material-card">
+                    <div class="material-icon" style="background: rgba(212, 98, 42, 0.2);">
+                        <span style="color: #d4622a;">G90</span>
+                    </div>
+                    <div class="material-name">Standard Galvanized</div>
+                    <div class="material-rating">
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot"></div>
+                        <div class="rating-dot"></div>
+                        <div class="rating-dot"></div>
+                    </div>
+                    <div class="material-note">Not recommended for Keys. Will fail prematurely in salt spray environment.</div>
+                </div>
+                <div class="material-card">
+                    <div class="material-icon" style="background: rgba(139, 58, 58, 0.2);">
+                        <span style="color: #8b3a3a;">Fe</span>
+                    </div>
+                    <div class="material-name">Uncoated Steel</div>
+                    <div class="material-rating">
+                        <div class="rating-dot filled"></div>
+                        <div class="rating-dot"></div>
+                        <div class="rating-dot"></div>
+                        <div class="rating-dot"></div>
+                        <div class="rating-dot"></div>
+                    </div>
+                    <div class="material-note">Never use in Keys. Will rust through in months, not years.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Salt Spray Questions</h2>
+                <p>Common questions about corrosion protection in the Florida Keys.</p>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What is the salt spray zone in the Florida Keys?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            The salt spray zone is the area near saltwater where airborne salt particles can reach and corrode building materials. In the Florida Keys, nearly everything is in the salt spray zone since most locations are within 3,000 feet of saltwater on at least one side. The narrow Keys geography means salt spray comes from multiple directions, making corrosion protection essential for all construction.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What hardware is required in the salt spray zone?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Within 3,000 feet of saltwater, Florida Building Code requires stainless steel or hot-dipped galvanized fasteners and connectors. Standard galvanized hardware is not sufficient. The closer to water, the more corrosion-resistant your materials need to be. Within 1,000 feet, 316 stainless steel is strongly recommended. Between 1,000 and 3,000 feet, 304 stainless or heavy galvanizing (G185) may be acceptable.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Does salt spray affect wind load calculations?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Salt spray does not directly change wind load numbers, but it affects how you achieve those loads. Corroded connections lose strength over time, so you need materials that maintain their rated capacity in corrosive environments. A connector that rusts through cannot resist the loads it was designed for. Your wind load design is only as good as the materials that stay intact over time.
+                        </div>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What distance from water requires special corrosion protection?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-content">
+                            Florida Building Code specifies 3,000 feet from saltwater as the salt spray zone boundary. Within this zone, enhanced corrosion protection is required for metal fasteners and connectors. In the Keys, since most areas are surrounded by water, you should assume everything needs corrosion-resistant hardware. Even if one side of a lot is 4,000 feet from the Atlantic, it might be only 500 feet from a bay or channel.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Get the Right Materials Specified</h2>
+        <p>Ensure your Florida Keys project uses corrosion-resistant materials that will last.</p>
+        <a href="https://windloadcalc.com" class="btn btn-white">
+            Start Your Calculation
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Corrosion Facts</div>
+        <div class="widget-stat">
+            <span class="widget-stat-label">Zone Boundary</span>
+            <span class="widget-stat-value">3,000 ft</span>
+        </div>
+        <div class="widget-stat">
+            <span class="widget-stat-label">Severe Zone</span>
+            <span class="widget-stat-value">0-1,000 ft</span>
+        </div>
+        <div class="widget-stat">
+            <span class="widget-stat-label">Best Material</span>
+            <span class="widget-stat-value">316 SS</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h4>Monroe County</h4>
+                    <a href="/florida/monroe/keys-wind-speeds.html">Keys Wind Speeds</a>
+                    <a href="/florida/monroe/stilt-home-requirements.html">Stilt Homes</a>
+                    <a href="/florida/monroe/dock-and-deck-loads.html">Docks & Decks</a>
+                    <a href="/florida/monroe/salt-spray-zone.html">Salt Spray Zone</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Technical</h4>
+                    <a href="/florida/monroe/velocity-pressure.html">Velocity Pressure</a>
+                    <a href="/florida/monroe/topographic-effects.html">Topographic Effects</a>
+                    <a href="/florida/monroe/roof-slope-wind.html">Roof Slope</a>
+                    <a href="/florida/monroe/soffit-requirements.html">Soffit Requirements</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <a href="/florida-pro.html">Florida Pro</a>
+                    <a href="/states.html">All States</a>
+                    <a href="/pe.html">PE Seals</a>
+                    <a href="/pricing.html">Pricing</a>
+                </div>
+                <div class="footer-column">
+                    <h4>Company</h4>
+                    <a href="/about.html">About</a>
+                    <a href="/compare.html">Compare</a>
+                    <a href="https://windloadcalc.com">Calculator</a>
+                    <a href="https://windload.solutions">Resources</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="https://windloadcalc.com">WindLoadCalc.com</a></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Salt Spray Particle Animation
+        const particleCanvas = document.getElementById('particleCanvas');
+        const pCtx = particleCanvas.getContext('2d');
+
+        function resizeCanvas() {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const saltParticles = [];
+        for (let i = 0; i < 100; i++) {
+            saltParticles.push({
+                x: Math.random() * particleCanvas.width,
+                y: Math.random() * particleCanvas.height,
+                radius: Math.random() * 2 + 0.5,
+                speedX: Math.random() * 2 + 0.5,
+                speedY: Math.random() * 0.5 - 0.25,
+                opacity: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            pCtx.clearRect(0, 0, particleCanvas.width, particleCanvas.height);
+            saltParticles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                if (p.x > particleCanvas.width) {
+                    p.x = -10;
+                    p.y = Math.random() * particleCanvas.height;
+                }
+                pCtx.beginPath();
+                pCtx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                pCtx.fillStyle = `rgba(255, 255, 255, ${p.opacity})`;
+                pCtx.fill();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Main Spray Visualization
+        const sprayCanvas = document.getElementById('sprayCanvas');
+        const sCtx = sprayCanvas.getContext('2d');
+
+        function resizeSprayCanvas() {
+            const container = sprayCanvas.parentElement;
+            sprayCanvas.width = container.offsetWidth;
+            sprayCanvas.height = container.offsetHeight;
+        }
+        resizeSprayCanvas();
+        window.addEventListener('resize', resizeSprayCanvas);
+
+        let animatedDistance = 0;
+        let targetDistance = 0;
+        let time = 0;
+
+        const sprayParticles = [];
+        for (let i = 0; i < 200; i++) {
+            sprayParticles.push({
+                x: 0,
+                y: Math.random() * 400,
+                speed: Math.random() * 3 + 1,
+                size: Math.random() * 3 + 1,
+                maxDist: Math.random() * 3000 + 500,
+                opacity: Math.random() * 0.5 + 0.3
+            });
+        }
+
+        function drawSprayViz() {
+            sCtx.clearRect(0, 0, sprayCanvas.width, sprayCanvas.height);
+            time += 0.02;
+
+            // Animate distance
+            animatedDistance += (targetDistance - animatedDistance) * 0.05;
+            if (Math.abs(targetDistance - animatedDistance) < 1) {
+                targetDistance = Math.random() * 4000;
+            }
+
+            const waterX = 80;
+            const groundY = sprayCanvas.height * 0.75;
+            const maxVisualDist = sprayCanvas.width - 150;
+            const scale = maxVisualDist / 4000;
+
+            // Draw ocean
+            const oceanGrad = sCtx.createLinearGradient(0, 0, waterX + 50, 0);
+            oceanGrad.addColorStop(0, 'rgba(0, 85, 170, 0.8)');
+            oceanGrad.addColorStop(1, 'rgba(0, 85, 170, 0.3)');
+            sCtx.fillStyle = oceanGrad;
+            sCtx.fillRect(0, groundY - 100, waterX + 50, sprayCanvas.height);
+
+            // Waves
+            sCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            sCtx.lineWidth = 2;
+            for (let i = 0; i < 3; i++) {
+                sCtx.beginPath();
+                for (let y = groundY - 80; y < sprayCanvas.height; y += 30) {
+                    const waveX = waterX - 20 + Math.sin(y / 20 + time * 2 + i) * 15;
+                    if (y === groundY - 80) sCtx.moveTo(waveX, y);
+                    else sCtx.lineTo(waveX, y);
+                }
+                sCtx.stroke();
+            }
+
+            // Ground/beach
+            const beachGrad = sCtx.createLinearGradient(waterX, 0, sprayCanvas.width, 0);
+            beachGrad.addColorStop(0, '#c4a574');
+            beachGrad.addColorStop(0.1, '#d4b584');
+            beachGrad.addColorStop(1, '#a08060');
+            sCtx.fillStyle = beachGrad;
+            sCtx.fillRect(waterX, groundY, sprayCanvas.width - waterX, sprayCanvas.height - groundY);
+
+            // Salt spray particles
+            sprayParticles.forEach(p => {
+                p.x += p.speed;
+                if (p.x > p.maxDist * scale + waterX) {
+                    p.x = waterX;
+                    p.y = groundY - 100 + Math.random() * 80;
+                    p.maxDist = Math.random() * 3000 + 500;
+                }
+
+                const visualX = waterX + p.x;
+                const fadeStart = p.maxDist * scale * 0.7;
+                const alpha = p.x < fadeStart ? p.opacity : p.opacity * (1 - (p.x - fadeStart) / (p.maxDist * scale - fadeStart));
+
+                sCtx.beginPath();
+                sCtx.arc(visualX, p.y + Math.sin(p.x / 20 + time) * 5, p.size, 0, Math.PI * 2);
+                sCtx.fillStyle = `rgba(255, 255, 255, ${Math.max(0, alpha)})`;
+                sCtx.fill();
+            });
+
+            // Building at animated distance
+            const buildingX = waterX + animatedDistance * scale;
+            const buildingWidth = 40;
+            const buildingHeight = 60;
+
+            // Building shadow/glow based on corrosion
+            const corrosionLevel = Math.max(0, 1 - animatedDistance / 3000);
+            const glowColor = corrosionLevel > 0.6 ? '#8b3a3a' : corrosionLevel > 0.3 ? '#d4622a' : '#00d4ff';
+            sCtx.shadowColor = glowColor;
+            sCtx.shadowBlur = 20;
+
+            // Building
+            sCtx.fillStyle = '#3c3c50';
+            sCtx.fillRect(buildingX - buildingWidth/2, groundY - buildingHeight, buildingWidth, buildingHeight);
+
+            // Roof
+            sCtx.fillStyle = '#654321';
+            sCtx.beginPath();
+            sCtx.moveTo(buildingX - buildingWidth/2 - 5, groundY - buildingHeight);
+            sCtx.lineTo(buildingX, groundY - buildingHeight - 20);
+            sCtx.lineTo(buildingX + buildingWidth/2 + 5, groundY - buildingHeight);
+            sCtx.closePath();
+            sCtx.fill();
+
+            sCtx.shadowBlur = 0;
+
+            // Rust effect on building
+            if (corrosionLevel > 0.3) {
+                sCtx.fillStyle = `rgba(139, 58, 58, ${corrosionLevel * 0.5})`;
+                sCtx.fillRect(buildingX - buildingWidth/2, groundY - buildingHeight, buildingWidth, buildingHeight);
+            }
+
+            // Distance markers
+            sCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            sCtx.font = '10px sans-serif';
+            sCtx.textAlign = 'center';
+            [1000, 2000, 3000].forEach(d => {
+                const markerX = waterX + d * scale;
+                sCtx.fillRect(markerX, groundY, 1, 10);
+                sCtx.fillText(d + ' ft', markerX, groundY + 22);
+            });
+
+            // Zone colors on ground
+            // Severe zone (0-1000)
+            sCtx.fillStyle = 'rgba(139, 58, 58, 0.3)';
+            sCtx.fillRect(waterX, groundY, 1000 * scale, 5);
+
+            // Moderate zone (1000-3000)
+            sCtx.fillStyle = 'rgba(212, 98, 42, 0.3)';
+            sCtx.fillRect(waterX + 1000 * scale, groundY, 2000 * scale, 5);
+
+            // Standard zone (3000+)
+            sCtx.fillStyle = 'rgba(0, 212, 255, 0.2)';
+            sCtx.fillRect(waterX + 3000 * scale, groundY, maxVisualDist - 3000 * scale, 5);
+
+            // Update display
+            document.getElementById('distanceValue').textContent = Math.round(animatedDistance) + ' ft';
+
+            // Update corrosion meter
+            const meterPos = Math.min(100, (animatedDistance / 4000) * 100);
+            document.getElementById('meterIndicator').style.left = meterPos + '%';
+
+            let meterText = 'Severe';
+            let meterColor = '#ff6b6b';
+            if (animatedDistance > 3000) {
+                meterText = 'Standard';
+                meterColor = '#00d4ff';
+            } else if (animatedDistance > 1000) {
+                meterText = 'Moderate';
+                meterColor = '#d4622a';
+            }
+            document.getElementById('meterText').textContent = meterText;
+            document.getElementById('meterText').style.color = meterColor;
+
+            requestAnimationFrame(drawSprayViz);
+        }
+        drawSprayViz();
+
+        // Distance Tool
+        const distanceSlider = document.getElementById('distanceSlider');
+
+        function updateDistanceTool() {
+            const distance = parseInt(distanceSlider.value);
+            document.getElementById('toolDistance').textContent = distance + ' ft';
+
+            let zone, fastener, connector, inspection, cost;
+
+            if (distance <= 1000) {
+                zone = 'Severe';
+                fastener = '316 Stainless';
+                connector = 'Marine Grade SS';
+                inspection = 'Annual';
+                cost = '2.5x standard';
+                document.getElementById('outZone').style.color = '#ff6b6b';
+            } else if (distance <= 3000) {
+                zone = 'Moderate';
+                fastener = '304 SS or HDG';
+                connector = 'G185 Galvanized';
+                inspection = 'Bi-Annual';
+                cost = '1.5x standard';
+                document.getElementById('outZone').style.color = '#d4622a';
+            } else {
+                zone = 'Standard';
+                fastener = 'Hot-Dip Galv';
+                connector = 'G90 Galvanized';
+                inspection = '5-Year';
+                cost = '1.0x (baseline)';
+                document.getElementById('outZone').style.color = '#00d4ff';
+            }
+
+            document.getElementById('outZone').textContent = zone;
+            document.getElementById('outFastener').textContent = fastener;
+            document.getElementById('outConnector').textContent = connector;
+            document.getElementById('outInspection').textContent = inspection;
+            document.getElementById('outCost').textContent = cost;
+        }
+
+        distanceSlider.addEventListener('input', updateDistanceTool);
+        updateDistanceTool();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+                if (!wasActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

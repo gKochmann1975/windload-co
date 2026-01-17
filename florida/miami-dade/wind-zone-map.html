@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Miami-Dade Wind Zone Map | Know Your Zone - HVHZ Interactive Guide</title>
+    <meta name="description" content="Interactive wind zone map for Miami-Dade County. Click any zone to see wind speeds, requirements, and what it means for your project. HVHZ explained simply.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/wind-zone-map.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Miami-Dade Wind Zone Map | Know Your Zone">
+    <meta property="og:description" content="Interactive map showing HVHZ wind zones in Miami-Dade. Click zones to see requirements.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/wind-zone-map.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What wind zone is Miami-Dade County in?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "All of Miami-Dade County is in the High-Velocity Hurricane Zone (HVHZ) with design wind speeds of 170-185 mph depending on location. Coastal areas have the highest requirements at 185 mph."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What is the difference between wind zones in Miami-Dade?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Miami-Dade has different exposure categories (B, C, D) based on terrain and distance from coast. Exposure D (coastal) requires the strongest construction. The HVHZ also has special product approval requirements called NOA (Notice of Acceptance)."
+            }
+        }, {
+            "@type": "Question",
+            "name": "How do I find my exact wind speed requirement?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Enter your exact address in a wind load calculator. Wind speed varies by location, risk category, and building type. ASCE 7-22 maps determine the precise wind speed for your site."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida-pro.html"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Miami-Dade",
+            "item": "https://windload.co/florida/miami-dade/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Wind Zone Map",
+            "item": "https://windload.co/florida/miami-dade/wind-zone-map.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-primary: #ffffff;
+            --text-secondary: #b4a5c7;
+            --zone-red: #ff4444;
+            --zone-orange: #ff8800;
+            --zone-yellow: #ffcc00;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo span span { color: var(--accent-magenta); }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            backdrop-filter: blur(10px);
+            max-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            color: var(--accent-magenta);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Map Container */
+        .map-container {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .map-wrapper {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .florida-map {
+            width: 100%;
+            height: 500px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* SVG Map Styles */
+        .florida-outline {
+            fill: rgba(26, 10, 46, 0.8);
+            stroke: var(--accent-cyan);
+            stroke-width: 2;
+            transition: all 0.5s ease;
+        }
+
+        .miami-dade-highlight {
+            animation: pulse-zone 2s infinite;
+        }
+
+        @keyframes pulse-zone {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        .zone {
+            cursor: pointer;
+            transition: all 0.3s ease;
+            stroke: rgba(255, 255, 255, 0.3);
+            stroke-width: 1;
+        }
+
+        .zone:hover {
+            filter: brightness(1.3);
+            stroke: white;
+            stroke-width: 2;
+        }
+
+        .zone.active {
+            stroke: var(--accent-cyan);
+            stroke-width: 3;
+            filter: brightness(1.4);
+        }
+
+        .zone-coastal { fill: var(--zone-red); }
+        .zone-inland { fill: var(--zone-orange); }
+        .zone-interior { fill: var(--zone-yellow); }
+
+        /* Zone Legend */
+        .zone-legend {
+            position: absolute;
+            bottom: 1rem;
+            left: 1rem;
+            background: rgba(13, 0, 21, 0.9);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        /* Zone Info Panel */
+        .zone-info-panel {
+            background: rgba(26, 10, 46, 0.8);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.5s ease;
+        }
+
+        .zone-info-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .zone-info-title {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .zone-info-subtitle {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .wind-speed-display {
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.2), rgba(0, 212, 255, 0.2));
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .wind-speed-value {
+            font-size: 4rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+        }
+
+        .wind-speed-unit {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+        }
+
+        .wind-speed-animated {
+            display: flex;
+            justify-content: center;
+            gap: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .wind-digit {
+            display: inline-block;
+            transition: transform 0.5s ease, opacity 0.5s ease;
+        }
+
+        .zone-requirements {
+            margin-bottom: 1.5rem;
+        }
+
+        .requirement-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .requirement-item:last-child {
+            border-bottom: none;
+        }
+
+        .requirement-icon {
+            color: var(--accent-cyan);
+            flex-shrink: 0;
+        }
+
+        .requirement-text {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .zone-cta {
+            text-align: center;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            width: 100%;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-magenta), #c4177a);
+            color: white;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.5);
+        }
+
+        /* Exposure Section */
+        .exposure-section {
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .exposure-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .exposure-card {
+            background: rgba(26, 10, 46, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.4s ease;
+            cursor: pointer;
+        }
+
+        .exposure-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-magenta);
+        }
+
+        .exposure-card.active {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
+        }
+
+        .exposure-letter {
+            font-size: 4rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+
+        .exposure-b .exposure-letter { color: var(--zone-yellow); }
+        .exposure-c .exposure-letter { color: var(--zone-orange); }
+        .exposure-d .exposure-letter { color: var(--zone-red); }
+
+        .exposure-name {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .exposure-desc {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Wind Animation Section */
+        .wind-animation-section {
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .wind-visualizer {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            height: 200px;
+        }
+
+        .wind-arrow {
+            position: absolute;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+            border-radius: 2px;
+            animation: wind-flow 2s infinite linear;
+        }
+
+        @keyframes wind-flow {
+            0% { transform: translateX(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(800px); opacity: 0; }
+        }
+
+        .wind-speed-slider-container {
+            position: absolute;
+            bottom: 1rem;
+            left: 2rem;
+            right: 2rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .wind-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+        }
+
+        .wind-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-magenta);
+            cursor: pointer;
+            box-shadow: 0 0 15px var(--accent-magenta);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-magenta);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn-secondary {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            margin-left: 1rem;
+            width: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.875rem;
+        }
+
+        .footer-text a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .map-container {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widget {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+
+            .exposure-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .florida-map {
+                height: 350px;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="" class="logo-img">
+            <span>Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/miami-dade/">Miami-Dade</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <div class="floating-widget">
+        <div class="widget-title">Current Zone</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetZone">HVHZ</div>
+            <div class="widget-stat-label">Hurricane Zone</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetSpeed">185</div>
+            <div class="widget-stat-label">MPH Design Speed</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value">NOA</div>
+            <div class="widget-stat-label">Required</div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-header">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"></polygon>
+                        <line x1="8" y1="2" x2="8" y2="18"></line>
+                        <line x1="16" y1="6" x2="16" y2="22"></line>
+                    </svg>
+                    Interactive Wind Zone Map
+                </div>
+                <h1><span class="gradient-text">Know Your Zone</span></h1>
+                <p class="hero-subtitle">
+                    Click on any area of Miami-Dade to see the wind speed requirements. Different zones need different protection levels.
+                </p>
+            </div>
+
+            <div class="map-container">
+                <div class="map-wrapper">
+                    <div class="florida-map" id="mapContainer">
+                        <svg viewBox="0 0 500 450" width="100%" height="100%">
+                            <!-- Florida Outline (simplified) -->
+                            <path class="florida-outline" d="M50,100 Q100,50 200,50 Q300,60 350,100 L400,150 Q450,200 450,300 L420,380 Q380,420 300,430 Q200,450 150,400 Q100,350 80,280 L60,200 Q40,150 50,100 Z" fill="rgba(26, 10, 46, 0.4)" stroke="rgba(255,255,255,0.2)" stroke-width="2"/>
+
+                            <!-- Miami-Dade Zoomed Area -->
+                            <g transform="translate(100, 100)">
+                                <!-- Coastal Zone -->
+                                <path class="zone zone-coastal" data-zone="coastal" data-speed="185" d="M250,50 Q280,60 290,100 L280,180 Q260,220 220,240 L180,250 Q160,230 160,200 L170,120 Q200,60 250,50 Z">
+                                    <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite"/>
+                                </path>
+
+                                <!-- Inland Zone -->
+                                <path class="zone zone-inland" data-zone="inland" data-speed="178" d="M160,200 Q160,230 180,250 L150,260 Q100,250 80,220 L70,150 Q80,100 120,80 L170,70 Q170,100 170,120 L160,200 Z">
+                                    <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite" begin="1s"/>
+                                </path>
+
+                                <!-- Interior Zone -->
+                                <path class="zone zone-interior" data-zone="interior" data-speed="170" d="M120,80 Q80,100 70,150 L80,220 Q60,200 50,160 L40,100 Q50,60 90,50 L120,80 Z">
+                                    <animate attributeName="opacity" values="0.7;1;0.7" dur="3s" repeatCount="indefinite" begin="2s"/>
+                                </path>
+
+                                <!-- Labels -->
+                                <text x="220" y="150" fill="white" font-size="12" font-weight="bold">COASTAL</text>
+                                <text x="220" y="165" fill="white" font-size="10">185 mph</text>
+
+                                <text x="100" y="170" fill="white" font-size="12" font-weight="bold">INLAND</text>
+                                <text x="100" y="185" fill="white" font-size="10">178 mph</text>
+
+                                <text x="50" y="130" fill="white" font-size="11" font-weight="bold">INTERIOR</text>
+                                <text x="55" y="145" fill="white" font-size="9">170 mph</text>
+                            </g>
+
+                            <!-- Miami-Dade Label -->
+                            <text x="300" y="380" fill="var(--accent-cyan)" font-size="16" font-weight="bold">MIAMI-DADE COUNTY</text>
+                            <text x="300" y="400" fill="var(--text-secondary)" font-size="12">High-Velocity Hurricane Zone</text>
+                        </svg>
+                    </div>
+
+                    <div class="zone-legend">
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: var(--zone-red);"></div>
+                            <span>Coastal (185 mph)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: var(--zone-orange);"></div>
+                            <span>Inland (178 mph)</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color" style="background: var(--zone-yellow);"></div>
+                            <span>Interior (170 mph)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zone-info-panel" id="zonePanel">
+                    <div class="zone-info-header">
+                        <h3 class="zone-info-title" id="zoneName">Coastal Zone</h3>
+                        <p class="zone-info-subtitle" id="zoneSubtitle">Highest wind speed requirements</p>
+                    </div>
+
+                    <div class="wind-speed-display">
+                        <div class="wind-speed-animated" id="windSpeedDisplay">
+                            <span class="wind-digit">1</span>
+                            <span class="wind-digit">8</span>
+                            <span class="wind-digit">5</span>
+                        </div>
+                        <div class="wind-speed-unit">MPH Design Wind Speed</div>
+                    </div>
+
+                    <div class="zone-requirements">
+                        <div class="requirement-item">
+                            <svg class="requirement-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 11 12 14 22 4"></polyline>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                            <span class="requirement-text" id="req1">NOA (Notice of Acceptance) required for all products</span>
+                        </div>
+                        <div class="requirement-item">
+                            <svg class="requirement-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 11 12 14 22 4"></polyline>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                            <span class="requirement-text" id="req2">Impact-rated windows and doors mandatory</span>
+                        </div>
+                        <div class="requirement-item">
+                            <svg class="requirement-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 11 12 14 22 4"></polyline>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                            <span class="requirement-text" id="req3">PE-sealed wind load calculations required</span>
+                        </div>
+                        <div class="requirement-item">
+                            <svg class="requirement-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <polyline points="9 11 12 14 22 4"></polyline>
+                                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"></path>
+                            </svg>
+                            <span class="requirement-text" id="req4">Exposure Category D (open terrain)</span>
+                        </div>
+                    </div>
+
+                    <div class="zone-cta">
+                        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=wind-zone-map" class="btn btn-primary">
+                            Calculate For This Zone
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Exposure Categories -->
+    <section class="exposure-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Understanding Exposure Categories</h2>
+                <p>Exposure describes what's around your building. More open terrain = stronger wind = stricter requirements.</p>
+            </div>
+
+            <div class="exposure-cards">
+                <div class="exposure-card exposure-b" data-exposure="B">
+                    <div class="exposure-letter">B</div>
+                    <div class="exposure-name">Urban/Suburban</div>
+                    <div class="exposure-desc">Buildings, trees, and other stuff block the wind. Think downtown areas with tall buildings all around.</div>
+                </div>
+                <div class="exposure-card exposure-c" data-exposure="C">
+                    <div class="exposure-letter">C</div>
+                    <div class="exposure-name">Open Terrain</div>
+                    <div class="exposure-desc">Flat, open areas with few obstructions. Grasslands, farms, or areas near airports. Wind hits harder here.</div>
+                </div>
+                <div class="exposure-card exposure-d active" data-exposure="D">
+                    <div class="exposure-letter">D</div>
+                    <div class="exposure-name">Coastal</div>
+                    <div class="exposure-desc">Right on the water. Nothing to slow down the wind before it hits your building. Highest wind loads.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wind Visualizer -->
+    <section class="wind-animation-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>See the Wind</h2>
+                <p>Move the slider to see how wind behaves at different speeds</p>
+            </div>
+
+            <div class="wind-visualizer" id="windVisualizer">
+                <div class="wind-speed-slider-container">
+                    <div class="slider-label">
+                        <span>100 mph</span>
+                        <span id="currentWindSpeed">185 mph</span>
+                        <span>200 mph</span>
+                    </div>
+                    <input type="range" class="wind-slider" id="windSlider" min="100" max="200" value="185">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Quick answers about Miami-Dade wind zones</p>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What wind zone is Miami-Dade County in?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        All of Miami-Dade County is in the High-Velocity Hurricane Zone (HVHZ) with design wind speeds of 170-185 mph depending on location. Coastal areas have the highest requirements at 185 mph. This is the strictest building code area in the entire United States.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What is the difference between wind zones in Miami-Dade?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Miami-Dade has different exposure categories (B, C, D) based on terrain and distance from coast. Exposure D (coastal) requires the strongest construction. The HVHZ also has special product approval requirements called NOA (Notice of Acceptance). Every window, door, and roofing product must pass hurricane tests.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I find my exact wind speed requirement?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Enter your exact address in a wind load calculator. Wind speed varies by location, risk category, and building type. ASCE 7-22 maps determine the precise wind speed for your site. We can calculate this for you in minutes and provide a permit-ready report.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    Why does Miami-Dade have stricter requirements than other Florida counties?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        After Hurricane Andrew destroyed over 25,000 homes in 1992, Miami-Dade created the toughest building codes in the country. The HVHZ requires products to pass large missile impact tests (2x4 fired at 50 fps) and small missile tests (ball bearings at 80 fps). These codes have saved countless buildings in every hurricane since.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Know Your Zone. Build Right.</h2>
+        <p>Get accurate wind load calculations for your exact location in Miami-Dade County.</p>
+        <div>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=wind-zone-map" class="btn btn-primary">
+                Calculate Now
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/florida/miami-dade/permit-checklist.html" class="btn btn-secondary">Permit Checklist</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/permit-checklist.html">Permit Checklist</a>
+            <a href="/florida/miami-dade/inspection-timeline.html">Inspection Timeline</a>
+            <a href="/florida/miami-dade/load-path-visualizer.html">Load Path</a>
+            <a href="/florida/miami-dade/fastener-spacing-guide.html">Fastener Guide</a>
+            <a href="/florida/miami-dade/crew-safety-hvhz.html">Crew Safety</a>
+        </div>
+        <div class="footer-links">
+            <a href="/contractors.html">Contractors</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+        </div>
+        <p class="footer-text">
+            &copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> |
+            <a href="https://windloadcalc.com">WindLoadCalc.com</a>
+        </p>
+    </footer>
+
+    <script>
+        // Particle Animation - Wind/Map themed
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class WindParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -20;
+                this.y = Math.random() * canvas.height;
+                this.speed = Math.random() * 3 + 2;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.curve = Math.random() * 2 - 1;
+            }
+
+            update() {
+                this.x += this.speed;
+                this.y += Math.sin(this.x * 0.01) * this.curve;
+
+                if (this.x > canvas.width + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.globalAlpha = this.opacity;
+                ctx.strokeStyle = '#00d4ff';
+                ctx.lineWidth = this.size;
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - 20, this.y);
+                ctx.stroke();
+                ctx.restore();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 40; i++) {
+            const p = new WindParticle();
+            p.x = Math.random() * canvas.width;
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Zone Data
+        const zoneData = {
+            coastal: {
+                name: 'Coastal Zone',
+                subtitle: 'Highest wind speed requirements - direct ocean exposure',
+                speed: 185,
+                reqs: [
+                    'NOA (Notice of Acceptance) required for all products',
+                    'Impact-rated windows and doors mandatory',
+                    'PE-sealed wind load calculations required',
+                    'Exposure Category D (open terrain)'
+                ]
+            },
+            inland: {
+                name: 'Inland Zone',
+                subtitle: 'High requirements - some terrain protection',
+                speed: 178,
+                reqs: [
+                    'NOA required for all exterior products',
+                    'Impact-rated glazing or shutters required',
+                    'PE-sealed calculations for structural work',
+                    'Exposure Category C typical'
+                ]
+            },
+            interior: {
+                name: 'Interior Zone',
+                subtitle: 'Standard HVHZ requirements - most protection from terrain',
+                speed: 170,
+                reqs: [
+                    'NOA required for products in HVHZ',
+                    'Impact protection required per FBC',
+                    'Wind load report for permit approval',
+                    'Exposure Category B or C typical'
+                ]
+            }
+        };
+
+        // Zone Click Handler
+        document.querySelectorAll('.zone').forEach(zone => {
+            zone.addEventListener('click', function() {
+                const zoneId = this.dataset.zone;
+                const data = zoneData[zoneId];
+
+                // Update active state
+                document.querySelectorAll('.zone').forEach(z => z.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update panel
+                document.getElementById('zoneName').textContent = data.name;
+                document.getElementById('zoneSubtitle').textContent = data.subtitle;
+
+                // Animate wind speed
+                animateWindSpeed(data.speed);
+
+                // Update requirements
+                data.reqs.forEach((req, i) => {
+                    document.getElementById('req' + (i + 1)).textContent = req;
+                });
+
+                // Update widget
+                document.getElementById('widgetSpeed').textContent = data.speed;
+            });
+        });
+
+        function animateWindSpeed(target) {
+            const display = document.getElementById('windSpeedDisplay');
+            const digits = target.toString().split('');
+            display.innerHTML = digits.map(d => `<span class="wind-digit" style="transform: translateY(20px); opacity: 0;">${d}</span>`).join('');
+
+            setTimeout(() => {
+                display.querySelectorAll('.wind-digit').forEach((digit, i) => {
+                    setTimeout(() => {
+                        digit.style.transform = 'translateY(0)';
+                        digit.style.opacity = '1';
+                    }, i * 100);
+                });
+            }, 100);
+        }
+
+        // Exposure Cards
+        document.querySelectorAll('.exposure-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.exposure-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Wind Visualizer
+        const windVisualizer = document.getElementById('windVisualizer');
+        const windSlider = document.getElementById('windSlider');
+        const currentWindSpeed = document.getElementById('currentWindSpeed');
+        let windArrows = [];
+
+        function createWindArrows() {
+            windArrows.forEach(arrow => arrow.remove());
+            windArrows = [];
+
+            const speed = parseInt(windSlider.value);
+            const numArrows = Math.floor(speed / 20);
+            const baseSpeed = (speed - 100) / 100 + 1;
+
+            for (let i = 0; i < numArrows; i++) {
+                const arrow = document.createElement('div');
+                arrow.className = 'wind-arrow';
+                arrow.style.top = (20 + Math.random() * 100) + 'px';
+                arrow.style.width = (30 + Math.random() * 50) + 'px';
+                arrow.style.animationDuration = (3 / baseSpeed) + 's';
+                arrow.style.animationDelay = (Math.random() * 2) + 's';
+                windVisualizer.appendChild(arrow);
+                windArrows.push(arrow);
+            }
+        }
+
+        windSlider.addEventListener('input', function() {
+            currentWindSpeed.textContent = this.value + ' mph';
+            createWindArrows();
+        });
+
+        createWindArrows();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

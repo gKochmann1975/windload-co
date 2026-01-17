@@ -1,0 +1,1247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Material Takeoff Calculator Miami-Dade | Count What Counts - HVHZ Materials</title>
+    <meta name="description" content="Interactive material takeoff calculator for Miami-Dade HVHZ. Input dimensions and watch materials stack up in your virtual warehouse. Hurricane straps, fasteners, sheathing - all calculated.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/material-takeoff.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Material Takeoff Calculator Miami-Dade | Count What Counts">
+    <meta property="og:description" content="Interactive calculator that tallies HVHZ materials as you input dimensions. Visual warehouse animation.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/material-takeoff.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "How many hurricane straps do I need per roof truss?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Typically 2 straps per truss connection - one on each side connecting the truss to the top plate. For high-wind areas in HVHZ, you may need stronger straps or additional connectors. Check your approved plans for specific connector requirements."
+            }
+        }, {
+            "@type": "Question",
+            "name": "How do I calculate roof sheathing for HVHZ?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Calculate roof area (length x width x 2 for gable roofs, adjusted for pitch), then divide by 32 sq ft per 4x8 sheet. Add 10-15% for waste and cuts. In HVHZ, use minimum 15/32 inch CDX plywood or 7/16 inch OSB with proper nail schedule."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What fasteners are required for HVHZ construction?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "HVHZ requires ring-shank or deformed shank nails for better holding power. Roof sheathing typically needs 8d (2.5 inch) nails at 4 inch edge / 6 inch field spacing. Framing uses 16d nails. All fasteners should be hot-dipped galvanized for corrosion resistance."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida-pro.html"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Miami-Dade",
+            "item": "https://windload.co/florida/miami-dade/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Material Takeoff",
+            "item": "https://windload.co/florida/miami-dade/material-takeoff.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-primary: #ffffff;
+            --text-secondary: #b4a5c7;
+            --wood-color: #8B4513;
+            --metal-color: #c0c0c0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo span span { color: var(--accent-magenta); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            backdrop-filter: blur(10px);
+            max-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat { margin-bottom: 1rem; }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            color: var(--accent-magenta);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Calculator Layout */
+        .calculator-layout {
+            display: grid;
+            grid-template-columns: 400px 1fr;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        /* Input Panel */
+        .input-panel {
+            background: rgba(26, 10, 46, 0.8);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .input-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .input-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .input-field:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .input-slider {
+            width: 100%;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(255, 255, 255, 0.1);
+            outline: none;
+            margin-top: 0.5rem;
+        }
+
+        .input-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-magenta);
+            cursor: pointer;
+        }
+
+        .calculate-btn {
+            width: 100%;
+            padding: 1.25rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #c4177a);
+            border: none;
+            border-radius: 12px;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+        }
+
+        .calculate-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(233, 30, 140, 0.4);
+        }
+
+        /* Warehouse Visualization */
+        .warehouse-display {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            min-height: 500px;
+        }
+
+        .warehouse-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .warehouse-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .total-cost {
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.2), rgba(0, 212, 255, 0.2));
+            padding: 0.75rem 1.5rem;
+            border-radius: 12px;
+        }
+
+        .total-cost-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .total-cost-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        /* Material Stacks */
+        .material-stacks {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .material-stack {
+            text-align: center;
+        }
+
+        .stack-visual {
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .stack-item {
+            width: 80%;
+            transition: all 0.5s ease;
+            border-radius: 4px;
+            margin-top: 2px;
+        }
+
+        .stack-item.plywood {
+            height: 8px;
+            background: linear-gradient(90deg, #8B4513, #A0522D);
+        }
+
+        .stack-item.strap {
+            height: 4px;
+            background: linear-gradient(90deg, #c0c0c0, #d3d3d3);
+        }
+
+        .stack-item.nail-box {
+            height: 12px;
+            background: linear-gradient(90deg, #4a4a4a, #666);
+        }
+
+        .stack-item.anchor {
+            height: 6px;
+            background: linear-gradient(90deg, #888, #aaa);
+        }
+
+        .stack-count {
+            position: absolute;
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--accent-magenta);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 100px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .material-stack.calculated .stack-count {
+            opacity: 1;
+        }
+
+        .stack-label {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .stack-detail {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Materials List Section */
+        .materials-section {
+            padding: 4rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+        }
+
+        .material-card {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 20px;
+            padding: 1.5rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .material-card:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-cyan);
+        }
+
+        .material-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.2), rgba(0, 212, 255, 0.2));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .material-info h4 {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .material-info p {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .material-spec {
+            display: inline-block;
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(26, 10, 46, 0.5));
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.6);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem 2rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .faq-question svg {
+            width: 24px;
+            height: 24px;
+            stroke: var(--accent-magenta);
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-question svg {
+            transform: rotate(180deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 2rem 1.5rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            max-width: 500px;
+            margin: 0 auto 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-magenta), #c4177a);
+            color: white;
+            box-shadow: 0 4px 25px rgba(233, 30, 140, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 35px rgba(233, 30, 140, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 212, 255, 0.1);
+            color: var(--accent-cyan);
+            border: 1px solid var(--accent-cyan);
+            margin-left: 1rem;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            text-align: center;
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: rgba(255, 255, 255, 0.4);
+            font-size: 0.875rem;
+        }
+
+        .footer-text a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .calculator-layout {
+                grid-template-columns: 1fr;
+            }
+
+            .material-stacks {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .btn-secondary {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="" class="logo-img">
+            <span>Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/miami-dade/">Miami-Dade</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <div class="floating-widget">
+        <div class="widget-title">Material Count</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetSheets">0</div>
+            <div class="widget-stat-label">Plywood Sheets</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetStraps">0</div>
+            <div class="widget-stat-label">Hurricane Straps</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widgetNails">0</div>
+            <div class="widget-stat-label">Lbs of Nails</div>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-header">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="4" y="4" width="16" height="16" rx="2"/>
+                        <path d="M9 9h6"/>
+                        <path d="M9 13h6"/>
+                        <path d="M9 17h6"/>
+                    </svg>
+                    HVHZ Material Calculator
+                </div>
+                <h1><span class="gradient-text">Count What Counts</span></h1>
+                <p class="hero-subtitle">
+                    Enter your building dimensions and watch materials stack up in the warehouse. Every strap, every nail, every sheet calculated for HVHZ compliance.
+                </p>
+            </div>
+
+            <div class="calculator-layout">
+                <div class="input-panel">
+                    <h3 class="panel-title">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                        </svg>
+                        Building Dimensions
+                    </h3>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Building Length</span>
+                            <span id="lengthValue">40 ft</span>
+                        </div>
+                        <input type="range" class="input-slider" id="buildingLength" min="20" max="100" value="40">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Building Width</span>
+                            <span id="widthValue">30 ft</span>
+                        </div>
+                        <input type="range" class="input-slider" id="buildingWidth" min="15" max="80" value="30">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Building Height</span>
+                            <span id="heightValue">20 ft</span>
+                        </div>
+                        <input type="range" class="input-slider" id="buildingHeight" min="10" max="40" value="20">
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Truss Spacing</span>
+                        </div>
+                        <select class="input-field" id="trussSpacing">
+                            <option value="16">16" on center</option>
+                            <option value="24" selected>24" on center</option>
+                        </select>
+                    </div>
+
+                    <div class="input-group">
+                        <div class="input-label">
+                            <span>Nail Pattern</span>
+                        </div>
+                        <select class="input-field" id="nailPattern">
+                            <option value="standard">Standard (4/6)</option>
+                            <option value="highwind" selected>High Wind (3/4)</option>
+                        </select>
+                    </div>
+
+                    <button class="calculate-btn" id="calculateBtn">
+                        Calculate Materials
+                    </button>
+                </div>
+
+                <div class="warehouse-display">
+                    <div class="warehouse-header">
+                        <h3 class="warehouse-title">Your Material Warehouse</h3>
+                        <div class="total-cost">
+                            <div class="total-cost-label">Estimated Cost</div>
+                            <div class="total-cost-value" id="totalCost">$0</div>
+                        </div>
+                    </div>
+
+                    <div class="material-stacks">
+                        <div class="material-stack" id="plywoodStack">
+                            <div class="stack-visual" id="plywoodVisual">
+                                <div class="stack-count" id="plywoodCount">0</div>
+                            </div>
+                            <div class="stack-label">Plywood Sheets</div>
+                            <div class="stack-detail">15/32" CDX</div>
+                        </div>
+
+                        <div class="material-stack" id="strapStack">
+                            <div class="stack-visual" id="strapVisual">
+                                <div class="stack-count" id="strapCount">0</div>
+                            </div>
+                            <div class="stack-label">Hurricane Straps</div>
+                            <div class="stack-detail">H2.5A or equiv</div>
+                        </div>
+
+                        <div class="material-stack" id="nailStack">
+                            <div class="stack-visual" id="nailVisual">
+                                <div class="stack-count" id="nailCount">0</div>
+                            </div>
+                            <div class="stack-label">Nail Boxes</div>
+                            <div class="stack-detail">8d Ring-Shank</div>
+                        </div>
+
+                        <div class="material-stack" id="anchorStack">
+                            <div class="stack-visual" id="anchorVisual">
+                                <div class="stack-count" id="anchorCount">0</div>
+                            </div>
+                            <div class="stack-label">Anchor Bolts</div>
+                            <div class="stack-detail">1/2" x 10"</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="materials-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>HVHZ Material Requirements</h2>
+                <p>All materials must meet Miami-Dade standards for hurricane construction</p>
+            </div>
+
+            <div class="materials-grid">
+                <div class="material-card">
+                    <div class="material-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                            <rect x="2" y="7" width="20" height="14" rx="2"/>
+                            <path d="M7 7V4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v3"/>
+                        </svg>
+                    </div>
+                    <div class="material-info">
+                        <h4>Roof Sheathing</h4>
+                        <p>Minimum 15/32" CDX plywood or 7/16" OSB. Must be rated for structural use.</p>
+                        <span class="material-spec">APA Rated Sheathing</span>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M12 12v10"/>
+                        </svg>
+                    </div>
+                    <div class="material-info">
+                        <h4>Hurricane Straps</h4>
+                        <p>Metal connectors rated for your uplift loads. Typically H2.5A or stronger for HVHZ.</p>
+                        <span class="material-spec">1,500+ lb Uplift</span>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                            <circle cx="12" cy="12" r="1"/>
+                            <path d="M12 2v4"/>
+                            <path d="M12 18v4"/>
+                        </svg>
+                    </div>
+                    <div class="material-info">
+                        <h4>Ring-Shank Nails</h4>
+                        <p>8d (2.5") for sheathing with deformed shank for better holding power.</p>
+                        <span class="material-spec">Hot-Dipped Galvanized</span>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2"/>
+                            <path d="M12 4v16"/>
+                        </svg>
+                    </div>
+                    <div class="material-info">
+                        <h4>Anchor Bolts</h4>
+                        <p>1/2" x 10" minimum, spaced per plans. Embedded in foundation.</p>
+                        <span class="material-spec">6 ft Max Spacing</span>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8"/>
+                        </svg>
+                    </div>
+                    <div class="material-info">
+                        <h4>Hold-Downs</h4>
+                        <p>Heavy-duty connectors for shear walls. Sized based on calculated loads.</p>
+                        <span class="material-spec">Per Engineering</span>
+                    </div>
+                </div>
+
+                <div class="material-card">
+                    <div class="material-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-cyan)" stroke-width="2">
+                            <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3"/>
+                            <path d="M6 3a3 3 0 0 1 3 3v12a3 3 0 0 1-3 3"/>
+                        </svg>
+                    </div>
+                    <div class="material-info">
+                        <h4>Strap Nails</h4>
+                        <p>Special nails for hurricane connector installation. Follow connector specs.</p>
+                        <span class="material-spec">10d x 1.5" Typical</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Common questions about HVHZ material takeoffs</p>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How many hurricane straps do I need per roof truss?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Typically 2 straps per truss connection - one on each side connecting the truss to the top plate. For high-wind areas in HVHZ, you may need stronger straps or additional connectors. Check your approved plans for specific connector requirements. Some situations call for 4 connectors per truss.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How do I calculate roof sheathing for HVHZ?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Calculate roof area (length x width x 2 for gable roofs, adjusted for pitch), then divide by 32 sq ft per 4x8 sheet. Add 10-15% for waste and cuts. In HVHZ, use minimum 15/32 inch CDX plywood or 7/16 inch OSB with proper nail schedule. Our calculator above does this math automatically.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    What fasteners are required for HVHZ construction?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        HVHZ requires ring-shank or deformed shank nails for better holding power. Roof sheathing typically needs 8d (2.5 inch) nails at 4 inch edge / 6 inch field spacing (or 3/4 for high wind). Framing uses 16d nails. All fasteners should be hot-dipped galvanized for corrosion resistance.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    How much waste should I add to my material estimate?
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        For sheathing, add 10-15% for cuts and waste. For fasteners, add 5-10%. Hurricane straps have minimal waste - order exact count plus a few spares. Better to have extra materials than to stop work waiting for a delivery. Return unused materials for credit.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <h2>Get Accurate Wind Load Calculations</h2>
+        <p>Your material takeoff is only as good as your engineering. Get PE-sealed calculations first.</p>
+        <div>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=material-takeoff" class="btn btn-primary">
+                Calculate Wind Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </a>
+            <a href="/florida/miami-dade/job-costing-basics.html" class="btn btn-secondary">Job Costing</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/permit-checklist.html">Permit Checklist</a>
+            <a href="/florida/miami-dade/wind-zone-map.html">Wind Zone Map</a>
+            <a href="/florida/miami-dade/fastener-spacing-guide.html">Fastener Guide</a>
+            <a href="/florida/miami-dade/job-costing-basics.html">Job Costing</a>
+            <a href="/florida/miami-dade/crew-safety-hvhz.html">Crew Safety</a>
+        </div>
+        <div class="footer-links">
+            <a href="/contractors.html">Contractors</a>
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+        </div>
+        <p class="footer-text">
+            &copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> |
+            <a href="https://windloadcalc.com">WindLoadCalc.com</a>
+        </p>
+    </footer>
+
+    <script>
+        // Particle Animation - Material/Construction themed
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class MaterialParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.width = Math.random() * 15 + 10;
+                this.height = Math.random() * 4 + 2;
+                this.rotation = Math.random() * Math.PI;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.speed = Math.random() * 1.5 + 0.5;
+                this.opacity = Math.random() * 0.2 + 0.1;
+                this.isPlywood = Math.random() > 0.5;
+            }
+
+            update() {
+                this.y += this.speed;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y > canvas.height + 30) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+
+                if (this.isPlywood) {
+                    ctx.fillStyle = '#8B4513';
+                    ctx.fillRect(-this.width/2, -this.height/2, this.width, this.height);
+                } else {
+                    ctx.fillStyle = '#c0c0c0';
+                    ctx.fillRect(-this.height/2, -this.width/2, this.height, this.width);
+                }
+
+                ctx.restore();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 30; i++) {
+            const p = new MaterialParticle();
+            p.y = Math.random() * canvas.height;
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Calculator Logic
+        const lengthSlider = document.getElementById('buildingLength');
+        const widthSlider = document.getElementById('buildingWidth');
+        const heightSlider = document.getElementById('buildingHeight');
+        const trussSpacing = document.getElementById('trussSpacing');
+        const nailPattern = document.getElementById('nailPattern');
+        const calculateBtn = document.getElementById('calculateBtn');
+
+        const lengthValue = document.getElementById('lengthValue');
+        const widthValueEl = document.getElementById('widthValue');
+        const heightValueEl = document.getElementById('heightValue');
+
+        const plywoodCount = document.getElementById('plywoodCount');
+        const strapCount = document.getElementById('strapCount');
+        const nailCount = document.getElementById('nailCount');
+        const anchorCount = document.getElementById('anchorCount');
+        const totalCost = document.getElementById('totalCost');
+
+        const widgetSheets = document.getElementById('widgetSheets');
+        const widgetStraps = document.getElementById('widgetStraps');
+        const widgetNails = document.getElementById('widgetNails');
+
+        // Update display values
+        lengthSlider.addEventListener('input', () => lengthValue.textContent = lengthSlider.value + ' ft');
+        widthSlider.addEventListener('input', () => widthValueEl.textContent = widthSlider.value + ' ft');
+        heightSlider.addEventListener('input', () => heightValueEl.textContent = heightSlider.value + ' ft');
+
+        function calculateMaterials() {
+            const length = parseInt(lengthSlider.value);
+            const width = parseInt(widthSlider.value);
+            const height = parseInt(heightSlider.value);
+            const spacing = parseInt(trussSpacing.value);
+            const pattern = nailPattern.value;
+
+            // Roof area (simple gable roof approximation)
+            const roofPitch = 1.15; // Accounts for pitch
+            const roofArea = length * width * roofPitch;
+            const plywood = Math.ceil(roofArea / 32 * 1.1); // 32 sq ft per sheet + 10% waste
+
+            // Hurricane straps (2 per truss)
+            const numTrusses = Math.ceil(length * 12 / spacing) + 1;
+            const straps = numTrusses * 2;
+
+            // Nails (roughly 50 nails per sheet for standard, 75 for high wind)
+            const nailsPerSheet = pattern === 'highwind' ? 75 : 50;
+            const totalNails = plywood * nailsPerSheet;
+            const nailBoxes = Math.ceil(totalNails / 500); // 500 nails per 5lb box
+            const nailLbs = nailBoxes * 5;
+
+            // Anchor bolts (every 6 ft around perimeter)
+            const perimeter = 2 * (length + width);
+            const anchors = Math.ceil(perimeter / 6);
+
+            // Animate stacks
+            animateStack('plywoodVisual', plywood, 'plywood');
+            animateStack('strapVisual', Math.min(straps / 5, 25), 'strap');
+            animateStack('nailVisual', nailBoxes, 'nail-box');
+            animateStack('anchorVisual', anchors, 'anchor');
+
+            // Update counts
+            plywoodCount.textContent = plywood;
+            strapCount.textContent = straps;
+            nailCount.textContent = nailLbs + ' lbs';
+            anchorCount.textContent = anchors;
+
+            // Widget updates
+            widgetSheets.textContent = plywood;
+            widgetStraps.textContent = straps;
+            widgetNails.textContent = nailLbs;
+
+            // Cost estimate
+            const cost = (plywood * 45) + (straps * 8) + (nailBoxes * 35) + (anchors * 12);
+            totalCost.textContent = '$' + cost.toLocaleString();
+
+            // Mark stacks as calculated
+            document.querySelectorAll('.material-stack').forEach(stack => {
+                stack.classList.add('calculated');
+            });
+        }
+
+        function animateStack(containerId, count, itemClass) {
+            const container = document.getElementById(containerId);
+            const existingItems = container.querySelectorAll('.stack-item');
+            existingItems.forEach(item => item.remove());
+
+            for (let i = 0; i < Math.min(count, 20); i++) {
+                setTimeout(() => {
+                    const item = document.createElement('div');
+                    item.className = 'stack-item ' + itemClass;
+                    item.style.opacity = '0';
+                    item.style.transform = 'translateY(-20px)';
+                    container.insertBefore(item, container.firstChild);
+
+                    setTimeout(() => {
+                        item.style.opacity = '1';
+                        item.style.transform = 'translateY(0)';
+                    }, 50);
+                }, i * 50);
+            }
+        }
+
+        calculateBtn.addEventListener('click', calculateMaterials);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(faq => faq.classList.remove('active'));
+                if (!isActive) item.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Corrosion Resistance Palm Beach | Salt Air Enemy Guide for Contractors</title>
+    <meta name="description" content="Watch metal fasteners corrode over time near the coast in Palm Beach County. See which materials stay strong. Interactive time-lapse shows why proper fasteners matter for wind resistance.">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/corrosion-resistance.html">
+
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County, Florida">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Corrosion Resistance | Salt Air Enemy in Palm Beach County">
+    <meta property="og:description" content="Interactive time-lapse animation showing how coastal salt air destroys regular metal fasteners while proper materials stay strong.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/corrosion-resistance.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "Why do I need corrosion-resistant fasteners in Palm Beach County?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Salt air corrodes regular metal fasteners, reducing their strength over time. A fastener rated for 1000 pounds might only hold 400 pounds after 10 years of coastal exposure. Since wind load resistance depends on fastener strength, corroded fasteners can cause building failure during hurricanes."
+            }
+        }, {
+            "@type": "Question",
+            "name": "How far from the coast do I need to use corrosion-resistant materials?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Florida Building Code requires enhanced corrosion protection within 3,000 feet of the coastline. However, salt air can travel much further, especially during storms. Many contractors use corrosion-resistant materials throughout Palm Beach County for any critical structural connections."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What materials resist coastal corrosion best?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Stainless steel (especially 316 grade) provides excellent corrosion resistance. Hot-dip galvanized steel with G185 or higher coating is good for many applications. Aluminum and specialized coatings are also options. The key is matching the material to the expected exposure and structural requirements."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Palm Beach County",
+            "item": "https://windload.co/florida/palm-beach/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Corrosion Resistance",
+            "item": "https://windload.co/florida/palm-beach/corrosion-resistance.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --rust-orange: #bf360c;
+            --rust-dark: #8d2508;
+            --steel-clean: #90a4ae;
+            --steel-corroded: #795548;
+            --stainless: #e0e0e0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-magenta);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            min-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(191, 54, 12, 0.15);
+            border: 1px solid rgba(191, 54, 12, 0.3);
+            color: var(--rust-orange);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--rust-orange) 0%, var(--accent-magenta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        /* Corrosion Animation Scene */
+        .corrosion-scene {
+            width: 100%;
+            max-width: 1000px;
+            height: 500px;
+            margin: 3rem auto;
+            background: linear-gradient(180deg, #87ceeb 0%, #b3e5fc 30%, #f5f5dc 30%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Salt Spray Animation */
+        .salt-spray {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .salt-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            background: rgba(255, 255, 255, 0.6);
+            border-radius: 50%;
+            animation: saltDrift 8s linear infinite;
+        }
+
+        @keyframes saltDrift {
+            0% {
+                transform: translate(100px, 0) rotate(0deg);
+                opacity: 0;
+            }
+            10% { opacity: 0.8; }
+            90% { opacity: 0.8; }
+            100% {
+                transform: translate(-100vw, 50px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Comparison Containers */
+        .fastener-comparison {
+            position: absolute;
+            bottom: 20%;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            padding: 0 5%;
+        }
+
+        .fastener-box {
+            width: 200px;
+            height: 250px;
+            background: rgba(26, 10, 46, 0.9);
+            border-radius: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .fastener-box.regular { border-color: var(--rust-orange); }
+        .fastener-box.galvanized { border-color: var(--steel-clean); }
+        .fastener-box.stainless { border-color: var(--stainless); }
+
+        .fastener-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .fastener-box.regular .fastener-label { color: var(--rust-orange); }
+        .fastener-box.galvanized .fastener-label { color: var(--steel-clean); }
+        .fastener-box.stainless .fastener-label { color: var(--stainless); }
+
+        /* Fastener Visual */
+        .fastener-visual {
+            width: 60px;
+            height: 120px;
+            position: relative;
+            margin: 1rem 0;
+        }
+
+        .bolt-head {
+            width: 40px;
+            height: 20px;
+            margin: 0 auto;
+            border-radius: 4px;
+            transition: all 1s ease;
+        }
+
+        .bolt-shaft {
+            width: 16px;
+            height: 100px;
+            margin: 0 auto;
+            position: relative;
+            transition: all 1s ease;
+        }
+
+        .bolt-threads {
+            position: absolute;
+            top: 20px;
+            left: -4px;
+            right: -4px;
+            bottom: 0;
+            background: repeating-linear-gradient(
+                0deg,
+                transparent,
+                transparent 4px,
+                rgba(0,0,0,0.3) 4px,
+                rgba(0,0,0,0.3) 6px
+            );
+        }
+
+        /* Regular Steel States */
+        .fastener-box.regular .bolt-head {
+            background: linear-gradient(180deg, var(--steel-clean), #78909c);
+        }
+
+        .fastener-box.regular .bolt-shaft {
+            background: linear-gradient(90deg, #78909c, var(--steel-clean), #78909c);
+        }
+
+        .fastener-box.regular.corroded .bolt-head {
+            background: linear-gradient(180deg, var(--rust-orange), var(--rust-dark));
+            transform: scale(0.9);
+        }
+
+        .fastener-box.regular.corroded .bolt-shaft {
+            background: linear-gradient(90deg, var(--rust-dark), var(--rust-orange), var(--rust-dark));
+            width: 12px;
+        }
+
+        /* Galvanized States */
+        .fastener-box.galvanized .bolt-head {
+            background: linear-gradient(180deg, #bdbdbd, #9e9e9e);
+        }
+
+        .fastener-box.galvanized .bolt-shaft {
+            background: linear-gradient(90deg, #9e9e9e, #bdbdbd, #9e9e9e);
+        }
+
+        .fastener-box.galvanized.corroded .bolt-head {
+            background: linear-gradient(180deg, #a1887f, #8d6e63);
+        }
+
+        .fastener-box.galvanized.corroded .bolt-shaft {
+            background: linear-gradient(90deg, #8d6e63, #a1887f, #8d6e63);
+            width: 14px;
+        }
+
+        /* Stainless States */
+        .fastener-box.stainless .bolt-head {
+            background: linear-gradient(180deg, #f5f5f5, #e0e0e0);
+        }
+
+        .fastener-box.stainless .bolt-shaft {
+            background: linear-gradient(90deg, #e0e0e0, #f5f5f5, #e0e0e0);
+        }
+
+        .fastener-box.stainless.corroded .bolt-head,
+        .fastener-box.stainless.corroded .bolt-shaft {
+            /* Stainless stays the same */
+        }
+
+        /* Strength Meter */
+        .strength-meter {
+            width: 100%;
+            margin-top: auto;
+        }
+
+        .meter-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+            margin-bottom: 0.25rem;
+        }
+
+        .meter-bar {
+            height: 12px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .meter-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 1s ease, background 1s ease;
+        }
+
+        .fastener-box.regular .meter-fill {
+            background: linear-gradient(90deg, var(--accent-cyan), #4caf50);
+            width: 100%;
+        }
+
+        .fastener-box.regular.corroded .meter-fill {
+            background: linear-gradient(90deg, var(--rust-orange), #f44336);
+            width: 35%;
+        }
+
+        .fastener-box.galvanized .meter-fill {
+            background: linear-gradient(90deg, var(--accent-cyan), #4caf50);
+            width: 100%;
+        }
+
+        .fastener-box.galvanized.corroded .meter-fill {
+            background: linear-gradient(90deg, #ff9800, #ffc107);
+            width: 70%;
+        }
+
+        .fastener-box.stainless .meter-fill {
+            background: linear-gradient(90deg, var(--accent-cyan), #4caf50);
+            width: 100%;
+        }
+
+        .fastener-box.stainless.corroded .meter-fill {
+            width: 95%;
+        }
+
+        .meter-value {
+            font-size: 0.75rem;
+            font-weight: 700;
+            margin-top: 0.25rem;
+            text-align: center;
+        }
+
+        /* Time Display */
+        .time-display {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            border: 1px solid var(--accent-cyan);
+            text-align: center;
+        }
+
+        .time-label {
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+        }
+
+        .time-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: white;
+        }
+
+        .time-unit {
+            font-size: 1rem;
+            color: #94a3b8;
+        }
+
+        /* Ocean Waves */
+        .scene-ocean {
+            position: absolute;
+            top: 0;
+            right: 0;
+            width: 30%;
+            height: 30%;
+            background: linear-gradient(180deg, #1565c0 0%, #0d47a1 100%);
+        }
+
+        .scene-wave {
+            position: absolute;
+            bottom: 0;
+            left: -100%;
+            width: 300%;
+            height: 20px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 20'%3E%3Cpath fill='%2364b5f6' d='M0,10 Q50,0 100,10 T200,10 T300,10 T400,10 L1200,10 L1200,20 L0,20 Z'/%3E%3C/svg%3E");
+            background-size: 200px 20px;
+            animation: oceanWave 4s linear infinite;
+        }
+
+        @keyframes oceanWave {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(33.33%); }
+        }
+
+        /* Time Slider */
+        .time-control {
+            max-width: 1000px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .time-slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+            color: #94a3b8;
+            font-size: 0.875rem;
+        }
+
+        .time-slider {
+            width: 100%;
+            height: 12px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, #4caf50 0%, #ff9800 50%, #f44336 100%);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .time-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 28px;
+            height: 28px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section:nth-child(even) {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Material Comparison Table */
+        .material-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .material-table th,
+        .material-table td {
+            padding: 1.25rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .material-table th {
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        .material-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .material-table tr:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .rating-good {
+            color: #4caf50;
+            font-weight: 700;
+        }
+
+        .rating-fair {
+            color: #ff9800;
+            font-weight: 700;
+        }
+
+        .rating-poor {
+            color: #f44336;
+            font-weight: 700;
+        }
+
+        /* Distance Zones */
+        .distance-zones {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .zone-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .zone-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .zone-card.severe {
+            border-color: var(--rust-orange);
+        }
+
+        .zone-card.moderate {
+            border-color: #ff9800;
+        }
+
+        .zone-card.light {
+            border-color: #4caf50;
+        }
+
+        .zone-distance {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .zone-card.severe .zone-distance { color: var(--rust-orange); }
+        .zone-card.moderate .zone-distance { color: #ff9800; }
+        .zone-card.light .zone-distance { color: #4caf50; }
+
+        .zone-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .zone-requirement {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer { max-height: 500px; }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            background: white;
+            color: var(--primary-dark);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a:hover { color: white; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .fastener-comparison { flex-direction: column; align-items: center; gap: 1rem; }
+            .fastener-box { width: 90%; height: auto; }
+            .distance-zones { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .corrosion-scene { height: auto; min-height: 600px; }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>WindLoad.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/">Florida</a>
+            <a href="/states.html">All States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Time Lapse</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-years">0</div>
+            <div class="widget-stat-label">Years Exposed</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-regular">100%</div>
+            <div class="widget-stat-label">Regular Steel</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-stainless">100%</div>
+            <div class="widget-stat-label">Stainless 316</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Coastal Corrosion Protection</div>
+            <h1>Salt Air is the <span class="highlight">Enemy</span></h1>
+            <p class="hero-subtitle">
+                Move the time slider below and watch what happens to different fasteners over 20 years of coastal exposure. Regular steel falls apart while the right materials stay strong. Your hurricane straps are only as strong as their weakest fastener.
+            </p>
+
+            <!-- Corrosion Animation Scene -->
+            <div class="corrosion-scene">
+                <!-- Ocean -->
+                <div class="scene-ocean">
+                    <div class="scene-wave"></div>
+                </div>
+
+                <!-- Salt Spray -->
+                <div class="salt-spray" id="salt-spray"></div>
+
+                <!-- Time Display -->
+                <div class="time-display">
+                    <div class="time-label">Exposure Time</div>
+                    <div class="time-value" id="time-value">0</div>
+                    <div class="time-unit">Years</div>
+                </div>
+
+                <!-- Fastener Comparison -->
+                <div class="fastener-comparison">
+                    <div class="fastener-box regular" id="box-regular">
+                        <div class="fastener-label">Regular Steel</div>
+                        <div class="fastener-visual">
+                            <div class="bolt-head"></div>
+                            <div class="bolt-shaft">
+                                <div class="bolt-threads"></div>
+                            </div>
+                        </div>
+                        <div class="strength-meter">
+                            <div class="meter-label">Strength Remaining</div>
+                            <div class="meter-bar">
+                                <div class="meter-fill"></div>
+                            </div>
+                            <div class="meter-value" id="strength-regular">100%</div>
+                        </div>
+                    </div>
+
+                    <div class="fastener-box galvanized" id="box-galvanized">
+                        <div class="fastener-label">Hot-Dip Galvanized</div>
+                        <div class="fastener-visual">
+                            <div class="bolt-head"></div>
+                            <div class="bolt-shaft">
+                                <div class="bolt-threads"></div>
+                            </div>
+                        </div>
+                        <div class="strength-meter">
+                            <div class="meter-label">Strength Remaining</div>
+                            <div class="meter-bar">
+                                <div class="meter-fill"></div>
+                            </div>
+                            <div class="meter-value" id="strength-galvanized">100%</div>
+                        </div>
+                    </div>
+
+                    <div class="fastener-box stainless" id="box-stainless">
+                        <div class="fastener-label">Stainless 316</div>
+                        <div class="fastener-visual">
+                            <div class="bolt-head"></div>
+                            <div class="bolt-shaft">
+                                <div class="bolt-threads"></div>
+                            </div>
+                        </div>
+                        <div class="strength-meter">
+                            <div class="meter-label">Strength Remaining</div>
+                            <div class="meter-bar">
+                                <div class="meter-fill"></div>
+                            </div>
+                            <div class="meter-value" id="strength-stainless">100%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Time Control -->
+            <div class="time-control">
+                <div class="time-slider-label">
+                    <span>New Installation</span>
+                    <span>20 Years Exposure</span>
+                </div>
+                <input type="range" class="time-slider" id="time-slider" min="0" max="20" value="0">
+            </div>
+        </div>
+    </section>
+
+    <!-- Distance Zones Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Distance From Coast Matters</h2>
+                <p>The closer to the ocean, the more aggressive the corrosion</p>
+            </div>
+
+            <div class="distance-zones">
+                <div class="zone-card severe">
+                    <div class="zone-distance">0-1500 ft</div>
+                    <div class="zone-name">Severe Zone</div>
+                    <div class="zone-requirement">
+                        Stainless steel 316 required for structural connections. Hot-dip galvanized minimum for non-structural.
+                    </div>
+                </div>
+
+                <div class="zone-card moderate">
+                    <div class="zone-distance">1500-3000 ft</div>
+                    <div class="zone-name">Moderate Zone</div>
+                    <div class="zone-requirement">
+                        Hot-dip galvanized G185 minimum. Stainless recommended for critical connections.
+                    </div>
+                </div>
+
+                <div class="zone-card light">
+                    <div class="zone-distance">3000+ ft</div>
+                    <div class="zone-name">Light Zone</div>
+                    <div class="zone-requirement">
+                        Standard galvanized acceptable. Consider upgraded materials for 20+ year durability.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Material Comparison Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Material Performance Comparison</h2>
+                <p>Choose the right material for your coastal project</p>
+            </div>
+
+            <table class="material-table">
+                <thead>
+                    <tr>
+                        <th>Material</th>
+                        <th>Coastal Life</th>
+                        <th>Cost</th>
+                        <th>Best Use</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Regular Steel</td>
+                        <td class="rating-poor">3-5 years</td>
+                        <td class="rating-good">$</td>
+                        <td>Inland only, not coastal</td>
+                    </tr>
+                    <tr>
+                        <td>Electroplated Zinc</td>
+                        <td class="rating-poor">5-8 years</td>
+                        <td class="rating-good">$</td>
+                        <td>Interior use only</td>
+                    </tr>
+                    <tr>
+                        <td>Hot-Dip Galvanized G90</td>
+                        <td class="rating-fair">10-15 years</td>
+                        <td class="rating-fair">$$</td>
+                        <td>Moderate coastal (3000+ ft)</td>
+                    </tr>
+                    <tr>
+                        <td>Hot-Dip Galvanized G185</td>
+                        <td class="rating-fair">15-20 years</td>
+                        <td class="rating-fair">$$</td>
+                        <td>Most coastal applications</td>
+                    </tr>
+                    <tr>
+                        <td>Stainless Steel 304</td>
+                        <td class="rating-fair">20-25 years</td>
+                        <td class="rating-poor">$$$</td>
+                        <td>Moderate coastal exposure</td>
+                    </tr>
+                    <tr>
+                        <td>Stainless Steel 316</td>
+                        <td class="rating-good">30+ years</td>
+                        <td class="rating-poor">$$$$</td>
+                        <td>Severe coastal, direct salt spray</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+                <p>What contractors ask about corrosion resistance</p>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Why does corrosion matter for wind resistance?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Your hurricane straps, anchor bolts, and other connections are designed for specific loads. A strap rated for 1,500 pounds of uplift only works if the fasteners can handle that load. Corroded fasteners can lose 50-80% of their strength, meaning your 1,500-pound strap might only hold 300 pounds. That is not enough to survive a hurricane.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is the difference between 304 and 316 stainless?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Both are stainless steel, but 316 contains molybdenum which dramatically improves resistance to salt water and chloride corrosion. In coastal Florida, 304 will eventually show pitting and corrosion in the most exposed areas. 316 costs about 20-30% more but provides significantly better long-term performance. For structural connections within 1500 feet of the coast, 316 is the right choice.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Is galvanized good enough for Palm Beach County coastal areas?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        It depends on the location and application. Hot-dip galvanized (G185 or higher) works well for many applications outside the severe corrosion zone. But within 1500 feet of the coast, especially for critical structural connections like hurricane straps and anchor bolts, stainless steel is recommended. The small additional cost is worth it for 30+ year durability versus 15-20 year galvanized life.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I mix stainless and galvanized fasteners?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        You need to be careful about galvanic corrosion when different metals touch. Stainless steel and galvanized steel can accelerate corrosion at their contact point. Use isolation washers or keep materials consistent. If you are using stainless straps, use stainless fasteners. If you are using galvanized straps, use galvanized fasteners. Never use regular steel with stainless as this accelerates corrosion significantly.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do inspectors check for corrosion compliance?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Inspectors look for proper material markings and may use magnets to check for stainless steel (stainless is usually non-magnetic or weakly magnetic while regular steel is strongly magnetic). They also check that materials are appropriate for the coastal exposure zone. Keep documentation of your fastener specifications for the inspection. Some jurisdictions require submittals showing the fastener materials used.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Calculate Your Coastal Wind Loads</h2>
+        <p>Get wind load calculations that factor in your coastal location requirements</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=palm-beach&utm_campaign=corrosion-resistance" class="cta-btn">
+            Start Calculating
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Palm Beach Topics</h4>
+                <a href="./coastal-setback.html">Coastal Setback</a>
+                <a href="./flood-zone-wind.html">Flood Zone + Wind</a>
+                <a href="./elevated-structures.html">Elevated Structures</a>
+                <a href="./breakaway-walls.html">Breakaway Walls</a>
+                <a href="./corrosion-resistance.html">Corrosion Resistance</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Topics</h4>
+                <a href="./anchor-bolt-patterns.html">Anchor Bolts</a>
+                <a href="./shear-wall-basics.html">Shear Walls</a>
+                <a href="./diaphragm-design.html">Diaphragm Design</a>
+                <a href="./continuous-load-path.html">Load Path</a>
+                <a href="./hurricane-straps.html">Hurricane Straps</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/states.html">All States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/contractors.html">For Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="https://windload.solutions">Resources</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a>. Trusted by contractors for over 20 years.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Animation - Salt crystals themed
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class SaltCrystal {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = canvas.width + Math.random() * 100;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = -(Math.random() * 2 + 1);
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.rotation = Math.random() * Math.PI;
+                this.rotationSpeed = Math.random() * 0.02 - 0.01;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+
+                if (this.x < -10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fillRect(-this.size / 2, -this.size / 2, this.size, this.size);
+                ctx.restore();
+            }
+        }
+
+        const crystals = Array.from({ length: 50 }, () => new SaltCrystal());
+
+        function animateCrystals() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            crystals.forEach(c => {
+                c.update();
+                c.draw();
+            });
+            requestAnimationFrame(animateCrystals);
+        }
+        animateCrystals();
+
+        // Create salt spray particles
+        const saltSpray = document.getElementById('salt-spray');
+        for (let i = 0; i < 30; i++) {
+            const particle = document.createElement('div');
+            particle.className = 'salt-particle';
+            particle.style.top = Math.random() * 100 + '%';
+            particle.style.right = Math.random() * 20 + '%';
+            particle.style.animationDelay = Math.random() * 8 + 's';
+            particle.style.animationDuration = (6 + Math.random() * 4) + 's';
+            saltSpray.appendChild(particle);
+        }
+
+        // Time Slider Interaction
+        const timeSlider = document.getElementById('time-slider');
+        const timeValue = document.getElementById('time-value');
+        const boxRegular = document.getElementById('box-regular');
+        const boxGalvanized = document.getElementById('box-galvanized');
+        const boxStainless = document.getElementById('box-stainless');
+        const strengthRegular = document.getElementById('strength-regular');
+        const strengthGalvanized = document.getElementById('strength-galvanized');
+        const strengthStainless = document.getElementById('strength-stainless');
+        const widgetYears = document.getElementById('widget-years');
+        const widgetRegular = document.getElementById('widget-regular');
+        const widgetStainlessEl = document.getElementById('widget-stainless');
+
+        function updateCorrosion() {
+            const years = parseInt(timeSlider.value);
+            timeValue.textContent = years;
+            widgetYears.textContent = years;
+
+            // Calculate strength remaining
+            // Regular steel: loses ~10% per year in severe coastal
+            const regularStrength = Math.max(100 - (years * 10), 20);
+            // Galvanized: loses ~3% per year
+            const galvanizedStrength = Math.max(100 - (years * 3), 50);
+            // Stainless 316: loses ~0.5% per year
+            const stainlessStrength = Math.max(100 - (years * 0.5), 90);
+
+            // Update displays
+            strengthRegular.textContent = Math.round(regularStrength) + '%';
+            strengthGalvanized.textContent = Math.round(galvanizedStrength) + '%';
+            strengthStainless.textContent = Math.round(stainlessStrength) + '%';
+
+            widgetRegular.textContent = Math.round(regularStrength) + '%';
+            widgetStainlessEl.textContent = Math.round(stainlessStrength) + '%';
+
+            // Apply corroded class at threshold
+            if (years >= 5) {
+                boxRegular.classList.add('corroded');
+            } else {
+                boxRegular.classList.remove('corroded');
+            }
+
+            if (years >= 15) {
+                boxGalvanized.classList.add('corroded');
+            } else {
+                boxGalvanized.classList.remove('corroded');
+            }
+
+            // Stainless stays clean but we add class for consistency
+            if (years >= 20) {
+                boxStainless.classList.add('corroded');
+            } else {
+                boxStainless.classList.remove('corroded');
+            }
+        }
+
+        timeSlider.addEventListener('input', updateCorrosion);
+        updateCorrosion();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Field Measurement Guide Miami-Dade | Measure Twice</title>
+    <meta name="description" content="How to take accurate field measurements for wind load calculations. Interactive tape measure shows proper technique and common mistakes to avoid.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/field-measurement.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Field Measurement Guide Miami-Dade | Measure Twice">
+    <meta property="og:description" content="Interactive tape measure shows proper technique for wind load measurements.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/field-measurement.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What measurements do I need for wind load calculations?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "You need building height (mean roof height), building width and length, roof slope, eave height, and the dimensions of windows, doors, and other openings. For HVHZ, you also need to measure zones for different pressure requirements."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Where do I measure building height from?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Measure from grade (ground level) to the mean roof height. For flat roofs, this is the roof deck. For sloped roofs, this is the average of the eave and ridge heights. Be sure to note if there is any elevation difference around the building."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What are common measurement mistakes?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Common mistakes include: measuring to the wrong point (top of parapet vs roof deck), forgetting about elevation changes around the building, not measuring rough opening vs frame size for windows, and mixing up interior vs exterior dimensions."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Miami-Dade",
+            "item": "https://windload.co/florida/miami-dade/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Field Measurement",
+            "item": "https://windload.co/florida/miami-dade/field-measurement.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --tape-yellow: #fde047;
+            --tape-red: #ef4444;
+            --success-green: #10b981;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img {
+            height: 28px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--tape-yellow);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            min-width: 180px;
+            backdrop-filter: blur(10px);
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--tape-yellow);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        .widget-label {
+            font-size: 0.75rem;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1200px;
+            width: 100%;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(253, 224, 71, 0.15);
+            border: 1px solid rgba(253, 224, 71, 0.3);
+            color: var(--tape-yellow);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-header h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-header h1 .highlight {
+            background: linear-gradient(135deg, var(--tape-yellow), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+        }
+
+        /* Tape Measure Animation */
+        .tape-container {
+            position: relative;
+            height: 400px;
+            max-width: 800px;
+            margin: 0 auto;
+            overflow: hidden;
+        }
+
+        .building-outline {
+            position: absolute;
+            bottom: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 250px;
+            border: 3px solid rgba(0, 212, 255, 0.5);
+            background: rgba(0, 212, 255, 0.05);
+        }
+
+        .building-roof {
+            position: absolute;
+            top: -60px;
+            left: -20px;
+            right: -20px;
+            height: 0;
+            border-left: 170px solid transparent;
+            border-right: 170px solid transparent;
+            border-bottom: 60px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .building-window {
+            position: absolute;
+            width: 50px;
+            height: 70px;
+            border: 2px solid var(--accent-magenta);
+            background: rgba(233, 30, 140, 0.1);
+        }
+
+        .window-1 { top: 40px; left: 30px; }
+        .window-2 { top: 40px; right: 30px; }
+        .window-3 { top: 140px; left: 30px; }
+        .window-4 { top: 140px; right: 30px; }
+
+        .building-door {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 100px;
+            border: 2px solid var(--accent-magenta);
+            background: rgba(233, 30, 140, 0.1);
+        }
+
+        /* Animated Tape Measure */
+        .tape-measure {
+            position: absolute;
+            left: 50px;
+            bottom: 50px;
+            width: 0;
+            height: 24px;
+            background: var(--tape-yellow);
+            transition: width 1.5s ease-out;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .tape-measure.vertical {
+            width: 24px;
+            height: 0;
+            left: calc(50% + 170px);
+            bottom: 50px;
+            flex-direction: column;
+            transition: height 1.5s ease-out;
+        }
+
+        .tape-markings {
+            display: flex;
+            height: 100%;
+            align-items: flex-end;
+        }
+
+        .tape-measure.vertical .tape-markings {
+            flex-direction: column;
+            width: 100%;
+            height: auto;
+        }
+
+        .tape-mark {
+            width: 20px;
+            height: 50%;
+            border-left: 1px solid #000;
+            font-size: 0.5rem;
+            color: #000;
+            position: relative;
+        }
+
+        .tape-mark.major {
+            height: 70%;
+        }
+
+        .tape-mark.major::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -12px;
+            left: 2px;
+            font-size: 0.6rem;
+            font-weight: 700;
+        }
+
+        .tape-end {
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 20px;
+            height: 30px;
+            background: var(--tape-red);
+            border-radius: 0 4px 4px 0;
+        }
+
+        .tape-measure.vertical .tape-end {
+            right: auto;
+            top: -10px;
+            bottom: auto;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 30px;
+            height: 20px;
+            border-radius: 4px 4px 0 0;
+        }
+
+        .measurement-label {
+            position: absolute;
+            background: var(--primary-dark);
+            border: 2px solid var(--tape-yellow);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            white-space: nowrap;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .measurement-label.visible {
+            opacity: 1;
+        }
+
+        .label-width {
+            bottom: 85px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .label-height {
+            right: calc(50% - 220px);
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .scroll-indicator {
+            text-align: center;
+            color: #94a3b8;
+            margin-top: 2rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(10px); }
+        }
+
+        /* Dimension Input Section */
+        .input-section {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+        }
+
+        .dimension-form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: border-color 0.3s ease;
+        }
+
+        .form-group:focus-within {
+            border-color: var(--accent-cyan);
+        }
+
+        .form-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .form-group .hint {
+            font-size: 0.75rem;
+            color: #64748b;
+            margin-bottom: 0.75rem;
+        }
+
+        .input-row {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+        }
+
+        .form-group input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--accent-cyan);
+        }
+
+        .unit-select {
+            padding: 0.75rem;
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: #fff;
+        }
+
+        /* Common Mistakes Section */
+        .mistakes-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .mistake-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .mistake-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .mistake-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: var(--tape-red);
+        }
+
+        .mistake-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            color: var(--tape-red);
+        }
+
+        .mistake-card h4 {
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--tape-red);
+        }
+
+        .mistake-card p {
+            font-size: 0.9rem;
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .correct-way {
+            background: rgba(16, 185, 129, 0.1);
+            border-radius: 8px;
+            padding: 0.75rem;
+            font-size: 0.85rem;
+            color: var(--success-green);
+        }
+
+        .correct-way strong {
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .faq-icon {
+            transition: transform 0.3s ease;
+            font-size: 1.5rem;
+            color: var(--tape-yellow);
+        }
+
+        .faq-item.open .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            color: #94a3b8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--tape-yellow), var(--accent-magenta));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            color: #000;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            color: rgba(0, 0, 0, 0.7);
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .btn-dark {
+            background: var(--primary-dark);
+            color: #fff;
+        }
+
+        .btn-dark:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .footer-text {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .footer-text a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        @media (max-width: 968px) {
+            .floating-widget {
+                position: fixed;
+                right: 10px;
+                top: auto;
+                bottom: 10px;
+                transform: none;
+                display: flex;
+                gap: 1rem;
+                min-width: auto;
+                padding: 1rem;
+            }
+
+            .widget-stat {
+                margin-bottom: 0;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .tape-container {
+                height: 300px;
+            }
+
+            .building-outline {
+                width: 200px;
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>WindLoad.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida-pro.html">Florida</a>
+            <a href="/contractors.html">Contractors</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Measurements</div>
+        <div class="widget-stat">
+            <div class="widget-value" id="widthValue">0</div>
+            <div class="widget-label">Width (ft)</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-value" id="heightValue">0</div>
+            <div class="widget-label">Height (ft)</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-value" id="areaValue">0</div>
+            <div class="widget-label">Area (sq ft)</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-header">
+                <div class="hero-badge">Field Measurement Guide</div>
+                <h1>Measure <span class="highlight">Twice</span></h1>
+                <p class="hero-subtitle">
+                    Watch the tape measure extend as you scroll. Learn exactly where and how to measure
+                    for accurate wind load calculations.
+                </p>
+            </div>
+
+            <div class="tape-container">
+                <div class="building-outline">
+                    <div class="building-roof"></div>
+                    <div class="building-window window-1"></div>
+                    <div class="building-window window-2"></div>
+                    <div class="building-window window-3"></div>
+                    <div class="building-window window-4"></div>
+                    <div class="building-door"></div>
+                </div>
+
+                <div class="tape-measure" id="tapeWidth">
+                    <div class="tape-markings" id="widthMarkings"></div>
+                    <div class="tape-end"></div>
+                </div>
+
+                <div class="tape-measure vertical" id="tapeHeight">
+                    <div class="tape-end"></div>
+                    <div class="tape-markings" id="heightMarkings"></div>
+                </div>
+
+                <div class="measurement-label label-width" id="labelWidth">Width: 30 ft</div>
+                <div class="measurement-label label-height" id="labelHeight">Height: 25 ft</div>
+            </div>
+
+            <div class="scroll-indicator">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 5v14M19 12l-7 7-7-7"/>
+                </svg>
+                <p>Scroll to see the tape measure extend</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Dimension Input Section -->
+    <section class="input-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Enter Your Measurements</h2>
+                <p>Practice entering dimensions correctly</p>
+            </div>
+
+            <div class="dimension-form">
+                <div class="form-group">
+                    <label>Building Width</label>
+                    <div class="hint">Measure exterior wall to exterior wall</div>
+                    <div class="input-row">
+                        <input type="number" id="inputWidth" placeholder="30" oninput="updateCalculations()">
+                        <select class="unit-select">
+                            <option value="ft">ft</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Building Length</label>
+                    <div class="hint">Perpendicular to width measurement</div>
+                    <div class="input-row">
+                        <input type="number" id="inputLength" placeholder="40" oninput="updateCalculations()">
+                        <select class="unit-select">
+                            <option value="ft">ft</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Mean Roof Height</label>
+                    <div class="hint">Grade to average of eave and ridge</div>
+                    <div class="input-row">
+                        <input type="number" id="inputHeight" placeholder="25" oninput="updateCalculations()">
+                        <select class="unit-select">
+                            <option value="ft">ft</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Roof Slope</label>
+                    <div class="hint">Rise per 12 inches of run</div>
+                    <div class="input-row">
+                        <input type="number" id="inputSlope" placeholder="4" oninput="updateCalculations()">
+                        <span style="color: #94a3b8;">: 12</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Eave Height</label>
+                    <div class="hint">Grade to bottom of roof overhang</div>
+                    <div class="input-row">
+                        <input type="number" id="inputEave" placeholder="20" oninput="updateCalculations()">
+                        <select class="unit-select">
+                            <option value="ft">ft</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Ridge Height</label>
+                    <div class="hint">Grade to peak of roof</div>
+                    <div class="input-row">
+                        <input type="number" id="inputRidge" placeholder="30" oninput="updateCalculations()">
+                        <select class="unit-select">
+                            <option value="ft">ft</option>
+                            <option value="in">in</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: rgba(0, 212, 255, 0.1); border-radius: 12px; border: 1px solid var(--accent-cyan);">
+                <p style="color: #94a3b8; margin-bottom: 0.5rem;">Calculated Wall Area (One Side)</p>
+                <p style="font-size: 2rem; font-weight: 800; color: var(--accent-cyan);" id="calcArea">-- sq ft</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Common Mistakes Section -->
+    <section class="mistakes-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Common Measurement Mistakes</h2>
+                <p>Avoid these errors that cause permit rejections</p>
+            </div>
+
+            <div class="mistake-grid">
+                <div class="mistake-card">
+                    <div class="mistake-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    </div>
+                    <h4>Wrong Height Reference Point</h4>
+                    <p>Measuring to the wrong point - top of parapet, top of air handler, or other roof objects instead of the roof deck.</p>
+                    <div class="correct-way">
+                        <strong>Correct Way:</strong>
+                        Measure to the mean roof height - average of eave and ridge for sloped roofs, or roof deck for flat roofs.
+                    </div>
+                </div>
+
+                <div class="mistake-card">
+                    <div class="mistake-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    </div>
+                    <h4>Interior vs Exterior Dimensions</h4>
+                    <p>Using interior room dimensions instead of exterior building dimensions, which can be several feet different.</p>
+                    <div class="correct-way">
+                        <strong>Correct Way:</strong>
+                        Always measure exterior wall to exterior wall. Account for wall thickness if measuring from inside.
+                    </div>
+                </div>
+
+                <div class="mistake-card">
+                    <div class="mistake-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    </div>
+                    <h4>Ignoring Grade Changes</h4>
+                    <p>Not accounting for sloped ground, which means different heights on different sides of the building.</p>
+                    <div class="correct-way">
+                        <strong>Correct Way:</strong>
+                        Measure height from the lowest adjacent grade. Note if significant grade changes exist.
+                    </div>
+                </div>
+
+                <div class="mistake-card">
+                    <div class="mistake-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    </div>
+                    <h4>Rough Opening vs Frame</h4>
+                    <p>Confusing rough opening size (the hole in the wall) with the actual window or door frame size.</p>
+                    <div class="correct-way">
+                        <strong>Correct Way:</strong>
+                        For product selection, use rough opening. For wind loads, use the actual glazed area.
+                    </div>
+                </div>
+
+                <div class="mistake-card">
+                    <div class="mistake-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    </div>
+                    <h4>Forgetting Overhangs</h4>
+                    <p>Not measuring roof overhangs, soffits, and other elements that affect wind load areas.</p>
+                    <div class="correct-way">
+                        <strong>Correct Way:</strong>
+                        Measure overhang width separately. These areas have different pressure requirements.
+                    </div>
+                </div>
+
+                <div class="mistake-card">
+                    <div class="mistake-icon">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"/>
+                            <line x1="15" y1="9" x2="9" y2="15"/>
+                            <line x1="9" y1="9" x2="15" y2="15"/>
+                        </svg>
+                    </div>
+                    <h4>Inconsistent Units</h4>
+                    <p>Mixing feet and inches without clear notation, leading to calculation errors.</p>
+                    <div class="correct-way">
+                        <strong>Correct Way:</strong>
+                        Use consistent units throughout. If mixing, clearly note each (e.g., 25'-6" or 25.5 ft).
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What measurements do I need for wind load calculations?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>You need building height (mean roof height), building width and length, roof slope, eave height, and the dimensions of windows, doors, and other openings. For HVHZ, you also need to measure zones for different pressure requirements.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Where do I measure building height from?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Measure from grade (ground level) to the mean roof height. For flat roofs, this is the roof deck. For sloped roofs, this is the average of the eave and ridge heights. Be sure to note if there is any elevation difference around the building.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What are common measurement mistakes?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Common mistakes include: measuring to the wrong point (top of parapet vs roof deck), forgetting about elevation changes around the building, not measuring rough opening vs frame size for windows, and mixing up interior vs exterior dimensions.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How accurate do my measurements need to be?</span>
+                    <span class="faq-icon">+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>For most wind load calculations, measurements within 6 inches are acceptable. However, building height is critical - a few feet difference can change the wind zone or required pressures. When in doubt, round up for safety.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Ready to Calculate?</h2>
+        <p>Enter your measurements and get wind load calculations in minutes.</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=miami-dade&utm_campaign=field-measure" class="btn btn-dark">
+            Start Calculating
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/pre-hurricane-prep.html">Pre-Hurricane Prep</a>
+            <a href="/florida/miami-dade/post-storm-assessment.html">Post-Storm Assessment</a>
+            <a href="/florida/miami-dade/noa-search-guide.html">NOA Search Guide</a>
+            <a href="/florida/miami-dade/product-substitution.html">Product Substitution</a>
+            <a href="/florida/miami-dade/submittal-prep.html">Submittal Prep</a>
+        </div>
+        <div class="footer-links">
+            <a href="/florida/miami-dade/change-order-wind.html">Change Orders</a>
+            <a href="/florida/miami-dade/rfi-responses.html">RFI Responses</a>
+            <a href="/florida/miami-dade/closeout-documents.html">Closeout Docs</a>
+            <a href="/florida/miami-dade/warranty-requirements.html">Warranty</a>
+        </div>
+        <p class="footer-text">
+            &copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> |
+            <a href="https://windloadcalc.com">WindLoadCalc.com</a>
+        </p>
+    </footer>
+
+    <script>
+        // Particle canvas - Grid/measurement particles
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            const gridSize = 50;
+            ctx.strokeStyle = 'rgba(253, 224, 71, 0.05)';
+            ctx.lineWidth = 1;
+
+            // Vertical lines
+            for (let x = 0; x < canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+
+            // Horizontal lines
+            for (let y = 0; y < canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(drawGrid);
+        }
+        drawGrid();
+
+        // Scroll-based tape measure animation
+        let lastScrollY = 0;
+        let maxScroll = 500;
+
+        window.addEventListener('scroll', function() {
+            const scrollY = window.scrollY;
+            const progress = Math.min(scrollY / maxScroll, 1);
+
+            // Animate width tape
+            const tapeWidth = document.getElementById('tapeWidth');
+            const targetWidth = 300 * progress;
+            tapeWidth.style.width = targetWidth + 'px';
+
+            // Animate height tape
+            const tapeHeight = document.getElementById('tapeHeight');
+            const targetHeight = 250 * progress;
+            tapeHeight.style.height = targetHeight + 'px';
+
+            // Show labels
+            const labelWidth = document.getElementById('labelWidth');
+            const labelHeight = document.getElementById('labelHeight');
+
+            if (progress > 0.7) {
+                labelWidth.classList.add('visible');
+                labelHeight.classList.add('visible');
+            }
+
+            // Update widget values
+            const width = Math.round(30 * progress);
+            const height = Math.round(25 * progress);
+            document.getElementById('widthValue').textContent = width;
+            document.getElementById('heightValue').textContent = height;
+            document.getElementById('areaValue').textContent = width * height;
+
+            lastScrollY = scrollY;
+        });
+
+        // Generate tape markings
+        function generateMarkings() {
+            const widthMarkings = document.getElementById('widthMarkings');
+            const heightMarkings = document.getElementById('heightMarkings');
+
+            for (let i = 0; i <= 30; i++) {
+                const mark = document.createElement('div');
+                mark.className = 'tape-mark' + (i % 5 === 0 ? ' major' : '');
+                if (i % 5 === 0) mark.setAttribute('data-value', i);
+                widthMarkings.appendChild(mark);
+            }
+
+            for (let i = 0; i <= 25; i++) {
+                const mark = document.createElement('div');
+                mark.className = 'tape-mark' + (i % 5 === 0 ? ' major' : '');
+                if (i % 5 === 0) mark.setAttribute('data-value', i);
+                heightMarkings.appendChild(mark);
+            }
+        }
+        generateMarkings();
+
+        // Form calculations
+        function updateCalculations() {
+            const width = parseFloat(document.getElementById('inputWidth').value) || 0;
+            const length = parseFloat(document.getElementById('inputLength').value) || 0;
+            const height = parseFloat(document.getElementById('inputHeight').value) || 0;
+
+            const area = width * height;
+            document.getElementById('calcArea').textContent = area.toFixed(0) + ' sq ft';
+        }
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', function() {
+                const item = this.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

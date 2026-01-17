@@ -1,0 +1,1573 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mean Roof Height & Wind Loads | Broward County | WindLoad.co</title>
+    <meta name="description" content="Understand how mean roof height affects wind loads in Broward County. Taller buildings face higher pressures. Calculate your exposure.">
+    <meta name="keywords" content="mean roof height, wind exposure, building height, Kz factor, velocity pressure, Broward County, HVHZ">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name:="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Mean Roof Height & Wind Loads | Broward County">
+    <meta property="og:description" content="See how building height dramatically increases wind pressures in Broward County HVHZ. Every foot matters.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/mean-roof-height.html">
+    <meta property="og:image" content="https://windload.co/images/mean-roof-height-og.jpg">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Canonical -->
+    <link rel="canonical" href="https://windload.co/florida/broward/mean-roof-height.html">
+
+    <!-- Schema.org JSON-LD -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is mean roof height in wind engineering?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mean roof height is the average height from grade to roof. For flat roofs, it's the height to the roof surface. For sloped roofs, it's the average of the eave and ridge heights. This measurement determines which wind speed profile applies to your building."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does building height increase wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind speeds increase with height due to reduced ground friction. At ground level, terrain features slow the wind. At 60 feet, wind is typically 20-30% faster than at 15 feet. Since pressure increases with the square of velocity, small height increases create large pressure increases."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the Kz factor in wind calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kz is the velocity pressure exposure coefficient that accounts for how wind speed varies with height and terrain. For Exposure C at 15 feet, Kz is about 0.85. At 60 feet, Kz increases to 1.13. This 33% increase in Kz translates to 33% higher design pressures."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is mean roof height calculated for different roof types?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Flat roofs: height from grade to roof surface. Gable roofs: average of eave height and ridge height (eave + ridge) / 2. Hip roofs: same as gable. For multi-level roofs, each section may have different mean heights affecting local pressures."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What height limits apply in Broward County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Broward County follows the Florida Building Code with HVHZ provisions. Buildings over 60 feet may require wind tunnel testing. High-rise buildings face additional requirements including enhanced structural connections and potentially different wind load methodology."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co/"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Mean Roof Height", "item": "https://windload.co/florida/broward/mean-roof-height.html"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-sky: #4fc3f7;
+            --accent-yellow: #ffd54f;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+            --card-bg: rgba(255,255,255,0.05);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            padding: 1rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            background: linear-gradient(180deg, var(--primary-dark) 0%, transparent 100%);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-sky));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 5% 1rem;
+            font-size: 0.9rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+            margin: 0 0.5rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 90vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, var(--text-light), var(--accent-sky));
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        /* Building Animation Container */
+        .animation-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .building-scene {
+            width: 450px;
+            height: 400px;
+            position: relative;
+            background: linear-gradient(180deg, transparent 0%, rgba(79, 195, 247, 0.05) 100%);
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        /* Ground */
+        .ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(180deg, #2d1b4e 0%, #1a0a2e 100%);
+            border-top: 2px solid var(--accent-cyan);
+        }
+
+        /* Building */
+        .building {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            background: linear-gradient(180deg, #3d2b5e 0%, #2d1b4e 100%);
+            border: 2px solid var(--accent-sky);
+            border-bottom: none;
+            transition: height 0.5s ease;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        /* Roof */
+        .roof {
+            position: absolute;
+            bottom: 100%;
+            left: -20px;
+            right: -20px;
+            height: 0;
+            border-left: 80px solid transparent;
+            border-right: 80px solid transparent;
+            border-bottom: 40px solid var(--accent-sky);
+            opacity: 0.8;
+        }
+
+        .roof.flat {
+            border: none;
+            height: 10px;
+            background: var(--accent-sky);
+            left: -2px;
+            right: -2px;
+        }
+
+        /* Windows */
+        .floor {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            padding: 10px;
+        }
+
+        .window {
+            width: 25px;
+            height: 30px;
+            background: rgba(0, 212, 255, 0.3);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 3px;
+        }
+
+        /* Height Markers */
+        .height-scale {
+            position: absolute;
+            left: 30px;
+            bottom: 40px;
+            top: 60px;
+            width: 2px;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        .height-marker {
+            position: absolute;
+            left: 0;
+            width: 15px;
+            height: 2px;
+            background: var(--accent-yellow);
+            transform: translateX(-6px);
+        }
+
+        .height-label {
+            position: absolute;
+            left: -45px;
+            font-size: 0.75rem;
+            color: var(--accent-yellow);
+            white-space: nowrap;
+            transform: translateY(-50%);
+        }
+
+        /* Mean Height Line */
+        .mean-height-line {
+            position: absolute;
+            left: 50px;
+            right: 50px;
+            height: 2px;
+            background: var(--accent-magenta);
+            transition: bottom 0.5s ease;
+        }
+
+        .mean-height-line::before {
+            content: 'Mean Roof Height';
+            position: absolute;
+            right: 0;
+            top: -20px;
+            font-size: 0.8rem;
+            color: var(--accent-magenta);
+            white-space: nowrap;
+        }
+
+        .mean-height-value {
+            position: absolute;
+            right: 0;
+            top: 5px;
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--accent-magenta);
+        }
+
+        /* Wind arrows */
+        .wind-arrows {
+            position: absolute;
+            right: 30px;
+            bottom: 50px;
+            top: 60px;
+            width: 40px;
+        }
+
+        .wind-arrow {
+            position: absolute;
+            right: 0;
+            height: 20px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            transition: all 0.5s ease;
+        }
+
+        .wind-arrow .line {
+            height: 2px;
+            background: var(--accent-cyan);
+            transition: width 0.5s ease;
+        }
+
+        .wind-arrow .head {
+            width: 0;
+            height: 0;
+            border-top: 5px solid transparent;
+            border-bottom: 5px solid transparent;
+            border-right: 8px solid var(--accent-cyan);
+        }
+
+        .wind-arrow .speed {
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            white-space: nowrap;
+        }
+
+        /* Controls */
+        .height-control {
+            width: 350px;
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .height-control label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+        }
+
+        .height-control input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-appearance: none;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .height-control input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--text-light);
+            border: 3px solid var(--accent-sky);
+            cursor: grab;
+        }
+
+        .roof-type-toggle {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            justify-content: center;
+        }
+
+        .roof-btn {
+            padding: 0.6rem 1.2rem;
+            background: var(--card-bg);
+            border: 2px solid transparent;
+            border-radius: 20px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .roof-btn:hover {
+            background: rgba(255,255,255,0.1);
+        }
+
+        .roof-btn.active {
+            border-color: var(--accent-sky);
+            background: rgba(79, 195, 247, 0.2);
+        }
+
+        /* Stats Panel */
+        .stats-panel {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-item .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--accent-sky);
+        }
+
+        .stat-item .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 5rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .section-subtitle {
+            color: var(--text-muted);
+            text-align: center;
+            font-size: 1.2rem;
+            margin-bottom: 3rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Height Comparison Cards */
+        .height-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .height-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem 1.5rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .height-card::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, transparent 0%, var(--accent-sky) 100%);
+            opacity: 0.2;
+            transition: height 0.3s;
+        }
+
+        .height-card:nth-child(1)::before { height: 30%; }
+        .height-card:nth-child(2)::before { height: 50%; }
+        .height-card:nth-child(3)::before { height: 70%; }
+        .height-card:nth-child(4)::before { height: 90%; }
+
+        .height-card .icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .height-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .height-card .height-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--accent-sky);
+            margin: 0.5rem 0;
+        }
+
+        .height-card .kz-value {
+            color: var(--accent-yellow);
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .height-card .pressure {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-size: 0.9rem;
+        }
+
+        /* Kz Explanation */
+        .kz-visual {
+            max-width: 800px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .kz-formula {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .kz-formula h3 {
+            margin-bottom: 1.5rem;
+            color: var(--accent-yellow);
+        }
+
+        .formula {
+            font-size: 1.5rem;
+            font-family: 'Courier New', monospace;
+            background: rgba(0,0,0,0.3);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+        }
+
+        .formula-note {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .kz-table {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 1.5rem;
+            overflow: hidden;
+        }
+
+        .kz-table h3 {
+            margin-bottom: 1rem;
+            color: var(--accent-sky);
+            text-align: center;
+        }
+
+        .kz-table table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .kz-table th,
+        .kz-table td {
+            padding: 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .kz-table th {
+            color: var(--accent-cyan);
+            font-size: 0.9rem;
+        }
+
+        .kz-table td {
+            font-size: 0.95rem;
+        }
+
+        .kz-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Roof Type Diagrams */
+        .roof-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .roof-type-card {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .roof-type-card svg {
+            width: 150px;
+            height: 100px;
+            margin-bottom: 1rem;
+        }
+
+        .roof-type-card h4 {
+            margin-bottom: 0.5rem;
+            color: var(--accent-sky);
+        }
+
+        .roof-type-card p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .roof-type-card .formula-small {
+            margin-top: 1rem;
+            padding: 0.5rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+            font-family: monospace;
+            font-size: 0.85rem;
+        }
+
+        /* Calculator */
+        .calculator-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: var(--card-bg);
+            border-radius: 24px;
+            padding: 2.5rem;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-input-group {
+            margin-bottom: 1rem;
+        }
+
+        .calc-input-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        .calc-input-group input,
+        .calc-input-group select {
+            width: 100%;
+            padding: 0.9rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.2);
+            background: rgba(255,255,255,0.05);
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        .calc-input-group select option {
+            background: var(--primary-dark);
+        }
+
+        .calc-results {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .calc-result-item {
+            text-align: center;
+            padding: 1.25rem;
+            border-radius: 12px;
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid var(--accent-sky);
+        }
+
+        .calc-result-item .label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result-item .value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-sky);
+        }
+
+        .calc-result-item .unit {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* FAQ Section */
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            margin-bottom: 1rem;
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-sky);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: linear-gradient(180deg, rgba(26, 10, 46, 0.95), rgba(26, 10, 46, 0.85));
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            min-width: 160px;
+        }
+
+        .widget-title {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat .label {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+        }
+
+        .widget-stat .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .widget-stat .value.height { color: var(--accent-sky); }
+        .widget-stat .value.kz { color: var(--accent-yellow); }
+        .widget-stat .value.pressure { color: var(--accent-magenta); }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 5rem 5%;
+            background: linear-gradient(180deg, transparent, rgba(79, 195, 247, 0.1));
+        }
+
+        .cta-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: linear-gradient(135deg, var(--accent-sky), var(--accent-cyan));
+            color: var(--primary-dark);
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(79, 195, 247, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0,0,0,0.3);
+            padding: 3rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-col h4 {
+            margin-bottom: 1rem;
+            color: var(--accent-sky);
+        }
+
+        .footer-col a {
+            display: block;
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-bottom: 0.5rem;
+            transition: color 0.3s;
+        }
+
+        .footer-col a:hover {
+            color: var(--text-light);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            color: var(--text-muted);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 900px) {
+            .hero {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .building-scene {
+                width: 100%;
+                max-width: 350px;
+            }
+
+            .floating-widget {
+                display: none;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .kz-visual {
+                grid-template-columns: 1fr;
+            }
+
+            .calc-row {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="logo">WindLoad.co</div>
+        <ul class="nav-links">
+            <li><a href="/">Home</a></li>
+            <li><a href="/florida/">Florida</a></li>
+            <li><a href="/florida/broward/">Broward</a></li>
+            <li><a href="/pricing.html">Pricing</a></li>
+        </ul>
+    </nav>
+
+    <div class="breadcrumb">
+        <a href="/">Home</a><span>/</span>
+        <a href="/florida/">Florida</a><span>/</span>
+        <a href="/florida/broward/">Broward</a><span>/</span>
+        Mean Roof Height
+    </div>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Height Matters</h1>
+            <p>Every foot you build higher means more wind pressure. Watch how wind speed increases with height and what it means for your structure.</p>
+            <p style="color: var(--accent-sky); font-size: 1rem;">Drag the slider to grow the building. See wind pressures change in real time.</p>
+        </div>
+
+        <div class="animation-container">
+            <div class="building-scene">
+                <!-- Height Scale -->
+                <div class="height-scale">
+                    <div class="height-marker" style="bottom: 0;"><span class="height-label">0 ft</span></div>
+                    <div class="height-marker" style="bottom: 25%;"><span class="height-label">30 ft</span></div>
+                    <div class="height-marker" style="bottom: 50%;"><span class="height-label">60 ft</span></div>
+                    <div class="height-marker" style="bottom: 75%;"><span class="height-label">90 ft</span></div>
+                    <div class="height-marker" style="bottom: 100%;"><span class="height-label">120 ft</span></div>
+                </div>
+
+                <!-- Wind Arrows -->
+                <div class="wind-arrows" id="windArrows">
+                    <div class="wind-arrow" style="bottom: 10%;">
+                        <div class="head"></div>
+                        <div class="line" style="width: 20px;"></div>
+                        <span class="speed">160 mph</span>
+                    </div>
+                    <div class="wind-arrow" style="bottom: 30%;">
+                        <div class="head"></div>
+                        <div class="line" style="width: 25px;"></div>
+                        <span class="speed">170 mph</span>
+                    </div>
+                    <div class="wind-arrow" style="bottom: 50%;">
+                        <div class="head"></div>
+                        <div class="line" style="width: 30px;"></div>
+                        <span class="speed">175 mph</span>
+                    </div>
+                    <div class="wind-arrow" style="bottom: 70%;">
+                        <div class="head"></div>
+                        <div class="line" style="width: 35px;"></div>
+                        <span class="speed">180 mph</span>
+                    </div>
+                </div>
+
+                <!-- Building -->
+                <div class="building" id="building" style="height: 100px;">
+                    <div class="roof" id="roof"></div>
+                    <div class="floor"><div class="window"></div><div class="window"></div><div class="window"></div></div>
+                    <div class="floor"><div class="window"></div><div class="window"></div><div class="window"></div></div>
+                </div>
+
+                <!-- Mean Height Line -->
+                <div class="mean-height-line" id="meanHeightLine" style="bottom: 140px;">
+                    <span class="mean-height-value" id="meanHeightValue">30 ft</span>
+                </div>
+
+                <!-- Ground -->
+                <div class="ground"></div>
+            </div>
+
+            <div class="height-control">
+                <label>Building Height: <span id="heightDisplay">30</span> ft</label>
+                <input type="range" id="heightSlider" min="15" max="100" value="30">
+            </div>
+
+            <div class="roof-type-toggle">
+                <button class="roof-btn active" data-type="flat">Flat Roof</button>
+                <button class="roof-btn" data-type="gable">Gable Roof</button>
+            </div>
+
+            <div class="stats-panel">
+                <div class="stat-item">
+                    <div class="value" id="kzDisplay">0.85</div>
+                    <div class="label">Kz Factor</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="qzDisplay">66</div>
+                    <div class="label">qz (PSF)</div>
+                </div>
+                <div class="stat-item">
+                    <div class="value" id="increaseDisplay">0%</div>
+                    <div class="label">vs 15 ft</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Height Comparison Section -->
+    <section class="content-section">
+        <h2 class="section-title">How Height Changes Everything</h2>
+        <p class="section-subtitle">Same 180 mph design wind speed, vastly different pressures based on building height.</p>
+
+        <div class="height-comparison">
+            <div class="height-card">
+                <div class="icon">&#127968;</div>
+                <h3>Single Story</h3>
+                <div class="height-value">15 ft</div>
+                <div class="kz-value">Kz = 0.85</div>
+                <div class="pressure">66 PSF velocity pressure</div>
+            </div>
+
+            <div class="height-card">
+                <div class="icon">&#127970;</div>
+                <h3>Two Story</h3>
+                <div class="height-value">30 ft</div>
+                <div class="kz-value">Kz = 0.98</div>
+                <div class="pressure">76 PSF velocity pressure</div>
+            </div>
+
+            <div class="height-card">
+                <div class="icon">&#127971;</div>
+                <h3>Commercial</h3>
+                <div class="height-value">60 ft</div>
+                <div class="kz-value">Kz = 1.13</div>
+                <div class="pressure">88 PSF velocity pressure</div>
+            </div>
+
+            <div class="height-card">
+                <div class="icon">&#127960;</div>
+                <h3>High-Rise</h3>
+                <div class="height-value">100 ft</div>
+                <div class="kz-value">Kz = 1.26</div>
+                <div class="pressure">98 PSF velocity pressure</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Kz Factor Explanation -->
+    <section class="content-section" style="background: rgba(79, 195, 247, 0.05);">
+        <h2 class="section-title">Understanding the Kz Factor</h2>
+        <p class="section-subtitle">The velocity pressure exposure coefficient that determines how much wind your height catches.</p>
+
+        <div class="kz-visual">
+            <div class="kz-formula">
+                <h3>Velocity Pressure Formula</h3>
+                <div class="formula">qz = 0.00256 x Kz x V<sup>2</sup></div>
+                <p class="formula-note">Where V = basic wind speed (mph)<br>Result in pounds per square foot (PSF)</p>
+
+                <div class="formula" style="margin-top: 1.5rem;">Kz = 2.01 x (z/zg)<sup>2/α</sup></div>
+                <p class="formula-note">Where z = height, zg = gradient height<br>α = terrain exponent</p>
+            </div>
+
+            <div class="kz-table">
+                <h3>Kz Values - Exposure C</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Height (ft)</th>
+                            <th>Kz</th>
+                            <th>qz @ 180 mph</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>15</td><td>0.85</td><td>66 PSF</td></tr>
+                        <tr><td>20</td><td>0.90</td><td>70 PSF</td></tr>
+                        <tr><td>25</td><td>0.94</td><td>73 PSF</td></tr>
+                        <tr><td>30</td><td>0.98</td><td>76 PSF</td></tr>
+                        <tr><td>40</td><td>1.04</td><td>81 PSF</td></tr>
+                        <tr><td>50</td><td>1.09</td><td>85 PSF</td></tr>
+                        <tr><td>60</td><td>1.13</td><td>88 PSF</td></tr>
+                        <tr><td>80</td><td>1.21</td><td>94 PSF</td></tr>
+                        <tr><td>100</td><td>1.26</td><td>98 PSF</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roof Types Section -->
+    <section class="content-section">
+        <h2 class="section-title">Calculating Mean Roof Height</h2>
+        <p class="section-subtitle">Different roof types have different methods for finding the mean height.</p>
+
+        <div class="roof-types">
+            <div class="roof-type-card">
+                <svg viewBox="0 0 150 100">
+                    <rect x="25" y="40" width="100" height="50" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+                    <rect x="25" y="35" width="100" height="5" fill="#4fc3f7"/>
+                    <line x1="15" y1="37" x2="135" y2="37" stroke="#e91e8c" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="140" y="40" fill="#e91e8c" font-size="10">h</text>
+                </svg>
+                <h4>Flat Roof</h4>
+                <p>Mean roof height equals eave height. Simplest calculation.</p>
+                <div class="formula-small">h = eave height</div>
+            </div>
+
+            <div class="roof-type-card">
+                <svg viewBox="0 0 150 100">
+                    <rect x="25" y="50" width="100" height="40" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+                    <polygon points="25,50 75,20 125,50" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+                    <line x1="15" y1="35" x2="135" y2="35" stroke="#e91e8c" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="140" y="38" fill="#e91e8c" font-size="10">h</text>
+                    <line x1="75" y1="20" x2="75" y2="50" stroke="#ffd54f" stroke-width="1"/>
+                </svg>
+                <h4>Gable Roof</h4>
+                <p>Average of eave and ridge heights.</p>
+                <div class="formula-small">h = (eave + ridge) / 2</div>
+            </div>
+
+            <div class="roof-type-card">
+                <svg viewBox="0 0 150 100">
+                    <rect x="25" y="50" width="100" height="40" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+                    <polygon points="25,50 75,25 125,50" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+                    <line x1="15" y1="37" x2="135" y2="37" stroke="#e91e8c" stroke-width="2" stroke-dasharray="5,5"/>
+                    <text x="140" y="40" fill="#e91e8c" font-size="10">h</text>
+                </svg>
+                <h4>Hip Roof</h4>
+                <p>Same as gable - average of eave and peak.</p>
+                <div class="formula-small">h = (eave + peak) / 2</div>
+            </div>
+
+            <div class="roof-type-card">
+                <svg viewBox="0 0 150 100">
+                    <rect x="25" y="40" width="50" height="50" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+                    <rect x="75" y="55" width="50" height="35" fill="none" stroke="#4fc3f7" stroke-width="2"/>
+                    <line x1="15" y1="40" x2="80" y2="40" stroke="#e91e8c" stroke-width="2" stroke-dasharray="5,5"/>
+                    <line x1="80" y1="55" x2="135" y2="55" stroke="#00d4ff" stroke-width="2" stroke-dasharray="5,5"/>
+                </svg>
+                <h4>Multi-Level</h4>
+                <p>Each section calculated separately for local pressures.</p>
+                <div class="formula-small">h1, h2 per section</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="content-section" style="background: rgba(0,0,0,0.2);">
+        <h2 class="section-title">Velocity Pressure Calculator</h2>
+        <p class="section-subtitle">Calculate your design velocity pressure based on height and wind speed.</p>
+
+        <div class="calculator-box">
+            <div class="calc-row">
+                <div class="calc-input-group">
+                    <label>Mean Roof Height (ft)</label>
+                    <input type="number" id="calcHeight" value="30" min="10" max="150">
+                </div>
+                <div class="calc-input-group">
+                    <label>Design Wind Speed (mph)</label>
+                    <input type="number" id="calcSpeed" value="180" min="100" max="200">
+                </div>
+            </div>
+
+            <div class="calc-row">
+                <div class="calc-input-group">
+                    <label>Exposure Category</label>
+                    <select id="calcExposure">
+                        <option value="B">B - Urban/Suburban</option>
+                        <option value="C" selected>C - Open Terrain</option>
+                        <option value="D">D - Coastal</option>
+                    </select>
+                </div>
+                <div class="calc-input-group">
+                    <label>Roof Type</label>
+                    <select id="calcRoofType">
+                        <option value="flat">Flat Roof</option>
+                        <option value="gable">Gable/Hip Roof</option>
+                    </select>
+                </div>
+            </div>
+
+            <div class="calc-results">
+                <div class="calc-result-item">
+                    <div class="label">Kz Factor</div>
+                    <div class="value" id="calcKz">0.98</div>
+                </div>
+                <div class="calc-result-item">
+                    <div class="label">Velocity Pressure (qz)</div>
+                    <div class="value" id="calcQz">76</div>
+                    <div class="unit">PSF</div>
+                </div>
+            </div>
+
+            <p style="text-align: center; margin-top: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">
+                Based on ASCE 7-22 Table 26.10-1<br>
+                Kd = 0.85 (directionality) already factored
+            </p>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="content-section">
+        <h2 class="section-title">Common Questions</h2>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">What is mean roof height in wind engineering?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Mean roof height is the average height from grade to roof. For flat roofs, it's the height to the roof surface. For sloped roofs, it's the average of the eave and ridge heights. This measurement determines which wind speed profile applies to your building and directly affects the velocity pressure coefficient Kz.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Why does building height increase wind loads?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Wind speeds increase with height due to reduced ground friction. At ground level, terrain features slow the wind. At 60 feet, wind is typically 20-30% faster than at 15 feet. Since pressure increases with the square of velocity, small height increases create large pressure increases. A 100-foot building sees nearly 50% higher pressures than a 15-foot building.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the Kz factor in wind calculations?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Kz is the velocity pressure exposure coefficient that accounts for how wind speed varies with height and terrain. For Exposure C at 15 feet, Kz is about 0.85. At 60 feet, Kz increases to 1.13. This 33% increase in Kz translates to 33% higher design pressures. The formula comes from boundary layer wind theory.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How is mean roof height calculated for different roof types?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Flat roofs: height from grade to roof surface. Gable roofs: average of eave height and ridge height (eave + ridge) / 2. Hip roofs: same as gable. For multi-level roofs, each section may have different mean heights affecting local pressures. Parapets can also affect the calculation for flat roofs.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What height limits apply in Broward County?</div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Broward County follows the Florida Building Code with HVHZ provisions. Buildings over 60 feet may require wind tunnel testing. High-rise buildings face additional requirements including enhanced structural connections and potentially different wind load methodology. Local zoning may also limit heights in certain areas.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2 class="section-title">Get Your Height-Adjusted Wind Loads</h2>
+        <p class="section-subtitle">Our engineers calculate precise Kz factors and velocity pressures for your exact building height in Broward County.</p>
+        <a href="/pricing.html" class="cta-button">Start Your Wind Load Report</a>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Live Calculations</div>
+        <div class="widget-stat">
+            <div class="label">Height</div>
+            <div class="value height" id="widgetHeight">30 ft</div>
+        </div>
+        <div class="widget-stat">
+            <div class="label">Kz Factor</div>
+            <div class="value kz" id="widgetKz">0.98</div>
+        </div>
+        <div class="widget-stat">
+            <div class="label">Pressure</div>
+            <div class="value pressure" id="widgetPressure">76 PSF</div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Broward County</h4>
+                <a href="/florida/broward/hurricane-shutters.html">Hurricane Shutters</a>
+                <a href="/florida/broward/impact-doors.html">Impact Doors</a>
+                <a href="/florida/broward/window-replacement.html">Window Replacement</a>
+                <a href="/florida/broward/exposure-categories.html">Exposure Categories</a>
+            </div>
+            <div class="footer-col">
+                <h4>Wind Engineering</h4>
+                <a href="/florida/broward/structural-connections.html">Structural Connections</a>
+                <a href="/florida/broward/component-cladding.html">Components & Cladding</a>
+                <a href="/florida/broward/pressure-equalization.html">Pressure Equalization</a>
+                <a href="/florida/broward/effective-wind-area.html">Effective Wind Area</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/pe.html">PE Certification</a>
+                <a href="/states.html">All States</a>
+                <a href="/contractors.html">Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="/engineers.html">Engineers</a>
+                <a href="/architects.html">Architects</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Engineering for Broward County</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle System - Sky/wind themed
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let currentHeight = 30;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -20;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.baseSpeed = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                // Higher particles move faster (visualizing wind speed gradient)
+                this.heightFactor = 1 + (1 - this.y / canvas.height) * 0.5;
+            }
+
+            update() {
+                const speedMultiplier = 1 + (currentHeight / 100);
+                this.x += this.baseSpeed * this.heightFactor * speedMultiplier;
+
+                if (this.x > canvas.width + 20) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                // Draw as horizontal streaks
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size * 3, this.y);
+                ctx.strokeStyle = `rgba(79, 195, 247, ${this.opacity})`;
+                ctx.lineWidth = this.size / 2;
+                ctx.stroke();
+            }
+        }
+
+        // Initialize particles
+        for (let i = 0; i < 100; i++) {
+            const p = new Particle();
+            p.x = Math.random() * canvas.width; // Spread initially
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+
+        animateParticles();
+
+        // Building Animation
+        const heightSlider = document.getElementById('heightSlider');
+        const heightDisplay = document.getElementById('heightDisplay');
+        const building = document.getElementById('building');
+        const roof = document.getElementById('roof');
+        const meanHeightLine = document.getElementById('meanHeightLine');
+        const meanHeightValue = document.getElementById('meanHeightValue');
+        const kzDisplay = document.getElementById('kzDisplay');
+        const qzDisplay = document.getElementById('qzDisplay');
+        const increaseDisplay = document.getElementById('increaseDisplay');
+
+        // Widget elements
+        const widgetHeight = document.getElementById('widgetHeight');
+        const widgetKz = document.getElementById('widgetKz');
+        const widgetPressure = document.getElementById('widgetPressure');
+
+        let roofType = 'flat';
+        const baseWindSpeed = 180;
+
+        // Kz calculation (simplified from ASCE 7-22)
+        function calculateKz(height, exposure = 'C') {
+            const params = {
+                'B': { alpha: 7.0, zg: 1200 },
+                'C': { alpha: 9.5, zg: 900 },
+                'D': { alpha: 11.5, zg: 700 }
+            };
+            const { alpha, zg } = params[exposure];
+
+            if (height < 15) height = 15;
+            return 2.01 * Math.pow(height / zg, 2 / alpha);
+        }
+
+        function calculateQz(kz, windSpeed) {
+            return 0.00256 * kz * windSpeed * windSpeed;
+        }
+
+        function updateBuilding() {
+            const height = parseInt(heightSlider.value);
+            currentHeight = height;
+            heightDisplay.textContent = height;
+
+            // Calculate building visual height (scale to scene)
+            const maxSceneHeight = 300;
+            const visualHeight = (height / 100) * maxSceneHeight;
+            building.style.height = Math.max(60, visualHeight) + 'px';
+
+            // Update floors based on height
+            const numFloors = Math.floor(height / 12);
+            let floorsHTML = roofType === 'flat'
+                ? '<div class="roof flat"></div>'
+                : '<div class="roof"></div>';
+
+            for (let i = 0; i < Math.min(numFloors, 8); i++) {
+                floorsHTML += '<div class="floor"><div class="window"></div><div class="window"></div><div class="window"></div></div>';
+            }
+            building.innerHTML = floorsHTML;
+
+            // Calculate mean height (accounting for roof type)
+            let meanHeight = height;
+            if (roofType === 'gable') {
+                const roofRise = height * 0.15; // 15% roof rise
+                meanHeight = height + roofRise / 2;
+            }
+
+            // Update mean height line position
+            const lineBottom = 40 + (meanHeight / 100) * maxSceneHeight;
+            meanHeightLine.style.bottom = lineBottom + 'px';
+            meanHeightValue.textContent = Math.round(meanHeight) + ' ft';
+
+            // Calculate Kz and qz
+            const kz = calculateKz(meanHeight, 'C');
+            const qz = calculateQz(kz, baseWindSpeed);
+            const baseKz = calculateKz(15, 'C');
+            const baseQz = calculateQz(baseKz, baseWindSpeed);
+            const increase = ((qz - baseQz) / baseQz * 100).toFixed(0);
+
+            kzDisplay.textContent = kz.toFixed(2);
+            qzDisplay.textContent = Math.round(qz);
+            increaseDisplay.textContent = '+' + increase + '%';
+
+            // Update widget
+            widgetHeight.textContent = Math.round(meanHeight) + ' ft';
+            widgetKz.textContent = kz.toFixed(2);
+            widgetPressure.textContent = Math.round(qz) + ' PSF';
+        }
+
+        heightSlider.addEventListener('input', updateBuilding);
+
+        // Roof type toggle
+        document.querySelectorAll('.roof-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.roof-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                roofType = btn.dataset.type;
+                updateBuilding();
+            });
+        });
+
+        // Calculator
+        const calcHeight = document.getElementById('calcHeight');
+        const calcSpeed = document.getElementById('calcSpeed');
+        const calcExposure = document.getElementById('calcExposure');
+        const calcKz = document.getElementById('calcKz');
+        const calcQz = document.getElementById('calcQz');
+
+        function updateCalculator() {
+            const h = parseFloat(calcHeight.value);
+            const v = parseFloat(calcSpeed.value);
+            const exp = calcExposure.value;
+
+            const kz = calculateKz(h, exp);
+            const qz = calculateQz(kz, v);
+
+            calcKz.textContent = kz.toFixed(2);
+            calcQz.textContent = Math.round(qz);
+        }
+
+        calcHeight.addEventListener('input', updateCalculator);
+        calcSpeed.addEventListener('input', updateCalculator);
+        calcExposure.addEventListener('change', updateCalculator);
+
+        updateCalculator();
+        updateBuilding();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const answer = item.querySelector('.faq-answer');
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => {
+                    i.classList.remove('active');
+                    i.querySelector('.faq-answer').style.maxHeight = '0';
+                });
+
+                if (!isActive) {
+                    item.classList.add('active');
+                    answer.style.maxHeight = answer.scrollHeight + 'px';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

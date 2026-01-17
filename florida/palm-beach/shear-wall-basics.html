@@ -1,0 +1,1356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Shear Wall Basics Palm Beach | Standing Sideways Strong</title>
+    <meta name="description" content="Watch an animated building rock side to side while shear walls light up showing how they resist lateral wind forces. Simple guide to shear walls for Palm Beach County contractors.">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/shear-wall-basics.html">
+
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County, Florida">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Shear Wall Basics | Standing Sideways Strong in Palm Beach">
+    <meta property="og:description" content="Interactive building animation rocks side to side while shear walls light up showing how they resist hurricane forces.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/shear-wall-basics.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [{
+            "@type": "Question",
+            "name": "What is a shear wall and how does it work?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "A shear wall is a structural wall that resists lateral (sideways) forces from wind or earthquakes. It works like a vertical diving board - when wind pushes on one side of the building, the shear wall transfers that force down to the foundation instead of letting the building lean over and collapse."
+            }
+        }, {
+            "@type": "Question",
+            "name": "Where should shear walls be located in a building?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Shear walls should be placed at both ends of the building in each direction and should be as symmetrical as possible. In Palm Beach County homes, shear walls are typically located at exterior walls perpendicular to the longest dimension of the building. Interior shear walls may be needed for larger buildings."
+            }
+        }, {
+            "@type": "Question",
+            "name": "What materials make good shear walls?",
+            "acceptedAnswer": {
+                "@type": "Answer",
+                "text": "Structural wood sheathing (plywood or OSB) nailed to wood studs is most common in residential construction. The sheathing must be at least 7/16 inch thick with specific nailing patterns. For higher wind loads, structural panels, steel straps, or even concrete or masonry walls may be required."
+            }
+        }]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [{
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://windload.co"
+        }, {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Florida",
+            "item": "https://windload.co/florida/"
+        }, {
+            "@type": "ListItem",
+            "position": 3,
+            "name": "Palm Beach County",
+            "item": "https://windload.co/florida/palm-beach/"
+        }, {
+            "@type": "ListItem",
+            "position": 4,
+            "name": "Shear Wall Basics",
+            "item": "https://windload.co/florida/palm-beach/shear-wall-basics.html"
+        }]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --wall-active: #4caf50;
+            --force-red: #f44336;
+            --structure-gray: #78909c;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-magenta);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 90;
+            min-width: 180px;
+        }
+
+        .widget-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .widget-stat-label {
+            font-size: 0.7rem;
+            color: #94a3b8;
+        }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 100px 2rem 4rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(76, 175, 80, 0.15);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+            color: var(--wall-active);
+            padding: 0.5rem 1rem;
+            border-radius: 100px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4.5rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--wall-active) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #a0a0a0;
+            max-width: 700px;
+            margin-bottom: 2rem;
+        }
+
+        /* Shear Wall Animation Scene */
+        .shear-scene {
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            margin: 3rem auto;
+            background: linear-gradient(180deg, #1a0a2e 0%, #2d1f4e 70%, #5d4037 70%);
+            border-radius: 24px;
+            position: relative;
+            overflow: hidden;
+            border: 2px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Building Container */
+        .building-container {
+            position: absolute;
+            bottom: 30%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 250px;
+            transition: transform 0.3s ease;
+        }
+
+        .building-container.sway-left {
+            transform: translateX(-50%) skewX(-3deg);
+        }
+
+        .building-container.sway-right {
+            transform: translateX(-50%) skewX(3deg);
+        }
+
+        /* Building Structure */
+        .building-frame {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            background: rgba(120, 144, 156, 0.3);
+            border: 3px solid var(--structure-gray);
+            border-radius: 8px 8px 0 0;
+        }
+
+        .building-roof {
+            position: absolute;
+            top: -30px;
+            left: -10px;
+            width: calc(100% + 20px);
+            height: 40px;
+            background: #455a64;
+            clip-path: polygon(5% 100%, 50% 0%, 95% 100%);
+        }
+
+        /* Shear Walls */
+        .shear-wall {
+            position: absolute;
+            background: var(--structure-gray);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shear-wall.vertical {
+            width: 20px;
+            top: 0;
+            bottom: 0;
+        }
+
+        .shear-wall.left { left: 0; }
+        .shear-wall.right { right: 0; }
+
+        .shear-wall.active {
+            background: var(--wall-active);
+            box-shadow: 0 0 20px rgba(76, 175, 80, 0.6);
+        }
+
+        .shear-wall.stressed {
+            background: var(--force-red);
+            box-shadow: 0 0 20px rgba(244, 67, 54, 0.6);
+        }
+
+        .wall-label {
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            font-size: 0.6rem;
+            font-weight: 700;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Force Arrows */
+        .force-arrow-container {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .force-arrow-container.left-force {
+            left: -80px;
+        }
+
+        .force-arrow-container.right-force {
+            right: -80px;
+            flex-direction: row-reverse;
+        }
+
+        .force-arrow-container.active {
+            opacity: 1;
+        }
+
+        .force-arrow {
+            width: 60px;
+            height: 8px;
+            background: linear-gradient(90deg, transparent, var(--force-red));
+            position: relative;
+        }
+
+        .right-force .force-arrow {
+            background: linear-gradient(270deg, transparent, var(--force-red));
+        }
+
+        .force-arrow::after {
+            content: '';
+            position: absolute;
+            right: -10px;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 16px solid var(--force-red);
+        }
+
+        .right-force .force-arrow::after {
+            left: -10px;
+            right: auto;
+            border-left: none;
+            border-right: 16px solid var(--force-red);
+        }
+
+        .force-label {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--force-red);
+            margin: 0 10px;
+        }
+
+        /* Resistance Arrows */
+        .resistance-container {
+            position: absolute;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .resistance-container.left-resist { left: 10px; }
+        .resistance-container.right-resist { right: 10px; }
+
+        .resistance-container.active { opacity: 1; }
+
+        .resistance-arrow {
+            width: 8px;
+            height: 40px;
+            background: linear-gradient(180deg, var(--wall-active), transparent);
+        }
+
+        .resistance-arrow::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 14px solid var(--wall-active);
+        }
+
+        /* Building Interior */
+        .building-interior {
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            right: 30px;
+            bottom: 10px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .interior-room {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .interior-window {
+            width: 30px;
+            height: 40px;
+            background: linear-gradient(180deg, #81d4fa, #4fc3f7);
+            border-radius: 2px;
+            border: 2px solid #455a64;
+        }
+
+        /* Status Display */
+        .status-display {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(26, 10, 46, 0.95);
+            border: 1px solid var(--accent-cyan);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .status-title {
+            font-size: 0.7rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.25rem;
+            font-size: 0.8rem;
+        }
+
+        .status-label { color: #94a3b8; }
+        .status-value { color: white; font-weight: 600; }
+        .status-value.safe { color: var(--wall-active); }
+        .status-value.danger { color: var(--force-red); }
+
+        /* Wind Controls */
+        .wind-controls {
+            max-width: 900px;
+            margin: 2rem auto;
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .wind-btn {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .wind-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: var(--accent-cyan);
+        }
+
+        .wind-btn.active {
+            background: var(--force-red);
+            border-color: var(--force-red);
+        }
+
+        .wind-btn .arrow {
+            font-size: 1.5rem;
+        }
+
+        /* Content Sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .content-section:nth-child(even) {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .section-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* How It Works Cards */
+        .how-works-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .how-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .how-number {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--wall-active), var(--accent-cyan));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin: 0 auto 1rem;
+        }
+
+        .how-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .how-desc {
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        /* Shear Wall Types */
+        .wall-types {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .wall-type-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .wall-type-visual {
+            width: 80px;
+            height: 120px;
+            background: #455a64;
+            border-radius: 4px;
+            position: relative;
+            flex-shrink: 0;
+            overflow: hidden;
+        }
+
+        .sheathing-pattern {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: linear-gradient(45deg, #8d6e63 25%, transparent 25%),
+                        linear-gradient(-45deg, #8d6e63 25%, transparent 25%),
+                        linear-gradient(45deg, transparent 75%, #8d6e63 75%),
+                        linear-gradient(-45deg, transparent 75%, #8d6e63 75%);
+            background-size: 10px 10px;
+            border-radius: 2px;
+        }
+
+        .studs-pattern {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+        }
+
+        .stud {
+            width: 4px;
+            height: 100%;
+            background: #6d4c41;
+        }
+
+        .wall-type-content h3 {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .wall-type-content p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .wall-rating {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            background: rgba(76, 175, 80, 0.2);
+            color: var(--wall-active);
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(255, 255, 255, 0.05); }
+
+        .faq-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .faq-item.active .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer { max-height: 500px; }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: #94a3b8;
+            line-height: 1.8;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2.5rem;
+            background: white;
+            color: var(--primary-dark);
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        .cta-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Footer */
+        footer {
+            padding: 4rem 2rem 2rem;
+            background: rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-col h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-col a {
+            display: block;
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-col a:hover { color: white; }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        .footer-bottom a {
+            color: var(--accent-magenta);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .floating-widget { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .how-works-grid { grid-template-columns: 1fr; }
+            .wall-types { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+            .shear-scene { height: 400px; }
+            .wind-controls { flex-direction: column; align-items: center; }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="/" class="nav-logo">
+            <img src="/assets/windload.co_0018ff.svg" alt="WindLoad.co">
+            <span>WindLoad.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="/florida/">Florida</a>
+            <a href="/states.html">All States</a>
+            <a href="/pe.html">PE Seals</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="https://windloadcalc.com">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Shear Status</div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-force">0</div>
+            <div class="widget-stat-label">Wind Force (lbs)</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-resist">Idle</div>
+            <div class="widget-stat-label">Wall Status</div>
+        </div>
+        <div class="widget-stat">
+            <div class="widget-stat-value" id="widget-sway">0</div>
+            <div class="widget-stat-label">Degrees Sway</div>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">Lateral Force Resistance</div>
+            <h1>Standing <span class="highlight">Sideways Strong</span></h1>
+            <p class="hero-subtitle">
+                Click the wind buttons below to see how shear walls resist hurricane forces. Watch the building try to sway while the shear walls light up and push back. Without them, the building would fall over.
+            </p>
+
+            <!-- Shear Wall Animation Scene -->
+            <div class="shear-scene">
+                <!-- Status Display -->
+                <div class="status-display">
+                    <div class="status-title">Structure Status</div>
+                    <div class="status-row">
+                        <span class="status-label">Wind Force:</span>
+                        <span class="status-value" id="status-force">0 lbs</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Left Wall:</span>
+                        <span class="status-value safe" id="status-left">Ready</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Right Wall:</span>
+                        <span class="status-value safe" id="status-right">Ready</span>
+                    </div>
+                    <div class="status-row">
+                        <span class="status-label">Building:</span>
+                        <span class="status-value safe" id="status-building">Stable</span>
+                    </div>
+                </div>
+
+                <!-- Building Container -->
+                <div class="building-container" id="building-container">
+                    <!-- Force Arrows -->
+                    <div class="force-arrow-container left-force" id="left-force">
+                        <div class="force-label" id="force-label-left">2500 lbs</div>
+                        <div class="force-arrow"></div>
+                    </div>
+                    <div class="force-arrow-container right-force" id="right-force">
+                        <div class="force-arrow"></div>
+                        <div class="force-label" id="force-label-right">2500 lbs</div>
+                    </div>
+
+                    <div class="building-frame">
+                        <div class="building-roof"></div>
+
+                        <!-- Shear Walls -->
+                        <div class="shear-wall vertical left" id="wall-left">
+                            <span class="wall-label">Shear Wall</span>
+                        </div>
+                        <div class="shear-wall vertical right" id="wall-right">
+                            <span class="wall-label">Shear Wall</span>
+                        </div>
+
+                        <!-- Resistance Arrows -->
+                        <div class="resistance-container left-resist" id="resist-left">
+                            <div class="resistance-arrow"></div>
+                        </div>
+                        <div class="resistance-container right-resist" id="resist-right">
+                            <div class="resistance-arrow"></div>
+                        </div>
+
+                        <!-- Interior -->
+                        <div class="building-interior">
+                            <div class="interior-room"><div class="interior-window"></div></div>
+                            <div class="interior-room"><div class="interior-window"></div></div>
+                            <div class="interior-room"><div class="interior-window"></div></div>
+                            <div class="interior-room"><div class="interior-window"></div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wind Controls -->
+            <div class="wind-controls">
+                <button class="wind-btn" id="btn-left" onclick="applyWind('left')">
+                    <span class="arrow">&larr;</span>
+                    <span>Wind from Left</span>
+                </button>
+                <button class="wind-btn" id="btn-stop" onclick="stopWind()">
+                    <span>Stop Wind</span>
+                </button>
+                <button class="wind-btn" id="btn-right" onclick="applyWind('right')">
+                    <span>Wind from Right</span>
+                    <span class="arrow">&rarr;</span>
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>How Shear Walls Work</h2>
+                <p>The three steps that keep your building standing during a hurricane</p>
+            </div>
+
+            <div class="how-works-grid">
+                <div class="how-card">
+                    <div class="how-number">1</div>
+                    <div class="how-title">Wind Pushes</div>
+                    <div class="how-desc">
+                        Hurricane wind creates pressure on one side of the building. This sideways force wants to push the building over like dominoes.
+                    </div>
+                </div>
+
+                <div class="how-card">
+                    <div class="how-number">2</div>
+                    <div class="how-title">Walls Resist</div>
+                    <div class="how-desc">
+                        Shear walls act like braces. The sheathing and nailing pattern turn the wall into a rigid panel that refuses to lean.
+                    </div>
+                </div>
+
+                <div class="how-card">
+                    <div class="how-number">3</div>
+                    <div class="how-title">Force Transfers</div>
+                    <div class="how-desc">
+                        The force travels down the shear wall to the foundation. Anchor bolts complete the chain and keep everything locked together.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Shear Wall Types Section -->
+    <section class="content-section">
+        <div class="section-container">
+            <div class="section-header">
+                <h2>Types of Shear Walls</h2>
+                <p>Different materials for different wind loads</p>
+            </div>
+
+            <div class="wall-types">
+                <div class="wall-type-card">
+                    <div class="wall-type-visual">
+                        <div class="sheathing-pattern"></div>
+                    </div>
+                    <div class="wall-type-content">
+                        <h3>Wood Sheathing</h3>
+                        <p>Plywood or OSB nailed to wood studs. Most common in residential construction. 7/16" minimum thickness with 8d nails at 6" spacing on edges.</p>
+                        <span class="wall-rating">Good for 150+ mph</span>
+                    </div>
+                </div>
+
+                <div class="wall-type-card">
+                    <div class="wall-type-visual">
+                        <div class="studs-pattern">
+                            <div class="stud"></div>
+                            <div class="stud"></div>
+                            <div class="stud"></div>
+                            <div class="stud"></div>
+                        </div>
+                    </div>
+                    <div class="wall-type-content">
+                        <h3>Steel Strap Bracing</h3>
+                        <p>Diagonal steel straps create an X pattern. Used when walls need openings or when wood sheathing alone is not enough.</p>
+                        <span class="wall-rating">Good for 170+ mph</span>
+                    </div>
+                </div>
+
+                <div class="wall-type-card">
+                    <div class="wall-type-visual" style="background: #78909c;">
+                    </div>
+                    <div class="wall-type-content">
+                        <h3>Concrete/Masonry</h3>
+                        <p>Reinforced concrete or CMU block walls. Strongest option but more expensive. Common in commercial or high-end residential.</p>
+                        <span class="wall-rating">Good for 180+ mph</span>
+                    </div>
+                </div>
+
+                <div class="wall-type-card">
+                    <div class="wall-type-visual" style="background: linear-gradient(90deg, #607d8b 0%, #607d8b 30%, transparent 30%, transparent 70%, #607d8b 70%);">
+                    </div>
+                    <div class="wall-type-content">
+                        <h3>Portal Frames</h3>
+                        <p>Engineered wood or steel frames around openings like garage doors. Allows large openings while maintaining shear resistance.</p>
+                        <span class="wall-rating">Specialty application</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="faq-container">
+            <div class="section-header">
+                <h2>Common Questions</h2>
+                <p>What contractors ask about shear walls</p>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can any wall be a shear wall?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        No. A shear wall needs three things: structural sheathing (not drywall), proper nailing to studs and plates, and connection to the foundation and roof. A regular interior wall with drywall provides almost no shear resistance. Shear walls also need to be continuous from foundation to roof without large openings that interrupt the force path.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    How do I know if I have enough shear walls?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        This requires engineering calculation. The total shear wall length in each direction must resist the design wind load. In Palm Beach County, you typically need shear walls totaling 25-40% of the building width, depending on wind speed and building height. Large windows and open floor plans reduce available shear wall length and often require engineered solutions.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    What is the problem with large windows and shear walls?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Windows interrupt shear walls. A wall with a 6-foot window provides much less shear resistance than a solid wall. Modern homes with big windows and open floor plans often struggle to provide enough shear wall length. Solutions include using stronger shear panels where walls are available, adding interior shear walls, or using engineered portal frames around openings.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Do shear walls need hold-downs?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, in most cases. When wind pushes on a shear wall, it creates overturning force that tries to lift up one end. Hold-down brackets anchor the ends of shear walls to prevent this uplift. The higher the wind load and the narrower the wall segment, the more important hold-downs become. In Palm Beach County, engineered hold-downs are typically required for all designated shear wall segments.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <button class="faq-question">
+                    Can I add shear walls to an existing house?
+                    <span class="faq-icon">+</span>
+                </button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, but it requires careful planning. Retrofit shear walls need proper connection to existing framing, foundation, and roof structure. This often means removing drywall, adding structural sheathing, and installing new hardware. The foundation may need reinforcement to handle the concentrated forces. A structural engineer should design any shear wall retrofit to ensure it actually improves the building rather than creating new weak points.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <h2>Calculate Your Shear Wall Requirements</h2>
+        <p>Get wind load calculations that determine your shear wall needs</p>
+        <a href="https://windloadcalc.com?utm_source=windload-co&utm_medium=palm-beach&utm_campaign=shear-wall-basics" class="cta-btn">
+            Start Calculating
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <h4>Palm Beach Topics</h4>
+                <a href="./coastal-setback.html">Coastal Setback</a>
+                <a href="./flood-zone-wind.html">Flood Zone + Wind</a>
+                <a href="./elevated-structures.html">Elevated Structures</a>
+                <a href="./breakaway-walls.html">Breakaway Walls</a>
+                <a href="./corrosion-resistance.html">Corrosion Resistance</a>
+            </div>
+            <div class="footer-col">
+                <h4>More Topics</h4>
+                <a href="./anchor-bolt-patterns.html">Anchor Bolts</a>
+                <a href="./shear-wall-basics.html">Shear Walls</a>
+                <a href="./diaphragm-design.html">Diaphragm Design</a>
+                <a href="./continuous-load-path.html">Load Path</a>
+                <a href="./hurricane-straps.html">Hurricane Straps</a>
+            </div>
+            <div class="footer-col">
+                <h4>Resources</h4>
+                <a href="/states.html">All States</a>
+                <a href="/pe.html">PE Seals</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/contractors.html">For Contractors</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About Us</a>
+                <a href="https://windload.solutions">Resources</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a>. Trusted by contractors for over 20 years.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 0.5 - 0.25;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.2 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(76, 175, 80, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const particles = Array.from({ length: 40 }, () => new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Shear Wall Animation
+        const buildingContainer = document.getElementById('building-container');
+        const wallLeft = document.getElementById('wall-left');
+        const wallRight = document.getElementById('wall-right');
+        const leftForce = document.getElementById('left-force');
+        const rightForce = document.getElementById('right-force');
+        const resistLeft = document.getElementById('resist-left');
+        const resistRight = document.getElementById('resist-right');
+        const btnLeft = document.getElementById('btn-left');
+        const btnRight = document.getElementById('btn-right');
+
+        let currentWind = null;
+
+        function applyWind(direction) {
+            // Reset all
+            stopWind();
+            currentWind = direction;
+
+            if (direction === 'left') {
+                btnLeft.classList.add('active');
+                buildingContainer.classList.add('sway-right');
+                leftForce.classList.add('active');
+                wallLeft.classList.add('stressed');
+                wallRight.classList.add('active');
+                resistRight.classList.add('active');
+
+                updateStatus('left');
+            } else {
+                btnRight.classList.add('active');
+                buildingContainer.classList.add('sway-left');
+                rightForce.classList.add('active');
+                wallRight.classList.add('stressed');
+                wallLeft.classList.add('active');
+                resistLeft.classList.add('active');
+
+                updateStatus('right');
+            }
+        }
+
+        function stopWind() {
+            currentWind = null;
+            btnLeft.classList.remove('active');
+            btnRight.classList.remove('active');
+            buildingContainer.classList.remove('sway-left', 'sway-right');
+            leftForce.classList.remove('active');
+            rightForce.classList.remove('active');
+            wallLeft.classList.remove('active', 'stressed');
+            wallRight.classList.remove('active', 'stressed');
+            resistLeft.classList.remove('active');
+            resistRight.classList.remove('active');
+
+            document.getElementById('status-force').textContent = '0 lbs';
+            document.getElementById('status-left').textContent = 'Ready';
+            document.getElementById('status-left').className = 'status-value safe';
+            document.getElementById('status-right').textContent = 'Ready';
+            document.getElementById('status-right').className = 'status-value safe';
+            document.getElementById('status-building').textContent = 'Stable';
+            document.getElementById('status-building').className = 'status-value safe';
+
+            document.getElementById('widget-force').textContent = '0';
+            document.getElementById('widget-resist').textContent = 'Idle';
+            document.getElementById('widget-sway').textContent = '0';
+        }
+
+        function updateStatus(direction) {
+            const force = 2500;
+            document.getElementById('status-force').textContent = force + ' lbs';
+            document.getElementById('widget-force').textContent = force;
+            document.getElementById('widget-sway').textContent = '3';
+
+            if (direction === 'left') {
+                document.getElementById('status-left').textContent = 'Receiving Force';
+                document.getElementById('status-left').className = 'status-value danger';
+                document.getElementById('status-right').textContent = 'Resisting';
+                document.getElementById('status-right').className = 'status-value safe';
+                document.getElementById('widget-resist').textContent = 'Right';
+            } else {
+                document.getElementById('status-right').textContent = 'Receiving Force';
+                document.getElementById('status-right').className = 'status-value danger';
+                document.getElementById('status-left').textContent = 'Resisting';
+                document.getElementById('status-left').className = 'status-value safe';
+                document.getElementById('widget-resist').textContent = 'Left';
+            }
+
+            document.getElementById('status-building').textContent = 'Protected';
+        }
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const isActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
