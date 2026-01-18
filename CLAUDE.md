@@ -374,13 +374,9 @@ class Particle {
 
 ## CRITICAL: CTA Button URLs
 
-**ALL CTA buttons MUST link to the calculator shop page:**
+**ALL CTAs must link to windloadcalc.com - NEVER use relative URLs or windload.co links.**
 
-```
-https://windloadcalc.com/wind-load-calculator-shop.html
-```
-
-### NEVER use these URLs for CTAs:
+### FORBIDDEN URLs (NEVER USE):
 - ❌ `/pricing.html` - WRONG
 - ❌ `/pricing` - WRONG
 - ❌ `/#calculator` - WRONG
@@ -388,18 +384,66 @@ https://windloadcalc.com/wind-load-calculator-shop.html
 - ❌ `https://windload.co/pricing.html` - WRONG
 - ❌ Any relative URL - WRONG
 
-### ALWAYS use this exact URL:
+### WindLoadCalc.com CTA Destinations
+
+Choose the appropriate link based on page content:
+
+| Page Topic | CTA URL | Use When |
+|------------|---------|----------|
+| **General/Default** | `https://windloadcalc.com/wind-load-calculator-shop.html` | Default for most pages, browse all calculators |
+| **Homepage** | `https://windloadcalc.com/index.html` | General "Learn More" or brand awareness |
+| **Building Intelligence Platform** | `https://windloadcalc.com/building-intelligence-platform.html` | Commercial projects, large-scale analysis, enterprise features |
+| **Free Demo/Trial** | `https://windloadcalc.com/demo.html` | "Try Free", "Start Free Trial" CTAs |
+| **Windows/Doors/Shutters** | `https://windloadcalc.com/shop/windows-doors-shutters.html` | Window, door, shutter, glazing pages |
+| **MWFRS** | `https://windloadcalc.com/shop/mwfrs.html` | Main Wind Force Resisting System, structural pages |
+| **Roofing** | `https://windloadcalc.com/shop/roofing.html` | Roof systems, roof attachments, uplift pages |
+| **Solar Panels** | `https://windloadcalc.com/shop/solar-panels.html` | Solar, PV systems, panel mounting pages |
+| **Specialty Structures** | `https://windloadcalc.com/shop/specialty.html` | Signs, canopies, carports, pergolas, fences, unique structures |
+
+### CTA Matching Guide
+
+**For Window/Door/Shutter Pages:**
 ```html
-<a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Now</a>
-<a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+<a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-primary">Calculate Window Loads</a>
 ```
 
-### CTA Button Labels (vary these):
-- "Calculate Now"
-- "Get Wind Loads"
-- "Calculate Requirements"
+**For Roofing Pages:**
+```html
+<a href="https://windloadcalc.com/shop/roofing.html" class="btn-primary">Calculate Roof Loads</a>
+```
+
+**For Solar Panel Pages:**
+```html
+<a href="https://windloadcalc.com/shop/solar-panels.html" class="btn-primary">Calculate Solar Panel Loads</a>
+```
+
+**For Structural/MWFRS Pages:**
+```html
+<a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+```
+
+**For Specialty Structure Pages (signs, canopies, pergolas, etc.):**
+```html
+<a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Structure Loads</a>
+```
+
+**For Commercial/Enterprise Pages:**
+```html
+<a href="https://windloadcalc.com/building-intelligence-platform.html" class="btn-primary">Start Free Trial</a>
+```
+
+**For General/Mixed Content Pages:**
+```html
+<a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Find Your Calculator</a>
+```
+
+### CTA Button Labels (vary based on context):
+- "Calculate Now" / "Calculate [Topic] Loads"
+- "Get Wind Loads" / "Get Your Report"
+- "Start Free Trial" / "Try Free Demo"
+- "Find Your Calculator"
 - "Start Calculation"
-- "Get Your Report"
+- "Get Started"
 
 ---
 
