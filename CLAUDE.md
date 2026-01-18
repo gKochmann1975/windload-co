@@ -93,7 +93,7 @@ Logo files are located at: `c:\Dev\windload-co\assets\`
 </a>
 ```
 
-**CSS for Logo:**
+**CSS for Logo (MANDATORY - copy exactly):**
 ```css
 .nav-logo {
     display: flex;
@@ -111,9 +111,48 @@ Logo files are located at: `c:\Dev\windload-co\assets\`
     color: #ffffff;
 }
 .nav-logo .logo-text span {
-    color: #00b4d8; /* Match your logo color */
+    color: #00b4d8;
 }
 ```
+
+### Logo Text Color Requirements - CRITICAL
+
+The logo text "WindLoad.co" MUST display as:
+- **"Wind"** = WHITE (#ffffff)
+- **"Load"** = WHITE (#ffffff)
+- **".co"** = CYAN (#00b4d8)
+
+The HTML structure uses nested spans:
+```html
+<span class="logo-text">Wind<span>Load</span>.co</span>
+```
+
+The inner `<span>` wraps "Load" so the CSS `.nav-logo .logo-text span` targets ".co" (the text AFTER the inner span closes).
+
+**FORBIDDEN CSS that breaks the logo:**
+- ❌ `.logo-text { -webkit-text-fill-color: transparent; }` - Makes text invisible
+- ❌ `.logo-text { background: linear-gradient(...); }` - Creates gradient instead of solid colors
+- ❌ `.logo { -webkit-text-fill-color: transparent; }` - Inherited transparency
+- ❌ Any CSS with `-webkit-text-fill-color: transparent` on logo classes
+
+**If the page has OTHER elements using gradients/transparent text:**
+Ensure those selectors are SPECIFIC (e.g., `.hero h1 span`, `.section-header h2`) and do NOT affect `.nav-logo` or `.logo-text`.
+
+**NEVER create a standalone `.logo-text` CSS block** - always use `.nav-logo .logo-text` to scope it properly.
+
+### Logo Verification Checklist - BEFORE PUBLISHING
+
+After creating any campaign page, verify:
+- [ ] SVG logo image appears (cyan swirl icon)
+- [ ] "Wind" text is WHITE
+- [ ] "Load" text is WHITE
+- [ ] ".co" text is CYAN (#00b4d8)
+- [ ] No gradient on logo text
+- [ ] Logo links to `https://windload.co/`
+- [ ] CSS uses `.nav-logo .logo-text` (NOT standalone `.logo-text`)
+- [ ] No `-webkit-text-fill-color: transparent` affecting logo
+
+---
 
 ### Navigation Links - MANDATORY
 
