@@ -323,22 +323,28 @@
         .map-legend {
             display: flex;
             justify-content: center;
-            gap: 2rem;
-            margin-top: 2rem;
+            gap: 1.5rem;
+            margin-top: 3rem;
+            padding-top: 1rem;
             flex-wrap: wrap;
+            background: rgba(0,0,0,0.3);
+            border-radius: 10px;
+            padding: 1rem 1.5rem;
         }
 
         .legend-item {
             display: flex;
             align-items: center;
             gap: 0.5rem;
-            font-size: 0.875rem;
+            font-size: 0.8rem;
+            white-space: nowrap;
         }
 
         .legend-color {
-            width: 20px;
-            height: 20px;
+            width: 16px;
+            height: 16px;
             border-radius: 4px;
+            flex-shrink: 0;
         }
 
         .legend-hvhz { background: linear-gradient(135deg, var(--accent-magenta), #ff4d4d); }
@@ -727,23 +733,22 @@
             <div class="wind-streak" style="top: 80%; width: 90px; animation-delay: 0.3s;"></div>
 
             <div class="florida-map">
-                <svg class="florida-svg" viewBox="0 0 400 350" preserveAspectRatio="xMidYMid meet">
-                    <!-- Simplified Florida outline -->
+                <svg class="florida-svg" viewBox="0 0 300 400" preserveAspectRatio="xMidYMid meet">
                     <defs>
                         <linearGradient id="hvhzGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#e91e8c;stop-opacity:0.8" />
-                            <stop offset="100%" style="stop-color:#ff4d4d;stop-opacity:0.8" />
+                            <stop offset="0%" style="stop-color:#e91e8c;stop-opacity:0.9" />
+                            <stop offset="100%" style="stop-color:#ff4d4d;stop-opacity:0.9" />
                         </linearGradient>
                         <linearGradient id="highGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:0.6" />
-                            <stop offset="100%" style="stop-color:#ffcc00;stop-opacity:0.6" />
+                            <stop offset="0%" style="stop-color:#ff9500;stop-opacity:0.7" />
+                            <stop offset="100%" style="stop-color:#ffcc00;stop-opacity:0.7" />
                         </linearGradient>
                         <linearGradient id="modGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#00cc66;stop-opacity:0.4" />
-                            <stop offset="100%" style="stop-color:#00ff88;stop-opacity:0.4" />
+                            <stop offset="0%" style="stop-color:#00cc66;stop-opacity:0.5" />
+                            <stop offset="100%" style="stop-color:#00ff88;stop-opacity:0.5" />
                         </linearGradient>
                         <filter id="glow">
-                            <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+                            <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
                             <feMerge>
                                 <feMergeNode in="coloredBlur"/>
                                 <feMergeNode in="SourceGraphic"/>
@@ -751,26 +756,34 @@
                         </filter>
                     </defs>
 
-                    <!-- Florida peninsula shape -->
-                    <path class="wind-zone" id="zone-north" fill="url(#modGrad)" stroke="#00ff88" stroke-width="1"
-                          d="M50,50 L180,30 L320,50 L340,80 L330,120 L300,130 L280,140 L260,160 L240,150 L200,160 L160,150 L120,160 L80,140 L60,100 Z"/>
+                    <!-- Realistic Florida outline - single path -->
+                    <!-- Panhandle and North Florida (130-140 mph) -->
+                    <path fill="url(#modGrad)" stroke="#00ff88" stroke-width="2"
+                          d="M10,45 L25,40 L60,35 L100,30 L130,28 L160,30 L180,35 L195,32 L210,30 L225,33 L240,38 L255,35 L270,40 L285,50 L290,60 L285,75 L275,85 L260,90 L245,88 L230,92 L215,95 L200,92 L185,95 L175,100 L165,95 L155,100 L145,95 L135,100 L125,95 L115,100 L105,95 L95,100 L85,95 L75,100 L65,95 L55,100 L45,95 L35,100 L25,95 L15,100 L10,90 L10,75 L15,60 Z"/>
 
-                    <path class="wind-zone" id="zone-central" fill="url(#highGrad)" stroke="#ffcc00" stroke-width="1"
-                          d="M80,140 L120,160 L160,150 L200,160 L240,150 L260,160 L280,140 L300,160 L290,200 L270,240 L240,260 L200,270 L160,260 L130,240 L110,200 L100,160 Z"/>
+                    <!-- Central Florida (150-170 mph) -->
+                    <path fill="url(#highGrad)" stroke="#ffcc00" stroke-width="2"
+                          d="M95,100 L115,100 L135,100 L155,100 L175,100 L195,100 L215,100 L230,105 L245,110 L255,120 L260,135 L262,150 L260,170 L255,190 L248,210 L238,225 L225,240 L210,250 L195,258 L180,262 L165,260 L150,255 L138,248 L128,238 L120,225 L115,210 L112,190 L110,170 L108,150 L105,130 L100,115 Z"/>
 
-                    <path class="wind-zone active" id="zone-south" fill="url(#hvhzGrad)" stroke="#e91e8c" stroke-width="2" filter="url(#glow)"
-                          d="M130,240 L160,260 L200,270 L240,260 L270,240 L280,280 L270,310 L240,330 L200,340 L160,330 L140,310 L130,280 Z"/>
+                    <!-- South Florida - HVHZ (180+ mph) - highlighted -->
+                    <path class="wind-zone active" fill="url(#hvhzGrad)" stroke="#e91e8c" stroke-width="3" filter="url(#glow)"
+                          d="M138,248 L150,255 L165,260 L180,262 L195,258 L210,250 L225,245 L235,250 L242,260 L245,275 L243,290 L238,305 L228,318 L215,328 L198,335 L180,338 L162,335 L148,328 L138,318 L130,305 L125,290 L123,275 L125,260 L130,250 Z"/>
 
-                    <!-- Miami-Dade marker -->
-                    <circle cx="260" cy="300" r="8" fill="#e91e8c" filter="url(#glow)">
-                        <animate attributeName="r" values="8;12;8" dur="2s" repeatCount="indefinite"/>
+                    <!-- Florida Keys -->
+                    <path fill="url(#hvhzGrad)" stroke="#e91e8c" stroke-width="2"
+                          d="M125,340 L140,345 L155,348 L145,355 L130,358 L115,355 L100,350 L85,345 L75,340 L65,338 L55,340 L45,345 L38,342 L45,338 L60,335 L80,335 L100,338 L115,340 Z"/>
+
+                    <!-- Miami-Dade County marker -->
+                    <circle cx="215" cy="295" r="10" fill="#e91e8c" filter="url(#glow)">
+                        <animate attributeName="r" values="10;14;10" dur="2s" repeatCount="indefinite"/>
+                        <animate attributeName="opacity" values="1;0.7;1" dur="2s" repeatCount="indefinite"/>
                     </circle>
-                    <text x="275" y="305" fill="white" font-size="12" font-weight="bold">Miami-Dade</text>
+                    <text x="228" y="300" fill="white" font-size="11" font-weight="bold" font-family="Arial, sans-serif">Miami-Dade</text>
 
-                    <!-- Wind speed labels -->
-                    <text x="180" y="100" fill="#00ff88" font-size="14" font-weight="bold">130-140 mph</text>
-                    <text x="180" y="200" fill="#ffcc00" font-size="14" font-weight="bold">150-170 mph</text>
-                    <text x="180" y="300" fill="#e91e8c" font-size="16" font-weight="bold">180-195 mph</text>
+                    <!-- Wind speed zone labels - positioned outside overlap areas -->
+                    <text x="150" y="65" fill="#00ff88" font-size="13" font-weight="bold" text-anchor="middle" font-family="Arial, sans-serif">130-140 mph</text>
+                    <text x="185" y="175" fill="#ffcc00" font-size="13" font-weight="bold" text-anchor="middle" font-family="Arial, sans-serif">150-170 mph</text>
+                    <text x="145" y="310" fill="#ffffff" font-size="14" font-weight="bold" text-anchor="middle" font-family="Arial, sans-serif">180+ mph</text>
                 </svg>
             </div>
 
