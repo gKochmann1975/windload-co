@@ -62,6 +62,126 @@ Update `deployment-log.json` to track:
 
 ---
 
+## CRITICAL: Logo, Header, and Navigation Structure
+
+### Logo Requirements - MANDATORY
+
+**Every campaign page MUST use the WindLoad.co SVG logo image.**
+
+Logo files are located at: `c:\Dev\windload-co\assets\`
+
+| Color | File | Use When |
+|-------|------|----------|
+| Cyan (#00b4d8) | `windload.co_00b4d8.svg` | **DEFAULT** - Most pages |
+| Blue (#0018ff) | `windload.co_0018ff.svg` | Blue-themed pages |
+| White | `windload.co_white.svg` | Dark backgrounds where cyan doesn't pop |
+| Orange (#ff8c00) | `windload.co_ff8c00.svg` | Warm/warning themed pages |
+| Red (#ff6464) | `windload.co_ff6464.svg` | Alert/emergency themed pages |
+| Green (#059669) | `windload.co_059669.svg` | Success/eco themed pages |
+| Purple (#7c3aed) | `windload.co_7c3aed.svg` | Premium/architect themed pages |
+
+**FORBIDDEN:**
+- ❌ Text-only logo like `<a class="logo">WindLoad.co</a>` - WRONG
+- ❌ Missing logo image - WRONG
+- ❌ Logo from different domain - WRONG
+
+**CORRECT Logo Implementation:**
+```html
+<a href="/" class="nav-logo">
+    <img src="/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+    <span class="logo-text">Wind<span>Load</span>.co</span>
+</a>
+```
+
+**CSS for Logo:**
+```css
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-decoration: none;
+}
+.nav-logo .logo-img {
+    height: 28px;
+    width: auto;
+}
+.nav-logo .logo-text {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #ffffff;
+}
+.nav-logo .logo-text span {
+    color: #00b4d8; /* Match your logo color */
+}
+```
+
+### Navigation Links - MANDATORY
+
+**Every campaign page MUST have consistent navigation linking to WindLoad.co pages.**
+
+#### Required Navigation Structure:
+```html
+<nav class="nav">
+    <a href="/" class="nav-logo">
+        <img src="/assets/windload.co_00b4d8.svg" alt="" class="logo-img">
+        <span class="logo-text">Wind<span>Load</span>.co</span>
+    </a>
+    <div class="nav-links">
+        <a href="/florida-pro.html">Florida</a>
+        <a href="/states.html">All States</a>
+        <a href="/architects.html">Architects</a>
+        <a href="/contractors.html">Contractors</a>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+    </div>
+    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+</nav>
+```
+
+#### WindLoad.co Internal Page Links (use these, NOT windloadcalc.com for nav):
+
+| Nav Item | URL | Notes |
+|----------|-----|-------|
+| Home | `/` or `/index.html` | Root of windload.co |
+| Florida | `/florida-pro.html` | Florida landing page |
+| All States | `/states.html` | State requirements page |
+| Architects | `/architects.html` | Architect audience page |
+| Contractors | `/contractors.html` | Contractor audience page |
+| Engineers | `/engineers.html` | PE/Engineer page |
+| Pricing | `https://windloadcalc.com/wind-load-calculator-shop.html` | Links to windloadcalc.com shop |
+| Calculator CTA | `https://windloadcalc.com/...` | Use appropriate shop page |
+
+#### Breadcrumb Structure:
+```html
+<div class="breadcrumb">
+    <div class="breadcrumb-container">
+        <a href="/">Home</a>
+        <span>/</span>
+        <a href="/florida-pro.html">Florida</a>
+        <span>/</span>
+        <a href="/florida/miami-dade/">Miami-Dade</a>
+        <span>/</span>
+        <span class="breadcrumb-current">Page Name</span>
+    </div>
+</div>
+```
+
+### Favicon - MANDATORY
+
+Every page must include the favicon in the `<head>`:
+```html
+<link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+```
+
+### Reference Implementation
+
+See `/florida/miami-dade/garage-doors.html` for the correct implementation of:
+- Logo with SVG image
+- Navigation with proper links
+- Breadcrumb structure
+- Favicon
+
+---
+
 ## CRITICAL SEO RULES - Avoid Blacklisting
 
 ### Google Violations That Will Get You Penalized
@@ -444,6 +564,55 @@ Choose the appropriate link based on page content:
 - "Find Your Calculator"
 - "Start Calculation"
 - "Get Started"
+
+---
+
+## CRITICAL: Navigation Links
+
+**ALL navigation links must use ABSOLUTE URLs to windload.co - NEVER use relative URLs.**
+
+### Standard Navigation Structure:
+```html
+<nav>
+    <a href="https://windload.co/" class="logo">
+        <img src="https://windload.co/assets/windload.co_0018ff.svg" alt="WindLoad.co" class="logo-img">
+    </a>
+    <ul class="nav-links">
+        <li><a href="https://windload.co/florida/">Florida</a></li>
+        <li><a href="https://windload.co/states.html">All States</a></li>
+        <li><a href="https://windload.co/architects.html">Architects</a></li>
+        <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+        <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+    </ul>
+    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+</nav>
+```
+
+### FORBIDDEN Navigation URLs (NEVER USE):
+- ❌ `/florida/` - WRONG (relative)
+- ❌ `/states.html` - WRONG (relative)
+- ❌ `/architects.html` - WRONG (relative)
+- ❌ `/contractors.html` - WRONG (relative)
+- ❌ `href="/"` for logo - WRONG (relative)
+
+### Correct Navigation URLs:
+| Link | URL |
+|------|-----|
+| Logo/Home | `https://windload.co/` |
+| Florida | `https://windload.co/florida/` |
+| All States | `https://windload.co/states.html` |
+| Architects | `https://windload.co/architects.html` |
+| Contractors | `https://windload.co/contractors.html` |
+| Miami-Dade | `https://windload.co/florida/miami-dade/` |
+| Broward | `https://windload.co/florida/broward/` |
+| Palm Beach | `https://windload.co/florida/palm-beach/` |
+| Monroe | `https://windload.co/florida/monroe/` |
+| Pricing (CTA) | `https://windloadcalc.com/wind-load-calculator-shop.html` |
+
+### Logo Requirements:
+- Use SVG logo: `https://windload.co/assets/windload.co_0018ff.svg`
+- Always include alt text: `alt="WindLoad.co"`
+- Link to: `https://windload.co/`
 
 ---
 
