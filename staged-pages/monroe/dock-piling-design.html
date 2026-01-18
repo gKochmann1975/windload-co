@@ -1,0 +1,606 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dock Piling Wind Load Design Monroe County 2025 | Hurricane Pier Engineering | WindLoad.co</title>
+    <meta name="description" content="Calculate wind loads on dock pilings in Monroe County Florida Keys. Engineering guide for timber, concrete, and steel pile design under 185+ mph hurricane winds in Exposure D coastal zones.">
+    <meta name="keywords" content="dock piling wind loads, pier pile hurricane design, Monroe County dock engineering, Florida Keys pile foundation, timber pile wind resistance, concrete pile dock design">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/florida/monroe/dock-piling-design.html">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County">
+    <meta name="geo.position" content="24.5551;-81.7800">
+    <meta name="ICBM" content="24.5551, -81.7800">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Dock Piling Wind Load Design Monroe County | Florida Keys Marine Engineering">
+    <meta property="og:description" content="Learn how dock pilings resist hurricane forces and how to design piles for the extreme wind and wave conditions of the Florida Keys.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/dock-piling-design.html">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --pile-wood: #8b6914;
+            --pile-concrete: #7a8b8b;
+            --pile-steel: #5a6f7a;
+            --water-deep: #003049;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--primary-dark); color: var(--text-light); line-height: 1.7; overflow-x: hidden; }
+
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+        .content-wrapper { position: relative; z-index: 1; }
+
+        header { padding: 20px 5%; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(0, 212, 255, 0.2); }
+        .logo { font-size: 1.8rem; font-weight: 700; background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; text-decoration: none; }
+        .nav-cta { background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple)); color: white; padding: 12px 28px; border-radius: 30px; text-decoration: none; font-weight: 600; transition: transform 0.3s, box-shadow 0.3s; }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4); }
+
+        .hero { padding: 80px 5% 40px; text-align: center; }
+        .breadcrumb { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 20px; }
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+        h1 { font-size: clamp(2rem, 5vw, 3.2rem); margin-bottom: 20px; line-height: 1.2; }
+        h1 span { background: linear-gradient(135deg, var(--pile-wood), var(--pile-concrete)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .subtitle { font-size: 1.3rem; color: var(--text-muted); max-width: 750px; margin: 0 auto 40px; }
+
+        .animation-stage { max-width: 1100px; margin: 0 auto; padding: 0 5%; }
+        .pile-demo { background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(0, 48, 73, 0.6)); border-radius: 25px; padding: 40px; border: 2px solid var(--pile-wood); }
+        .demo-title { text-align: center; font-size: 1.4rem; margin-bottom: 30px; color: var(--pile-wood); }
+
+        .pile-visual { position: relative; height: 450px; margin-bottom: 30px; }
+        .pile-visual svg { width: 100%; height: 100%; }
+
+        .pile-timber { fill: rgba(139, 105, 20, 0.7); stroke: var(--pile-wood); stroke-width: 2; }
+        .pile-concrete-fill { fill: rgba(122, 139, 139, 0.6); stroke: var(--pile-concrete); stroke-width: 2; }
+        .pile-steel-fill { fill: rgba(90, 111, 122, 0.7); stroke: var(--pile-steel); stroke-width: 2; }
+        .water-fill { fill: rgba(0, 48, 73, 0.5); }
+        .mud-fill { fill: rgba(60, 50, 40, 0.8); }
+        .deck-surface { fill: rgba(139, 105, 20, 0.5); stroke: var(--pile-wood); stroke-width: 2; }
+
+        .wind-force { fill: var(--accent-cyan); animation: windPush 1.8s ease-in-out infinite; }
+        @keyframes windPush { 0%, 100% { transform: translateX(0); opacity: 0.6; } 50% { transform: translateX(12px); opacity: 1; } }
+
+        .lateral-arrow { fill: var(--accent-magenta); animation: lateralMove 2s ease-in-out infinite; }
+        @keyframes lateralMove { 0%, 100% { transform: translateX(0); } 50% { transform: translateX(8px); } }
+
+        .moment-curve { stroke: var(--accent-magenta); stroke-width: 2; fill: none; animation: momentPulse 2s ease-in-out infinite; }
+        @keyframes momentPulse { 0%, 100% { opacity: 0.5; } 50% { opacity: 1; } }
+
+        .embedment-zone { fill: rgba(233, 30, 140, 0.1); stroke: var(--accent-magenta); stroke-width: 1; stroke-dasharray: 5,5; }
+
+        .label-text { font-size: 11px; fill: var(--text-light); }
+        .value-text { font-size: 13px; fill: var(--accent-cyan); font-weight: 600; }
+
+        .pile-comparison { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 30px; }
+        .pile-type-card { background: rgba(0, 0, 0, 0.4); border-radius: 15px; padding: 25px; text-align: center; }
+        .pile-type-card.timber { border: 2px solid var(--pile-wood); }
+        .pile-type-card.concrete { border: 2px solid var(--pile-concrete); }
+        .pile-type-card.steel { border: 2px solid var(--pile-steel); }
+        .pile-type-card h4 { font-size: 1.2rem; margin-bottom: 15px; }
+        .pile-type-card.timber h4 { color: var(--pile-wood); }
+        .pile-type-card.concrete h4 { color: var(--pile-concrete); }
+        .pile-type-card.steel h4 { color: var(--pile-steel); }
+        .pile-stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); font-size: 0.9rem; }
+        .pile-stat:last-child { border-bottom: none; }
+        .pile-stat .label { color: var(--text-muted); }
+        .pile-stat .value { color: var(--text-light); font-weight: 600; }
+
+        .content-section { padding: 80px 5%; max-width: 1000px; margin: 0 auto; }
+        .content-block { background: linear-gradient(135deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.8)); border-radius: 20px; padding: 40px; margin-bottom: 30px; border-left: 4px solid var(--pile-wood); opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .content-block.visible { opacity: 1; transform: translateY(0); }
+        .content-block h2 { font-size: 1.6rem; margin-bottom: 20px; color: var(--pile-wood); }
+        .content-block h3 { font-size: 1.3rem; margin-bottom: 15px; color: var(--accent-cyan); }
+        .content-block p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 15px; }
+        .content-block strong { color: var(--accent-cyan); }
+
+        .calculation-box { background: rgba(0, 0, 0, 0.5); border-radius: 12px; padding: 25px; margin: 20px 0; font-family: 'Courier New', monospace; border: 1px solid rgba(139, 105, 20, 0.3); }
+        .calculation-box .step { margin-bottom: 15px; }
+        .calculation-box .step-label { color: var(--pile-wood); font-weight: 600; margin-bottom: 5px; }
+        .calculation-box .step-formula { color: var(--accent-cyan); font-size: 0.95rem; }
+        .calculation-box .step-result { color: var(--text-light); font-size: 1rem; margin-top: 5px; }
+
+        .depth-guide { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; margin: 25px 0; }
+        .depth-card { background: rgba(0, 0, 0, 0.3); border-radius: 12px; padding: 20px; border: 1px solid rgba(139, 105, 20, 0.2); }
+        .depth-card h4 { color: var(--pile-wood); margin-bottom: 10px; }
+        .depth-card p { color: var(--text-muted); font-size: 0.95rem; }
+
+        .soil-table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        .soil-table th, .soil-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(139, 105, 20, 0.2); }
+        .soil-table th { color: var(--pile-wood); font-weight: 600; background: rgba(0,0,0,0.3); }
+        .soil-table td { color: var(--text-muted); }
+
+        .faq-section { padding: 60px 5%; max-width: 900px; margin: 0 auto; }
+        .faq-section h2 { text-align: center; font-size: 2rem; margin-bottom: 40px; color: var(--pile-wood); }
+        .faq-item { background: rgba(45, 27, 78, 0.5); border-radius: 15px; padding: 25px; margin-bottom: 15px; border: 1px solid rgba(139, 105, 20, 0.2); }
+        .faq-item h3 { color: var(--accent-cyan); margin-bottom: 12px; font-size: 1.1rem; }
+        .faq-item p { color: var(--text-muted); }
+
+        .cta-section { padding: 80px 5%; text-align: center; background: linear-gradient(180deg, transparent, rgba(139, 105, 20, 0.08)); }
+        .cta-box { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95)); border-radius: 25px; padding: 50px 40px; border: 2px solid var(--pile-wood); }
+        .cta-box h2 { font-size: 2rem; margin-bottom: 15px; }
+        .cta-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
+        .cta-button { display: inline-block; background: linear-gradient(135deg, var(--pile-wood), var(--accent-magenta)); color: white; padding: 18px 45px; border-radius: 35px; text-decoration: none; font-weight: 700; font-size: 1.2rem; transition: all 0.3s ease; box-shadow: 0 10px 40px rgba(139, 105, 20, 0.3); }
+        .cta-button:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 15px 50px rgba(139, 105, 20, 0.4); }
+
+        footer { padding: 40px 5%; text-align: center; border-top: 1px solid rgba(139, 105, 20, 0.2); color: var(--text-muted); }
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            .pile-comparison { grid-template-columns: 1fr; }
+            .depth-guide { grid-template-columns: 1fr; }
+            header { flex-direction: column; gap: 15px; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How deep must dock pilings be driven in Monroe County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Dock pilings in Monroe County typically require 12-20 feet of embedment depending on soil conditions and applied loads. The Florida Keys have variable substrate ranging from marl to coral rock to sand. Geotechnical investigation is required to determine actual embedment depth based on lateral load capacity needed for 185+ mph wind design."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What pile materials are best for Florida Keys docks?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pressure-treated timber piles remain popular for residential docks due to cost and ease of installation. Concrete piles offer superior durability and higher capacity for commercial applications. Steel pipe piles provide the highest strength-to-size ratio but require cathodic protection in saltwater. All materials require marine-grade treatment or protection in Keys waters."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do wind loads transfer to dock pilings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind loads on dock structures create horizontal forces that transfer through the deck framing to pile connections. Each pile must resist its share of the total lateral load plus any moment from eccentric loading. Pile groups work together with the leading piles taking more load than trailing piles. Hurricane winds can create 500-1,000+ pounds of lateral force per pile."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What permits are required for dock piling installation in the Keys?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Dock piling installation requires Monroe County building permits, Florida DEP Environmental Resource Permits, and USACE permits for work in navigable waters. Additional approvals may be needed from Florida Keys National Marine Sanctuary, Florida Fish and Wildlife, and NOAA for habitat considerations. Permit timeline typically runs 6-18 months."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "WindLoad.co", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Monroe County", "item": "https://windload.co/florida/monroe/"},
+            {"@type": "ListItem", "position": 4, "name": "Dock Piling Design", "item": "https://windload.co/florida/monroe/dock-piling-design.html"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="https://windload.co" class="logo">WindLoad.co</a>
+            <a href="https://windload.co" class="nav-cta">Get Wind Loads</a>
+        </header>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/florida/">Florida</a> /
+                <a href="https://windload.co/florida/monroe/">Monroe County</a> /
+                Dock Piling Design
+            </div>
+            <h1>The <span>Dock Piling</span> Foundation</h1>
+            <p class="subtitle">Your dock rides on these silent sentinels - pilings driven deep into Keys substrate. When hurricane winds push with thousands of pounds of force, these buried columns must hold fast or your entire dock walks away.</p>
+        </section>
+
+        <section class="animation-stage">
+            <div class="pile-demo">
+                <h2 class="demo-title">Wind Load Transfer to Dock Pilings</h2>
+                <div class="pile-visual">
+                    <svg viewBox="0 0 1000 430">
+                        <!-- Sky/atmosphere -->
+                        <rect x="0" y="0" width="1000" height="120" fill="rgba(26, 10, 46, 0.3)"/>
+
+                        <!-- Water -->
+                        <rect class="water-fill" x="0" y="120" width="1000" height="180"/>
+
+                        <!-- Mudline/substrate -->
+                        <rect class="mud-fill" x="0" y="300" width="1000" height="130"/>
+
+                        <!-- Water surface line -->
+                        <path d="M0 120 Q100 115 200 120 Q300 125 400 120 Q500 115 600 120 Q700 125 800 120 Q900 115 1000 120" stroke="var(--accent-cyan)" stroke-width="2" fill="none" opacity="0.6"/>
+
+                        <!-- Mudline -->
+                        <line x1="0" y1="300" x2="1000" y2="300" stroke="#5a4a3a" stroke-width="3"/>
+
+                        <!-- Deck surface -->
+                        <rect class="deck-surface" x="100" y="90" width="800" height="20"/>
+
+                        <!-- Deck joists -->
+                        <rect fill="rgba(139, 105, 20, 0.4)" x="150" y="95" width="10" height="25"/>
+                        <rect fill="rgba(139, 105, 20, 0.4)" x="300" y="95" width="10" height="25"/>
+                        <rect fill="rgba(139, 105, 20, 0.4)" x="450" y="95" width="10" height="25"/>
+                        <rect fill="rgba(139, 105, 20, 0.4)" x="600" y="95" width="10" height="25"/>
+                        <rect fill="rgba(139, 105, 20, 0.4)" x="750" y="95" width="10" height="25"/>
+
+                        <!-- Timber Pile 1 -->
+                        <rect class="pile-timber" x="145" y="110" width="20" height="280"/>
+                        <text x="155" y="400" class="label-text" text-anchor="middle">Timber</text>
+
+                        <!-- Concrete Pile 2 -->
+                        <rect class="pile-concrete-fill" x="440" y="110" width="30" height="290"/>
+                        <text x="455" y="415" class="label-text" text-anchor="middle">Concrete</text>
+
+                        <!-- Steel Pile 3 -->
+                        <rect class="pile-steel-fill" x="742" y="110" width="25" height="295"/>
+                        <ellipse cx="754" cy="110" rx="12.5" ry="4" fill="var(--pile-steel)"/>
+                        <text x="755" y="420" class="label-text" text-anchor="middle">Steel</text>
+
+                        <!-- Embedment zones -->
+                        <rect class="embedment-zone" x="140" y="300" width="30" height="90"/>
+                        <rect class="embedment-zone" x="435" y="300" width="40" height="100"/>
+                        <rect class="embedment-zone" x="737" y="300" width="35" height="105"/>
+
+                        <!-- Wind arrows -->
+                        <polygon class="wind-force" points="30,60 50,70 30,80 35,70"/>
+                        <polygon class="wind-force" points="50,40 70,50 50,60 55,50" style="animation-delay: 0.2s"/>
+                        <polygon class="wind-force" points="60,75 80,85 60,95 65,85" style="animation-delay: 0.4s"/>
+
+                        <!-- Wind flow lines -->
+                        <path d="M80 55 Q200 50 400 55 Q600 60 800 52" stroke="var(--accent-cyan)" stroke-width="1.5" fill="none" stroke-dasharray="8,4" opacity="0.4"/>
+                        <path d="M90 75 Q250 70 500 78 Q750 85 900 72" stroke="var(--accent-cyan)" stroke-width="1.5" fill="none" stroke-dasharray="8,4" opacity="0.3"/>
+
+                        <!-- Lateral force arrows at pile heads -->
+                        <polygon class="lateral-arrow" points="170,100 185,105 170,110 173,105"/>
+                        <polygon class="lateral-arrow" points="475,100 490,105 475,110 478,105" style="animation-delay: 0.3s"/>
+                        <polygon class="lateral-arrow" points="772,100 787,105 772,110 775,105" style="animation-delay: 0.6s"/>
+
+                        <!-- Moment curves -->
+                        <path class="moment-curve" d="M165 110 Q185 200 165 300"/>
+                        <path class="moment-curve" d="M470 110 Q495 200 470 300" style="animation-delay: 0.3s"/>
+                        <path class="moment-curve" d="M767 110 Q792 210 767 305" style="animation-delay: 0.6s"/>
+
+                        <!-- Force labels -->
+                        <text class="value-text" x="195" y="108">750 lbs</text>
+                        <text class="value-text" x="500" y="108">1,200 lbs</text>
+                        <text class="value-text" x="797" y="108">1,500 lbs</text>
+
+                        <!-- Embedment depth labels -->
+                        <line x1="175" y1="300" x2="175" y2="390" stroke="var(--accent-magenta)" stroke-width="1"/>
+                        <text x="180" y="350" fill="var(--accent-magenta)" font-size="10">12'</text>
+
+                        <line x1="480" y1="300" x2="480" y2="400" stroke="var(--accent-magenta)" stroke-width="1"/>
+                        <text x="485" y="355" fill="var(--accent-magenta)" font-size="10">15'</text>
+
+                        <line x1="777" y1="300" x2="777" y2="405" stroke="var(--accent-magenta)" stroke-width="1"/>
+                        <text x="782" y="360" fill="var(--accent-magenta)" font-size="10">18'</text>
+
+                        <!-- Water depth indicator -->
+                        <line x1="950" y1="120" x2="950" y2="300" stroke="var(--accent-cyan)" stroke-width="1" stroke-dasharray="5,3"/>
+                        <text x="960" y="210" fill="var(--accent-cyan)" font-size="10" transform="rotate(90 960,210)">15' MHW</text>
+
+                        <!-- Legend -->
+                        <rect x="20" y="350" width="120" height="70" fill="rgba(0,0,0,0.6)" rx="5"/>
+                        <text x="30" y="368" fill="var(--text-light)" font-size="10" font-weight="600">Legend:</text>
+                        <line x1="30" y1="380" x2="50" y2="380" stroke="var(--accent-cyan)" stroke-width="2"/>
+                        <text x="55" y="384" fill="var(--text-muted)" font-size="9">Wind Load</text>
+                        <line x1="30" y1="395" x2="50" y2="395" stroke="var(--accent-magenta)" stroke-width="2"/>
+                        <text x="55" y="399" fill="var(--text-muted)" font-size="9">Moment</text>
+                        <rect x="30" y="405" width="20" height="8" fill="rgba(233, 30, 140, 0.2)" stroke="var(--accent-magenta)" stroke-width="1" stroke-dasharray="2,2"/>
+                        <text x="55" y="412" fill="var(--text-muted)" font-size="9">Embedment</text>
+                    </svg>
+                </div>
+
+                <div class="pile-comparison">
+                    <div class="pile-type-card timber">
+                        <h4>Timber Piles</h4>
+                        <div class="pile-stat">
+                            <span class="label">Typical Size</span>
+                            <span class="value">8-12" dia</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Lateral Capacity</span>
+                            <span class="value">800-1,500 lbs</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Embedment</span>
+                            <span class="value">10-15 ft</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Lifespan</span>
+                            <span class="value">25-40 years</span>
+                        </div>
+                    </div>
+                    <div class="pile-type-card concrete">
+                        <h4>Concrete Piles</h4>
+                        <div class="pile-stat">
+                            <span class="label">Typical Size</span>
+                            <span class="value">12-16" sq</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Lateral Capacity</span>
+                            <span class="value">2,000-4,000 lbs</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Embedment</span>
+                            <span class="value">12-20 ft</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Lifespan</span>
+                            <span class="value">50-75 years</span>
+                        </div>
+                    </div>
+                    <div class="pile-type-card steel">
+                        <h4>Steel Pipe Piles</h4>
+                        <div class="pile-stat">
+                            <span class="label">Typical Size</span>
+                            <span class="value">8-12" dia</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Lateral Capacity</span>
+                            <span class="value">3,000-6,000 lbs</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Embedment</span>
+                            <span class="value">15-25 ft</span>
+                        </div>
+                        <div class="pile-stat">
+                            <span class="label">Lifespan</span>
+                            <span class="value">40-60 years*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="content-section">
+            <div class="content-block">
+                <h2>How Hurricane Winds Attack Your Dock</h2>
+                <p>Dock pilings face a complex loading scenario during hurricanes. Wind pushes directly on the deck structure, creating <strong>lateral forces</strong> that transfer through pile caps to each pile. But that is just the beginning - wind also creates uplift on the deck, wave action adds cyclic lateral and vertical forces, and storm surge changes water depth and wave characteristics.</p>
+                <p>In Monroe County's HVHZ zone with 185+ mph design winds, a typical 500 SF dock can experience <strong>15,000-25,000 pounds of total lateral load</strong>. Divided among 6-10 pilings, each must resist 1,500-4,000 pounds of horizontal force at the pile head while remaining stable in the substrate below.</p>
+            </div>
+
+            <div class="content-block">
+                <h3>Lateral Pile Analysis</h3>
+                <p>Dock pilings resist lateral loads through passive soil pressure along their embedded length. As the pile tries to rotate under load, soil on the leading face compresses and resists movement. This creates a <strong>moment distribution</strong> along the pile length with maximum moment typically occurring 3-5 feet below mudline.</p>
+
+                <div class="calculation-box">
+                    <div class="step">
+                        <div class="step-label">Step 1: Wind Load on Deck</div>
+                        <div class="step-formula">q = 0.00256 x Kz x Kzt x Kd x V^2 = 78.5 PSF at 185 mph</div>
+                    </div>
+                    <div class="step">
+                        <div class="step-label">Step 2: Total Lateral Force</div>
+                        <div class="step-formula">F = q x GCp x A = 78.5 x 1.3 x 500 SF = 51,000 lbs tributary</div>
+                        <div class="step-result">With load factors: 51,000 x 0.4 deck exposure = <strong>20,400 lbs</strong></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-label">Step 3: Per-Pile Load</div>
+                        <div class="step-formula">Assuming 8 piles with load distribution factors</div>
+                        <div class="step-result">Lead piles: <strong>3,200 lbs</strong> | Interior piles: <strong>2,100 lbs</strong></div>
+                    </div>
+                    <div class="step">
+                        <div class="step-label">Step 4: Required Embedment</div>
+                        <div class="step-formula">Using L-Pile or similar analysis for marl substrate</div>
+                        <div class="step-result">12" timber pile @ 3,200 lbs: <strong>14 ft embedment</strong></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h3>Keys Substrate Conditions</h3>
+                <p>The Florida Keys present unique geotechnical challenges for pile design. Unlike mainland Florida with deep sand deposits, the Keys have <strong>variable substrate</strong> including coral rock, marl, caprock, and sand pockets. This variability requires site-specific geotechnical investigation for accurate pile design.</p>
+
+                <table class="soil-table">
+                    <thead>
+                        <tr>
+                            <th>Substrate Type</th>
+                            <th>Lateral Capacity</th>
+                            <th>Driving Difficulty</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Marl (Miami Limestone)</td>
+                            <td>High</td>
+                            <td>Moderate</td>
+                            <td>Most common; good lateral resistance</td>
+                        </tr>
+                        <tr>
+                            <td>Coral Rock</td>
+                            <td>Very High</td>
+                            <td>Difficult</td>
+                            <td>May require pre-drilling; excellent capacity</td>
+                        </tr>
+                        <tr>
+                            <td>Caprock</td>
+                            <td>High</td>
+                            <td>Moderate-Difficult</td>
+                            <td>Hard upper layer over softer substrate</td>
+                        </tr>
+                        <tr>
+                            <td>Sand</td>
+                            <td>Low-Moderate</td>
+                            <td>Easy</td>
+                            <td>Deeper embedment required; scour concerns</td>
+                        </tr>
+                        <tr>
+                            <td>Organic/Muck</td>
+                            <td>Very Low</td>
+                            <td>Easy</td>
+                            <td>Must penetrate to competent material</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="content-block">
+                <h3>Pile Material Selection</h3>
+                <div class="depth-guide">
+                    <div class="depth-card">
+                        <h4>Pressure-Treated Timber</h4>
+                        <p>Southern Pine piles with CCA or ACQ treatment. Most economical option for residential docks. Requires minimum 0.6 pcf retention for marine use. Watch for checking and splitting at waterline. Typical 25-40 year service life with proper treatment.</p>
+                    </div>
+                    <div class="depth-card">
+                        <h4>Precast Concrete</h4>
+                        <p>Square or octagonal prestressed piles. Superior durability and higher capacity. Requires crane for installation. More expensive but longer service life (50+ years). Best choice for commercial docks and high-load applications.</p>
+                    </div>
+                    <div class="depth-card">
+                        <h4>Steel Pipe Piles</h4>
+                        <p>Highest strength-to-size ratio. Can be driven through hard substrates. Requires cathodic protection or protective coatings in saltwater. Often concrete-filled after installation. Popular for heavy commercial use.</p>
+                    </div>
+                    <div class="depth-card">
+                        <h4>Composite/Fiberglass</h4>
+                        <p>Emerging alternative with excellent corrosion resistance. Lightweight installation. Limited load capacity compared to traditional materials. Best for small residential docks in aggressive marine environments.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="content-block">
+                <h2>Connection Design Matters</h2>
+                <p>The strongest pile fails if the connection to the deck structure cannot transfer the load. Hurricane forces create <strong>combined loading</strong> at pile-to-deck connections including lateral shear, uplift tension, and overturning moment. Common failure modes include bolt shear, pile cap splitting, and connector pull-out.</p>
+                <p>Typical connection solutions include through-bolted pile caps, steel brackets with multiple fasteners, and cast-in-place concrete caps. All connections in Monroe County must be designed with <strong>stainless steel hardware</strong> (316 grade minimum) to resist corrosion. Connection design should account for 1.5-2x the calculated forces to provide adequate safety factor.</p>
+            </div>
+
+            <div class="content-block">
+                <h3>Wave Action Considerations</h3>
+                <p>In addition to wind loads, Keys docks experience significant wave forces during storms. Wave height in protected canals may reach 2-4 feet; exposed waterfront locations can see 6-10 foot waves during major hurricanes. These waves create <strong>cyclical loading</strong> that can fatigue connections and cause cumulative displacement.</p>
+                <p>Design must consider wave forces acting in both directions as waves pass. Peak wave forces can exceed wind forces for dock structures close to water level. Storm surge raises water level, changing the exposed pile length and altering load distribution. All factors combine to make Keys dock design one of the most challenging marine engineering applications.</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Dock Piling Design Questions</h2>
+
+            <div class="faq-item">
+                <h3>How deep must dock pilings be driven in Monroe County?</h3>
+                <p>Dock pilings in Monroe County typically require 12-20 feet of embedment depending on soil conditions and applied loads. The Florida Keys have variable substrate ranging from marl to coral rock to sand. Geotechnical investigation is required to determine actual embedment depth based on lateral load capacity needed for 185+ mph wind design.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What pile materials are best for Florida Keys docks?</h3>
+                <p>Pressure-treated timber piles remain popular for residential docks due to cost and ease of installation. Concrete piles offer superior durability and higher capacity for commercial applications. Steel pipe piles provide the highest strength-to-size ratio but require cathodic protection in saltwater. All materials require marine-grade treatment or protection in Keys waters.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How do wind loads transfer to dock pilings?</h3>
+                <p>Wind loads on dock structures create horizontal forces that transfer through the deck framing to pile connections. Each pile must resist its share of the total lateral load plus any moment from eccentric loading. Pile groups work together with the leading piles taking more load than trailing piles. Hurricane winds can create 500-1,000+ pounds of lateral force per pile for residential docks and significantly more for commercial structures.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What permits are required for dock piling installation in the Keys?</h3>
+                <p>Dock piling installation requires Monroe County building permits, Florida DEP Environmental Resource Permits, and USACE permits for work in navigable waters. Additional approvals may be needed from Florida Keys National Marine Sanctuary, Florida Fish and Wildlife, and NOAA for habitat considerations. The permit timeline typically runs 6-18 months depending on project complexity and environmental sensitivity.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Get Your Dock Piling Analysis</h2>
+                <p>Calculate exact pile sizes, embedment depths, and connection requirements for your dock project. PE-stamped calculations for Monroe County permits.</p>
+                <a href="https://windload.co" class="cta-button">Calculate Pile Loads</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/florida/monroe/">Monroe County Wind Loads</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Water bubble particles
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vy: -Math.random() * 0.8 - 0.2,
+                vx: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 4 + 1,
+                color: Math.random() > 0.6 ? '#8b6914' : '#003049',
+                alpha: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                }
+                if (p.x < -10) p.x = canvas.width + 10;
+                if (p.x > canvas.width + 10) p.x = -10;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Scroll reveal
+        const contentObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.15 });
+
+        document.querySelectorAll('.content-block').forEach(block => contentObserver.observe(block));
+    </script>
+</body>
+</html>

@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Patio Cover Wind Loads | Miami-Dade HVHZ Hurricane Requirements</title>
+    <meta name="description" content="Calculate patio cover wind loads for Miami-Dade County. Interactive visualization shows uplift forces, attachment requirements, and structural design for HVHZ hurricane compliance.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/patio-cover-loads">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Patio Cover Wind Loads | Miami-Dade HVHZ">
+    <meta property="og:description" content="Design patio covers for Miami-Dade hurricane winds. Interactive uplift calculator and attachment guide.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/patio-cover-loads">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads do patio covers experience in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Patio covers in Miami-Dade HVHZ experience design wind speeds of 180 mph or higher. Solid patio covers see full wind pressure - typically 50-90 PSF uplift depending on roof pitch and location. Louvered or partially open covers see reduced but still significant loads. The ledger attachment to the house is especially critical as it transfers large uplift forces."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is the ledger board attached for hurricane patio covers?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ledger boards for patio covers in Miami-Dade HVHZ must be through-bolted to the house structure - not just lag screwed. Typical attachment uses 1/2 inch or 5/8 inch bolts at 16-24 inches on center, connecting through the sheathing to the rim joist or wall framing. Flashing above the ledger prevents water intrusion. The house structure behind must be adequate for the transferred loads."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What size beams are required for patio covers?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Patio cover beam size depends on span, spacing, and wind load. For typical 10-12 foot spans in Miami-Dade HVHZ: single-span beams often require 4x8 or 4x10 lumber, or 6x6 or 6x8 for longer spans. Steel beams allow longer spans with smaller profiles. Multi-span designs with intermediate posts allow smaller beams. Engineering calculations are required for permit approval."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do patio covers need permits in Miami-Dade County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, patio covers require building permits in Miami-Dade County. The permit application must include engineered drawings showing the structure meets wind load requirements for the HVHZ. Pre-engineered patio cover kits with valid NOAs can simplify the process, but attachment to the house still requires site-specific engineering review."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What roofing materials are allowed for patio covers?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common patio cover roofing materials in Miami-Dade HVHZ include: insulated aluminum panels with NOA approval, polycarbonate panels rated for high wind zones, metal roofing (standing seam or corrugated) with proper fastening, and built-up roof over solid sheathing for attached structures. All materials must have appropriate product approvals and be installed per manufacturer specifications."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Patio Cover Loads", "item": "https://windload.co/florida/miami-dade/patio-cover-loads"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --roof-blue: #3b82f6;
+            --roof-light: #60a5fa;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Roof Pattern Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.3);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+        .nav-logo span span { color: var(--roof-blue); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--roof-blue); }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+        }
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+        .breadcrumb a:hover { color: var(--roof-blue); }
+        .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(59, 130, 246, 0.15);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: var(--roof-blue);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--roof-blue) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--roof-blue) 0%, var(--roof-light) 100%);
+            color: white;
+            box-shadow: 0 4px 25px rgba(59, 130, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(59, 130, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Patio Cover Visualization */
+        .patio-viz {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .viz-title {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--roof-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .patio-container {
+            position: relative;
+            height: 380px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .patio-viz-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* SVG Styles */
+        .house-wall { fill: #64748b; stroke: #475569; stroke-width: 2; }
+        .patio-roof { fill: var(--roof-blue); stroke: #1d4ed8; stroke-width: 2; }
+        .patio-beam { fill: #8b5a2b; stroke: #5c3d1e; stroke-width: 1; }
+        .patio-post { fill: #8b5a2b; stroke: #5c3d1e; stroke-width: 1; }
+        .ledger { fill: #a0522d; stroke: #8b4513; stroke-width: 2; }
+        .concrete { fill: #6b7280; }
+
+        /* Uplift arrows */
+        .uplift-arrow {
+            fill: var(--accent-cyan);
+            animation: upliftPull 2s ease-in-out infinite;
+        }
+
+        @keyframes upliftPull {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(-12px); opacity: 1; }
+        }
+
+        /* Ledger force */
+        .ledger-force {
+            fill: var(--accent-magenta);
+            animation: ledgerPull 2s ease-in-out infinite;
+        }
+
+        @keyframes ledgerPull {
+            0%, 100% { transform: translateY(0) translateX(0); opacity: 0.7; }
+            50% { transform: translateY(-5px) translateX(-5px); opacity: 1; }
+        }
+
+        /* Labels */
+        .svg-label { fill: var(--text-light); font-size: 12px; font-weight: 600; }
+        .svg-sublabel { fill: var(--text-muted); font-size: 10px; }
+        .svg-dimension { fill: var(--roof-blue); font-size: 11px; font-weight: 600; }
+
+        /* Data Panel */
+        .data-panel {
+            position: absolute;
+            left: 15px;
+            top: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--roof-blue);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .data-label { color: var(--text-muted); }
+        .data-value { color: var(--roof-blue); font-weight: 700; }
+
+        /* Controls */
+        .viz-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(59, 130, 246, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .control-group input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--roof-blue), var(--roof-light));
+            cursor: pointer;
+        }
+
+        .control-display {
+            text-align: right;
+            font-weight: 700;
+            color: var(--roof-blue);
+            margin-top: 0.25rem;
+        }
+
+        /* Results */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-box {
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--roof-blue);
+        }
+
+        .result-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        /* Content Sections */
+        section { padding: 5rem 2rem; }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-header p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Connection Details Section */
+        .connections-section {
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.05) 0%, transparent 100%);
+        }
+
+        .connections-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .connection-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .connection-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .connection-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(59, 130, 246, 0.15);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .connection-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; }
+        .connection-card p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1rem; }
+
+        .connection-specs {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .spec-item {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 0.5rem;
+            border-radius: 6px;
+            text-align: center;
+        }
+
+        .spec-item strong { color: var(--roof-blue); }
+
+        /* Roof Types Section */
+        .rooftypes-section { background: var(--primary-dark); }
+
+        .rooftypes-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .rooftype-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .rooftype-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .rooftype-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(59, 130, 246, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+        }
+
+        .rooftype-card h3 { font-size: 1rem; margin-bottom: 0.5rem; }
+        .rooftype-card p { color: #94a3b8; font-size: 0.8rem; }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(59, 130, 246, 0.05) 100%);
+        }
+
+        .faq-list { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover { background: rgba(59, 130, 246, 0.05); }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--roof-blue); }
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+        }
+
+        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+
+        /* CTA */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--roof-blue) 0%, var(--roof-light) 100%);
+            text-align: center;
+        }
+
+        .cta h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta .btn-primary { background: var(--primary-dark); color: white; }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(59, 130, 246, 0.2);
+        }
+
+        footer a { color: var(--roof-blue); text-decoration: none; }
+        footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container { grid-template-columns: 1fr; gap: 3rem; }
+            .viz-controls { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: repeat(2, 1fr); }
+            .connections-grid { grid-template-columns: 1fr; }
+            .rooftypes-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .results-grid { grid-template-columns: 1fr; }
+            .rooftypes-grid { grid-template-columns: 1fr; max-width: 300px; margin: 0 auto; }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav class="nav">
+            <a href="/" class="nav-logo">
+                <img src="/assets/windload.co_3b82f6.svg" alt="">
+                <span>Wind<span>Load</span>.co</span>
+            </a>
+            <div class="nav-links">
+                <a href="/florida-pro.html">Florida</a>
+                <a href="/florida/miami-dade/">Miami-Dade</a>
+                <a href="/contractors.html">Contractors</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="/">Home</a><span>/</span>
+                <a href="/florida-pro.html">Florida</a><span>/</span>
+                <a href="/florida/miami-dade/">Miami-Dade</a><span>/</span>
+                <span class="breadcrumb-current">Patio Cover Loads</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-text reveal">
+                    <div class="hero-badge">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+                        </svg>
+                        Attached Structure Design
+                    </div>
+
+                    <h1>Sheltered Space: <span>Patio Cover Wind Loads</span> in Hurricane Zones</h1>
+
+                    <p class="hero-subtitle">
+                        Your patio cover connects to your house. When hurricane winds try to rip it away, all that force transfers through the ledger to your home. Get the connection wrong and you damage both structures.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=patio-miami" class="btn btn-primary">
+                            Calculate Patio Loads
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="#connections" class="btn btn-secondary">Connection Details</a>
+                    </div>
+                </div>
+
+                <div class="patio-viz reveal">
+                    <h2 class="viz-title">Patio Cover Load Distribution</h2>
+
+                    <div class="patio-container">
+                        <!-- Data Panel -->
+                        <div class="data-panel">
+                            <div class="data-row">
+                                <span class="data-label">Roof Area:</span>
+                                <span class="data-value" id="dataArea">150 sq ft</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Uplift PSF:</span>
+                                <span class="data-value" id="dataUplift">-65 PSF</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Total Uplift:</span>
+                                <span class="data-value" id="dataTotalUplift">9,750 lbs</span>
+                            </div>
+                        </div>
+
+                        <svg class="patio-viz-svg" viewBox="0 0 500 360">
+                            <!-- House wall -->
+                            <rect class="house-wall" x="50" y="50" width="80" height="260"/>
+                            <text class="svg-label" x="90" y="180" text-anchor="middle">House</text>
+
+                            <!-- Ledger board -->
+                            <rect class="ledger" x="125" y="100" width="15" height="150"/>
+
+                            <!-- Patio roof -->
+                            <polygon class="patio-roof" points="140,90 420,70 420,110 140,130"/>
+
+                            <!-- Roof panels -->
+                            <line x1="200" y1="85" x2="200" y2="115" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                            <line x1="280" y1="80" x2="280" y2="110" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+                            <line x1="360" y1="75" x2="360" y2="105" stroke="rgba(255,255,255,0.3)" stroke-width="1"/>
+
+                            <!-- Beams -->
+                            <rect class="patio-beam" x="140" y="130" width="280" height="15"/>
+                            <rect class="patio-beam" x="140" y="240" width="280" height="15"/>
+
+                            <!-- Posts -->
+                            <rect class="patio-post" x="400" y="145" width="20" height="165"/>
+                            <rect class="patio-post" x="400" y="145" width="20" height="110" transform="translate(-260, 0)"/>
+
+                            <!-- Concrete footings -->
+                            <rect class="concrete" x="130" y="310" width="40" height="30"/>
+                            <rect class="concrete" x="395" y="310" width="30" height="30"/>
+
+                            <!-- Ground line -->
+                            <line x1="100" y1="310" x2="450" y2="310" stroke="#4ade80" stroke-width="2" stroke-dasharray="8,4"/>
+
+                            <!-- Uplift arrows -->
+                            <g class="uplift-arrow" style="animation-delay: 0s">
+                                <polygon points="200,45 190,65 195,65 195,80 205,80 205,65 210,65"/>
+                            </g>
+                            <g class="uplift-arrow" style="animation-delay: 0.3s">
+                                <polygon points="280,40 270,60 275,60 275,75 285,75 285,60 290,60"/>
+                            </g>
+                            <g class="uplift-arrow" style="animation-delay: 0.6s">
+                                <polygon points="360,35 350,55 355,55 355,70 365,70 365,55 370,55"/>
+                            </g>
+
+                            <!-- Ledger force arrow -->
+                            <g class="ledger-force">
+                                <polygon points="160,115 145,105 145,110 125,110 125,120 145,120 145,125"/>
+                            </g>
+                            <text class="svg-sublabel" x="165" y="150">Ledger</text>
+                            <text class="svg-sublabel" x="165" y="162">Reaction</text>
+
+                            <!-- Dimension lines -->
+                            <line x1="140" y1="340" x2="420" y2="340" stroke="var(--text-muted)" stroke-width="1"/>
+                            <text class="svg-dimension" x="280" y="355" text-anchor="middle" id="spanLabel">12 ft projection</text>
+
+                            <!-- Labels -->
+                            <text class="svg-label" x="280" y="125" text-anchor="middle">Patio Roof</text>
+                            <text class="svg-sublabel" x="50" y="25">Uplift: -65 PSF</text>
+                        </svg>
+                    </div>
+
+                    <div class="viz-controls">
+                        <div class="control-group">
+                            <label>Patio Width (ft)</label>
+                            <input type="range" id="widthSlider" min="10" max="24" value="15">
+                            <div class="control-display" id="widthDisplay">15 ft</div>
+                        </div>
+                        <div class="control-group">
+                            <label>Projection (ft)</label>
+                            <input type="range" id="projSlider" min="8" max="16" value="10">
+                            <div class="control-display" id="projDisplay">10 ft</div>
+                        </div>
+                        <div class="control-group">
+                            <label>Uplift Pressure (PSF)</label>
+                            <input type="range" id="upliftSlider" min="50" max="90" value="65">
+                            <div class="control-display" id="upliftDisplay">-65 PSF</div>
+                        </div>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-box">
+                            <div class="result-value" id="resultArea">150</div>
+                            <div class="result-label">Roof Area (sq ft)</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultUplift">9,750</div>
+                            <div class="result-label">Total Uplift (lbs)</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultLedger">4,875</div>
+                            <div class="result-label">Ledger Load (lbs)</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultBolt">1/2" @ 16"</div>
+                            <div class="result-label">Ledger Bolts</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="connections-section" id="connections">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Critical Connections</h2>
+                    <p>Every connection in a patio cover must be designed for hurricane uplift forces.</p>
+                </div>
+
+                <div class="connections-grid">
+                    <div class="connection-card reveal">
+                        <div class="connection-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <rect x="3" y="8" width="18" height="8"/>
+                                <circle cx="7" cy="12" r="2"/>
+                                <circle cx="17" cy="12" r="2"/>
+                            </svg>
+                        </div>
+                        <h3>Ledger to House</h3>
+                        <p>The most critical connection. Must transfer approximately half the total uplift to the house structure. Through-bolting is required - lag screws alone are not acceptable.</p>
+                        <div class="connection-specs">
+                            <div class="spec-item"><strong>1/2"</strong> min bolt</div>
+                            <div class="spec-item"><strong>16-24"</strong> spacing</div>
+                            <div class="spec-item"><strong>Flashing</strong> required</div>
+                            <div class="spec-item"><strong>Rim joist</strong> or blocking</div>
+                        </div>
+                    </div>
+
+                    <div class="connection-card reveal">
+                        <div class="connection-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <path d="M12 2v20M4 6h16"/>
+                            </svg>
+                        </div>
+                        <h3>Beam to Post</h3>
+                        <p>Transfers uplift from the outer edge of the roof to the posts. Requires positive connections - gravity alone cannot resist uplift.</p>
+                        <div class="connection-specs">
+                            <div class="spec-item"><strong>Post caps</strong> rated</div>
+                            <div class="spec-item"><strong>Through bolts</strong></div>
+                            <div class="spec-item"><strong>Simpson</strong> or equiv</div>
+                            <div class="spec-item"><strong>2,000+ lbs</strong> capacity</div>
+                        </div>
+                    </div>
+
+                    <div class="connection-card reveal">
+                        <div class="connection-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <circle cx="12" cy="18" r="4"/>
+                                <path d="M12 2v12"/>
+                            </svg>
+                        </div>
+                        <h3>Post to Foundation</h3>
+                        <p>Anchors must resist post uplift and lateral forces. Surface-mount anchors on existing slabs or embedded posts in new footings.</p>
+                        <div class="connection-specs">
+                            <div class="spec-item"><strong>4-bolt</strong> base</div>
+                            <div class="spec-item"><strong>1/2" min</strong> anchors</div>
+                            <div class="spec-item"><strong>4" embed</strong> depth</div>
+                            <div class="spec-item"><strong>Standoff</strong> for wood</div>
+                        </div>
+                    </div>
+
+                    <div class="connection-card reveal">
+                        <div class="connection-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <path d="M3 9l9-7 9 7"/>
+                                <path d="M4 10v10h16V10"/>
+                            </svg>
+                        </div>
+                        <h3>Roof to Frame</h3>
+                        <p>Roofing panels must be secured to resist uplift and prevent peeling. Fastener spacing tightens at edges and corners.</p>
+                        <div class="connection-specs">
+                            <div class="spec-item"><strong>Screws</strong> not nails</div>
+                            <div class="spec-item"><strong>6-12"</strong> spacing</div>
+                            <div class="spec-item"><strong>Edge zone</strong> closer</div>
+                            <div class="spec-item"><strong>Sealant</strong> washers</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="rooftypes-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Patio Cover Roofing Options</h2>
+                    <p>Choose roofing material rated for Miami-Dade HVHZ wind speeds.</p>
+                </div>
+
+                <div class="rooftypes-grid">
+                    <div class="rooftype-card reveal">
+                        <div class="rooftype-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            </svg>
+                        </div>
+                        <h3>Insulated Panels</h3>
+                        <p>Aluminum-skinned foam panels. Good insulation, clean look. Requires NOA approval.</p>
+                    </div>
+
+                    <div class="rooftype-card reveal">
+                        <div class="rooftype-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" fill="rgba(59, 130, 246, 0.2)"/>
+                            </svg>
+                        </div>
+                        <h3>Polycarbonate</h3>
+                        <p>Translucent panels allow light. Impact-rated options available. Multi-wall or solid sheet.</p>
+                    </div>
+
+                    <div class="rooftype-card reveal">
+                        <div class="rooftype-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <path d="M3 6h18v12H3z"/>
+                                <path d="M3 9h18M3 12h18M3 15h18"/>
+                            </svg>
+                        </div>
+                        <h3>Metal Roofing</h3>
+                        <p>Standing seam or corrugated. Durable, fire-resistant. Requires proper clip spacing for HVHZ.</p>
+                    </div>
+
+                    <div class="rooftype-card reveal">
+                        <div class="rooftype-icon">
+                            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="var(--roof-blue)" stroke-width="2">
+                                <rect x="3" y="8" width="18" height="12"/>
+                                <path d="M3 8l9-5 9 5"/>
+                            </svg>
+                        </div>
+                        <h3>Solid Sheathing</h3>
+                        <p>Plywood deck with built-up or shingle roofing. Matches house roof. Heaviest option.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Patio Cover FAQs</h2>
+                    <p>Common questions about patio covers in Miami-Dade hurricane zones</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item open">
+                        <div class="faq-question">What wind loads do patio covers experience in Miami-Dade?</div>
+                        <div class="faq-answer">
+                            Patio covers in Miami-Dade HVHZ experience 180 mph design wind speeds. Solid covers see full wind pressure - typically 50-90 PSF uplift. The ledger attachment to the house is especially critical as it transfers large uplift forces.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">How is the ledger board attached for hurricane patio covers?</div>
+                        <div class="faq-answer">
+                            Ledger boards must be through-bolted to the house structure - not just lag screwed. Typical attachment uses 1/2 inch or 5/8 inch bolts at 16-24 inches on center, connecting through to the rim joist or wall framing.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What size beams are required for patio covers?</div>
+                        <div class="faq-answer">
+                            Beam size depends on span, spacing, and wind load. For typical 10-12 foot spans in Miami-Dade HVHZ: single-span beams often require 4x8 or 4x10 lumber, or 6x6 or 6x8 for longer spans.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Do patio covers need permits in Miami-Dade County?</div>
+                        <div class="faq-answer">
+                            Yes, patio covers require building permits in Miami-Dade County. The permit application must include engineered drawings showing the structure meets wind load requirements for the HVHZ.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What roofing materials are allowed for patio covers?</div>
+                        <div class="faq-answer">
+                            Common materials include: insulated aluminum panels with NOA approval, polycarbonate panels rated for high wind zones, metal roofing with proper fastening, and built-up roof over solid sheathing.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta reveal">
+            <h2>Calculate Your Patio Cover Loads</h2>
+            <p>Get precise wind load calculations for your patio cover design. ASCE 7-22 compliant results for Miami-Dade permit approval.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=patio-cta" class="btn btn-primary">
+                Start Calculating
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>
+                <a href="/florida/miami-dade/">Miami-Dade County</a> ·
+                <a href="/florida/miami-dade/canopy-attachment">Canopy Attachment</a> ·
+                <a href="/florida/miami-dade/roof-overhang-loads">Roof Overhangs</a> ·
+                <a href="/florida-pro.html">All Florida</a>
+            </p>
+            <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com">Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Roof Pattern Canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawRoofPattern() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(59, 130, 246, 0.15)';
+            ctx.lineWidth = 1;
+
+            const spacing = 40;
+            for (let y = 0; y < canvas.height + spacing; y += spacing) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            for (let x = 0; x < canvas.width; x += spacing * 2) {
+                for (let y = 0; y < canvas.height; y += spacing) {
+                    ctx.beginPath();
+                    ctx.moveTo(x, y);
+                    ctx.lineTo(x + spacing, y + spacing);
+                    ctx.stroke();
+                }
+            }
+
+            requestAnimationFrame(drawRoofPattern);
+        }
+        drawRoofPattern();
+
+        // Calculator
+        const widthSlider = document.getElementById('widthSlider');
+        const projSlider = document.getElementById('projSlider');
+        const upliftSlider = document.getElementById('upliftSlider');
+
+        function updateCalculations() {
+            const width = parseFloat(widthSlider.value);
+            const proj = parseFloat(projSlider.value);
+            const uplift = parseFloat(upliftSlider.value);
+
+            document.getElementById('widthDisplay').textContent = `${width} ft`;
+            document.getElementById('projDisplay').textContent = `${proj} ft`;
+            document.getElementById('upliftDisplay').textContent = `-${uplift} PSF`;
+
+            // Calculate loads
+            const area = width * proj;
+            const totalUplift = area * uplift;
+            const ledgerLoad = Math.round(totalUplift / 2);
+
+            document.getElementById('dataArea').textContent = `${area} sq ft`;
+            document.getElementById('dataUplift').textContent = `-${uplift} PSF`;
+            document.getElementById('dataTotalUplift').textContent = `${totalUplift.toLocaleString()} lbs`;
+
+            document.getElementById('resultArea').textContent = area;
+            document.getElementById('resultUplift').textContent = totalUplift.toLocaleString();
+            document.getElementById('resultLedger').textContent = ledgerLoad.toLocaleString();
+
+            document.getElementById('spanLabel').textContent = `${proj} ft projection`;
+
+            // Determine bolt spacing
+            let boltSpec = '1/2" @ 16"';
+            if (ledgerLoad > 6000) boltSpec = '1/2" @ 12"';
+            if (ledgerLoad > 8000) boltSpec = '5/8" @ 16"';
+            if (ledgerLoad > 10000) boltSpec = '5/8" @ 12"';
+            document.getElementById('resultBolt').textContent = boltSpec;
+        }
+
+        widthSlider.addEventListener('input', updateCalculations);
+        projSlider.addEventListener('input', updateCalculations);
+        upliftSlider.addEventListener('input', updateCalculations);
+        updateCalculations();
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

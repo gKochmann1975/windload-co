@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moment Frame Design for Hurricane Winds | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Complete guide to moment frame design in Broward County FL. Learn how rigid frame connections resist lateral hurricane wind loads through beam-column moment connections and frame action.">
+    <meta name="keywords" content="moment frame design, rigid frame wind load, beam column connection, hurricane lateral system, Broward County steel frame, moment resisting frame">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/florida/broward/moment-frame-design.html">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Moment Frame Design for Hurricane Winds | Broward County FL">
+    <meta property="og:description" content="Visual guide to moment frame lateral systems for hurricane resistance in steel and concrete construction.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/moment-frame-design.html">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --accent-yellow: #ffd700;
+            --accent-indigo: #6366f1;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        .hero {
+            padding: 80px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .animation-section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .animation-container {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Template I: Animated Frame Deflection */
+        .frame-visual {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            padding: 60px 20px;
+        }
+
+        .moment-frame {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            margin: 0 auto;
+        }
+
+        /* Columns */
+        .frame-column {
+            position: absolute;
+            width: 20px;
+            height: 250px;
+            background: linear-gradient(90deg, var(--accent-indigo), #818cf8);
+            border-radius: 3px;
+            bottom: 0;
+            transform-origin: bottom center;
+            animation: frameSway 4s ease-in-out infinite;
+        }
+
+        .column-left { left: 50px; }
+        .column-right { right: 50px; animation-delay: 0.1s; }
+
+        @keyframes frameSway {
+            0%, 100% { transform: skewX(0deg); }
+            25% { transform: skewX(3deg); }
+            75% { transform: skewX(-3deg); }
+        }
+
+        /* Beam */
+        .frame-beam {
+            position: absolute;
+            width: 280px;
+            height: 25px;
+            background: linear-gradient(180deg, var(--accent-indigo), #818cf8);
+            border-radius: 3px;
+            top: 25px;
+            left: 60px;
+            animation: beamSway 4s ease-in-out infinite;
+        }
+
+        @keyframes beamSway {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(10px); }
+            75% { transform: translateX(-10px); }
+        }
+
+        /* Moment connections */
+        .moment-connection {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--accent-yellow);
+            border-radius: 5px;
+            background: rgba(255, 215, 0, 0.1);
+            animation: connectionGlow 2s ease-in-out infinite;
+        }
+
+        .connection-tl { top: 15px; left: 40px; }
+        .connection-tr { top: 15px; right: 40px; animation-delay: 0.5s; }
+        .connection-bl { bottom: 0; left: 40px; animation-delay: 0.25s; }
+        .connection-br { bottom: 0; right: 40px; animation-delay: 0.75s; }
+
+        @keyframes connectionGlow {
+            0%, 100% { box-shadow: 0 0 10px rgba(255, 215, 0, 0.3); }
+            50% { box-shadow: 0 0 30px rgba(255, 215, 0, 0.9); }
+        }
+
+        /* Foundation */
+        .frame-foundation {
+            position: absolute;
+            bottom: -30px;
+            left: 20px;
+            right: 20px;
+            height: 30px;
+            background: linear-gradient(180deg, #5a5a5a, #3a3a3a);
+            border-radius: 3px;
+        }
+
+        /* Wind force */
+        .wind-force-frame {
+            position: absolute;
+            left: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+            animation: windPushFrame 2s ease-in-out infinite;
+        }
+
+        @keyframes windPushFrame {
+            0%, 100% { transform: translateY(-50%) translateX(0); opacity: 0.5; }
+            50% { transform: translateY(-50%) translateX(15px); opacity: 1; }
+        }
+
+        .wind-arrow-frame {
+            display: flex;
+            align-items: center;
+        }
+
+        .arrow-line-f {
+            width: 40px;
+            height: 4px;
+            background: var(--accent-magenta);
+        }
+
+        .arrow-head-f {
+            width: 0;
+            height: 0;
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid var(--accent-magenta);
+        }
+
+        .wind-label-f {
+            font-size: 0.8rem;
+            color: var(--accent-magenta);
+            font-weight: 700;
+            writing-mode: vertical-lr;
+            transform: rotate(180deg);
+            position: absolute;
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%) rotate(180deg);
+        }
+
+        /* Moment diagram overlay */
+        .moment-diagram {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+        }
+
+        .moment-curve {
+            fill: none;
+            stroke: var(--accent-cyan);
+            stroke-width: 3;
+            opacity: 0.6;
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            animation: drawMoment 4s ease-in-out infinite;
+        }
+
+        @keyframes drawMoment {
+            0%, 100% { stroke-dashoffset: 200; }
+            50% { stroke-dashoffset: 0; }
+        }
+
+        /* Deflected shape indicator */
+        .deflection-indicator {
+            position: absolute;
+            top: 10px;
+            right: -40px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        .delta-symbol {
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .component-legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 60px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-swatch {
+            width: 30px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        .swatch-frame { background: var(--accent-indigo); }
+        .swatch-moment { background: var(--accent-yellow); border: 2px solid var(--accent-yellow); }
+        .swatch-wind { background: var(--accent-magenta); }
+
+        .legend-text {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .data-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .data-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px 35px;
+            text-align: center;
+            border: 1px solid rgba(99, 102, 241, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .data-card:hover { transform: translateY(-5px); }
+
+        .data-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-indigo);
+        }
+
+        .data-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .concepts-section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .concepts-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-indigo);
+        }
+
+        .concept-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .concept-card {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 20px;
+            padding: 30px;
+            border-left: 4px solid var(--accent-indigo);
+            transition: transform 0.3s;
+        }
+
+        .concept-card:hover { transform: translateY(-5px); }
+
+        .concept-card h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.2rem;
+        }
+
+        .concept-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .concept-card strong { color: var(--accent-yellow); }
+
+        .detail-section {
+            padding: 40px 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .detail-block {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-magenta);
+        }
+
+        .detail-block h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .detail-block p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .detail-block ul {
+            color: var(--text-muted);
+            margin-left: 20px;
+        }
+
+        .detail-block li { margin-bottom: 10px; }
+
+        .detail-block strong { color: var(--accent-cyan); }
+
+        .comparison-section {
+            padding: 40px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .comparison-section h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--accent-yellow);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .comparison-table th {
+            background: rgba(99, 102, 241, 0.2);
+            color: var(--accent-indigo);
+            font-weight: 600;
+        }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-yellow);
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p { color: var(--text-muted); line-height: 1.8; }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(99, 102, 241, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent-indigo);
+        }
+
+        .cta-box h2 { font-size: 2rem; margin-bottom: 15px; }
+        .cta-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-indigo), var(--accent-cyan));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(99, 102, 241, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(99, 102, 241, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .moment-frame { width: 300px; height: 250px; }
+            .frame-column { width: 15px; height: 200px; }
+            .column-left { left: 30px; }
+            .column-right { right: 30px; }
+            .frame-beam { width: 220px; height: 20px; left: 40px; }
+            .moment-connection { width: 30px; height: 30px; }
+            .wind-force-frame { display: none; }
+            .deflection-indicator { display: none; }
+            .comparison-table { font-size: 0.85rem; }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "WindLoad.co", "item": "https://windload.co" },
+            { "@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/" },
+            { "@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/" },
+            { "@type": "ListItem", "position": 4, "name": "Moment Frame Design", "item": "https://windload.co/florida/broward/moment-frame-design.html" }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a moment frame and how does it resist wind?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A moment frame is a structural system where beams and columns are rigidly connected so the joints can transfer bending moment (rotation resistance). When wind pushes on the building, the frame resists by developing moments at beam-column connections - columns bend and beams flex, but the rigid joints prevent rotation. This allows open floor plans without diagonal bracing or shear walls."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are the advantages of moment frames for hurricane resistance?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Moment frames offer architectural flexibility - no diagonal braces blocking views or shear walls limiting openings. They provide ductile behavior, absorbing energy through joint rotation. They work well for buildings needing large open spaces. However, they are more expensive than braced frames, require heavier members for stiffness, and demand precise connection detailing and inspection."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What types of moment connections are used in hurricane zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For steel frames: welded flange-bolted web connections, reduced beam section (RBS or dogbone), end plate connections, and proprietary systems. For concrete: cast-in-place monolithic joints with continuous reinforcement through the joint. Each type has specific capacity and ductility characteristics. In Broward County, connections must meet AISC or ACI requirements for the calculated moment demand."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is drift controlled in moment frames?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Moment frames are inherently flexible and can experience significant lateral drift under wind load. Florida Building Code limits drift to H/400 for wind (where H is story height). Engineers increase member sizes, add stiffness through deeper beams, or use partial-height moment frames combined with other systems. Drift controls often govern member sizing rather than strength."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="https://windload.co" class="logo">WindLoad.co</a>
+            <a href="https://windload.co" class="nav-cta">Get Wind Loads</a>
+        </header>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/florida/">Florida</a> /
+                <a href="https://windload.co/florida/broward/">Broward County</a> /
+                Moment Frame Design
+            </div>
+            <h1>Moment Frame Design: <span>Bending to Resist the Wind</span></h1>
+            <p class="subtitle">How rigid beam-column connections create lateral resistance through frame action. The elegant structural system that lets buildings sway but not fall in Broward County hurricanes!</p>
+        </section>
+
+        <section class="animation-section">
+            <div class="animation-container">
+                <div class="frame-visual">
+                    <div class="moment-frame">
+                        <div class="wind-force-frame">
+                            <div class="wind-arrow-frame">
+                                <div class="arrow-line-f"></div>
+                                <div class="arrow-head-f"></div>
+                            </div>
+                            <div class="wind-arrow-frame">
+                                <div class="arrow-line-f"></div>
+                                <div class="arrow-head-f"></div>
+                            </div>
+                            <div class="wind-arrow-frame">
+                                <div class="arrow-line-f"></div>
+                                <div class="arrow-head-f"></div>
+                            </div>
+                        </div>
+
+                        <span class="wind-label-f">WIND LOAD</span>
+
+                        <div class="frame-beam"></div>
+                        <div class="frame-column column-left"></div>
+                        <div class="frame-column column-right"></div>
+
+                        <div class="moment-connection connection-tl"></div>
+                        <div class="moment-connection connection-tr"></div>
+                        <div class="moment-connection connection-bl"></div>
+                        <div class="moment-connection connection-br"></div>
+
+                        <div class="frame-foundation"></div>
+
+                        <div class="deflection-indicator">
+                            <span class="delta-symbol">D</span>
+                            <span>= drift</span>
+                        </div>
+                    </div>
+
+                    <div class="component-legend">
+                        <div class="legend-item">
+                            <div class="legend-swatch swatch-frame"></div>
+                            <span class="legend-text">Beams & Columns</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-swatch swatch-moment"></div>
+                            <span class="legend-text">Moment Connections</span>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-swatch swatch-wind"></div>
+                            <span class="legend-text">Wind Load</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-display">
+                    <div class="data-card">
+                        <div class="data-value" id="moment-val">285</div>
+                        <div class="data-label">Kip-ft Connection Moment</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value">H/400</div>
+                        <div class="data-label">Max Drift Limit</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" id="base-shear">42</div>
+                        <div class="data-label">Kips Base Shear</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="concepts-section scroll-reveal">
+            <h2>How Moment Frames Work</h2>
+            <div class="concept-grid">
+                <div class="concept-card">
+                    <h3>Rigid Joint Behavior</h3>
+                    <p>In a moment frame, beam-column joints are <strong>rigidly welded or bolted so they cannot rotate</strong> relative to each other. When wind pushes the frame, the rigid joints force beams and columns to bend together rather than letting the frame collapse like a parallelogram.</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Portal Frame Action</h3>
+                    <p>The classic portal frame (two columns + one beam) deflects by bending its members. Columns develop <strong>double curvature - bending one way at the base, opposite at the top</strong>. This distributed bending throughout the frame resists the overturning effect of lateral wind.</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Moment Distribution</h3>
+                    <p>Wind load creates shear in columns, which produces bending moment. The moment <strong>peaks at rigid connections</strong> where members join. Beams develop moment based on column rotations they resist. Understanding this distribution is key to sizing members and connections.</p>
+                </div>
+                <div class="concept-card">
+                    <h3>Redundancy</h3>
+                    <p>Multi-bay, multi-story moment frames have high redundancy. If one connection yields, <strong>moment redistributes to other connections</strong>. This allows ductile behavior - the frame can absorb energy and maintain stability even if individual elements are stressed beyond yield.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="detail-section scroll-reveal">
+            <div class="detail-block">
+                <h3>Connection Design - The Critical Element</h3>
+                <p>Moment frame connections must transfer the full calculated moment between beam and column without failure. Connection design includes:</p>
+                <ul>
+                    <li><strong>Flange connection:</strong> Welds or bolts that transfer tension/compression from beam flanges</li>
+                    <li><strong>Web connection:</strong> Shear plates or angles that transfer beam shear to column</li>
+                    <li><strong>Stiffeners:</strong> Column web stiffeners aligned with beam flanges to prevent web crippling</li>
+                    <li><strong>Panel zone:</strong> Column web between flanges must resist high shear</li>
+                </ul>
+                <p>Connection capacity must exceed the maximum moment that can be delivered by the beam - typically 1.1 times the plastic moment.</p>
+            </div>
+
+            <div class="detail-block">
+                <h3>Steel Moment Frame Types</h3>
+                <p>AISC defines several moment frame categories based on expected ductility:</p>
+                <ul>
+                    <li><strong>Ordinary Moment Frame (OMF):</strong> Limited ductility, used in low-seismic but applicable for wind</li>
+                    <li><strong>Intermediate Moment Frame (IMF):</strong> Moderate ductility with some detailing requirements</li>
+                    <li><strong>Special Moment Frame (SMF):</strong> Highest ductility, most stringent connection requirements</li>
+                </ul>
+                <p>For Broward County wind design, OMF or IMF with proper wind load factors typically suffice, as hurricane loads are not seismic.</p>
+            </div>
+
+            <div class="detail-block">
+                <h3>Drift Considerations</h3>
+                <p>Moment frames are inherently flexible. Drift limits control design more than strength:</p>
+                <ul>
+                    <li><strong>Code limit:</strong> Florida Building Code requires drift less than H/400 under service wind</li>
+                    <li><strong>Occupant comfort:</strong> Excessive sway causes motion sickness and alarm</li>
+                    <li><strong>Cladding damage:</strong> Windows and finishes cannot accommodate large drift</li>
+                    <li><strong>P-delta effects:</strong> Large drift amplifies moments from gravity load eccentricity</li>
+                </ul>
+                <p>Engineers often increase beam and column sizes beyond strength requirements to meet drift limits.</p>
+            </div>
+        </section>
+
+        <section class="comparison-section scroll-reveal">
+            <h2>Lateral System Comparison</h2>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>System</th>
+                        <th>Stiffness</th>
+                        <th>Ductility</th>
+                        <th>Architecture</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Moment Frame</td>
+                        <td>Flexible</td>
+                        <td>High</td>
+                        <td>Open plans</td>
+                    </tr>
+                    <tr>
+                        <td>Braced Frame</td>
+                        <td>Very Stiff</td>
+                        <td>Limited</td>
+                        <td>Diagonal members</td>
+                    </tr>
+                    <tr>
+                        <td>Shear Wall</td>
+                        <td>Stiff</td>
+                        <td>Moderate</td>
+                        <td>Solid walls</td>
+                    </tr>
+                    <tr>
+                        <td>Dual System</td>
+                        <td>Stiff</td>
+                        <td>High</td>
+                        <td>Combined benefits</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="faq-section scroll-reveal">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What is a moment frame and how does it resist wind?</h3>
+                <p>A moment frame is a structural system where beams and columns are rigidly connected so the joints can transfer bending moment (rotation resistance). When wind pushes on the building, the frame resists by developing moments at beam-column connections - columns bend and beams flex, but the rigid joints prevent rotation. This allows open floor plans without diagonal bracing or shear walls.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What are the advantages of moment frames for hurricane resistance?</h3>
+                <p>Moment frames offer architectural flexibility - no diagonal braces blocking views or shear walls limiting openings. They provide ductile behavior, absorbing energy through joint rotation. They work well for buildings needing large open spaces. However, they are more expensive than braced frames, require heavier members for stiffness, and demand precise connection detailing and inspection.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What types of moment connections are used in hurricane zones?</h3>
+                <p>For steel frames: welded flange-bolted web connections, reduced beam section (RBS or dogbone), end plate connections, and proprietary systems. For concrete: cast-in-place monolithic joints with continuous reinforcement through the joint. Each type has specific capacity and ductility characteristics. In Broward County, connections must meet AISC or ACI requirements for the calculated moment demand.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How is drift controlled in moment frames?</h3>
+                <p>Moment frames are inherently flexible and can experience significant lateral drift under wind load. Florida Building Code limits drift to H/400 for wind (where H is story height). Engineers increase member sizes, add stiffness through deeper beams, or use partial-height moment frames combined with other systems. Drift controls often govern member sizing rather than strength.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Calculate Your Frame Requirements</h2>
+                <p>WindLoad.co provides lateral load analysis for Broward County moment frame structures. Get the wind forces your structural engineer needs!</p>
+                <a href="https://windload.co" class="cta-button">Calculate Now</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>WindLoad.co - Professional Wind Load Calculations for Broward County</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/florida/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co/florida/">Florida</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 2.5 + 1,
+                color: Math.random() > 0.6 ? '#6366f1' : (Math.random() > 0.5 ? '#e91e8c' : '#00d4ff'),
+                alpha: Math.random() * 0.4 + 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.y > canvas.height) p.y = 0;
+                if (p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Scroll Reveal
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.scroll-reveal');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('revealed');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // Animate Values
+        function animateValue(id, start, end, duration) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.round(start + (end - start) * progress);
+                el.textContent = current;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        setTimeout(() => {
+            animateValue('moment-val', 0, 285, 1200);
+            animateValue('base-shear', 0, 42, 1000);
+        }, 500);
+    </script>
+</body>
+</html>

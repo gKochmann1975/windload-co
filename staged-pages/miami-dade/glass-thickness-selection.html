@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Glass Thickness Selection for Hurricane Windows | Miami-Dade HVHZ Guide</title>
+    <meta name="description" content="Calculate required glass thickness for hurricane windows in Miami-Dade County. Interactive tool shows how wind pressure, glass area, and support conditions determine minimum glass thickness for HVHZ compliance.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/glass-thickness-selection">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Glass Thickness Selection for Hurricane Windows | Miami-Dade">
+    <meta property="og:description" content="Calculate required glass thickness for hurricane windows. Interactive visualization of wind pressure vs. glass strength.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/glass-thickness-selection">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I determine glass thickness for hurricane windows?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Glass thickness for hurricane windows is determined by four main factors: design wind pressure (from ASCE 7 calculations), glass dimensions (width and height), support conditions (2-sided, 3-sided, or 4-sided), and glass type (annealed, heat-strengthened, or tempered). Use ASTM E1300 glass thickness charts with your specific parameters. In Miami-Dade HVHZ with 180 mph winds, typical residential windows require at least 1/4 inch laminated glass, often thicker."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the minimum glass thickness for Miami-Dade HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "There is no single minimum thickness - it depends on the window size and wind pressure. However, typical minimums for impact-resistant glazing in HVHZ are: 1/4 inch (6mm) laminated for small windows under 20 sq ft, 5/16 inch (8mm) laminated for medium windows 20-35 sq ft, and 3/8 inch (10mm) or thicker for larger windows. These are general guidelines - actual requirements must be calculated per ASTM E1300."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between annealed, heat-strengthened, and tempered glass?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Annealed glass is standard float glass with no additional treatment - it is the weakest and breaks into sharp shards. Heat-strengthened glass is about 2x stronger than annealed and breaks into larger pieces. Tempered glass is about 4x stronger than annealed and breaks into small, relatively safe pieces. For hurricane glazing, laminated combinations using heat-strengthened or tempered glass provide both strength and post-breakage integrity."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does glass area affect required thickness?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Larger glass areas require thicker glass because the unsupported span increases. When glass flexes under wind pressure, the center deflects the most. A 4x6 foot window will deflect much more than a 2x3 foot window under the same pressure, requiring thicker glass to stay within deflection limits and prevent breakage. Doubling the glass area often requires going up one thickness increment."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is laminated glass required for hurricane windows?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Laminated glass is required because it maintains integrity after breakage. The plastic interlayer (typically PVB or SGP) holds glass fragments together even when the glass cracks from debris impact. This prevents wind and rain from entering the building and maintains the building envelope. Miami-Dade requires laminated glass that passes large and small missile impact tests for HVHZ applications."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Glass Thickness Selection", "item": "https://windload.co/florida/miami-dade/glass-thickness-selection"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-green: #00ff88;
+            --glass-tint: rgba(135, 206, 250, 0.25);
+            --glass-edge: rgba(135, 206, 250, 0.6);
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Shattered Glass Particle Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; width: auto; }
+        .nav-logo span span { color: var(--accent-green); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--accent-green); }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+        }
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+        .breadcrumb a:hover { color: var(--accent-green); }
+        .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
+        .breadcrumb-current { color: #94a3b8; font-size: 0.875rem; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 255, 136, 0.15);
+            border: 1px solid rgba(0, 255, 136, 0.4);
+            color: var(--accent-green);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%);
+            color: var(--primary-dark);
+            box-shadow: 0 4px 25px rgba(0, 255, 136, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Glass Thickness Calculator */
+        .glass-calculator {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .calc-title {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--accent-green);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Glass Visualization */
+        .glass-visual {
+            position: relative;
+            height: 300px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .glass-panel-3d {
+            position: relative;
+            width: 180px;
+            height: 220px;
+            transform: perspective(800px) rotateY(-15deg) rotateX(5deg);
+            transform-style: preserve-3d;
+        }
+
+        .glass-face {
+            position: absolute;
+            background: var(--glass-tint);
+            border: 2px solid var(--glass-edge);
+            backdrop-filter: blur(2px);
+        }
+
+        .glass-front {
+            width: 100%;
+            height: 100%;
+            z-index: 2;
+        }
+
+        .glass-side {
+            width: var(--glass-thickness, 20px);
+            height: 100%;
+            right: calc(var(--glass-thickness, 20px) * -1 + 2px);
+            top: 0;
+            background: linear-gradient(90deg, rgba(135, 206, 250, 0.4), rgba(135, 206, 250, 0.2));
+            transform: rotateY(90deg);
+            transform-origin: left center;
+        }
+
+        .glass-layers {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+            padding: 4px;
+        }
+
+        .layer {
+            flex: 1;
+            border-radius: 2px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .layer-glass {
+            background: rgba(135, 206, 250, 0.3);
+            border: 1px solid rgba(135, 206, 250, 0.5);
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        .layer-interlayer {
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: rgba(255, 255, 255, 0.6);
+            flex: 0.3;
+        }
+
+        /* Thickness indicator */
+        .thickness-indicator {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .thickness-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--accent-green);
+            line-height: 1;
+        }
+
+        .thickness-unit {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        /* Pressure indicator */
+        .pressure-indicator {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+        }
+
+        .pressure-arrows {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .pressure-arrow {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            animation: pressurePush 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pressurePush {
+            0%, 100% { transform: translateX(0); opacity: 0.6; }
+            50% { transform: translateX(8px); opacity: 1; }
+        }
+
+        .arrow-line { width: 30px; height: 3px; background: var(--accent-cyan); }
+        .arrow-point {
+            width: 0; height: 0;
+            border-top: 6px solid transparent;
+            border-bottom: 6px solid transparent;
+            border-left: 10px solid var(--accent-cyan);
+        }
+
+        .pressure-text {
+            margin-top: 10px;
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+        }
+
+        /* Calculator Controls */
+        .calc-controls {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-group select,
+        .control-group input[type="number"] {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .control-group select:focus,
+        .control-group input:focus {
+            border-color: var(--accent-green);
+        }
+
+        .control-group select option { background: var(--primary-dark); }
+
+        /* Results Row */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-box {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid rgba(0, 255, 136, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .result-box.highlight {
+            background: rgba(0, 255, 136, 0.2);
+            border-color: var(--accent-green);
+        }
+
+        .result-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: var(--accent-green);
+        }
+
+        .result-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        /* Content Sections */
+        section { padding: 5rem 2rem; }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-header p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Glass Types Section */
+        .types-section {
+            background: linear-gradient(180deg, rgba(0, 255, 136, 0.05) 0%, transparent 100%);
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .type-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .type-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-green), var(--accent-cyan));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .type-card:hover {
+            border-color: rgba(0, 255, 136, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .type-card:hover::before { opacity: 1; }
+
+        .type-visual {
+            height: 100px;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .glass-block {
+            width: 80px;
+            height: 80px;
+            border: 3px solid var(--glass-edge);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .break-pattern {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+        }
+
+        .break-pattern.sharp {
+            background:
+                linear-gradient(45deg, transparent 45%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.3) 55%, transparent 55%),
+                linear-gradient(-45deg, transparent 45%, rgba(255,255,255,0.3) 45%, rgba(255,255,255,0.3) 55%, transparent 55%);
+        }
+
+        .break-pattern.medium {
+            background:
+                linear-gradient(30deg, transparent 40%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.2) 60%, transparent 60%),
+                linear-gradient(-60deg, transparent 40%, rgba(255,255,255,0.2) 40%, rgba(255,255,255,0.2) 60%, transparent 60%);
+        }
+
+        .break-pattern.dice {
+            background:
+                repeating-linear-gradient(0deg, transparent, transparent 8px, rgba(255,255,255,0.15) 8px, rgba(255,255,255,0.15) 9px),
+                repeating-linear-gradient(90deg, transparent, transparent 8px, rgba(255,255,255,0.15) 8px, rgba(255,255,255,0.15) 9px);
+        }
+
+        .type-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; }
+        .type-card p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem; }
+
+        .strength-meter {
+            display: flex;
+            gap: 4px;
+            justify-content: center;
+            margin-top: 1rem;
+        }
+
+        .strength-bar {
+            width: 20px;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .strength-bar.filled { background: var(--accent-green); }
+
+        /* Thickness Chart Section */
+        .chart-section { background: var(--primary-dark); }
+
+        .thickness-chart {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            overflow-x: auto;
+        }
+
+        .chart-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 700px;
+        }
+
+        .chart-table th,
+        .chart-table td {
+            padding: 1rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .chart-table th {
+            background: rgba(0, 255, 136, 0.1);
+            color: var(--accent-green);
+            font-weight: 700;
+        }
+
+        .chart-table tr:hover { background: rgba(0, 255, 136, 0.05); }
+
+        .thickness-cell {
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(0, 255, 136, 0.05) 100%);
+        }
+
+        .faq-list { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover { background: rgba(0, 255, 136, 0.05); }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--accent-green); transition: transform 0.3s ease; }
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+
+        /* CTA */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--accent-green) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+        }
+
+        .cta h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-dark); }
+        .cta p { font-size: 1.2rem; color: var(--primary-dark); opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta .btn-primary { background: var(--primary-dark); color: white; }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        footer a { color: var(--accent-green); text-decoration: none; }
+        footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .types-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+        }
+
+        @media (max-width: 968px) {
+            .hero-container { grid-template-columns: 1fr; gap: 3rem; }
+            .calc-controls { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav class="nav">
+            <a href="/" class="nav-logo">
+                <img src="/assets/windload.co_00ff88.svg" alt="">
+                <span>Wind<span>Load</span>.co</span>
+            </a>
+            <div class="nav-links">
+                <a href="/florida-pro.html">Florida</a>
+                <a href="/florida/miami-dade/">Miami-Dade</a>
+                <a href="/contractors.html">Contractors</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="/">Home</a><span>/</span>
+                <a href="/florida-pro.html">Florida</a><span>/</span>
+                <a href="/florida/miami-dade/">Miami-Dade</a><span>/</span>
+                <span class="breadcrumb-current">Glass Thickness Selection</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-text reveal">
+                    <div class="hero-badge">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        </svg>
+                        ASTM E1300 Glass Design
+                    </div>
+
+                    <h1>Sizing Glass: <span>Thickness Selection</span> for Hurricane Pressure</h1>
+
+                    <p class="hero-subtitle">
+                        Glass is the weak point of any window. Under hurricane wind pressure, it flexes like a drum skin. Too thin and it shatters. This tool helps you find the right thickness to resist Miami-Dade HVHZ wind loads.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=glass-miami" class="btn btn-primary">
+                            Calculate Wind Pressure
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="#types" class="btn btn-secondary">Glass Types Guide</a>
+                    </div>
+                </div>
+
+                <div class="glass-calculator reveal">
+                    <h2 class="calc-title">Glass Thickness Estimator</h2>
+
+                    <div class="glass-visual">
+                        <!-- Pressure arrows -->
+                        <div class="pressure-indicator">
+                            <div class="pressure-arrows">
+                                <div class="pressure-arrow" style="animation-delay: 0s">
+                                    <div class="arrow-line"></div>
+                                    <div class="arrow-point"></div>
+                                </div>
+                                <div class="pressure-arrow" style="animation-delay: 0.3s">
+                                    <div class="arrow-line"></div>
+                                    <div class="arrow-point"></div>
+                                </div>
+                                <div class="pressure-arrow" style="animation-delay: 0.6s">
+                                    <div class="arrow-line"></div>
+                                    <div class="arrow-point"></div>
+                                </div>
+                            </div>
+                            <div class="pressure-text" id="pressureText">75 PSF</div>
+                        </div>
+
+                        <!-- 3D Glass Panel -->
+                        <div class="glass-panel-3d" id="glassPanel">
+                            <div class="glass-face glass-front">
+                                <div class="glass-layers" id="glassLayers">
+                                    <div class="layer layer-glass">Glass</div>
+                                    <div class="layer layer-interlayer">PVB</div>
+                                    <div class="layer layer-glass">Glass</div>
+                                </div>
+                            </div>
+                            <div class="glass-face glass-side" id="glassSide"></div>
+                        </div>
+
+                        <!-- Thickness display -->
+                        <div class="thickness-indicator">
+                            <div class="thickness-value" id="thicknessValue">5/16"</div>
+                            <div class="thickness-unit">Total Thickness</div>
+                        </div>
+                    </div>
+
+                    <div class="calc-controls">
+                        <div class="control-group">
+                            <label>Window Width (inches)</label>
+                            <input type="number" id="glassWidth" value="36" min="12" max="96">
+                        </div>
+                        <div class="control-group">
+                            <label>Window Height (inches)</label>
+                            <input type="number" id="glassHeight" value="48" min="12" max="120">
+                        </div>
+                        <div class="control-group">
+                            <label>Design Wind Pressure (PSF)</label>
+                            <input type="number" id="windPressure" value="75" min="30" max="150">
+                        </div>
+                        <div class="control-group">
+                            <label>Glass Type</label>
+                            <select id="glassType">
+                                <option value="annealed">Annealed (1x)</option>
+                                <option value="heat-strengthened" selected>Heat-Strengthened (2x)</option>
+                                <option value="tempered">Tempered (4x)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-box highlight">
+                            <div class="result-value" id="resultThickness">5/16"</div>
+                            <div class="result-label">Min. Thickness</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultArea">12.0</div>
+                            <div class="result-label">Glass Area (sq ft)</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultLoad">900</div>
+                            <div class="result-label">Total Load (lbs)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="types-section" id="types">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Glass Types for Hurricane Windows</h2>
+                    <p>Understanding glass types helps you specify the right product for your wind load requirements.</p>
+                </div>
+
+                <div class="types-grid">
+                    <div class="type-card reveal">
+                        <div class="type-visual">
+                            <div class="glass-block">
+                                <div class="break-pattern sharp"></div>
+                            </div>
+                        </div>
+                        <h3>Annealed Glass</h3>
+                        <p>Standard float glass with no heat treatment. Weakest option, breaks into large sharp shards. Base strength reference (1x).</p>
+                        <div class="strength-meter">
+                            <div class="strength-bar filled"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="type-card reveal">
+                        <div class="type-visual">
+                            <div class="glass-block">
+                                <div class="break-pattern medium"></div>
+                            </div>
+                        </div>
+                        <h3>Heat-Strengthened</h3>
+                        <p>Heated then slowly cooled. About 2x stronger than annealed. Breaks into larger pieces than tempered. Good for laminated hurricane glass.</p>
+                        <div class="strength-meter">
+                            <div class="strength-bar filled"></div>
+                            <div class="strength-bar filled"></div>
+                            <div class="strength-bar"></div>
+                            <div class="strength-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="type-card reveal">
+                        <div class="type-visual">
+                            <div class="glass-block">
+                                <div class="break-pattern dice"></div>
+                            </div>
+                        </div>
+                        <h3>Tempered Glass</h3>
+                        <p>Rapidly cooled for 4x strength. Shatters into small cubes. Required for safety glazing locations. Often used in laminated assemblies.</p>
+                        <div class="strength-meter">
+                            <div class="strength-bar filled"></div>
+                            <div class="strength-bar filled"></div>
+                            <div class="strength-bar filled"></div>
+                            <div class="strength-bar filled"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="chart-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Quick Reference Thickness Chart</h2>
+                    <p>Approximate glass thickness for heat-strengthened laminated glass at various sizes and pressures. Always verify with ASTM E1300 calculations.</p>
+                </div>
+
+                <div class="thickness-chart reveal">
+                    <table class="chart-table">
+                        <thead>
+                            <tr>
+                                <th>Glass Size</th>
+                                <th>Area (sq ft)</th>
+                                <th>50 PSF</th>
+                                <th>75 PSF</th>
+                                <th>100 PSF</th>
+                                <th>120 PSF</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>24" x 36"</td>
+                                <td>6</td>
+                                <td class="thickness-cell">1/4"</td>
+                                <td class="thickness-cell">1/4"</td>
+                                <td class="thickness-cell">5/16"</td>
+                                <td class="thickness-cell">5/16"</td>
+                            </tr>
+                            <tr>
+                                <td>36" x 48"</td>
+                                <td>12</td>
+                                <td class="thickness-cell">1/4"</td>
+                                <td class="thickness-cell">5/16"</td>
+                                <td class="thickness-cell">3/8"</td>
+                                <td class="thickness-cell">3/8"</td>
+                            </tr>
+                            <tr>
+                                <td>48" x 60"</td>
+                                <td>20</td>
+                                <td class="thickness-cell">5/16"</td>
+                                <td class="thickness-cell">3/8"</td>
+                                <td class="thickness-cell">7/16"</td>
+                                <td class="thickness-cell">1/2"</td>
+                            </tr>
+                            <tr>
+                                <td>48" x 72"</td>
+                                <td>24</td>
+                                <td class="thickness-cell">3/8"</td>
+                                <td class="thickness-cell">7/16"</td>
+                                <td class="thickness-cell">1/2"</td>
+                                <td class="thickness-cell">9/16"</td>
+                            </tr>
+                            <tr>
+                                <td>60" x 84"</td>
+                                <td>35</td>
+                                <td class="thickness-cell">7/16"</td>
+                                <td class="thickness-cell">1/2"</td>
+                                <td class="thickness-cell">9/16"</td>
+                                <td class="thickness-cell">5/8"</td>
+                            </tr>
+                            <tr>
+                                <td>72" x 96"</td>
+                                <td>48</td>
+                                <td class="thickness-cell">1/2"</td>
+                                <td class="thickness-cell">9/16"</td>
+                                <td class="thickness-cell">5/8"</td>
+                                <td class="thickness-cell">3/4"</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Glass Thickness FAQs</h2>
+                    <p>Common questions about glass selection for hurricane windows</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item open">
+                        <div class="faq-question">How do I determine glass thickness for hurricane windows?</div>
+                        <div class="faq-answer">
+                            Glass thickness is determined by four main factors: design wind pressure (from ASCE 7 calculations), glass dimensions (width and height), support conditions (2-sided, 3-sided, or 4-sided), and glass type (annealed, heat-strengthened, or tempered). Use ASTM E1300 glass thickness charts with your specific parameters.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What is the minimum glass thickness for Miami-Dade HVHZ?</div>
+                        <div class="faq-answer">
+                            There is no single minimum - it depends on window size and wind pressure. Typical minimums for impact-resistant glazing: 1/4 inch laminated for small windows under 20 sq ft, 5/16 inch laminated for medium windows 20-35 sq ft, and 3/8 inch or thicker for larger windows.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What is the difference between annealed, heat-strengthened, and tempered glass?</div>
+                        <div class="faq-answer">
+                            Annealed glass is standard float glass - weakest, breaks into sharp shards. Heat-strengthened is about 2x stronger, breaks into larger pieces. Tempered is about 4x stronger, breaks into small safe cubes. For hurricane glazing, laminated combinations using heat-strengthened or tempered provide both strength and post-breakage integrity.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">How does glass area affect required thickness?</div>
+                        <div class="faq-answer">
+                            Larger glass areas require thicker glass because the unsupported span increases. When glass flexes under wind pressure, the center deflects the most. A 4x6 foot window will deflect much more than a 2x3 foot window under the same pressure, requiring thicker glass.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Why is laminated glass required for hurricane windows?</div>
+                        <div class="faq-answer">
+                            Laminated glass maintains integrity after breakage. The plastic interlayer (PVB or SGP) holds fragments together even when cracked from debris impact. This prevents wind and rain from entering and maintains the building envelope. Miami-Dade requires laminated glass that passes large and small missile impact tests.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta reveal">
+            <h2>Get Your Wind Load Calculations</h2>
+            <p>Know exact design pressures for your project. ASCE 7-22 compliant calculations for Miami-Dade HVHZ permit approval.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=glass-cta" class="btn btn-primary">
+                Calculate Now
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>
+                <a href="/florida/miami-dade/">Miami-Dade County</a> ·
+                <a href="/florida/miami-dade/hurricane-glass">Hurricane Glass</a> ·
+                <a href="/florida/miami-dade/impact-testing-standards">Impact Testing</a> ·
+                <a href="/florida-pro.html">All Florida</a>
+            </p>
+            <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com">Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Shattered Glass Particle Canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class GlassShard {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 15 + 5;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.speedY = Math.random() * 0.3 + 0.1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.sides = Math.floor(Math.random() * 3) + 3;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.rotation += this.rotationSpeed;
+                if (this.y > canvas.height + 20) {
+                    this.y = -20;
+                    this.x = Math.random() * canvas.width;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+
+                ctx.beginPath();
+                for (let i = 0; i < this.sides; i++) {
+                    const angle = (i / this.sides) * Math.PI * 2;
+                    const r = this.size * (0.7 + Math.random() * 0.3);
+                    const x = Math.cos(angle) * r;
+                    const y = Math.sin(angle) * r;
+                    if (i === 0) ctx.moveTo(x, y);
+                    else ctx.lineTo(x, y);
+                }
+                ctx.closePath();
+
+                ctx.fillStyle = 'rgba(135, 206, 250, 0.3)';
+                ctx.fill();
+                ctx.strokeStyle = 'rgba(135, 206, 250, 0.5)';
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        const shards = [];
+        for (let i = 0; i < 40; i++) {
+            shards.push(new GlassShard());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            shards.forEach(s => {
+                s.update();
+                s.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Glass Thickness Calculator
+        const widthInput = document.getElementById('glassWidth');
+        const heightInput = document.getElementById('glassHeight');
+        const pressureInput = document.getElementById('windPressure');
+        const glassTypeSelect = document.getElementById('glassType');
+
+        const pressureText = document.getElementById('pressureText');
+        const thicknessValue = document.getElementById('thicknessValue');
+        const resultThickness = document.getElementById('resultThickness');
+        const resultArea = document.getElementById('resultArea');
+        const resultLoad = document.getElementById('resultLoad');
+        const glassSide = document.getElementById('glassSide');
+
+        const thicknessMap = {
+            '1/4': 6, '5/16': 8, '3/8': 10, '7/16': 11, '1/2': 13, '9/16': 14, '5/8': 16, '3/4': 19
+        };
+
+        function calculateGlass() {
+            const width = parseFloat(widthInput.value);
+            const height = parseFloat(heightInput.value);
+            const pressure = parseFloat(pressureInput.value);
+            const glassType = glassTypeSelect.value;
+
+            // Update pressure display
+            pressureText.textContent = `${pressure} PSF`;
+
+            // Calculate area
+            const areaSqFt = (width * height) / 144;
+            resultArea.textContent = areaSqFt.toFixed(1);
+
+            // Calculate total load
+            const totalLoad = Math.round(areaSqFt * pressure);
+            resultLoad.textContent = totalLoad.toLocaleString();
+
+            // Determine thickness (simplified calculation)
+            let strengthFactor = 1;
+            if (glassType === 'heat-strengthened') strengthFactor = 2;
+            if (glassType === 'tempered') strengthFactor = 4;
+
+            // Base calculation
+            const span = Math.max(width, height);
+            const loadFactor = (pressure / 50) * (span / 36) / strengthFactor;
+
+            let thickness;
+            if (loadFactor < 0.8) thickness = '1/4';
+            else if (loadFactor < 1.2) thickness = '5/16';
+            else if (loadFactor < 1.6) thickness = '3/8';
+            else if (loadFactor < 2.0) thickness = '7/16';
+            else if (loadFactor < 2.5) thickness = '1/2';
+            else if (loadFactor < 3.0) thickness = '9/16';
+            else if (loadFactor < 3.5) thickness = '5/8';
+            else thickness = '3/4';
+
+            thicknessValue.textContent = thickness + '"';
+            resultThickness.textContent = thickness + '"';
+
+            // Update visual
+            const visualThickness = thicknessMap[thickness] || 8;
+            glassSide.style.setProperty('--glass-thickness', visualThickness + 'px');
+        }
+
+        widthInput.addEventListener('input', calculateGlass);
+        heightInput.addEventListener('input', calculateGlass);
+        pressureInput.addEventListener('input', calculateGlass);
+        glassTypeSelect.addEventListener('change', calculateGlass);
+        calculateGlass();
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

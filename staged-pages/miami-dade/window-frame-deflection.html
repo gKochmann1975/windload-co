@@ -1,0 +1,1166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Window Frame Deflection Limits | Miami-Dade HVHZ Hurricane Design</title>
+    <meta name="description" content="Understand window frame deflection limits for Miami-Dade HVHZ. Interactive visualization shows how frames flex under wind pressure and why L/175 deflection limits matter for glass and seal integrity.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/window-frame-deflection">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Window Frame Deflection Limits | Miami-Dade HVHZ">
+    <meta property="og:description" content="See how window frames flex under hurricane wind loads. Interactive deflection calculator for Miami-Dade compliance.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/window-frame-deflection">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the allowable deflection limit for window frames in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The standard deflection limit for window frames in Miami-Dade HVHZ is L/175, meaning the maximum deflection cannot exceed the frame span divided by 175. For a 60-inch tall window, the maximum allowable deflection is 60/175 = 0.34 inches. Some high-performance applications require L/240 or stricter limits to prevent glass edge stress and seal failures."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does frame deflection matter for hurricane windows?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Frame deflection matters because excessive flex creates several problems: Glass can pop out of the glazing channel, weatherstripping loses contact allowing water infiltration, glass edges experience stress concentrations leading to breakage, and the frame can permanently deform (yield). Controlling deflection keeps all window components working together under hurricane loads."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I calculate required frame moment of inertia?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Required moment of inertia depends on wind pressure, tributary width, span, and deflection limit. The formula is: I = (5 × w × L^4) / (384 × E × deflection), where w is load per inch, L is span, E is modulus of elasticity (10,000,000 psi for aluminum), and deflection is the allowable limit. For Miami-Dade HVHZ at 180 mph, larger sections are typically needed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What frame materials resist deflection best?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Steel frames offer the highest stiffness with a modulus of elasticity of 29,000,000 psi. Aluminum frames at 10,000,000 psi are the most common for hurricane windows due to corrosion resistance and strength-to-weight ratio. Vinyl frames are the most flexible at about 400,000 psi, requiring steel reinforcement for hurricane zones. Fiberglass falls between aluminum and vinyl."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can window frames be reinforced to reduce deflection?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, window frames can be reinforced several ways: Steel reinforcement tubes inside vinyl or aluminum profiles, thicker wall sections in the extrusion, wider frame profiles with greater moment of inertia, and steel subsills or support angles attached to the structure. Reinforcement is common in Miami-Dade HVHZ where standard profiles cannot meet deflection limits."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Window Frame Deflection", "item": "https://windload.co/florida/miami-dade/window-frame-deflection"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-orange: #ff6b35;
+            --accent-yellow: #ffc107;
+            --frame-color: #7c8594;
+            --glass-color: rgba(135, 206, 250, 0.3);
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Grid Particle Canvas - Engineering Theme */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; width: auto; }
+        .nav-logo span span { color: var(--accent-magenta); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--accent-magenta); }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+        }
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+        .breadcrumb a:hover { color: var(--accent-magenta); }
+        .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
+        .breadcrumb-current { color: #94a3b8; font-size: 0.875rem; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(233, 30, 140, 0.15);
+            border: 1px solid rgba(233, 30, 140, 0.4);
+            color: var(--accent-magenta);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 3.5rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-orange) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-orange) 100%);
+            color: white;
+            box-shadow: 0 4px 25px rgba(233, 30, 140, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(233, 30, 140, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Deflection Animation Container */
+        .deflection-animation {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .animation-title {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--accent-magenta);
+            margin-bottom: 1.5rem;
+        }
+
+        .deflection-visual {
+            position: relative;
+            height: 350px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .window-frame-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 280px;
+        }
+
+        /* Window Frame */
+        .frame-outer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border: 12px solid var(--frame-color);
+            border-radius: 4px;
+            transition: all 0.3s ease;
+        }
+
+        .frame-outer.deflecting {
+            animation: frameDeflect 2s ease-in-out infinite;
+        }
+
+        @keyframes frameDeflect {
+            0%, 100% {
+                border-left-width: 12px;
+                border-right-width: 12px;
+                transform: scaleX(1);
+            }
+            50% {
+                border-left-width: 10px;
+                border-right-width: 14px;
+                transform: scaleX(0.98) perspective(500px) rotateY(2deg);
+            }
+        }
+
+        .glass-panel {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            right: 12px;
+            bottom: 12px;
+            background: var(--glass-color);
+            border: 2px solid rgba(135, 206, 250, 0.5);
+        }
+
+        /* Deflection indicator */
+        .deflection-indicator {
+            position: absolute;
+            right: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .deflection-line {
+            width: 60px;
+            height: 2px;
+            background: var(--accent-orange);
+            position: relative;
+        }
+
+        .deflection-line::before,
+        .deflection-line::after {
+            content: '';
+            position: absolute;
+            width: 2px;
+            height: 10px;
+            background: var(--accent-orange);
+        }
+
+        .deflection-line::before { left: 0; top: -4px; }
+        .deflection-line::after { right: 0; top: -4px; }
+
+        .deflection-value {
+            margin-top: 8px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: var(--accent-orange);
+        }
+
+        /* Wind pressure arrows */
+        .wind-arrows {
+            position: absolute;
+            left: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .wind-arrow {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            animation: windPush 1s ease-in-out infinite;
+        }
+
+        @keyframes windPush {
+            0%, 100% { transform: translateX(0); opacity: 0.7; }
+            50% { transform: translateX(10px); opacity: 1; }
+        }
+
+        .arrow-line {
+            width: 40px;
+            height: 3px;
+            background: var(--accent-cyan);
+        }
+
+        .arrow-head {
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 12px solid var(--accent-cyan);
+        }
+
+        /* Pressure display */
+        .pressure-display {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 12px 16px;
+            border-radius: 10px;
+            border: 1px solid var(--accent-cyan);
+        }
+
+        .pressure-label { font-size: 0.75rem; color: var(--text-muted); }
+        .pressure-value { font-size: 1.5rem; font-weight: 800; color: var(--accent-cyan); }
+
+        /* Span display */
+        .span-display {
+            position: absolute;
+            right: 20px;
+            bottom: 20px;
+            text-align: right;
+        }
+
+        .span-label { font-size: 0.75rem; color: var(--text-muted); }
+        .span-value { font-size: 1.2rem; font-weight: 700; color: var(--accent-magenta); }
+
+        /* Controls */
+        .deflection-controls {
+            margin-top: 1.5rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(233, 30, 140, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .control-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-orange));
+            cursor: pointer;
+        }
+
+        .control-value {
+            text-align: right;
+            font-weight: 700;
+            color: var(--accent-magenta);
+            margin-top: 0.25rem;
+        }
+
+        /* Results Display */
+        .results-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-card {
+            background: rgba(233, 30, 140, 0.1);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .result-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .result-card.warning .result-value { color: var(--accent-orange); }
+        .result-card.danger .result-value { color: #ef4444; }
+        .result-card.success .result-value { color: #10b981; }
+
+        /* Content Sections */
+        section { padding: 5rem 2rem; }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-header p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Deflection Limits Table */
+        .limits-section {
+            background: linear-gradient(180deg, rgba(233, 30, 140, 0.05) 0%, transparent 100%);
+        }
+
+        .limits-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .limits-table th,
+        .limits-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .limits-table th {
+            background: rgba(233, 30, 140, 0.2);
+            font-weight: 700;
+            color: var(--accent-magenta);
+        }
+
+        .limits-table tr:hover {
+            background: rgba(233, 30, 140, 0.05);
+        }
+
+        .limits-table td:nth-child(2) {
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        /* Material Comparison */
+        .materials-section { background: var(--primary-dark); }
+
+        .materials-comparison {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .material-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .material-card:hover {
+            border-color: rgba(233, 30, 140, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .material-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(233, 30, 140, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+        }
+
+        .material-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+        .material-card p { color: #94a3b8; font-size: 0.85rem; margin-bottom: 1rem; }
+
+        .stiffness-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+            margin-top: 0.5rem;
+        }
+
+        .stiffness-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--accent-magenta), var(--accent-orange));
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .stiffness-value {
+            font-size: 0.8rem;
+            color: var(--accent-cyan);
+            margin-top: 0.5rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(233, 30, 140, 0.05) 100%);
+        }
+
+        .faq-list { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover { background: rgba(233, 30, 140, 0.05); }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--accent-magenta); transition: transform 0.3s ease; }
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+
+        /* CTA */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--accent-orange) 100%);
+            text-align: center;
+        }
+
+        .cta h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta .btn-primary { background: white; color: var(--accent-magenta); }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+        }
+
+        footer a { color: var(--accent-magenta); text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 1100px) {
+            .materials-comparison { grid-template-columns: repeat(2, 1fr); }
+            .results-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 968px) {
+            .hero-container { grid-template-columns: 1fr; gap: 3rem; }
+            .deflection-controls { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .materials-comparison { grid-template-columns: 1fr; max-width: 300px; margin: 0 auto; }
+            .results-row { grid-template-columns: 1fr; }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav class="nav">
+            <a href="/" class="nav-logo">
+                <img src="/assets/windload.co_e91e8c.svg" alt="">
+                <span>Wind<span>Load</span>.co</span>
+            </a>
+            <div class="nav-links">
+                <a href="/florida-pro.html">Florida</a>
+                <a href="/florida/miami-dade/">Miami-Dade</a>
+                <a href="/contractors.html">Contractors</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="/">Home</a><span>/</span>
+                <a href="/florida-pro.html">Florida</a><span>/</span>
+                <a href="/florida/miami-dade/">Miami-Dade</a><span>/</span>
+                <span class="breadcrumb-current">Window Frame Deflection</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-text reveal">
+                    <div class="hero-badge">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 4h16v16H4z"/><path d="M4 12h16"/>
+                        </svg>
+                        Structural Frame Engineering
+                    </div>
+
+                    <h1>Frame Flex: <span>Deflection Limits</span> Under Hurricane Wind</h1>
+
+                    <p class="hero-subtitle">
+                        Your window frame is not rigid. Under 180 mph wind pressure, it bends inward like a drumhead. Too much flex and the glass pops out, seals fail, and water pours in. Deflection limits keep everything working together.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=deflection-miami" class="btn btn-primary">
+                            Calculate Frame Loads
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="#limits" class="btn btn-secondary">View Deflection Limits</a>
+                    </div>
+                </div>
+
+                <div class="deflection-animation reveal">
+                    <h2 class="animation-title">Interactive Deflection Simulator</h2>
+
+                    <div class="deflection-visual">
+                        <!-- Wind pressure display -->
+                        <div class="pressure-display">
+                            <div class="pressure-label">Wind Pressure</div>
+                            <div class="pressure-value" id="pressureValue">75 PSF</div>
+                        </div>
+
+                        <!-- Wind arrows -->
+                        <div class="wind-arrows">
+                            <div class="wind-arrow" style="animation-delay: 0s">
+                                <div class="arrow-line"></div>
+                                <div class="arrow-head"></div>
+                            </div>
+                            <div class="wind-arrow" style="animation-delay: 0.2s">
+                                <div class="arrow-line"></div>
+                                <div class="arrow-head"></div>
+                            </div>
+                            <div class="wind-arrow" style="animation-delay: 0.4s">
+                                <div class="arrow-line"></div>
+                                <div class="arrow-head"></div>
+                            </div>
+                            <div class="wind-arrow" style="animation-delay: 0.6s">
+                                <div class="arrow-line"></div>
+                                <div class="arrow-head"></div>
+                            </div>
+                        </div>
+
+                        <!-- Window frame visualization -->
+                        <div class="window-frame-container">
+                            <div class="frame-outer deflecting" id="frameOuter"></div>
+                            <div class="glass-panel"></div>
+
+                            <div class="deflection-indicator">
+                                <div class="deflection-line"></div>
+                                <div class="deflection-value" id="deflectionValue">0.34"</div>
+                            </div>
+                        </div>
+
+                        <!-- Span display -->
+                        <div class="span-display">
+                            <div class="span-label">Frame Span</div>
+                            <div class="span-value" id="spanValue">60 inches</div>
+                        </div>
+                    </div>
+
+                    <div class="deflection-controls">
+                        <div class="control-group">
+                            <label>Wind Pressure (PSF)</label>
+                            <input type="range" id="pressureSlider" min="30" max="120" value="75">
+                            <div class="control-value" id="pressureControl">75 PSF</div>
+                        </div>
+                        <div class="control-group">
+                            <label>Frame Span (inches)</label>
+                            <input type="range" id="spanSlider" min="24" max="96" value="60">
+                            <div class="control-value" id="spanControl">60 inches</div>
+                        </div>
+                    </div>
+
+                    <div class="results-row">
+                        <div class="result-card" id="actualCard">
+                            <div class="result-value" id="actualDeflection">0.34"</div>
+                            <div class="result-label">Actual Deflection</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="allowableDeflection">0.34"</div>
+                            <div class="result-label">Allowable (L/175)</div>
+                        </div>
+                        <div class="result-card">
+                            <div class="result-value" id="utilizationRatio">100%</div>
+                            <div class="result-label">Utilization</div>
+                        </div>
+                        <div class="result-card" id="statusCard">
+                            <div class="result-value" id="statusResult">OK</div>
+                            <div class="result-label">Status</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="limits-section" id="limits">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Standard Deflection Limits</h2>
+                    <p>Different applications require different deflection limits. Stricter limits protect glass edges and maintain seal integrity.</p>
+                </div>
+
+                <table class="limits-table reveal">
+                    <thead>
+                        <tr>
+                            <th>Application</th>
+                            <th>Deflection Limit</th>
+                            <th>60" Span Max Deflection</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Standard Windows</td>
+                            <td>L/175</td>
+                            <td>0.343"</td>
+                            <td>Most residential and commercial applications</td>
+                        </tr>
+                        <tr>
+                            <td>Insulated Glass</td>
+                            <td>L/175</td>
+                            <td>0.343"</td>
+                            <td>Protects IGU seal at edges</td>
+                        </tr>
+                        <tr>
+                            <td>High-Performance</td>
+                            <td>L/240</td>
+                            <td>0.250"</td>
+                            <td>Reduced glass edge stress</td>
+                        </tr>
+                        <tr>
+                            <td>Curtain Wall</td>
+                            <td>L/175 to L/360</td>
+                            <td>0.167" - 0.343"</td>
+                            <td>Varies by glazing system</td>
+                        </tr>
+                        <tr>
+                            <td>Structural Glazing</td>
+                            <td>L/360</td>
+                            <td>0.167"</td>
+                            <td>Silicone joint integrity</td>
+                        </tr>
+                        <tr>
+                            <td>Laminated Glass</td>
+                            <td>L/175</td>
+                            <td>0.343"</td>
+                            <td>Prevents interlayer stress</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section class="materials-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Frame Material Stiffness Comparison</h2>
+                    <p>Material choice directly affects how much your frame will deflect under the same wind load.</p>
+                </div>
+
+                <div class="materials-comparison">
+                    <div class="material-card reveal">
+                        <div class="material-icon">Fe</div>
+                        <h3>Steel</h3>
+                        <p>Highest stiffness, best for large spans</p>
+                        <div class="stiffness-bar">
+                            <div class="stiffness-fill" style="width: 100%"></div>
+                        </div>
+                        <div class="stiffness-value">E = 29,000,000 psi</div>
+                    </div>
+
+                    <div class="material-card reveal">
+                        <div class="material-icon">Al</div>
+                        <h3>Aluminum</h3>
+                        <p>Most common for hurricane windows</p>
+                        <div class="stiffness-bar">
+                            <div class="stiffness-fill" style="width: 34%"></div>
+                        </div>
+                        <div class="stiffness-value">E = 10,000,000 psi</div>
+                    </div>
+
+                    <div class="material-card reveal">
+                        <div class="material-icon">Fg</div>
+                        <h3>Fiberglass</h3>
+                        <p>Good thermal performance</p>
+                        <div class="stiffness-bar">
+                            <div class="stiffness-fill" style="width: 10%"></div>
+                        </div>
+                        <div class="stiffness-value">E = 3,000,000 psi</div>
+                    </div>
+
+                    <div class="material-card reveal">
+                        <div class="material-icon">PVC</div>
+                        <h3>Vinyl</h3>
+                        <p>Requires steel reinforcement in HVHZ</p>
+                        <div class="stiffness-bar">
+                            <div class="stiffness-fill" style="width: 1.4%"></div>
+                        </div>
+                        <div class="stiffness-value">E = 400,000 psi</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Frame Deflection FAQs</h2>
+                    <p>Common questions about window frame deflection in hurricane zones</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item open">
+                        <div class="faq-question">What is the allowable deflection limit for window frames in Miami-Dade?</div>
+                        <div class="faq-answer">
+                            The standard deflection limit for window frames in Miami-Dade HVHZ is L/175, meaning the maximum deflection cannot exceed the frame span divided by 175. For a 60-inch tall window, the maximum allowable deflection is 60/175 = 0.34 inches. Some high-performance applications require L/240 or stricter limits.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Why does frame deflection matter for hurricane windows?</div>
+                        <div class="faq-answer">
+                            Frame deflection matters because excessive flex creates several problems: Glass can pop out of the glazing channel, weatherstripping loses contact allowing water infiltration, glass edges experience stress concentrations leading to breakage, and the frame can permanently deform. Controlling deflection keeps all window components working together.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">How do I calculate required frame moment of inertia?</div>
+                        <div class="faq-answer">
+                            Required moment of inertia depends on wind pressure, tributary width, span, and deflection limit. The formula is: I = (5 x w x L^4) / (384 x E x deflection), where w is load per inch, L is span, E is modulus of elasticity, and deflection is the allowable limit. For Miami-Dade HVHZ at 180 mph, larger sections are typically needed.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What frame materials resist deflection best?</div>
+                        <div class="faq-answer">
+                            Steel frames offer the highest stiffness with a modulus of 29,000,000 psi. Aluminum at 10,000,000 psi is most common for hurricane windows. Vinyl frames are the most flexible at about 400,000 psi, requiring steel reinforcement for hurricane zones. Fiberglass falls between aluminum and vinyl.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Can window frames be reinforced to reduce deflection?</div>
+                        <div class="faq-answer">
+                            Yes, frames can be reinforced several ways: Steel reinforcement tubes inside vinyl or aluminum profiles, thicker wall sections in the extrusion, wider frame profiles with greater moment of inertia, and steel subsills or support angles attached to the structure. Reinforcement is common in HVHZ where standard profiles cannot meet limits.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta reveal">
+            <h2>Calculate Your Window Frame Requirements</h2>
+            <p>Get precise wind load calculations for your window specifications. ASCE 7-22 compliant results for Miami-Dade permit approval.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=deflection-cta" class="btn btn-primary">
+                Start Calculating
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>
+                <a href="/florida/miami-dade/">Miami-Dade County</a> ·
+                <a href="/florida/miami-dade/hurricane-glass">Hurricane Glass</a> ·
+                <a href="/florida/miami-dade/curtain-wall">Curtain Wall</a> ·
+                <a href="/florida-pro.html">All Florida</a>
+            </p>
+            <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com">Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Grid Particle Canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Draw engineering grid
+        function drawGrid() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(233, 30, 140, 0.1)';
+            ctx.lineWidth = 1;
+
+            const gridSize = 50;
+
+            for (let x = 0; x <= canvas.width; x += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, canvas.height);
+                ctx.stroke();
+            }
+
+            for (let y = 0; y <= canvas.height; y += gridSize) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(canvas.width, y);
+                ctx.stroke();
+            }
+
+            requestAnimationFrame(drawGrid);
+        }
+        drawGrid();
+
+        // Deflection Calculator
+        const pressureSlider = document.getElementById('pressureSlider');
+        const spanSlider = document.getElementById('spanSlider');
+        const pressureValue = document.getElementById('pressureValue');
+        const pressureControl = document.getElementById('pressureControl');
+        const spanValue = document.getElementById('spanValue');
+        const spanControl = document.getElementById('spanControl');
+        const deflectionValue = document.getElementById('deflectionValue');
+        const actualDeflection = document.getElementById('actualDeflection');
+        const allowableDeflection = document.getElementById('allowableDeflection');
+        const utilizationRatio = document.getElementById('utilizationRatio');
+        const statusResult = document.getElementById('statusResult');
+        const actualCard = document.getElementById('actualCard');
+        const statusCard = document.getElementById('statusCard');
+        const frameOuter = document.getElementById('frameOuter');
+
+        function calculateDeflection() {
+            const pressure = parseFloat(pressureSlider.value);
+            const span = parseFloat(spanSlider.value);
+
+            // Update displays
+            pressureValue.textContent = `${pressure} PSF`;
+            pressureControl.textContent = `${pressure} PSF`;
+            spanValue.textContent = `${span} inches`;
+            spanControl.textContent = `${span} inches`;
+
+            // Calculate allowable deflection (L/175)
+            const allowable = span / 175;
+
+            // Calculate actual deflection (simplified)
+            // Using typical aluminum frame with standard moment of inertia
+            const w = pressure / 12; // load per inch
+            const L = span;
+            const E = 10000000; // Aluminum
+            const I = 1.5; // Typical moment of inertia
+            const actual = (5 * w * Math.pow(L, 4)) / (384 * E * I);
+
+            // Calculate utilization
+            const utilization = (actual / allowable) * 100;
+
+            // Update results
+            deflectionValue.textContent = `${actual.toFixed(2)}"`;
+            actualDeflection.textContent = `${actual.toFixed(2)}"`;
+            allowableDeflection.textContent = `${allowable.toFixed(2)}"`;
+            utilizationRatio.textContent = `${Math.round(utilization)}%`;
+
+            // Update status
+            actualCard.classList.remove('success', 'warning', 'danger');
+            statusCard.classList.remove('success', 'warning', 'danger');
+
+            if (utilization <= 80) {
+                statusResult.textContent = 'OK';
+                statusCard.classList.add('success');
+                actualCard.classList.add('success');
+            } else if (utilization <= 100) {
+                statusResult.textContent = 'Marginal';
+                statusCard.classList.add('warning');
+                actualCard.classList.add('warning');
+            } else {
+                statusResult.textContent = 'FAIL';
+                statusCard.classList.add('danger');
+                actualCard.classList.add('danger');
+            }
+
+            // Adjust animation speed based on pressure
+            const animDuration = 3 - (pressure / 60);
+            frameOuter.style.animationDuration = `${animDuration}s`;
+        }
+
+        pressureSlider.addEventListener('input', calculateDeflection);
+        spanSlider.addEventListener('input', calculateDeflection);
+        calculateDeflection();
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        window.addEventListener('load', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>

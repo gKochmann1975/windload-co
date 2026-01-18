@@ -1,0 +1,1297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skylight Curb Wind Load Design | Miami-Dade HVHZ Curb Mounted Skylights</title>
+    <meta name="description" content="Calculate skylight curb wind loads for Miami-Dade HVHZ. Interactive diagram shows pressure distribution on curb-mounted skylights. Learn uplift requirements, fastener patterns, and NOA specifications.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/skylight-curb-design">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Skylight Curb Wind Load Design | Miami-Dade HVHZ">
+    <meta property="og:description" content="Interactive pressure distribution visualization for curb-mounted skylights. Calculate wind loads for Miami-Dade hurricane zones.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/skylight-curb-design">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads do skylight curbs experience in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Skylight curbs in Miami-Dade HVHZ experience severe uplift loads. The glazing sees positive pressure from below and negative pressure from above, creating a net uplift. At roof corners (Zone 3), a 4x4 foot skylight might see uplift pressures of 100-140 psf, requiring heavy-duty curb construction and anchoring."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do skylights need Miami-Dade NOA approval?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. All skylights and skylight curbs installed in Miami-Dade HVHZ must have a valid NOA (Notice of Acceptance). The NOA covers the complete assembly including the curb, glazing, frame, and fasteners. It specifies the maximum wind speed rating and installation requirements for each roof zone."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do you anchor a skylight curb to the roof structure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Skylight curbs are anchored through the roof deck into the structure below. For wood framing, lag screws into blocking or framing at maximum 12 inch spacing. For steel decks, self-drilling screws or welded clips. For concrete, expansion or adhesive anchors. The curb must have continuous support around its perimeter."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between curb-mounted and deck-mounted skylights?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Curb-mounted skylights sit on a raised curb that projects above the roof surface, typically 4-12 inches high. Deck-mounted skylights sit directly on the roof deck with integral curbing. In hurricane zones, curb-mounted skylights are generally preferred because the curb provides better structural support and easier waterproofing."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do skylights fail during hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Skylights fail during hurricanes from: glazing breakage from debris impact or excessive pressure, curb separation from inadequate anchoring, frame failure from wind pressure, and flashing failure leading to water intrusion. Impact-rated glazing and properly engineered curbs are essential in Miami-Dade."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Skylight Curb Design", "item": "https://windload.co/florida/miami-dade/skylight-curb-design"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-blue: #4a90d9;
+            --accent-violet: #8b5cf6;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent-violet); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-magenta));
+            color: white !important;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .breadcrumb {
+            padding: 1rem 5%;
+            margin-top: 70px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span { color: var(--text-muted); }
+
+        .hero {
+            padding: 60px 5% 40px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(139, 92, 246, 0.15);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--accent-violet);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-violet));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Skylight Visualization */
+        .visualization-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .skylight-stage {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.9));
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            color: var(--accent-violet);
+        }
+
+        .pressure-toggle {
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .toggle-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .toggle-btn:hover { color: var(--text-light); }
+
+        .toggle-btn.active {
+            background: var(--accent-violet);
+            color: white;
+        }
+
+        .skylight-canvas {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(180deg, #1a1a3a 0%, #0d0d1a 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Cross-Section View */
+        .cross-section {
+            position: absolute;
+            left: 50%;
+            top: 55%;
+            transform: translate(-50%, -50%);
+        }
+
+        /* Roof deck */
+        .roof-deck {
+            position: absolute;
+            width: 500px;
+            height: 25px;
+            background: linear-gradient(180deg, #4a4a4a, #333);
+            border-top: 3px solid #666;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 200px;
+        }
+
+        /* Skylight Curb */
+        .skylight-curb {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: 130px;
+        }
+
+        .curb-side {
+            position: absolute;
+            width: 20px;
+            height: 75px;
+            background: linear-gradient(90deg, #888, #aaa, #888);
+            border: 2px solid #666;
+        }
+
+        .curb-left { left: 0; }
+        .curb-right { right: 0; left: auto; }
+
+        .curb-frame {
+            position: absolute;
+            top: -10px;
+            left: -5px;
+            right: -5px;
+            height: 15px;
+            background: linear-gradient(180deg, #444, #333);
+            border: 2px solid #555;
+            border-radius: 3px;
+        }
+
+        /* Glazing */
+        .glazing {
+            position: absolute;
+            left: 20px;
+            right: 20px;
+            top: 0;
+            height: 8px;
+            background: linear-gradient(180deg,
+                rgba(135, 206, 235, 0.9),
+                rgba(100, 180, 220, 0.7),
+                rgba(135, 206, 235, 0.9)
+            );
+            border: 2px solid rgba(200, 230, 255, 0.8);
+            border-radius: 2px;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 0.3);
+        }
+
+        /* Pressure Arrows */
+        .pressure-arrow {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .pressure-arrow.visible { opacity: 1; }
+
+        .pressure-arrow.up .arrow-body {
+            background: linear-gradient(180deg, var(--accent-cyan), transparent);
+        }
+
+        .pressure-arrow.down .arrow-body {
+            background: linear-gradient(180deg, transparent, var(--accent-magenta));
+        }
+
+        .arrow-body {
+            width: 4px;
+            height: 50px;
+        }
+
+        .arrow-head-up {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid var(--accent-cyan);
+        }
+
+        .arrow-head-down {
+            width: 0;
+            height: 0;
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid var(--accent-magenta);
+        }
+
+        .pressure-value {
+            position: absolute;
+            font-size: 0.85rem;
+            font-weight: 700;
+            white-space: nowrap;
+            padding: 3px 8px;
+            border-radius: 4px;
+            background: rgba(0, 0, 0, 0.6);
+        }
+
+        .pressure-value.negative { color: var(--accent-cyan); top: -25px; }
+        .pressure-value.positive { color: var(--accent-magenta); bottom: -25px; }
+
+        /* Fastener Points */
+        .fastener {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: var(--accent-violet);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--accent-violet);
+        }
+
+        /* Net Pressure Display */
+        .net-pressure-display {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(139, 92, 246, 0.4);
+            border-radius: 16px;
+            padding: 25px;
+            min-width: 200px;
+        }
+
+        .net-title {
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+        }
+
+        .pressure-breakdown {
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .pressure-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+
+        .pressure-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .pressure-val {
+            font-weight: 700;
+        }
+
+        .pressure-val.neg { color: var(--accent-cyan); }
+        .pressure-val.pos { color: var(--accent-magenta); }
+        .pressure-val.net { color: var(--accent-violet); font-size: 1.3rem; }
+
+        /* Zone Indicator */
+        .zone-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 12px;
+            padding: 15px 20px;
+        }
+
+        .zone-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        .zone-selector {
+            display: flex;
+            gap: 8px;
+        }
+
+        .zone-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: 2px solid rgba(139, 92, 246, 0.3);
+            color: var(--text-light);
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+
+        .zone-btn:hover { border-color: var(--accent-violet); }
+
+        .zone-btn.active {
+            background: var(--accent-violet);
+            border-color: var(--accent-violet);
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 14px 28px;
+            background: rgba(139, 92, 246, 0.15);
+            border: 2px solid rgba(139, 92, 246, 0.4);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(139, 92, 246, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: var(--accent-violet);
+            border-color: var(--accent-violet);
+        }
+
+        /* CTA */
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-magenta));
+            color: white;
+            box-shadow: 0 8px 30px rgba(139, 92, 246, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(139, 92, 246, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Content Sections */
+        section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span { color: var(--accent-violet); }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Curb Types */
+        .curb-types-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .curb-type-card {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(139, 92, 246, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .curb-type-card:hover {
+            border-color: var(--accent-violet);
+            transform: translateY(-5px);
+        }
+
+        .curb-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(139, 92, 246, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .curb-type-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-violet);
+        }
+
+        .curb-type-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .curb-specs {
+            font-size: 0.85rem;
+            color: var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.1);
+            padding: 8px 15px;
+            border-radius: 20px;
+            display: inline-block;
+        }
+
+        /* Requirements Table */
+        .requirements-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .requirements-table th,
+        .requirements-table td {
+            padding: 15px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(139, 92, 246, 0.2);
+        }
+
+        .requirements-table th {
+            background: rgba(139, 92, 246, 0.15);
+            color: var(--accent-violet);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+        }
+
+        .requirements-table td {
+            color: var(--text-muted);
+        }
+
+        .requirements-table tr:hover td {
+            background: rgba(139, 92, 246, 0.05);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(180deg, transparent, rgba(139, 92, 246, 0.05));
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(139, 92, 246, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: var(--text-light);
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(139, 92, 246, 0.1);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-violet);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.open .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-violet), var(--accent-magenta));
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 40px 5%;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section .btn-primary {
+            background: white;
+            color: var(--accent-violet);
+        }
+
+        /* Footer */
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(139, 92, 246, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .curb-types-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .net-pressure-display,
+            .zone-indicator {
+                position: static;
+                margin: 1rem 0;
+            }
+
+            .skylight-canvas {
+                height: auto;
+                min-height: 450px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="/" class="logo">WindLoad.co</a>
+            <nav class="nav-links">
+                <a href="/florida-pro">Florida</a>
+                <a href="/florida/miami-dade/">Miami-Dade</a>
+                <a href="/architects">Architects</a>
+                <a href="https://windloadcalc.com" class="nav-cta">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/florida-pro">Florida</a> <span>/</span>
+            <a href="/florida/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Skylight Curb Design</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/>
+                    <line x1="12" y1="22" x2="12" y2="15.5"/>
+                    <polyline points="22 8.5 12 15.5 2 8.5"/>
+                </svg>
+                Curb-Mounted Skylight Engineering
+            </div>
+
+            <h1>Skylight Curb <span>Wind Load Design</span></h1>
+
+            <p class="subtitle">
+                See how wind creates competing pressures above and below your skylight glazing. The net uplift determines curb strength and anchor requirements for Miami-Dade HVHZ compliance.
+            </p>
+        </section>
+
+        <div class="visualization-container">
+            <div class="skylight-stage reveal">
+                <div class="stage-header">
+                    <div class="stage-title">Pressure Distribution - Cross Section View</div>
+                    <div class="pressure-toggle">
+                        <button class="toggle-btn active" data-view="pressure">Pressure View</button>
+                        <button class="toggle-btn" data-view="section">Section Detail</button>
+                    </div>
+                </div>
+
+                <div class="skylight-canvas" id="skylightCanvas">
+                    <!-- Roof Deck -->
+                    <div class="roof-deck"></div>
+
+                    <!-- Skylight Curb Assembly -->
+                    <div class="skylight-curb" id="skylightCurb" style="width: 200px;">
+                        <div class="curb-side curb-left"></div>
+                        <div class="curb-side curb-right"></div>
+                        <div class="curb-frame"></div>
+                        <div class="glazing"></div>
+
+                        <!-- Fasteners -->
+                        <div class="fastener" style="bottom: 65px; left: -4px;"></div>
+                        <div class="fastener" style="bottom: 35px; left: -4px;"></div>
+                        <div class="fastener" style="bottom: 65px; right: -4px;"></div>
+                        <div class="fastener" style="bottom: 35px; right: -4px;"></div>
+                    </div>
+
+                    <!-- Pressure Arrows - Negative (uplift/suction) -->
+                    <div class="pressure-arrow up" id="negArrow1" style="left: 38%; top: 8%;">
+                        <div class="pressure-value negative" id="negVal1">-95 psf</div>
+                        <div class="arrow-head-up"></div>
+                        <div class="arrow-body"></div>
+                    </div>
+                    <div class="pressure-arrow up" id="negArrow2" style="left: 50%; top: 8%;">
+                        <div class="pressure-value negative" id="negVal2">-95 psf</div>
+                        <div class="arrow-head-up"></div>
+                        <div class="arrow-body"></div>
+                    </div>
+                    <div class="pressure-arrow up" id="negArrow3" style="left: 62%; top: 8%;">
+                        <div class="pressure-value negative" id="negVal3">-95 psf</div>
+                        <div class="arrow-head-up"></div>
+                        <div class="arrow-body"></div>
+                    </div>
+
+                    <!-- Pressure Arrows - Positive (from below) -->
+                    <div class="pressure-arrow down" id="posArrow1" style="left: 44%; top: 58%;">
+                        <div class="arrow-body"></div>
+                        <div class="arrow-head-down"></div>
+                        <div class="pressure-value positive" id="posVal1">+18 psf</div>
+                    </div>
+                    <div class="pressure-arrow down" id="posArrow2" style="left: 56%; top: 58%;">
+                        <div class="arrow-body"></div>
+                        <div class="arrow-head-down"></div>
+                        <div class="pressure-value positive" id="posVal2">+18 psf</div>
+                    </div>
+
+                    <!-- Net Pressure Display -->
+                    <div class="net-pressure-display">
+                        <div class="net-title">Pressure Analysis</div>
+                        <div class="pressure-breakdown">
+                            <div class="pressure-row">
+                                <span class="pressure-label">External (suction)</span>
+                                <span class="pressure-val neg" id="extPressure">-95 psf</span>
+                            </div>
+                            <div class="pressure-row">
+                                <span class="pressure-label">Internal (positive)</span>
+                                <span class="pressure-val pos" id="intPressure">+18 psf</span>
+                            </div>
+                        </div>
+                        <div class="pressure-row">
+                            <span class="pressure-label">Net Uplift</span>
+                            <span class="pressure-val net" id="netPressure">113 psf</span>
+                        </div>
+                    </div>
+
+                    <!-- Zone Indicator -->
+                    <div class="zone-indicator">
+                        <div class="zone-label">Roof Pressure Zone</div>
+                        <div class="zone-selector">
+                            <button class="zone-btn" data-zone="1">Zone 1</button>
+                            <button class="zone-btn active" data-zone="2">Zone 2</button>
+                            <button class="zone-btn" data-zone="3">Zone 3</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="control-btn" id="showPressureBtn">Show Pressures</button>
+                    <button class="control-btn" id="animatePressureBtn">Animate Forces</button>
+                    <button class="control-btn" id="resetBtn">Reset</button>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=skylight-miami" class="btn btn-primary">
+                    Calculate Skylight Loads
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#curb-types" class="btn btn-secondary">Curb Options</a>
+            </div>
+        </div>
+
+        <section class="reveal" id="curb-types">
+            <div class="section-header">
+                <h2>Skylight Curb <span>Construction Types</span></h2>
+                <p>Different curb types for different applications and load requirements.</p>
+            </div>
+
+            <div class="curb-types-grid">
+                <div class="curb-type-card">
+                    <div class="curb-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                            <rect x="3" y="8" width="18" height="12" rx="1"/>
+                            <path d="M7 8V6a2 2 0 012-2h6a2 2 0 012 2v2"/>
+                        </svg>
+                    </div>
+                    <h3>Wood Frame Curb</h3>
+                    <p>Lumber frame with plywood sheathing. Cost-effective for residential and light commercial. Maximum 4'x4' opening typical.</p>
+                    <span class="curb-specs">Up to 80 psf uplift</span>
+                </div>
+
+                <div class="curb-type-card">
+                    <div class="curb-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                            <rect x="2" y="6" width="20" height="14" rx="2"/>
+                            <line x1="2" y1="12" x2="22" y2="12"/>
+                        </svg>
+                    </div>
+                    <h3>Aluminum Curb</h3>
+                    <p>Extruded aluminum with thermal break. Integrated flashing and counter-flashing. Popular for commercial flat roofs.</p>
+                    <span class="curb-specs">Up to 120 psf uplift</span>
+                </div>
+
+                <div class="curb-type-card">
+                    <div class="curb-icon">
+                        <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="#8b5cf6" stroke-width="2">
+                            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                            <path d="M2 17l10 5 10-5"/>
+                            <path d="M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3>Steel Frame Curb</h3>
+                    <p>Structural steel tube frame with heavy gauge metal cladding. For high wind zones and large openings. Welded connections.</p>
+                    <span class="curb-specs">Up to 180 psf uplift</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="reveal">
+            <div class="section-header">
+                <h2>Miami-Dade <span>Zone Requirements</span></h2>
+                <p>Uplift pressures vary dramatically based on location on the roof.</p>
+            </div>
+
+            <table class="requirements-table">
+                <thead>
+                    <tr>
+                        <th>Roof Zone</th>
+                        <th>Location</th>
+                        <th>Net Uplift</th>
+                        <th>Fastener Spacing</th>
+                        <th>Min Curb Height</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Zone 1 (Field)</td>
+                        <td>Interior roof area</td>
+                        <td>75 psf</td>
+                        <td>12" o.c.</td>
+                        <td>6"</td>
+                    </tr>
+                    <tr>
+                        <td>Zone 2 (Edge)</td>
+                        <td>Within 10% of dimension from edge</td>
+                        <td>113 psf</td>
+                        <td>8" o.c.</td>
+                        <td>8"</td>
+                    </tr>
+                    <tr>
+                        <td>Zone 3 (Corner)</td>
+                        <td>Within 10% from corner both ways</td>
+                        <td>140 psf</td>
+                        <td>6" o.c.</td>
+                        <td>8"</td>
+                    </tr>
+                </tbody>
+            </table>
+            <p style="color: var(--text-muted); font-size: 0.9rem; margin-top: 1rem; text-align: center;">
+                * Values for 180 mph, Exposure C, enclosed building. Actual loads depend on building geometry and enclosure classification.
+            </p>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>Skylight Curb <span>FAQs</span></h2>
+                <p>Common questions about skylight wind loads in Miami-Dade.</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item open">
+                    <div class="faq-question">What wind loads do skylight curbs experience in Miami-Dade?</div>
+                    <div class="faq-answer">
+                        Skylight curbs in Miami-Dade HVHZ experience severe uplift loads. The glazing sees positive pressure from below and negative pressure from above, creating a net uplift. At roof corners (Zone 3), a 4x4 foot skylight might see uplift pressures of 100-140 psf, requiring heavy-duty curb construction and anchoring.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do skylights need Miami-Dade NOA approval?</div>
+                    <div class="faq-answer">
+                        Yes. All skylights and skylight curbs installed in Miami-Dade HVHZ must have a valid NOA (Notice of Acceptance). The NOA covers the complete assembly including the curb, glazing, frame, and fasteners. It specifies the maximum wind speed rating and installation requirements for each roof zone.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How do you anchor a skylight curb to the roof structure?</div>
+                    <div class="faq-answer">
+                        Skylight curbs are anchored through the roof deck into the structure below. For wood framing, lag screws into blocking or framing at maximum 12 inch spacing. For steel decks, self-drilling screws or welded clips. For concrete, expansion or adhesive anchors. The curb must have continuous support around its perimeter.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What is the difference between curb-mounted and deck-mounted skylights?</div>
+                    <div class="faq-answer">
+                        Curb-mounted skylights sit on a raised curb that projects above the roof surface, typically 4-12 inches high. Deck-mounted skylights sit directly on the roof deck with integral curbing. In hurricane zones, curb-mounted skylights are generally preferred because the curb provides better structural support and easier waterproofing.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Why do skylights fail during hurricanes?</div>
+                    <div class="faq-answer">
+                        Skylights fail during hurricanes from: glazing breakage from debris impact or excessive pressure, curb separation from inadequate anchoring, frame failure from wind pressure, and flashing failure leading to water intrusion. Impact-rated glazing and properly engineered curbs are essential in Miami-Dade.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section reveal">
+            <h2>Calculate Your Skylight Wind Loads</h2>
+            <p>Get the exact uplift pressures and curb requirements for your Miami-Dade skylight installation.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=skylight-miami-cta" class="btn btn-primary">
+                Start Calculating Now
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </div>
+
+        <footer>
+            <p>
+                <a href="/florida/miami-dade/">Miami-Dade County</a> |
+                <a href="/florida/broward/skylight-requirements">Broward Skylights</a> |
+                <a href="/florida/miami-dade/roof-wind-load">Roof Wind Loads</a> |
+                <a href="/florida-pro">All Florida</a>
+            </p>
+            <p style="margin-top: 10px;">
+                <a href="/architects">Architects</a> |
+                <a href="/pe">PE Seals</a> |
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </p>
+            <p style="margin-top: 15px;">&copy; 2025 WindLoad.co | <a href="https://windloadcalc.com">Wind Load Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: -Math.random() * 1.5 - 0.5,
+                size: Math.random() * 2 + 0.5,
+                color: Math.random() > 0.5 ? '#8b5cf6' : '#00d4ff',
+                alpha: Math.random() * 0.4 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                    p.x = Math.random() * canvas.width;
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Zone Data
+        const zoneData = {
+            1: { ext: -65, int: 10, net: 75 },
+            2: { ext: -95, int: 18, net: 113 },
+            3: { ext: -120, int: 20, net: 140 }
+        };
+
+        let currentZone = 2;
+
+        function updateZone(zone) {
+            currentZone = zone;
+            const data = zoneData[zone];
+
+            document.getElementById('extPressure').textContent = data.ext + ' psf';
+            document.getElementById('intPressure').textContent = '+' + data.int + ' psf';
+            document.getElementById('netPressure').textContent = data.net + ' psf';
+
+            document.querySelectorAll('.pressure-value.negative').forEach(el => {
+                el.textContent = data.ext + ' psf';
+            });
+
+            document.querySelectorAll('.pressure-value.positive').forEach(el => {
+                el.textContent = '+' + data.int + ' psf';
+            });
+
+            document.querySelectorAll('.zone-btn').forEach(btn => {
+                btn.classList.toggle('active', parseInt(btn.dataset.zone) === zone);
+            });
+        }
+
+        document.querySelectorAll('.zone-btn').forEach(btn => {
+            btn.addEventListener('click', () => updateZone(parseInt(btn.dataset.zone)));
+        });
+
+        // Show Pressures
+        document.getElementById('showPressureBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.querySelectorAll('.pressure-arrow').forEach(arrow => {
+                arrow.classList.toggle('visible');
+            });
+        });
+
+        // Animate Pressures
+        let animating = false;
+        document.getElementById('animatePressureBtn').addEventListener('click', function() {
+            animating = !animating;
+            this.classList.toggle('active');
+
+            if (animating) {
+                // Show arrows if not showing
+                if (!document.getElementById('showPressureBtn').classList.contains('active')) {
+                    document.getElementById('showPressureBtn').click();
+                }
+
+                // Pulse animation
+                const arrows = document.querySelectorAll('.pressure-arrow');
+                arrows.forEach((arrow, i) => {
+                    arrow.style.animation = `pulse 1s ease-in-out ${i * 0.1}s infinite`;
+                });
+
+                // Add CSS for pulse
+                if (!document.getElementById('pulse-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'pulse-style';
+                    style.textContent = `
+                        @keyframes pulse {
+                            0%, 100% { transform: scale(1); }
+                            50% { transform: scale(1.1); }
+                        }
+                    `;
+                    document.head.appendChild(style);
+                }
+            } else {
+                document.querySelectorAll('.pressure-arrow').forEach(arrow => {
+                    arrow.style.animation = '';
+                });
+            }
+        });
+
+        // Reset
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            animating = false;
+            document.getElementById('animatePressureBtn').classList.remove('active');
+            document.getElementById('showPressureBtn').classList.remove('active');
+            document.querySelectorAll('.pressure-arrow').forEach(arrow => {
+                arrow.classList.remove('visible');
+                arrow.style.animation = '';
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            revealElements.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        console.log('Skylight Curb Design - Template C initialized');
+    </script>
+</body>
+</html>

@@ -372,6 +372,37 @@ class Particle {
 
 ---
 
+## CRITICAL: CTA Button URLs
+
+**ALL CTA buttons MUST link to the calculator shop page:**
+
+```
+https://windloadcalc.com/wind-load-calculator-shop.html
+```
+
+### NEVER use these URLs for CTAs:
+- ❌ `/pricing.html` - WRONG
+- ❌ `/pricing` - WRONG
+- ❌ `/#calculator` - WRONG
+- ❌ `#calculator` - WRONG
+- ❌ `https://windload.co/pricing.html` - WRONG
+- ❌ Any relative URL - WRONG
+
+### ALWAYS use this exact URL:
+```html
+<a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Now</a>
+<a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+```
+
+### CTA Button Labels (vary these):
+- "Calculate Now"
+- "Get Wind Loads"
+- "Calculate Requirements"
+- "Start Calculation"
+- "Get Your Report"
+
+---
+
 ## Content Uniqueness Checklist
 
 Before publishing any campaign page, verify:
@@ -420,6 +451,53 @@ For Miami-Dade with different products:
 **Shutters Page:** Focus on shutter types, deployment, storage, aesthetics
 **Doors Page:** Focus on entry vs impact, hardware, thresholds, weatherstripping
 **Garage Doors Page:** Focus on bracing, size requirements, wind-borne debris
+
+---
+
+## Grid Layout Rules - NO EMPTY SPACE
+
+**CRITICAL:** Card grids must NEVER leave awkward empty space. The 3+1 layout (3 cards in a row, 1 orphan below) is FORBIDDEN.
+
+### Allowed Grid Layouts:
+
+| Card Count | Layout | CSS Grid |
+|------------|--------|----------|
+| 2 cards | 2 in a row | `grid-template-columns: repeat(2, 1fr)` |
+| 3 cards | 3 in a row | `grid-template-columns: repeat(3, 1fr)` |
+| 4 cards | **2x2 grid** OR 4 in a row | `repeat(2, 1fr)` or `repeat(4, 1fr)` |
+| 5 cards | 3+2 staggered OR redesign | Avoid if possible |
+| 6 cards | 3x2 grid OR 2x3 | `repeat(3, 1fr)` with 2 rows |
+
+### FORBIDDEN Layouts:
+- ❌ 3 cards + 1 orphan below (leaves 2/3 empty space)
+- ❌ 4 cards + 1 orphan below
+- ❌ Any layout with a single card on its own row (unless it's a featured/highlighted card with intentional full-width design)
+
+### When You Have 4 Cards:
+```css
+/* CORRECT: 2x2 Grid */
+.four-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+/* CORRECT: 4 in a row (for smaller cards) */
+.four-cards-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+}
+
+/* WRONG: 3+1 layout - NEVER DO THIS */
+```
+
+### Visual Balance Rule:
+Every row in a card grid must be visually complete. If a design results in orphan cards, either:
+1. Add more cards to complete the row
+2. Remove cards to fit the previous row
+3. Change the grid column count
+4. Make the orphan card(s) full-width as a featured element
 
 ---
 

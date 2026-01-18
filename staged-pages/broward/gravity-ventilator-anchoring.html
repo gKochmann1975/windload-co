@@ -1,0 +1,1156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gravity Ventilator Anchoring | Broward County FL Roof Ventilator Wind Loads</title>
+    <meta name="description" content="Calculate gravity roof ventilator wind loads for Broward County FL. Interactive visualization shows wind forces on turbine and static vents. Learn anchorage requirements for hurricane zones.">
+    <link rel="canonical" href="https://windload.co/florida/broward/gravity-ventilator-anchoring">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County, Florida">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Gravity Ventilator Anchoring | Broward County FL">
+    <meta property="og:description" content="Interactive roof ventilator wind load visualization. See uplift and lateral forces on turbine vents in Broward County hurricane zones.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/broward/gravity-ventilator-anchoring">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads do gravity ventilators experience?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Gravity ventilators experience both horizontal wind forces on their vertical surfaces and uplift forces from roof suction. A typical 24-inch turbine ventilator in Broward County at 175 mph might see 400-600 lbs of horizontal force and 200-400 lbs of uplift. The combination creates overturning moments that stress the base connection."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do you anchor a roof ventilator to resist wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Roof ventilators are anchored through their base flange to the roof curb or directly to the roof deck. Fasteners must resist both uplift and shear. In hurricane zones, stainless steel screws or bolts at 6-12 inch spacing are typical. The base flange must be wide enough to distribute loads without tearing."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do roof ventilators need product approval in Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Roof ventilators installed in Florida need Florida Product Approval or Miami-Dade NOA (in HVHZ). The approval specifies the maximum wind speed rating, required base flange dimensions, fastener type and spacing, and any restrictions on roof zone placement."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between turbine and static ventilators?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Turbine ventilators have rotating heads that spin in the wind to actively exhaust air. Static ventilators have fixed louvers or hoods. Turbine vents have higher drag coefficients and experience more wind force than static vents. In high wind zones, the turbine bearing and rotation lock are critical components."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do roof ventilators blow off during hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ventilators blow off from: undersized or corroded fasteners, base flange tearing from stress concentration, inadequate curb construction, and turbine heads spinning off their shafts. Many residential ventilators are not rated for hurricane wind speeds and should be replaced with approved units."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Gravity Ventilator Anchoring", "item": "https://windload.co/florida/broward/gravity-ventilator-anchoring"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-teal: #14b8a6;
+            --accent-sky: #0ea5e9;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(20, 184, 166, 0.3);
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover { color: var(--accent-teal); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+            color: var(--primary-dark) !important;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .breadcrumb {
+            padding: 1rem 5%;
+            margin-top: 70px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+
+        .hero {
+            padding: 60px 5% 40px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(20, 184, 166, 0.15);
+            border: 1px solid rgba(20, 184, 166, 0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--accent-teal);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-teal), var(--accent-sky));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Ventilator Visualization */
+        .visualization-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .vent-stage {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.9));
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            color: var(--accent-teal);
+        }
+
+        .type-selector {
+            display: flex;
+            gap: 10px;
+        }
+
+        .type-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: 2px solid rgba(20, 184, 166, 0.3);
+            color: var(--text-light);
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .type-btn:hover { border-color: var(--accent-teal); }
+
+        .type-btn.active {
+            background: var(--accent-teal);
+            border-color: var(--accent-teal);
+            color: var(--primary-dark);
+        }
+
+        .vent-canvas {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(180deg, #0a1628 0%, #1a0a2e 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Sky gradient */
+        .sky-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 200px;
+            background: linear-gradient(180deg, #0a1628, transparent);
+        }
+
+        /* Roof Surface */
+        .roof-surface {
+            position: absolute;
+            bottom: 80px;
+            left: 10%;
+            right: 10%;
+            height: 30px;
+            background: linear-gradient(180deg, #4a4a4a, #333);
+            border-top: 3px solid #666;
+        }
+
+        /* Turbine Ventilator */
+        .turbine-vent {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 105px;
+        }
+
+        .vent-base {
+            width: 80px;
+            height: 25px;
+            background: linear-gradient(90deg, #666, #888, #666);
+            border: 2px solid #555;
+            border-radius: 0 0 5px 5px;
+        }
+
+        .vent-neck {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 50px;
+            height: 40px;
+            background: linear-gradient(90deg, #777, #999, #777);
+            border: 2px solid #666;
+            clip-path: polygon(10% 100%, 90% 100%, 100% 0, 0 0);
+        }
+
+        .turbine-head {
+            position: absolute;
+            bottom: 55px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90px;
+            height: 70px;
+            background: radial-gradient(ellipse at center, #b0b0b0 0%, #707070 70%, #505050 100%);
+            border-radius: 50% 50% 45% 45%;
+            border: 2px solid #666;
+            overflow: hidden;
+        }
+
+        .turbine-vanes {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            transition: transform 0.1s linear;
+        }
+
+        .turbine-vane {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 4px;
+            background: linear-gradient(90deg, #555, #888);
+            transform-origin: left center;
+        }
+
+        .turbine-head.spinning .turbine-vanes {
+            animation: spinTurbine 0.5s linear infinite;
+        }
+
+        @keyframes spinTurbine {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Wind Force Arrows */
+        .wind-force {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .wind-force.visible { opacity: 1; }
+
+        .wind-shaft {
+            width: 100px;
+            height: 6px;
+            background: linear-gradient(90deg, transparent, var(--accent-sky));
+        }
+
+        .wind-tip {
+            width: 0;
+            height: 0;
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            border-left: 20px solid var(--accent-sky);
+        }
+
+        /* Uplift Arrow */
+        .uplift-force {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .uplift-force.visible { opacity: 1; }
+
+        .uplift-shaft {
+            width: 6px;
+            height: 60px;
+            background: linear-gradient(180deg, var(--accent-teal), transparent);
+        }
+
+        .uplift-tip {
+            width: 0;
+            height: 0;
+            border-left: 14px solid transparent;
+            border-right: 14px solid transparent;
+            border-bottom: 20px solid var(--accent-teal);
+        }
+
+        .force-label {
+            position: absolute;
+            font-size: 0.9rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .force-label.horizontal { color: var(--accent-sky); left: -90px; }
+        .force-label.vertical { color: var(--accent-teal); top: -30px; }
+
+        /* Overturning Moment */
+        .moment-arc {
+            position: absolute;
+            width: 80px;
+            height: 80px;
+            border: 4px solid transparent;
+            border-top-color: var(--accent-magenta);
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .moment-arc.visible {
+            opacity: 1;
+            animation: momentSpin 2s linear infinite;
+        }
+
+        @keyframes momentSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Results Panel */
+        .results-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(20, 184, 166, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 200px;
+        }
+
+        .panel-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-row {
+            margin-bottom: 12px;
+        }
+
+        .result-label { font-size: 0.8rem; color: var(--text-muted); }
+        .result-value { font-size: 1.3rem; font-weight: 700; }
+        .result-value.horizontal { color: var(--accent-sky); }
+        .result-value.uplift { color: var(--accent-teal); }
+        .result-value.moment { color: var(--accent-magenta); }
+
+        /* Size Selector */
+        .size-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .size-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .size-slider {
+            width: 150px;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(20, 184, 166, 0.3);
+            outline: none;
+        }
+
+        .size-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-teal);
+            cursor: pointer;
+        }
+
+        .size-display {
+            text-align: center;
+            margin-top: 8px;
+            font-weight: 700;
+            color: var(--accent-teal);
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 14px 28px;
+            background: rgba(20, 184, 166, 0.15);
+            border: 2px solid rgba(20, 184, 166, 0.4);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(20, 184, 166, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: var(--accent-teal);
+            border-color: var(--accent-teal);
+            color: var(--primary-dark);
+        }
+
+        /* CTA */
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-teal), #0d9488);
+            color: white;
+            box-shadow: 0 8px 30px rgba(20, 184, 166, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(20, 184, 166, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span { color: var(--accent-teal); }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Comparison Grid */
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .comparison-card {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .comparison-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            color: var(--accent-teal);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comparison-card ul {
+            list-style: none;
+        }
+
+        .comparison-card li {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .comparison-card li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: var(--accent-teal);
+            border-radius: 50%;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, transparent, rgba(20, 184, 166, 0.05));
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(20, 184, 166, 0.1); }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-teal);
+        }
+
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-muted);
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-teal), #0d9488);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 40px 5%;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section .btn-primary {
+            background: white;
+            color: var(--accent-teal);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(20, 184, 166, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 968px) {
+            .comparison-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .results-panel, .size-panel { position: static; margin: 1rem 0; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <header>
+            <a href="/" class="logo">WindLoad.co</a>
+            <nav class="nav-links">
+                <a href="/florida-pro">Florida</a>
+                <a href="/florida/broward/">Broward</a>
+                <a href="/contractors">Contractors</a>
+                <a href="https://windloadcalc.com" class="nav-cta">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/florida-pro">Florida</a> <span>/</span>
+            <a href="/florida/broward/">Broward</a> <span>/</span>
+            <span>Gravity Ventilator Anchoring</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M9.59 4.59A2 2 0 1111 8H2m10.59 11.41A2 2 0 1014 16H2m15.73-8.27A2.5 2.5 0 1119.5 12H2"/>
+                </svg>
+                Roof Ventilator Engineering
+            </div>
+
+            <h1>Gravity Ventilator <span>Anchoring Design</span></h1>
+
+            <p class="subtitle">
+                Watch a turbine ventilator spin in the wind while experiencing massive uplift and lateral forces. See why proper base anchoring is critical for hurricane survival.
+            </p>
+        </section>
+
+        <div class="visualization-container">
+            <div class="vent-stage reveal">
+                <div class="stage-header">
+                    <div class="stage-title">Wind Force Analysis - 175 MPH Broward County</div>
+                    <div class="type-selector">
+                        <button class="type-btn active" data-type="turbine">Turbine Vent</button>
+                        <button class="type-btn" data-type="static">Static Vent</button>
+                    </div>
+                </div>
+
+                <div class="vent-canvas" id="ventCanvas">
+                    <div class="sky-layer"></div>
+
+                    <!-- Roof Surface -->
+                    <div class="roof-surface"></div>
+
+                    <!-- Turbine Ventilator -->
+                    <div class="turbine-vent" id="turbineVent">
+                        <div class="turbine-head" id="turbineHead">
+                            <div class="turbine-vanes" id="turbineVanes">
+                                <div class="turbine-vane" style="transform: rotate(0deg);"></div>
+                                <div class="turbine-vane" style="transform: rotate(45deg);"></div>
+                                <div class="turbine-vane" style="transform: rotate(90deg);"></div>
+                                <div class="turbine-vane" style="transform: rotate(135deg);"></div>
+                            </div>
+                        </div>
+                        <div class="vent-neck"></div>
+                        <div class="vent-base"></div>
+                    </div>
+
+                    <!-- Wind Force -->
+                    <div class="wind-force" id="windForce" style="left: 18%; top: 38%;">
+                        <div class="force-label horizontal" id="hForceLabel">485 lbs</div>
+                        <div class="wind-shaft"></div>
+                        <div class="wind-tip"></div>
+                    </div>
+
+                    <!-- Uplift Force -->
+                    <div class="uplift-force" id="upliftForce" style="left: 50%; top: 18%; transform: translateX(-50%);">
+                        <div class="force-label vertical" id="vForceLabel">320 lbs</div>
+                        <div class="uplift-tip"></div>
+                        <div class="uplift-shaft"></div>
+                    </div>
+
+                    <!-- Moment Arc -->
+                    <div class="moment-arc" id="momentArc" style="left: 43%; top: 52%;"></div>
+
+                    <!-- Results Panel -->
+                    <div class="results-panel">
+                        <div class="panel-title">Force Analysis</div>
+                        <div class="result-row">
+                            <div class="result-label">Horizontal Force</div>
+                            <div class="result-value horizontal" id="resultH">485 lbs</div>
+                        </div>
+                        <div class="result-row">
+                            <div class="result-label">Uplift Force</div>
+                            <div class="result-value uplift" id="resultV">320 lbs</div>
+                        </div>
+                        <div class="result-row">
+                            <div class="result-label">Overturning</div>
+                            <div class="result-value moment" id="resultM">680 lb-ft</div>
+                        </div>
+                    </div>
+
+                    <!-- Size Panel -->
+                    <div class="size-panel">
+                        <div class="size-label">Ventilator Diameter</div>
+                        <input type="range" class="size-slider" id="sizeSlider" min="12" max="36" value="24" step="2">
+                        <div class="size-display" id="sizeDisplay">24 inches</div>
+                    </div>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="control-btn" id="showForcesBtn">Show Forces</button>
+                    <button class="control-btn" id="spinBtn">Spin Turbine</button>
+                    <button class="control-btn" id="showMomentBtn">Show Overturning</button>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=ventilator-broward" class="btn btn-primary">
+                    Calculate Vent Loads
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#comparison" class="btn btn-secondary">Compare Vent Types</a>
+            </div>
+        </div>
+
+        <section class="reveal" id="comparison">
+            <div class="section-header">
+                <h2>Turbine vs Static <span>Ventilators</span></h2>
+                <p>Different ventilator types have different wind load characteristics.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83"/>
+                        </svg>
+                        Turbine Ventilators
+                    </h3>
+                    <ul>
+                        <li>Higher drag coefficient (Cd = 1.2-1.4)</li>
+                        <li>Rotating head creates additional wind load</li>
+                        <li>Bearing and shaft must resist cyclic forces</li>
+                        <li>Rotation lock needed for extreme winds</li>
+                        <li>Higher capacity exhaust in normal conditions</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                            <path d="M3 9h18M9 21V9"/>
+                        </svg>
+                        Static Ventilators
+                    </h3>
+                    <ul>
+                        <li>Lower drag coefficient (Cd = 0.8-1.0)</li>
+                        <li>No moving parts to fail</li>
+                        <li>Simpler base attachment</li>
+                        <li>Lower profile options available</li>
+                        <li>Less maintenance required</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>Ventilator <span>FAQs</span></h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item open">
+                    <div class="faq-question">What wind loads do gravity ventilators experience?</div>
+                    <div class="faq-answer">
+                        Gravity ventilators experience both horizontal wind forces on their vertical surfaces and uplift forces from roof suction. A typical 24-inch turbine ventilator in Broward County at 175 mph might see 400-600 lbs of horizontal force and 200-400 lbs of uplift. The combination creates overturning moments that stress the base connection.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How do you anchor a roof ventilator to resist wind loads?</div>
+                    <div class="faq-answer">
+                        Roof ventilators are anchored through their base flange to the roof curb or directly to the roof deck. Fasteners must resist both uplift and shear. In hurricane zones, stainless steel screws or bolts at 6-12 inch spacing are typical. The base flange must be wide enough to distribute loads without tearing.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do roof ventilators need product approval in Florida?</div>
+                    <div class="faq-answer">
+                        Yes. Roof ventilators installed in Florida need Florida Product Approval or Miami-Dade NOA (in HVHZ). The approval specifies the maximum wind speed rating, required base flange dimensions, fastener type and spacing, and any restrictions on roof zone placement.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What is the difference between turbine and static ventilators?</div>
+                    <div class="faq-answer">
+                        Turbine ventilators have rotating heads that spin in the wind to actively exhaust air. Static ventilators have fixed louvers or hoods. Turbine vents have higher drag coefficients and experience more wind force than static vents. In high wind zones, the turbine bearing and rotation lock are critical components.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Why do roof ventilators blow off during hurricanes?</div>
+                    <div class="faq-answer">
+                        Ventilators blow off from: undersized or corroded fasteners, base flange tearing from stress concentration, inadequate curb construction, and turbine heads spinning off their shafts. Many residential ventilators are not rated for hurricane wind speeds and should be replaced with approved units.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section reveal">
+            <h2>Calculate Your Ventilator Wind Loads</h2>
+            <p>Get the exact horizontal, uplift, and overturning forces for your roof ventilator installation in Broward County.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=ventilator-broward-cta" class="btn btn-primary">
+                Start Calculating Now
+            </a>
+        </div>
+
+        <footer>
+            <p>
+                <a href="/florida/broward/">Broward County</a> |
+                <a href="/florida/broward/smoke-vent-requirements">Smoke Vents</a> |
+                <a href="/florida-pro">All Florida</a>
+            </p>
+            <p style="margin-top: 15px;">&copy; 2025 WindLoad.co | <a href="https://windloadcalc.com">Wind Load Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 80; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 3 + 1,
+                vy: (Math.random() - 0.5) * 1,
+                size: Math.random() * 2 + 0.5,
+                color: Math.random() > 0.5 ? '#14b8a6' : '#0ea5e9',
+                alpha: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                // Wind trail
+                ctx.beginPath();
+                ctx.moveTo(p.x, p.y);
+                ctx.lineTo(p.x - p.vx * 10, p.y);
+                ctx.strokeStyle = p.color + Math.floor(p.alpha * 80).toString(16).padStart(2, '0');
+                ctx.lineWidth = p.size * 0.4;
+                ctx.stroke();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x > canvas.width + 30) {
+                    p.x = -20;
+                    p.y = Math.random() * canvas.height;
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Size slider
+        const sizeSlider = document.getElementById('sizeSlider');
+        const sizeDisplay = document.getElementById('sizeDisplay');
+
+        function updateSize() {
+            const diameter = parseInt(sizeSlider.value);
+            sizeDisplay.textContent = diameter + ' inches';
+
+            // Calculate forces based on size
+            const baseH = 485;
+            const baseV = 320;
+            const baseM = 680;
+            const factor = diameter / 24;
+
+            const hForce = Math.round(baseH * factor * factor);
+            const vForce = Math.round(baseV * factor * factor);
+            const moment = Math.round(baseM * factor * factor * factor);
+
+            document.getElementById('resultH').textContent = hForce + ' lbs';
+            document.getElementById('resultV').textContent = vForce + ' lbs';
+            document.getElementById('resultM').textContent = moment + ' lb-ft';
+            document.getElementById('hForceLabel').textContent = hForce + ' lbs';
+            document.getElementById('vForceLabel').textContent = vForce + ' lbs';
+        }
+
+        sizeSlider.addEventListener('input', updateSize);
+
+        // Show Forces
+        document.getElementById('showForcesBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('windForce').classList.toggle('visible');
+            document.getElementById('upliftForce').classList.toggle('visible');
+        });
+
+        // Spin Turbine
+        let spinning = false;
+        document.getElementById('spinBtn').addEventListener('click', function() {
+            spinning = !spinning;
+            this.classList.toggle('active');
+            document.getElementById('turbineHead').classList.toggle('spinning');
+        });
+
+        // Show Moment
+        document.getElementById('showMomentBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('momentArc').classList.toggle('visible');
+        });
+
+        // Type selector
+        document.querySelectorAll('.type-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.type-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+
+                // Adjust forces for static vs turbine
+                if (this.dataset.type === 'static') {
+                    document.getElementById('resultH').textContent = '380 lbs';
+                    document.getElementById('hForceLabel').textContent = '380 lbs';
+                } else {
+                    updateSize();
+                }
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            revealElements.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        console.log('Gravity Ventilator Anchoring - Template F initialized');
+    </script>
+</body>
+</html>
