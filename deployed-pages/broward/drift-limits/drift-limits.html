@@ -1,0 +1,979 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drift Limits for Hurricane Wind Design | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Complete guide to drift limits in Broward County FL. Learn how story drift and lateral deflection are controlled in hurricane wind design to protect buildings and occupants.">
+    <meta name="keywords" content="drift limits, story drift, lateral deflection, wind drift design, Broward County drift, building sway limits">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/florida/broward/drift-limits.html">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Drift Limits for Hurricane Wind Design | Broward County FL">
+    <meta property="og:description" content="Visual guide to understanding and controlling building drift in hurricane wind design.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/drift-limits.html">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --accent-yellow: #ffd700;
+            --accent-emerald: #10b981;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-light); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        .hero {
+            padding: 120px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .animation-section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .animation-container {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        /* Template J: Multi-Story Drift Visualization */
+        .drift-visual {
+            max-width: 700px;
+            margin: 0 auto;
+            position: relative;
+            padding: 60px 20px;
+        }
+
+        .building-elevation {
+            position: relative;
+            width: 300px;
+            height: 400px;
+            margin: 0 auto;
+        }
+
+        /* Stories */
+        .story {
+            position: absolute;
+            width: 200px;
+            left: 50px;
+            height: 100px;
+            border: 3px solid var(--accent-cyan);
+            background: rgba(0, 212, 255, 0.05);
+            transition: transform 0.5s ease;
+        }
+
+        .story-1 { bottom: 0; }
+        .story-2 { bottom: 100px; }
+        .story-3 { bottom: 200px; }
+        .story-4 { bottom: 300px; }
+
+        .building-elevation:hover .story-1 { transform: skewX(1deg); }
+        .building-elevation:hover .story-2 { transform: skewX(2deg) translateX(5px); }
+        .building-elevation:hover .story-3 { transform: skewX(3deg) translateX(12px); }
+        .building-elevation:hover .story-4 { transform: skewX(4deg) translateX(20px); }
+
+        .story-label {
+            position: absolute;
+            left: -50px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Deflected shape line */
+        .deflection-line {
+            position: absolute;
+            left: 250px;
+            bottom: 0;
+            width: 4px;
+            height: 400px;
+            background: transparent;
+            border-left: 3px dashed var(--accent-emerald);
+            animation: driftOscillate 4s ease-in-out infinite;
+            transform-origin: bottom left;
+        }
+
+        @keyframes driftOscillate {
+            0%, 100% { transform: skewX(0deg); }
+            25% { transform: skewX(5deg); }
+            75% { transform: skewX(-5deg); }
+        }
+
+        /* Drift measurements */
+        .drift-measure {
+            position: absolute;
+            right: -100px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            font-size: 0.8rem;
+        }
+
+        .drift-1 { bottom: 50px; }
+        .drift-2 { bottom: 150px; }
+        .drift-3 { bottom: 250px; }
+        .drift-4 { bottom: 350px; }
+
+        .drift-arrow {
+            width: 30px;
+            height: 3px;
+            background: var(--accent-emerald);
+            position: relative;
+        }
+
+        .drift-arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border: 5px solid transparent;
+            border-left: 8px solid var(--accent-emerald);
+        }
+
+        .drift-value {
+            color: var(--accent-emerald);
+            font-weight: 600;
+        }
+
+        /* Wind pressure gradient */
+        .wind-gradient {
+            position: absolute;
+            left: -80px;
+            bottom: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+        }
+
+        .wind-bar {
+            height: 15px;
+            background: var(--accent-magenta);
+            border-radius: 3px;
+            animation: windPulse 2s ease-in-out infinite;
+        }
+
+        .wind-bar:nth-child(1) { width: 60px; animation-delay: 0.3s; }
+        .wind-bar:nth-child(2) { width: 50px; animation-delay: 0.2s; }
+        .wind-bar:nth-child(3) { width: 40px; animation-delay: 0.1s; }
+        .wind-bar:nth-child(4) { width: 30px; }
+
+        @keyframes windPulse {
+            0%, 100% { opacity: 0.5; transform: translateX(0); }
+            50% { opacity: 1; transform: translateX(5px); }
+        }
+
+        .wind-label {
+            position: absolute;
+            left: -120px;
+            top: 50%;
+            transform: translateY(-50%) rotate(-90deg);
+            font-size: 0.8rem;
+            color: var(--accent-magenta);
+            font-weight: 600;
+            white-space: nowrap;
+        }
+
+        /* Height reference */
+        .height-ref {
+            position: absolute;
+            right: -180px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .h-line {
+            width: 3px;
+            height: 100px;
+            background: var(--accent-yellow);
+            margin: 0 auto;
+        }
+
+        .h-label {
+            font-size: 0.85rem;
+            color: var(--accent-yellow);
+            margin-top: 5px;
+        }
+
+        .limit-formula {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid var(--accent-emerald);
+            border-radius: 10px;
+            padding: 15px 25px;
+            display: inline-block;
+            margin-top: 20px;
+            font-size: 1.2rem;
+            color: var(--accent-emerald);
+        }
+
+        .formula-text {
+            font-family: 'Times New Roman', serif;
+            font-style: italic;
+        }
+
+        .data-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 50px;
+            flex-wrap: wrap;
+        }
+
+        .data-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px 35px;
+            text-align: center;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            transition: transform 0.3s;
+        }
+
+        .data-card:hover { transform: translateY(-5px); }
+
+        .data-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-emerald);
+        }
+
+        .data-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .limits-section {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .limits-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-emerald);
+        }
+
+        .limit-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .limit-card {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 20px;
+            padding: 30px;
+            border-top: 4px solid var(--accent-emerald);
+            transition: transform 0.3s;
+        }
+
+        .limit-card:hover { transform: translateY(-5px); }
+
+        .limit-ratio {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-bottom: 10px;
+        }
+
+        .limit-card h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .limit-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        .limit-card strong { color: var(--accent-emerald); }
+
+        .detail-section {
+            padding: 40px 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .detail-block {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-emerald);
+        }
+
+        .detail-block h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .detail-block p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .detail-block ul {
+            color: var(--text-muted);
+            margin-left: 20px;
+        }
+
+        .detail-block li { margin-bottom: 10px; }
+
+        .detail-block strong { color: var(--accent-cyan); }
+
+        .example-calc {
+            padding: 40px 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .example-calc h2 {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--accent-yellow);
+        }
+
+        .calc-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(16, 185, 129, 0.3);
+        }
+
+        .calc-step {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .calc-step:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .step-label {
+            font-size: 0.85rem;
+            color: var(--accent-emerald);
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .step-value {
+            font-size: 1.3rem;
+            color: var(--text-light);
+        }
+
+        .step-note {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-yellow);
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p { color: var(--text-muted); line-height: 1.8; }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent-emerald);
+        }
+
+        .cta-box h2 { font-size: 2rem; margin-bottom: 15px; }
+        .cta-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(16, 185, 129, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(16, 185, 129, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        .scroll-reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .scroll-reveal.revealed {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .building-elevation { width: 220px; height: 300px; }
+            .story { width: 150px; left: 35px; height: 75px; }
+            .story-2 { bottom: 75px; }
+            .story-3 { bottom: 150px; }
+            .story-4 { bottom: 225px; }
+            .deflection-line { height: 300px; left: 185px; }
+            .wind-gradient { display: none; }
+            .height-ref { display: none; }
+            .drift-measure { right: -80px; font-size: 0.7rem; }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "WindLoad.co", "item": "https://windload.co" },
+            { "@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/" },
+            { "@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/" },
+            { "@type": "ListItem", "position": 4, "name": "Drift Limits", "item": "https://windload.co/florida/broward/drift-limits.html" }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is drift and why does it matter in hurricane design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Drift is the lateral movement of a building under wind load - how much the building sways sideways. Excessive drift causes damage to windows, cladding, interior finishes, and structural elements. It also causes occupant discomfort and alarm. Florida Building Code limits drift to protect both the building and its occupants during Broward County hurricanes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the code drift limit for wind in Broward County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Florida Building Code (based on ASCE 7) limits wind drift to H/400 for story drift under service-level winds, where H is the story height. For a 10-foot story, maximum drift is 0.3 inches. Some cladding systems or sensitive equipment may require tighter limits like H/500 or H/600. The engineer determines the governing limit based on all building components."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between story drift and total drift?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Story drift (interstory drift) is the relative movement between adjacent floors - how much one floor moves sideways compared to the floor below. Total drift (roof drift) is the overall building top displacement from the base. Code limits typically apply to story drift because it governs damage to components spanning between floors, like windows and partitions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do engineers reduce drift in buildings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Engineers reduce drift by: increasing member stiffness (deeper beams, larger columns), adding lateral bracing or shear walls, using stiffer lateral systems (braced frames vs. moment frames), reducing story heights, and using outriggers in tall buildings. For Broward County wind loads, drift often controls design more than strength - members are sized larger than needed for strength just to limit drift."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav>
+            <div class="nav-container">
+                <a href="https://windload.co/" class="nav-logo">
+                    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                    <span class="logo-text">Wind<span>Load</span>.co</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="https://windload.co/florida/">Florida</a></li>
+                    <li><a href="https://windload.co/states.html">All States</a></li>
+                    <li><a href="https://windload.co/architects.html">Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                </ul>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/florida/">Florida</a> /
+                <a href="https://windload.co/florida/broward/">Broward County</a> /
+                Drift Limits
+            </div>
+            <h1>Drift Limits: <span>Controlling the Sway</span></h1>
+            <p class="subtitle">How much can your building move sideways in a hurricane? Drift limits protect windows, finishes, and occupants from excessive lateral movement in Broward County!</p>
+        </section>
+
+        <section class="cta-section" style="padding: 40px 5%;">
+            <div class="cta-box">
+                <h2>Calculate Your Wind Loads Now</h2>
+                <p>Get accurate ASCE 7-22 wind load calculations for your Broward County project.</p>
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="cta-button">Calculate MWFRS Loads</a>
+            </div>
+        </section>
+
+        <section class="animation-section">
+            <div class="animation-container">
+                <div class="drift-visual">
+                    <div class="building-elevation">
+                        <div class="wind-gradient">
+                            <div class="wind-bar"></div>
+                            <div class="wind-bar"></div>
+                            <div class="wind-bar"></div>
+                            <div class="wind-bar"></div>
+                        </div>
+                        <span class="wind-label">WIND PRESSURE (INCREASES WITH HEIGHT)</span>
+
+                        <div class="story story-4">
+                            <span class="story-label">4th Floor</span>
+                        </div>
+                        <div class="story story-3">
+                            <span class="story-label">3rd Floor</span>
+                        </div>
+                        <div class="story story-2">
+                            <span class="story-label">2nd Floor</span>
+                        </div>
+                        <div class="story story-1">
+                            <span class="story-label">1st Floor</span>
+                        </div>
+
+                        <div class="deflection-line"></div>
+
+                        <div class="drift-measure drift-4">
+                            <div class="drift-arrow"></div>
+                            <span class="drift-value">0.30"</span>
+                        </div>
+                        <div class="drift-measure drift-3">
+                            <div class="drift-arrow"></div>
+                            <span class="drift-value">0.28"</span>
+                        </div>
+                        <div class="drift-measure drift-2">
+                            <div class="drift-arrow"></div>
+                            <span class="drift-value">0.25"</span>
+                        </div>
+                        <div class="drift-measure drift-1">
+                            <div class="drift-arrow"></div>
+                            <span class="drift-value">0.18"</span>
+                        </div>
+
+                        <div class="height-ref">
+                            <div class="h-line"></div>
+                            <span class="h-label">H = 10 ft</span>
+                        </div>
+                    </div>
+
+                    <div style="text-align: center; margin-top: 40px;">
+                        <div class="limit-formula">
+                            <span class="formula-text">Max Drift = H / 400 = 0.30"</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-display">
+                    <div class="data-card">
+                        <div class="data-value">H/400</div>
+                        <div class="data-label">Code Drift Limit</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" id="drift-val">0.30</div>
+                        <div class="data-label">Inches Max (10' Story)</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" id="total-drift">1.01</div>
+                        <div class="data-label">Inches Total Drift</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="limits-section scroll-reveal">
+            <h2>Common Drift Limits</h2>
+            <div class="limit-cards">
+                <div class="limit-card">
+                    <div class="limit-ratio">H/400</div>
+                    <h3>Standard Wind Drift</h3>
+                    <p>Florida Building Code limit for <strong>service-level wind loads</strong>. Applies to typical commercial and residential construction. For 10-foot story = 0.30 inches maximum movement.</p>
+                </div>
+                <div class="limit-card">
+                    <div class="limit-ratio">H/500</div>
+                    <h3>Sensitive Cladding</h3>
+                    <p>Stricter limit for buildings with <strong>brittle or sensitive facade systems</strong>. Precast panels, stone veneer, and some curtain walls may require this tighter limit to prevent damage.</p>
+                </div>
+                <div class="limit-card">
+                    <div class="limit-ratio">H/600</div>
+                    <h3>Critical Equipment</h3>
+                    <p>Most stringent limit for buildings housing <strong>sensitive equipment or operations</strong>. Hospitals, data centers, and precision manufacturing may need minimal drift for operational continuity.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="detail-section scroll-reveal">
+            <div class="detail-block">
+                <h3>Why Drift Matters Beyond Structural Safety</h3>
+                <p>A building can be structurally sound but still experience problems from excessive drift:</p>
+                <ul>
+                    <li><strong>Window breakage:</strong> Glass cannot accommodate frame distortion - cracks and pops out</li>
+                    <li><strong>Cladding damage:</strong> Facade panels separate, leak, or fall</li>
+                    <li><strong>Partition cracking:</strong> Interior walls crack at corners and around openings</li>
+                    <li><strong>Door jamming:</strong> Doors bind in frames and cannot open or close</li>
+                    <li><strong>Occupant discomfort:</strong> People feel the motion and become alarmed</li>
+                    <li><strong>Equipment damage:</strong> Sensitive systems malfunction under movement</li>
+                </ul>
+            </div>
+
+            <div class="detail-block">
+                <h3>Service Load vs. Ultimate Load Drift</h3>
+                <p>Drift limits apply to <strong>service-level (unfactored) wind loads</strong>, not the ultimate design loads used for strength calculations:</p>
+                <ul>
+                    <li><strong>Service wind:</strong> Expected wind load without safety factors - what the building will actually experience</li>
+                    <li><strong>Ultimate wind:</strong> Factored load (typically 1.0W or 1.6W) used to check member strength</li>
+                </ul>
+                <p>This distinction matters because buildings must remain functional under service loads but may yield slightly under extreme ultimate loads. Drift limits ensure serviceability, not collapse prevention.</p>
+            </div>
+
+            <div class="detail-block">
+                <h3>P-Delta Effects</h3>
+                <p>When buildings drift significantly, gravity loads act through the displaced geometry, <strong>creating additional overturning moment</strong>. This P-Delta effect amplifies drift and member forces:</p>
+                <ul>
+                    <li>Tall buildings with large axial loads are most affected</li>
+                    <li>Flexible moment frames are more susceptible than stiff braced frames</li>
+                    <li>Engineers must check that P-Delta amplification does not exceed stability limits</li>
+                    <li>ASCE 7 requires P-Delta analysis when stability coefficient exceeds threshold</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="example-calc scroll-reveal">
+            <h2>Example: 10-Foot Story Drift Check</h2>
+            <div class="calc-box">
+                <div class="calc-step">
+                    <div class="step-label">Story Height (H)</div>
+                    <div class="step-value">10 feet = 120 inches</div>
+                </div>
+                <div class="calc-step">
+                    <div class="step-label">Drift Limit Ratio</div>
+                    <div class="step-value">H / 400</div>
+                </div>
+                <div class="calc-step">
+                    <div class="step-label">Allowable Drift</div>
+                    <div class="step-value">120" / 400 = 0.30 inches</div>
+                    <div class="step-note">Maximum movement between floors</div>
+                </div>
+                <div class="calc-step">
+                    <div class="step-label">Calculated Drift (from analysis)</div>
+                    <div class="step-value">0.28 inches</div>
+                    <div class="step-note">Must be less than or equal to allowable</div>
+                </div>
+                <div class="calc-step">
+                    <div class="step-label">Result</div>
+                    <div class="step-value" style="color: var(--accent-emerald);">0.28" < 0.30" - PASS</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section scroll-reveal">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What is drift and why does it matter in hurricane design?</h3>
+                <p>Drift is the lateral movement of a building under wind load - how much the building sways sideways. Excessive drift causes damage to windows, cladding, interior finishes, and structural elements. It also causes occupant discomfort and alarm. Florida Building Code limits drift to protect both the building and its occupants during Broward County hurricanes.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What is the code drift limit for wind in Broward County?</h3>
+                <p>Florida Building Code (based on ASCE 7) limits wind drift to H/400 for story drift under service-level winds, where H is the story height. For a 10-foot story, maximum drift is 0.3 inches. Some cladding systems or sensitive equipment may require tighter limits like H/500 or H/600. The engineer determines the governing limit based on all building components.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What is the difference between story drift and total drift?</h3>
+                <p>Story drift (interstory drift) is the relative movement between adjacent floors - how much one floor moves sideways compared to the floor below. Total drift (roof drift) is the overall building top displacement from the base. Code limits typically apply to story drift because it governs damage to components spanning between floors, like windows and partitions.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How do engineers reduce drift in buildings?</h3>
+                <p>Engineers reduce drift by: increasing member stiffness (deeper beams, larger columns), adding lateral bracing or shear walls, using stiffer lateral systems (braced frames vs. moment frames), reducing story heights, and using outriggers in tall buildings. For Broward County wind loads, drift often controls design more than strength - members are sized larger than needed for strength just to limit drift.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Calculate Your Drift Requirements</h2>
+                <p>Get accurate MWFRS wind load calculations for drift analysis in Broward County. PE-stamped calculations available.</p>
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="cta-button">Calculate MWFRS Loads</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>WindLoad.co - Professional Wind Load Calculations for Broward County</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/florida/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co/florida/">Florida</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Animation
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 2.5 + 1,
+                color: Math.random() > 0.6 ? '#10b981' : (Math.random() > 0.5 ? '#e91e8c' : '#00d4ff'),
+                alpha: Math.random() * 0.4 + 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.y > canvas.height) p.y = 0;
+                if (p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Scroll Reveal
+        function revealOnScroll() {
+            const elements = document.querySelectorAll('.scroll-reveal');
+            elements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('revealed');
+                }
+            });
+        }
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // Animate Values
+        function animateDecimal(id, start, end, duration, decimals = 2) {
+            const el = document.getElementById(id);
+            if (!el) return;
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = start + (end - start) * progress;
+                el.textContent = current.toFixed(decimals);
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        setTimeout(() => {
+            animateDecimal('drift-val', 0, 0.30, 1200);
+            animateDecimal('total-drift', 0, 1.01, 1500);
+        }, 500);
+    </script>
+</body>
+</html>
