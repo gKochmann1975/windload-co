@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ground Elevation Factor Ke Explained | Air Density & Altitude | Broward County FL</title>
+    <meta name="description" content="Understand how ground elevation factor Ke affects wind loads in Broward County FL. Visual animation shows how air density decreases at higher altitudes, reducing wind pressure.">
+    <meta name="keywords" content="ground elevation factor, Ke factor, air density wind load, altitude wind pressure, ASCE 7 elevation, Broward County sea level">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/broward/ground-elevation-factor.html">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Ground Elevation Factor Ke - Air Density Effects | Broward County FL">
+    <meta property="og:description" content="Animation shows how elevation above sea level affects air density and wind pressure calculations.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/broward/ground-elevation-factor.html">
+    <meta property="og:image" content="https://windload.co/images/ground-elevation-og.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Ground Elevation Factor Ke - Altitude & Air Density">
+    <meta name="twitter:description" content="Visual guide to how elevation affects wind load calculations per ASCE 7.">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --accent-sky: #87ceeb;
+            --accent-ocean: #006994;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-light); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        .hero {
+            padding: 120px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-sky), var(--accent-ocean));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .elevation-stage {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .elevation-container {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.7), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(135, 206, 235, 0.3);
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 50px;
+            align-items: center;
+        }
+
+        .altitude-visual {
+            position: relative;
+            height: 500px;
+            background: linear-gradient(180deg,
+                #1a0a2e 0%,
+                #2d1b4e 20%,
+                #4a3a6e 40%,
+                #87ceeb 60%,
+                #a0d2db 80%,
+                #006994 100%
+            );
+            border-radius: 20px;
+            overflow: hidden;
+        }
+
+        .altitude-scale {
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            bottom: 20px;
+            width: 60px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .altitude-marker {
+            text-align: center;
+            font-size: 0.75rem;
+            color: white;
+            text-shadow: 0 1px 3px rgba(0,0,0,0.5);
+        }
+
+        .altitude-marker span {
+            display: block;
+            font-weight: 700;
+        }
+
+        .air-density-column {
+            position: absolute;
+            right: 30px;
+            top: 20px;
+            bottom: 20px;
+            width: 80px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .density-bar {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: all 0.5s ease;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .density-bar:last-child {
+            border-bottom: none;
+        }
+
+        .building-elevator {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 80px;
+            transition: all 1s ease;
+        }
+
+        .building-icon {
+            width: 100%;
+            height: 100%;
+            fill: var(--accent-cyan);
+            filter: drop-shadow(0 5px 15px rgba(0, 212, 255, 0.5));
+        }
+
+        .ke-indicator {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%) translateY(-100%);
+            background: var(--accent-magenta);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: 700;
+            white-space: nowrap;
+            margin-top: -10px;
+        }
+
+        .controls-panel {
+            padding: 30px;
+        }
+
+        .ke-display {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 20px;
+            padding: 35px;
+            text-align: center;
+            margin-bottom: 30px;
+            border: 2px solid var(--accent-sky);
+        }
+
+        .ke-label {
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 10px;
+        }
+
+        .ke-value-main {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--accent-sky);
+            line-height: 1;
+        }
+
+        .ke-subscript {
+            font-size: 2rem;
+            color: var(--accent-cyan);
+        }
+
+        .ke-formula {
+            margin-top: 15px;
+            font-family: 'Courier New', monospace;
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        .elevation-slider-container {
+            margin: 30px 0;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            color: var(--text-muted);
+        }
+
+        .elevation-slider {
+            width: 100%;
+            height: 12px;
+            border-radius: 6px;
+            background: linear-gradient(90deg, var(--accent-ocean), var(--accent-sky), #1a0a2e);
+            -webkit-appearance: none;
+            outline: none;
+        }
+
+        .elevation-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: white;
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(135, 206, 235, 0.6);
+        }
+
+        .comparison-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .comparison-card {
+            background: rgba(26, 10, 46, 0.9);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.4s ease;
+        }
+
+        .comparison-card.active {
+            border-color: var(--accent-sky);
+            box-shadow: 0 0 25px rgba(135, 206, 235, 0.3);
+        }
+
+        .card-location {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-bottom: 5px;
+        }
+
+        .card-elevation {
+            font-size: 1.1rem;
+            color: var(--accent-cyan);
+            font-weight: 600;
+        }
+
+        .card-ke {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--accent-sky);
+            margin-top: 10px;
+        }
+
+        .florida-callout {
+            background: linear-gradient(135deg, rgba(0, 105, 148, 0.3), rgba(135, 206, 235, 0.2));
+            border: 2px solid var(--accent-ocean);
+            border-radius: 20px;
+            padding: 30px;
+            margin: 40px 5%;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+        }
+
+        .florida-callout h3 {
+            color: var(--accent-sky);
+            margin-bottom: 15px;
+            font-size: 1.4rem;
+        }
+
+        .florida-callout p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .florida-callout strong {
+            color: var(--accent-cyan);
+        }
+
+        .big-ke {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--accent-sky);
+            margin: 20px 0;
+        }
+
+        .story-section {
+            padding: 80px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-block {
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.8));
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--accent-sky);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .story-block.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-block h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-sky);
+        }
+
+        .story-block p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .story-block strong {
+            color: var(--accent-cyan);
+        }
+
+        .molecule-demo {
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            margin: 30px 0;
+        }
+
+        .molecule-box {
+            width: 150px;
+            height: 150px;
+            border: 2px solid var(--accent-sky);
+            border-radius: 15px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .molecule-box-label {
+            position: absolute;
+            bottom: -30px;
+            left: 0;
+            right: 0;
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+        }
+
+        .molecule {
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: var(--accent-cyan);
+        }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-sky);
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(135, 206, 235, 0.2);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
+        }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(135, 206, 235, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent-sky);
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-sky), var(--accent-ocean));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(135, 206, 235, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(135, 206, 235, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(135, 206, 235, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .elevation-container {
+                grid-template-columns: 1fr;
+            }
+
+            .altitude-visual {
+                height: 400px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .comparison-cards {
+                grid-template-columns: 1fr;
+            }
+
+            .molecule-demo {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the ground elevation factor Ke?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ke is a factor that adjusts wind pressure for the air density at the building site's elevation above sea level. Air is denser at sea level and thinner at high altitudes. Denser air creates higher wind pressure for the same wind speed. For most locations below 6,000 feet, Ke = 1.0 is permitted."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is Ke for Broward County, Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Broward County is at sea level, so Ke = 1.0. This is the baseline value representing standard air density. There's no reduction for elevation since Florida's coastal areas are at the lowest possible elevation. The full wind pressure applies."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does elevation affect wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Higher elevations have thinner (less dense) air. Since wind pressure depends on air density, the same wind speed creates less pressure at altitude. A building at 6,000 feet sees about 80% of the wind pressure as an identical building at sea level. Denver (5,280 ft) uses Ke approximately 0.86."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When can I ignore Ke in wind calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ASCE 7-22 permits Ke = 1.0 for sites at or below 6,000 feet elevation. Since this covers most U.S. construction, including all of Florida, you can typically use Ke = 1.0. Only mountain locations above 6,000 feet benefit from reduced Ke values."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where does Ke appear in the wind load formula?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Ke is part of the velocity pressure formula: qz = 0.00256 x Kz x Kzt x Kd x Ke x V squared. It directly multiplies the velocity pressure. At sea level (Ke = 1.0), it has no effect. At high elevations (Ke < 1.0), it reduces wind loads proportionally."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "WindLoad.co",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Broward County",
+                "item": "https://windload.co/broward/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Ground Elevation Factor Ke",
+                "item": "https://windload.co/broward/ground-elevation-factor.html"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav>
+            <div class="nav-container">
+                <a href="https://windload.co/" class="nav-logo">
+                    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                    <span class="logo-text">Wind<span>Load</span>.co</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="https://windload.co/florida/">Florida</a></li>
+                    <li><a href="https://windload.co/states.html">All States</a></li>
+                    <li><a href="https://windload.co/architects.html">Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                </ul>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/broward/">Broward County</a> /
+                Ground Elevation Factor Ke
+            </div>
+            <h1>Thinner Air, <span>Lighter Wind</span></h1>
+            <p class="subtitle">Why a building in Denver sees less wind pressure than one in Miami - even in the same storm! The Ke factor explained.</p>
+        </section>
+
+        <section class="elevation-stage">
+            <div class="elevation-container">
+                <div class="altitude-visual">
+                    <div class="altitude-scale">
+                        <div class="altitude-marker"><span>15,000 ft</span>Mt. Whitney</div>
+                        <div class="altitude-marker"><span>10,000 ft</span>Alpine</div>
+                        <div class="altitude-marker"><span>5,280 ft</span>Denver</div>
+                        <div class="altitude-marker"><span>0 ft</span>Sea Level</div>
+                    </div>
+
+                    <div class="air-density-column">
+                        <div class="density-bar" style="background: rgba(26, 10, 46, 0.6);">0.63</div>
+                        <div class="density-bar" style="background: rgba(45, 27, 78, 0.6);">0.74</div>
+                        <div class="density-bar" style="background: rgba(135, 206, 235, 0.4);">0.86</div>
+                        <div class="density-bar" style="background: rgba(0, 105, 148, 0.6);">1.00</div>
+                    </div>
+
+                    <div class="building-elevator" id="building-elevator" style="bottom: 10%;">
+                        <div class="ke-indicator" id="ke-indicator">Ke = 1.00</div>
+                        <svg class="building-icon" viewBox="0 0 60 80">
+                            <rect x="5" y="10" width="50" height="65" rx="3" fill="currentColor"/>
+                            <rect x="12" y="18" width="10" height="10" fill="#1a0a2e"/>
+                            <rect x="25" y="18" width="10" height="10" fill="#1a0a2e"/>
+                            <rect x="38" y="18" width="10" height="10" fill="#1a0a2e"/>
+                            <rect x="12" y="35" width="10" height="10" fill="#1a0a2e"/>
+                            <rect x="25" y="35" width="10" height="10" fill="#1a0a2e"/>
+                            <rect x="38" y="35" width="10" height="10" fill="#1a0a2e"/>
+                            <rect x="22" y="55" width="16" height="20" fill="#1a0a2e"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="controls-panel">
+                    <div class="ke-display">
+                        <div class="ke-label">Ground Elevation Factor</div>
+                        <div class="ke-value-main" id="ke-main">1.00<span class="ke-subscript"> K<sub>e</sub></span></div>
+                        <div class="ke-formula">K<sub>e</sub> = e<sup>-0.0000362z</sup></div>
+                    </div>
+
+                    <div class="elevation-slider-container">
+                        <div class="slider-label">
+                            <span>Sea Level (0 ft)</span>
+                            <span id="current-elevation">0 ft</span>
+                            <span>15,000 ft</span>
+                        </div>
+                        <input type="range" class="elevation-slider" id="elevation-slider" min="0" max="15000" value="0">
+                    </div>
+
+                    <div class="comparison-cards">
+                        <div class="comparison-card active" id="card-miami">
+                            <div class="card-location">Broward County, FL</div>
+                            <div class="card-elevation">6 ft elevation</div>
+                            <div class="card-ke">Ke = 1.00</div>
+                        </div>
+                        <div class="comparison-card" id="card-denver">
+                            <div class="card-location">Denver, CO</div>
+                            <div class="card-elevation">5,280 ft elevation</div>
+                            <div class="card-ke">Ke = 0.86</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="florida-callout">
+            <h3>Great News for Broward County!</h3>
+            <p>Since you're building at <strong>sea level</strong>, you get the simplest calculation:</p>
+            <div class="big-ke">K<sub>e</sub> = 1.00</div>
+            <p>No reduction for elevation - but also no extra calculations needed. The 0.00256 constant in the velocity pressure formula already assumes sea-level air density.</p>
+        </div>
+
+        <section class="story-section">
+            <div class="story-block">
+                <h3>Air Has Weight</h3>
+                <p>Think about swimming in a pool vs. walking on land. Water is <strong>denser</strong> - more molecules packed together - so it pushes harder against your body. Air works the same way!</p>
+                <p>At sea level, you have the entire atmosphere stacked above you, compressing the air. In Denver, there's less atmosphere above, so the air is <strong>thinner and lighter</strong>.</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Same Wind Speed, Different Punch</h3>
+                <p>A 100 mph wind in Miami has more <strong>"oomph"</strong> than a 100 mph wind in Denver. Why? More air molecules hitting your building every second. The kinetic energy formula (1/2 x rho x V<sup>2</sup>) shows that pressure depends on both velocity AND density (rho).</p>
+                <div class="molecule-demo">
+                    <div class="molecule-box" id="dense-box">
+                        <div class="molecule-box-label">Sea Level (Dense)</div>
+                    </div>
+                    <div class="molecule-box" id="thin-box">
+                        <div class="molecule-box-label">High Altitude (Thin)</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="story-block">
+                <h3>The 6,000 ft Rule</h3>
+                <p>ASCE 7-22 keeps things simple: for any site <strong>below 6,000 feet</strong>, you can use K<sub>e</sub> = 1.0. That covers almost all construction in the eastern U.S. and most of the west.</p>
+                <p>Only when you're building ski lodges, mountain observatories, or in cities like Albuquerque (5,312 ft) or higher does K<sub>e</sub> drop below 1.0.</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Why Bother Learning This?</h3>
+                <p>Even though Broward County always uses K<sub>e</sub> = 1.0, understanding WHY helps you:</p>
+                <ul style="margin-left: 20px; color: var(--text-muted);">
+                    <li style="margin: 10px 0;">Explain calculations to clients or officials</li>
+                    <li style="margin: 10px 0;">Work on projects in other states (Colorado, New Mexico, etc.)</li>
+                    <li style="margin: 10px 0;">Understand why the 0.00256 constant exists</li>
+                    <li style="margin: 10px 0;">Appreciate that Florida's sea-level location means <strong>maximum</strong> wind pressure</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What is the ground elevation factor Ke?</h3>
+                <p>Ke is a factor that adjusts wind pressure for the air density at the building site's elevation above sea level. Air is denser at sea level and thinner at high altitudes. Denser air creates higher wind pressure for the same wind speed. For most locations below 6,000 feet, Ke = 1.0 is permitted.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What is Ke for Broward County, Florida?</h3>
+                <p>Broward County is at sea level, so Ke = 1.0. This is the baseline value representing standard air density. There's no reduction for elevation since Florida's coastal areas are at the lowest possible elevation. The full wind pressure applies.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How does elevation affect wind loads?</h3>
+                <p>Higher elevations have thinner (less dense) air. Since wind pressure depends on air density, the same wind speed creates less pressure at altitude. A building at 6,000 feet sees about 80% of the wind pressure as an identical building at sea level. Denver (5,280 ft) uses Ke approximately 0.86.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>When can I ignore Ke in wind calculations?</h3>
+                <p>ASCE 7-22 permits Ke = 1.0 for sites at or below 6,000 feet elevation. Since this covers most U.S. construction, including all of Florida, you can typically use Ke = 1.0. Only mountain locations above 6,000 feet benefit from reduced Ke values.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Where does Ke appear in the wind load formula?</h3>
+                <p>Ke is part of the velocity pressure formula: qz = 0.00256 x Kz x Kzt x Kd x Ke x V squared. It directly multiplies the velocity pressure. At sea level (Ke = 1.0), it has no effect. At high elevations (Ke less than 1.0), it reduces wind loads proportionally.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Get Accurate Wind Loads at Any Elevation</h2>
+                <p>Our calculator automatically applies the correct Ke factor based on your project location. Broward County? Ke = 1.0. Denver? We've got you covered.</p>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">Calculate Wind Loads Now</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Background - Rising/falling based on density
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 100;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 3 + 1,
+                color: '#87ceeb',
+                alpha: Math.random() * 0.3 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                // Density effect - particles smaller/more spread at top
+                const densityFactor = 1 - (p.y / canvas.height) * 0.5;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size * densityFactor, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * densityFactor * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x > canvas.width) p.x = 0;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.y > canvas.height) p.y = 0;
+                if (p.y < 0) p.y = canvas.height;
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Elevation slider and building animation
+        const slider = document.getElementById('elevation-slider');
+        const buildingElevator = document.getElementById('building-elevator');
+        const keIndicator = document.getElementById('ke-indicator');
+        const keMain = document.getElementById('ke-main');
+        const currentElevation = document.getElementById('current-elevation');
+        const cardMiami = document.getElementById('card-miami');
+        const cardDenver = document.getElementById('card-denver');
+
+        function calculateKe(elevation) {
+            // Ke = e^(-0.0000362 * z)
+            return Math.exp(-0.0000362 * elevation);
+        }
+
+        slider.addEventListener('input', function() {
+            const elevation = parseInt(this.value);
+            const ke = calculateKe(elevation);
+
+            // Update building position (10% to 85% from bottom)
+            const position = 10 + (elevation / 15000) * 75;
+            buildingElevator.style.bottom = position + '%';
+
+            // Update Ke displays
+            keIndicator.textContent = 'Ke = ' + ke.toFixed(2);
+            keMain.innerHTML = ke.toFixed(2) + '<span class="ke-subscript"> K<sub>e</sub></span>';
+            currentElevation.textContent = elevation.toLocaleString() + ' ft';
+
+            // Update comparison cards
+            cardMiami.classList.remove('active');
+            cardDenver.classList.remove('active');
+
+            if (elevation < 2000) {
+                cardMiami.classList.add('active');
+            } else if (elevation > 4000 && elevation < 6500) {
+                cardDenver.classList.add('active');
+            }
+        });
+
+        // Molecule animation in story section
+        function createMolecules() {
+            const denseBox = document.getElementById('dense-box');
+            const thinBox = document.getElementById('thin-box');
+
+            // Dense box - many molecules
+            for (let i = 0; i < 30; i++) {
+                const mol = document.createElement('div');
+                mol.className = 'molecule';
+                mol.style.left = Math.random() * 130 + 'px';
+                mol.style.top = Math.random() * 130 + 'px';
+                mol.style.animation = `moleculeBounce ${1 + Math.random()}s ease-in-out infinite`;
+                mol.style.animationDelay = Math.random() + 's';
+                denseBox.appendChild(mol);
+            }
+
+            // Thin box - fewer molecules
+            for (let i = 0; i < 12; i++) {
+                const mol = document.createElement('div');
+                mol.className = 'molecule';
+                mol.style.left = Math.random() * 130 + 'px';
+                mol.style.top = Math.random() * 130 + 'px';
+                mol.style.animation = `moleculeBounce ${1 + Math.random()}s ease-in-out infinite`;
+                mol.style.animationDelay = Math.random() + 's';
+                thinBox.appendChild(mol);
+            }
+        }
+
+        // Add molecule bounce animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes moleculeBounce {
+                0%, 100% { transform: translate(0, 0); }
+                25% { transform: translate(5px, -5px); }
+                50% { transform: translate(-3px, 3px); }
+                75% { transform: translate(2px, 5px); }
+            }
+        `;
+        document.head.appendChild(style);
+
+        createMolecules();
+
+        // Story blocks scroll animation
+        const storyBlocks = document.querySelectorAll('.story-block');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        storyBlocks.forEach(block => observer.observe(block));
+    </script>
+</body>
+</html>
