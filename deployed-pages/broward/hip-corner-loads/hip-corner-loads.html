@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hip and Corner Wind Loads | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Learn why hip and corner areas experience higher wind loads in Broward County FL. Visual guide shows Zone 2 and Zone 3 pressure increases and reinforcement requirements.">
+    <meta name="keywords" content="hip roof wind load, corner wind pressure, Zone 2 Zone 3, edge and corner zones, Broward County roof zones, roof perimeter loads">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/florida/broward/hip-corner-loads.html">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-WJMTQMQJDZ"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-WJMTQMQJDZ');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Hip and Corner Wind Loads | Broward County FL">
+    <meta property="og:description" content="Visual guide to why roof corners and edges see 2-3x higher wind pressures than the field.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/broward/hip-corner-loads.html">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --accent-yellow: #ffd700;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-light); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        .hero {
+            padding: 120px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .animation-section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .animation-container {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.8), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .roof-zones-visual {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .roof-plan {
+            width: 100%;
+            aspect-ratio: 4/3;
+            position: relative;
+            border: 3px solid var(--accent-cyan);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        /* Zone 1 - Field (center) */
+        .zone-field {
+            position: absolute;
+            inset: 20%;
+            background: rgba(34, 197, 94, 0.3);
+            border: 2px dashed #22c55e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: zoneReveal 0.6s ease forwards;
+            animation-delay: 0.2s;
+            opacity: 0;
+        }
+
+        /* Zone 2 - Edges */
+        .zone-edge {
+            position: absolute;
+            background: rgba(255, 215, 0, 0.3);
+            border: 2px dashed var(--accent-yellow);
+            animation: zoneReveal 0.6s ease forwards;
+            animation-delay: 0.5s;
+            opacity: 0;
+        }
+
+        .zone-edge-top {
+            top: 0;
+            left: 20%;
+            right: 20%;
+            height: 20%;
+        }
+
+        .zone-edge-bottom {
+            bottom: 0;
+            left: 20%;
+            right: 20%;
+            height: 20%;
+        }
+
+        .zone-edge-left {
+            left: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 20%;
+        }
+
+        .zone-edge-right {
+            right: 0;
+            top: 20%;
+            bottom: 20%;
+            width: 20%;
+        }
+
+        /* Zone 3 - Corners */
+        .zone-corner {
+            position: absolute;
+            width: 20%;
+            height: 20%;
+            background: rgba(233, 30, 140, 0.4);
+            border: 2px dashed var(--accent-magenta);
+            animation: cornerPulse 2s ease-in-out infinite, zoneReveal 0.6s ease forwards;
+            animation-delay: 0.8s;
+            opacity: 0;
+        }
+
+        .zone-corner-tl { top: 0; left: 0; }
+        .zone-corner-tr { top: 0; right: 0; }
+        .zone-corner-bl { bottom: 0; left: 0; }
+        .zone-corner-br { bottom: 0; right: 0; }
+
+        @keyframes zoneReveal {
+            to { opacity: 1; }
+        }
+
+        @keyframes cornerPulse {
+            0%, 100% { box-shadow: inset 0 0 10px rgba(233, 30, 140, 0.5); }
+            50% { box-shadow: inset 0 0 30px rgba(233, 30, 140, 0.8); }
+        }
+
+        .zone-label {
+            position: absolute;
+            font-weight: 700;
+            font-size: 0.9rem;
+            padding: 4px 8px;
+            border-radius: 4px;
+        }
+
+        .label-field {
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(34, 197, 94, 0.8);
+            color: white;
+        }
+
+        .label-edge {
+            background: rgba(255, 215, 0, 0.9);
+            color: var(--primary-dark);
+        }
+
+        .label-edge-top { top: 5%; left: 50%; transform: translateX(-50%); }
+
+        .label-corner {
+            background: rgba(233, 30, 140, 0.9);
+            color: white;
+        }
+
+        .label-corner-tr { top: 5%; right: 5%; }
+
+        .wind-indicator {
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: var(--accent-cyan);
+            font-weight: 600;
+            animation: windBlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes windBlow {
+            0%, 100% { transform: translateX(-50%) translateY(0); }
+            50% { transform: translateX(-50%) translateY(-5px); }
+        }
+
+        .zone-legend {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 25px;
+            height: 25px;
+            border-radius: 4px;
+        }
+
+        .legend-field { background: rgba(34, 197, 94, 0.5); border: 2px solid #22c55e; }
+        .legend-edge { background: rgba(255, 215, 0, 0.5); border: 2px solid var(--accent-yellow); }
+        .legend-corner { background: rgba(233, 30, 140, 0.5); border: 2px solid var(--accent-magenta); }
+
+        .legend-text {
+            font-size: 0.9rem;
+        }
+
+        .legend-pressure {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+
+        .data-display {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .data-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            padding: 25px 35px;
+            text-align: center;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .data-value {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        .data-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin-top: 5px;
+        }
+
+        .story-section {
+            padding: 40px 5%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .story-block {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-left: 4px solid var(--accent-magenta);
+        }
+
+        .story-block h3 {
+            color: var(--accent-yellow);
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+
+        .story-block p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .story-block strong { color: var(--accent-cyan); }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+            color: var(--accent-yellow);
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p { color: var(--text-muted); line-height: 1.8; }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(233, 30, 140, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent-magenta);
+        }
+
+        .cta-box h2 { font-size: 2rem; margin-bottom: 15px; }
+        .cta-box p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.1rem; }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(233, 30, 140, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        @media (max-width: 768px) {
+            header { flex-direction: column; gap: 15px; }
+            .zone-legend { gap: 15px; }
+            .zone-label { font-size: 0.7rem; padding: 2px 6px; }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "WindLoad.co", "item": "https://windload.co" },
+            { "@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/" },
+            { "@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/" },
+            { "@type": "ListItem", "position": 4, "name": "Hip and Corner Loads", "item": "https://windload.co/florida/broward/hip-corner-loads.html" }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why do roof corners have higher wind loads than the center?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind flow separates at corners and edges, creating intense localized suction. Think of water flowing around a rock - it speeds up and creates turbulence at the edges. This separation effect can create pressures 2-3 times higher at corners (Zone 3) than in the center field (Zone 1). That is why corners need extra nailing and stronger connections."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are Zone 1, Zone 2, and Zone 3 on a roof?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone 1 is the interior field of the roof - the calmest area. Zone 2 is the perimeter edges where wind first separates from the surface. Zone 3 is the corners where two edges meet and wind effects combine. Each zone has different pressure coefficients, with Zone 3 being the highest. ASCE 7 defines exact zone boundaries based on building dimensions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much higher are corner pressures in Broward County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In Broward County with 180 mph winds, corner pressures can be 2.5 to 3 times higher than field pressures. If the field sees -50 PSF suction, corners might see -140 PSF or more. This is why roofing materials, fasteners, and structural connections must be enhanced at corners and edges."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What reinforcement is needed at roof corners and hips?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Corners typically need closer nail spacing for sheathing (often 4 inch instead of 6 inch), additional hurricane ties, and sometimes heavier framing members. Hip rafters connecting corners need robust connections. Roofing materials like shingles also require enhanced nailing patterns and may need starter strips or adhesive at edges and corners."
+                }
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav>
+            <div class="nav-container">
+                <a href="https://windload.co/" class="nav-logo">
+                    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                    <span class="logo-text">Wind<span>Load</span>.co</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="https://windload.co/florida/">Florida</a></li>
+                    <li><a href="https://windload.co/states.html">All States</a></li>
+                    <li><a href="https://windload.co/architects.html">Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                </ul>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/florida/">Florida</a> /
+                <a href="https://windload.co/florida/broward/">Broward County</a> /
+                Hip and Corner Loads
+            </div>
+            <h1>Hip and Corners: <span>Where Wind Hits Hardest</span></h1>
+            <p class="subtitle">Why roof corners experience 2-3 times more wind pressure than the center. Those edges need extra reinforcement!</p>
+        </section>
+
+        <section class="cta-section" style="padding: 40px 5%;">
+            <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2>Calculate Your Roof Zone Pressures Now</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Get accurate ASCE 7-22 wind load calculations for hip and corner zones on your Broward County project.</p>
+                <a href="https://windloadcalc.com/shop/roofing.html" class="cta-button" style="display: inline-block; background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan)); color: white; padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: 600;">Calculate Roofing Loads</a>
+            </div>
+        </section>
+
+        <section class="animation-section">
+            <div class="animation-container">
+                <div class="roof-zones-visual">
+                    <div class="wind-indicator">
+                        WIND DIRECTION
+                    </div>
+                    <div class="roof-plan">
+                        <!-- Zone 3 - Corners (highest pressure) -->
+                        <div class="zone-corner zone-corner-tl"></div>
+                        <div class="zone-corner zone-corner-tr"></div>
+                        <div class="zone-corner zone-corner-bl"></div>
+                        <div class="zone-corner zone-corner-br"></div>
+
+                        <!-- Zone 2 - Edges -->
+                        <div class="zone-edge zone-edge-top"></div>
+                        <div class="zone-edge zone-edge-bottom"></div>
+                        <div class="zone-edge zone-edge-left"></div>
+                        <div class="zone-edge zone-edge-right"></div>
+
+                        <!-- Zone 1 - Field (center) -->
+                        <div class="zone-field">
+                            <span class="zone-label label-field">Zone 1</span>
+                        </div>
+
+                        <span class="zone-label label-edge label-edge-top">Zone 2</span>
+                        <span class="zone-label label-corner label-corner-tr">Zone 3</span>
+                    </div>
+
+                    <div class="zone-legend">
+                        <div class="legend-item">
+                            <div class="legend-color legend-field"></div>
+                            <div>
+                                <div class="legend-text">Zone 1 - Field</div>
+                                <div class="legend-pressure">-50 PSF</div>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-edge"></div>
+                            <div>
+                                <div class="legend-text">Zone 2 - Edge</div>
+                                <div class="legend-pressure">-90 PSF</div>
+                            </div>
+                        </div>
+                        <div class="legend-item">
+                            <div class="legend-color legend-corner"></div>
+                            <div>
+                                <div class="legend-text">Zone 3 - Corner</div>
+                                <div class="legend-pressure">-140 PSF</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="data-display">
+                    <div class="data-card">
+                        <div class="data-value" id="field-pressure">50</div>
+                        <div class="data-label">PSF Field (Zone 1)</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" id="corner-pressure">140</div>
+                        <div class="data-label">PSF Corner (Zone 3)</div>
+                    </div>
+                    <div class="data-card">
+                        <div class="data-value" id="multiplier">2.8x</div>
+                        <div class="data-label">Corner Multiplier</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="story-block">
+                <h3>Wind Hates Corners</h3>
+                <p>When wind flows over your roof, it hugs the surface smoothly in the middle. But at edges and corners, <strong>the airflow separates and creates violent turbulence</strong>. This separation effect concentrates suction forces right where edges meet - your roof corners.</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Zone 3 Gets Hit 3X Harder</h3>
+                <p>Building codes divide roofs into zones. The center field (Zone 1) is calmest. Edges (Zone 2) see about 1.8x the pressure. But corners (Zone 3) can see <strong>2.5 to 3 times the pressure</strong> of the field. In Broward County, that means corners fighting 140+ PSF of suction!</p>
+            </div>
+
+            <div class="story-block">
+                <h3>Hip Roofs Help - But Still Need Care</h3>
+                <p>Hip roofs perform better than gable roofs because they <strong>deflect wind in all directions</strong>. But hip corners and ridges still experience elevated pressures. Hip rafters must be properly sized and connected to handle these concentrated loads.</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>Why do roof corners have higher wind loads than the center?</h3>
+                <p>Wind flow separates at corners and edges, creating intense localized suction. Think of water flowing around a rock - it speeds up and creates turbulence at the edges. This separation effect can create pressures 2-3 times higher at corners (Zone 3) than in the center field (Zone 1). That is why corners need extra nailing and stronger connections.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What are Zone 1, Zone 2, and Zone 3 on a roof?</h3>
+                <p>Zone 1 is the interior field of the roof - the calmest area. Zone 2 is the perimeter edges where wind first separates from the surface. Zone 3 is the corners where two edges meet and wind effects combine. Each zone has different pressure coefficients, with Zone 3 being the highest. ASCE 7 defines exact zone boundaries based on building dimensions.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How much higher are corner pressures in Broward County?</h3>
+                <p>In Broward County with 180 mph winds, corner pressures can be 2.5 to 3 times higher than field pressures. If the field sees -50 PSF suction, corners might see -140 PSF or more. This is why roofing materials, fasteners, and structural connections must be enhanced at corners and edges.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What reinforcement is needed at roof corners and hips?</h3>
+                <p>Corners typically need closer nail spacing for sheathing (often 4 inch instead of 6 inch), additional hurricane ties, and sometimes heavier framing members. Hip rafters connecting corners need robust connections. Roofing materials like shingles also require enhanced nailing patterns and may need starter strips or adhesive at edges and corners.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Calculate Your Roof Zone Pressures</h2>
+                <p>WindLoad.co calculates exact pressures for Zone 1, 2, and 3 on your Broward County roof. Know where to reinforce!</p>
+                <a href="https://windloadcalc.com/shop/roofing.html" class="cta-button">Calculate Roofing Loads</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>WindLoad.co - Professional Wind Load Calculations for Broward County</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/florida/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co/florida/">Florida</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 3 + 1,
+                color: Math.random() > 0.5 ? '#e91e8c' : '#00d4ff',
+                alpha: Math.random() * 0.5 + 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.x < 0) p.x = canvas.width;
+                if (p.y > canvas.height) p.y = 0;
+                if (p.y < 0) p.y = canvas.height;
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        function animateValue(id, start, end, duration, suffix = '') {
+            const el = document.getElementById(id);
+            const startTime = performance.now();
+            function update(currentTime) {
+                const elapsed = currentTime - startTime;
+                const progress = Math.min(elapsed / duration, 1);
+                const current = Math.round(start + (end - start) * progress);
+                el.textContent = current + suffix;
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        setTimeout(() => {
+            animateValue('field-pressure', 0, 50, 1000);
+            animateValue('corner-pressure', 0, 140, 1500);
+        }, 500);
+    </script>
+</body>
+</html>
