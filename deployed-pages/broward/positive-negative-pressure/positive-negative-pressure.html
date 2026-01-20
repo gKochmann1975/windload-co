@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Positive vs Negative Wind Pressure | Push & Pull Forces | Broward County FL</title>
+    <meta name="description" content="Understand positive (push) and negative (suction) wind pressures in Broward County FL. Split-screen animation shows how wind creates both inward and outward forces on buildings.">
+    <meta name="keywords" content="positive wind pressure, negative wind pressure, wind suction, windward pressure, leeward suction, Broward County wind loads, ASCE 7 pressure">
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="WindLoad.co">
+    <link rel="canonical" href="https://windload.co/broward/positive-negative-pressure.html">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Positive vs Negative Wind Pressure - Push & Pull | Broward County">
+    <meta property="og:description" content="See how wind creates both pushing and pulling forces on buildings. Split-screen animation explains pressure signs.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/broward/positive-negative-pressure.html">
+    <meta property="og:image" content="https://windload.co/images/positive-negative-og.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Wind Push vs Pull - The Sign Matters">
+    <meta name="twitter:description" content="Visual guide to positive and negative wind pressures in building design.">
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-purple: #9d4edd;
+            --positive-red: #ff4757;
+            --negative-blue: #3742fa;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-light); }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-purple));
+            color: white;
+            padding: 12px 28px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(233, 30, 140, 0.4);
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+        }
+
+        .hero {
+            padding: 120px 5% 40px;
+            text-align: center;
+        }
+
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+
+        .title-split {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .title-positive {
+            color: var(--positive-red);
+        }
+
+        .title-vs {
+            color: var(--text-muted);
+        }
+
+        .title-negative {
+            color: var(--negative-blue);
+        }
+
+        .subtitle {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            max-width: 750px;
+            margin: 0 auto;
+        }
+
+        .split-stage {
+            padding: 60px 5%;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .split-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            border-radius: 25px;
+            overflow: hidden;
+            border: 2px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .split-panel {
+            padding: 50px 40px;
+            position: relative;
+            min-height: 500px;
+        }
+
+        .split-panel.positive {
+            background: linear-gradient(180deg, rgba(255, 71, 87, 0.15), rgba(26, 10, 46, 0.9));
+            border-right: 2px solid rgba(255, 71, 87, 0.3);
+        }
+
+        .split-panel.negative {
+            background: linear-gradient(180deg, rgba(55, 66, 250, 0.15), rgba(26, 10, 46, 0.9));
+        }
+
+        .panel-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .panel-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+        }
+
+        .positive .panel-icon { color: var(--positive-red); }
+        .negative .panel-icon { color: var(--negative-blue); }
+
+        .panel-title {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .positive .panel-title { color: var(--positive-red); }
+        .negative .panel-title { color: var(--negative-blue); }
+
+        .panel-subtitle {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+        }
+
+        .pressure-animation {
+            position: relative;
+            height: 200px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            margin: 30px 0;
+            overflow: hidden;
+        }
+
+        .wall-section {
+            position: absolute;
+            left: 50%;
+            top: 10%;
+            bottom: 10%;
+            width: 20px;
+            background: linear-gradient(180deg, #666, #444);
+            transform: translateX(-50%);
+            border-radius: 3px;
+        }
+
+        .positive .wall-section {
+            animation: wallPushRight 2s ease-in-out infinite;
+        }
+
+        .negative .wall-section {
+            animation: wallPullRight 2s ease-in-out infinite;
+        }
+
+        @keyframes wallPushRight {
+            0%, 100% { transform: translateX(-50%); }
+            50% { transform: translateX(-40%); }
+        }
+
+        @keyframes wallPullRight {
+            0%, 100% { transform: translateX(-50%); }
+            50% { transform: translateX(-60%); }
+        }
+
+        .arrow-container {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .positive .arrow-container { left: 10%; }
+        .negative .arrow-container { right: 10%; }
+
+        .pressure-arrow {
+            width: 0;
+            height: 0;
+            position: relative;
+        }
+
+        .positive .pressure-arrow {
+            border-left: 30px solid var(--positive-red);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            animation: arrowPush 2s ease-in-out infinite;
+        }
+
+        .negative .pressure-arrow {
+            border-right: 30px solid var(--negative-blue);
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            animation: arrowPull 2s ease-in-out infinite;
+        }
+
+        @keyframes arrowPush {
+            0%, 100% { transform: translateX(0); opacity: 0.5; }
+            50% { transform: translateX(40px); opacity: 1; }
+        }
+
+        @keyframes arrowPull {
+            0%, 100% { transform: translateX(0); opacity: 0.5; }
+            50% { transform: translateX(-40px); opacity: 1; }
+        }
+
+        .wind-particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .wind-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            top: 50%;
+        }
+
+        .positive .wind-dot {
+            background: var(--positive-red);
+            animation: dotFlowRight 1.5s linear infinite;
+        }
+
+        .negative .wind-dot {
+            background: var(--negative-blue);
+            animation: dotFlowLeft 1.5s linear infinite;
+        }
+
+        @keyframes dotFlowRight {
+            0% { left: -10px; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { left: 50%; opacity: 0; }
+        }
+
+        @keyframes dotFlowLeft {
+            0% { right: -10px; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { right: 50%; opacity: 0; }
+        }
+
+        .pressure-value-display {
+            text-align: center;
+            padding: 25px;
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+
+        .pressure-sign {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1;
+        }
+
+        .positive .pressure-sign { color: var(--positive-red); }
+        .negative .pressure-sign { color: var(--negative-blue); }
+
+        .pressure-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-top: 10px;
+        }
+
+        .pressure-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-top: 10px;
+        }
+
+        .panel-description {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .panel-description h4 {
+            margin-bottom: 10px;
+        }
+
+        .positive .panel-description h4 { color: var(--positive-red); }
+        .negative .panel-description h4 { color: var(--negative-blue); }
+
+        .panel-description ul {
+            list-style: none;
+        }
+
+        .panel-description li {
+            padding: 8px 0;
+            color: var(--text-muted);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .panel-description li::before {
+            content: '';
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .positive .panel-description li::before { background: var(--positive-red); }
+        .negative .panel-description li::before { background: var(--negative-blue); }
+
+        .building-diagram {
+            padding: 60px 5%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .diagram-container {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.7), rgba(26, 10, 46, 0.9));
+            border-radius: 25px;
+            padding: 50px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .diagram-title {
+            text-align: center;
+            font-size: 1.8rem;
+            margin-bottom: 40px;
+        }
+
+        .building-svg {
+            width: 100%;
+            max-width: 700px;
+            height: 400px;
+            margin: 0 auto;
+            display: block;
+        }
+
+        .diagram-legend {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.positive-bg { background: var(--positive-red); }
+        .legend-color.negative-bg { background: var(--negative-blue); }
+
+        .story-section {
+            padding: 80px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .story-card {
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.8));
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border-left: 4px solid var(--accent-cyan);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .story-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+            color: var(--accent-cyan);
+        }
+
+        .story-card p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .story-card strong {
+            color: var(--accent-magenta);
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .comparison-table th:nth-child(2) { color: var(--positive-red); }
+        .comparison-table th:nth-child(3) { color: var(--negative-blue); }
+
+        .comparison-table td {
+            color: var(--text-muted);
+        }
+
+        .faq-section {
+            padding: 60px 5%;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .faq-item h3 {
+            color: var(--accent-cyan);
+            margin-bottom: 12px;
+            font-size: 1.1rem;
+        }
+
+        .faq-item p {
+            color: var(--text-muted);
+        }
+
+        .cta-section {
+            padding: 80px 5%;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(233, 30, 140, 0.05));
+        }
+
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(45, 27, 78, 0.9), rgba(26, 10, 46, 0.95));
+            border-radius: 25px;
+            padding: 50px 40px;
+            border: 2px solid var(--accent-magenta);
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 15px;
+        }
+
+        .cta-box p {
+            color: var(--text-muted);
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--positive-red), var(--negative-blue));
+            color: white;
+            padding: 18px 45px;
+            border-radius: 35px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 15px 50px rgba(233, 30, 140, 0.4);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: var(--text-muted);
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .split-container {
+                grid-template-columns: 1fr;
+            }
+
+            .split-panel.positive {
+                border-right: none;
+                border-bottom: 2px solid rgba(255, 71, 87, 0.3);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .title-split {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            header {
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .split-panel {
+                padding: 30px 20px;
+                min-height: 400px;
+            }
+        }
+    </style>
+
+    <!-- JSON-LD Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is positive wind pressure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Positive wind pressure is the pushing force that occurs when wind hits a surface directly, like the windward wall of a building. It pushes inward on the wall. In ASCE 7, positive pressures have a '+' sign and represent compression forces that try to push the wall into the building."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is negative wind pressure (suction)?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Negative wind pressure is the pulling or suction force that occurs on surfaces parallel to or away from the wind, like leeward walls, side walls, and roofs. Wind flowing over these surfaces creates a vacuum effect that pulls outward. Negative pressures have a '-' sign and represent forces trying to pull materials away from the building."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why are negative pressures often larger than positive pressures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Negative (suction) pressures are often larger because wind separation and vortex formation create intense localized suction. While windward walls might see +25 psf, roof corners can see -80 psf or more. This is why roof sheathing and edge fasteners are critical in Broward County's high-wind zone."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I know if a wind pressure is positive or negative?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In ASCE 7, positive pressure acts toward the surface (pushing in), while negative pressure acts away from the surface (pulling out). The pressure sign determines fastener design - positive requires shear resistance, negative requires pullout resistance. Tables show both values for each surface zone."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What wind pressures apply to Broward County buildings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Broward County's 180+ mph design wind speeds create extreme pressures. Windward walls see +35 to +50 psf positive pressure. Leeward walls see -25 to -40 psf suction. Roof corners (Zone 3) can exceed -85 psf suction. Both positive AND negative pressures must be checked for each element."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "WindLoad.co",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Broward County",
+                "item": "https://windload.co/broward/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Positive vs Negative Pressure",
+                "item": "https://windload.co/broward/positive-negative-pressure.html"
+            }
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav>
+            <div class="nav-container">
+                <a href="https://windload.co/" class="nav-logo">
+                    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                    <span class="logo-text">Wind<span>Load</span>.co</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="https://windload.co/florida/">Florida</a></li>
+                    <li><a href="https://windload.co/states.html">All States</a></li>
+                    <li><a href="https://windload.co/architects.html">Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                </ul>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+            </div>
+        </nav>
+
+        <section class="hero">
+            <div class="breadcrumb">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.co/broward/">Broward County</a> /
+                Positive vs Negative Pressure
+            </div>
+            <h1>
+                <div class="title-split">
+                    <span class="title-positive">PUSH (+)</span>
+                    <span class="title-vs">vs</span>
+                    <span class="title-negative">PULL (-)</span>
+                </div>
+            </h1>
+            <p class="subtitle">Wind doesn't just push - it PULLS too! Understanding positive and negative pressure is the key to hurricane-safe design.</p>
+        </section>
+
+        <section class="cta-section" style="padding: 40px 5%;">
+            <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                <h2>Calculate Your Wind Pressures Now</h2>
+                <p style="color: var(--text-muted); margin-bottom: 20px;">Get accurate ASCE 7-22 positive and negative pressure calculations for your Broward County project.</p>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button" style="display: inline-block; background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan)); color: white; padding: 15px 35px; border-radius: 30px; text-decoration: none; font-weight: 600;">Calculate Wind Loads</a>
+            </div>
+        </section>
+
+        <section class="split-stage">
+            <div class="split-container">
+                <div class="split-panel positive">
+                    <div class="panel-header">
+                        <div class="panel-icon">+</div>
+                        <h2 class="panel-title">Positive Pressure</h2>
+                        <p class="panel-subtitle">Wind pushes INWARD</p>
+                    </div>
+
+                    <div class="pressure-animation">
+                        <div class="wind-particles" id="positive-particles"></div>
+                        <div class="wall-section"></div>
+                        <div class="arrow-container">
+                            <div class="pressure-arrow"></div>
+                        </div>
+                    </div>
+
+                    <div class="pressure-value-display">
+                        <div class="pressure-sign">+</div>
+                        <div class="pressure-number" id="positive-value">42.5 psf</div>
+                        <div class="pressure-label">Windward Wall Pressure</div>
+                    </div>
+
+                    <div class="panel-description">
+                        <h4>Where It Happens:</h4>
+                        <ul>
+                            <li>Windward walls (facing the wind)</li>
+                            <li>Roof surfaces with wind hitting underneath</li>
+                            <li>Any surface wind strikes head-on</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="split-panel negative">
+                    <div class="panel-header">
+                        <div class="panel-icon">-</div>
+                        <h2 class="panel-title">Negative Pressure</h2>
+                        <p class="panel-subtitle">Wind PULLS outward (suction)</p>
+                    </div>
+
+                    <div class="pressure-animation">
+                        <div class="wind-particles" id="negative-particles"></div>
+                        <div class="wall-section"></div>
+                        <div class="arrow-container">
+                            <div class="pressure-arrow"></div>
+                        </div>
+                    </div>
+
+                    <div class="pressure-value-display">
+                        <div class="pressure-sign">-</div>
+                        <div class="pressure-number" id="negative-value">67.3 psf</div>
+                        <div class="pressure-label">Leeward/Roof Suction</div>
+                    </div>
+
+                    <div class="panel-description">
+                        <h4>Where It Happens:</h4>
+                        <ul>
+                            <li>Leeward walls (away from wind)</li>
+                            <li>Side walls (parallel to wind)</li>
+                            <li>Most roof surfaces</li>
+                            <li>Corners and edges (highest suction!)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="building-diagram">
+            <div class="diagram-container">
+                <h2 class="diagram-title">See Both Pressures on a Building</h2>
+                <svg class="building-svg" viewBox="0 0 700 400" id="building-svg">
+                    <!-- Wind direction -->
+                    <defs>
+                        <marker id="arrowhead-red" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                            <polygon points="0 0, 10 3.5, 0 7" fill="#ff4757"/>
+                        </marker>
+                        <marker id="arrowhead-blue" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                            <polygon points="10 0, 0 3.5, 10 7" fill="#3742fa"/>
+                        </marker>
+                    </defs>
+
+                    <!-- Wind label -->
+                    <text x="50" y="180" fill="white" font-size="16" font-weight="bold">WIND</text>
+                    <path d="M40 200 L120 200" stroke="white" stroke-width="3" marker-end="url(#arrowhead-red)"/>
+                    <path d="M40 220 L120 220" stroke="white" stroke-width="3" marker-end="url(#arrowhead-red)"/>
+                    <path d="M40 240 L120 240" stroke="white" stroke-width="3" marker-end="url(#arrowhead-red)"/>
+
+                    <!-- Building -->
+                    <rect x="180" y="120" width="350" height="230" fill="#333" stroke="white" stroke-width="2"/>
+
+                    <!-- Roof -->
+                    <polygon points="180,120 355,50 530,120" fill="#444" stroke="white" stroke-width="2"/>
+
+                    <!-- Windward wall - Positive -->
+                    <rect x="180" y="120" width="15" height="230" fill="rgba(255,71,87,0.5)"/>
+                    <line x1="150" y1="180" x2="175" y2="180" stroke="#ff4757" stroke-width="3" marker-end="url(#arrowhead-red)"/>
+                    <line x1="150" y1="230" x2="175" y2="230" stroke="#ff4757" stroke-width="3" marker-end="url(#arrowhead-red)"/>
+                    <line x1="150" y1="280" x2="175" y2="280" stroke="#ff4757" stroke-width="3" marker-end="url(#arrowhead-red)"/>
+                    <text x="130" y="330" fill="#ff4757" font-size="14" font-weight="bold">+42 psf</text>
+
+                    <!-- Leeward wall - Negative -->
+                    <rect x="515" y="120" width="15" height="230" fill="rgba(55,66,250,0.5)"/>
+                    <line x1="555" y1="180" x2="535" y2="180" stroke="#3742fa" stroke-width="3" marker-end="url(#arrowhead-blue)"/>
+                    <line x1="555" y1="230" x2="535" y2="230" stroke="#3742fa" stroke-width="3" marker-end="url(#arrowhead-blue)"/>
+                    <line x1="555" y1="280" x2="535" y2="280" stroke="#3742fa" stroke-width="3" marker-end="url(#arrowhead-blue)"/>
+                    <text x="560" y="330" fill="#3742fa" font-size="14" font-weight="bold">-28 psf</text>
+
+                    <!-- Roof - Negative (suction) -->
+                    <line x1="280" y1="85" x2="280" y2="55" stroke="#3742fa" stroke-width="3" marker-end="url(#arrowhead-blue)"/>
+                    <line x1="355" y1="65" x2="355" y2="35" stroke="#3742fa" stroke-width="3" marker-end="url(#arrowhead-blue)"/>
+                    <line x1="430" y1="85" x2="430" y2="55" stroke="#3742fa" stroke-width="3" marker-end="url(#arrowhead-blue)"/>
+                    <text x="340" y="25" fill="#3742fa" font-size="14" font-weight="bold">-58 psf</text>
+
+                    <!-- Labels -->
+                    <text x="200" y="240" fill="white" font-size="12">WINDWARD</text>
+                    <text x="450" y="240" fill="white" font-size="12">LEEWARD</text>
+                </svg>
+
+                <div class="diagram-legend">
+                    <div class="legend-item">
+                        <div class="legend-color positive-bg"></div>
+                        <span>Positive (Push Inward)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color negative-bg"></div>
+                        <span>Negative (Pull Outward)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="story-section">
+            <div class="story-card">
+                <h3>Why Suction is Often Worse Than Push</h3>
+                <p>Here's the surprise: <strong>negative pressure (suction) often causes more damage than positive pressure!</strong> While the windward wall gets pushed at maybe +40 psf, roof corners can see -85 psf trying to rip the sheathing off.</p>
+                <p>That's why Florida's building codes focus so heavily on roof-to-wall connections and edge fasteners. The roof isn't blown OFF by wind pushing under it - it's <strong>sucked off</strong> by the vacuum on top!</p>
+            </div>
+
+            <div class="story-card">
+                <h3>The Pressure Sign Tells You What to Design For</h3>
+                <table class="comparison-table">
+                    <tr>
+                        <th>Design Consideration</th>
+                        <th>Positive (+)</th>
+                        <th>Negative (-)</th>
+                    </tr>
+                    <tr>
+                        <td>Force Direction</td>
+                        <td>Into building</td>
+                        <td>Out of building</td>
+                    </tr>
+                    <tr>
+                        <td>Fastener Design</td>
+                        <td>Shear resistance</td>
+                        <td>Pullout resistance</td>
+                    </tr>
+                    <tr>
+                        <td>Typical Location</td>
+                        <td>Windward wall</td>
+                        <td>Roof, leeward, sides</td>
+                    </tr>
+                    <tr>
+                        <td>Broward County Max</td>
+                        <td>~50 psf</td>
+                        <td>~90 psf</td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="story-card">
+                <h3>Both Signs Apply to Every Surface!</h3>
+                <p>Here's what many people miss: <strong>wind changes direction!</strong> During a hurricane, your "leeward" wall becomes the windward wall as the storm rotates. ASCE 7 requires checking BOTH positive AND negative pressures for every surface.</p>
+                <p>That window on the back wall? It needs to resist being pushed IN when wind hits it directly, AND resist being sucked OUT when wind creates a vacuum behind it.</p>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <h3>What is positive wind pressure?</h3>
+                <p>Positive wind pressure is the pushing force that occurs when wind hits a surface directly, like the windward wall of a building. It pushes inward on the wall. In ASCE 7, positive pressures have a '+' sign and represent compression forces that try to push the wall into the building.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What is negative wind pressure (suction)?</h3>
+                <p>Negative wind pressure is the pulling or suction force that occurs on surfaces parallel to or away from the wind, like leeward walls, side walls, and roofs. Wind flowing over these surfaces creates a vacuum effect that pulls outward. Negative pressures have a '-' sign and represent forces trying to pull materials away from the building.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>Why are negative pressures often larger than positive pressures?</h3>
+                <p>Negative (suction) pressures are often larger because wind separation and vortex formation create intense localized suction. While windward walls might see +25 psf, roof corners can see -80 psf or more. This is why roof sheathing and edge fasteners are critical in Broward County's high-wind zone.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>How do I know if a wind pressure is positive or negative?</h3>
+                <p>In ASCE 7, positive pressure acts toward the surface (pushing in), while negative pressure acts away from the surface (pulling out). The pressure sign determines fastener design - positive requires shear resistance, negative requires pullout resistance. Tables show both values for each surface zone.</p>
+            </div>
+
+            <div class="faq-item">
+                <h3>What wind pressures apply to Broward County buildings?</h3>
+                <p>Broward County's 180+ mph design wind speeds create extreme pressures. Windward walls see +35 to +50 psf positive pressure. Leeward walls see -25 to -40 psf suction. Roof corners (Zone 3) can exceed -85 psf suction. Both positive AND negative pressures must be checked for each element.</p>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <div class="cta-box">
+                <h2>Get Both Pressure Signs Calculated</h2>
+                <p>Our wind load calculator provides both positive AND negative pressures for every zone on your Broward County building. Don't miss the critical suction loads!</p>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">Calculate Pressures Now</a>
+            </div>
+        </section>
+
+        <footer>
+            <p>&copy; 2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p style="margin-top: 10px;">
+                <a href="https://windload.co/broward/">Broward County Wind Loads</a> |
+                <a href="https://windload.co">Home</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Dual-colored particle background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 100;
+
+        for (let i = 0; i < particleCount; i++) {
+            const isPositive = i < particleCount / 2;
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: isPositive ? Math.random() * 2 + 1 : -(Math.random() * 2 + 1),
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 3 + 1,
+                color: isPositive ? '#ff4757' : '#3742fa',
+                alpha: Math.random() * 0.4 + 0.2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x > canvas.width + 10) p.x = -10;
+                if (p.x < -10) p.x = canvas.width + 10;
+                if (p.y > canvas.height) p.y = 0;
+                if (p.y < 0) p.y = canvas.height;
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Create wind dots for pressure animations
+        function createWindDots(containerId, count) {
+            const container = document.getElementById(containerId);
+            for (let i = 0; i < count; i++) {
+                const dot = document.createElement('div');
+                dot.className = 'wind-dot';
+                dot.style.animationDelay = (Math.random() * 1.5) + 's';
+                dot.style.top = (20 + Math.random() * 60) + '%';
+                container.appendChild(dot);
+            }
+        }
+
+        createWindDots('positive-particles', 8);
+        createWindDots('negative-particles', 8);
+
+        // Animate pressure values
+        function animatePressureValues() {
+            const positiveEl = document.getElementById('positive-value');
+            const negativeEl = document.getElementById('negative-value');
+
+            let posBase = 42.5;
+            let negBase = 67.3;
+
+            setInterval(() => {
+                const posVariation = (Math.random() - 0.5) * 5;
+                const negVariation = (Math.random() - 0.5) * 8;
+
+                positiveEl.textContent = (posBase + posVariation).toFixed(1) + ' psf';
+                negativeEl.textContent = (negBase + negVariation).toFixed(1) + ' psf';
+            }, 1000);
+        }
+        animatePressureValues();
+
+        // Scroll reveal for story cards
+        const storyCards = document.querySelectorAll('.story-card');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        storyCards.forEach(card => observer.observe(card));
+    </script>
+</body>
+</html>
