@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smoke Vent Wind Load Requirements | Broward County FL Fire Venting Design</title>
+    <meta name="description" content="Calculate smoke and heat vent wind loads for Broward County FL. Interactive visualization shows automatic vent operation and wind resistance. Learn curb design and fusible link requirements.">
+    <link rel="canonical" href="https://windload.co/florida/broward/smoke-vent-requirements">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County, Florida">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Smoke Vent Wind Loads | Broward County FL">
+    <meta property="og:description" content="Interactive smoke vent wind load visualization for Broward County. See how automatic vents must resist hurricane forces until activated.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/broward/smoke-vent-requirements">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads do smoke vents experience in Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Smoke vents in Broward County experience the same wind uplift as other roof-mounted equipment. At 175 mph design wind speed, a 4x8 foot smoke vent might see 2,500-4,000 lbs of uplift depending on roof zone. The vent must remain closed and functional during high winds to maintain building enclosure until fire activation."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do smoke vents stay closed during hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Smoke vents use wind-rated latches or hold-down mechanisms that keep the lid closed against design wind loads. The latches release only when activated by heat (fusible links), smoke detection, or manual controls. Quality hurricane-rated vents have latches tested to resist the full design uplift pressure."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do smoke vents need Miami-Dade or Florida Product Approval?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Smoke vents installed in the Florida High Velocity Hurricane Zone need Miami-Dade NOA approval. Outside HVHZ but within the Florida Building Code jurisdiction, vents need Florida Product Approval. The approval documents the wind load rating, curb requirements, and installation specifications."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the curb height requirement for smoke vents?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Smoke vent curbs typically need to be 8-12 inches high for proper water management and lid clearance. The curb must be structurally adequate to transfer wind loads to the roof structure. Curbs are anchored at 12-18 inch spacing with fasteners sized for the design uplift and lateral loads."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can smoke vents operate after a hurricane?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Properly designed smoke vents should remain operational after a hurricane. The hold-down mechanisms protect the operating components during the storm. After winds subside, the fusible links and opening mechanisms should function normally. Post-storm inspection is recommended to verify operation."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Smoke Vent Requirements", "item": "https://windload.co/florida/broward/smoke-vent-requirements"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-fire: #ff4500;
+            --accent-smoke: #708090;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 1rem 2rem;
+        }
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: var(--text-light); }
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-fire), var(--accent-magenta));
+            color: white !important;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+
+        .breadcrumb {
+            padding: 1rem 5%;
+            margin-top: 70px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+
+        .hero {
+            padding: 60px 5% 40px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(255, 69, 0, 0.15);
+            border: 1px solid rgba(255, 69, 0, 0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--accent-fire);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+            line-height: 1.15;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-fire), #ff6b35);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Smoke Vent Visualization */
+        .visualization-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .vent-stage {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.9));
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            color: var(--accent-fire);
+        }
+
+        .mode-toggle {
+            display: flex;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.4);
+            padding: 8px;
+            border-radius: 12px;
+        }
+
+        .mode-btn {
+            padding: 10px 20px;
+            background: transparent;
+            border: none;
+            color: var(--text-muted);
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .mode-btn:hover { color: var(--text-light); }
+
+        .mode-btn.active {
+            background: var(--accent-fire);
+            color: white;
+        }
+
+        .vent-canvas {
+            position: relative;
+            height: 480px;
+            background: linear-gradient(180deg, #0f0f1f 0%, #1a0a2e 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Roof Surface */
+        .roof-surface {
+            position: absolute;
+            bottom: 100px;
+            left: 10%;
+            right: 10%;
+            height: 30px;
+            background: linear-gradient(180deg, #4a4a4a, #333);
+            border-top: 3px solid #666;
+        }
+
+        /* Vent Assembly */
+        .vent-assembly {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 125px;
+        }
+
+        .vent-curb {
+            width: 220px;
+            height: 60px;
+            background: linear-gradient(90deg, #7a7a7a, #9a9a9a, #7a7a7a);
+            border: 3px solid #555;
+        }
+
+        .vent-frame {
+            position: absolute;
+            top: -8px;
+            left: -5px;
+            right: -5px;
+            height: 12px;
+            background: linear-gradient(180deg, #444, #333);
+            border-radius: 2px;
+        }
+
+        /* Vent Lid */
+        .vent-lid {
+            position: absolute;
+            bottom: 52px;
+            left: 5px;
+            width: 210px;
+            height: 15px;
+            background: linear-gradient(180deg, #606060, #454545);
+            border: 2px solid #555;
+            transform-origin: left center;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .vent-lid.open {
+            transform: rotate(-85deg);
+        }
+
+        /* Fusible Link */
+        .fusible-link {
+            position: absolute;
+            right: 30px;
+            bottom: 55px;
+            width: 25px;
+            height: 15px;
+            background: linear-gradient(90deg, #c0c0c0, #e0e0e0, #c0c0c0);
+            border: 2px solid #999;
+            border-radius: 3px;
+            z-index: 5;
+            transition: all 0.5s;
+        }
+
+        .fusible-link.melted {
+            background: var(--accent-fire);
+            border-color: #cc3300;
+            opacity: 0.5;
+            transform: scale(0.5);
+        }
+
+        /* Hold-Down Latch */
+        .hold-down {
+            position: absolute;
+            right: 70px;
+            bottom: 52px;
+            width: 20px;
+            height: 30px;
+            background: var(--accent-fire);
+            border: 2px solid #cc3300;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+
+        .hold-down.stressed {
+            animation: latchPulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes latchPulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); box-shadow: 0 0 15px var(--accent-fire); }
+        }
+
+        /* Smoke Effect */
+        .smoke-container {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 200px;
+            width: 200px;
+            height: 150px;
+            overflow: visible;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .smoke-container.active { opacity: 1; }
+
+        .smoke-particle {
+            position: absolute;
+            bottom: 0;
+            width: 30px;
+            height: 30px;
+            background: radial-gradient(circle, rgba(112, 128, 144, 0.6) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: smokeRise 3s ease-out infinite;
+        }
+
+        @keyframes smokeRise {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 0.8;
+            }
+            100% {
+                transform: translateY(-150px) scale(2.5);
+                opacity: 0;
+            }
+        }
+
+        /* Wind Arrows */
+        .wind-arrow {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .wind-arrow.visible { opacity: 1; }
+
+        .wind-shaft {
+            width: 80px;
+            height: 5px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan));
+        }
+
+        .wind-tip {
+            width: 0;
+            height: 0;
+            border-top: 12px solid transparent;
+            border-bottom: 12px solid transparent;
+            border-left: 18px solid var(--accent-cyan);
+        }
+
+        /* Uplift Arrow */
+        .uplift-arrow {
+            position: absolute;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .uplift-arrow.visible { opacity: 1; }
+
+        .uplift-shaft {
+            width: 5px;
+            height: 70px;
+            background: linear-gradient(180deg, var(--accent-magenta), transparent);
+        }
+
+        .uplift-tip {
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 18px solid var(--accent-magenta);
+        }
+
+        .force-label {
+            position: absolute;
+            font-size: 0.9rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .force-label.wind { color: var(--accent-cyan); left: -80px; }
+        .force-label.uplift { color: var(--accent-magenta); top: -30px; }
+
+        /* Results Panel */
+        .results-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(255, 69, 0, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 200px;
+        }
+
+        .panel-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-row {
+            margin-bottom: 12px;
+        }
+
+        .result-label { font-size: 0.8rem; color: var(--text-muted); }
+        .result-value { font-size: 1.3rem; font-weight: 700; }
+        .result-value.uplift { color: var(--accent-magenta); }
+        .result-value.latch { color: var(--accent-fire); }
+        .result-value.size { color: var(--accent-cyan); }
+
+        /* Status Indicator */
+        .status-indicator {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 12px;
+            padding: 15px 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .status-dot {
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: #22c55e;
+            box-shadow: 0 0 10px #22c55e;
+        }
+
+        .status-dot.fire {
+            background: var(--accent-fire);
+            box-shadow: 0 0 10px var(--accent-fire);
+            animation: firePulse 0.5s ease-in-out infinite;
+        }
+
+        @keyframes firePulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.3); }
+        }
+
+        .status-text {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* Demo Controls */
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 14px 28px;
+            background: rgba(255, 69, 0, 0.15);
+            border: 2px solid rgba(255, 69, 0, 0.4);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 69, 0, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: var(--accent-fire);
+            border-color: var(--accent-fire);
+        }
+
+        .control-btn.fire-btn {
+            background: linear-gradient(135deg, var(--accent-fire), #cc3300);
+            border-color: var(--accent-fire);
+        }
+
+        /* CTA */
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-fire), #cc3300);
+            color: white;
+            box-shadow: 0 8px 30px rgba(255, 69, 0, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 40px rgba(255, 69, 0, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span { color: var(--accent-fire); }
+
+        .section-header p {
+            color: var(--text-muted);
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Feature Grid */
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(255, 69, 0, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            border-color: var(--accent-fire);
+            transform: translateY(-5px);
+        }
+
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(255, 69, 0, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .feature-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-fire);
+        }
+
+        .feature-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, transparent, rgba(255, 69, 0, 0.05));
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(255, 69, 0, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(255, 69, 0, 0.1); }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-fire);
+        }
+
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-muted);
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-fire), #cc3300);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 40px 5%;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-section .btn-primary {
+            background: white;
+            color: var(--accent-fire);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(255, 69, 0, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 968px) {
+            .feature-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .results-panel, .status-indicator { position: static; margin: 1rem 0; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav>
+            <div class="nav-container">
+                <a href="https://windload.co/" class="nav-logo">
+                    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                    <span class="logo-text">Wind<span>Load</span>.co</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="https://windload.co/florida/">Florida</a></li>
+                    <li><a href="https://windload.co/states.html">All States</a></li>
+                    <li><a href="https://windload.co/architects.html">Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                </ul>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="https://windload.co/florida-pro.html">Florida</a> <span>/</span>
+            <a href="https://windload.co/florida/broward/">Broward</a> <span>/</span>
+            <span>Smoke Vent Requirements</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/>
+                </svg>
+                Fire Venting + Hurricane Protection
+            </div>
+
+            <h1>Smoke Vent <span>Wind Load Requirements</span></h1>
+
+            <p class="subtitle">
+                Smoke vents must stay closed during hurricanes but open instantly during fires. Watch how these dual requirements create unique engineering challenges.
+            </p>
+        </section>
+
+        <div class="visualization-container">
+            <div class="vent-stage reveal">
+                <div class="stage-header">
+                    <div class="stage-title">Automatic Smoke Vent Operation</div>
+                    <div class="mode-toggle">
+                        <button class="mode-btn active" data-mode="wind">Wind Mode</button>
+                        <button class="mode-btn" data-mode="fire">Fire Mode</button>
+                    </div>
+                </div>
+
+                <div class="vent-canvas" id="ventCanvas">
+                    <!-- Roof Surface -->
+                    <div class="roof-surface"></div>
+
+                    <!-- Smoke Container -->
+                    <div class="smoke-container" id="smokeContainer">
+                        <div class="smoke-particle" style="left: 30%; animation-delay: 0s;"></div>
+                        <div class="smoke-particle" style="left: 50%; animation-delay: 0.5s;"></div>
+                        <div class="smoke-particle" style="left: 70%; animation-delay: 1s;"></div>
+                        <div class="smoke-particle" style="left: 40%; animation-delay: 1.5s;"></div>
+                        <div class="smoke-particle" style="left: 60%; animation-delay: 2s;"></div>
+                    </div>
+
+                    <!-- Vent Assembly -->
+                    <div class="vent-assembly" id="ventAssembly">
+                        <div class="vent-curb">
+                            <div class="vent-frame"></div>
+                        </div>
+                        <div class="vent-lid" id="ventLid"></div>
+                        <div class="fusible-link" id="fusibleLink"></div>
+                        <div class="hold-down" id="holdDown"></div>
+                    </div>
+
+                    <!-- Wind Arrow -->
+                    <div class="wind-arrow" id="windArrow" style="left: 15%; top: 40%;">
+                        <div class="force-label wind">175 MPH</div>
+                        <div class="wind-shaft"></div>
+                        <div class="wind-tip"></div>
+                    </div>
+
+                    <!-- Uplift Arrow -->
+                    <div class="uplift-arrow" id="upliftArrow" style="left: 50%; top: 18%; transform: translateX(-50%);">
+                        <div class="force-label uplift" id="upliftLabel">2,850 lbs</div>
+                        <div class="uplift-tip"></div>
+                        <div class="uplift-shaft"></div>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div class="results-panel">
+                        <div class="panel-title">Vent Specifications</div>
+                        <div class="result-row">
+                            <div class="result-label">Size</div>
+                            <div class="result-value size">4' x 8'</div>
+                        </div>
+                        <div class="result-row">
+                            <div class="result-label">Design Uplift</div>
+                            <div class="result-value uplift" id="resultUplift">2,850 lbs</div>
+                        </div>
+                        <div class="result-row">
+                            <div class="result-label">Hold-Down Rating</div>
+                            <div class="result-value latch" id="resultLatch">3,200 lbs</div>
+                        </div>
+                    </div>
+
+                    <!-- Status Indicator -->
+                    <div class="status-indicator">
+                        <div class="status-dot" id="statusDot"></div>
+                        <span class="status-text" id="statusText">Vent Secured - Wind Mode</span>
+                    </div>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="control-btn" id="showForcesBtn">Show Wind Forces</button>
+                    <button class="control-btn" id="stressTestBtn">Stress Hold-Downs</button>
+                    <button class="control-btn fire-btn" id="fireActivateBtn">Activate Fire Mode</button>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=smokevent-broward" class="btn btn-primary">
+                    Calculate Vent Loads
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#features" class="btn btn-secondary">Design Requirements</a>
+            </div>
+        </div>
+
+        <section class="reveal" id="features">
+            <div class="section-header">
+                <h2>Dual-Purpose <span>Design Features</span></h2>
+                <p>How smoke vents balance fire protection with hurricane resistance.</p>
+            </div>
+
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff4500" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="6" rx="1"/>
+                            <path d="M7 11V8a5 5 0 0110 0v3"/>
+                        </svg>
+                    </div>
+                    <h3>Wind-Rated Hold-Downs</h3>
+                    <p>Heavy-duty latches rated to resist full design uplift. Release only when activated by heat, smoke, or manual controls.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff4500" stroke-width="2">
+                            <path d="M8.5 14.5A2.5 2.5 0 0011 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 11-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 002.5 2.5z"/>
+                        </svg>
+                    </div>
+                    <h3>Fusible Links</h3>
+                    <p>Temperature-rated links (165F or 212F typical) that melt to release the lid for automatic fire venting.</p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#ff4500" stroke-width="2">
+                            <rect x="2" y="6" width="20" height="12" rx="2"/>
+                            <path d="M6 6v12M18 6v12M2 12h20"/>
+                        </svg>
+                    </div>
+                    <h3>Reinforced Curb</h3>
+                    <p>Steel curb with integral flanges for positive anchorage. Sized to transfer full wind loads to roof structure.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>Smoke Vent <span>FAQs</span></h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item open">
+                    <div class="faq-question">What wind loads do smoke vents experience in Florida?</div>
+                    <div class="faq-answer">
+                        Smoke vents in Broward County experience the same wind uplift as other roof-mounted equipment. At 175 mph design wind speed, a 4x8 foot smoke vent might see 2,500-4,000 lbs of uplift depending on roof zone. The vent must remain closed and functional during high winds to maintain building enclosure until fire activation.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How do smoke vents stay closed during hurricanes?</div>
+                    <div class="faq-answer">
+                        Smoke vents use wind-rated latches or hold-down mechanisms that keep the lid closed against design wind loads. The latches release only when activated by heat (fusible links), smoke detection, or manual controls. Quality hurricane-rated vents have latches tested to resist the full design uplift pressure.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do smoke vents need Miami-Dade or Florida Product Approval?</div>
+                    <div class="faq-answer">
+                        Yes. Smoke vents installed in the Florida High Velocity Hurricane Zone need Miami-Dade NOA approval. Outside HVHZ but within the Florida Building Code jurisdiction, vents need Florida Product Approval. The approval documents the wind load rating, curb requirements, and installation specifications.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What is the curb height requirement for smoke vents?</div>
+                    <div class="faq-answer">
+                        Smoke vent curbs typically need to be 8-12 inches high for proper water management and lid clearance. The curb must be structurally adequate to transfer wind loads to the roof structure. Curbs are anchored at 12-18 inch spacing with fasteners sized for the design uplift and lateral loads.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Can smoke vents operate after a hurricane?</div>
+                    <div class="faq-answer">
+                        Properly designed smoke vents should remain operational after a hurricane. The hold-down mechanisms protect the operating components during the storm. After winds subside, the fusible links and opening mechanisms should function normally. Post-storm inspection is recommended to verify operation.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section reveal">
+            <h2>Calculate Your Smoke Vent Wind Loads</h2>
+            <p>Get the exact uplift forces and hold-down requirements for your Broward County smoke vent installation.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=smokevent-broward-cta" class="btn btn-primary">
+                Start Calculating Now
+            </a>
+        </div>
+
+        <footer>
+            <p>
+                <a href="https://windload.co/florida/broward/">Broward County</a> |
+                <a href="/florida/broward/roof-hatch-wind-loads">Roof Hatches</a> |
+                <a href="https://windload.co/florida-pro.html">All Florida</a>
+            </p>
+            <p style="margin-top: 15px;">&copy; 2025 WindLoad.co | <a href="https://windloadcalc.com">Wind Load Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 2 + 0.5,
+                vy: -Math.random() * 0.5,
+                size: Math.random() * 2 + 0.5,
+                color: Math.random() > 0.6 ? '#ff4500' : '#708090',
+                alpha: Math.random() * 0.4 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x > canvas.width + 20) {
+                    p.x = -10;
+                    p.y = Math.random() * canvas.height;
+                }
+                if (p.y < -10) {
+                    p.y = canvas.height + 10;
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Mode Toggle
+        let currentMode = 'wind';
+
+        document.querySelectorAll('.mode-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentMode = this.dataset.mode;
+
+                if (currentMode === 'fire') {
+                    document.getElementById('fireActivateBtn').click();
+                }
+            });
+        });
+
+        // Show Forces
+        document.getElementById('showForcesBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('windArrow').classList.toggle('visible');
+            document.getElementById('upliftArrow').classList.toggle('visible');
+        });
+
+        // Stress Test
+        document.getElementById('stressTestBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('holdDown').classList.toggle('stressed');
+
+            if (!document.getElementById('showForcesBtn').classList.contains('active')) {
+                document.getElementById('showForcesBtn').click();
+            }
+        });
+
+        // Fire Activate
+        let fireActive = false;
+        document.getElementById('fireActivateBtn').addEventListener('click', function() {
+            fireActive = !fireActive;
+            this.classList.toggle('active');
+
+            const lid = document.getElementById('ventLid');
+            const fusibleLink = document.getElementById('fusibleLink');
+            const smokeContainer = document.getElementById('smokeContainer');
+            const statusDot = document.getElementById('statusDot');
+            const statusText = document.getElementById('statusText');
+            const holdDown = document.getElementById('holdDown');
+
+            if (fireActive) {
+                // Fire sequence
+                statusDot.classList.add('fire');
+                statusText.textContent = 'FIRE DETECTED - Venting';
+
+                // Melt fusible link
+                setTimeout(() => {
+                    fusibleLink.classList.add('melted');
+                }, 500);
+
+                // Release hold-down
+                setTimeout(() => {
+                    holdDown.style.opacity = '0.3';
+                }, 800);
+
+                // Open lid
+                setTimeout(() => {
+                    lid.classList.add('open');
+                    smokeContainer.classList.add('active');
+                }, 1200);
+
+                // Update mode buttons
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.mode-btn[data-mode="fire"]').classList.add('active');
+            } else {
+                // Reset
+                statusDot.classList.remove('fire');
+                statusText.textContent = 'Vent Secured - Wind Mode';
+                fusibleLink.classList.remove('melted');
+                holdDown.style.opacity = '1';
+                lid.classList.remove('open');
+                smokeContainer.classList.remove('active');
+
+                document.querySelectorAll('.mode-btn').forEach(b => b.classList.remove('active'));
+                document.querySelector('.mode-btn[data-mode="wind"]').classList.add('active');
+            }
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            revealElements.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        console.log('Smoke Vent Requirements - Template E initialized');
+    </script>
+</body>
+</html>
