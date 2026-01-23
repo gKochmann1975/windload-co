@@ -1,0 +1,948 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Height Factor (Kz) Calculation for Miami-Dade | Velocity Pressure Coefficient</title>
+    <meta name="description" content="Learn how the Height Factor (Kz) affects wind loads at different building heights. Animated explanation showing why upper floors experience more wind pressure in Miami-Dade.">
+    <link rel="canonical" href="https://windload.co/miami-dade/building-height-factor.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Height Factor (Kz) for Miami-Dade Wind Loads">
+    <meta property="og:description" content="Understanding how building height affects wind pressure with the Kz velocity pressure coefficient.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/miami-dade/building-height-factor.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Kz Height Factor Explained">
+    <meta name="twitter:description" content="Why wind hits harder at the top of buildings than at the bottom.">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Miami-Dade", "item": "https://windload.co/miami-dade/"},
+            {"@type": "ListItem", "position": 3, "name": "Height Factor (Kz)", "item": "https://windload.co/miami-dade/building-height-factor.html"}
+        ]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the Kz factor in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kz is the velocity pressure exposure coefficient that adjusts wind loads for height above ground. It accounts for the fact that wind speed increases with height due to reduced friction from surface obstacles. Kz ranges from about 0.57 near ground level to over 1.5 at very tall heights."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I calculate Kz for my building height?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Kz is calculated using the formula: Kz = 2.01 x (z/zg)^(2/alpha), where z is height, zg is gradient height, and alpha is a terrain exponent. For Exposure C at 30 feet, Kz equals approximately 0.98. Most engineers use tables from ASCE 7-16 Table 26.10-1."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does wind pressure increase with building height?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Near the ground, wind slows down due to friction from trees, buildings, and terrain. As you go higher, there are fewer obstacles to slow the wind. At 500 feet, wind can be 30-50% faster than at ground level, creating significantly higher pressures on tall buildings."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What Kz value should I use for a 30-foot building in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For a 30-foot building in Exposure C (typical suburban/urban), Kz equals approximately 0.98. For Exposure B (urban with obstructions), Kz is about 0.70. For Exposure D (flat coastal), Kz is about 1.09. The exposure category significantly affects the Kz value."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Article Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Height Factor (Kz) Calculation for Miami-Dade County",
+        "description": "Understanding the Kz velocity pressure coefficient and how building height affects wind loads in Miami-Dade County.",
+        "author": {"@type": "Organization", "name": "WindLoad.co"},
+        "publisher": {"@type": "Organization", "name": "WindLoad.co", "url": "https://windload.co"},
+        "datePublished": "2025-01-01",
+        "dateModified": "2025-01-17",
+        "mainEntityOfPage": "https://windload.co/miami-dade/building-height-factor.html"
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-cyan); }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 0 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h1 .highlight {
+            color: var(--accent-magenta);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Building Height Visualization */
+        .height-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0d0015 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            overflow: hidden;
+        }
+
+        .building-visualization {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 400px;
+            gap: 4rem;
+            padding: 0 2rem;
+        }
+
+        .building-tower {
+            position: relative;
+            width: 100px;
+            background: linear-gradient(180deg, var(--accent-magenta) 0%, var(--accent-cyan) 50%, var(--primary-dark) 100%);
+            border-radius: 5px 5px 0 0;
+            height: 350px;
+        }
+
+        .floor-marker {
+            position: absolute;
+            left: 110%;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            white-space: nowrap;
+        }
+
+        .floor-line {
+            width: 20px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .floor-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        .floor-kz {
+            font-weight: 700;
+            color: var(--accent-cyan);
+        }
+
+        /* Wind arrows at different heights */
+        .wind-arrows-container {
+            position: absolute;
+            left: -80px;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            padding: 20px 0;
+        }
+
+        .wind-arrow-row {
+            display: flex;
+            align-items: center;
+        }
+
+        .wind-arrow {
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), transparent);
+            animation: windArrowFlow 1.5s ease-in-out infinite;
+        }
+
+        @keyframes windArrowFlow {
+            0%, 100% { transform: translateX(-10px); opacity: 0.3; }
+            50% { transform: translateX(10px); opacity: 1; }
+        }
+
+        /* Kz Table */
+        .kz-table-container {
+            margin-top: 2rem;
+        }
+
+        .kz-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+        }
+
+        .kz-table th {
+            background: rgba(0, 212, 255, 0.2);
+            padding: 0.75rem;
+            text-align: center;
+            border-bottom: 2px solid var(--accent-cyan);
+        }
+
+        .kz-table td {
+            padding: 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .kz-table tr:hover td {
+            background: rgba(233, 30, 140, 0.1);
+        }
+
+        /* Story Sections */
+        .story-section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .story-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-grid.reverse {
+            direction: rtl;
+        }
+
+        .story-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .story-visual {
+            position: relative;
+            padding: 2rem;
+            background: rgba(26, 10, 46, 0.5);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .story-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Height comparison bars */
+        .height-bars {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 250px;
+            padding: 1rem;
+        }
+
+        .height-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .height-bar-fill {
+            width: 50px;
+            background: linear-gradient(180deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 0.5rem;
+            font-weight: 700;
+            font-size: 0.875rem;
+            animation: growHeight 1.5s ease-out forwards;
+            transform-origin: bottom;
+        }
+
+        @keyframes growHeight {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        .height-bar-label {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Exposure comparison */
+        .exposure-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .exposure-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .exposure-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+
+        .exposure-letter {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+        }
+
+        .exposure-name {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin: 0.5rem 0;
+        }
+
+        .exposure-kz {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-magenta);
+        }
+
+        .exposure-note {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent-magenta);
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.1), rgba(0, 212, 255, 0.1));
+            border-radius: 30px;
+            margin: 4rem 0;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(233, 30, 140, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .story-grid { grid-template-columns: 1fr; }
+            .story-grid.reverse { direction: ltr; }
+            .building-visualization { flex-direction: column; height: auto; }
+            .exposure-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <nav>
+                <a href="https://windload.co/states.html">States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Height Factor (Kz)</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">Velocity Pressure Coefficient</div>
+            <h1>Height Factor <span class="highlight">(Kz)</span></h1>
+            <p class="hero-subtitle">Wind hits harder at the top of a building than at the bottom. The Kz factor captures this - higher floors need stronger construction.</p>
+        </section>
+
+        <!-- Building Height Visualization -->
+        <div class="height-container">
+            <div class="building-visualization">
+                <div class="building-tower">
+                    <div class="wind-arrows-container">
+                        <div class="wind-arrow-row"><div class="wind-arrow" style="width: 60px;"></div></div>
+                        <div class="wind-arrow-row"><div class="wind-arrow" style="width: 55px;"></div></div>
+                        <div class="wind-arrow-row"><div class="wind-arrow" style="width: 50px;"></div></div>
+                        <div class="wind-arrow-row"><div class="wind-arrow" style="width: 45px;"></div></div>
+                        <div class="wind-arrow-row"><div class="wind-arrow" style="width: 40px;"></div></div>
+                        <div class="wind-arrow-row"><div class="wind-arrow" style="width: 35px;"></div></div>
+                        <div class="wind-arrow-row"><div class="wind-arrow" style="width: 30px;"></div></div>
+                    </div>
+                    <div class="floor-marker" style="bottom: 95%;"><div class="floor-line"></div><span class="floor-label">100 ft - <span class="floor-kz">Kz = 1.18</span></span></div>
+                    <div class="floor-marker" style="bottom: 75%;"><div class="floor-line"></div><span class="floor-label">60 ft - <span class="floor-kz">Kz = 1.08</span></span></div>
+                    <div class="floor-marker" style="bottom: 50%;"><div class="floor-line"></div><span class="floor-label">40 ft - <span class="floor-kz">Kz = 1.02</span></span></div>
+                    <div class="floor-marker" style="bottom: 25%;"><div class="floor-line"></div><span class="floor-label">20 ft - <span class="floor-kz">Kz = 0.90</span></span></div>
+                    <div class="floor-marker" style="bottom: 5%;"><div class="floor-line"></div><span class="floor-label">0-15 ft - <span class="floor-kz">Kz = 0.85</span></span></div>
+                </div>
+            </div>
+
+            <div class="kz-table-container">
+                <table class="kz-table">
+                    <thead>
+                        <tr>
+                            <th>Height (ft)</th>
+                            <th>Exposure B</th>
+                            <th>Exposure C</th>
+                            <th>Exposure D</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>0-15</td><td>0.57</td><td>0.85</td><td>1.03</td></tr>
+                        <tr><td>20</td><td>0.62</td><td>0.90</td><td>1.08</td></tr>
+                        <tr><td>30</td><td>0.70</td><td>0.98</td><td>1.16</td></tr>
+                        <tr><td>40</td><td>0.76</td><td>1.04</td><td>1.22</td></tr>
+                        <tr><td>60</td><td>0.85</td><td>1.13</td><td>1.31</td></tr>
+                        <tr><td>100</td><td>0.99</td><td>1.26</td><td>1.43</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- Story Section 1: Why height matters -->
+        <section class="story-section" id="story1">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="height-bars">
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 60px;">0.85</div>
+                            <div class="height-bar-label">15 ft<br>Ground</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 100px;">0.98</div>
+                            <div class="height-bar-label">30 ft<br>2-Story</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 140px;">1.13</div>
+                            <div class="height-bar-label">60 ft<br>5-Story</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 180px;">1.26</div>
+                            <div class="height-bar-label">100 ft<br>8-Story</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Higher = Faster Wind</h2>
+                    <p>Imagine standing in a forest. The trees block the wind and you feel barely a breeze. Now climb to the top of a tall tree - suddenly the wind is much stronger!</p>
+                    <p>Buildings work the same way. Near the ground, trees, houses, and other buildings create friction that slows the wind. As you go higher, there are fewer obstacles, so the wind moves faster.</p>
+                    <p>At 100 feet, wind can be 40% faster than at ground level. Since wind pressure increases with the square of velocity, that means almost double the pressure!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 2: Exposure categories -->
+        <section class="story-section" id="story2">
+            <div class="story-grid reverse">
+                <div class="story-content">
+                    <h2>Exposure Changes Everything</h2>
+                    <p>The Kz factor depends heavily on what is around your building. Engineers call this the "Exposure Category."</p>
+                    <p><strong>Exposure B:</strong> Urban areas with lots of buildings, trees, and obstacles. Wind slows down a lot near the ground.</p>
+                    <p><strong>Exposure C:</strong> Open terrain with scattered obstacles. Most suburban areas and the default for Miami-Dade.</p>
+                    <p><strong>Exposure D:</strong> Flat, unobstructed areas like beaches and waterfronts. Wind has nothing to slow it down.</p>
+                    <p>A building on the beach (Exposure D) experiences much higher wind pressure than the same building downtown (Exposure B).</p>
+                </div>
+                <div class="story-visual">
+                    <div class="exposure-grid">
+                        <div class="exposure-card">
+                            <div class="exposure-letter">B</div>
+                            <div class="exposure-name">Urban</div>
+                            <div class="exposure-kz">0.70</div>
+                            <div class="exposure-note">@ 30 ft</div>
+                        </div>
+                        <div class="exposure-card">
+                            <div class="exposure-letter">C</div>
+                            <div class="exposure-name">Suburban</div>
+                            <div class="exposure-kz">0.98</div>
+                            <div class="exposure-note">@ 30 ft</div>
+                        </div>
+                        <div class="exposure-card">
+                            <div class="exposure-letter">D</div>
+                            <div class="exposure-name">Coastal</div>
+                            <div class="exposure-kz">1.16</div>
+                            <div class="exposure-note">@ 30 ft</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 3: Using Kz -->
+        <section class="story-section" id="story3">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-family: 'Courier New', monospace; font-size: 1.25rem; color: var(--accent-cyan); margin-bottom: 2rem;">
+                            qz = 0.00256 x <span style="color: var(--accent-magenta); font-weight: 700;">Kz</span> x Kzt x Kd x Ke x V<sup>2</sup>
+                        </div>
+                        <div style="display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap;">
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem; color: var(--accent-magenta);">Kz = 0.98</div>
+                                <div style="font-size: 0.875rem; color: var(--text-muted);">30 ft, Exposure C</div>
+                            </div>
+                            <div style="font-size: 2rem; color: var(--text-muted);">=</div>
+                            <div style="text-align: center;">
+                                <div style="font-size: 2rem; color: var(--accent-cyan);">qz = 72 psf</div>
+                                <div style="font-size: 0.875rem; color: var(--text-muted);">at 180 mph</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Kz in the Formula</h2>
+                    <p>The Kz factor plugs directly into the velocity pressure formula. It multiplies with all the other factors to give you the wind pressure at a specific height.</p>
+                    <p>For a typical Miami-Dade building at 30 feet in Exposure C:</p>
+                    <p>qz = 0.00256 x 0.98 x 1.0 x 0.85 x 1.0 x 180<sup>2</sup> = approximately 72 psf</p>
+                    <p>If that same building was 100 feet tall, the top floor would see about 93 psf - nearly 30% higher pressure just from the height difference!</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What is the Kz factor in wind load calculations?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Kz is the velocity pressure exposure coefficient that adjusts wind loads for height above ground. It accounts for the fact that wind speed increases with height due to reduced friction from surface obstacles. Kz ranges from about 0.57 near ground level to over 1.5 at very tall heights.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    How do I calculate Kz for my building height?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Kz is calculated using the formula: Kz = 2.01 x (z/zg)^(2/alpha), where z is height, zg is gradient height, and alpha is a terrain exponent. For Exposure C at 30 feet, Kz equals approximately 0.98. Most engineers use tables from ASCE 7-16 Table 26.10-1.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Why does wind pressure increase with building height?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Near the ground, wind slows down due to friction from trees, buildings, and terrain. As you go higher, there are fewer obstacles to slow the wind. At 500 feet, wind can be 30-50% faster than at ground level, creating significantly higher pressures on tall buildings.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What Kz value should I use for a 30-foot building in Miami-Dade?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    For a 30-foot building in Exposure C (typical suburban/urban), Kz equals approximately 0.98. For Exposure B (urban with obstructions), Kz is about 0.70. For Exposure D (flat coastal), Kz is about 1.16. The exposure category significantly affects the Kz value.
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Get Kz Values for Your Building</h2>
+            <p>Our calculator automatically determines Kz based on your building height and exposure category. Accurate wind pressures for every floor.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=building-height-factor" class="cta-button">
+                Calculate Wind Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/miami-dade/velocity-pressure-qz.html">Velocity Pressure (qz)</a>
+                <a href="/miami-dade/gust-effect-factor.html">Gust Effect Factor</a>
+                <a href="/miami-dade/importance-factor.html">Importance Factor</a>
+                <a href="/miami-dade/internal-pressure.html">Internal Pressure</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://windload.co/states.html">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+            <p class="footer-text">&copy; 2002-2025 WindLoad.co - Trusted Wind Load Calculations Since 2002</p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle canvas background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 80;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -10;
+                this.y = Math.random() * canvas.height;
+                this.speed = 2 + Math.random() * 4;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speed;
+                this.y += Math.sin(this.x * 0.01) * 0.5;
+                if (this.x > canvas.width + 10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size * 5, this.y);
+                ctx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.lineWidth = this.size;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = new Particle();
+            p.x = Math.random() * canvas.width;
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Intersection Observer for story sections
+        const storyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            storyObserver.observe(section);
+        });
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
