@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Exposure Category C in Miami-Dade: Open Terrain Wind Loads | WindLoad.co</title>
+    <meta name="description" content="Understand Exposure Category C for Miami-Dade wind load calculations. Interactive animation shows how open terrain allows wind to flow freely with higher Kz values.">
+    <link rel="canonical" href="https://windload.co/miami-dade/exposure-category-c.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Exposure Category C in Miami-Dade: Open Terrain Wind Loads">
+    <meta property="og:description" content="See how open, flat terrain creates Exposure C conditions with higher wind loads in Miami-Dade County calculations.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/miami-dade/exposure-category-c.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Miami-Dade", "item": "https://windload.co/miami-dade/"},
+            {"@type": "ListItem", "position": 3, "name": "Exposure Category C", "item": "https://windload.co/miami-dade/exposure-category-c.html"}
+        ]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is Exposure Category C?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Exposure Category C applies to open terrain with scattered obstructions having heights generally less than 30 feet. This includes flat, open country, grasslands, and areas with few buildings or trees."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where is Exposure C used in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Exposure C is used in Miami-Dade's inland areas that are flat and open, such as agricultural zones, open fields, and areas transitioning from urban to rural. It's the intermediate exposure between urban (B) and coastal (D)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are the Kz values for Exposure C?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Exposure C Kz values at typical heights are: 0.85 at 15 ft, 0.98 at 30 ft, 1.13 at 60 ft, and 1.27 at 100 ft. These are higher than Exposure B but lower than Exposure D."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much higher are wind loads in Exposure C vs B?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "At 30 feet height, Exposure C has Kz = 0.98 compared to Exposure B's Kz = 0.70. This means Exposure C has approximately 40% higher velocity pressure than Exposure B at the same height and wind speed."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-green: #00ff88;
+            --bg-dark: #0d0015;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-cyan); }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 2rem 0 3rem;
+        }
+
+        .category-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 255, 136, 0.2);
+            border: 1px solid var(--accent-green);
+            color: var(--accent-green);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Open Terrain Scene */
+        .terrain-scene {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            background: linear-gradient(180deg, #0a0020 0%, #1a0a2e 50%, #0d2010 100%);
+            border-radius: 30px;
+            margin: 3rem 0;
+            overflow: hidden;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        .scene-label {
+            position: absolute;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-green);
+            z-index: 10;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.5);
+        }
+
+        /* Kz Display */
+        .kz-display {
+            position: absolute;
+            top: 4rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--accent-green);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            z-index: 10;
+        }
+
+        .kz-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent-green);
+            animation: kzGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes kzGlow {
+            0%, 100% { text-shadow: 0 0 20px rgba(0, 255, 136, 0.5); }
+            50% { text-shadow: 0 0 40px rgba(0, 255, 136, 0.8); }
+        }
+
+        .kz-label {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        /* Sun/Sky */
+        .sun {
+            position: absolute;
+            top: 60px;
+            left: 10%;
+            width: 60px;
+            height: 60px;
+            background: radial-gradient(circle, #ffdd00 0%, #ff9900 50%, transparent 70%);
+            border-radius: 50%;
+            box-shadow: 0 0 60px rgba(255, 200, 0, 0.5);
+        }
+
+        /* Wind Flow - Smooth horizontal lines */
+        .wind-flow-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 150px;
+            overflow: hidden;
+        }
+
+        .wind-line {
+            position: absolute;
+            height: 3px;
+            background: linear-gradient(90deg, transparent 0%, var(--accent-cyan) 20%, var(--accent-cyan) 80%, transparent 100%);
+            border-radius: 2px;
+            animation: flowSmooth 3s linear infinite;
+        }
+
+        @keyframes flowSmooth {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(200%); }
+        }
+
+        /* Speed indicator on wind lines */
+        .wind-speed-tag {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 212, 255, 0.2);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            font-weight: 700;
+            font-size: 0.875rem;
+            color: var(--accent-cyan);
+            z-index: 5;
+        }
+
+        /* Grass Field */
+        .grass-field {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(180deg, #1a3a1a 0%, #0d2010 100%);
+        }
+
+        .grass-blade {
+            position: absolute;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(180deg, #2a5a2a 0%, #1a3a1a 100%);
+            border-radius: 2px 2px 0 0;
+            transform-origin: bottom center;
+            animation: grassSway 2s ease-in-out infinite;
+        }
+
+        @keyframes grassSway {
+            0%, 100% { transform: rotate(-5deg); }
+            50% { transform: rotate(5deg); }
+        }
+
+        /* Scattered small obstructions */
+        .small-obstruction {
+            position: absolute;
+            bottom: 150px;
+            background: #2a3a2a;
+            border-radius: 3px 3px 0 0;
+        }
+
+        /* Horizon line */
+        .horizon {
+            position: absolute;
+            bottom: 150px;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.3), transparent);
+        }
+
+        /* Distance markers */
+        .distance-marker {
+            position: absolute;
+            bottom: 160px;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Story Sections */
+        .story-section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .story-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-green);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .story-visual {
+            background: rgba(26, 10, 46, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        /* Wind Speed Profile */
+        .wind-profile {
+            position: relative;
+            height: 300px;
+            display: flex;
+            align-items: flex-end;
+            gap: 1rem;
+            padding: 1rem;
+        }
+
+        .profile-column {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .profile-bar {
+            width: 100%;
+            background: linear-gradient(180deg, var(--accent-cyan) 0%, var(--accent-green) 100%);
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            animation: growBar 1.5s ease-out forwards;
+            transform-origin: bottom;
+            transform: scaleY(0);
+        }
+
+        @keyframes growBar {
+            to { transform: scaleY(1); }
+        }
+
+        .profile-bar::after {
+            content: attr(data-value);
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            white-space: nowrap;
+        }
+
+        .profile-label {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Comparison Cards */
+        .exposure-compare {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .compare-card {
+            flex: 1;
+            padding: 1.5rem;
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .compare-card.b {
+            background: rgba(0, 212, 255, 0.1);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+
+        .compare-card.c {
+            background: rgba(0, 255, 136, 0.15);
+            border: 2px solid var(--accent-green);
+            transform: scale(1.05);
+        }
+
+        .compare-card.d {
+            background: rgba(233, 30, 140, 0.1);
+            border: 1px solid rgba(233, 30, 140, 0.3);
+        }
+
+        .compare-letter {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .compare-card.b .compare-letter { color: var(--accent-cyan); }
+        .compare-card.c .compare-letter { color: var(--accent-green); }
+        .compare-card.d .compare-letter { color: var(--accent-magenta); }
+
+        .compare-desc {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .compare-kz {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        /* Visual Terrain Comparison */
+        .terrain-types {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .terrain-row {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .terrain-row.active {
+            background: rgba(0, 255, 136, 0.1);
+            border: 1px solid var(--accent-green);
+        }
+
+        .terrain-icon {
+            width: 80px;
+            height: 50px;
+            position: relative;
+            overflow: hidden;
+            border-radius: 8px;
+            background: linear-gradient(180deg, #1a1a2e 0%, #0d2010 100%);
+        }
+
+        .terrain-icon.open::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 15px;
+            background: linear-gradient(90deg, #1a3a1a, #2a5a2a, #1a3a1a);
+        }
+
+        .terrain-info {
+            flex: 1;
+        }
+
+        .terrain-name {
+            font-weight: 700;
+            margin-bottom: 0.25rem;
+        }
+
+        .terrain-desc {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent-green);
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--accent-green);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 255, 136, 0.1), rgba(0, 212, 255, 0.1));
+            border-radius: 30px;
+            margin: 4rem 0;
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            color: #0d0015;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 255, 136, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0, 255, 136, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--accent-green); }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .terrain-scene {
+                height: 400px;
+            }
+
+            .kz-display {
+                top: auto;
+                bottom: 160px;
+                right: 1rem;
+                padding: 1rem;
+            }
+
+            .kz-value {
+                font-size: 2rem;
+            }
+
+            .exposure-compare {
+                flex-direction: column;
+            }
+
+            .compare-card.c {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <nav>
+                <a href="https://windload.co/states.html">States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Exposure Category C</span>
+        </div>
+
+        <section class="hero">
+            <div class="category-badge">Exposure Category C</div>
+            <h1>Open Terrain<br><span class="highlight">Wind Flows Free</span></h1>
+            <p class="hero-subtitle">Flat fields and open country let wind travel unobstructed. Watch how this affects your Miami-Dade wind load calculations.</p>
+        </section>
+
+        <!-- Open Terrain Scene -->
+        <div class="terrain-scene" id="terrainScene">
+            <div class="scene-label">Exposure C: Open Terrain</div>
+
+            <!-- Sun -->
+            <div class="sun"></div>
+
+            <!-- Kz Display -->
+            <div class="kz-display">
+                <div class="kz-value">0.98</div>
+                <div class="kz-label">Kz at 30 ft</div>
+            </div>
+
+            <!-- Wind Flow Lines -->
+            <div class="wind-flow-container" id="windFlowContainer">
+                <!-- Wind lines added by JS -->
+            </div>
+
+            <!-- Wind Speed Tag -->
+            <div class="wind-speed-tag">Unobstructed Wind Flow</div>
+
+            <!-- Horizon -->
+            <div class="horizon"></div>
+
+            <!-- Scattered obstructions (low) -->
+            <div class="small-obstruction" style="left: 15%; width: 20px; height: 25px;"></div>
+            <div class="small-obstruction" style="left: 35%; width: 15px; height: 20px;"></div>
+            <div class="small-obstruction" style="left: 60%; width: 25px; height: 28px;"></div>
+            <div class="small-obstruction" style="left: 80%; width: 18px; height: 22px;"></div>
+
+            <!-- Distance markers -->
+            <div class="distance-marker" style="left: 10%;">0 ft</div>
+            <div class="distance-marker" style="left: 50%; transform: translateX(-50%);">Open Fetch</div>
+            <div class="distance-marker" style="right: 10%;">2,600+ ft</div>
+
+            <!-- Grass Field -->
+            <div class="grass-field" id="grassField">
+                <!-- Grass blades added by JS -->
+            </div>
+        </div>
+
+        <!-- Story Section 1 -->
+        <section class="story-section" id="story1">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h2>Wide Open Spaces</h2>
+                    <p>Picture yourself standing in an open field west of Miami. There are no tall buildings, no dense forests - just flat land stretching to the horizon. A strong breeze hits you with its full force.</p>
+                    <p>That's Exposure Category C. When wind blows across open terrain, nothing slows it down significantly. Low obstructions like fences, small structures, and scattered trees are too short (under 30 feet) to create meaningful wind reduction.</p>
+                    <p>In Miami-Dade, you'll find Exposure C conditions in agricultural areas, golf courses, airports, and transitional zones between urban and coastal areas.</p>
+                </div>
+                <div class="story-visual">
+                    <div class="terrain-types">
+                        <div class="terrain-row active">
+                            <div class="terrain-icon open"></div>
+                            <div class="terrain-info">
+                                <div class="terrain-name">Flat Open Country</div>
+                                <div class="terrain-desc">Grasslands, farmland, wide clearings</div>
+                            </div>
+                        </div>
+                        <div class="terrain-row active">
+                            <div class="terrain-icon open"></div>
+                            <div class="terrain-info">
+                                <div class="terrain-name">Scattered Obstructions</div>
+                                <div class="terrain-desc">Objects less than 30 ft tall</div>
+                            </div>
+                        </div>
+                        <div class="terrain-row active">
+                            <div class="terrain-icon open"></div>
+                            <div class="terrain-info">
+                                <div class="terrain-name">Airport Zones</div>
+                                <div class="terrain-desc">Runways and surrounding clear areas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 2 -->
+        <section class="story-section" id="story2">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="exposure-compare">
+                        <div class="compare-card b">
+                            <div class="compare-letter">B</div>
+                            <div class="compare-desc">Urban/Suburban</div>
+                            <div class="compare-kz">Kz = 0.70</div>
+                        </div>
+                        <div class="compare-card c">
+                            <div class="compare-letter">C</div>
+                            <div class="compare-desc">Open Terrain</div>
+                            <div class="compare-kz">Kz = 0.98</div>
+                        </div>
+                        <div class="compare-card d">
+                            <div class="compare-letter">D</div>
+                            <div class="compare-desc">Coastal</div>
+                            <div class="compare-kz">Kz = 1.09</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>The Middle Ground</h2>
+                    <p>Exposure C sits right between urban (B) and coastal (D). At 30 feet height, Exposure C gives you Kz = 0.98 - that's 40% higher than Exposure B's 0.70, but about 10% lower than Exposure D's 1.09.</p>
+                    <p>Think of it as the default exposure. ASCE 7 actually says to use Exposure C unless you can definitively prove Exposure B or D applies. It's the conservative middle choice.</p>
+                    <p>For many inland Miami-Dade properties that aren't densely urban but also aren't right on the coast, Exposure C is the appropriate choice.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 3 -->
+        <section class="story-section" id="story3">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h2>Height Makes a Difference</h2>
+                    <p>Even in open terrain, wind speed increases as you go higher. Near the ground, friction from grass and soil slows the wind slightly. But at 100 feet up? The wind is roaring at nearly full speed.</p>
+                    <p>This is why tall buildings in Exposure C areas experience much higher wind loads at their tops than at their bases. The Kz factor captures this effect - it grows from 0.85 at 15 feet to 1.27 at 100 feet.</p>
+                    <p>For a single-story building, you might use Kz around 0.85. For a 10-story building's upper floors, you'd use Kz values over 1.2 - that's a 40% increase in wind pressure!</p>
+                </div>
+                <div class="story-visual">
+                    <div class="wind-profile" id="windProfile">
+                        <div class="profile-column">
+                            <div class="profile-bar" style="height: 60px; animation-delay: 0s;" data-value="0.85"></div>
+                            <div class="profile-label">15 ft</div>
+                        </div>
+                        <div class="profile-column">
+                            <div class="profile-bar" style="height: 85px; animation-delay: 0.2s;" data-value="0.98"></div>
+                            <div class="profile-label">30 ft</div>
+                        </div>
+                        <div class="profile-column">
+                            <div class="profile-bar" style="height: 120px; animation-delay: 0.4s;" data-value="1.13"></div>
+                            <div class="profile-label">60 ft</div>
+                        </div>
+                        <div class="profile-column">
+                            <div class="profile-bar" style="height: 160px; animation-delay: 0.6s;" data-value="1.27"></div>
+                            <div class="profile-label">100 ft</div>
+                        </div>
+                        <div class="profile-column">
+                            <div class="profile-bar" style="height: 200px; animation-delay: 0.8s;" data-value="1.43"></div>
+                            <div class="profile-label">150 ft</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What is Exposure Category C?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Exposure Category C applies to open terrain with scattered obstructions having heights generally less than 30 feet. This includes flat, open country, grasslands, areas around airports, and regions with sparse development.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Where is Exposure C used in Miami-Dade?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Exposure C is used in Miami-Dade's inland areas that are flat and open, such as agricultural zones in the western parts of the county, open fields, golf courses, and areas transitioning from urban to rural settings.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What are the Kz values for Exposure C?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Exposure C Kz values at typical heights are: 0.85 at 15 ft, 0.98 at 30 ft, 1.13 at 60 ft, and 1.27 at 100 ft. These represent the velocity pressure exposure coefficient that accounts for how wind speed changes with height in open terrain.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    How much higher are wind loads in Exposure C vs B?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    At 30 feet height, Exposure C has Kz = 0.98 compared to Exposure B's Kz = 0.70. This means Exposure C has approximately 40% higher velocity pressure than Exposure B at the same height and wind speed, resulting in significantly higher wind loads.
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Calculate Your Exposure C Wind Loads</h2>
+            <p>Our calculator automatically applies the correct Kz values for Exposure C at every height. Get ASCE 7-22 compliant wind load calculations for your Miami-Dade project.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=exposure-c" class="cta-button">
+                Start Calculation
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/miami-dade/basic-wind-speed.html">Basic Wind Speed</a>
+                <a href="/miami-dade/exposure-category-b.html">Exposure B</a>
+                <a href="/miami-dade/exposure-category-d.html">Exposure D</a>
+                <a href="/miami-dade/gcp-wall-zones.html">Wall Zones</a>
+                <a href="/miami-dade/gcp-roof-zones.html">Roof Zones</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://windload.co/states.html">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+            <p class="footer-text">&copy; 2002-2025 WindLoad.co - Trusted Wind Load Calculations Since 2002</p>
+        </footer>
+    </div>
+
+    <script>
+        // Canvas particles - grass seeds / dust floating
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 50;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = 1 + Math.random() * 2;
+                this.vy = Math.random() * 0.5 - 0.25;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.4 + 0.1;
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy + Math.sin(this.x * 0.01) * 0.3;
+
+                if (this.x > canvas.width + 10) {
+                    this.x = -10;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(0, 255, 136, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Wind flow lines
+        const windContainer = document.getElementById('windFlowContainer');
+        for (let i = 0; i < 15; i++) {
+            const line = document.createElement('div');
+            line.className = 'wind-line';
+            line.style.top = (10 + i * 6) + '%';
+            line.style.left = '0';
+            line.style.width = (60 + Math.random() * 80) + 'px';
+            line.style.animationDelay = (i * 0.2) + 's';
+            line.style.animationDuration = (2.5 + Math.random()) + 's';
+            windContainer.appendChild(line);
+        }
+
+        // Grass blades
+        const grassField = document.getElementById('grassField');
+        for (let i = 0; i < 100; i++) {
+            const blade = document.createElement('div');
+            blade.className = 'grass-blade';
+            blade.style.left = (i * 1) + '%';
+            blade.style.height = (20 + Math.random() * 30) + 'px';
+            blade.style.animationDelay = (Math.random() * 2) + 's';
+            grassField.appendChild(blade);
+        }
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
