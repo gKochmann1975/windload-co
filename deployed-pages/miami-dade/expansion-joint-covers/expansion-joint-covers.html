@@ -1,0 +1,1544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expansion Joint Covers Miami-Dade | Wind Load Calculations for Building Joints</title>
+    <meta name="description" content="Miami-Dade expansion joint cover wind load engineering. Interactive animation showing thermal, seismic, and wind movement. Professional PE-stamped calculations for HVHZ compliance.">
+    <meta name="keywords" content="expansion joint covers, Miami-Dade wind loads, building joints, thermal movement, seismic joints, HVHZ compliance">
+    <link rel="canonical" href="https://getwindloads.com/florida/miami-dade/expansion-joint-covers.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Expansion Joint Covers Miami-Dade | Mind the Gap">
+    <meta property="og:description" content="See how buildings move and breathe. Interactive animation showing thermal expansion, seismic drift, and wind pressure on building joints.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://getwindloads.com/florida/miami-dade/expansion-joint-covers.html">
+    <meta property="og:image" content="https://getwindloads.com/images/expansion-joint-og.jpg">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Expansion Joint Covers Miami-Dade">
+    <meta name="twitter:description" content="Interactive building joint movement animation. Thermal, seismic, and wind load engineering.">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+
+    <!-- JSON-LD Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What causes expansion joints to move in Miami-Dade buildings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Expansion joints move due to three main forces: thermal expansion (buildings expand in heat, contract in cold), seismic activity (rare in Florida but codes require consideration), and wind pressure (hurricanes can push building sections in different directions). Miami-Dade requires joints to handle up to 4 inches of movement in some cases."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How wide should expansion joints be in Miami-Dade HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Joint width depends on building length and temperature range. For Miami-Dade, typical joints are 2-4 inches wide for buildings over 200 feet. The joint must accommodate thermal movement (about 0.5 inch per 100 feet), plus seismic and wind allowances. Our calculations determine exact width needed."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do expansion joint covers need wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes! In Miami-Dade HVHZ, expansion joint covers must be engineered for 180+ mph wind speeds. Covers can experience both positive pressure (pushed down) and negative pressure (sucked up). PE-stamped calculations ensure covers stay attached and watertight during hurricanes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What happens if expansion joints fail during a hurricane?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Failed expansion joints cause water intrusion, structural damage, and can compromise building envelope. Water entering through joints can damage multiple floors, destroy equipment, and create mold issues. Proper engineering prevents these costly failures."
+                }
+            }
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://getwindloads.com/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Florida",
+                "item": "https://getwindloads.com/florida/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Miami-Dade",
+                "item": "https://getwindloads.com/florida/miami-dade/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 4,
+                "name": "Expansion Joint Covers",
+                "item": "https://getwindloads.com/florida/miami-dade/expansion-joint-covers.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #14b8a6;
+            --primary-dark: #0d9488;
+            --primary-light: #5eead4;
+            --secondary: #0f172a;
+            --accent: #f0fdfa;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gradient: linear-gradient(135deg, #14b8a6 0%, #0d9488 100%);
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--secondary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Particle Canvas Background */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+            text-decoration: none;
+        }
+
+        .logo span {
+            color: var(--primary);
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--primary);
+        }
+
+        .nav-cta {
+            background: var(--gradient);
+            color: var(--white);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 6rem 2rem 1rem;
+        }
+
+        .breadcrumb ul {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .breadcrumb li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: var(--primary-light);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        .breadcrumb li:not(:last-child)::after {
+            content: '/';
+            color: var(--text-light);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .hero-content h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            color: var(--white);
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-content h1 span {
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-content p {
+            font-size: 1.25rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta {
+            display: inline-flex;
+            background: var(--gradient);
+            color: var(--white);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.125rem;
+            transition: all 0.3s;
+            box-shadow: 0 10px 40px rgba(20, 184, 166, 0.3);
+        }
+
+        .hero-cta:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(20, 184, 166, 0.4);
+        }
+
+        /* Joint Animation Container */
+        .joint-animation {
+            background: linear-gradient(145deg, rgba(20, 184, 166, 0.1), rgba(15, 23, 42, 0.8));
+            border-radius: 24px;
+            padding: 2rem;
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            box-shadow: 0 25px 80px rgba(0, 0, 0, 0.4);
+        }
+
+        .animation-title {
+            color: var(--white);
+            font-size: 1.25rem;
+            font-weight: 600;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .movement-type-display {
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .movement-label {
+            font-size: 1rem;
+            color: var(--primary-light);
+            font-weight: 600;
+        }
+
+        .movement-value {
+            font-size: 2rem;
+            color: var(--white);
+            font-weight: 700;
+        }
+
+        .movement-unit {
+            color: var(--text-light);
+            font-size: 1rem;
+        }
+
+        /* Building Joint Visual */
+        .building-joint-container {
+            position: relative;
+            height: 300px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .building-left, .building-right {
+            position: absolute;
+            top: 50px;
+            height: 200px;
+            width: calc(50% - 20px);
+            background: linear-gradient(180deg, #475569 0%, #334155 100%);
+            border-radius: 4px 4px 0 0;
+            transition: transform 0.5s ease-out;
+        }
+
+        .building-left {
+            left: 0;
+            border-right: 3px solid #1e293b;
+        }
+
+        .building-right {
+            right: 0;
+            border-left: 3px solid #1e293b;
+        }
+
+        .floor-line {
+            position: absolute;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .building-left .floor-line { right: 5%; left: 5%; }
+        .building-right .floor-line { left: 5%; right: 5%; }
+
+        .joint-gap {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .joint-cover {
+            position: absolute;
+            top: -5px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 15px;
+            background: linear-gradient(90deg, #64748b, #94a3b8, #64748b);
+            border-radius: 3px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .joint-bellows {
+            width: 100%;
+            height: 60%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+        }
+
+        .bellows-fold {
+            height: 3px;
+            background: #475569;
+            border-radius: 2px;
+            transition: transform 0.5s ease-out;
+        }
+
+        .gap-measurement {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            background: rgba(15, 23, 42, 0.9);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+        }
+
+        .gap-arrows {
+            position: absolute;
+            bottom: 45px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .gap-arrow {
+            font-size: 1rem;
+            color: var(--primary);
+        }
+
+        /* Movement Type Controls */
+        .movement-controls {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .movement-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .movement-btn:hover, .movement-btn.active {
+            background: var(--gradient);
+            border-color: var(--primary);
+        }
+
+        .movement-btn .icon {
+            margin-right: 0.25rem;
+        }
+
+        /* Movement Indicator */
+        .movement-indicator {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .indicator-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        .indicator-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .indicator-dot.thermal { background: #ef4444; }
+        .indicator-dot.seismic { background: #eab308; }
+        .indicator-dot.wind { background: #3b82f6; }
+
+        /* Floating Widget */
+        .floating-widget {
+            position: fixed;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            z-index: 100;
+            min-width: 200px;
+        }
+
+        .widget-title {
+            color: var(--primary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat {
+            margin-bottom: 1rem;
+        }
+
+        .widget-stat:last-child {
+            margin-bottom: 0;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--white);
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-light);
+        }
+
+        /* Content Sections */
+        .section {
+            position: relative;
+            z-index: 1;
+            padding: 5rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            color: var(--white);
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-light);
+            font-size: 1.125rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Movement Types Grid */
+        .movement-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .movement-card {
+            background: rgba(20, 184, 166, 0.05);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .movement-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--primary);
+            box-shadow: 0 20px 50px rgba(20, 184, 166, 0.15);
+        }
+
+        .movement-card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .movement-card-icon.thermal {
+            background: rgba(239, 68, 68, 0.2);
+        }
+
+        .movement-card-icon.seismic {
+            background: rgba(234, 179, 8, 0.2);
+        }
+
+        .movement-card-icon.wind {
+            background: rgba(59, 130, 246, 0.2);
+        }
+
+        .movement-card h3 {
+            color: var(--white);
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .movement-card p {
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .movement-card .stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-top: 1px solid rgba(20, 184, 166, 0.1);
+        }
+
+        .movement-card .stat-name {
+            color: var(--text-light);
+        }
+
+        .movement-card .stat-val {
+            color: var(--primary);
+            font-weight: 600;
+        }
+
+        /* Joint Calculator */
+        .calculator-section {
+            background: linear-gradient(180deg, rgba(20, 184, 166, 0.05), transparent);
+        }
+
+        .calculator {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 24px;
+            padding: 2.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .calc-title {
+            color: var(--white);
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .calc-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-field label {
+            display: block;
+            color: var(--text-light);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-field input, .calc-field select {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 1rem;
+        }
+
+        .calc-field input:focus, .calc-field select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .calc-field select option {
+            background: var(--secondary);
+        }
+
+        .calc-result {
+            background: var(--gradient);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+
+        .calc-result-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .calc-result-value {
+            color: var(--white);
+            font-size: 2.5rem;
+            font-weight: 700;
+        }
+
+        .calc-result-unit {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 1rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(20, 184, 166, 0.02);
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(15, 23, 42, 0.6);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.25rem 1.5rem;
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .faq-icon {
+            font-size: 1.25rem;
+            color: var(--primary);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-icon {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer-inner {
+            padding: 0 1.5rem 1.25rem;
+            color: var(--text-light);
+            line-height: 1.7;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: var(--gradient);
+            text-align: center;
+        }
+
+        .cta-section h2 {
+            color: var(--white);
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            background: var(--white);
+            color: var(--primary-dark);
+            padding: 1rem 2.5rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.125rem;
+            transition: all 0.3s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Footer */
+        .footer {
+            position: relative;
+            z-index: 1;
+            background: rgba(15, 23, 42, 0.98);
+            border-top: 1px solid rgba(20, 184, 166, 0.2);
+            padding: 4rem 2rem 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            gap: 3rem;
+            margin-bottom: 3rem;
+        }
+
+        .footer-brand h3 {
+            color: var(--white);
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-brand h3 span {
+            color: var(--primary);
+        }
+
+        .footer-brand p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .footer-links h4 {
+            color: var(--white);
+            font-size: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-light);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover {
+            color: var(--primary);
+        }
+
+        .footer-bottom {
+            border-top: 1px solid rgba(20, 184, 166, 0.1);
+            padding-top: 2rem;
+            text-align: center;
+            color: var(--text-light);
+            font-size: 0.875rem;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-content h1 {
+                font-size: 2.5rem;
+            }
+
+            .floating-widget {
+                display: none;
+            }
+
+            .movement-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .calc-row {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .section-header h2 {
+                font-size: 2rem;
+            }
+        }
+
+        /* Reveal Animation */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Particle Canvas -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <div class="nav-container">
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://windload.co/florida-pro.html">Florida</a></li>
+                <li><a href="https://windload.co/states.html">States</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">For Engineers</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Quote</a>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <nav class="breadcrumb" aria-label="Breadcrumb">
+        <ul>
+            <li><a href="/">Home</a></li>
+            <li><a href="https://windload.co/florida-pro.html">Florida</a></li>
+            <li><a href="https://windload.co/florida/miami-dade/">Miami-Dade</a></li>
+            <li>Expansion Joint Covers</li>
+        </ul>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <h1>Mind the <span>Gap</span></h1>
+                <p>Buildings aren't solid blocks - they're living structures that expand, contract, and move. Expansion joints let buildings breathe without cracking. In Miami-Dade hurricanes, these joints face extreme forces. Our engineers calculate exactly what your joint covers need to survive.</p>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="hero-cta">Calculate My Joints</a>
+            </div>
+
+            <div class="joint-animation">
+                <div class="animation-title">Building Joint Movement Simulator</div>
+
+                <div class="movement-controls">
+                    <button class="movement-btn active" data-type="thermal">
+                        <span class="icon">🌡️</span> Thermal
+                    </button>
+                    <button class="movement-btn" data-type="seismic">
+                        <span class="icon">🌊</span> Seismic
+                    </button>
+                    <button class="movement-btn" data-type="wind">
+                        <span class="icon">💨</span> Wind
+                    </button>
+                    <button class="movement-btn" data-type="combined">
+                        <span class="icon">⚡</span> Combined
+                    </button>
+                </div>
+
+                <div class="movement-type-display">
+                    <div class="movement-label" id="movement-label">Thermal Expansion</div>
+                    <div class="movement-value"><span id="movement-amount">0.0</span><span class="movement-unit">"</span></div>
+                </div>
+
+                <div class="building-joint-container">
+                    <div class="building-left" id="building-left">
+                        <div class="floor-line" style="top: 20%;"></div>
+                        <div class="floor-line" style="top: 40%;"></div>
+                        <div class="floor-line" style="top: 60%;"></div>
+                        <div class="floor-line" style="top: 80%;"></div>
+                    </div>
+                    <div class="joint-gap">
+                        <div class="joint-cover"></div>
+                        <div class="joint-bellows">
+                            <div class="bellows-fold"></div>
+                            <div class="bellows-fold"></div>
+                            <div class="bellows-fold"></div>
+                            <div class="bellows-fold"></div>
+                            <div class="bellows-fold"></div>
+                        </div>
+                        <div class="gap-arrows">
+                            <span class="gap-arrow">&larr;</span>
+                            <span class="gap-arrow">&rarr;</span>
+                        </div>
+                        <div class="gap-measurement" id="gap-width">2.0"</div>
+                    </div>
+                    <div class="building-right" id="building-right">
+                        <div class="floor-line" style="top: 20%;"></div>
+                        <div class="floor-line" style="top: 40%;"></div>
+                        <div class="floor-line" style="top: 60%;"></div>
+                        <div class="floor-line" style="top: 80%;"></div>
+                    </div>
+                </div>
+
+                <div class="movement-indicator">
+                    <div class="indicator-item">
+                        <div class="indicator-dot thermal"></div>
+                        <span>Thermal</span>
+                    </div>
+                    <div class="indicator-item">
+                        <div class="indicator-dot seismic"></div>
+                        <span>Seismic</span>
+                    </div>
+                    <div class="indicator-item">
+                        <div class="indicator-dot wind"></div>
+                        <span>Wind</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Floating Widget -->
+    <div class="floating-widget">
+        <div class="widget-title">Joint Specs</div>
+        <div class="widget-stat">
+            <div class="stat-value">4"</div>
+            <div class="stat-label">Max Movement</div>
+        </div>
+        <div class="widget-stat">
+            <div class="stat-value">180+</div>
+            <div class="stat-label">MPH Rated</div>
+        </div>
+        <div class="widget-stat">
+            <div class="stat-value">72</div>
+            <div class="stat-label">PSF Pressure</div>
+        </div>
+    </div>
+
+    <!-- Movement Types Section -->
+    <section class="section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Three Forces That Move Buildings</h2>
+                <p>Every building joint must handle thermal, seismic, and wind movement. In Miami-Dade, wind dominates the design.</p>
+            </div>
+
+            <div class="movement-grid">
+                <div class="movement-card reveal">
+                    <div class="movement-card-icon thermal">🌡️</div>
+                    <h3>Thermal Movement</h3>
+                    <p>Buildings expand when hot and shrink when cold. A 200-foot building in Miami can grow almost 1 inch on a hot summer day.</p>
+                    <div class="stat">
+                        <span class="stat-name">Movement Rate</span>
+                        <span class="stat-val">0.5"/100ft</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">Daily Cycle</span>
+                        <span class="stat-val">Constant</span>
+                    </div>
+                </div>
+
+                <div class="movement-card reveal">
+                    <div class="movement-card-icon seismic">🌊</div>
+                    <h3>Seismic Movement</h3>
+                    <p>Rare in Florida, but building codes still require consideration. Joints allow building sections to move independently during ground shaking.</p>
+                    <div class="stat">
+                        <span class="stat-name">FL Seismic Zone</span>
+                        <span class="stat-val">Low</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">Design Drift</span>
+                        <span class="stat-val">0.5-1%</span>
+                    </div>
+                </div>
+
+                <div class="movement-card reveal">
+                    <div class="movement-card-icon wind">💨</div>
+                    <h3>Wind Movement</h3>
+                    <p>Hurricane winds push buildings sideways. Different sections move at different rates. Joints must flex while staying watertight at 180+ mph.</p>
+                    <div class="stat">
+                        <span class="stat-name">Miami-Dade Wind</span>
+                        <span class="stat-val">180+ mph</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-name">Joint Pressure</span>
+                        <span class="stat-val">72 PSF</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Calculator Section -->
+    <section class="section calculator-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Joint Width Calculator</h2>
+                <p>Estimate the minimum expansion joint width for your building</p>
+            </div>
+
+            <div class="calculator reveal">
+                <h3 class="calc-title">Calculate Required Joint Width</h3>
+
+                <div class="calc-row">
+                    <div class="calc-field">
+                        <label>Building Length (feet)</label>
+                        <input type="number" id="building-length" value="200" min="50" max="1000">
+                    </div>
+                    <div class="calc-field">
+                        <label>Number of Floors</label>
+                        <input type="number" id="floor-count" value="5" min="1" max="50">
+                    </div>
+                </div>
+
+                <div class="calc-row">
+                    <div class="calc-field">
+                        <label>Structure Type</label>
+                        <select id="structure-type">
+                            <option value="concrete">Concrete Frame</option>
+                            <option value="steel">Steel Frame</option>
+                            <option value="masonry">Masonry</option>
+                        </select>
+                    </div>
+                    <div class="calc-field">
+                        <label>Wind Zone</label>
+                        <select id="wind-zone">
+                            <option value="hvhz">Miami-Dade HVHZ</option>
+                            <option value="high">High Wind (140+ mph)</option>
+                            <option value="moderate">Moderate (110-140 mph)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="calc-result">
+                    <div class="calc-result-label">Recommended Joint Width</div>
+                    <div class="calc-result-value" id="joint-width-result">2.0</div>
+                    <div class="calc-result-unit">inches minimum</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Frequently Asked Questions</h2>
+                <p>Common questions about expansion joints in Miami-Dade</p>
+            </div>
+
+            <div class="faq-list reveal">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What causes expansion joints to move in Miami-Dade buildings?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Expansion joints move due to three main forces: thermal expansion (buildings expand in heat, contract in cold), seismic activity (rare in Florida but codes require consideration), and wind pressure (hurricanes can push building sections in different directions). Miami-Dade requires joints to handle up to 4 inches of movement in some cases.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How wide should expansion joints be in Miami-Dade HVHZ?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Joint width depends on building length and temperature range. For Miami-Dade, typical joints are 2-4 inches wide for buildings over 200 feet. The joint must accommodate thermal movement (about 0.5 inch per 100 feet), plus seismic and wind allowances. Our calculations determine exact width needed.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Do expansion joint covers need wind load calculations?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Yes! In Miami-Dade HVHZ, expansion joint covers must be engineered for 180+ mph wind speeds. Covers can experience both positive pressure (pushed down) and negative pressure (sucked up). PE-stamped calculations ensure covers stay attached and watertight during hurricanes.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What happens if expansion joints fail during a hurricane?
+                        <span class="faq-icon">+</span>
+                    </button>
+                    <div class="faq-answer">
+                        <div class="faq-answer-inner">
+                            Failed expansion joints cause water intrusion, structural damage, and can compromise building envelope. Water entering through joints can damage multiple floors, destroy equipment, and create mold issues. Proper engineering prevents these costly failures.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="section cta-section">
+        <div class="section-container">
+            <h2>Get Your Joint Calculations</h2>
+            <p>Professional PE-stamped expansion joint wind load calculations for Miami-Dade HVHZ compliance.</p>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">Start Your Project</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <h3>Get<span>WindLoads</span></h3>
+                    <p>Professional wind load calculations for Florida contractors. PE-stamped, code-compliant, fast turnaround.</p>
+                </div>
+                <div class="footer-links">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="https://windload.co/florida-pro.html">Florida</a></li>
+                        <li><a href="https://windload.co/states.html">All States</a></li>
+                        <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">For Engineers</a></li>
+                        <li><a href="https://windload.co/contractors.html">For Contractors</a></li>
+                        <li><a href="https://windload.co/architects.html">For Architects</a></li>
+                    </ul>
+                </div>
+                <div class="footer-links">
+                    <h4>Miami-Dade</h4>
+                    <ul>
+                        <li><a href="/florida/miami-dade/hvac-equipment-anchoring.html">HVAC Anchoring</a></li>
+                        <li><a href="/florida/miami-dade/metal-deck-attachment.html">Metal Deck</a></li>
+                        <li><a href="/florida/miami-dade/parapet-wall-design.html">Parapet Walls</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 GetWindLoads. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Canvas Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Gap particles - simulate building movement
+        const particles = [];
+        const particleCount = 80;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                size: Math.random() * 3 + 1,
+                speedX: (Math.random() - 0.5) * 0.5,
+                speedY: (Math.random() - 0.5) * 0.5,
+                opacity: Math.random() * 0.5 + 0.2,
+                pulse: Math.random() * Math.PI * 2
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.speedX;
+                p.y += p.speedY;
+                p.pulse += 0.02;
+
+                // Wrap around screen
+                if (p.x < 0) p.x = canvas.width;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0) p.y = canvas.height;
+                if (p.y > canvas.height) p.y = 0;
+
+                // Pulsing opacity
+                const opacity = p.opacity * (0.7 + 0.3 * Math.sin(p.pulse));
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(20, 184, 166, ${opacity})`;
+                ctx.fill();
+            });
+
+            // Draw connection lines
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dx = p1.x - p2.x;
+                    const dy = p1.y - p2.y;
+                    const dist = Math.sqrt(dx * dx + dy * dy);
+
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = `rgba(20, 184, 166, ${0.1 * (1 - dist / 120)})`;
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Joint Movement Animation
+        const movementBtns = document.querySelectorAll('.movement-btn');
+        const buildingLeft = document.getElementById('building-left');
+        const buildingRight = document.getElementById('building-right');
+        const movementLabel = document.getElementById('movement-label');
+        const movementAmount = document.getElementById('movement-amount');
+        const gapWidth = document.getElementById('gap-width');
+        const bellowsFolds = document.querySelectorAll('.bellows-fold');
+
+        let currentType = 'thermal';
+        let animationPhase = 0;
+
+        const movementConfig = {
+            thermal: {
+                label: 'Thermal Expansion',
+                maxMove: 0.8,
+                baseGap: 2.0,
+                speed: 0.01,
+                pattern: 'sine'
+            },
+            seismic: {
+                label: 'Seismic Drift',
+                maxMove: 1.5,
+                baseGap: 2.0,
+                speed: 0.08,
+                pattern: 'shake'
+            },
+            wind: {
+                label: 'Wind Pressure',
+                maxMove: 1.0,
+                baseGap: 2.0,
+                speed: 0.03,
+                pattern: 'push'
+            },
+            combined: {
+                label: 'Combined Loading',
+                maxMove: 2.5,
+                baseGap: 2.0,
+                speed: 0.02,
+                pattern: 'combined'
+            }
+        };
+
+        movementBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                movementBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentType = btn.dataset.type;
+                movementLabel.textContent = movementConfig[currentType].label;
+            });
+        });
+
+        function animateJoint() {
+            const config = movementConfig[currentType];
+            animationPhase += config.speed;
+
+            let movement = 0;
+            let verticalShift = 0;
+
+            switch (config.pattern) {
+                case 'sine':
+                    movement = Math.sin(animationPhase) * config.maxMove;
+                    break;
+                case 'shake':
+                    movement = Math.sin(animationPhase * 5) * config.maxMove * Math.exp(-((animationPhase % 3) * 0.5));
+                    verticalShift = Math.cos(animationPhase * 5) * 3;
+                    break;
+                case 'push':
+                    movement = (Math.sin(animationPhase) * 0.5 + 0.5) * config.maxMove;
+                    break;
+                case 'combined':
+                    movement = Math.sin(animationPhase) * config.maxMove * 0.4
+                             + Math.sin(animationPhase * 3) * config.maxMove * 0.3
+                             + (Math.sin(animationPhase * 0.5) * 0.5 + 0.5) * config.maxMove * 0.3;
+                    break;
+            }
+
+            // Move buildings
+            const pixelMove = movement * 15;
+            buildingLeft.style.transform = `translateX(${-pixelMove}px) translateY(${verticalShift}px)`;
+            buildingRight.style.transform = `translateX(${pixelMove}px) translateY(${-verticalShift}px)`;
+
+            // Update bellows
+            bellowsFolds.forEach((fold, i) => {
+                const stretch = 1 + (movement * 0.1 * (i % 2 ? 1 : -1));
+                fold.style.transform = `scaleX(${stretch})`;
+            });
+
+            // Update displays
+            const currentGap = config.baseGap + Math.abs(movement);
+            movementAmount.textContent = Math.abs(movement).toFixed(1);
+            gapWidth.textContent = currentGap.toFixed(1) + '"';
+
+            requestAnimationFrame(animateJoint);
+        }
+        animateJoint();
+
+        // Joint Width Calculator
+        const buildingLength = document.getElementById('building-length');
+        const floorCount = document.getElementById('floor-count');
+        const structureType = document.getElementById('structure-type');
+        const windZone = document.getElementById('wind-zone');
+        const jointWidthResult = document.getElementById('joint-width-result');
+
+        function calculateJointWidth() {
+            const length = parseFloat(buildingLength.value) || 200;
+            const floors = parseInt(floorCount.value) || 5;
+            const structure = structureType.value;
+            const zone = windZone.value;
+
+            // Thermal movement (0.5" per 100 feet typical)
+            let thermalMove = length * 0.005;
+
+            // Structure type multiplier
+            const structMultiplier = {
+                concrete: 1.0,
+                steel: 1.2,
+                masonry: 0.8
+            };
+            thermalMove *= structMultiplier[structure];
+
+            // Wind zone addition
+            const windAddition = {
+                hvhz: 0.75,
+                high: 0.5,
+                moderate: 0.25
+            };
+
+            // Height factor
+            const heightFactor = 1 + (floors * 0.02);
+
+            // Calculate total
+            let totalWidth = (thermalMove + windAddition[zone]) * heightFactor;
+
+            // Minimum 1.5", round to nearest 0.25"
+            totalWidth = Math.max(1.5, Math.ceil(totalWidth * 4) / 4);
+
+            jointWidthResult.textContent = totalWidth.toFixed(2);
+        }
+
+        [buildingLength, floorCount, structureType, windZone].forEach(el => {
+            el.addEventListener('change', calculateJointWidth);
+            el.addEventListener('input', calculateJointWidth);
+        });
+        calculateJointWidth();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const item = btn.parentElement;
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function checkReveal() {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                if (rect.top < windowHeight * 0.85) {
+                    el.classList.add('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkReveal);
+        checkReveal();
+    </script>
+</body>
+</html>
