@@ -1,0 +1,1138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Wall Pressure Zones (GCp) Miami-Dade: Zone 4 vs Zone 5 Wind Loads | WindLoad.co</title>
+    <meta name="description" content="Interactive guide to wall pressure zones for Miami-Dade wind load calculations. See how Zone 4 (interior) and Zone 5 (corner) GCp coefficients affect your cladding design.">
+    <link rel="canonical" href="https://windload.co/miami-dade/gcp-wall-zones.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Wall Pressure Zones (GCp) for Miami-Dade Wind Load Calculations">
+    <meta property="og:description" content="Interactive visualization of Zone 4 and Zone 5 wall pressure coefficients for components and cladding wind loads.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/miami-dade/gcp-wall-zones.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Miami-Dade", "item": "https://windload.co/miami-dade/"},
+            {"@type": "ListItem", "position": 3, "name": "Wall Pressure Zones", "item": "https://windload.co/miami-dade/gcp-wall-zones.html"}
+        ]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are wall pressure zones in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wall pressure zones define areas of different wind pressure intensity on building walls. Zone 4 covers the interior wall areas while Zone 5 covers corners where wind pressures are higher due to aerodynamic effects."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between Zone 4 and Zone 5?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone 5 (corners) experiences higher negative pressures than Zone 4 (interior). For small effective areas, Zone 5 GCp can be up to 1.4 times higher than Zone 4, requiring stronger cladding attachments at building corners."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How wide is Zone 5 on building walls?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone 5 width is the lesser of 10% of the least horizontal dimension or 0.4 times the building height, but not less than 4% of least dimension or 3 feet. For typical Miami-Dade buildings, this creates corner zones 3-10 feet wide."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do corners have higher wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind separates and accelerates around building corners, creating vortices and high suction pressures. This aerodynamic effect causes peak negative pressures 40-50% higher than on flat wall surfaces away from corners."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --zone4-color: #00cc88;
+            --zone5-color: #ff6b35;
+            --bg-dark: #0d0015;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-cyan); }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 2rem 0 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(0, 204, 136, 0.2), rgba(255, 107, 53, 0.2));
+            border: 1px solid var(--zone4-color);
+            color: var(--zone4-color);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h1 .zone4 { color: var(--zone4-color); }
+        h1 .zone5 { color: var(--zone5-color); }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Interactive Building Diagram */
+        .building-diagram {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            margin: 3rem auto;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--bg-dark) 100%);
+            border-radius: 30px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            overflow: hidden;
+        }
+
+        .diagram-title {
+            position: absolute;
+            top: 1.5rem;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            z-index: 10;
+        }
+
+        /* 3D Building Isometric */
+        .building-3d {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotateX(15deg) rotateY(-25deg);
+            transform-style: preserve-3d;
+            width: 300px;
+            height: 200px;
+        }
+
+        .wall-front {
+            position: absolute;
+            width: 300px;
+            height: 200px;
+            background: rgba(26, 10, 46, 0.8);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transform: translateZ(75px);
+            display: grid;
+            grid-template-columns: 40px 1fr 40px;
+            grid-template-rows: 1fr;
+        }
+
+        .wall-side {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            background: rgba(26, 10, 46, 0.6);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transform: rotateY(90deg) translateZ(150px);
+            display: grid;
+            grid-template-columns: 30px 1fr;
+            grid-template-rows: 1fr;
+        }
+
+        /* Zone overlays */
+        .zone {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.875rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .zone-4 {
+            background: rgba(0, 204, 136, 0.3);
+            border-left: 2px dashed var(--zone4-color);
+            border-right: 2px dashed var(--zone4-color);
+        }
+
+        .zone-4:hover, .zone-4.active {
+            background: rgba(0, 204, 136, 0.5);
+            box-shadow: inset 0 0 30px rgba(0, 204, 136, 0.3);
+        }
+
+        .zone-5 {
+            background: rgba(255, 107, 53, 0.3);
+        }
+
+        .zone-5:hover, .zone-5.active {
+            background: rgba(255, 107, 53, 0.5);
+            box-shadow: inset 0 0 30px rgba(255, 107, 53, 0.3);
+        }
+
+        .zone-label {
+            position: absolute;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .zone-4 .zone-label {
+            background: var(--zone4-color);
+            color: #000;
+        }
+
+        .zone-5 .zone-label {
+            background: var(--zone5-color);
+            color: #000;
+        }
+
+        /* Wind arrows */
+        .wind-arrows {
+            position: absolute;
+            left: 5%;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .wind-arrow {
+            display: flex;
+            align-items: center;
+            animation: windPush 2s ease-in-out infinite;
+        }
+
+        .wind-arrow-line {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), var(--accent-magenta));
+            border-radius: 2px;
+        }
+
+        .wind-arrow-head {
+            width: 0;
+            height: 0;
+            border-top: 8px solid transparent;
+            border-bottom: 8px solid transparent;
+            border-left: 12px solid var(--accent-magenta);
+        }
+
+        @keyframes windPush {
+            0%, 100% { transform: translateX(0); opacity: 0.7; }
+            50% { transform: translateX(20px); opacity: 1; }
+        }
+
+        /* GCp Value Panel */
+        .gcp-panel {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            min-width: 180px;
+        }
+
+        .gcp-title {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+            text-align: center;
+        }
+
+        .gcp-value-box {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 0.75rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .gcp-value-box.zone4 {
+            background: rgba(0, 204, 136, 0.2);
+            border: 1px solid var(--zone4-color);
+        }
+
+        .gcp-value-box.zone4.active {
+            background: rgba(0, 204, 136, 0.4);
+            box-shadow: 0 0 20px rgba(0, 204, 136, 0.4);
+        }
+
+        .gcp-value-box.zone5 {
+            background: rgba(255, 107, 53, 0.2);
+            border: 1px solid var(--zone5-color);
+        }
+
+        .gcp-value-box.zone5.active {
+            background: rgba(255, 107, 53, 0.4);
+            box-shadow: 0 0 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .gcp-zone-name {
+            font-size: 0.75rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .gcp-value {
+            font-size: 1.75rem;
+            font-weight: 900;
+        }
+
+        .zone4 .gcp-value { color: var(--zone4-color); }
+        .zone5 .gcp-value { color: var(--zone5-color); }
+
+        /* Animated Pressure Visualization */
+        .pressure-viz {
+            position: absolute;
+            bottom: 2rem;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 2rem;
+            background: rgba(0, 0, 0, 0.6);
+            padding: 1rem 2rem;
+            border-radius: 15px;
+        }
+
+        .pressure-item {
+            text-align: center;
+        }
+
+        .pressure-bar-container {
+            width: 40px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            overflow: hidden;
+            margin: 0 auto 0.5rem;
+            position: relative;
+        }
+
+        .pressure-bar {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            border-radius: 20px;
+            transition: height 1s ease;
+        }
+
+        .pressure-bar.zone4 {
+            background: linear-gradient(180deg, var(--zone4-color), #008855);
+            height: 60%;
+        }
+
+        .pressure-bar.zone5 {
+            background: linear-gradient(180deg, var(--zone5-color), #cc4400);
+            height: 85%;
+        }
+
+        .pressure-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Story Sections */
+        .story-section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .story-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .story-visual {
+            background: rgba(26, 10, 46, 0.5);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        /* Corner Effect Animation */
+        .corner-effect {
+            position: relative;
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+        }
+
+        .corner-wall-h, .corner-wall-v {
+            position: absolute;
+            background: #2a1a4a;
+            border: 2px solid var(--accent-cyan);
+        }
+
+        .corner-wall-h {
+            width: 150px;
+            height: 20px;
+            bottom: 40px;
+            left: 50px;
+        }
+
+        .corner-wall-v {
+            width: 20px;
+            height: 150px;
+            left: 40px;
+            bottom: 50px;
+        }
+
+        .vortex {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            border: 3px solid var(--zone5-color);
+            border-radius: 50%;
+            border-top-color: transparent;
+            left: 55px;
+            bottom: 65px;
+            animation: vortexSpin 1.5s linear infinite;
+        }
+
+        @keyframes vortexSpin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .wind-flow {
+            position: absolute;
+            top: 30px;
+            left: 0;
+            width: 180px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent-cyan), transparent);
+            animation: cornerFlow 2s ease-in-out infinite;
+        }
+
+        @keyframes cornerFlow {
+            0% { transform: translateX(-50px); opacity: 0; }
+            30% { opacity: 1; }
+            70% { opacity: 1; }
+            100% { transform: translateX(30px); opacity: 0; }
+        }
+
+        /* Zone Width Calculator */
+        .zone-calc {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 15px;
+            padding: 1.5rem;
+        }
+
+        .calc-formula {
+            font-family: 'Courier New', monospace;
+            color: var(--accent-cyan);
+            font-size: 1.25rem;
+            text-align: center;
+            margin-bottom: 1rem;
+        }
+
+        .calc-example {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .calc-item {
+            padding: 1rem;
+            background: rgba(255, 107, 53, 0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .calc-item-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.25rem;
+        }
+
+        .calc-item-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--zone5-color);
+        }
+
+        /* FAQ */
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: var(--text-light);
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(0, 204, 136, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--zone4-color);
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--zone4-color);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(0, 204, 136, 0.1), rgba(255, 107, 53, 0.1));
+            border-radius: 30px;
+            margin: 4rem 0;
+            border: 1px solid rgba(0, 204, 136, 0.3);
+        }
+
+        .cta-section h2 {
+            color: white;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--zone4-color), var(--zone5-color));
+            color: #000;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(0, 204, 136, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0, 204, 136, 0.4);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--zone4-color); }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+
+            .story-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .building-diagram {
+                height: 450px;
+            }
+
+            .gcp-panel {
+                position: absolute;
+                right: 1rem;
+                top: auto;
+                bottom: 1rem;
+                transform: none;
+                display: flex;
+                gap: 1rem;
+                min-width: auto;
+                padding: 1rem;
+            }
+
+            .gcp-title {
+                display: none;
+            }
+
+            .gcp-value-box {
+                margin-bottom: 0;
+                padding: 0.75rem;
+            }
+
+            .pressure-viz {
+                bottom: 80px;
+                padding: 0.75rem 1rem;
+                gap: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <nav>
+                <a href="https://windload.co/states.html">States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Wall Pressure Zones</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">Components & Cladding (C&C)</div>
+            <h1>Wall Pressure Zones<br><span class="zone4">Zone 4</span> vs <span class="zone5">Zone 5</span></h1>
+            <p class="hero-subtitle">Not all parts of your wall face the same wind pressure. Corners get hit harder! Click the zones below to see the difference in GCp coefficients.</p>
+        </section>
+
+        <!-- Interactive Building Diagram -->
+        <div class="building-diagram">
+            <div class="diagram-title">Click Zones to Explore</div>
+
+            <!-- Wind Arrows -->
+            <div class="wind-arrows">
+                <div class="wind-arrow" style="animation-delay: 0s;">
+                    <div class="wind-arrow-line"></div>
+                    <div class="wind-arrow-head"></div>
+                </div>
+                <div class="wind-arrow" style="animation-delay: 0.3s;">
+                    <div class="wind-arrow-line"></div>
+                    <div class="wind-arrow-head"></div>
+                </div>
+                <div class="wind-arrow" style="animation-delay: 0.6s;">
+                    <div class="wind-arrow-line"></div>
+                    <div class="wind-arrow-head"></div>
+                </div>
+            </div>
+
+            <!-- 3D Building -->
+            <div class="building-3d">
+                <div class="wall-front">
+                    <div class="zone zone-5" data-zone="5" onclick="activateZone(5)">
+                        <span class="zone-label">Zone 5</span>
+                    </div>
+                    <div class="zone zone-4" data-zone="4" onclick="activateZone(4)">
+                        <span class="zone-label">Zone 4</span>
+                    </div>
+                    <div class="zone zone-5" data-zone="5" onclick="activateZone(5)">
+                        <span class="zone-label">Zone 5</span>
+                    </div>
+                </div>
+                <div class="wall-side">
+                    <div class="zone zone-5" data-zone="5" onclick="activateZone(5)">
+                        <span class="zone-label">5</span>
+                    </div>
+                    <div class="zone zone-4" data-zone="4" onclick="activateZone(4)">
+                        <span class="zone-label">4</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- GCp Values Panel -->
+            <div class="gcp-panel">
+                <div class="gcp-title">GCp Values (10 sq ft)</div>
+                <div class="gcp-value-box zone4" id="gcpZone4">
+                    <div class="gcp-zone-name">Zone 4 (Interior)</div>
+                    <div class="gcp-value">-1.0</div>
+                </div>
+                <div class="gcp-value-box zone5" id="gcpZone5">
+                    <div class="gcp-zone-name">Zone 5 (Corner)</div>
+                    <div class="gcp-value">-1.4</div>
+                </div>
+            </div>
+
+            <!-- Pressure Visualization -->
+            <div class="pressure-viz">
+                <div class="pressure-item">
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar zone4"></div>
+                    </div>
+                    <div class="pressure-label">Zone 4</div>
+                </div>
+                <div class="pressure-item">
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar zone5"></div>
+                    </div>
+                    <div class="pressure-label">Zone 5</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Section 1 -->
+        <section class="story-section" id="story1">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h2>Why Corners Get Hit Harder</h2>
+                    <p>Imagine blowing on a piece of paper. The middle pushes back smoothly, but the edges flutter wildly. Buildings work the same way!</p>
+                    <p>When wind hits a building corner, it can't just push through - it has to go around. This creates spinning air (vortices) that suck on the corner surfaces with much higher force than the steady push on the middle of the wall.</p>
+                    <p>That's why ASCE 7 defines Zone 5 at corners with higher GCp values - these areas need stronger cladding and connections to resist the extra suction.</p>
+                </div>
+                <div class="story-visual">
+                    <div class="corner-effect">
+                        <div class="wind-flow"></div>
+                        <div class="wind-flow" style="top: 50px; animation-delay: 0.5s;"></div>
+                        <div class="wind-flow" style="top: 70px; animation-delay: 1s;"></div>
+                        <div class="corner-wall-v"></div>
+                        <div class="corner-wall-h"></div>
+                        <div class="vortex"></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 1rem; color: var(--zone5-color); font-size: 0.875rem;">Vortex creates suction at corner</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 2 -->
+        <section class="story-section" id="story2">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="zone-calc">
+                        <div class="calc-formula">a = min(0.1 x W, 0.4 x h)</div>
+                        <div class="calc-example">
+                            <div class="calc-item">
+                                <div class="calc-item-label">100 ft wide x 50 ft tall</div>
+                                <div class="calc-item-value">10 ft zone</div>
+                            </div>
+                            <div class="calc-item">
+                                <div class="calc-item-label">50 ft wide x 30 ft tall</div>
+                                <div class="calc-item-value">5 ft zone</div>
+                            </div>
+                        </div>
+                        <p style="text-align: center; margin-top: 1rem; color: var(--text-muted); font-size: 0.75rem;">Minimum 3 ft or 4% of least dimension</p>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>How Wide is Zone 5?</h2>
+                    <p>Zone 5 isn't a fixed width - it depends on your building size. The formula uses "a" which is the smaller of 10% of the building width or 40% of the building height.</p>
+                    <p>For a typical Miami-Dade house that's 50 feet wide and 20 feet tall, Zone 5 extends about 5 feet from each corner. But there's a minimum: Zone 5 can never be less than 3 feet wide.</p>
+                    <p>This means for small structures, a larger percentage of the wall area falls into Zone 5, requiring higher-rated cladding throughout more of the building.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 3 -->
+        <section class="story-section" id="story3">
+            <div class="story-grid">
+                <div class="story-content">
+                    <h2>Real Pressure Numbers</h2>
+                    <p>In Miami-Dade with 180 mph wind speed, the difference between Zone 4 and Zone 5 is dramatic. For a 10 square foot cladding element:</p>
+                    <p>Zone 4 might see -75 psf negative pressure (suction), while Zone 5 at the same height could experience -105 psf or more - that's 40% higher!</p>
+                    <p>This is why windows and wall panels at building corners often need special reinforcement or different product ratings than those in the middle of the wall.</p>
+                </div>
+                <div class="story-visual">
+                    <div style="display: flex; flex-direction: column; gap: 1rem;">
+                        <div style="padding: 1.5rem; background: rgba(0, 204, 136, 0.1); border: 2px solid var(--zone4-color); border-radius: 15px; text-align: center;">
+                            <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Zone 4 (Interior Wall)</div>
+                            <div style="font-size: 2.5rem; font-weight: 900; color: var(--zone4-color);">~75 psf</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">Suction Pressure</div>
+                        </div>
+                        <div style="padding: 1.5rem; background: rgba(255, 107, 53, 0.15); border: 2px solid var(--zone5-color); border-radius: 15px; text-align: center;">
+                            <div style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 0.5rem;">Zone 5 (Corner)</div>
+                            <div style="font-size: 2.5rem; font-weight: 900; color: var(--zone5-color);">~105 psf</div>
+                            <div style="font-size: 0.75rem; color: var(--text-muted);">40% Higher Suction</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What are wall pressure zones in wind load calculations?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Wall pressure zones define areas of different wind pressure intensity on building walls. Zone 4 covers the interior wall areas while Zone 5 covers corners where wind pressures are higher due to aerodynamic effects like vortex formation.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What is the difference between Zone 4 and Zone 5?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Zone 5 (corners) experiences higher negative pressures than Zone 4 (interior). For small effective areas around 10 sq ft, Zone 5 GCp can be up to 1.4 versus Zone 4's 1.0, meaning Zone 5 requires 40% stronger cladding attachments.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    How wide is Zone 5 on building walls?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Zone 5 width equals "a" which is the lesser of 10% of the least horizontal dimension or 0.4 times the building height, but not less than 4% of least dimension or 3 feet. For typical Miami-Dade buildings, this creates corner zones 3-10 feet wide.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Why do corners have higher wind loads?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Wind separates and accelerates around building corners, creating vortices and high suction pressures. This aerodynamic effect causes peak negative pressures 40-50% higher than on flat wall surfaces away from corners.
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Get Zone-Specific Wind Loads</h2>
+            <p>Our calculator automatically computes Zone 4 and Zone 5 pressures for all wall surfaces. Get complete component and cladding wind loads for your Miami-Dade project.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=wall-zones" class="cta-button">
+                Calculate C&C Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/miami-dade/basic-wind-speed.html">Basic Wind Speed</a>
+                <a href="/miami-dade/exposure-category-b.html">Exposure B</a>
+                <a href="/miami-dade/exposure-category-d.html">Exposure D</a>
+                <a href="/miami-dade/gcp-roof-zones.html">Roof Zones</a>
+                <a href="/miami-dade/velocity-pressure-qz.html">Velocity Pressure</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://windload.co/states.html">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+            <p class="footer-text">&copy; 2002-2025 WindLoad.co - Trusted Wind Load Calculations Since 2002</p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 40;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = 1 + Math.random() * 2;
+                this.vy = Math.random() - 0.5;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.color = Math.random() > 0.5 ? '0, 204, 136' : '255, 107, 53';
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+
+                if (this.x > canvas.width + 10) {
+                    this.x = -10;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push(new Particle());
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Zone interaction
+        function activateZone(zone) {
+            // Remove active class from all zones
+            document.querySelectorAll('.zone').forEach(z => z.classList.remove('active'));
+            document.querySelectorAll('.gcp-value-box').forEach(g => g.classList.remove('active'));
+
+            // Add active class to clicked zone
+            document.querySelectorAll(`[data-zone="${zone}"]`).forEach(z => z.classList.add('active'));
+
+            if (zone === 4) {
+                document.getElementById('gcpZone4').classList.add('active');
+            } else {
+                document.getElementById('gcpZone5').classList.add('active');
+            }
+        }
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            observer.observe(section);
+        });
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
