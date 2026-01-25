@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Importance Factor (I) for Miami-Dade Buildings | Wind Load Design</title>
+    <meta name="description" content="Learn about the Importance Factor for Miami-Dade wind loads. Different buildings need different safety levels - hospitals get higher factors than storage sheds. Simple animated guide.">
+    <link rel="canonical" href="https://windload.co/miami-dade/importance-factor.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Importance Factor (I) for Miami-Dade Buildings">
+    <meta property="og:description" content="Why hospitals need stronger wind protection than storage sheds. Understanding building importance in wind load calculations.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/miami-dade/importance-factor.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Building Importance Factor Explained">
+    <meta name="twitter:description" content="Some buildings matter more during emergencies. Learn how importance affects wind loads.">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Miami-Dade", "item": "https://windload.co/miami-dade/"},
+            {"@type": "ListItem", "position": 3, "name": "Importance Factor", "item": "https://windload.co/miami-dade/importance-factor.html"}
+        ]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the Importance Factor in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Importance Factor reflects how critical a building is to public safety. Essential facilities like hospitals use a higher wind speed that provides extra protection. In ASCE 7-16, this is handled through Risk Categories that determine the basic wind speed used for design."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does Risk Category affect wind speed in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Miami-Dade wind speeds vary by Risk Category: Risk Category I (low-risk) uses about 165 mph, Risk Category II (normal buildings) uses about 178-180 mph, Risk Category III (assembly) uses about 185 mph, and Risk Category IV (essential facilities) uses about 190-195 mph."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What Risk Category is a typical house or office building?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most houses, apartments, and office buildings fall under Risk Category II. This includes any building where more than 50 people might gather. Risk Category II uses the standard 180 mph wind speed in Miami-Dade County."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do hospitals need higher wind protection?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hospitals are Risk Category IV essential facilities because they must remain operational during and after hurricanes. People's lives depend on these buildings working when everything else fails. The higher wind speed requirement provides extra margin of safety."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Article Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Importance Factor and Risk Categories for Miami-Dade Wind Loads",
+        "description": "Understanding how building importance affects wind load requirements in Miami-Dade County per ASCE 7-16.",
+        "author": {"@type": "Organization", "name": "WindLoad.co"},
+        "publisher": {"@type": "Organization", "name": "WindLoad.co", "url": "https://windload.co"},
+        "datePublished": "2025-01-01",
+        "dateModified": "2025-01-17",
+        "mainEntityOfPage": "https://windload.co/miami-dade/importance-factor.html"
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-cyan); }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 0 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h1 .highlight {
+            color: var(--accent-magenta);
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Building Importance Display */
+        .importance-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0d0015 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            overflow: hidden;
+        }
+
+        .buildings-row {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 300px;
+            padding: 0 1rem;
+            gap: 1rem;
+        }
+
+        .building-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            flex: 1;
+            max-width: 150px;
+        }
+
+        .building-icon {
+            width: 80px;
+            height: auto;
+            margin-bottom: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        .building-item:hover .building-icon {
+            transform: scale(1.1);
+        }
+
+        .building-shape {
+            width: 100%;
+            background: linear-gradient(180deg, var(--accent-cyan), var(--primary-dark));
+            border-radius: 5px 5px 0 0;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .building-shape.cat1 { height: 80px; opacity: 0.6; }
+        .building-shape.cat2 { height: 120px; opacity: 0.75; }
+        .building-shape.cat3 { height: 160px; opacity: 0.85; }
+        .building-shape.cat4 {
+            height: 200px;
+            background: linear-gradient(180deg, var(--accent-magenta), var(--primary-dark));
+        }
+
+        .building-label {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .building-name {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .building-category {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-top: 0.25rem;
+        }
+
+        .building-speed {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            margin-top: 0.5rem;
+        }
+
+        .building-shape.cat4 + .building-label .building-speed {
+            color: var(--accent-magenta);
+        }
+
+        /* Story Sections */
+        .story-section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .story-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-grid.reverse {
+            direction: rtl;
+        }
+
+        .story-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .story-visual {
+            position: relative;
+            padding: 2rem;
+            background: rgba(26, 10, 46, 0.5);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .story-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Category cards */
+        .category-cards {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .category-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .category-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+
+        .category-card.essential {
+            border-color: var(--accent-magenta);
+        }
+
+        .category-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+        }
+
+        .category-card.essential .category-number {
+            color: var(--accent-magenta);
+        }
+
+        .category-name {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-top: 0.5rem;
+        }
+
+        .category-wind {
+            font-size: 1.25rem;
+            font-weight: 700;
+            margin-top: 0.5rem;
+        }
+
+        /* Comparison scale */
+        .comparison-scale {
+            position: relative;
+            height: 200px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .scale-bar {
+            width: 100%;
+            height: 30px;
+            background: linear-gradient(90deg, #00cc66, #ffcc00, #ff6600, var(--accent-magenta));
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .scale-marker {
+            position: absolute;
+            top: -40px;
+            transform: translateX(-50%);
+            text-align: center;
+        }
+
+        .scale-marker::after {
+            content: '';
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 50px;
+            background: white;
+        }
+
+        .marker-value {
+            font-weight: 700;
+            font-size: 0.875rem;
+        }
+
+        .marker-label {
+            font-size: 0.625rem;
+            color: var(--text-muted);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent-magenta);
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.1), rgba(0, 212, 255, 0.1));
+            border-radius: 30px;
+            margin: 4rem 0;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(233, 30, 140, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .story-grid { grid-template-columns: 1fr; }
+            .story-grid.reverse { direction: ltr; }
+            .buildings-row { flex-wrap: wrap; height: auto; }
+            .building-item { min-width: 100px; }
+            .category-cards { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <nav>
+                <a href="https://windload.co/states.html">States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Importance Factor</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">Building Classification</div>
+            <h1>Importance Factor <span class="highlight">(I)</span></h1>
+            <p class="hero-subtitle">Not all buildings are created equal. A hospital needs to survive a hurricane so it can save lives. A storage shed? Not as critical. This factor captures that difference.</p>
+        </section>
+
+        <!-- Building Importance Display -->
+        <div class="importance-container">
+            <div class="buildings-row">
+                <div class="building-item">
+                    <div class="building-shape cat1"></div>
+                    <div class="building-label">
+                        <div class="building-name">Storage Shed</div>
+                        <div class="building-category">Risk Category I</div>
+                        <div class="building-speed">165 mph</div>
+                    </div>
+                </div>
+                <div class="building-item">
+                    <div class="building-shape cat2"></div>
+                    <div class="building-label">
+                        <div class="building-name">House / Office</div>
+                        <div class="building-category">Risk Category II</div>
+                        <div class="building-speed">180 mph</div>
+                    </div>
+                </div>
+                <div class="building-item">
+                    <div class="building-shape cat3"></div>
+                    <div class="building-label">
+                        <div class="building-name">School / Theater</div>
+                        <div class="building-category">Risk Category III</div>
+                        <div class="building-speed">185 mph</div>
+                    </div>
+                </div>
+                <div class="building-item">
+                    <div class="building-shape cat4"></div>
+                    <div class="building-label">
+                        <div class="building-name">Hospital / 911</div>
+                        <div class="building-category">Risk Category IV</div>
+                        <div class="building-speed">195 mph</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Section 1: Why importance matters -->
+        <section class="story-section" id="story1">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="category-cards">
+                        <div class="category-card">
+                            <div class="category-number">I</div>
+                            <div class="category-name">Low Risk</div>
+                            <div class="category-wind">165 mph</div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-number">II</div>
+                            <div class="category-name">Normal</div>
+                            <div class="category-wind">180 mph</div>
+                        </div>
+                        <div class="category-card">
+                            <div class="category-number">III</div>
+                            <div class="category-name">Assembly</div>
+                            <div class="category-wind">185 mph</div>
+                        </div>
+                        <div class="category-card essential">
+                            <div class="category-number">IV</div>
+                            <div class="category-name">Essential</div>
+                            <div class="category-wind">195 mph</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Some Buildings Save Lives</h2>
+                    <p>Imagine a Category 5 hurricane hits Miami. People are injured, buildings are damaged, and help is needed everywhere. What buildings absolutely must keep working?</p>
+                    <p>Hospitals, fire stations, 911 centers, and emergency shelters. These are Risk Category IV - essential facilities. They get designed for the highest wind speeds because failure is not an option.</p>
+                    <p>Meanwhile, a farm storage building (Risk Category I) can be designed for lower winds because if it fails, no lives are at immediate risk.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 2: How it works in ASCE 7-16 -->
+        <section class="story-section" id="story2">
+            <div class="story-grid reverse">
+                <div class="story-content">
+                    <h2>Wind Speed Maps by Category</h2>
+                    <p>In older building codes, there was a single wind speed map and an Importance Factor (I) that multiplied the loads. ASCE 7-16 changed this approach.</p>
+                    <p>Now there are separate wind speed maps for each Risk Category. Instead of multiplying by an importance factor, you simply look up the wind speed for your building type.</p>
+                    <p>The result is the same - important buildings get designed for higher winds - but the method is more straightforward. Just pick your Risk Category and read your wind speed.</p>
+                </div>
+                <div class="story-visual">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 1rem;">Old Method</div>
+                        <div style="font-size: 1.5rem; color: var(--accent-cyan); margin-bottom: 2rem;">V x I = Design Speed</div>
+                        <div style="font-size: 1.25rem; color: var(--text-muted); margin-bottom: 1rem;">ASCE 7-16 Method</div>
+                        <div style="font-size: 1.5rem; color: var(--accent-magenta);">V (per Risk Category)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 3: Common categories -->
+        <section class="story-section" id="story3">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div style="padding: 1rem;">
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-weight: 700; color: var(--accent-cyan);">Risk Category I</div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted);">Agricultural buildings, minor storage, temporary structures</div>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-weight: 700; color: var(--accent-cyan);">Risk Category II</div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted);">Houses, apartments, offices, stores, hotels - most buildings</div>
+                        </div>
+                        <div style="margin-bottom: 1.5rem;">
+                            <div style="font-weight: 700; color: var(--accent-cyan);">Risk Category III</div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted);">Schools, churches, theaters, buildings with 300+ occupants</div>
+                        </div>
+                        <div>
+                            <div style="font-weight: 700; color: var(--accent-magenta);">Risk Category IV</div>
+                            <div style="font-size: 0.875rem; color: var(--text-muted);">Hospitals, fire stations, 911 centers, emergency shelters</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Finding Your Category</h2>
+                    <p>Most buildings you encounter will be Risk Category II. This covers single-family homes, apartment buildings, offices, retail stores, restaurants, and hotels.</p>
+                    <p>Risk Category III is for buildings where lots of people gather - schools, churches, theaters, and any building with over 300 people in one area.</p>
+                    <p>Risk Category IV is reserved for essential facilities that communities depend on during emergencies. Power plants, water treatment facilities, and emergency response buildings all fall here.</p>
+                    <p>Risk Category I is rare - mostly farm buildings and temporary structures where failure poses minimal risk to human life.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What is the Importance Factor in wind load calculations?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    The Importance Factor reflects how critical a building is to public safety. Essential facilities like hospitals use a higher wind speed that provides extra protection. In ASCE 7-16, this is handled through Risk Categories that determine the basic wind speed used for design.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    How does Risk Category affect wind speed in Miami-Dade?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Miami-Dade wind speeds vary by Risk Category: Risk Category I (low-risk) uses about 165 mph, Risk Category II (normal buildings) uses about 178-180 mph, Risk Category III (assembly) uses about 185 mph, and Risk Category IV (essential facilities) uses about 190-195 mph.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What Risk Category is a typical house or office building?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Most houses, apartments, and office buildings fall under Risk Category II. This includes any building where more than 50 people might gather. Risk Category II uses the standard 180 mph wind speed in Miami-Dade County.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Why do hospitals need higher wind protection?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Hospitals are Risk Category IV essential facilities because they must remain operational during and after hurricanes. People's lives depend on these buildings working when everything else fails. The higher wind speed requirement provides extra margin of safety.
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Get Wind Loads for Your Risk Category</h2>
+            <p>Our calculator automatically selects the correct wind speed for your building's Risk Category in Miami-Dade County. No lookup tables required.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=importance-factor" class="cta-button">
+                Calculate Wind Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/miami-dade/velocity-pressure-qz.html">Velocity Pressure (qz)</a>
+                <a href="/miami-dade/gust-effect-factor.html">Gust Effect Factor</a>
+                <a href="/miami-dade/risk-category-guide.html">Risk Categories</a>
+                <a href="/miami-dade/internal-pressure.html">Internal Pressure</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://windload.co/states.html">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+            <p class="footer-text">&copy; 2002-2025 WindLoad.co - Trusted Wind Load Calculations Since 2002</p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle canvas background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 80;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -10;
+                this.y = Math.random() * canvas.height;
+                this.speed = 2 + Math.random() * 4;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speed;
+                this.y += Math.sin(this.x * 0.01) * 0.5;
+                if (this.x > canvas.width + 10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size * 5, this.y);
+                ctx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.lineWidth = this.size;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = new Particle();
+            p.x = Math.random() * canvas.width;
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Intersection Observer for story sections
+        const storyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            storyObserver.observe(section);
+        });
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
