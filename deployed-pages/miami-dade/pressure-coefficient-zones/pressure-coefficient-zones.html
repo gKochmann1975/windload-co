@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pressure Coefficient Zones Miami-Dade 2025 | GCp Values Explained | WindLoad.co</title>
+    <meta name="description" content="Interactive guide to pressure coefficient zones (GCp) for Miami-Dade HVHZ buildings. Click different building zones to see how wind pressure varies from corners to center.">
+    <meta name="keywords" content="pressure coefficient GCp, wind zones Miami-Dade, HVHZ pressure zones, building wind pressure, cladding pressure coefficients">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/pressure-coefficient-zones.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pressure Coefficient Zones Miami-Dade | Interactive GCp Guide">
+    <meta property="og:description" content="See exactly where wind hits hardest on your building. Interactive pressure zone map for contractors.">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/pressure-coefficient-zones.html">
+    <meta property="og:type" content="article">
+    <meta property="og:image" content="https://windload.co/images/pressure-zones-og.jpg">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #3b82f6;
+            --primary-dark: #2563eb;
+            --secondary: #8b5cf6;
+            --accent: #06b6d4;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #030712;
+            --gray-900: #111827;
+            --gray-800: #1f2937;
+            --gray-700: #374151;
+            --gray-600: #4b5563;
+            --gray-400: #9ca3af;
+            --gray-300: #d1d5db;
+            --gray-100: #f3f4f6;
+            --white: #ffffff;
+            --gradient-blue: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            --gradient-dark: linear-gradient(135deg, #111827 0%, #030712 100%);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; background: var(--dark); color: var(--gray-100); line-height: 1.6; overflow-x: hidden; }
+
+        #particle-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
+
+        nav { position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(3, 7, 18, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.1); padding: 1rem 2rem; }
+        .nav-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; }
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--gray-300); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--white); }
+        .nav-cta { background: var(--gradient-blue); color: white; padding: 0.75rem 1.5rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 40px rgba(59, 130, 246, 0.3); }
+
+        .hero { position: relative; min-height: 100vh; display: flex; align-items: center; padding: 8rem 2rem 4rem; z-index: 1; }
+        .hero-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center; }
+        .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--danger); margin-bottom: 1.5rem; }
+        .hero-badge::before { content: ''; width: 8px; height: 8px; background: var(--danger); border-radius: 50%; animation: pulse 2s infinite; }
+        @keyframes pulse { 0%, 100% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } }
+        .hero h1 { font-size: 3.5rem; font-weight: 800; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero h1 .highlight { background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-description { font-size: 1.25rem; color: var(--gray-400); margin-bottom: 2rem; max-width: 540px; }
+        .hero-stats { display: flex; gap: 2rem; margin-bottom: 2rem; }
+        .hero-stat { text-align: center; }
+        .hero-stat-value { font-size: 2.5rem; font-weight: 800; color: var(--danger); }
+        .hero-stat-label { font-size: 0.875rem; color: var(--gray-400); }
+        .hero-cta-group { display: flex; gap: 1rem; flex-wrap: wrap; }
+        .btn-primary { background: var(--gradient-blue); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5rem; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3); }
+        .btn-secondary { background: rgba(255,255,255,0.1); color: white; padding: 1rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 600; transition: background 0.3s ease; }
+        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+
+        /* Interactive Building Visualization */
+        .building-viz { position: relative; background: var(--gradient-dark); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .building-viz-title { font-size: 1rem; color: var(--gray-400); margin-bottom: 1rem; text-align: center; }
+        .building-map { position: relative; width: 100%; max-width: 400px; margin: 0 auto; }
+        .building-map svg { width: 100%; height: auto; }
+
+        .zone { cursor: pointer; transition: all 0.3s ease; }
+        .zone:hover { filter: brightness(1.3); }
+        .zone.active { filter: brightness(1.5); stroke-width: 3; }
+
+        .zone-5 { fill: rgba(239, 68, 68, 0.8); stroke: #ef4444; }
+        .zone-4 { fill: rgba(249, 115, 22, 0.7); stroke: #f97316; }
+        .zone-3 { fill: rgba(245, 158, 11, 0.6); stroke: #f59e0b; }
+        .zone-2 { fill: rgba(34, 197, 94, 0.5); stroke: #22c55e; }
+        .zone-1 { fill: rgba(59, 130, 246, 0.4); stroke: #3b82f6; }
+
+        .zone-info { margin-top: 1.5rem; padding: 1.5rem; background: rgba(0,0,0,0.3); border-radius: 12px; min-height: 120px; }
+        .zone-info-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .zone-info-gcp { font-size: 2rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .zone-info-desc { font-size: 0.9rem; color: var(--gray-400); }
+
+        .wind-arrows { animation: windFlow 2s linear infinite; }
+        @keyframes windFlow { 0% { opacity: 0.3; transform: translateX(-10px); } 50% { opacity: 1; } 100% { opacity: 0.3; transform: translateX(10px); } }
+
+        section { position: relative; z-index: 1; padding: 6rem 2rem; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 4rem; }
+        .section-label { display: inline-block; background: rgba(59, 130, 246, 0.1); border: 1px solid rgba(59, 130, 246, 0.3); padding: 0.5rem 1rem; border-radius: 50px; font-size: 0.875rem; color: var(--primary); margin-bottom: 1rem; }
+        .section-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .section-subtitle { font-size: 1.125rem; color: var(--gray-400); max-width: 600px; margin: 0 auto; }
+
+        /* Zone Cards */
+        .zones-section { background: linear-gradient(180deg, transparent 0%, rgba(239, 68, 68, 0.03) 50%, transparent 100%); }
+        .zones-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.5rem; }
+        .zone-card { background: var(--gradient-dark); border-radius: 16px; padding: 1.5rem; border: 2px solid; text-align: center; opacity: 0; transform: translateY(30px); transition: all 0.5s ease; cursor: pointer; }
+        .zone-card.visible { opacity: 1; transform: translateY(0); }
+        .zone-card:hover { transform: translateY(-5px); }
+        .zone-card.zone-5-card { border-color: rgba(239, 68, 68, 0.5); }
+        .zone-card.zone-4-card { border-color: rgba(249, 115, 22, 0.5); }
+        .zone-card.zone-3-card { border-color: rgba(245, 158, 11, 0.5); }
+        .zone-card.zone-2-card { border-color: rgba(34, 197, 94, 0.5); }
+        .zone-card.zone-1-card { border-color: rgba(59, 130, 246, 0.5); }
+        .zone-card-number { font-size: 2.5rem; font-weight: 800; margin-bottom: 0.5rem; }
+        .zone-5-card .zone-card-number { color: var(--danger); }
+        .zone-4-card .zone-card-number { color: #f97316; }
+        .zone-3-card .zone-card-number { color: var(--warning); }
+        .zone-2-card .zone-card-number { color: var(--success); }
+        .zone-1-card .zone-card-number { color: var(--primary); }
+        .zone-card-name { font-size: 1rem; font-weight: 600; margin-bottom: 0.25rem; }
+        .zone-card-gcp { font-size: 0.875rem; color: var(--gray-400); }
+        .zone-card-pressure { font-size: 1.25rem; font-weight: 700; margin-top: 0.5rem; }
+
+        /* Calculator Section */
+        .calculator-section { background: var(--gray-900); }
+        .calculator-container { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        .calculator-form { background: var(--gradient-dark); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .form-group { margin-bottom: 1.5rem; }
+        .form-label { display: block; font-size: 0.875rem; font-weight: 600; margin-bottom: 0.5rem; color: var(--gray-300); }
+        .form-input, .form-select { width: 100%; padding: 1rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 8px; color: white; font-size: 1rem; }
+        .form-input:focus, .form-select:focus { outline: none; border-color: var(--primary); }
+        .form-select option { background: var(--gray-900); }
+        .calc-btn { width: 100%; background: var(--gradient-blue); color: white; padding: 1rem; border: none; border-radius: 8px; font-weight: 600; font-size: 1rem; cursor: pointer; transition: transform 0.3s ease; }
+        .calc-btn:hover { transform: translateY(-2px); }
+
+        .calculator-results { background: var(--gradient-dark); border-radius: 20px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); }
+        .result-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 1.5rem; }
+        .result-zones { display: flex; flex-direction: column; gap: 1rem; }
+        .result-zone { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 10px; }
+        .result-zone-name { font-weight: 600; }
+        .result-zone-pressure { font-size: 1.25rem; font-weight: 800; }
+
+        /* Why It Matters Section */
+        .why-section { background: linear-gradient(180deg, transparent 0%, var(--dark) 100%); }
+        .why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .why-card { background: var(--gradient-dark); border-radius: 16px; padding: 2rem; border: 1px solid rgba(255,255,255,0.1); opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .why-card.visible { opacity: 1; transform: translateY(0); }
+        .why-card-icon { width: 60px; height: 60px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .why-card-icon svg { width: 32px; height: 32px; }
+        .why-card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .why-card-desc { font-size: 0.9rem; color: var(--gray-400); line-height: 1.7; }
+
+        /* FAQ Accordion */
+        .faq-section { background: var(--dark); }
+        .faq-list { max-width: 800px; margin: 0 auto; }
+        .faq-item { background: var(--gradient-dark); border-radius: 12px; margin-bottom: 1rem; border: 1px solid rgba(255,255,255,0.1); overflow: hidden; }
+        .faq-question { width: 100%; padding: 1.5rem; background: none; border: none; color: white; font-size: 1.1rem; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .faq-question:hover { background: rgba(255,255,255,0.02); }
+        .faq-icon { width: 24px; height: 24px; transition: transform 0.3s ease; }
+        .faq-item.active .faq-icon { transform: rotate(180deg); }
+        .faq-answer { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.3s ease; }
+        .faq-item.active .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+        .faq-answer p { color: var(--gray-400); line-height: 1.7; }
+
+        /* Floating Widget */
+        .floating-widget { position: fixed; bottom: 2rem; right: 2rem; background: var(--gradient-dark); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 16px; padding: 1.5rem; z-index: 100; min-width: 220px; box-shadow: 0 20px 60px rgba(0,0,0,0.5); }
+        .widget-title { font-size: 0.75rem; color: var(--gray-400); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem; }
+        .widget-zone { text-align: center; margin-bottom: 1rem; }
+        .widget-zone-number { font-size: 3rem; font-weight: 800; background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .widget-zone-label { font-size: 0.75rem; color: var(--gray-400); }
+        .widget-stats { display: flex; flex-direction: column; gap: 0.5rem; }
+        .widget-stat { display: flex; justify-content: space-between; font-size: 0.8rem; }
+        .widget-stat-label { color: var(--gray-500); }
+        .widget-stat-value { font-weight: 600; }
+
+        .cta-section { background: linear-gradient(135deg, #ef4444 0%, #f59e0b 100%); text-align: center; padding: 5rem 2rem; }
+        .cta-title { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta-subtitle { font-size: 1.125rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta-btn { display: inline-flex; align-items: center; gap: 0.5rem; background: white; color: var(--danger); padding: 1rem 2.5rem; border-radius: 8px; font-weight: 700; text-decoration: none; transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .cta-btn:hover { transform: translateY(-3px); box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
+
+        footer { background: var(--dark); padding: 4rem 2rem 2rem; border-top: 1px solid rgba(255,255,255,0.1); }
+        .footer-container { max-width: 1200px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+        .footer-brand p { color: var(--gray-400); font-size: 0.9rem; margin-top: 1rem; max-width: 300px; }
+        .footer-column h4 { font-size: 0.875rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1.5rem; color: var(--gray-300); }
+        .footer-column ul { list-style: none; }
+        .footer-column li { margin-bottom: 0.75rem; }
+        .footer-column a { color: var(--gray-400); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+        .footer-column a:hover { color: var(--white); }
+        .footer-bottom { padding-top: 2rem; border-top: 1px solid rgba(255,255,255,0.1); text-align: center; color: var(--gray-500); font-size: 0.875rem; }
+
+        @media (max-width: 1024px) {
+            .hero-container { grid-template-columns: 1fr; text-align: center; }
+            .hero h1 { font-size: 2.5rem; }
+            .hero-description { margin: 0 auto 2rem; }
+            .hero-cta-group { justify-content: center; }
+            .building-viz { max-width: 500px; margin: 0 auto; }
+            .zones-grid { grid-template-columns: repeat(3, 1fr); }
+            .calculator-container { grid-template-columns: 1fr; }
+            .why-grid { grid-template-columns: 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .hero { padding: 6rem 1rem 3rem; }
+            .hero h1 { font-size: 2rem; }
+            .hero-stats { flex-direction: column; gap: 1rem; }
+            .zones-grid { grid-template-columns: repeat(2, 1fr); }
+            .floating-widget { bottom: 1rem; right: 1rem; left: 1rem; min-width: auto; }
+            .section-title { font-size: 1.75rem; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What are pressure coefficient zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pressure coefficient zones divide a building into areas based on how wind pressure varies across the surface. Corners and edges experience higher pressure (Zone 5) while the center experiences lower pressure (Zone 1). These zones determine the wind load requirements for windows, doors, and cladding."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do building corners have higher wind pressure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind accelerates as it wraps around building corners, creating a suction effect. This acceleration can double or triple the pressure compared to the center of a wall. That is why corner windows often need stronger glass than windows in the middle of the building."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What GCp values are used in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Miami-Dade uses ASCE 7 pressure coefficients. Zone 5 (corners) typically has GCp values of -1.8 to -2.4, Zone 4 (edges) around -1.4 to -1.8, Zone 3 (eaves) around -1.0 to -1.4, and Zones 1-2 (field) around -0.7 to -1.0. Positive pressure coefficients are typically +0.9 to +1.0."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I determine which zone my window is in?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Zone boundaries depend on building dimensions. The 'a' dimension (10% of least width or 40% of height, minimum 3 feet) defines corner zones. A window is in Zone 5 if it is within distance 'a' from both edges. Zone 4 applies to strips along edges. Everything else is typically Zone 1."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida/"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Pressure Coefficient Zones", "item": "https://windload.co/florida/miami-dade/pressure-coefficient-zones.html"}
+        ]
+    }
+    </script>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <nav>
+        <div class="nav-container">
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="https://windload.co/states.html">All States</a></li>
+                <li><a href="https://windload.co/architects.html">Architects</a></li>
+                <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">The Pressure Map</div>
+                <h1>Where Wind Hits <span class="highlight">Hardest</span></h1>
+                <p class="hero-description">Think of your building like a dartboard. The bullseye (center) gets light pressure, but the edges? That is where wind goes crazy. Click the building to see exactly where you need the strongest windows.</p>
+
+                <div class="hero-stats">
+                    <div class="hero-stat">
+                        <div class="hero-stat-value">5</div>
+                        <div class="hero-stat-label">Pressure Zones</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value" id="gcp-display">-2.4</div>
+                        <div class="hero-stat-label">Max GCp (Zone 5)</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-value counter" data-target="3">0</div>
+                        <div class="hero-stat-label">x Corner vs Center</div>
+                    </div>
+                </div>
+
+                <div class="hero-cta-group">
+                    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">
+                        Get Zone Analysis
+                        <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </a>
+                    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Calculate Pressures</a>
+                </div>
+            </div>
+
+            <div class="building-viz">
+                <div class="building-viz-title">Click a Zone to Learn More</div>
+                <div class="building-map">
+                    <svg viewBox="0 0 400 350" id="building-svg">
+                        <!-- Wind arrows -->
+                        <g class="wind-arrows">
+                            <line x1="10" y1="150" x2="60" y2="150" stroke="var(--gray-400)" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <line x1="10" y1="180" x2="60" y2="180" stroke="var(--gray-400)" stroke-width="2" marker-end="url(#arrowhead)"/>
+                            <line x1="10" y1="210" x2="60" y2="210" stroke="var(--gray-400)" stroke-width="2" marker-end="url(#arrowhead)"/>
+                        </g>
+
+                        <!-- Building outline -->
+                        <rect x="80" y="80" width="240" height="200" fill="none" stroke="var(--gray-600)" stroke-width="2"/>
+
+                        <!-- Zone 5 - Corners -->
+                        <rect x="80" y="80" width="50" height="50" class="zone zone-5" data-zone="5" stroke-width="2"/>
+                        <rect x="270" y="80" width="50" height="50" class="zone zone-5" data-zone="5" stroke-width="2"/>
+                        <rect x="80" y="230" width="50" height="50" class="zone zone-5" data-zone="5" stroke-width="2"/>
+                        <rect x="270" y="230" width="50" height="50" class="zone zone-5" data-zone="5" stroke-width="2"/>
+
+                        <!-- Zone 4 - Edges -->
+                        <rect x="130" y="80" width="140" height="50" class="zone zone-4" data-zone="4" stroke-width="2"/>
+                        <rect x="130" y="230" width="140" height="50" class="zone zone-4" data-zone="4" stroke-width="2"/>
+                        <rect x="80" y="130" width="50" height="100" class="zone zone-4" data-zone="4" stroke-width="2"/>
+                        <rect x="270" y="130" width="50" height="100" class="zone zone-4" data-zone="4" stroke-width="2"/>
+
+                        <!-- Zone 1 - Center (Field) -->
+                        <rect x="130" y="130" width="140" height="100" class="zone zone-1" data-zone="1" stroke-width="2"/>
+
+                        <!-- Zone Labels -->
+                        <text x="105" y="110" fill="white" font-size="14" font-weight="bold">5</text>
+                        <text x="295" y="110" fill="white" font-size="14" font-weight="bold">5</text>
+                        <text x="105" y="260" fill="white" font-size="14" font-weight="bold">5</text>
+                        <text x="295" y="260" fill="white" font-size="14" font-weight="bold">5</text>
+                        <text x="195" y="110" fill="white" font-size="14" font-weight="bold">4</text>
+                        <text x="195" y="260" fill="white" font-size="14" font-weight="bold">4</text>
+                        <text x="100" y="185" fill="white" font-size="14" font-weight="bold">4</text>
+                        <text x="290" y="185" fill="white" font-size="14" font-weight="bold">4</text>
+                        <text x="195" y="185" fill="white" font-size="14" font-weight="bold">1</text>
+
+                        <!-- Dimension annotations -->
+                        <text x="200" y="320" fill="var(--gray-400)" font-size="11" text-anchor="middle">Building Plan View (Looking Down)</text>
+                        <text x="50" y="180" fill="var(--gray-400)" font-size="11" text-anchor="middle" transform="rotate(-90 50 180)">WIND</text>
+
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="var(--gray-400)"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+                <div class="zone-info" id="zone-info">
+                    <div class="zone-info-title">Click a zone to see details</div>
+                    <div class="zone-info-gcp"></div>
+                    <div class="zone-info-desc">Each colored area has different wind pressure. Corners (red) are hit hardest, center (blue) is calmer.</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="zones-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">5 Pressure Zones</span>
+                <h2 class="section-title">From Extreme to Mild</h2>
+                <p class="section-subtitle">Like a weather map for your building. Red zones need the toughest windows, blue zones can use standard options.</p>
+            </div>
+
+            <div class="zones-grid">
+                <div class="zone-card zone-5-card" data-delay="0">
+                    <div class="zone-card-number">5</div>
+                    <div class="zone-card-name">Corners</div>
+                    <div class="zone-card-gcp">GCp: -2.4</div>
+                    <div class="zone-card-pressure" id="zone5-pressure">-75 PSF</div>
+                </div>
+                <div class="zone-card zone-4-card" data-delay="100">
+                    <div class="zone-card-number">4</div>
+                    <div class="zone-card-name">Edges</div>
+                    <div class="zone-card-gcp">GCp: -1.8</div>
+                    <div class="zone-card-pressure" id="zone4-pressure">-56 PSF</div>
+                </div>
+                <div class="zone-card zone-3-card" data-delay="200">
+                    <div class="zone-card-number">3</div>
+                    <div class="zone-card-name">Eaves</div>
+                    <div class="zone-card-gcp">GCp: -1.4</div>
+                    <div class="zone-card-pressure" id="zone3-pressure">-44 PSF</div>
+                </div>
+                <div class="zone-card zone-2-card" data-delay="300">
+                    <div class="zone-card-number">2</div>
+                    <div class="zone-card-name">Mid-Field</div>
+                    <div class="zone-card-gcp">GCp: -1.0</div>
+                    <div class="zone-card-pressure" id="zone2-pressure">-31 PSF</div>
+                </div>
+                <div class="zone-card zone-1-card" data-delay="400">
+                    <div class="zone-card-number">1</div>
+                    <div class="zone-card-name">Center</div>
+                    <div class="zone-card-gcp">GCp: -0.7</div>
+                    <div class="zone-card-pressure" id="zone1-pressure">-22 PSF</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="calculator-section" id="calculator">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Pressure Calculator</span>
+                <h2 class="section-title">Calculate Your Zone Pressures</h2>
+                <p class="section-subtitle">Enter your project details to see exact pressure requirements for each zone.</p>
+            </div>
+
+            <div class="calculator-container">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label class="form-label">Wind Speed (mph)</label>
+                        <input type="number" class="form-input" id="windSpeed" value="180" min="100" max="200">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Exposure Category</label>
+                        <select class="form-select" id="exposure">
+                            <option value="0.85">B - Urban/Suburban</option>
+                            <option value="1.0" selected>C - Open Terrain</option>
+                            <option value="1.15">D - Coastal</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Building Height (feet)</label>
+                        <input type="number" class="form-input" id="buildingHeight" value="30" min="10" max="500">
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Risk Category</label>
+                        <select class="form-select" id="riskCategory">
+                            <option value="1.0">II - Standard Buildings</option>
+                            <option value="1.15">III - Assembly, Schools</option>
+                            <option value="1.25">IV - Essential Facilities</option>
+                        </select>
+                    </div>
+                    <button class="calc-btn" onclick="calculatePressures()">Calculate Zone Pressures</button>
+                </div>
+
+                <div class="calculator-results">
+                    <div class="result-title">Pressure by Zone (PSF)</div>
+                    <div class="result-zones">
+                        <div class="result-zone">
+                            <span class="result-zone-name" style="color: var(--danger)">Zone 5 (Corners)</span>
+                            <span class="result-zone-pressure" id="result-zone5">-75.2 PSF</span>
+                        </div>
+                        <div class="result-zone">
+                            <span class="result-zone-name" style="color: #f97316">Zone 4 (Edges)</span>
+                            <span class="result-zone-pressure" id="result-zone4">-56.4 PSF</span>
+                        </div>
+                        <div class="result-zone">
+                            <span class="result-zone-name" style="color: var(--warning)">Zone 3 (Eaves)</span>
+                            <span class="result-zone-pressure" id="result-zone3">-43.9 PSF</span>
+                        </div>
+                        <div class="result-zone">
+                            <span class="result-zone-name" style="color: var(--success)">Zone 2 (Mid-Field)</span>
+                            <span class="result-zone-pressure" id="result-zone2">-31.3 PSF</span>
+                        </div>
+                        <div class="result-zone">
+                            <span class="result-zone-name" style="color: var(--primary)">Zone 1 (Center)</span>
+                            <span class="result-zone-pressure" id="result-zone1">-21.9 PSF</span>
+                        </div>
+                    </div>
+                    <p style="margin-top: 1.5rem; font-size: 0.8rem; color: var(--gray-500);">* Negative values indicate suction (outward). Positive pressure on windward face adds to total design pressure.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="why-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Why This Matters</span>
+                <h2 class="section-title">The Corner Window Problem</h2>
+            </div>
+
+            <div class="why-grid">
+                <div class="why-card" data-delay="0">
+                    <div class="why-card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
+                        </svg>
+                    </div>
+                    <h3 class="why-card-title">Corner Windows Fail First</h3>
+                    <p class="why-card-desc">In every hurricane, corner windows break before center windows. Why? Because they face 3x more wind pressure. One wrong window in a corner can blow out your entire envelope.</p>
+                </div>
+                <div class="why-card" data-delay="200">
+                    <div class="why-card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="why-card-title">Save Money in the Center</h3>
+                    <p class="why-card-desc">Zone 1 windows need less strength than Zone 5. Smart contractors use premium windows only where needed and save money on interior positions. Same protection, lower cost.</p>
+                </div>
+                <div class="why-card" data-delay="400">
+                    <div class="why-card-icon">
+                        <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/>
+                        </svg>
+                    </div>
+                    <h3 class="why-card-title">Pass Inspection First Time</h3>
+                    <p class="why-card-desc">Inspectors check that corner windows meet Zone 5 requirements. Many projects fail because the contractor used Zone 1 windows everywhere. Know your zones, pass your inspection.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="section-container">
+            <div class="section-header">
+                <span class="section-label">Common Questions</span>
+                <h2 class="section-title">Pressure Zones Explained Simply</h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item">
+                    <button class="faq-question">
+                        What are pressure coefficient zones?
+                        <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Think of them like a heat map showing where wind pressure is strongest. Zones divide your building into areas based on how hard wind pushes (or pulls). Zone 5 at the corners gets hit hardest - about 3 times harder than Zone 1 in the center. Each zone needs windows and doors rated for that specific pressure.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Why do building corners have higher wind pressure?
+                        <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Imagine water flowing around a rock in a stream - it speeds up as it wraps around the edges. Wind does the same thing at building corners. As it wraps around, it accelerates and creates intense suction. This "corner effect" is why Zone 5 corners need windows rated for much higher pressures than the middle of the wall.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        How do I know which zone my window is in?
+                        <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Zone boundaries depend on your building size. Engineers calculate a distance called "a" (usually about 10% of your building width, minimum 3 feet). If a window is within that distance from BOTH edges, it is Zone 5. Within that distance from ONE edge, it is Zone 4. Everything else in the middle is typically Zone 1. Our PE analysis shows exactly which zone each opening falls into.</p>
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <button class="faq-question">
+                        Can I use the same window everywhere?
+                        <svg class="faq-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+                    </button>
+                    <div class="faq-answer">
+                        <p>Yes, if you choose windows rated for Zone 5 everywhere - but that costs more. The smart approach is using Zone 5 windows only in corners, Zone 4 along edges, and Zone 1 in the center. You get the same protection at lower cost. Our analysis tells you exactly what each location needs.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="floating-widget">
+        <div class="widget-title">Current Selection</div>
+        <div class="widget-zone">
+            <div class="widget-zone-number" id="widget-zone">5</div>
+            <div class="widget-zone-label">Pressure Zone</div>
+        </div>
+        <div class="widget-stats">
+            <div class="widget-stat">
+                <span class="widget-stat-label">GCp Value</span>
+                <span class="widget-stat-value" id="widget-gcp">-2.4</span>
+            </div>
+            <div class="widget-stat">
+                <span class="widget-stat-label">Location</span>
+                <span class="widget-stat-value" id="widget-location">Corners</span>
+            </div>
+            <div class="widget-stat">
+                <span class="widget-stat-label">Pressure</span>
+                <span class="widget-stat-value" id="widget-pressure">-75 PSF</span>
+            </div>
+        </div>
+    </div>
+
+    <section class="cta-section">
+        <div class="section-container">
+            <h2 class="cta-title">Get Your Pressure Zone Map</h2>
+            <p class="cta-subtitle">PE-stamped analysis showing exact zones for every window and door on your project. Stop guessing, start knowing.</p>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-btn">Start Your Analysis</a>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="https://windload.co/" class="nav-logo">
+                        <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                        <span class="logo-text">Wind<span>Load</span>.co</span>
+                    </a>
+                    <p>Professional wind load calculations for Florida's demanding building codes.</p>
+                </div>
+                <div class="footer-column">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Calculations</a></li>
+                        <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                        <li><a href="https://windload.co/architects.html">For Architects</a></li>
+                        <li><a href="https://windload.co/contractors.html">For Contractors</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Florida</h4>
+                    <ul>
+                        <li><a href="https://windload.co/florida/miami-dade/">Miami-Dade</a></li>
+                        <li><a href="https://windload.co/florida/broward/">Broward</a></li>
+                        <li><a href="https://windload.co/florida/palm-beach/">Palm Beach</a></li>
+                        <li><a href="https://windload.co/florida/monroe/">Monroe</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h4>Resources</h4>
+                    <ul>
+                        <li><a href="https://windload.co/hurricane.html">Hurricane Guide</a></li>
+                        <li><a href="https://windload.co/compare.html">Compare Options</a></li>
+                        <li><a href="https://windload.co/states.html">All States</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 WindLoad.co. Professional engineering services.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas - Pressure visualization themed
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class PressureParticle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.vx = (Math.random() - 0.3) * 2;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.size = Math.random() * 3 + 1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.color = Math.random() > 0.5 ? '239, 68, 68' : '245, 158, 11';
+            }
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                if (this.x > canvas.width + 10) this.reset();
+                if (this.x < -10 || this.y < -10 || this.y > canvas.height + 10) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${this.color}, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) particles.push(new PressureParticle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Zone interaction
+        const zoneData = {
+            5: { name: 'Corners', gcp: '-2.4', desc: 'Maximum pressure zone. Wind accelerates around corners creating intense suction. Requires highest-rated windows and doors.', pressure: -75 },
+            4: { name: 'Edges', gcp: '-1.8', desc: 'High pressure along building edges. Wind wraps around sides creating significant suction. Needs strong impact protection.', pressure: -56 },
+            3: { name: 'Eaves', gcp: '-1.4', desc: 'Roof edge areas where wind creates uplift. Transitions between wall and roof require careful detailing.', pressure: -44 },
+            2: { name: 'Mid-Field', gcp: '-1.0', desc: 'Moderate pressure in transition areas between edges and center. Standard high-velocity zone windows work here.', pressure: -31 },
+            1: { name: 'Center', gcp: '-0.7', desc: 'Lowest pressure zone in the middle of walls. Basic HVHZ-rated products typically sufficient here.', pressure: -22 }
+        };
+
+        document.querySelectorAll('.zone').forEach(zone => {
+            zone.addEventListener('click', function() {
+                const zoneNum = this.dataset.zone;
+                const data = zoneData[zoneNum];
+
+                // Update active state
+                document.querySelectorAll('.zone').forEach(z => z.classList.remove('active'));
+                this.classList.add('active');
+
+                // Update info panel
+                document.querySelector('.zone-info-title').textContent = `Zone ${zoneNum}: ${data.name}`;
+                document.querySelector('.zone-info-gcp').textContent = `GCp = ${data.gcp}`;
+                document.querySelector('.zone-info-gcp').style.color = getZoneColor(zoneNum);
+                document.querySelector('.zone-info-desc').textContent = data.desc;
+
+                // Update widget
+                document.getElementById('widget-zone').textContent = zoneNum;
+                document.getElementById('widget-gcp').textContent = data.gcp;
+                document.getElementById('widget-location').textContent = data.name;
+                document.getElementById('widget-pressure').textContent = `${data.pressure} PSF`;
+
+                // Update GCp display
+                document.getElementById('gcp-display').textContent = data.gcp;
+            });
+        });
+
+        function getZoneColor(zone) {
+            const colors = { 5: '#ef4444', 4: '#f97316', 3: '#f59e0b', 2: '#22c55e', 1: '#3b82f6' };
+            return colors[zone];
+        }
+
+        // Calculator
+        function calculatePressures() {
+            const windSpeed = parseFloat(document.getElementById('windSpeed').value);
+            const exposure = parseFloat(document.getElementById('exposure').value);
+            const height = parseFloat(document.getElementById('buildingHeight').value);
+            const riskCat = parseFloat(document.getElementById('riskCategory').value);
+
+            // Simplified velocity pressure calculation
+            const qz = 0.00256 * exposure * Math.pow(windSpeed * riskCat, 2) * (height / 30) ** 0.15;
+
+            // GCp values for each zone
+            const gcpValues = { 5: -2.4, 4: -1.8, 3: -1.4, 2: -1.0, 1: -0.7 };
+
+            // Calculate and display pressures
+            for (let zone = 1; zone <= 5; zone++) {
+                const pressure = (qz * gcpValues[zone]).toFixed(1);
+                document.getElementById(`result-zone${zone}`).textContent = `${pressure} PSF`;
+                document.getElementById(`zone${zone}-pressure`).textContent = `${pressure} PSF`;
+                zoneData[zone].pressure = parseFloat(pressure);
+            }
+        }
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const wasActive = item.classList.contains('active');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+                if (!wasActive) item.classList.add('active');
+            });
+        });
+
+        // Counter animation
+        function animateCounter(el) {
+            const target = parseInt(el.dataset.target);
+            const duration = 2000;
+            const start = performance.now();
+            function update(time) {
+                const progress = Math.min((time - start) / duration, 1);
+                el.textContent = Math.round(target * (1 - Math.pow(1 - progress, 3)));
+                if (progress < 1) requestAnimationFrame(update);
+            }
+            requestAnimationFrame(update);
+        }
+
+        // Intersection Observer
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const delay = parseInt(entry.target.dataset.delay) || 0;
+                    setTimeout(() => entry.target.classList.add('visible'), delay);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.zone-card, .why-card').forEach(el => observer.observe(el));
+
+        const heroObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    document.querySelectorAll('.counter').forEach(animateCounter);
+                    heroObserver.disconnect();
+                }
+            });
+        }, { threshold: 0.3 });
+        heroObserver.observe(document.querySelector('.hero'));
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+            });
+        });
+
+        // Initial calculation
+        calculatePressures();
+    </script>
+</body>
+</html>
