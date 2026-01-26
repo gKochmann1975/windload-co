@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Pergola Post Anchoring for Hurricanes | Miami-Dade HVHZ Requirements</title>
+    <meta name="description" content="Design pergola post anchors for Miami-Dade hurricane zones. Interactive visualization shows uplift forces, overturning moments, and anchor bolt requirements for HVHZ compliance.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/pergola-post-anchoring">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Pergola Post Anchoring for Hurricanes | Miami-Dade">
+    <meta property="og:description" content="Design pergola anchors to survive Miami-Dade hurricanes. Interactive force visualization and anchor sizing calculator.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/pergola-post-anchoring">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads do pergolas experience in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pergolas in Miami-Dade HVHZ must resist 180 mph wind speeds. The open lattice design creates complex aerodynamics - wind can push up, down, or sideways depending on direction. Typical design pressures range from 30-50 PSF uplift on the lattice, with significant horizontal loads on posts. Post anchors must resist both uplift and overturning moments."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How deep should pergola post footings be in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pergola post footings in Miami-Dade typically require minimum 24-36 inch depth with 12-18 inch diameter for direct-burial posts. For surface-mounted posts on existing slabs, anchor bolt embedment of 4-6 inches minimum is required with properly designed base plates. Footing size depends on soil conditions and wind loads - engineering calculations are required."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What anchor bolts are required for pergola posts?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Pergola post anchors in Miami-Dade HVHZ typically require 1/2 inch or 5/8 inch diameter anchor bolts. Four-bolt patterns are standard for posts up to 6x6 inches. Anchor bolts must have adequate embedment depth (typically 4-6 inches) and edge distance from the concrete edge. Expansion anchors, epoxy anchors, or cast-in-place anchors are all acceptable if properly sized."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do pergolas need permits in Miami-Dade County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, pergolas require building permits in Miami-Dade County. The permit application must include structural drawings showing the pergola design meets wind load requirements. This includes post sizes, beam spans, anchor details, and connection specifications. Some jurisdictions may allow simplified permits for small pergolas meeting prescriptive requirements."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What materials are best for hurricane-rated pergolas?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Common pergola materials for Miami-Dade HVHZ include: pressure-treated wood (Southern Pine #1 or better), aluminum with adequate wall thickness, steel with corrosion protection, and engineered composite materials. Wood posts typically require 6x6 minimum for residential spans. Aluminum and steel allow smaller sections but need proper connection hardware."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Pergola Post Anchoring", "item": "https://windload.co/florida/miami-dade/pergola-post-anchoring"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --wood-brown: #d4a373;
+            --wood-dark: #8b5a2b;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Wood Grain Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(212, 163, 115, 0.3);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff; -webkit-text-fill-color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+        .nav-logo span span { color: var(--wood-brown); -webkit-text-fill-color: var(--wood-brown); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--wood-brown); }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+        }
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+        .breadcrumb a:hover { color: var(--wood-brown); }
+        .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(212, 163, 115, 0.15);
+            border: 1px solid rgba(212, 163, 115, 0.4);
+            color: var(--wood-brown);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--wood-brown) 0%, var(--accent-magenta) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--wood-brown) 0%, var(--wood-dark) 100%);
+            color: white;
+            box-shadow: 0 4px 25px rgba(212, 163, 115, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(212, 163, 115, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Pergola Post Visualization */
+        .pergola-viz {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(212, 163, 115, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .viz-title {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--wood-brown);
+            margin-bottom: 1.5rem;
+        }
+
+        .post-container {
+            position: relative;
+            height: 400px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Post and Anchor Visualization */
+        .post-viz-svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .wood-post { fill: var(--wood-brown); stroke: var(--wood-dark); stroke-width: 2; }
+        .base-plate { fill: #64748b; stroke: #475569; stroke-width: 2; }
+        .anchor-bolt { fill: #374151; stroke: #1f2937; stroke-width: 1; }
+        .concrete { fill: #6b7280; }
+        .ground-line { stroke: #4ade80; stroke-width: 2; stroke-dasharray: 8,4; }
+
+        /* Force arrows */
+        .uplift-arrow {
+            fill: var(--accent-cyan);
+            animation: upliftPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes upliftPulse {
+            0%, 100% { transform: translateY(0); opacity: 0.7; }
+            50% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        .lateral-arrow {
+            fill: var(--accent-magenta);
+            animation: lateralPush 2s ease-in-out infinite;
+        }
+
+        @keyframes lateralPush {
+            0%, 100% { transform: translateX(0); opacity: 0.7; }
+            50% { transform: translateX(8px); opacity: 1; }
+        }
+
+        .moment-arc {
+            fill: none;
+            stroke: #fbbf24;
+            stroke-width: 3;
+            stroke-dasharray: 5,3;
+        }
+
+        /* Labels in SVG */
+        .svg-label { fill: var(--text-light); font-size: 12px; font-weight: 600; }
+        .svg-sublabel { fill: var(--text-muted); font-size: 10px; }
+        .svg-dimension { fill: var(--wood-brown); font-size: 11px; font-weight: 600; }
+
+        /* Data Panel */
+        .data-panel {
+            position: absolute;
+            right: 15px;
+            top: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border: 1px solid var(--wood-brown);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+        }
+
+        .data-label { color: var(--text-muted); }
+        .data-value { color: var(--wood-brown); font-weight: 700; }
+
+        /* Controls */
+        .viz-controls {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-group input[type="range"] {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(212, 163, 115, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .control-group input::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--wood-brown), var(--wood-dark));
+            cursor: pointer;
+        }
+
+        .control-display {
+            text-align: right;
+            font-weight: 700;
+            color: var(--wood-brown);
+            margin-top: 0.25rem;
+        }
+
+        /* Results */
+        .results-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .result-box {
+            background: rgba(212, 163, 115, 0.1);
+            border: 1px solid rgba(212, 163, 115, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .result-value {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: var(--wood-brown);
+        }
+
+        .result-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        /* Content Sections */
+        section { padding: 5rem 2rem; }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-header p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Anchor Types Section */
+        .anchors-section {
+            background: linear-gradient(180deg, rgba(212, 163, 115, 0.05) 0%, transparent 100%);
+        }
+
+        .anchors-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .anchor-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .anchor-card:hover {
+            border-color: rgba(212, 163, 115, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .anchor-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(212, 163, 115, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .anchor-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; }
+        .anchor-card p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem; }
+
+        .anchor-specs {
+            list-style: none;
+            font-size: 0.85rem;
+            color: #64748b;
+            text-align: left;
+        }
+
+        .anchor-specs li {
+            padding: 0.3rem 0;
+            padding-left: 1.25rem;
+            position: relative;
+        }
+
+        .anchor-specs li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--wood-brown);
+            border-radius: 50%;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(212, 163, 115, 0.05) 100%);
+        }
+
+        .faq-list { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover { background: rgba(212, 163, 115, 0.05); }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--wood-brown); }
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+        }
+
+        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+
+        /* CTA */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--wood-brown) 0%, var(--wood-dark) 100%);
+            text-align: center;
+        }
+
+        .cta h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .cta p { font-size: 1.2rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta .btn-primary { background: var(--primary-dark); color: white; }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(212, 163, 115, 0.2);
+        }
+
+        footer a { color: var(--wood-brown); text-decoration: none; }
+        footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container { grid-template-columns: 1fr; gap: 3rem; }
+            .viz-controls { grid-template-columns: 1fr; }
+            .results-grid { grid-template-columns: repeat(2, 1fr); }
+            .anchors-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .results-grid { grid-template-columns: 1fr; }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav class="nav">
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <div class="nav-links">
+                <a href="https://windload.co/florida-pro.html">Florida</a>
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade</a>
+                <a href="https://windload.co/contractors.html">Contractors</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="/">Home</a><span>/</span>
+                <a href="https://windload.co/florida-pro.html">Florida</a><span>/</span>
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade</a><span>/</span>
+                <span class="breadcrumb-current">Pergola Post Anchoring</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-text reveal">
+                    <div class="hero-badge">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2v20M4 4h16M4 12h16"/>
+                        </svg>
+                        Outdoor Structure Engineering
+                    </div>
+
+                    <h1>Rooted Deep: <span>Pergola Post Anchoring</span> for Hurricane Winds</h1>
+
+                    <p class="hero-subtitle">
+                        A beautiful pergola becomes a dangerous projectile in hurricane winds. Those open slats catch wind from every angle, creating massive uplift and overturning forces. Your anchors are the only thing keeping it on the ground.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=pergola-miami" class="btn btn-primary">
+                            Calculate Anchor Loads
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="#anchors" class="btn btn-secondary">Anchor Types</a>
+                    </div>
+                </div>
+
+                <div class="pergola-viz reveal">
+                    <h2 class="viz-title">Post Anchor Force Analysis</h2>
+
+                    <div class="post-container">
+                        <!-- Data Panel -->
+                        <div class="data-panel">
+                            <div class="data-row">
+                                <span class="data-label">Uplift:</span>
+                                <span class="data-value" id="dataUplift">2,400 lbs</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Lateral:</span>
+                                <span class="data-value" id="dataLateral">800 lbs</span>
+                            </div>
+                            <div class="data-row">
+                                <span class="data-label">Moment:</span>
+                                <span class="data-value" id="dataMoment">7,200 lb-ft</span>
+                            </div>
+                        </div>
+
+                        <svg class="post-viz-svg" viewBox="0 0 500 380">
+                            <!-- Ground level -->
+                            <rect class="concrete" x="150" y="280" width="200" height="80"/>
+                            <line class="ground-line" x1="100" y1="280" x2="400" y2="280"/>
+                            <text class="svg-sublabel" x="410" y="285">Grade</text>
+
+                            <!-- Wood post -->
+                            <rect class="wood-post" x="220" y="50" width="60" height="230"/>
+
+                            <!-- Wood grain texture -->
+                            <line x1="230" y1="50" x2="230" y2="280" stroke="rgba(139, 90, 43, 0.5)" stroke-width="1"/>
+                            <line x1="250" y1="50" x2="250" y2="280" stroke="rgba(139, 90, 43, 0.5)" stroke-width="1"/>
+                            <line x1="270" y1="50" x2="270" y2="280" stroke="rgba(139, 90, 43, 0.5)" stroke-width="1"/>
+
+                            <!-- Base plate -->
+                            <rect class="base-plate" x="200" y="270" width="100" height="10"/>
+
+                            <!-- Anchor bolts -->
+                            <rect class="anchor-bolt" x="210" y="280" width="8" height="40" rx="1"/>
+                            <rect class="anchor-bolt" x="235" y="280" width="8" height="40" rx="1"/>
+                            <rect class="anchor-bolt" x="260" y="280" width="8" height="40" rx="1"/>
+                            <rect class="anchor-bolt" x="285" y="280" width="8" height="40" rx="1"/>
+
+                            <!-- Bolt heads -->
+                            <rect x="207" y="262" width="14" height="8" fill="#374151" rx="1"/>
+                            <rect x="232" y="262" width="14" height="8" fill="#374151" rx="1"/>
+                            <rect x="257" y="262" width="14" height="8" fill="#374151" rx="1"/>
+                            <rect x="282" y="262" width="14" height="8" fill="#374151" rx="1"/>
+
+                            <!-- Pergola beam on top (simplified) -->
+                            <rect x="180" y="40" width="140" height="20" fill="var(--wood-brown)" stroke="var(--wood-dark)" stroke-width="2"/>
+                            <rect x="160" y="30" width="180" height="15" fill="var(--wood-brown)" stroke="var(--wood-dark)" stroke-width="2" opacity="0.7"/>
+
+                            <!-- Uplift arrow -->
+                            <g class="uplift-arrow">
+                                <polygon points="250,15 240,35 245,35 245,55 255,55 255,35 260,35"/>
+                            </g>
+                            <text class="svg-label" x="265" y="25">Uplift</text>
+                            <text class="svg-dimension" id="upliftLabel" x="265" y="40">2,400 lbs</text>
+
+                            <!-- Lateral arrow -->
+                            <g class="lateral-arrow">
+                                <polygon points="130,150 150,140 150,145 180,145 180,155 150,155 150,160"/>
+                            </g>
+                            <text class="svg-label" x="110" y="130">Lateral</text>
+                            <text class="svg-dimension" id="lateralLabel" x="110" y="145">800 lbs</text>
+
+                            <!-- Moment arc -->
+                            <path class="moment-arc" d="M320 150 Q340 120 320 90"/>
+                            <polygon points="318,93 325,85 328,95" fill="#fbbf24"/>
+                            <text class="svg-label" x="345" y="120">Moment</text>
+                            <text class="svg-dimension" id="momentLabel" x="345" y="135">7,200 lb-ft</text>
+
+                            <!-- Dimension lines -->
+                            <line x1="295" y1="50" x2="295" y2="270" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,2"/>
+                            <text class="svg-sublabel" x="300" y="160">9 ft</text>
+
+                            <!-- Embedment depth -->
+                            <line x1="165" y1="280" x2="165" y2="320" stroke="var(--text-muted)" stroke-width="1" stroke-dasharray="4,2"/>
+                            <text class="svg-sublabel" x="120" y="305">4" embed</text>
+
+                            <!-- Labels -->
+                            <text class="svg-label" x="250" y="170" text-anchor="middle">6x6 Post</text>
+                            <text class="svg-sublabel" x="250" y="345" text-anchor="middle">Concrete Foundation</text>
+                        </svg>
+                    </div>
+
+                    <div class="viz-controls">
+                        <div class="control-group">
+                            <label>Post Height (ft)</label>
+                            <input type="range" id="heightSlider" min="8" max="12" value="9">
+                            <div class="control-display" id="heightDisplay">9 ft</div>
+                        </div>
+                        <div class="control-group">
+                            <label>Tributary Area (sq ft)</label>
+                            <input type="range" id="areaSlider" min="30" max="80" value="50">
+                            <div class="control-display" id="areaDisplay">50 sq ft</div>
+                        </div>
+                        <div class="control-group">
+                            <label>Wind Pressure (PSF)</label>
+                            <input type="range" id="pressureSlider" min="30" max="60" value="40">
+                            <div class="control-display" id="pressureDisplay">40 PSF</div>
+                        </div>
+                    </div>
+
+                    <div class="results-grid">
+                        <div class="result-box">
+                            <div class="result-value" id="resultUplift">2,000</div>
+                            <div class="result-label">Uplift (lbs)</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultMoment">7,200</div>
+                            <div class="result-label">Moment (lb-ft)</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultBolt">1/2"</div>
+                            <div class="result-label">Min Bolt Size</div>
+                        </div>
+                        <div class="result-box">
+                            <div class="result-value" id="resultEmbed">4"</div>
+                            <div class="result-label">Min Embedment</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="anchors-section" id="anchors">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Post Anchor Types</h2>
+                    <p>Choose the right anchor system for your pergola installation method and soil conditions.</p>
+                </div>
+
+                <div class="anchors-grid">
+                    <div class="anchor-card reveal">
+                        <div class="anchor-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--wood-brown)" stroke-width="2">
+                                <rect x="8" y="2" width="8" height="20" rx="1"/>
+                                <path d="M4 14h16"/>
+                            </svg>
+                        </div>
+                        <h3>Direct Burial</h3>
+                        <p>Post embedded directly in concrete footing. Traditional method with excellent lateral resistance. Requires treated lumber rated for ground contact.</p>
+                        <ul class="anchor-specs">
+                            <li>24-36" depth typical</li>
+                            <li>12-18" diameter footing</li>
+                            <li>Gravel base for drainage</li>
+                            <li>UC4A or UC4B treatment</li>
+                        </ul>
+                    </div>
+
+                    <div class="anchor-card reveal">
+                        <div class="anchor-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--wood-brown)" stroke-width="2">
+                                <rect x="6" y="10" width="12" height="4"/>
+                                <circle cx="9" cy="12" r="1.5"/>
+                                <circle cx="15" cy="12" r="1.5"/>
+                                <rect x="9" y="14" width="6" height="8"/>
+                            </svg>
+                        </div>
+                        <h3>Surface Mount</h3>
+                        <p>Base plate with anchor bolts into existing concrete slab. Allows post replacement and keeps wood off ground. Requires adequate slab thickness and reinforcement.</p>
+                        <ul class="anchor-specs">
+                            <li>4-6" embedment depth</li>
+                            <li>1/2" or 5/8" bolts</li>
+                            <li>4-bolt pattern minimum</li>
+                            <li>Standoff for drainage</li>
+                        </ul>
+                    </div>
+
+                    <div class="anchor-card reveal">
+                        <div class="anchor-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--wood-brown)" stroke-width="2">
+                                <path d="M12 2v8"/>
+                                <path d="M8 10h8"/>
+                                <path d="M6 14h12"/>
+                                <path d="M8 18h8l2 4H6l2-4"/>
+                            </svg>
+                        </div>
+                        <h3>Helical Pier</h3>
+                        <p>Screw-in foundation system for unstable soils or where excavation is difficult. Provides excellent uplift resistance. Requires specialized installation equipment.</p>
+                        <ul class="anchor-specs">
+                            <li>4-8 ft depth typical</li>
+                            <li>Torque-verified capacity</li>
+                            <li>No concrete cure time</li>
+                            <li>Works in poor soil</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Pergola Anchoring FAQs</h2>
+                    <p>Common questions about pergola post anchoring in Miami-Dade hurricane zones</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item open">
+                        <div class="faq-question">What wind loads do pergolas experience in Miami-Dade?</div>
+                        <div class="faq-answer">
+                            Pergolas must resist 180 mph wind speeds. The open lattice creates complex aerodynamics with typical design pressures of 30-50 PSF uplift. Post anchors must resist both uplift and overturning moments.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">How deep should pergola post footings be?</div>
+                        <div class="faq-answer">
+                            Pergola post footings typically require minimum 24-36 inch depth with 12-18 inch diameter for direct-burial posts. For surface-mounted posts, anchor bolt embedment of 4-6 inches minimum is required.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What anchor bolts are required for pergola posts?</div>
+                        <div class="faq-answer">
+                            Pergola post anchors typically require 1/2 inch or 5/8 inch diameter anchor bolts. Four-bolt patterns are standard for posts up to 6x6 inches with adequate embedment depth (4-6 inches).
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Do pergolas need permits in Miami-Dade County?</div>
+                        <div class="faq-answer">
+                            Yes, pergolas require building permits in Miami-Dade County. The permit application must include structural drawings showing the pergola design meets wind load requirements.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What materials are best for hurricane-rated pergolas?</div>
+                        <div class="faq-answer">
+                            Common materials include: pressure-treated wood (Southern Pine #1 or better), aluminum with adequate wall thickness, steel with corrosion protection, and engineered composites. Wood posts typically require 6x6 minimum.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta reveal">
+            <h2>Calculate Your Pergola Anchor Loads</h2>
+            <p>Get precise wind load calculations for your pergola design. ASCE 7-22 compliant results for Miami-Dade permit approval.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=pergola-cta" class="btn btn-primary">
+                Start Calculating
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade County</a> ·
+                <a href="/florida/miami-dade/screen-room-framing">Screen Rooms</a> ·
+                <a href="/florida/miami-dade/patio-cover-loads">Patio Covers</a> ·
+                <a href="https://windload.co/florida-pro.html">All Florida</a>
+            </p>
+            <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com">Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Wood Grain Canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        function drawWoodGrain() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.strokeStyle = 'rgba(212, 163, 115, 0.1)';
+            ctx.lineWidth = 1;
+
+            for (let y = 0; y < canvas.height; y += 5) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                for (let x = 0; x < canvas.width; x += 20) {
+                    const wobble = Math.sin((x + y) * 0.02) * 3;
+                    ctx.lineTo(x, y + wobble);
+                }
+                ctx.stroke();
+            }
+            requestAnimationFrame(drawWoodGrain);
+        }
+        drawWoodGrain();
+
+        // Calculator
+        const heightSlider = document.getElementById('heightSlider');
+        const areaSlider = document.getElementById('areaSlider');
+        const pressureSlider = document.getElementById('pressureSlider');
+
+        function updateCalculations() {
+            const height = parseFloat(heightSlider.value);
+            const area = parseFloat(areaSlider.value);
+            const pressure = parseFloat(pressureSlider.value);
+
+            document.getElementById('heightDisplay').textContent = `${height} ft`;
+            document.getElementById('areaDisplay').textContent = `${area} sq ft`;
+            document.getElementById('pressureDisplay').textContent = `${pressure} PSF`;
+
+            // Calculate forces
+            const uplift = Math.round(area * pressure);
+            const lateral = Math.round(uplift * 0.4);
+            const moment = Math.round(lateral * height);
+
+            document.getElementById('dataUplift').textContent = `${uplift.toLocaleString()} lbs`;
+            document.getElementById('dataLateral').textContent = `${lateral.toLocaleString()} lbs`;
+            document.getElementById('dataMoment').textContent = `${moment.toLocaleString()} lb-ft`;
+
+            document.getElementById('upliftLabel').textContent = `${uplift.toLocaleString()} lbs`;
+            document.getElementById('lateralLabel').textContent = `${lateral.toLocaleString()} lbs`;
+            document.getElementById('momentLabel').textContent = `${moment.toLocaleString()} lb-ft`;
+
+            document.getElementById('resultUplift').textContent = uplift.toLocaleString();
+            document.getElementById('resultMoment').textContent = moment.toLocaleString();
+
+            // Determine bolt size
+            let boltSize = '1/2"';
+            if (uplift > 3000) boltSize = '5/8"';
+            if (uplift > 5000) boltSize = '3/4"';
+            document.getElementById('resultBolt').textContent = boltSize;
+
+            // Determine embedment
+            let embedment = '4"';
+            if (uplift > 3000) embedment = '5"';
+            if (uplift > 4500) embedment = '6"';
+            document.getElementById('resultEmbed').textContent = embedment;
+        }
+
+        heightSlider.addEventListener('input', updateCalculations);
+        areaSlider.addEventListener('input', updateCalculations);
+        pressureSlider.addEventListener('input', updateCalculations);
+        updateCalculations();
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
