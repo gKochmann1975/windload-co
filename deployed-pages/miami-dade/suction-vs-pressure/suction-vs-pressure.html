@@ -1,0 +1,1034 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Suction vs Positive Pressure in Wind Loads | Miami-Dade Guide</title>
+    <meta name="description" content="Understand the difference between wind suction and positive pressure in Miami-Dade wind loads. Animated guide showing how wind pushes and pulls on different building surfaces.">
+    <link rel="canonical" href="https://windload.co/miami-dade/suction-vs-pressure.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Suction vs Positive Pressure in Wind Loads">
+    <meta property="og:description" content="Wind both pushes and pulls on buildings. Understanding the difference is crucial for proper design.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/miami-dade/suction-vs-pressure.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Suction vs Pressure Explained">
+    <meta name="twitter:description" content="Why roofs blow off - understanding suction in wind loads.">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Miami-Dade", "item": "https://windload.co/miami-dade/"},
+            {"@type": "ListItem", "position": 3, "name": "Suction vs Pressure", "item": "https://windload.co/miami-dade/suction-vs-pressure.html"}
+        ]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the difference between suction and positive pressure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Positive pressure pushes toward a surface (like wind hitting your face). Suction (negative pressure) pulls away from a surface (like wind on the back side of a building trying to pull the wall outward). Both forces must be designed for in wind loads."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is wind suction often more dangerous than positive pressure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Suction can be stronger than positive pressure, especially at roof corners and edges. Buildings are typically designed to resist gravity pushing down, but suction pulls upward and outward. Connections that seem strong against pushing forces may fail when pulled apart."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Which parts of a building experience the highest suction?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Roof corners and edges experience the highest suction, often 2-3 times stronger than the main field of the roof. This is why hurricane damage often starts at corners - the suction literally lifts roofing materials and tears connections apart."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do pressure signs work in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Positive signs indicate pressure toward the surface (inward for walls). Negative signs indicate suction away from the surface (outward for walls, upward for roofs). A wall with positive external pressure and negative internal pressure experiences net inward force."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Article Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Suction vs Positive Pressure in Wind Loads for Miami-Dade County",
+        "description": "Understanding how wind creates both pushing and pulling forces on buildings in Miami-Dade County's High Velocity Hurricane Zone.",
+        "author": {"@type": "Organization", "name": "WindLoad.co"},
+        "publisher": {"@type": "Organization", "name": "WindLoad.co", "url": "https://windload.co"},
+        "datePublished": "2025-01-01",
+        "dateModified": "2025-01-17",
+        "mainEntityOfPage": "https://windload.co/miami-dade/suction-vs-pressure.html"
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+            --positive-color: #00cc66;
+            --negative-color: #ff4d4d;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-cyan); }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 0 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Building Pressure Demo */
+        .pressure-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0d0015 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            overflow: hidden;
+        }
+
+        .building-pressure-demo {
+            position: relative;
+            height: 350px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .building-3d {
+            position: relative;
+            width: 200px;
+            height: 180px;
+        }
+
+        /* Building shape */
+        .building-front {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(0, 204, 102, 0.3);
+            border: 3px solid var(--positive-color);
+            left: 25px;
+            top: 30px;
+            z-index: 2;
+        }
+
+        .building-side {
+            position: absolute;
+            width: 80px;
+            height: 150px;
+            background: rgba(255, 77, 77, 0.3);
+            border: 3px solid var(--negative-color);
+            right: 0;
+            top: 10px;
+            transform: skewY(-20deg);
+            z-index: 1;
+        }
+
+        .building-roof {
+            position: absolute;
+            width: 150px;
+            height: 60px;
+            background: rgba(255, 77, 77, 0.4);
+            border: 3px solid var(--negative-color);
+            left: 25px;
+            top: -20px;
+            transform: skewX(-30deg);
+            z-index: 3;
+        }
+
+        .building-back {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: rgba(255, 77, 77, 0.2);
+            border: 3px dashed var(--negative-color);
+            left: 50px;
+            top: 0px;
+            z-index: 0;
+        }
+
+        /* Wind direction */
+        .wind-direction {
+            position: absolute;
+            left: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 10px;
+        }
+
+        .wind-arrow-large {
+            width: 80px;
+            height: 6px;
+            background: linear-gradient(90deg, var(--accent-cyan), transparent);
+            animation: windArrowMove 1s ease-in-out infinite;
+        }
+
+        @keyframes windArrowMove {
+            0%, 100% { transform: translateX(0); opacity: 0.5; }
+            50% { transform: translateX(20px); opacity: 1; }
+        }
+
+        .wind-label {
+            position: absolute;
+            left: -150px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 0.875rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        /* Pressure arrows on building */
+        .pressure-arrow {
+            position: absolute;
+            font-size: 1.5rem;
+            font-weight: 900;
+            animation: arrowPulse 1s ease-in-out infinite;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .pressure-arrow.positive {
+            color: var(--positive-color);
+        }
+
+        .pressure-arrow.negative {
+            color: var(--negative-color);
+        }
+
+        /* Labels */
+        .pressure-labels {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .pressure-label-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .label-indicator {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: white;
+        }
+
+        .label-indicator.positive { background: var(--positive-color); }
+        .label-indicator.negative { background: var(--negative-color); }
+
+        .label-text {
+            font-size: 0.875rem;
+        }
+
+        .label-text strong {
+            display: block;
+            color: white;
+        }
+
+        .label-text span {
+            color: var(--text-muted);
+            font-size: 0.75rem;
+        }
+
+        /* Story Sections */
+        .story-section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .story-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-grid.reverse {
+            direction: rtl;
+        }
+
+        .story-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .story-visual {
+            position: relative;
+            padding: 2rem;
+            background: rgba(26, 10, 46, 0.5);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .story-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Roof suction demo */
+        .roof-demo {
+            position: relative;
+            height: 200px;
+        }
+
+        .roof-surface {
+            position: absolute;
+            bottom: 50px;
+            left: 10%;
+            width: 80%;
+            height: 20px;
+            background: linear-gradient(90deg, var(--negative-color), #ff8888);
+            border-radius: 5px;
+        }
+
+        .suction-arrow {
+            position: absolute;
+            width: 4px;
+            background: var(--negative-color);
+            animation: suctionPull 1s ease-in-out infinite;
+        }
+
+        @keyframes suctionPull {
+            0%, 100% { height: 40px; opacity: 0.5; }
+            50% { height: 60px; opacity: 1; }
+        }
+
+        .roof-label {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Corner zone demo */
+        .corner-demo {
+            position: relative;
+            height: 200px;
+        }
+
+        .roof-plan {
+            position: absolute;
+            top: 20px;
+            left: 10%;
+            width: 80%;
+            height: 160px;
+            border: 2px solid var(--text-muted);
+            border-radius: 5px;
+        }
+
+        .zone-corner {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            background: var(--negative-color);
+            animation: zonePulse 1s ease-in-out infinite;
+        }
+
+        .zone-corner.tl { top: 0; left: 0; border-radius: 5px 0 0 0; }
+        .zone-corner.tr { top: 0; right: 0; border-radius: 0 5px 0 0; }
+        .zone-corner.bl { bottom: 0; left: 0; border-radius: 0 0 0 5px; }
+        .zone-corner.br { bottom: 0; right: 0; border-radius: 0 0 5px 0; }
+
+        .zone-edge {
+            position: absolute;
+            background: #ff8888;
+            animation: zonePulse 1s ease-in-out infinite 0.3s;
+        }
+
+        .zone-edge.top { top: 0; left: 40px; right: 40px; height: 25px; }
+        .zone-edge.bottom { bottom: 0; left: 40px; right: 40px; height: 25px; }
+        .zone-edge.left { top: 40px; bottom: 40px; left: 0; width: 25px; }
+        .zone-edge.right { top: 40px; bottom: 40px; right: 0; width: 25px; }
+
+        .zone-field {
+            position: absolute;
+            top: 40px;
+            left: 40px;
+            right: 40px;
+            bottom: 40px;
+            background: rgba(255, 77, 77, 0.3);
+        }
+
+        @keyframes zonePulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        .zone-legend {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1rem;
+            font-size: 0.75rem;
+        }
+
+        .zone-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .zone-legend-color {
+            width: 15px;
+            height: 15px;
+            border-radius: 3px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent-magenta);
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.1), rgba(0, 212, 255, 0.1));
+            border-radius: 30px;
+            margin: 4rem 0;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(233, 30, 140, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .story-grid { grid-template-columns: 1fr; }
+            .story-grid.reverse { direction: ltr; }
+            .pressure-labels { flex-direction: column; gap: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <nav>
+                <a href="https://windload.co/states.html">States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Suction vs Pressure</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">Wind Force Fundamentals</div>
+            <h1>Suction vs Positive Pressure</h1>
+            <p class="hero-subtitle">Wind does not just push on buildings - it also pulls. Understanding this difference explains why roofs blow off and walls get sucked outward.</p>
+        </section>
+
+        <!-- Building Pressure Demo -->
+        <div class="pressure-container">
+            <div class="building-pressure-demo">
+                <div class="wind-label">WIND</div>
+                <div class="wind-direction">
+                    <div class="wind-arrow-large" style="animation-delay: 0s;"></div>
+                    <div class="wind-arrow-large" style="animation-delay: 0.2s;"></div>
+                    <div class="wind-arrow-large" style="animation-delay: 0.4s;"></div>
+                    <div class="wind-arrow-large" style="animation-delay: 0.6s;"></div>
+                </div>
+
+                <div class="building-3d">
+                    <div class="building-back"></div>
+                    <div class="building-roof">
+                        <span class="pressure-arrow negative" style="top: 50%; left: 30%; transform: rotate(-90deg);">^</span>
+                        <span class="pressure-arrow negative" style="top: 50%; left: 60%; transform: rotate(-90deg);">^</span>
+                    </div>
+                    <div class="building-front">
+                        <span class="pressure-arrow positive" style="top: 30%; left: -30px;">></span>
+                        <span class="pressure-arrow positive" style="top: 60%; left: -30px;">></span>
+                    </div>
+                    <div class="building-side">
+                        <span class="pressure-arrow negative" style="top: 30%; right: -30px;"><</span>
+                        <span class="pressure-arrow negative" style="top: 60%; right: -30px;"><</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pressure-labels">
+                <div class="pressure-label-item">
+                    <div class="label-indicator positive">+</div>
+                    <div class="label-text">
+                        <strong>Positive Pressure</strong>
+                        <span>Pushes TOWARD surface</span>
+                    </div>
+                </div>
+                <div class="pressure-label-item">
+                    <div class="label-indicator negative">-</div>
+                    <div class="label-text">
+                        <strong>Suction (Negative)</strong>
+                        <span>Pulls AWAY from surface</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Section 1: Wind creates both -->
+        <section class="story-section" id="story1">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div style="text-align: center; padding: 2rem;">
+                        <div style="display: flex; justify-content: space-around; margin-bottom: 2rem;">
+                            <div>
+                                <div style="font-size: 3rem; color: var(--positive-color);">PUSH</div>
+                                <div style="font-size: 0.875rem; color: var(--text-muted);">Front Wall</div>
+                                <div style="font-size: 1.25rem; color: var(--positive-color);">+0.8 Cp</div>
+                            </div>
+                            <div>
+                                <div style="font-size: 3rem; color: var(--negative-color);">PULL</div>
+                                <div style="font-size: 0.875rem; color: var(--text-muted);">Back Wall</div>
+                                <div style="font-size: 1.25rem; color: var(--negative-color);">-0.5 Cp</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Wind Creates Both Forces</h2>
+                    <p>When wind hits a building, it does not just push on the front wall and stop. As the wind flows around the building, it creates different pressures on different surfaces.</p>
+                    <p><strong>Windward wall (front):</strong> Wind hits directly and creates positive pressure - it pushes inward.</p>
+                    <p><strong>Leeward wall (back):</strong> Wind flows past and creates suction - it pulls outward.</p>
+                    <p><strong>Side walls:</strong> Also experience suction as wind accelerates around corners.</p>
+                    <p><strong>Roof:</strong> Almost always suction, pulling upward like a giant vacuum.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 2: Roof suction -->
+        <section class="story-section" id="story2">
+            <div class="story-grid reverse">
+                <div class="story-content">
+                    <h2>Why Roofs Blow OFF, Not IN</h2>
+                    <p>Have you ever wondered why hurricane damage pictures always show roofs missing? The roof did not blow downward - it was sucked upward!</p>
+                    <p>When wind flows over a roof, it speeds up (like water through a narrow channel). Faster moving air has lower pressure. This creates suction that lifts the roof.</p>
+                    <p>The effect is like holding a piece of paper in front of your mouth and blowing across the top - the paper rises because of the low pressure above it.</p>
+                    <p>In Miami-Dade at 180 mph, roof suction can exceed 80 psf at corners - like having an 80-pound weight pulling up on every square foot!</p>
+                </div>
+                <div class="story-visual">
+                    <div class="roof-demo">
+                        <div class="roof-surface"></div>
+                        <div class="suction-arrow" style="left: 15%; bottom: 70px;"></div>
+                        <div class="suction-arrow" style="left: 30%; bottom: 70px;"></div>
+                        <div class="suction-arrow" style="left: 45%; bottom: 70px;"></div>
+                        <div class="suction-arrow" style="left: 60%; bottom: 70px;"></div>
+                        <div class="suction-arrow" style="left: 75%; bottom: 70px;"></div>
+                        <div class="suction-arrow" style="left: 85%; bottom: 70px;"></div>
+                        <div class="roof-label">Suction pulls roof UPWARD</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 3: Corner zones -->
+        <section class="story-section" id="story3">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="corner-demo">
+                        <div class="roof-plan">
+                            <div class="zone-field"></div>
+                            <div class="zone-edge top"></div>
+                            <div class="zone-edge bottom"></div>
+                            <div class="zone-edge left"></div>
+                            <div class="zone-edge right"></div>
+                            <div class="zone-corner tl"></div>
+                            <div class="zone-corner tr"></div>
+                            <div class="zone-corner bl"></div>
+                            <div class="zone-corner br"></div>
+                        </div>
+                    </div>
+                    <div class="zone-legend">
+                        <div class="zone-legend-item">
+                            <div class="zone-legend-color" style="background: var(--negative-color);"></div>
+                            <span>Corner (Zone 3)</span>
+                        </div>
+                        <div class="zone-legend-item">
+                            <div class="zone-legend-color" style="background: #ff8888;"></div>
+                            <span>Edge (Zone 2)</span>
+                        </div>
+                        <div class="zone-legend-item">
+                            <div class="zone-legend-color" style="background: rgba(255,77,77,0.3);"></div>
+                            <span>Field (Zone 1)</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Corners Get Hit Hardest</h2>
+                    <p>Wind does not affect all parts of a roof equally. Corners and edges experience much stronger suction than the middle of the roof.</p>
+                    <p>Why? Wind accelerates as it wraps around corners, creating vortices (spinning wind patterns) that dramatically increase local suction.</p>
+                    <p>That is why building codes define different pressure zones:</p>
+                    <p><strong>Zone 3 (Corners):</strong> Highest suction, up to 3x the field value<br>
+                    <strong>Zone 2 (Edges):</strong> Moderate suction, about 2x field<br>
+                    <strong>Zone 1 (Field):</strong> Lowest suction, but still significant</p>
+                    <p>This explains why hurricane damage often starts at roof corners - they see the worst forces.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What is the difference between suction and positive pressure?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Positive pressure pushes toward a surface (like wind hitting your face). Suction (negative pressure) pulls away from a surface (like wind on the back side of a building trying to pull the wall outward). Both forces must be designed for in wind loads.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Why is wind suction often more dangerous than positive pressure?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Suction can be stronger than positive pressure, especially at roof corners and edges. Buildings are typically designed to resist gravity pushing down, but suction pulls upward and outward. Connections that seem strong against pushing forces may fail when pulled apart.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Which parts of a building experience the highest suction?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Roof corners and edges experience the highest suction, often 2-3 times stronger than the main field of the roof. This is why hurricane damage often starts at corners - the suction literally lifts roofing materials and tears connections apart.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    How do pressure signs work in wind load calculations?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Positive signs indicate pressure toward the surface (inward for walls). Negative signs indicate suction away from the surface (outward for walls, upward for roofs). A wall with positive external pressure and negative internal pressure experiences net inward force.
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Get Complete Pressure Analysis</h2>
+            <p>Our calculator provides both positive and negative pressures for all building surfaces and zones. Accurate wind loads for Miami-Dade projects.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=suction-vs-pressure" class="cta-button">
+                Calculate Wind Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/miami-dade/internal-pressure.html">Internal Pressure (GCpi)</a>
+                <a href="/miami-dade/velocity-pressure-qz.html">Velocity Pressure (qz)</a>
+                <a href="/miami-dade/partially-enclosed.html">Partially Enclosed</a>
+                <a href="/miami-dade/asce7-16-overview.html">ASCE 7-16 Overview</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://windload.co/states.html">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+            <p class="footer-text">&copy; 2002-2025 WindLoad.co - Trusted Wind Load Calculations Since 2002</p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle canvas background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 80;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -10;
+                this.y = Math.random() * canvas.height;
+                this.speed = 2 + Math.random() * 4;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speed;
+                this.y += Math.sin(this.x * 0.01) * 0.5;
+                if (this.x > canvas.width + 10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size * 5, this.y);
+                ctx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.lineWidth = this.size;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = new Particle();
+            p.x = Math.random() * canvas.width;
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Intersection Observer for story sections
+        const storyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            storyObserver.observe(section);
+        });
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
