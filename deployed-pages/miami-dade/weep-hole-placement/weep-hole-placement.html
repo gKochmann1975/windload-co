@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Weep Hole Placement for Hurricane Windows | Miami-Dade HVHZ Guide</title>
+    <meta name="description" content="Learn proper weep hole placement for hurricane windows in Miami-Dade County. Visual guide shows drainage paths, sizing requirements, and why weep holes matter during wind-driven rain.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/weep-hole-placement">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Weep Hole Placement for Hurricane Windows | Miami-Dade">
+    <meta property="og:description" content="See how weep holes drain water from window frames during hurricanes. Interactive drainage visualization.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/weep-hole-placement">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the purpose of weep holes in hurricane windows?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Weep holes allow water that enters the window frame to drain back outside rather than into the wall cavity. During hurricanes, wind-driven rain penetrates past weatherstripping and gaskets. The weep holes provide an escape path for this water, preventing damage to the window frame, wall structure, and interior finishes."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How many weep holes are required per window?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most window manufacturers require at least two weep holes per sash or frame section, located near each end of the sill. Large windows may require additional weep holes spaced no more than 24 inches apart. The exact requirements depend on the window system and are specified in the product's installation instructions and NOA documentation."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What size should weep holes be for hurricane windows?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Weep holes for hurricane windows are typically 3/16 to 1/4 inch diameter (round) or slot-shaped openings of similar area. They must be large enough to allow water drainage but small enough to limit air infiltration. Some systems use covered weep holes with flaps or baffles that allow water out while reducing wind-driven rain entry."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can weep holes allow water to enter during hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, weep holes can allow some water entry during extreme wind-driven rain. This is expected and acceptable because the water enters a drainage chamber designed to collect and redirect it back outside. The alternative - sealed frames with no drainage - would trap water and cause worse problems. Proper sill pan flashing catches any water that gets past the weep system."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Should weep holes be covered or protected?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Many hurricane window systems use protected weep holes with covers, flaps, or baffles. These devices reduce wind-driven rain entry while still allowing drainage. However, covers must not be so restrictive that they prevent drainage. During installation, verify that weep covers are installed correctly and not blocked by sealant, debris, or paint."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Weep Hole Placement", "item": "https://windload.co/florida/miami-dade/weep-hole-placement"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --water-blue: #4fc3f7;
+            --frame-gray: #607d8b;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* Rain Drop Canvas */
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.5;
+        }
+
+        .content-wrapper { position: relative; z-index: 1; }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(79, 195, 247, 0.3);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff; -webkit-text-fill-color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo img { height: 28px; }
+        .nav-logo span span { color: var(--water-blue); -webkit-text-fill-color: var(--water-blue); }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .nav-links a:hover { color: var(--water-blue); }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+        }
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+        .breadcrumb a:hover { color: var(--water-blue); }
+        .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
+
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.4fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(79, 195, 247, 0.15);
+            border: 1px solid rgba(79, 195, 247, 0.4);
+            color: var(--water-blue);
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.2rem, 4vw, 3.2rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, var(--water-blue) 0%, var(--accent-cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        .hero-cta { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--water-blue) 0%, var(--accent-cyan) 100%);
+            color: var(--primary-dark);
+            box-shadow: 0 4px 25px rgba(79, 195, 247, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(79, 195, 247, 0.5);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* Weep Hole Visualization */
+        .weep-viz {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .viz-title {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--water-blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .window-cross-section {
+            position: relative;
+            height: 380px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Window Frame Cross Section SVG */
+        .window-cross-section svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .frame-section { fill: var(--frame-gray); }
+        .glass-section { fill: rgba(135, 206, 250, 0.2); stroke: rgba(135, 206, 250, 0.5); stroke-width: 1; }
+        .drainage-chamber { fill: rgba(79, 195, 247, 0.1); stroke: var(--water-blue); stroke-width: 1; stroke-dasharray: 4,2; }
+        .weep-hole { fill: var(--primary-dark); stroke: var(--water-blue); stroke-width: 2; }
+        .weatherstrip { fill: #333; }
+        .sealant { fill: #555; }
+
+        /* Animated Water */
+        .water-drop {
+            fill: var(--water-blue);
+            opacity: 0.8;
+        }
+
+        .water-in-chamber {
+            fill: rgba(79, 195, 247, 0.4);
+            animation: waterLevel 3s ease-in-out infinite;
+        }
+
+        @keyframes waterLevel {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        .water-draining {
+            fill: var(--water-blue);
+            animation: drainFlow 1.5s linear infinite;
+        }
+
+        @keyframes drainFlow {
+            0% { transform: translateY(-10px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(30px); opacity: 0; }
+        }
+
+        /* Labels */
+        .label-text { fill: var(--text-light); font-size: 11px; font-weight: 600; }
+        .sublabel-text { fill: var(--text-muted); font-size: 9px; }
+        .dimension-text { fill: var(--water-blue); font-size: 10px; font-weight: 600; }
+
+        /* Rain indicator */
+        .rain-drops {
+            animation: rainFall 0.5s linear infinite;
+        }
+
+        @keyframes rainFall {
+            0% { transform: translateY(-20px) translateX(10px); opacity: 0; }
+            50% { opacity: 1; }
+            100% { transform: translateY(40px) translateX(20px); opacity: 0; }
+        }
+
+        /* Controls */
+        .viz-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .control-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(79, 195, 247, 0.2);
+            border: 1px solid rgba(79, 195, 247, 0.4);
+            border-radius: 8px;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: all 0.3s;
+            font-weight: 600;
+        }
+
+        .control-btn.active {
+            background: var(--water-blue);
+            color: var(--primary-dark);
+        }
+
+        /* Stats */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .stat-box {
+            background: rgba(79, 195, 247, 0.1);
+            border: 1px solid rgba(79, 195, 247, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--water-blue);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        /* Content Sections */
+        section { padding: 5rem 2rem; }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-header { text-align: center; margin-bottom: 3rem; }
+        .section-header h2 { font-size: 2.25rem; font-weight: 700; margin-bottom: 1rem; }
+        .section-header p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        /* Weep Types Section */
+        .types-section {
+            background: linear-gradient(180deg, rgba(79, 195, 247, 0.05) 0%, transparent 100%);
+        }
+
+        .types-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .type-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .type-card:hover {
+            border-color: rgba(79, 195, 247, 0.4);
+            transform: translateY(-4px);
+        }
+
+        .type-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(79, 195, 247, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .type-card h3 { font-size: 1.2rem; margin-bottom: 0.75rem; }
+        .type-card p { color: #94a3b8; font-size: 0.9rem; }
+
+        /* Common Problems Section */
+        .problems-section { background: var(--primary-dark); }
+
+        .problems-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .problem-item {
+            display: flex;
+            gap: 1.5rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            align-items: flex-start;
+        }
+
+        .problem-icon {
+            width: 50px;
+            height: 50px;
+            background: rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+
+        .problem-content h3 { font-size: 1.1rem; margin-bottom: 0.5rem; color: #ef4444; }
+        .problem-content p { color: #94a3b8; font-size: 0.95rem; }
+
+        /* FAQ Section */
+        .faq-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(79, 195, 247, 0.05) 100%);
+        }
+
+        .faq-list { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover { background: rgba(79, 195, 247, 0.05); }
+        .faq-question::after { content: '+'; font-size: 1.5rem; color: var(--water-blue); }
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+        }
+
+        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+
+        /* CTA */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, var(--water-blue) 0%, var(--accent-cyan) 100%);
+            text-align: center;
+        }
+
+        .cta h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-dark); }
+        .cta p { font-size: 1.2rem; color: var(--primary-dark); opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .cta .btn-primary { background: var(--primary-dark); color: white; }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(79, 195, 247, 0.2);
+        }
+
+        footer a { color: var(--water-blue); text-decoration: none; }
+        footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .hero-container { grid-template-columns: 1fr; gap: 3rem; }
+            .types-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+            .stats-row { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+            .stats-row { grid-template-columns: 1fr; }
+            .problem-item { flex-direction: column; }
+        }
+
+        /* Scroll Reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active { opacity: 1; transform: translateY(0); }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav class="nav">
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <div class="nav-links">
+                <a href="https://windload.co/florida-pro.html">Florida</a>
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade</a>
+                <a href="https://windload.co/contractors.html">Contractors</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="/">Home</a><span>/</span>
+                <a href="https://windload.co/florida-pro.html">Florida</a><span>/</span>
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade</a><span>/</span>
+                <span class="breadcrumb-current">Weep Hole Placement</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-container">
+                <div class="hero-text reveal">
+                    <div class="hero-badge">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 11-11.31 0z"/>
+                        </svg>
+                        Water Management Details
+                    </div>
+
+                    <h1>Escape Route: <span>Weep Hole Placement</span> for Hurricane Windows</h1>
+
+                    <p class="hero-subtitle">
+                        Water will get into your window frame during a hurricane. That is a fact. The question is: where does it go? Weep holes give that water an escape route back outside before it damages your wall.
+                    </p>
+
+                    <div class="hero-cta">
+                        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=weep-miami" class="btn btn-primary">
+                            Get Window Specs
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M5 12h14M12 5l7 7-7 7"/>
+                            </svg>
+                        </a>
+                        <a href="#types" class="btn btn-secondary">Weep Hole Types</a>
+                    </div>
+                </div>
+
+                <div class="weep-viz reveal">
+                    <h2 class="viz-title">Window Frame Cross Section - Drainage Path</h2>
+
+                    <div class="window-cross-section">
+                        <svg viewBox="0 0 500 350">
+                            <!-- Wall structure -->
+                            <rect class="frame-section" x="20" y="50" width="60" height="250" rx="2"/>
+                            <text class="label-text" x="50" y="180" text-anchor="middle" transform="rotate(-90, 50, 180)">Wall</text>
+
+                            <!-- Window frame - sill section -->
+                            <path class="frame-section" d="M80 220 L420 220 L420 300 L80 300 Z"/>
+
+                            <!-- Drainage chamber inside frame -->
+                            <rect class="drainage-chamber" x="100" y="235" width="280" height="40"/>
+                            <text class="sublabel-text" x="240" y="260" text-anchor="middle">Drainage Chamber</text>
+
+                            <!-- Weep holes -->
+                            <ellipse class="weep-hole" cx="130" cy="295" rx="8" ry="5"/>
+                            <ellipse class="weep-hole" cx="370" cy="295" rx="8" ry="5"/>
+
+                            <!-- Water draining out -->
+                            <g class="water-draining" style="animation-delay: 0s">
+                                <ellipse cx="130" cy="310" rx="4" ry="6"/>
+                            </g>
+                            <g class="water-draining" style="animation-delay: 0.5s">
+                                <ellipse cx="370" cy="310" rx="4" ry="6"/>
+                            </g>
+
+                            <!-- Water level in chamber -->
+                            <rect class="water-in-chamber" x="105" y="255" width="270" height="15" rx="2"/>
+
+                            <!-- Glass -->
+                            <rect class="glass-section" x="100" y="50" width="280" height="165"/>
+                            <text class="label-text" x="240" y="135" text-anchor="middle">Glass</text>
+
+                            <!-- Weatherstripping -->
+                            <rect class="weatherstrip" x="95" y="210" width="290" height="8" rx="4"/>
+
+                            <!-- Rain drops entering -->
+                            <g id="rainGroup">
+                                <ellipse class="rain-drops water-drop" cx="150" cy="180" rx="3" ry="5" style="animation-delay: 0s"/>
+                                <ellipse class="rain-drops water-drop" cx="200" cy="175" rx="3" ry="5" style="animation-delay: 0.2s"/>
+                                <ellipse class="rain-drops water-drop" cx="280" cy="185" rx="3" ry="5" style="animation-delay: 0.4s"/>
+                                <ellipse class="rain-drops water-drop" cx="340" cy="178" rx="3" ry="5" style="animation-delay: 0.6s"/>
+                            </g>
+
+                            <!-- Arrows showing water path -->
+                            <path d="M150 200 L150 245" stroke="var(--water-blue)" stroke-width="2" stroke-dasharray="4,2" marker-end="url(#arrowhead)"/>
+                            <path d="M240 245 L130 280" stroke="var(--water-blue)" stroke-width="2" stroke-dasharray="4,2"/>
+                            <path d="M240 245 L370 280" stroke="var(--water-blue)" stroke-width="2" stroke-dasharray="4,2"/>
+
+                            <!-- Dimension labels -->
+                            <text class="dimension-text" x="130" y="330">3/16" dia</text>
+                            <text class="dimension-text" x="370" y="330">3/16" dia</text>
+
+                            <!-- Exterior/Interior labels -->
+                            <text class="label-text" x="240" y="30">EXTERIOR (Rain Side)</text>
+                            <text class="sublabel-text" x="50" y="320" text-anchor="middle">Interior</text>
+
+                            <!-- Arrow marker definition -->
+                            <defs>
+                                <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="0" refY="3.5" orient="auto">
+                                    <polygon points="0 0, 10 3.5, 0 7" fill="var(--water-blue)"/>
+                                </marker>
+                            </defs>
+                        </svg>
+                    </div>
+
+                    <div class="viz-controls">
+                        <button class="control-btn active" id="normalBtn">Normal Flow</button>
+                        <button class="control-btn" id="heavyBtn">Heavy Rain</button>
+                    </div>
+
+                    <div class="stats-row">
+                        <div class="stat-box">
+                            <div class="stat-value">2+</div>
+                            <div class="stat-label">Min. Weep Holes</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">3/16"</div>
+                            <div class="stat-label">Typical Diameter</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">24"</div>
+                            <div class="stat-label">Max Spacing</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value">Clear</div>
+                            <div class="stat-label">Must Stay Open</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="types-section" id="types">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Types of Weep Systems</h2>
+                    <p>Different window systems use different approaches to drain water while minimizing wind-driven rain entry.</p>
+                </div>
+
+                <div class="types-grid">
+                    <div class="type-card reveal">
+                        <div class="type-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--water-blue)" stroke-width="2">
+                                <circle cx="12" cy="12" r="4"/>
+                            </svg>
+                        </div>
+                        <h3>Open Weep Holes</h3>
+                        <p>Simple round or slot openings in the frame bottom. Effective drainage but can allow wind-driven rain entry. Common on older systems and basic frames.</p>
+                    </div>
+
+                    <div class="type-card reveal">
+                        <div class="type-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--water-blue)" stroke-width="2">
+                                <rect x="4" y="8" width="16" height="8" rx="2"/>
+                                <path d="M8 16v2M16 16v2"/>
+                            </svg>
+                        </div>
+                        <h3>Covered Weep Holes</h3>
+                        <p>Weep holes with snap-in covers featuring small drainage slots. Reduces wind-driven rain while allowing water out. Most common on modern hurricane windows.</p>
+                    </div>
+
+                    <div class="type-card reveal">
+                        <div class="type-icon">
+                            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--water-blue)" stroke-width="2">
+                                <path d="M4 12h16M12 4v16"/>
+                                <path d="M8 8l8 8M16 8l-8 8"/>
+                            </svg>
+                        </div>
+                        <h3>Baffled/Labyrinth</h3>
+                        <p>Internal baffles create a maze that water can flow through but wind cannot push past. Best performance but requires more maintenance to keep clear.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="problems-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Common Weep Hole Problems</h2>
+                    <p>Most weep hole failures are caused by installation errors or lack of maintenance.</p>
+                </div>
+
+                <div class="problems-list">
+                    <div class="problem-item reveal">
+                        <div class="problem-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                <path d="M18 6L6 18M6 6l12 12"/>
+                            </svg>
+                        </div>
+                        <div class="problem-content">
+                            <h3>Blocked by Sealant</h3>
+                            <p>Installers often accidentally seal weep holes when caulking the window. Always check that all weep holes are clear after installation. Use backer rod to protect weep holes during sealing.</p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item reveal">
+                        <div class="problem-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                <path d="M12 2v20M2 12h20"/>
+                            </svg>
+                        </div>
+                        <div class="problem-content">
+                            <h3>Painted Over</h3>
+                            <p>Paint can fill and block weep holes, especially if frames are spray painted. Mask weep holes before painting or clear them immediately after paint application.</p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item reveal">
+                        <div class="problem-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                <circle cx="12" cy="12" r="10"/>
+                                <path d="M12 8v4M12 16h.01"/>
+                            </svg>
+                        </div>
+                        <div class="problem-content">
+                            <h3>Debris Accumulation</h3>
+                            <p>Dirt, insect nests, and debris accumulate in weep holes over time. Annual inspection and cleaning is recommended, especially before hurricane season.</p>
+                        </div>
+                    </div>
+
+                    <div class="problem-item reveal">
+                        <div class="problem-icon">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ef4444" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2"/>
+                                <path d="M3 9h18M9 21V9"/>
+                            </svg>
+                        </div>
+                        <div class="problem-content">
+                            <h3>Covers Missing</h3>
+                            <p>Weep hole covers can fall out or be removed during cleaning. Missing covers allow excessive wind-driven rain entry. Replace covers with correct manufacturer parts.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-container">
+                <div class="section-header reveal">
+                    <h2>Weep Hole FAQs</h2>
+                    <p>Common questions about weep holes in hurricane windows</p>
+                </div>
+
+                <div class="faq-list">
+                    <div class="faq-item open">
+                        <div class="faq-question">What is the purpose of weep holes in hurricane windows?</div>
+                        <div class="faq-answer">
+                            Weep holes allow water that enters the window frame to drain back outside rather than into the wall cavity. During hurricanes, wind-driven rain penetrates past weatherstripping and gaskets. Weep holes provide an escape path for this water.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">How many weep holes are required per window?</div>
+                        <div class="faq-answer">
+                            Most manufacturers require at least two weep holes per sash or frame section, located near each end of the sill. Large windows may require additional weep holes spaced no more than 24 inches apart.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">What size should weep holes be for hurricane windows?</div>
+                        <div class="faq-answer">
+                            Weep holes are typically 3/16 to 1/4 inch diameter or slot-shaped openings of similar area. They must be large enough for drainage but small enough to limit air infiltration. Some systems use covered weep holes.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Can weep holes allow water to enter during hurricanes?</div>
+                        <div class="faq-answer">
+                            Yes, weep holes can allow some water entry during extreme wind-driven rain. This is expected because the water enters a drainage chamber designed to collect and redirect it back outside. Proper sill pan flashing catches any water that gets past.
+                        </div>
+                    </div>
+
+                    <div class="faq-item">
+                        <div class="faq-question">Should weep holes be covered or protected?</div>
+                        <div class="faq-answer">
+                            Many hurricane window systems use protected weep holes with covers, flaps, or baffles. These reduce wind-driven rain entry while still allowing drainage. Covers must not be so restrictive that they prevent drainage.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta reveal">
+            <h2>Get Your Window Specifications</h2>
+            <p>Complete window specifications including drainage requirements for Miami-Dade HVHZ permit approval.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=weep-cta" class="btn btn-primary">
+                Calculate Window Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>
+                <a href="https://windload.co/florida/miami-dade/">Miami-Dade County</a> ·
+                <a href="/florida/miami-dade/sill-pan-flashing">Sill Pan Flashing</a> ·
+                <a href="/florida/miami-dade/flashing-and-sealants">Flashing</a> ·
+                <a href="https://windload.co/florida-pro.html">All Florida</a>
+            </p>
+            <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com">Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Rain Drop Canvas
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class RainDrop {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.length = Math.random() * 20 + 10;
+                this.speedX = 2;
+                this.speedY = Math.random() * 8 + 12;
+                this.opacity = Math.random() * 0.3 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.y > canvas.height) this.reset();
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.speedX * 2, this.y - this.length);
+                ctx.strokeStyle = `rgba(79, 195, 247, ${this.opacity})`;
+                ctx.lineWidth = 1.5;
+                ctx.stroke();
+            }
+        }
+
+        const drops = [];
+        for (let i = 0; i < 100; i++) {
+            const drop = new RainDrop();
+            drop.y = Math.random() * canvas.height;
+            drops.push(drop);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drops.forEach(d => {
+                d.update();
+                d.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Rain intensity toggle
+        const normalBtn = document.getElementById('normalBtn');
+        const heavyBtn = document.getElementById('heavyBtn');
+        const rainGroup = document.getElementById('rainGroup');
+
+        normalBtn.addEventListener('click', () => {
+            normalBtn.classList.add('active');
+            heavyBtn.classList.remove('active');
+            drops.forEach(d => {
+                d.speedY = Math.random() * 8 + 12;
+                d.speedX = 2;
+            });
+        });
+
+        heavyBtn.addEventListener('click', () => {
+            heavyBtn.classList.add('active');
+            normalBtn.classList.remove('active');
+            drops.forEach(d => {
+                d.speedY = Math.random() * 15 + 20;
+                d.speedX = 5;
+            });
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) el.classList.add('active');
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
