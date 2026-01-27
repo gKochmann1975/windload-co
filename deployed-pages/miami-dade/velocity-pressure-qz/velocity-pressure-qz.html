@@ -1,0 +1,989 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Velocity Pressure (qz) Calculation for Miami-Dade | Wind Load Fundamentals</title>
+    <meta name="description" content="Learn how to calculate velocity pressure (qz) for Miami-Dade wind loads. Simple explanation of the qz formula with animated examples showing how wind speed converts to pressure force.">
+    <link rel="canonical" href="https://windload.co/miami-dade/velocity-pressure-qz.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Velocity Pressure (qz) Calculation for Miami-Dade">
+    <meta property="og:description" content="Animated guide to calculating velocity pressure (qz) for Miami-Dade wind load calculations per ASCE 7-16.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/miami-dade/velocity-pressure-qz.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Velocity Pressure (qz) for Miami-Dade">
+    <meta name="twitter:description" content="Convert wind speed to pressure force with the qz formula.">
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Miami-Dade", "item": "https://windload.co/miami-dade/"},
+            {"@type": "ListItem", "position": 3, "name": "Velocity Pressure (qz)", "item": "https://windload.co/miami-dade/velocity-pressure-qz.html"}
+        ]
+    }
+    </script>
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is velocity pressure (qz) in wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Velocity pressure (qz) is the force per square foot that wind creates when it hits a surface. It converts wind speed into actual pressure that buildings must resist. In Miami-Dade with 180 mph winds, qz can exceed 80 psf at typical building heights."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the formula for calculating qz?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The velocity pressure formula is qz = 0.00256 x Kz x Kzt x Kd x Ke x V-squared. Each factor adjusts for height (Kz), terrain hills (Kzt), wind direction (Kd), elevation (Ke), and wind speed (V). The 0.00256 constant converts mph to pounds per square foot."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does velocity pressure increase with height?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind moves faster at higher elevations because there is less friction from trees, buildings, and ground features. The Kz factor increases from about 0.57 at ground level to over 1.0 at 30 feet and continues rising with height. This means upper floors experience higher wind pressures."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much velocity pressure does a 180 mph wind create?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "At 30 feet height in Exposure C, a 180 mph wind creates approximately 75 psf of velocity pressure. At rooftop level of a 60-foot building, it can exceed 85 psf. These pressures are then multiplied by pressure coefficients to get final design loads."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Article Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "TechArticle",
+        "headline": "Velocity Pressure (qz) Calculation for Miami-Dade County",
+        "description": "Learn how to calculate velocity pressure for wind load calculations in Miami-Dade County using the ASCE 7-16 qz formula.",
+        "author": {"@type": "Organization", "name": "WindLoad.co"},
+        "publisher": {"@type": "Organization", "name": "WindLoad.co", "url": "https://windload.co"},
+        "datePublished": "2025-01-01",
+        "dateModified": "2025-01-17",
+        "mainEntityOfPage": "https://windload.co/miami-dade/velocity-pressure-qz.html"
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #ffffff;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0 2rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: white;
+            text-decoration: none;
+        }
+
+        .logo span { color: var(--accent-cyan); }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover { color: var(--accent-cyan); }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover { text-decoration: underline; }
+
+        .hero {
+            text-align: center;
+            padding: 2rem 0 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        h1 .highlight {
+            color: var(--accent-magenta);
+            display: inline-block;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Interactive Formula Display */
+        .formula-container {
+            position: relative;
+            width: 100%;
+            max-width: 900px;
+            margin: 0 auto 4rem;
+            background: linear-gradient(135deg, var(--primary-dark) 0%, #0d0015 100%);
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+            overflow: hidden;
+        }
+
+        .formula-main {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .formula-equation {
+            font-family: 'Courier New', monospace;
+            font-size: clamp(1.2rem, 3vw, 2rem);
+            color: var(--accent-cyan);
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .formula-part {
+            padding: 0.5rem 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid transparent;
+        }
+
+        .formula-part:hover {
+            border-color: var(--accent-cyan);
+            transform: scale(1.05);
+        }
+
+        .formula-part.active {
+            border-color: var(--accent-magenta);
+            background: rgba(233, 30, 140, 0.2);
+        }
+
+        .formula-result {
+            font-size: 3rem;
+            font-weight: 900;
+            color: var(--accent-magenta);
+            text-shadow: 0 0 30px rgba(233, 30, 140, 0.5);
+        }
+
+        .formula-result-label {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* Factor explanation cards */
+        .factor-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .factor-card {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 12px;
+            padding: 1rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .factor-card:hover {
+            border-color: var(--accent-cyan);
+            transform: translateY(-5px);
+        }
+
+        .factor-symbol {
+            font-family: 'Courier New', monospace;
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+
+        .factor-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--accent-magenta);
+            margin: 0.5rem 0;
+        }
+
+        .factor-name {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+        }
+
+        /* Story Sections */
+        .story-section {
+            padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .story-section.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .story-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .story-grid.reverse {
+            direction: rtl;
+        }
+
+        .story-grid.reverse > * {
+            direction: ltr;
+        }
+
+        .story-visual {
+            position: relative;
+            padding: 2rem;
+            background: rgba(26, 10, 46, 0.5);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .story-content h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--accent-cyan);
+        }
+
+        .story-content p {
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 1rem;
+        }
+
+        /* Wind to Pressure Animation */
+        .pressure-demo {
+            position: relative;
+            height: 250px;
+        }
+
+        .wind-arrows {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .wind-arrow {
+            width: 60px;
+            height: 4px;
+            background: linear-gradient(90deg, var(--accent-cyan), transparent);
+            animation: windFlow 1s ease-in-out infinite;
+        }
+
+        .wind-arrow:nth-child(1) { animation-delay: 0s; }
+        .wind-arrow:nth-child(2) { animation-delay: 0.2s; }
+        .wind-arrow:nth-child(3) { animation-delay: 0.4s; }
+        .wind-arrow:nth-child(4) { animation-delay: 0.6s; }
+        .wind-arrow:nth-child(5) { animation-delay: 0.8s; }
+
+        @keyframes windFlow {
+            0%, 100% { transform: translateX(0); opacity: 0.3; }
+            50% { transform: translateX(20px); opacity: 1; }
+        }
+
+        .wall-surface {
+            position: absolute;
+            right: 40%;
+            top: 10%;
+            width: 10px;
+            height: 80%;
+            background: linear-gradient(180deg, var(--accent-magenta), #ff4d4d);
+            border-radius: 5px;
+            box-shadow: 0 0 20px rgba(233, 30, 140, 0.5);
+        }
+
+        .pressure-indicator {
+            position: absolute;
+            right: 10%;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .pressure-value {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: var(--accent-magenta);
+        }
+
+        .pressure-unit {
+            font-size: 0.875rem;
+            color: var(--text-muted);
+        }
+
+        /* Height comparison chart */
+        .height-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-around;
+            height: 250px;
+            padding: 1rem;
+        }
+
+        .height-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            width: 60px;
+        }
+
+        .height-bar-fill {
+            width: 40px;
+            background: linear-gradient(180deg, var(--accent-magenta), var(--accent-cyan));
+            border-radius: 5px 5px 0 0;
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            padding-top: 0.5rem;
+            font-weight: 700;
+            font-size: 0.75rem;
+            animation: growBar 1.5s ease-out forwards;
+            transform-origin: bottom;
+        }
+
+        @keyframes growBar {
+            from { transform: scaleY(0); }
+            to { transform: scaleY(1); }
+        }
+
+        .height-label {
+            margin-top: 0.5rem;
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 0;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .faq-item {
+            background: rgba(26, 10, 46, 0.5);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem 2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: var(--accent-magenta);
+        }
+
+        .faq-question {
+            font-weight: 700;
+            font-size: 1.125rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-answer {
+            color: var(--text-muted);
+            line-height: 1.8;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 200px;
+            margin-top: 1rem;
+        }
+
+        .faq-toggle {
+            font-size: 1.5rem;
+            color: var(--accent-cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, rgba(233, 30, 140, 0.1), rgba(0, 212, 255, 0.1));
+            border-radius: 30px;
+            margin: 4rem 0;
+            border: 1px solid rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            font-size: 1.125rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 1.125rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 40px rgba(233, 30, 140, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(233, 30, 140, 0.4);
+        }
+
+        footer {
+            text-align: center;
+            padding: 3rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 4rem;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s;
+        }
+
+        .footer-links a:hover { color: var(--accent-cyan); }
+
+        .footer-text {
+            color: #666;
+            font-size: 0.875rem;
+        }
+
+        @media (max-width: 768px) {
+            nav { display: none; }
+            .story-grid { grid-template-columns: 1fr; }
+            .story-grid.reverse { direction: ltr; }
+            .formula-equation { font-size: 1rem; }
+            .factor-cards { grid-template-columns: repeat(3, 1fr); }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <nav>
+                <a href="https://windload.co/states.html">States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </nav>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a> <span>/</span>
+            <a href="/miami-dade/">Miami-Dade</a> <span>/</span>
+            <span>Velocity Pressure (qz)</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">Wind Load Fundamentals</div>
+            <h1>Velocity Pressure <span class="highlight">(qz)</span></h1>
+            <p class="hero-subtitle">The magic formula that turns wind speed into pressure force. Think of it like converting miles per hour into how hard something pushes against a wall.</p>
+        </section>
+
+        <!-- Interactive Formula Display -->
+        <div class="formula-container">
+            <div class="formula-main">
+                <div class="formula-equation">
+                    <span class="formula-part" data-factor="qz">qz</span>
+                    <span>=</span>
+                    <span class="formula-part" data-factor="const">0.00256</span>
+                    <span>x</span>
+                    <span class="formula-part active" data-factor="kz">Kz</span>
+                    <span>x</span>
+                    <span class="formula-part" data-factor="kzt">Kzt</span>
+                    <span>x</span>
+                    <span class="formula-part" data-factor="kd">Kd</span>
+                    <span>x</span>
+                    <span class="formula-part" data-factor="ke">Ke</span>
+                    <span>x</span>
+                    <span class="formula-part" data-factor="v">V<sup>2</sup></span>
+                </div>
+                <div class="formula-result" id="qzResult">75.4</div>
+                <div class="formula-result-label">psf (pounds per square foot)</div>
+            </div>
+
+            <div class="factor-cards">
+                <div class="factor-card">
+                    <div class="factor-symbol">Kz</div>
+                    <div class="factor-value" id="kzValue">0.93</div>
+                    <div class="factor-name">Height Factor</div>
+                </div>
+                <div class="factor-card">
+                    <div class="factor-symbol">Kzt</div>
+                    <div class="factor-value">1.0</div>
+                    <div class="factor-name">Topographic</div>
+                </div>
+                <div class="factor-card">
+                    <div class="factor-symbol">Kd</div>
+                    <div class="factor-value">0.85</div>
+                    <div class="factor-name">Directionality</div>
+                </div>
+                <div class="factor-card">
+                    <div class="factor-symbol">Ke</div>
+                    <div class="factor-value">1.0</div>
+                    <div class="factor-name">Elevation</div>
+                </div>
+                <div class="factor-card">
+                    <div class="factor-symbol">V</div>
+                    <div class="factor-value" id="vValue">180</div>
+                    <div class="factor-name">Wind Speed (mph)</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Story Section 1: What is qz? -->
+        <section class="story-section" id="story1">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="pressure-demo">
+                        <div class="wind-arrows">
+                            <div class="wind-arrow"></div>
+                            <div class="wind-arrow"></div>
+                            <div class="wind-arrow"></div>
+                            <div class="wind-arrow"></div>
+                            <div class="wind-arrow"></div>
+                        </div>
+                        <div class="wall-surface"></div>
+                        <div class="pressure-indicator">
+                            <div class="pressure-value" id="animatedPressure">75</div>
+                            <div class="pressure-unit">psf</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Wind Speed Becomes Force</h2>
+                    <p>Imagine you are riding a bike. At 5 mph, the wind gently touches your face. At 30 mph (going downhill fast!), the wind pushes hard against you. That pushing force is what engineers call pressure.</p>
+                    <p>Velocity pressure (qz) converts wind speed into that pushing force. In Miami-Dade, where winds can reach 180 mph, the pressure is enormous - like having a small car sitting on every square foot of your wall!</p>
+                    <p>The formula calculates exactly how many pounds of force push against each square foot of your building. This is the starting point for all wind load calculations.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 2: Why squared? -->
+        <section class="story-section" id="story2">
+            <div class="story-grid reverse">
+                <div class="story-content">
+                    <h2>The Power of Squaring</h2>
+                    <p>Notice the V with the little 2 above it? That means wind speed is multiplied by itself. This is the most important thing to understand!</p>
+                    <p>When wind speed doubles, the pressure does not double - it quadruples! Here is why that matters:</p>
+                    <p><strong>90 mph:</strong> 90 x 90 = 8,100</p>
+                    <p><strong>180 mph:</strong> 180 x 180 = 32,400</p>
+                    <p>Miami-Dade's 180 mph creates 4 times more pressure than a typical 90 mph location. This is why hurricane-force winds are so destructive - the math works against us exponentially.</p>
+                </div>
+                <div class="story-visual">
+                    <div class="height-chart">
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 50px;">19</div>
+                            <div class="height-label">90 mph<br>19 psf</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 100px;">38</div>
+                            <div class="height-label">120 mph<br>38 psf</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 150px;">57</div>
+                            <div class="height-label">150 mph<br>57 psf</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 200px;">75</div>
+                            <div class="height-label">180 mph<br>75 psf</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Story Section 3: Height matters -->
+        <section class="story-section" id="story3">
+            <div class="story-grid">
+                <div class="story-visual">
+                    <div class="height-chart">
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 80px;">57</div>
+                            <div class="height-label">15 ft<br>Kz=0.70</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 120px;">68</div>
+                            <div class="height-label">30 ft<br>Kz=0.85</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 160px;">81</div>
+                            <div class="height-label">60 ft<br>Kz=1.00</div>
+                        </div>
+                        <div class="height-bar">
+                            <div class="height-bar-fill" style="height: 200px;">95</div>
+                            <div class="height-label">100 ft<br>Kz=1.18</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="story-content">
+                    <h2>Higher is Windier</h2>
+                    <p>The Kz factor adjusts for height. Think about climbing a tall ladder - the wind feels stronger up there because trees and buildings are not blocking it anymore.</p>
+                    <p>Near the ground, friction from grass, houses, and trees slows the wind down. The higher you go, the less friction there is, so wind moves faster.</p>
+                    <p>This means the top floor of a building experiences more wind pressure than the ground floor. Engineers calculate qz at different heights to design each part of the building correctly.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What is velocity pressure (qz) in wind load calculations?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Velocity pressure (qz) is the force per square foot that wind creates when it hits a surface. It converts wind speed into actual pressure that buildings must resist. In Miami-Dade with 180 mph winds, qz can exceed 80 psf at typical building heights.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    What is the formula for calculating qz?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    The velocity pressure formula is qz = 0.00256 x Kz x Kzt x Kd x Ke x V-squared. Each factor adjusts for height (Kz), terrain hills (Kzt), wind direction (Kd), elevation (Ke), and wind speed (V). The 0.00256 constant converts mph to pounds per square foot.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    Why does velocity pressure increase with height?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    Wind moves faster at higher elevations because there is less friction from trees, buildings, and ground features. The Kz factor increases from about 0.57 at ground level to over 1.0 at 30 feet and continues rising with height. This means upper floors experience higher wind pressures.
+                </div>
+            </div>
+
+            <div class="faq-item" onclick="toggleFaq(this)">
+                <div class="faq-question">
+                    How much velocity pressure does a 180 mph wind create?
+                    <span class="faq-toggle">+</span>
+                </div>
+                <div class="faq-answer">
+                    At 30 feet height in Exposure C, a 180 mph wind creates approximately 75 psf of velocity pressure. At rooftop level of a 60-foot building, it can exceed 85 psf. These pressures are then multiplied by pressure coefficients to get final design loads.
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section">
+            <h2>Calculate Velocity Pressure for Your Project</h2>
+            <p>Get accurate qz values for any height in Miami-Dade County. Our calculator handles all the factors automatically using ASCE 7-16 requirements.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=miami-dade&utm_campaign=velocity-pressure-qz" class="cta-button">
+                Calculate qz Now
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <div class="footer-links">
+                <a href="/miami-dade/gust-effect-factor.html">Gust Effect Factor</a>
+                <a href="/miami-dade/importance-factor.html">Importance Factor</a>
+                <a href="/miami-dade/building-height-factor.html">Height Factor (Kz)</a>
+                <a href="/miami-dade/internal-pressure.html">Internal Pressure</a>
+            </div>
+            <div class="footer-links">
+                <a href="https://windload.co/states.html">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+                <a href="https://windloadcalc.com">Calculator</a>
+            </div>
+            <p class="footer-text">&copy; 2002-2025 WindLoad.co - Trusted Wind Load Calculations Since 2002</p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle canvas background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 80;
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -10;
+                this.y = Math.random() * canvas.height;
+                this.speed = 2 + Math.random() * 4;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.1;
+            }
+
+            update() {
+                this.x += this.speed;
+                this.y += Math.sin(this.x * 0.01) * 0.5;
+                if (this.x > canvas.width + 10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size * 5, this.y);
+                ctx.strokeStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.lineWidth = this.size;
+                ctx.stroke();
+            }
+        }
+
+        for (let i = 0; i < particleCount; i++) {
+            const p = new Particle();
+            p.x = Math.random() * canvas.width;
+            particles.push(p);
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Animated pressure value
+        const pressureElement = document.getElementById('animatedPressure');
+        let currentPressure = 0;
+        const targetPressure = 75;
+
+        function animatePressure() {
+            if (currentPressure < targetPressure) {
+                currentPressure += 1;
+                pressureElement.textContent = currentPressure;
+                setTimeout(animatePressure, 30);
+            }
+        }
+
+        // Intersection Observer for story sections
+        const storyObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                    if (entry.target.id === 'story1') {
+                        animatePressure();
+                    }
+                }
+            });
+        }, { threshold: 0.3 });
+
+        document.querySelectorAll('.story-section').forEach(section => {
+            storyObserver.observe(section);
+        });
+
+        setTimeout(animatePressure, 1000);
+
+        // FAQ toggle
+        function toggleFaq(element) {
+            element.classList.toggle('active');
+        }
+
+        // Interactive formula parts
+        document.querySelectorAll('.formula-part').forEach(part => {
+            part.addEventListener('click', function() {
+                document.querySelectorAll('.formula-part').forEach(p => p.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
