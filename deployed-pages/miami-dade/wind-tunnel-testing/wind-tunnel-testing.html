@@ -1,0 +1,1602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Wind Tunnel Testing for Buildings | Miami-Dade HVHZ Visual Guide</title>
+    <meta name="description" content="See how wind flows around buildings in Miami-Dade County. Interactive wind tunnel animation shows pressure zones, vortex shedding, and why building shape matters for hurricane design.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/wind-tunnel-testing">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Wind Tunnel Testing for Buildings | See the Wind">
+    <meta property="og:description" content="Interactive wind tunnel simulation showing airflow around buildings. Understand why building shape affects wind loads in Miami-Dade HVHZ.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/wind-tunnel-testing">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why do buildings need wind tunnel testing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind tunnel testing shows exactly how air flows around a specific building shape. Code calculations use simplified formulas that assume basic rectangular buildings. For unusual shapes, tall buildings, or buildings in complex terrain, wind tunnel testing can reveal actual wind pressures that may be higher or lower than code predictions. This can save money on overdesigned structures or prevent failures in underdesigned ones."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What buildings require wind tunnel testing in Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Florida Building Code allows wind tunnel testing as an alternative to analytical methods for any building. It's often required or recommended for: Buildings over 400 feet tall, buildings with unusual shapes (curved, tapered, with large openings), buildings in areas with complex terrain or nearby structures that affect wind patterns, and structures where code methods may be overly conservative or non-conservative."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does wind tunnel testing work for buildings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A scale model of the building (typically 1:300 to 1:500 scale) is placed in a wind tunnel that simulates atmospheric boundary layer winds. Hundreds of pressure sensors on the model measure wind pressure at different locations. The tunnel generates turbulent wind similar to natural conditions. Tests are run for multiple wind directions to find the worst-case pressures. Results are scaled up to full-size values for design."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is vortex shedding and why does it matter?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Vortex shedding occurs when wind flows past a building and creates spinning vortices that alternate from side to side. This creates oscillating forces that can cause building sway. If the vortex frequency matches the building's natural frequency, resonance can cause excessive motion or structural damage. Wind tunnel testing can identify vortex shedding issues and test solutions like aerodynamic modifications."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can wind tunnel testing reduce construction costs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. For many buildings, wind tunnel testing reveals that actual wind loads are 10-30% lower than code-calculated values. This can significantly reduce structural steel, concrete, and cladding costs. The $50,000-200,000 cost of wind tunnel testing often pays for itself many times over on large projects. However, testing sometimes shows loads are higher than expected, potentially increasing costs but preventing future failures."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.co/florida/miami-dade/"},
+            {"@type": "ListItem", "position": 4, "name": "Wind Tunnel Testing", "item": "https://windload.co/florida/miami-dade/wind-tunnel-testing"}
+        ]
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #050a15;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Wind Tunnel Canvas */
+        #tunnel-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        /* Floating Stats Widget */
+        .floating-widget {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(5, 10, 21, 0.95);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            border-radius: 16px;
+            padding: 16px 20px;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 8px 32px rgba(6, 182, 212, 0.2);
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .floating-widget.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .widget-title {
+            font-size: 0.7rem;
+            color: #06b6d4;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .widget-stats {
+            display: flex;
+            gap: 20px;
+        }
+
+        .widget-stat {
+            text-align: center;
+        }
+
+        .widget-value {
+            font-size: 1.4rem;
+            font-weight: 800;
+            color: #22d3ee;
+        }
+
+        .widget-label {
+            font-size: 0.65rem;
+            color: #64748b;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(5, 10, 21, 0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(6, 182, 212, 0.2);
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #fff; -webkit-text-fill-color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo span span { color: #06b6d4; -webkit-text-fill-color: #06b6d4; }
+
+        .nav-links { display: flex; gap: 1.5rem; }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: #06b6d4; }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            background: rgba(255, 255, 255, 0.02);
+            margin-top: 60px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
+        .breadcrumb a:hover { color: #06b6d4; }
+        .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
+        .breadcrumb-current { color: #94a3b8; font-size: 0.875rem; }
+
+        /* Hero Section with Wind Tunnel Animation */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 6rem 2rem 4rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(6, 182, 212, 0.15);
+            border: 1px solid rgba(6, 182, 212, 0.4);
+            color: #22d3ee;
+            padding: 0.5rem 1.25rem;
+            border-radius: 100px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 span {
+            background: linear-gradient(135deg, #06b6d4 0%, #22d3ee 50%, #67e8f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Wind Tunnel Visualization */
+        .tunnel-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .tunnel-visualization {
+            position: relative;
+            height: 450px;
+            background: linear-gradient(90deg,
+                rgba(6, 182, 212, 0.05) 0%,
+                rgba(6, 182, 212, 0.02) 30%,
+                rgba(6, 182, 212, 0.02) 70%,
+                rgba(6, 182, 212, 0.05) 100%
+            );
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Tunnel Walls */
+        .tunnel-wall {
+            position: absolute;
+            left: 0;
+            right: 0;
+            height: 20px;
+            background: linear-gradient(90deg, #1e293b, #334155, #1e293b);
+        }
+
+        .tunnel-wall.top { top: 0; }
+        .tunnel-wall.bottom { bottom: 0; }
+
+        /* Wind Source Indicator */
+        .wind-source {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 1rem;
+            background: rgba(6, 182, 212, 0.1);
+            border-radius: 0 12px 12px 0;
+        }
+
+        .wind-source-label {
+            font-size: 0.7rem;
+            color: #22d3ee;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            writing-mode: vertical-rl;
+            text-orientation: mixed;
+            transform: rotate(180deg);
+        }
+
+        .wind-speed-display {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #22d3ee;
+        }
+
+        /* Building Model */
+        .building-model {
+            position: absolute;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            transition: all 0.5s ease;
+        }
+
+        .building-shape {
+            width: 80px;
+            height: 200px;
+            background: linear-gradient(135deg, #475569 0%, #334155 50%, #1e293b 100%);
+            border: 2px solid #64748b;
+            border-radius: 4px;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .building-shape.tall {
+            height: 280px;
+            width: 60px;
+        }
+
+        .building-shape.wide {
+            height: 120px;
+            width: 140px;
+        }
+
+        .building-shape.l-shaped {
+            width: 120px;
+            height: 160px;
+            clip-path: polygon(0 0, 60% 0, 60% 50%, 100% 50%, 100% 100%, 0 100%);
+        }
+
+        .building-shape.curved {
+            border-radius: 40px 40px 4px 4px;
+        }
+
+        /* Pressure Zones on Building */
+        .pressure-zone {
+            position: absolute;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            white-space: nowrap;
+        }
+
+        .pressure-zone.positive {
+            background: rgba(239, 68, 68, 0.8);
+            color: white;
+        }
+
+        .pressure-zone.negative {
+            background: rgba(34, 211, 238, 0.8);
+            color: white;
+        }
+
+        .pressure-windward {
+            left: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .pressure-leeward {
+            right: -60px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .pressure-roof {
+            top: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        /* Smoke Particle Container */
+        #smoke-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        /* Vortex Indicators */
+        .vortex-indicator {
+            position: absolute;
+            width: 40px;
+            height: 40px;
+            border: 2px solid rgba(34, 211, 238, 0.5);
+            border-radius: 50%;
+            animation: vortex-spin 2s linear infinite;
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .vortex-indicator.visible {
+            opacity: 1;
+        }
+
+        .vortex-indicator.top {
+            right: 70px;
+            top: 80px;
+        }
+
+        .vortex-indicator.bottom {
+            right: 70px;
+            bottom: 80px;
+            animation-direction: reverse;
+        }
+
+        @keyframes vortex-spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Controls */
+        .tunnel-controls {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .control-label {
+            font-size: 0.85rem;
+            color: #94a3b8;
+        }
+
+        .control-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 0.75rem 1rem;
+            background: rgba(6, 182, 212, 0.1);
+            border: 1px solid rgba(6, 182, 212, 0.3);
+            border-radius: 8px;
+            color: #94a3b8;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .control-btn:hover {
+            background: rgba(6, 182, 212, 0.2);
+            color: white;
+        }
+
+        .control-btn.active {
+            background: rgba(6, 182, 212, 0.3);
+            border-color: #06b6d4;
+            color: #22d3ee;
+        }
+
+        .slider {
+            width: 100%;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(6, 182, 212, 0.2);
+            outline: none;
+            -webkit-appearance: none;
+            cursor: pointer;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #06b6d4, #0891b2);
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(6, 182, 212, 0.5);
+        }
+
+        /* Hero CTA */
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 1.25rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 100%);
+            color: white;
+            box-shadow: 0 4px 25px rgba(6, 182, 212, 0.5);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 40px rgba(6, 182, 212, 0.6);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .btn-secondary:hover { background: rgba(255, 255, 255, 0.15); }
+
+        /* Content Sections */
+        section {
+            position: relative;
+            z-index: 2;
+            padding: 5rem 2rem;
+        }
+
+        .section-container {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Why Wind Tunnel Section */
+        .why-section {
+            background: linear-gradient(180deg, rgba(6, 182, 212, 0.05) 0%, transparent 100%);
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .comparison-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .comparison-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .comparison-card.code h3 {
+            color: #f59e0b;
+        }
+
+        .comparison-card.tunnel h3 {
+            color: #22d3ee;
+        }
+
+        .comparison-card p {
+            color: #94a3b8;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-list {
+            list-style: none;
+        }
+
+        .comparison-list li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        .comparison-list li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+
+        .comparison-card.code .comparison-list li::before {
+            background: #f59e0b;
+        }
+
+        .comparison-card.tunnel .comparison-list li::before {
+            background: #22d3ee;
+        }
+
+        /* Pressure Zones Explained */
+        .zones-section {
+            background: #050a15;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .zone-card {
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .zone-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .zone-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .zone-card.windward .zone-icon {
+            background: rgba(239, 68, 68, 0.2);
+            border: 2px solid #ef4444;
+            color: #ef4444;
+        }
+
+        .zone-card.leeward .zone-icon {
+            background: rgba(34, 211, 238, 0.2);
+            border: 2px solid #22d3ee;
+            color: #22d3ee;
+        }
+
+        .zone-card.sidewall .zone-icon {
+            background: rgba(168, 85, 247, 0.2);
+            border: 2px solid #a855f7;
+            color: #a855f7;
+        }
+
+        .zone-card.roof .zone-icon {
+            background: rgba(34, 197, 94, 0.2);
+            border: 2px solid #22c55e;
+            color: #22c55e;
+        }
+
+        .zone-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .zone-card p {
+            color: #64748b;
+            font-size: 0.85rem;
+        }
+
+        .zone-pressure {
+            margin-top: 1rem;
+            font-size: 1.5rem;
+            font-weight: 800;
+        }
+
+        .zone-card.windward .zone-pressure { color: #ef4444; }
+        .zone-card.leeward .zone-pressure { color: #22d3ee; }
+        .zone-card.sidewall .zone-pressure { color: #a855f7; }
+        .zone-card.roof .zone-pressure { color: #22c55e; }
+
+        /* When Required Section */
+        .when-section {
+            background: linear-gradient(180deg, transparent 0%, rgba(6, 182, 212, 0.05) 100%);
+        }
+
+        .when-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .when-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .when-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: #22d3ee;
+        }
+
+        .when-card p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: #050a15;
+        }
+
+        .faq-list {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            color: #e2e8f0;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.3s;
+        }
+
+        .faq-question:hover {
+            background: rgba(6, 182, 212, 0.05);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #06b6d4;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta {
+            padding: 5rem 2rem;
+            background: linear-gradient(135deg, #06b6d4 0%, #0891b2 50%, #0e7490 100%);
+            text-align: center;
+        }
+
+        .cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta .btn-primary {
+            background: white;
+            color: #0891b2;
+        }
+
+        /* Footer */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            color: #64748b;
+            font-size: 0.875rem;
+            background: #050a15;
+            border-top: 1px solid rgba(6, 182, 212, 0.2);
+            position: relative;
+            z-index: 2;
+        }
+
+        footer a { color: #06b6d4; text-decoration: none; }
+        footer a:hover { text-decoration: underline; }
+        footer p { margin-bottom: 0.5rem; }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .comparison-grid,
+            .when-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .zones-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links { display: none; }
+
+            .hero-cta {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .btn {
+                width: 100%;
+                max-width: 300px;
+                justify-content: center;
+            }
+
+            .tunnel-visualization {
+                height: 350px;
+            }
+
+            .zones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .floating-widget {
+                bottom: 10px;
+                right: 10px;
+                left: 10px;
+            }
+        }
+
+        /* Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Canvas -->
+    <canvas id="tunnel-canvas"></canvas>
+
+    <!-- Floating Stats Widget -->
+    <div class="floating-widget" id="floatingWidget">
+        <div class="widget-title">Wind Tunnel Facts</div>
+        <div class="widget-stats">
+            <div class="widget-stat">
+                <div class="widget-value" id="widgetSpeed">120</div>
+                <div class="widget-label">MPH Wind</div>
+            </div>
+            <div class="widget-stat">
+                <div class="widget-value">1:400</div>
+                <div class="widget-label">Model Scale</div>
+            </div>
+            <div class="widget-stat">
+                <div class="widget-value">36</div>
+                <div class="widget-label">Wind Angles</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.co/florida-pro.html">Florida</a>
+            <a href="https://windload.co/florida/miami-dade/">Miami-Dade</a>
+            <a href="https://windload.co/contractors.html">Contractors</a>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=nav&utm_campaign=tunnel">Calculator</a>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="https://windload.co/florida-pro.html">Florida</a>
+            <span>/</span>
+            <a href="https://windload.co/florida/miami-dade/">Miami-Dade</a>
+            <span>/</span>
+            <span class="breadcrumb-current">Wind Tunnel Testing</span>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-container">
+            <div class="hero-header reveal">
+                <div class="hero-badge">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>
+                    </svg>
+                    See the Wind in Action
+                </div>
+
+                <h1>Wind Tunnel Testing: <span>See How Air Flows</span></h1>
+
+                <p class="hero-subtitle">
+                    You cannot see wind, but wind tunnel testing makes it visible. Watch smoke trails flow around building shapes to understand where wind pressure is highest and why building shape matters in hurricanes.
+                </p>
+            </div>
+
+            <!-- Interactive Wind Tunnel -->
+            <div class="tunnel-container reveal">
+                <div class="tunnel-visualization" id="tunnelVisualization">
+                    <div class="tunnel-wall top"></div>
+                    <div class="tunnel-wall bottom"></div>
+
+                    <!-- Wind Source -->
+                    <div class="wind-source">
+                        <div class="wind-speed-display" id="windSpeedDisplay">120 MPH</div>
+                        <div class="wind-source-label">Wind Source</div>
+                    </div>
+
+                    <!-- Smoke Canvas -->
+                    <canvas id="smoke-canvas"></canvas>
+
+                    <!-- Building Model -->
+                    <div class="building-model" id="buildingModel">
+                        <div class="building-shape" id="buildingShape">
+                            <div class="pressure-zone positive pressure-windward" id="pressureWindward">+45 psf</div>
+                            <div class="pressure-zone negative pressure-leeward" id="pressureLeeward">-38 psf</div>
+                            <div class="pressure-zone negative pressure-roof" id="pressureRoof">-52 psf</div>
+                        </div>
+                    </div>
+
+                    <!-- Vortex Indicators -->
+                    <div class="vortex-indicator top" id="vortexTop"></div>
+                    <div class="vortex-indicator bottom" id="vortexBottom"></div>
+                </div>
+
+                <!-- Controls -->
+                <div class="tunnel-controls">
+                    <div class="control-group">
+                        <div class="control-label">Building Shape</div>
+                        <div class="control-buttons">
+                            <button class="control-btn active" data-shape="rectangular">Rectangular</button>
+                            <button class="control-btn" data-shape="tall">Tall Tower</button>
+                            <button class="control-btn" data-shape="wide">Wide Low</button>
+                            <button class="control-btn" data-shape="curved">Curved Top</button>
+                        </div>
+                    </div>
+
+                    <div class="control-group">
+                        <div class="control-label">Wind Speed: <span id="speedValue">120 MPH</span></div>
+                        <input type="range" class="slider" id="speedSlider" min="50" max="180" value="120">
+                    </div>
+
+                    <div class="control-group">
+                        <div class="control-label">Toggle Effects</div>
+                        <div class="control-buttons">
+                            <button class="control-btn active" id="smokeToggle">Smoke Trails</button>
+                            <button class="control-btn" id="vortexToggle">Show Vortices</button>
+                            <button class="control-btn active" id="pressureToggle">Pressure Labels</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=tunnel-miami" class="btn btn-primary">
+                    Calculate Your Wind Loads
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+                <a href="#why-tunnel" class="btn btn-secondary">
+                    Why Wind Tunnel Testing?
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Wind Tunnel Section -->
+    <section class="why-section" id="why-tunnel">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Code Calculations vs Wind Tunnel Testing</h2>
+                <p>Both methods can work. Here is when to use each one.</p>
+            </div>
+
+            <div class="comparison-grid">
+                <div class="comparison-card code reveal">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#f59e0b" stroke-width="2">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/>
+                        </svg>
+                        Code Calculations (ASCE 7)
+                    </h3>
+                    <p>The code uses formulas based on thousands of past wind tunnel tests. Good for common building shapes.</p>
+                    <ul class="comparison-list">
+                        <li>Works for most buildings under 400 ft</li>
+                        <li>Assumes simple rectangular shapes</li>
+                        <li>Quick and inexpensive</li>
+                        <li>May overestimate loads (costs more to build)</li>
+                        <li>May underestimate loads (dangerous)</li>
+                        <li>Cannot account for nearby buildings</li>
+                    </ul>
+                </div>
+
+                <div class="comparison-card tunnel reveal">
+                    <h3>
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#22d3ee" stroke-width="2">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2.5 2.5 0 1 0 14 16H2"/>
+                        </svg>
+                        Wind Tunnel Testing
+                    </h3>
+                    <p>A scale model of your exact building is tested in wind. Shows real airflow patterns and pressures.</p>
+                    <ul class="comparison-list">
+                        <li>Measures actual pressures for your shape</li>
+                        <li>Handles any building geometry</li>
+                        <li>Costs $50,000-200,000</li>
+                        <li>Often finds loads 10-30% lower than code</li>
+                        <li>May find loads higher than code (saves building)</li>
+                        <li>Can model surrounding buildings and terrain</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pressure Zones Section -->
+    <section class="zones-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Understanding Pressure Zones</h2>
+                <p>Wind creates different pressures on different parts of a building. Here is what happens.</p>
+            </div>
+
+            <div class="zones-grid">
+                <div class="zone-card windward reveal">
+                    <div class="zone-icon">+</div>
+                    <h3>Windward Wall</h3>
+                    <p>Wind hits this wall directly. Air piles up and pushes in.</p>
+                    <div class="zone-pressure">+45 psf</div>
+                </div>
+
+                <div class="zone-card leeward reveal">
+                    <div class="zone-icon">-</div>
+                    <h3>Leeward Wall</h3>
+                    <p>Wind flows past and creates suction. Wall gets pulled outward.</p>
+                    <div class="zone-pressure">-38 psf</div>
+                </div>
+
+                <div class="zone-card sidewall reveal">
+                    <div class="zone-icon">-</div>
+                    <h3>Side Walls</h3>
+                    <p>Wind scrapes along the sides. Creates suction that pulls walls out.</p>
+                    <div class="zone-pressure">-42 psf</div>
+                </div>
+
+                <div class="zone-card roof reveal">
+                    <div class="zone-icon">-</div>
+                    <h3>Roof</h3>
+                    <p>Wind speeds up over the roof like an airplane wing. Strong uplift.</p>
+                    <div class="zone-pressure">-65 psf</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- When Required Section -->
+    <section class="when-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>When Wind Tunnel Testing is Recommended</h2>
+                <p>Not every building needs wind tunnel testing. Here is when it makes sense.</p>
+            </div>
+
+            <div class="when-grid">
+                <div class="when-card reveal">
+                    <h3>Very Tall Buildings</h3>
+                    <p>Buildings over 400 feet tall experience complex wind patterns that code formulas cannot accurately predict. Wind tunnel testing is often required or strongly recommended.</p>
+                </div>
+
+                <div class="when-card reveal">
+                    <h3>Unusual Shapes</h3>
+                    <p>Curved facades, setbacks, large openings, L-shapes, or any geometry that is not a simple box. Code methods assume rectangular buildings.</p>
+                </div>
+
+                <div class="when-card reveal">
+                    <h3>Tight Urban Sites</h3>
+                    <p>When nearby buildings might channel wind or provide shielding, wind tunnel testing with surrounding buildings modeled gives more accurate results.</p>
+                </div>
+
+                <div class="when-card reveal">
+                    <h3>Cost Optimization</h3>
+                    <p>On large projects, wind tunnel testing often shows loads 10-30% lower than code calculations. The structural savings can be millions of dollars.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-container">
+            <div class="section-header reveal">
+                <h2>Wind Tunnel Testing FAQs</h2>
+                <p>Common questions from contractors about wind tunnel studies</p>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item open">
+                    <div class="faq-question">Why do buildings need wind tunnel testing?</div>
+                    <div class="faq-answer">
+                        Wind tunnel testing shows exactly how air flows around a specific building shape. Code calculations use simplified formulas that assume basic rectangular buildings. For unusual shapes, tall buildings, or buildings in complex terrain, wind tunnel testing can reveal actual wind pressures that may be higher or lower than code predictions. This can save money on overdesigned structures or prevent failures in underdesigned ones.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What buildings require wind tunnel testing in Florida?</div>
+                    <div class="faq-answer">
+                        Florida Building Code allows wind tunnel testing as an alternative to analytical methods for any building. It is often required or recommended for: buildings over 400 feet tall, buildings with unusual shapes (curved, tapered, with large openings), buildings in areas with complex terrain or nearby structures that affect wind patterns, and structures where code methods may be overly conservative or non-conservative.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How does wind tunnel testing work for buildings?</div>
+                    <div class="faq-answer">
+                        A scale model of the building (typically 1:300 to 1:500 scale) is placed in a wind tunnel that simulates atmospheric boundary layer winds. Hundreds of pressure sensors on the model measure wind pressure at different locations. The tunnel generates turbulent wind similar to natural conditions. Tests are run for multiple wind directions to find the worst-case pressures. Results are scaled up to full-size values for design.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What is vortex shedding and why does it matter?</div>
+                    <div class="faq-answer">
+                        Vortex shedding occurs when wind flows past a building and creates spinning vortices that alternate from side to side. This creates oscillating forces that can cause building sway. If the vortex frequency matches the building's natural frequency, resonance can cause excessive motion or structural damage. Wind tunnel testing can identify vortex shedding issues and test solutions like aerodynamic modifications.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Can wind tunnel testing reduce construction costs?</div>
+                    <div class="faq-answer">
+                        Yes. For many buildings, wind tunnel testing reveals that actual wind loads are 10-30% lower than code-calculated values. This can significantly reduce structural steel, concrete, and cladding costs. The $50,000-200,000 cost of wind tunnel testing often pays for itself many times over on large projects. However, testing sometimes shows loads are higher than expected, potentially increasing costs but preventing future failures.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta reveal">
+        <h2>Start With Code Calculations</h2>
+        <p>Most projects can use ASCE 7-22 code calculations. Get your wind loads in minutes and decide if wind tunnel testing is needed later.</p>
+        <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=tunnel-miami-cta" class="btn btn-primary">
+            Calculate Wind Loads Now
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+        </a>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>
+            <a href="https://windload.co/florida/miami-dade/">Miami-Dade County</a> ·
+            <a href="/florida/miami-dade/hurricane-shutters">Hurricane Shutters</a> ·
+            <a href="/florida/miami-dade/high-rise-windows">High-Rise Windows</a> ·
+            <a href="https://windload.co/florida-pro.html">All Florida</a>
+        </p>
+        <p>
+            <a href="https://windload.co/contractors.html">Contractors</a> ·
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">PE Seals</a> ·
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a> ·
+            <a href="/about.html">About</a>
+        </p>
+        <p>&copy; 2002-2025 Wind Load Solutions | <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=footer&utm_campaign=tunnel">Calculator</a></p>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // ========================================
+        // BACKGROUND PARTICLE SYSTEM
+        // ========================================
+        const bgCanvas = document.getElementById('tunnel-canvas');
+        const bgCtx = bgCanvas.getContext('2d');
+
+        function resizeBgCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        resizeBgCanvas();
+        window.addEventListener('resize', resizeBgCanvas);
+
+        // Light wind particles for background
+        let bgParticles = [];
+
+        class BgParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 2 + 1;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.2 + 0.05;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > bgCanvas.width + 10) this.reset();
+                if (this.x < -10) this.x = bgCanvas.width + 10;
+            }
+
+            draw() {
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                bgCtx.fillStyle = `rgba(6, 182, 212, ${this.opacity})`;
+                bgCtx.fill();
+            }
+        }
+
+        for (let i = 0; i < 60; i++) {
+            bgParticles.push(new BgParticle());
+        }
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+            bgParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // ========================================
+        // WIND TUNNEL SMOKE SIMULATION
+        // ========================================
+        const smokeCanvas = document.getElementById('smoke-canvas');
+        const smokeCtx = smokeCanvas.getContext('2d');
+        const tunnelVis = document.getElementById('tunnelVisualization');
+
+        function resizeSmokeCanvas() {
+            smokeCanvas.width = tunnelVis.offsetWidth;
+            smokeCanvas.height = tunnelVis.offsetHeight;
+        }
+        resizeSmokeCanvas();
+        window.addEventListener('resize', resizeSmokeCanvas);
+
+        let smokeParticles = [];
+        let windSpeed = 120;
+        let showSmoke = true;
+        let showVortices = false;
+        let showPressure = true;
+        let buildingShape = 'rectangular';
+
+        // Building dimensions for collision detection
+        const buildingBounds = {
+            rectangular: { x: -40, y: -100, width: 80, height: 200 },
+            tall: { x: -30, y: -140, width: 60, height: 280 },
+            wide: { x: -70, y: -60, width: 140, height: 120 },
+            curved: { x: -40, y: -100, width: 80, height: 200 }
+        };
+
+        class SmokeParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = 50 + Math.random() * 30;
+                this.y = 50 + Math.random() * (smokeCanvas.height - 100);
+                this.baseSpeedX = (windSpeed / 180) * 4 + 1;
+                this.speedX = this.baseSpeedX;
+                this.speedY = 0;
+                this.size = Math.random() * 3 + 2;
+                this.opacity = Math.random() * 0.4 + 0.3;
+                this.life = 1;
+                this.deflected = false;
+            }
+
+            update() {
+                const centerX = smokeCanvas.width / 2;
+                const centerY = smokeCanvas.height / 2;
+                const bounds = buildingBounds[buildingShape];
+
+                // Building collision area (converted to canvas coords)
+                const bLeft = centerX + bounds.x - 20;
+                const bRight = centerX + bounds.x + bounds.width + 20;
+                const bTop = centerY + bounds.y - 20;
+                const bBottom = centerY + bounds.y + bounds.height + 20;
+
+                // Check if approaching building
+                if (this.x > bLeft - 50 && this.x < bRight + 100 &&
+                    this.y > bTop - 50 && this.y < bBottom + 50) {
+
+                    // Approaching windward side
+                    if (this.x < bLeft + 30 && this.y > bTop && this.y < bBottom) {
+                        // Deflect up or down based on position
+                        const midY = (bTop + bBottom) / 2;
+                        if (this.y < midY) {
+                            this.speedY = -(this.baseSpeedX * 0.8);
+                        } else {
+                            this.speedY = this.baseSpeedX * 0.8;
+                        }
+                        this.speedX = this.baseSpeedX * 0.3;
+                        this.deflected = true;
+                    }
+
+                    // Past the building - create wake
+                    if (this.x > bRight - 30) {
+                        if (this.deflected) {
+                            // Create turbulent wake
+                            this.speedY += (Math.random() - 0.5) * 0.5;
+                            this.speedX = this.baseSpeedX * 0.6;
+                        }
+                    }
+                }
+
+                // Gradually return to horizontal flow
+                if (this.x > bRight + 100) {
+                    this.speedY *= 0.95;
+                    this.speedX = this.speedX * 0.95 + this.baseSpeedX * 0.05;
+                }
+
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life -= 0.005;
+
+                // Fade as it moves
+                this.opacity = this.life * 0.5;
+
+                if (this.x > smokeCanvas.width || this.life <= 0) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                smokeCtx.beginPath();
+                smokeCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                const color = this.deflected ? '22, 211, 238' : '148, 163, 184';
+                smokeCtx.fillStyle = `rgba(${color}, ${this.opacity})`;
+                smokeCtx.fill();
+            }
+        }
+
+        // Initialize smoke particles
+        for (let i = 0; i < 150; i++) {
+            const p = new SmokeParticle();
+            p.x = Math.random() * smokeCanvas.width;
+            smokeParticles.push(p);
+        }
+
+        function animateSmoke() {
+            smokeCtx.clearRect(0, 0, smokeCanvas.width, smokeCanvas.height);
+
+            if (showSmoke) {
+                smokeParticles.forEach(p => {
+                    p.update();
+                    p.draw();
+                });
+            }
+
+            requestAnimationFrame(animateSmoke);
+        }
+        animateSmoke();
+
+        // ========================================
+        // CONTROLS
+        // ========================================
+        const buildingShapeEl = document.getElementById('buildingShape');
+        const speedSlider = document.getElementById('speedSlider');
+        const speedValue = document.getElementById('speedValue');
+        const windSpeedDisplay = document.getElementById('windSpeedDisplay');
+        const widgetSpeed = document.getElementById('widgetSpeed');
+
+        // Building shape buttons
+        document.querySelectorAll('[data-shape]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('[data-shape]').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                buildingShape = btn.dataset.shape;
+
+                // Update building visual
+                buildingShapeEl.className = 'building-shape';
+                if (buildingShape !== 'rectangular') {
+                    buildingShapeEl.classList.add(buildingShape);
+                }
+
+                // Reset particles to show new flow
+                smokeParticles.forEach(p => p.reset());
+
+                // Update pressures based on shape
+                updatePressures();
+            });
+        });
+
+        // Speed slider
+        speedSlider.addEventListener('input', () => {
+            windSpeed = parseInt(speedSlider.value);
+            speedValue.textContent = `${windSpeed} MPH`;
+            windSpeedDisplay.textContent = `${windSpeed} MPH`;
+            widgetSpeed.textContent = windSpeed;
+
+            // Update particle speeds
+            smokeParticles.forEach(p => {
+                p.baseSpeedX = (windSpeed / 180) * 4 + 1;
+            });
+
+            updatePressures();
+        });
+
+        // Toggle buttons
+        document.getElementById('smokeToggle').addEventListener('click', function() {
+            showSmoke = !showSmoke;
+            this.classList.toggle('active');
+        });
+
+        document.getElementById('vortexToggle').addEventListener('click', function() {
+            showVortices = !showVortices;
+            this.classList.toggle('active');
+            document.getElementById('vortexTop').classList.toggle('visible', showVortices);
+            document.getElementById('vortexBottom').classList.toggle('visible', showVortices);
+        });
+
+        document.getElementById('pressureToggle').addEventListener('click', function() {
+            showPressure = !showPressure;
+            this.classList.toggle('active');
+            document.querySelectorAll('.pressure-zone').forEach(el => {
+                el.style.display = showPressure ? 'block' : 'none';
+            });
+        });
+
+        // Update pressure labels based on wind speed and shape
+        function updatePressures() {
+            const speedFactor = (windSpeed / 120) ** 2;
+            const shapeFactors = {
+                rectangular: { windward: 45, leeward: -38, roof: -52 },
+                tall: { windward: 55, leeward: -45, roof: -62 },
+                wide: { windward: 35, leeward: -30, roof: -42 },
+                curved: { windward: 38, leeward: -32, roof: -45 }
+            };
+
+            const factors = shapeFactors[buildingShape];
+            document.getElementById('pressureWindward').textContent =
+                `+${Math.round(factors.windward * speedFactor)} psf`;
+            document.getElementById('pressureLeeward').textContent =
+                `${Math.round(factors.leeward * speedFactor)} psf`;
+            document.getElementById('pressureRoof').textContent =
+                `${Math.round(factors.roof * speedFactor)} psf`;
+        }
+
+        // ========================================
+        // FLOATING WIDGET
+        // ========================================
+        const floatingWidget = document.getElementById('floatingWidget');
+
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 400) {
+                floatingWidget.classList.add('visible');
+            } else {
+                floatingWidget.classList.remove('visible');
+            }
+        });
+
+        // ========================================
+        // SCROLL REVEAL
+        // ========================================
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function checkReveal() {
+            const windowHeight = window.innerHeight;
+            revealElements.forEach(el => {
+                const elementTop = el.getBoundingClientRect().top;
+                if (elementTop < windowHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', checkReveal);
+        window.addEventListener('load', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // ========================================
+        // FAQ ACCORDION
+        // ========================================
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        console.log('See the Wind - Wind Tunnel Simulation initialized');
+    </script>
+</body>
+</html>
