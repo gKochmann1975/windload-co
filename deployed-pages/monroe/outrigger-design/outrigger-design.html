@@ -1,0 +1,743 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Outrigger Design for Wind | Florida Keys Roof Overhang | WindLoad.co</title>
+    <meta name="description" content="Outrigger design requirements for Florida Keys roof overhangs. Learn how to properly support rake overhangs against wind uplift in Monroe County.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/outrigger-design.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5551;-81.7800">
+    <meta name="ICBM" content="24.5551, -81.7800">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Outrigger Design for Wind - Florida Keys Roof Overhang Requirements">
+    <meta property="og:description" content="See how outriggers support roof overhangs against hurricane wind uplift with animated force diagrams.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/monroe/outrigger-design.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is an outrigger in roof construction?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "An outrigger is a framing member that extends from the main roof structure to support a rake (gable end) overhang. Outriggers are typically 2x4 or 2x6 lumber that cantilever past the gable wall and support the barge rafter and roof sheathing at the overhang. They transfer wind uplift forces back to the main roof structure."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How far can a roof overhang extend in Monroe County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Monroe County allows roof overhangs up to 24 inches using standard outrigger construction. Longer overhangs require engineering analysis to verify the outriggers and connections can handle the increased wind loads. Many Keys homes limit overhangs to 12-18 inches to reduce hurricane vulnerability."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why are outriggers vulnerable in hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Roof overhangs at gable ends experience extreme wind pressures because they are at the edge where wind separates from the building. The outriggers act as cantilevers, so wind uplift on the overhang creates leverage that tries to peel them off. The connection between outrigger and rafter must resist this prying action."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What connections are required for outriggers in the Keys?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Outriggers in Monroe County typically require metal connectors or substantial toe-nailing with blocking. A common detail uses hurricane straps connecting the outrigger to the rafter it bears on, plus straps at the barge rafter. The goal is a continuous load path from the overhang back to the main structure."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Outrigger Design",
+                "item": "https://windload.co/staged-pages/monroe/outrigger-design.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+            --outrigger-teal: #14b8a6;
+            --uplift-red: #ef4444;
+            --wood-tan: #d4a574;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #ffffff; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        .nav-cta { background: linear-gradient(135deg, #e91e8c, #9d4edd); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--outrigger-teal), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Animation Stage */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            min-height: 550px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .outrigger-scene {
+            position: relative;
+            min-height: 450px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* 3D isometric view */
+        .roof-3d {
+            position: relative;
+            width: 400px;
+            height: 350px;
+            transform-style: preserve-3d;
+        }
+
+        /* Main rafters */
+        .main-rafter {
+            position: absolute;
+            width: 15px;
+            height: 200px;
+            background: linear-gradient(90deg, #a16207 0%, #ca8a04 50%, #a16207 100%);
+            transform: rotateX(-60deg) rotateY(0deg);
+            transform-origin: bottom center;
+        }
+
+        .main-rafter:nth-child(1) { left: 100px; bottom: 100px; }
+        .main-rafter:nth-child(2) { left: 160px; bottom: 100px; }
+        .main-rafter:nth-child(3) { left: 220px; bottom: 100px; }
+
+        /* Outriggers */
+        .outrigger {
+            position: absolute;
+            height: 12px;
+            background: linear-gradient(180deg, #0d9488 0%, var(--outrigger-teal) 50%, #0d9488 100%);
+            border: 1px solid #14b8a6;
+            box-shadow: 0 0 10px rgba(20, 184, 166, 0.5);
+        }
+
+        .outrigger-1 { width: 140px; left: 80px; top: 80px; }
+        .outrigger-2 { width: 140px; left: 80px; top: 120px; }
+        .outrigger-3 { width: 140px; left: 80px; top: 160px; }
+
+        /* Barge rafter */
+        .barge-rafter {
+            position: absolute;
+            width: 15px;
+            height: 200px;
+            background: linear-gradient(90deg, var(--outrigger-teal) 0%, #2dd4bf 50%, var(--outrigger-teal) 100%);
+            border: 2px solid #5eead4;
+            left: 65px;
+            bottom: 100px;
+            transform: rotateX(-60deg);
+            transform-origin: bottom center;
+            box-shadow: 0 0 15px rgba(20, 184, 166, 0.4);
+        }
+
+        /* Overhang roof deck */
+        .overhang-deck {
+            position: absolute;
+            left: 50px;
+            top: 60px;
+            width: 50px;
+            height: 140px;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.3), rgba(20, 184, 166, 0.1));
+            border: 2px dashed var(--outrigger-teal);
+            border-radius: 4px;
+        }
+
+        /* Gable wall */
+        .gable-wall {
+            position: absolute;
+            left: 95px;
+            bottom: 50px;
+            width: 10px;
+            height: 180px;
+            background: linear-gradient(90deg, #4a5568 0%, #718096 50%, #4a5568 100%);
+        }
+
+        /* Uplift arrows on overhang */
+        .overhang-uplift {
+            position: absolute;
+            left: 25px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            animation: overhangPull 1.5s ease-in-out infinite;
+        }
+
+        .overhang-uplift:nth-child(1) { top: 70px; animation-delay: 0s; }
+        .overhang-uplift:nth-child(2) { top: 120px; animation-delay: 0.3s; }
+        .overhang-uplift:nth-child(3) { top: 170px; animation-delay: 0.6s; }
+
+        .up-head {
+            border-left: 8px solid transparent;
+            border-right: 8px solid transparent;
+            border-bottom: 12px solid var(--uplift-red);
+        }
+
+        .up-line {
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(180deg, var(--uplift-red), transparent);
+        }
+
+        @keyframes overhangPull {
+            0%, 100% { transform: translateY(0); opacity: 0.5; }
+            50% { transform: translateY(-10px); opacity: 1; }
+        }
+
+        /* Dimension label */
+        .dimension {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .overhang-dim {
+            left: 30px;
+            top: 210px;
+            color: var(--outrigger-teal);
+            border: 1px solid var(--outrigger-teal);
+        }
+
+        /* Info panel */
+        .outrigger-info {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--outrigger-teal);
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-width: 240px;
+        }
+
+        .outrigger-info h3 {
+            color: var(--outrigger-teal);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .out-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .out-stat:last-child {
+            border-bottom: none;
+        }
+
+        .out-stat-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .out-stat-value {
+            color: var(--outrigger-teal);
+            font-weight: 700;
+            font-family: 'Monaco', monospace;
+        }
+
+        /* Force display */
+        .force-display {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background: rgba(0, 0, 0, 0.8);
+            border: 2px solid var(--uplift-red);
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            text-align: center;
+        }
+
+        .force-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .force-value {
+            font-size: 1.75rem;
+            font-weight: 900;
+            color: var(--uplift-red);
+            font-family: 'Monaco', monospace;
+        }
+
+        .force-unit {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .tip-box {
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.2), rgba(0, 212, 255, 0.1));
+            border-left: 4px solid var(--outrigger-teal);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 2rem 0;
+        }
+
+        .tip-box h4 {
+            color: var(--outrigger-teal);
+            margin-bottom: 0.5rem;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            .outrigger-info, .force-display {
+                position: relative;
+                top: auto;
+                right: auto;
+                bottom: auto;
+                left: auto;
+                margin: 1rem auto;
+                max-width: 100%;
+            }
+
+            .roof-3d {
+                width: 300px;
+                height: 280px;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="https://windload.co/states.html">All States</a></li>
+                <li><a href="https://windload.co/architects.html">Architects</a></li>
+                <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Outrigger Design</span>
+        </div>
+
+        <section class="hero">
+            <h1>Outriggers: Supporting Your Overhang</h1>
+            <p>Roof overhangs look nice and shade your walls, but they are wind catchers. See how outriggers support the overhang and what happens when wind tries to peel it off.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="outrigger-scene">
+                <div class="roof-3d">
+                    <!-- Main rafters -->
+                    <div class="main-rafter"></div>
+                    <div class="main-rafter"></div>
+                    <div class="main-rafter"></div>
+
+                    <!-- Outriggers -->
+                    <div class="outrigger outrigger-1"></div>
+                    <div class="outrigger outrigger-2"></div>
+                    <div class="outrigger outrigger-3"></div>
+
+                    <!-- Barge rafter -->
+                    <div class="barge-rafter"></div>
+
+                    <!-- Overhang deck indication -->
+                    <div class="overhang-deck"></div>
+
+                    <!-- Gable wall -->
+                    <div class="gable-wall"></div>
+
+                    <!-- Uplift arrows -->
+                    <div class="overhang-uplift"><div class="up-head"></div><div class="up-line"></div></div>
+                    <div class="overhang-uplift"><div class="up-head"></div><div class="up-line"></div></div>
+                    <div class="overhang-uplift"><div class="up-head"></div><div class="up-line"></div></div>
+
+                    <!-- Dimension -->
+                    <div class="dimension overhang-dim" id="overhangDim">0" overhang</div>
+                </div>
+            </div>
+
+            <div class="outrigger-info">
+                <h3>Outrigger Specs</h3>
+                <div class="out-stat">
+                    <span class="out-stat-label">Size</span>
+                    <span class="out-stat-value">2x6</span>
+                </div>
+                <div class="out-stat">
+                    <span class="out-stat-label">Spacing</span>
+                    <span class="out-stat-value" id="spacing">0" O.C.</span>
+                </div>
+                <div class="out-stat">
+                    <span class="out-stat-label">Cantilever</span>
+                    <span class="out-stat-value" id="cantilever">0"</span>
+                </div>
+                <div class="out-stat">
+                    <span class="out-stat-label">Bearing</span>
+                    <span class="out-stat-value" id="bearing">0"</span>
+                </div>
+            </div>
+
+            <div class="force-display">
+                <div class="force-title">Uplift per Outrigger</div>
+                <div class="force-value" id="upliftForce">0</div>
+                <div class="force-unit">pounds</div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>The Lever That Wind Loves to Pull</h2>
+            <p>Stand at the gable end of a house and look up at the roof overhang - that part sticking out past the wall. Now imagine hurricane wind trying to lift it. The overhang acts like a lever, and the outriggers are the pivot point. The longer the overhang, the more leverage wind has to peel it off.</p>
+            <p>Outriggers are horizontal framing members that extend from the main rafters out to support the barge rafter at the edge of the overhang. They work like cantilever beams - one end anchored to the roof structure, the other end supporting the overhang load. Wind uplift tries to rotate them upward, prying them loose from their connections.</p>
+
+            <div class="tip-box">
+                <h4>The Cantilever Rule</h4>
+                <p>For every inch of overhang past the wall, you need at least 2-3 inches of outrigger extending back into the roof structure for anchorage. An 18-inch overhang needs outriggers extending 36-54 inches back to the second or third rafter. Skimping on this bearing length invites failure.</p>
+            </div>
+
+            <p>In Monroe County, engineers pay special attention to gable end overhangs because they are in the high-pressure roof zones. A 24-inch overhang might see 80+ PSF of uplift pressure during a major hurricane. With outriggers at 24 inches on center, each outrigger could experience 300+ pounds of uplift - enough to snap poorly connected members or pull nails right out.</p>
+            <p>The safest approach for Keys homes is modest overhangs (12-18 inches), properly sized outriggers (2x6 minimum), and metal connectors at every outrigger-to-rafter connection. Some builders eliminate rake overhangs entirely on gable ends to reduce hurricane vulnerability.</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Get Your Outrigger Design</h2>
+            <p>Properly sized outriggers and connections for your roof overhang in Monroe County</p>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">
+                Calculate Outrigger Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 1.5 + 0.5,
+                vy: Math.random() * 0.5 - 0.25,
+                size: Math.random() * 1.5 + 0.5,
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) {
+                    p.x = 0;
+                    p.y = Math.random() * canvas.height;
+                }
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#14b8a6';
+                ctx.globalAlpha = 0.15;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Animate values
+        function animateValues() {
+            const overhangDim = document.getElementById('overhangDim');
+            const spacing = document.getElementById('spacing');
+            const cantilever = document.getElementById('cantilever');
+            const bearing = document.getElementById('bearing');
+            const upliftForce = document.getElementById('upliftForce');
+
+            let uplift = 0;
+            const upliftTarget = 315;
+
+            const interval = setInterval(() => {
+                uplift += 10;
+                if (uplift >= upliftTarget) {
+                    uplift = upliftTarget;
+                    clearInterval(interval);
+                }
+                upliftForce.textContent = uplift;
+            }, 30);
+
+            setTimeout(() => { overhangDim.textContent = '18" overhang'; }, 300);
+            setTimeout(() => { spacing.textContent = '24" O.C.'; }, 600);
+            setTimeout(() => { cantilever.textContent = '18"'; }, 900);
+            setTimeout(() => { bearing.textContent = '48"'; }, 1200);
+        }
+
+        // Start animations when visible
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    animateValues();
+                    observer.disconnect();
+                }
+            });
+        });
+
+        observer.observe(document.querySelector('.animation-stage'));
+    </script>
+</body>
+</html>
