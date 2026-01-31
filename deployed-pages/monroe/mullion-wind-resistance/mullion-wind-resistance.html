@@ -1,0 +1,886 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Mullion Wind Resistance - Frame Bending Under Load | WindLoad.co</title>
+    <meta name="description" content="Watch mullions and frames deflect under wind pressure. Interactive animation showing why frame design matters as much as glass strength.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/mullion-wind-resistance.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5557;-81.7826">
+    <meta name="ICBM" content="24.5557, -81.7826">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Mullion Wind Resistance - Frame Engineering Explained">
+    <meta property="og:description" content="Animated demonstration of how window and curtain wall mullions bend under wind load. See deflection in action.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/monroe/mullion-wind-resistance.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a mullion in a window or curtain wall?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A mullion is a vertical or horizontal structural member that divides and supports glass panels in windows, storefronts, or curtain walls. Mullions transfer wind loads from the glass to the building structure. They must be strong enough to resist bending (deflection) under design wind pressure."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How much can a mullion bend under wind load?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Building codes typically limit mullion deflection to L/175 of the span length (where L is the mullion length). For a 10-foot mullion, maximum allowable deflection would be about 0.69 inches. Excessive deflection can crack glass, break seals, and cause leaks."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What affects mullion wind resistance?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Key factors include: 1) Moment of inertia - the cross-sectional shape and size, 2) Material - aluminum, steel, or fiberglass, 3) Span length - longer mullions deflect more, 4) Tributary area - how much glass load the mullion carries, and 5) Connection details at top and bottom."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Mullion Wind Resistance",
+                "item": "https://windload.co/staged-pages/monroe/mullion-wind-resistance.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+            --steel-color: #6b7280;
+            --aluminum-color: #9ca3af;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #ffffff; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        .nav-cta { background: linear-gradient(135deg, #e91e8c, #9d4edd); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--aluminum-color), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Mullion Bending Animation Stage */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            min-height: 550px;
+        }
+
+        .animation-title {
+            text-align: center;
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+
+        .mullion-demo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 4rem;
+            flex-wrap: wrap;
+        }
+
+        /* Mullion Visualization */
+        .mullion-container {
+            position: relative;
+            width: 200px;
+            height: 400px;
+        }
+
+        .mullion-frame {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--steel-color);
+            border-radius: 4px;
+        }
+
+        .mullion-top, .mullion-bottom {
+            position: absolute;
+            width: 100%;
+            height: 20px;
+            background: var(--steel-color);
+            left: 0;
+        }
+
+        .mullion-top { top: 0; border-radius: 4px 4px 0 0; }
+        .mullion-bottom { bottom: 0; border-radius: 0 0 4px 4px; }
+
+        /* The bending mullion */
+        .mullion-bar {
+            position: absolute;
+            left: 50%;
+            top: 20px;
+            width: 12px;
+            height: calc(100% - 40px);
+            background: linear-gradient(90deg, #4a5568, #718096, #4a5568);
+            transform-origin: top center;
+            transform: translateX(-50%);
+            transition: all 0.1s ease-out;
+            border-radius: 2px;
+            box-shadow: inset -2px 0 4px rgba(0,0,0,0.3);
+        }
+
+        /* Glass panels */
+        .glass-pane {
+            position: absolute;
+            background: linear-gradient(135deg, rgba(0, 212, 255, 0.15), rgba(0, 212, 255, 0.25));
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            top: 25px;
+            height: calc(100% - 50px);
+        }
+
+        .glass-pane.left {
+            left: 5px;
+            width: calc(50% - 12px);
+        }
+
+        .glass-pane.right {
+            right: 5px;
+            width: calc(50% - 12px);
+        }
+
+        /* Wind Pressure Arrows */
+        .wind-pressure {
+            position: absolute;
+            left: -80px;
+            top: 0;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 40px 0;
+        }
+
+        .pressure-arrow {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: var(--accent-magenta);
+            font-weight: 700;
+            opacity: 0;
+            transform: translateX(-20px);
+            animation: pressureIn 0.5s ease-out forwards;
+        }
+
+        .pressure-arrow:nth-child(1) { animation-delay: 0.1s; }
+        .pressure-arrow:nth-child(2) { animation-delay: 0.2s; }
+        .pressure-arrow:nth-child(3) { animation-delay: 0.3s; }
+        .pressure-arrow:nth-child(4) { animation-delay: 0.4s; }
+        .pressure-arrow:nth-child(5) { animation-delay: 0.5s; }
+
+        @keyframes pressureIn {
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        .arrow-icon {
+            font-size: 1.5rem;
+            animation: pulseArrow 1s ease-in-out infinite;
+        }
+
+        @keyframes pulseArrow {
+            0%, 100% { transform: translateX(0); }
+            50% { transform: translateX(10px); }
+        }
+
+        /* Deflection Indicator */
+        .deflection-indicator {
+            position: absolute;
+            right: -100px;
+            top: 50%;
+            transform: translateY(-50%);
+            text-align: center;
+        }
+
+        .deflection-value {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--accent-cyan);
+            font-family: 'Monaco', monospace;
+        }
+
+        .deflection-label {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+        }
+
+        .deflection-limit {
+            font-size: 0.75rem;
+            color: var(--accent-magenta);
+            margin-top: 0.5rem;
+        }
+
+        /* Control Panel */
+        .control-panel {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 1.5rem;
+            min-width: 300px;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .control-label {
+            display: block;
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .control-slider {
+            width: 100%;
+            height: 8px;
+            -webkit-appearance: none;
+            appearance: none;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            outline: none;
+            cursor: pointer;
+        }
+
+        .control-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            background: var(--accent-cyan);
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .control-value {
+            text-align: right;
+            color: var(--accent-cyan);
+            font-weight: 700;
+            font-family: 'Monaco', monospace;
+            margin-top: 0.25rem;
+        }
+
+        /* Status Display */
+        .status-display {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-top: 1rem;
+        }
+
+        .status-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .status-row:last-child {
+            margin-bottom: 0;
+        }
+
+        .status-label {
+            color: var(--text-muted);
+            font-size: 0.85rem;
+        }
+
+        .status-value {
+            color: var(--text-light);
+            font-weight: 600;
+            font-family: 'Monaco', monospace;
+        }
+
+        .status-value.pass {
+            color: #4ade80;
+        }
+
+        .status-value.fail {
+            color: #ef4444;
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .mullion-factors {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .factor-card {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .factor-card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+        }
+
+        .factor-card p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 900px) {
+            .mullion-demo {
+                flex-direction: column;
+                gap: 2rem;
+            }
+
+            .wind-pressure {
+                left: -60px;
+            }
+
+            .deflection-indicator {
+                right: -80px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                display: none;
+            }
+
+            .wind-pressure, .deflection-indicator {
+                display: none;
+            }
+
+            .mullion-container {
+                width: 150px;
+                height: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="https://windload.co/states.html">All States</a></li>
+                <li><a href="https://windload.co/architects.html">Architects</a></li>
+                <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Mullion Wind Resistance</span>
+        </div>
+
+        <section class="hero">
+            <h1>Mullions Under Pressure</h1>
+            <p>Watch a window mullion bend under wind load. Adjust the pressure and span to see how deflection changes.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="animation-title">Interactive: Mullion Deflection Simulation</div>
+
+            <div class="mullion-demo">
+                <div class="mullion-container">
+                    <div class="wind-pressure">
+                        <div class="pressure-arrow">
+                            <span class="arrow-icon">&#x2192;</span>
+                        </div>
+                        <div class="pressure-arrow">
+                            <span class="arrow-icon">&#x2192;</span>
+                        </div>
+                        <div class="pressure-arrow">
+                            <span class="arrow-icon">&#x2192;</span>
+                        </div>
+                        <div class="pressure-arrow">
+                            <span class="arrow-icon">&#x2192;</span>
+                        </div>
+                        <div class="pressure-arrow">
+                            <span class="arrow-icon">&#x2192;</span>
+                        </div>
+                    </div>
+
+                    <div class="mullion-frame">
+                        <div class="mullion-top"></div>
+                        <div class="glass-pane left"></div>
+                        <div class="mullion-bar" id="mullionBar"></div>
+                        <div class="glass-pane right"></div>
+                        <div class="mullion-bottom"></div>
+                    </div>
+
+                    <div class="deflection-indicator">
+                        <div class="deflection-value" id="deflectionValue">0.42"</div>
+                        <div class="deflection-label">Deflection</div>
+                        <div class="deflection-limit" id="deflectionLimit">Limit: 0.69"</div>
+                    </div>
+                </div>
+
+                <div class="control-panel">
+                    <div class="control-group">
+                        <label class="control-label">Wind Pressure (PSF)</label>
+                        <input type="range" class="control-slider" id="pressureSlider" min="20" max="80" value="60">
+                        <div class="control-value" id="pressureValue">60 PSF</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Mullion Span (ft)</label>
+                        <input type="range" class="control-slider" id="spanSlider" min="6" max="14" value="10">
+                        <div class="control-value" id="spanValue">10 ft</div>
+                    </div>
+
+                    <div class="control-group">
+                        <label class="control-label">Mullion Size</label>
+                        <input type="range" class="control-slider" id="sizeSlider" min="1" max="5" value="3">
+                        <div class="control-value" id="sizeValue">4" x 2"</div>
+                    </div>
+
+                    <div class="status-display">
+                        <div class="status-row">
+                            <span class="status-label">Tributary Width:</span>
+                            <span class="status-value" id="tributaryValue">4 ft</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">Line Load:</span>
+                            <span class="status-value" id="lineLoadValue">240 plf</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">Max Deflection:</span>
+                            <span class="status-value" id="maxDeflectionValue">0.69"</span>
+                        </div>
+                        <div class="status-row">
+                            <span class="status-label">Status:</span>
+                            <span class="status-value pass" id="statusValue">PASS</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>Why Mullion Design Matters</h2>
+            <p>A mullion is like the spine of a window system. It carries the wind load from the glass panels and transfers it to the building structure at the top and bottom. When wind pushes on the glass, the mullion bends - and this bending (deflection) must be carefully controlled.</p>
+            <p>Too much deflection can crack the glass, break the weather seals, and cause water leaks. Building codes limit deflection to L/175 of the span length. For a 10-foot mullion, that's about 0.69 inches of maximum allowable bow.</p>
+
+            <div class="mullion-factors">
+                <div class="factor-card">
+                    <h4>Moment of Inertia</h4>
+                    <p>The cross-section shape matters more than total material. A deep, hollow rectangular section resists bending better than a solid square of the same weight.</p>
+                </div>
+                <div class="factor-card">
+                    <h4>Span Length</h4>
+                    <p>Deflection increases with the FOURTH power of span. Double the span = 16x the deflection! This is why tall storefront windows need beefier mullions.</p>
+                </div>
+                <div class="factor-card">
+                    <h4>Tributary Area</h4>
+                    <p>Each mullion carries load from half the glass on each side. Wider glass panels = more load on the mullion = more deflection.</p>
+                </div>
+                <div class="factor-card">
+                    <h4>Material Choice</h4>
+                    <p>Aluminum is common but steel or fiberglass may be needed for high-load situations. Steel is 3x stiffer than aluminum for the same size.</p>
+                </div>
+            </div>
+
+            <p>In Monroe County with 180 mph design wind speeds, mullion engineering is critical. The combination of high wind pressure and the desire for large glass openings creates challenging engineering requirements. That's why many storefront and curtain wall systems require structural engineering review.</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Get Complete Glazing System Calculations</h2>
+            <p>Pressure values for glass, frames, and structural connections in Monroe County</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=monroe&utm_campaign=mullion-resistance" class="cta-button">
+                Calculate Frame Loads
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 0.8 + 0.2,
+                vy: (Math.random() - 0.5) * 0.2,
+                size: Math.random() * 1.5 + 0.5,
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x > canvas.width) p.x = 0;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#6b7280';
+                ctx.globalAlpha = 0.25;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Mullion simulation
+        const mullionBar = document.getElementById('mullionBar');
+        const pressureSlider = document.getElementById('pressureSlider');
+        const spanSlider = document.getElementById('spanSlider');
+        const sizeSlider = document.getElementById('sizeSlider');
+
+        const pressureValue = document.getElementById('pressureValue');
+        const spanValue = document.getElementById('spanValue');
+        const sizeValue = document.getElementById('sizeValue');
+        const deflectionValue = document.getElementById('deflectionValue');
+        const deflectionLimit = document.getElementById('deflectionLimit');
+        const tributaryValue = document.getElementById('tributaryValue');
+        const lineLoadValue = document.getElementById('lineLoadValue');
+        const maxDeflectionValue = document.getElementById('maxDeflectionValue');
+        const statusValue = document.getElementById('statusValue');
+
+        const mullionSizes = [
+            { name: '2.5" x 1.5"', factor: 0.5 },
+            { name: '3" x 1.75"', factor: 0.7 },
+            { name: '4" x 2"', factor: 1.0 },
+            { name: '5" x 2.5"', factor: 1.5 },
+            { name: '6" x 3"', factor: 2.2 }
+        ];
+
+        function updateSimulation() {
+            const pressure = parseInt(pressureSlider.value);
+            const span = parseInt(spanSlider.value);
+            const sizeIndex = parseInt(sizeSlider.value) - 1;
+            const mullionSize = mullionSizes[sizeIndex];
+
+            // Calculate tributary width (assume 4 ft between mullions)
+            const tributary = 4;
+
+            // Line load = pressure x tributary width
+            const lineLoad = pressure * tributary;
+
+            // Max allowed deflection = span (in inches) / 175
+            const spanInches = span * 12;
+            const maxDeflection = spanInches / 175;
+
+            // Simulated deflection (simplified formula for demonstration)
+            // Real deflection depends on moment of inertia, but we'll approximate
+            const baseDeflection = (lineLoad * Math.pow(span, 4)) / (100000 * mullionSize.factor);
+            const deflection = Math.min(baseDeflection, 2.0);
+
+            // Check pass/fail
+            const passing = deflection <= maxDeflection;
+
+            // Update displays
+            pressureValue.textContent = pressure + ' PSF';
+            spanValue.textContent = span + ' ft';
+            sizeValue.textContent = mullionSize.name;
+            deflectionValue.textContent = deflection.toFixed(2) + '"';
+            deflectionLimit.textContent = 'Limit: ' + maxDeflection.toFixed(2) + '"';
+            tributaryValue.textContent = tributary + ' ft';
+            lineLoadValue.textContent = lineLoad + ' plf';
+            maxDeflectionValue.textContent = maxDeflection.toFixed(2) + '"';
+            statusValue.textContent = passing ? 'PASS' : 'FAIL';
+            statusValue.className = 'status-value ' + (passing ? 'pass' : 'fail');
+
+            // Animate mullion bending
+            // Map deflection to visual curve (exaggerated for visibility)
+            const bendAmount = Math.min(deflection * 15, 30);
+
+            // Create curved effect using CSS
+            mullionBar.style.borderRadius = `${bendAmount}px 50% ${bendAmount}px 50%`;
+            mullionBar.style.transform = `translateX(calc(-50% + ${bendAmount * 0.5}px))`;
+
+            // Color based on stress
+            const stressRatio = deflection / maxDeflection;
+            if (stressRatio > 1) {
+                mullionBar.style.background = 'linear-gradient(90deg, #dc2626, #ef4444, #dc2626)';
+            } else if (stressRatio > 0.8) {
+                mullionBar.style.background = 'linear-gradient(90deg, #f59e0b, #fbbf24, #f59e0b)';
+            } else {
+                mullionBar.style.background = 'linear-gradient(90deg, #4a5568, #718096, #4a5568)';
+            }
+        }
+
+        pressureSlider.addEventListener('input', updateSimulation);
+        spanSlider.addEventListener('input', updateSimulation);
+        sizeSlider.addEventListener('input', updateSimulation);
+
+        // Initial update
+        updateSimulation();
+
+        // Gentle animation to show deflection changing
+        let animPhase = 0;
+        function animatePressure() {
+            animPhase += 0.02;
+            const oscillation = Math.sin(animPhase) * 10;
+            const currentPressure = 60 + oscillation;
+            pressureSlider.value = currentPressure;
+            updateSimulation();
+        }
+
+        // Run animation for demo, stop on user interaction
+        const animInterval = setInterval(animatePressure, 50);
+
+        [pressureSlider, spanSlider, sizeSlider].forEach(slider => {
+            slider.addEventListener('mousedown', () => clearInterval(animInterval));
+            slider.addEventListener('touchstart', () => clearInterval(animInterval));
+        });
+    </script>
+</body>
+</html>
