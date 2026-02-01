@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Window Schedule Explained - Reading Construction Drawings | WindLoad.co</title>
+    <meta name="description" content="Interactive animation teaching you to decode window schedules on construction drawings. Understand wind pressure ratings, sizes, and specifications.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/window-schedule-explained.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5557;-81.7826">
+    <meta name="ICBM" content="24.5557, -81.7826">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="How to Read a Window Schedule - Interactive Guide">
+    <meta property="og:description" content="Decode window schedules on construction drawings. Learn what every column means and how wind load ratings are specified.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/monroe/window-schedule-explained.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a window schedule in construction drawings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A window schedule is a table on construction drawings that lists every window in a building with its specifications: type, size, location, material, glazing type, and most importantly for hurricane zones, the required wind pressure rating. Each window has a unique tag (like W1, W2) that matches labels on the floor plans."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What do the wind pressure numbers mean on a window schedule?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind pressure numbers (like +50/-60 PSF) indicate the positive and negative pressure ratings the window must withstand. Positive (+) is wind pushing in, negative (-) is suction pulling out. The window must be rated for BOTH values. In hurricane zones, these numbers are critical for passing inspection."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I know which windows need impact rating?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In Florida's HVHZ (High Velocity Hurricane Zone) and wind-borne debris regions, the window schedule will specify 'Impact' or 'Large Missile' rating. This means the window must pass impact tests (hit by a 9-lb 2x4 at 50 fps) in addition to pressure tests. Non-impact windows can use shutters instead."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Window Schedule Explained",
+                "item": "https://windload.co/staged-pages/monroe/window-schedule-explained.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #ffffff; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        .nav-cta { background: linear-gradient(135deg, #e91e8c, #9d4edd); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Window Schedule Animation */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            padding: 2rem;
+            margin: 3rem 0;
+            overflow-x: auto;
+        }
+
+        .schedule-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .schedule-header h3 {
+            color: var(--accent-cyan);
+            font-size: 1.2rem;
+        }
+
+        .schedule-badge {
+            background: rgba(233, 30, 140, 0.2);
+            color: var(--accent-magenta);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        /* Schedule Table */
+        .window-schedule {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            min-width: 800px;
+        }
+
+        .window-schedule th {
+            background: rgba(0, 212, 255, 0.2);
+            color: var(--accent-cyan);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 700;
+            border-bottom: 2px solid var(--accent-cyan);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .window-schedule th:hover {
+            background: rgba(0, 212, 255, 0.3);
+        }
+
+        .window-schedule th.active {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+        }
+
+        .window-schedule td {
+            padding: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .window-schedule tr:hover td {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .window-schedule td.highlight {
+            background: rgba(233, 30, 140, 0.2);
+            border-left: 3px solid var(--accent-magenta);
+        }
+
+        .window-tag {
+            background: var(--accent-cyan);
+            color: var(--primary-dark);
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 700;
+            font-family: 'Monaco', monospace;
+        }
+
+        .pressure-value {
+            font-family: 'Monaco', monospace;
+            font-weight: 700;
+            color: var(--accent-magenta);
+        }
+
+        .impact-badge {
+            background: #ef4444;
+            color: white;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        /* Explanation Callout */
+        .explanation-callout {
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid var(--accent-magenta);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            position: relative;
+        }
+
+        .callout-pointer {
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 12px solid transparent;
+            border-right: 12px solid transparent;
+            border-bottom: 12px solid var(--accent-magenta);
+        }
+
+        .explanation-callout h4 {
+            color: var(--accent-magenta);
+            margin-bottom: 0.75rem;
+        }
+
+        .explanation-callout p {
+            color: var(--text-light);
+            line-height: 1.6;
+        }
+
+        .animated-highlight {
+            display: inline-block;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            animation: pulseText 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulseText {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Navigation Dots */
+        .column-nav {
+            display: flex;
+            justify-content: center;
+            gap: 0.75rem;
+            margin-top: 1.5rem;
+        }
+
+        .nav-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .nav-dot.active {
+            background: var(--accent-cyan);
+            transform: scale(1.3);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .column-guide {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .column-card {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1.25rem;
+            border-left: 4px solid var(--accent-cyan);
+        }
+
+        .column-card h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .column-card p {
+            font-size: 0.95rem;
+            margin: 0;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        @media (max-width: 768px) {
+            nav {
+                display: none;
+            }
+
+            .column-guide {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="https://windload.co/states.html">All States</a></li>
+                <li><a href="https://windload.co/architects.html">Architects</a></li>
+                <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Window Schedule Explained</span>
+        </div>
+
+        <section class="hero">
+            <h1>Decoding the Window Schedule</h1>
+            <p>Click on each column header to learn what it means. This is the roadmap that tells you exactly which windows to order.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="schedule-header">
+                <h3>WINDOW SCHEDULE</h3>
+                <span class="schedule-badge">Sheet A-501</span>
+            </div>
+
+            <table class="window-schedule" id="scheduleTable">
+                <thead>
+                    <tr>
+                        <th data-col="0">TAG</th>
+                        <th data-col="1">SIZE</th>
+                        <th data-col="2">TYPE</th>
+                        <th data-col="3">GLAZING</th>
+                        <th data-col="4">PRESSURE</th>
+                        <th data-col="5">IMPACT</th>
+                        <th data-col="6">QTY</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><span class="window-tag">W1</span></td>
+                        <td>3'-0" x 4'-0"</td>
+                        <td>Single Hung</td>
+                        <td>1/4" Lam</td>
+                        <td class="pressure-value">+55 / -67</td>
+                        <td><span class="impact-badge">IMPACT</span></td>
+                        <td>4</td>
+                    </tr>
+                    <tr>
+                        <td><span class="window-tag">W2</span></td>
+                        <td>4'-0" x 5'-0"</td>
+                        <td>Picture</td>
+                        <td>1/4" Lam</td>
+                        <td class="pressure-value">+48 / -58</td>
+                        <td><span class="impact-badge">IMPACT</span></td>
+                        <td>2</td>
+                    </tr>
+                    <tr>
+                        <td><span class="window-tag">W3</span></td>
+                        <td>2'-6" x 3'-0"</td>
+                        <td>Casement</td>
+                        <td>1/4" Lam</td>
+                        <td class="pressure-value">+55 / -67</td>
+                        <td><span class="impact-badge">IMPACT</span></td>
+                        <td>6</td>
+                    </tr>
+                    <tr>
+                        <td><span class="window-tag">W4</span></td>
+                        <td>6'-0" x 6'-8"</td>
+                        <td>Sliding Glass</td>
+                        <td>1/4" Lam</td>
+                        <td class="pressure-value">+42 / -52</td>
+                        <td><span class="impact-badge">IMPACT</span></td>
+                        <td>1</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="explanation-callout" id="explanation">
+                <div class="callout-pointer"></div>
+                <h4 id="explainTitle">Click a Column Header</h4>
+                <p id="explainText">Click on any column header above to learn what that data means and why it matters for your window order.</p>
+            </div>
+
+            <div class="column-nav">
+                <div class="nav-dot" data-col="0"></div>
+                <div class="nav-dot" data-col="1"></div>
+                <div class="nav-dot" data-col="2"></div>
+                <div class="nav-dot" data-col="3"></div>
+                <div class="nav-dot" data-col="4"></div>
+                <div class="nav-dot" data-col="5"></div>
+                <div class="nav-dot" data-col="6"></div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>Reading Window Schedules Like a Pro</h2>
+            <p>The window schedule is one of the most important tables on your construction drawings. It's where architects translate wind load calculations into actual product specifications. Every window in your building has a row in this table.</p>
+
+            <div class="column-guide">
+                <div class="column-card">
+                    <h4>TAG (W1, W2, etc.)</h4>
+                    <p>Links to floor plan markings. Find "W1" on the floor plan, and this row tells you everything about that window.</p>
+                </div>
+                <div class="column-card">
+                    <h4>SIZE (Width x Height)</h4>
+                    <p>Rough opening dimensions. Larger windows = higher total wind load, which can affect pressure rating requirements.</p>
+                </div>
+                <div class="column-card">
+                    <h4>PRESSURE (+/-PSF)</h4>
+                    <p>THE critical column for wind zones. These are the ratings the window MUST meet or exceed. Positive pushes in, negative pulls out.</p>
+                </div>
+                <div class="column-card">
+                    <h4>IMPACT Rating</h4>
+                    <p>In Monroe County, all windows must be either impact-rated OR protected by approved shutters. Impact windows can resist flying debris.</p>
+                </div>
+            </div>
+
+            <p>When ordering windows for Monroe County, always give your supplier the PRESSURE column values. They need both the positive AND negative numbers. If a window only meets the positive requirement but fails the negative, it will not pass inspection.</p>
+        </section>
+
+        <section class="cta-section">
+            <h2>Need Window Schedule Pressure Values?</h2>
+            <p>Get accurate pressure requirements for every window location in Monroe County</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=monroe&utm_campaign=window-schedule" class="cta-button">
+                Calculate Window Pressures
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.3,
+                vy: (Math.random() - 0.5) * 0.3,
+                size: Math.random() * 1.5 + 0.5,
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = '#00d4ff';
+                ctx.globalAlpha = 0.2;
+                ctx.fill();
+            });
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Column explanations
+        const explanations = [
+            {
+                title: "TAG - Window Identifier",
+                text: "Each window gets a unique tag like W1, W2, W3. You'll find these same tags on the floor plans, showing exactly where each window type goes. This is how the builder knows which window specification belongs where."
+            },
+            {
+                title: "SIZE - Dimensions Matter",
+                text: "Width x Height of the window opening. Bigger windows experience more total force (same pressure x more area = more force). This is why large picture windows often need lower pressure ratings per square foot."
+            },
+            {
+                title: "TYPE - Window Operation Style",
+                text: "Single Hung, Casement, Picture, Sliding - each type has different structural characteristics. Some types are inherently stronger than others, which affects their wind resistance capabilities."
+            },
+            {
+                title: "GLAZING - Glass Specification",
+                text: "In hurricane zones, you'll see 'Laminated' or 'LAM' - glass with a plastic interlayer that holds together when broken. '1/4\" Lam' means 1/4-inch laminated glass. This is essential for impact resistance."
+            },
+            {
+                title: "PRESSURE - The Critical Values",
+                text: "This is what your wind load calculation produces! The +55/-67 means this window must withstand 55 PSF pushing in AND 67 PSF pulling out. The negative (suction) is usually higher. Your window MUST meet BOTH values."
+            },
+            {
+                title: "IMPACT - Debris Resistance",
+                text: "In Monroe County, windows must either be impact-rated OR have approved hurricane shutters. 'IMPACT' means the window itself passed the large missile test (9-lb 2x4 at 50 fps). No additional protection needed."
+            },
+            {
+                title: "QTY - Quantity Needed",
+                text: "How many of this exact window specification you need. This helps with ordering and pricing. A window supplier uses this column to quote your entire project."
+            }
+        ];
+
+        const headers = document.querySelectorAll('.window-schedule th');
+        const dots = document.querySelectorAll('.nav-dot');
+        const title = document.getElementById('explainTitle');
+        const text = document.getElementById('explainText');
+        const cells = document.querySelectorAll('.window-schedule td');
+
+        function showColumn(index) {
+            // Update headers
+            headers.forEach((h, i) => h.classList.toggle('active', i === index));
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+            // Update explanation
+            title.textContent = explanations[index].title;
+            text.textContent = explanations[index].text;
+
+            // Highlight column cells
+            cells.forEach(cell => cell.classList.remove('highlight'));
+            const rows = document.querySelectorAll('.window-schedule tbody tr');
+            rows.forEach(row => {
+                const rowCells = row.querySelectorAll('td');
+                if (rowCells[index]) {
+                    rowCells[index].classList.add('highlight');
+                }
+            });
+        }
+
+        headers.forEach((header, i) => {
+            header.addEventListener('click', () => showColumn(i));
+        });
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => showColumn(i));
+        });
+
+        // Auto-advance through columns
+        let currentCol = 0;
+        function autoAdvance() {
+            showColumn(currentCol);
+            currentCol = (currentCol + 1) % explanations.length;
+        }
+
+        setTimeout(() => {
+            autoAdvance();
+            setInterval(autoAdvance, 5000);
+        }, 2000);
+    </script>
+</body>
+</html>
