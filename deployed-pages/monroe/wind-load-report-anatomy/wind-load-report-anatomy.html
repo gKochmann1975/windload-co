@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Wind Load Report Anatomy - Understand Every Section | WindLoad.co</title>
+    <meta name="description" content="Interactive guide walking through each section of a wind load calculation report. Learn what every number means and why it matters for your building project.">
+    <link rel="canonical" href="https://windload.co/staged-pages/monroe/wind-load-report-anatomy.html">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Monroe County, Florida">
+    <meta name="geo.position" content="24.5557;-81.7826">
+    <meta name="ICBM" content="24.5557, -81.7826">
+    <meta name="language" content="en-US">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Wind Load Report Anatomy - Interactive Guide">
+    <meta property="og:description" content="Walk through each section of a wind load report with interactive animations. Understand exactly what every number means.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/staged-pages/monroe/wind-load-report-anatomy.html">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- FAQPage Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What sections are in a wind load calculation report?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A wind load report typically includes: Project Information (address, building details), Design Parameters (wind speed, exposure category, risk category), Building Geometry (dimensions, roof type), Component & Cladding Pressures (for windows, doors, roofing), and MWFRS Loads (for the main structural frame)."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the most important number in a wind load report?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The design wind pressure (measured in PSF - pounds per square foot) is the most critical value. This tells manufacturers and installers exactly what pressure rating windows, doors, and other components must meet to pass inspection."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do wind load reports show positive and negative pressures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Positive pressure is wind pushing against a surface (like wind hitting your face). Negative pressure is suction pulling away from a surface (like wind trying to rip off your roof). Both must be considered because building components need to resist forces in both directions."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {
+                "@type": "ListItem",
+                "position": 1,
+                "name": "Home",
+                "item": "https://windload.co"
+            },
+            {
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Monroe County",
+                "item": "https://windload.co/staged-pages/monroe/"
+            },
+            {
+                "@type": "ListItem",
+                "position": 3,
+                "name": "Wind Load Report Anatomy",
+                "item": "https://windload.co/staged-pages/monroe/wind-load-report-anatomy.html"
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --bg-dark: #0d0015;
+            --text-light: #f0f0f0;
+            --text-muted: #a0a0b0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Header */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            margin-bottom: 2rem;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+        .nav-links { display: flex; gap: 2rem; list-style: none; margin: 0; padding: 0; }
+        .nav-links a { color: var(--text-muted); text-decoration: none; font-weight: 500; transition: color 0.3s; }
+        .nav-links a:hover { color: #ffffff; }
+        @media (max-width: 768px) { .nav-links { display: none; } }
+        .nav-cta { background: linear-gradient(135deg, #e91e8c, #9d4edd); color: white; padding: 10px 20px; border-radius: 20px; text-decoration: none; font-weight: 600; }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            margin-left: 2rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--accent-cyan);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            font-size: 0.9rem;
+        }
+
+        .breadcrumb a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb span {
+            color: var(--text-muted);
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 3rem 0;
+        }
+
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.5rem);
+            font-weight: 900;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Animation Stage */
+        .animation-stage {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            padding: 3rem;
+            margin: 3rem 0;
+            position: relative;
+            overflow: hidden;
+            min-height: 500px;
+        }
+
+        /* Report Document Animation */
+        .report-document {
+            background: white;
+            border-radius: 8px;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            position: relative;
+            transform: perspective(1000px) rotateX(5deg);
+            transition: transform 0.5s ease;
+        }
+
+        .report-document:hover {
+            transform: perspective(1000px) rotateX(0deg);
+        }
+
+        .report-section {
+            padding: 1rem;
+            margin: 0.5rem 0;
+            border-radius: 8px;
+            border-left: 4px solid transparent;
+            opacity: 0.3;
+            transition: all 0.5s ease;
+            cursor: pointer;
+            color: #333;
+        }
+
+        .report-section.active {
+            opacity: 1;
+            background: linear-gradient(90deg, rgba(233, 30, 140, 0.1), transparent);
+            border-left-color: var(--accent-magenta);
+            transform: translateX(10px);
+        }
+
+        .report-section h3 {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .report-section .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            font-family: 'Monaco', monospace;
+        }
+
+        .report-section .detail {
+            font-size: 0.9rem;
+            color: #888;
+            margin-top: 0.25rem;
+        }
+
+        /* Explanation Panel */
+        .explanation-panel {
+            position: absolute;
+            right: 2rem;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 300px;
+            background: rgba(0, 0, 0, 0.8);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--accent-cyan);
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .explanation-panel.visible {
+            opacity: 1;
+        }
+
+        .explanation-panel h4 {
+            color: var(--accent-cyan);
+            margin-bottom: 0.75rem;
+            font-size: 1.1rem;
+        }
+
+        .explanation-panel p {
+            color: var(--text-light);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .animated-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--accent-magenta);
+            margin: 1rem 0;
+            font-family: 'Monaco', monospace;
+        }
+
+        /* Progress Indicator */
+        .progress-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+        }
+
+        .progress-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.2);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .progress-dot.active {
+            background: var(--accent-cyan);
+            box-shadow: 0 0 20px var(--accent-cyan);
+        }
+
+        /* Content Section */
+        .content-section {
+            padding: 3rem 0;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .content-section p {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(0, 212, 255, 0.2);
+        }
+
+        .info-card h3 {
+            color: var(--accent-magenta);
+            margin-bottom: 0.75rem;
+        }
+
+        .info-card p {
+            font-size: 1rem;
+            color: var(--text-muted);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem 2rem;
+            background: linear-gradient(135deg, var(--primary-dark), #2a1a4e);
+            border-radius: 20px;
+            margin: 3rem 0;
+        }
+
+        .cta-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-muted);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        .cta-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            background: linear-gradient(135deg, var(--accent-magenta), #b8157a);
+            color: white;
+            padding: 1rem 2.5rem;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 20px rgba(233, 30, 140, 0.4);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(233, 30, 140, 0.6);
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        footer a {
+            color: var(--accent-cyan);
+            text-decoration: none;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .explanation-panel {
+                position: relative;
+                right: auto;
+                top: auto;
+                transform: none;
+                width: 100%;
+                margin-top: 2rem;
+            }
+
+            .report-document {
+                transform: none;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .animation-stage {
+                padding: 1.5rem;
+            }
+
+            nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <div class="container">
+        <header>
+            <a href="https://windload.co/" class="nav-logo">
+                <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                <span class="logo-text">Wind<span>Load</span>.co</span>
+            </a>
+            <ul class="nav-links">
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="https://windload.co/states.html">All States</a></li>
+                <li><a href="https://windload.co/architects.html">Architects</a></li>
+                <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+        </header>
+
+        <div class="breadcrumb">
+            <a href="/">Home</a>
+            <span>/</span>
+            <a href="/staged-pages/monroe/">Monroe County</a>
+            <span>/</span>
+            <span>Report Anatomy</span>
+        </div>
+
+        <section class="hero">
+            <h1>Anatomy of a Wind Load Report</h1>
+            <p>Watch as we break down each section of a professional wind load calculation. Click any section to learn what it means.</p>
+        </section>
+
+        <div class="animation-stage">
+            <div class="report-document">
+                <div class="report-header" style="text-align: center; border-bottom: 2px solid #333; padding-bottom: 1rem; margin-bottom: 1rem;">
+                    <div style="font-weight: 800; font-size: 1.2rem; color: #1a0a2e;">WIND LOAD CALCULATION REPORT</div>
+                    <div style="font-size: 0.85rem; color: #666;">ASCE 7-22 Compliant</div>
+                </div>
+
+                <div class="report-section" data-section="0">
+                    <h3>Project Location</h3>
+                    <div class="value">Key West, FL 33040</div>
+                    <div class="detail">Monroe County - HVHZ Adjacent</div>
+                </div>
+
+                <div class="report-section" data-section="1">
+                    <h3>Basic Wind Speed (V)</h3>
+                    <div class="value">180 mph</div>
+                    <div class="detail">Risk Category II</div>
+                </div>
+
+                <div class="report-section" data-section="2">
+                    <h3>Exposure Category</h3>
+                    <div class="value">C</div>
+                    <div class="detail">Open terrain with scattered obstructions</div>
+                </div>
+
+                <div class="report-section" data-section="3">
+                    <h3>Design Wind Pressure</h3>
+                    <div class="value">-67.4 psf</div>
+                    <div class="detail">Zone 5 (Corners) - Negative</div>
+                </div>
+
+                <div class="report-section" data-section="4">
+                    <h3>Window/Door Requirements</h3>
+                    <div class="value">+55.2 / -67.4 psf</div>
+                    <div class="detail">Impact-rated glazing required</div>
+                </div>
+            </div>
+
+            <div class="explanation-panel" id="explanationPanel">
+                <h4 id="explanationTitle">Click a Section</h4>
+                <p id="explanationText">Click on any section of the report to learn what it means and why it matters for your project.</p>
+                <div class="animated-value" id="animatedValue"></div>
+            </div>
+
+            <div class="progress-bar">
+                <div class="progress-dot" data-section="0"></div>
+                <div class="progress-dot" data-section="1"></div>
+                <div class="progress-dot" data-section="2"></div>
+                <div class="progress-dot" data-section="3"></div>
+                <div class="progress-dot" data-section="4"></div>
+            </div>
+        </div>
+
+        <section class="content-section">
+            <h2>Understanding Your Wind Load Report</h2>
+            <p>A wind load calculation report might look like a bunch of numbers, but each one tells an important story about how your building will stand up to the wind. Think of it like a recipe - every ingredient (number) matters.</p>
+            <p>In places like Monroe County, Florida, where hurricanes are a real threat, these calculations literally save lives. The report tells builders exactly how strong to make windows, doors, and walls.</p>
+
+            <div class="info-grid">
+                <div class="info-card">
+                    <h3>Wind Speed</h3>
+                    <p>The fastest wind your building must survive. Monroe County sees 180 mph design speeds - that's faster than a race car!</p>
+                </div>
+                <div class="info-card">
+                    <h3>Exposure Category</h3>
+                    <p>How "exposed" your building is to the wind. Near the ocean with no trees? That's Exposure D - maximum wind force.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Design Pressure</h3>
+                    <p>The actual push-and-pull force on your walls and roof. This number (in PSF) is what window manufacturers need to know.</p>
+                </div>
+                <div class="info-card">
+                    <h3>Pressure Zones</h3>
+                    <p>Corners get hit hardest, then edges, then the middle. Each zone has different pressure requirements.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Need a Wind Load Report for Monroe County?</h2>
+            <p>Get ASCE 7-22 compliant calculations with PE seal for your project</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=monroe&utm_campaign=report-anatomy" class="cta-button">
+                Get Your Calculation
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+            </a>
+        </section>
+
+        <footer>
+            <p>&copy; 2002-2025 <a href="https://windload.solutions">Wind Load Solutions</a> | <a href="/">WindLoad.co</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Canvas Background
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        const particleCount = 80;
+
+        for (let i = 0; i < particleCount; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: (Math.random() - 0.5) * 0.5,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 1,
+                color: Math.random() > 0.5 ? '#e91e8c' : '#00d4ff'
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color;
+                ctx.globalAlpha = 0.5;
+                ctx.fill();
+            });
+
+            // Draw connections
+            particles.forEach((p1, i) => {
+                particles.slice(i + 1).forEach(p2 => {
+                    const dist = Math.hypot(p1.x - p2.x, p1.y - p2.y);
+                    if (dist < 150) {
+                        ctx.beginPath();
+                        ctx.moveTo(p1.x, p1.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        ctx.strokeStyle = '#00d4ff';
+                        ctx.globalAlpha = 0.1 * (1 - dist / 150);
+                        ctx.stroke();
+                    }
+                });
+            });
+
+            ctx.globalAlpha = 1;
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Report Section Interaction
+        const explanations = [
+            {
+                title: "Project Location",
+                text: "Your building's address determines the basic wind speed. Monroe County is in one of the highest wind zones in the entire United States because of hurricane exposure. The location also determines if you're in an HVHZ (High-Velocity Hurricane Zone).",
+                value: "Key West"
+            },
+            {
+                title: "Basic Wind Speed (V)",
+                text: "This is the 3-second gust speed your building must withstand. At 180 mph, that's Category 5 hurricane wind! This number comes from ASCE 7-22 wind speed maps based on your exact location.",
+                value: "180 mph"
+            },
+            {
+                title: "Exposure Category",
+                text: "This describes what's around your building. Category B is urban with lots of buildings. Category C is open terrain. Category D is flat, unobstructed coastal areas. More exposure = higher wind forces.",
+                value: "Exposure C"
+            },
+            {
+                title: "Design Wind Pressure",
+                text: "This is the BIG number! It tells you exactly how much force (in pounds per square foot) hits your building. The negative number means suction - wind trying to pull things OFF. This is often the controlling value.",
+                value: "-67.4 psf"
+            },
+            {
+                title: "Window/Door Requirements",
+                text: "These are the pressure ratings your windows and doors must meet. The + number is pushing force, the - number is suction. Your window supplier uses these exact numbers to select the right products.",
+                value: "+55 / -67 psf"
+            }
+        ];
+
+        const sections = document.querySelectorAll('.report-section');
+        const dots = document.querySelectorAll('.progress-dot');
+        const panel = document.getElementById('explanationPanel');
+        const title = document.getElementById('explanationTitle');
+        const text = document.getElementById('explanationText');
+        const animValue = document.getElementById('animatedValue');
+
+        let currentSection = -1;
+
+        function showSection(index) {
+            sections.forEach((s, i) => s.classList.toggle('active', i === index));
+            dots.forEach((d, i) => d.classList.toggle('active', i === index));
+
+            if (index >= 0 && index < explanations.length) {
+                panel.classList.add('visible');
+                title.textContent = explanations[index].title;
+                text.textContent = explanations[index].text;
+
+                // Animate the value
+                animValue.textContent = '';
+                const targetValue = explanations[index].value;
+                let charIndex = 0;
+                const typeInterval = setInterval(() => {
+                    animValue.textContent = targetValue.substring(0, charIndex + 1);
+                    charIndex++;
+                    if (charIndex >= targetValue.length) {
+                        clearInterval(typeInterval);
+                    }
+                }, 50);
+            }
+        }
+
+        sections.forEach((section, i) => {
+            section.addEventListener('click', () => showSection(i));
+        });
+
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => showSection(i));
+        });
+
+        // Auto-play through sections
+        let autoplayIndex = 0;
+        function autoplay() {
+            showSection(autoplayIndex);
+            autoplayIndex = (autoplayIndex + 1) % sections.length;
+        }
+
+        // Start autoplay after 2 seconds
+        setTimeout(() => {
+            autoplay();
+            setInterval(autoplay, 4000);
+        }, 2000);
+    </script>
+</body>
+</html>
