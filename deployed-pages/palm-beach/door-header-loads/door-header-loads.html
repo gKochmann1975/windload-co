@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Door Header Wind Load Design | Palm Beach County Calculator | WindLoad.co</title>
+    <meta name="description" content="Calculate door header wind loads for Palm Beach County. Animated visualization shows how wind pressure transfers through headers to wall framing. Simple explanations for HVHZ compliance.">
+    <meta name="keywords" content="door header wind load, header design pressure, Palm Beach door header, HVHZ header requirements, wind load transfer, header sizing calculator">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/door-header-loads">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPC29V5WXL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QPC29V5WXL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Door Header Wind Load Design - Palm Beach County">
+    <meta property="og:description" content="Interactive animation showing how wind loads transfer through door headers. Calculate header requirements for hurricane zones.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/door-header-loads">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a door header and why does it need wind load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A door header is the horizontal beam above a door opening that holds up the wall and roof above it. During a hurricane, wind pushes hard against doors, and all that force travels up into the header. If the header is too weak, it can bend or break, causing the wall to fail. In Palm Beach County, headers must handle wind pressures of 50+ PSF."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I calculate wind load on a door header?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Multiply the door width by the design pressure to get the load per foot of header. For example, a 3-foot wide door with 60 PSF pressure puts 180 pounds of force on each foot of header. The header must be sized to carry this load plus the weight of the wall above without bending more than L/360."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What size header do I need for a door in Palm Beach County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For standard 3-foot doors in HVHZ zones, you typically need doubled 2x10 or 2x12 headers. Wider openings like 6-foot doors often require engineered lumber (LVL) or steel headers. The exact size depends on wind zone, door width, and building height."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do impact-rated doors reduce header load requirements?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No, the header must still carry the same wind pressure whether the door is impact-rated or not. Impact doors prevent debris from breaking through, but wind still pushes against the entire door surface. That force transfers to the header regardless of door type."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Door Header Loads", "item": "https://windload.co/florida/palm-beach/door-header-loads"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-green: #00ff88;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover { transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .data-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .data-badge {
+            background: rgba(0, 212, 255, 0.15);
+            border: 1px solid var(--accent-cyan);
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .data-badge .value {
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--accent-cyan);
+        }
+
+        .data-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Animation Container */
+        .animation-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(0, 212, 255, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .animation-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--accent-cyan);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .wall-section {
+            position: relative;
+            height: 400px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Wall structure */
+        .wall-frame {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 300px;
+            height: 350px;
+        }
+
+        .stud-left, .stud-right {
+            position: absolute;
+            bottom: 0;
+            width: 20px;
+            height: 280px;
+            background: linear-gradient(90deg, #8B4513, #654321);
+            border: 2px solid #5a3a1a;
+        }
+
+        .stud-left { left: 0; }
+        .stud-right { right: 0; }
+
+        .header-beam {
+            position: absolute;
+            top: 60px;
+            left: -10px;
+            right: -10px;
+            height: 35px;
+            background: linear-gradient(180deg, #DEB887, #8B4513);
+            border: 3px solid var(--accent-cyan);
+            border-radius: 4px;
+            z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .header-beam.stressed {
+            background: linear-gradient(180deg, #ff6b6b, #cc4444);
+            border-color: var(--accent-magenta);
+            transform: scaleY(0.95);
+        }
+
+        .header-label {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--primary-dark);
+            white-space: nowrap;
+        }
+
+        .door-frame {
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            right: 20px;
+            height: 220px;
+            border: 4px solid var(--accent-magenta);
+            border-bottom: none;
+            background: rgba(233, 30, 140, 0.1);
+        }
+
+        .door-panel {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,212,255,0.05));
+            border-radius: 2px;
+        }
+
+        /* Wind arrows */
+        .wind-arrow {
+            position: absolute;
+            left: -80px;
+            width: 60px;
+            height: 4px;
+            background: var(--accent-cyan);
+            opacity: 0;
+            border-radius: 2px;
+        }
+
+        .wind-arrow::after {
+            content: '';
+            position: absolute;
+            right: -8px;
+            top: -6px;
+            border: 8px solid transparent;
+            border-left: 12px solid var(--accent-cyan);
+        }
+
+        .wind-arrow.active {
+            animation: windPush 1.5s ease-out forwards;
+        }
+
+        @keyframes windPush {
+            0% { left: -80px; opacity: 0; }
+            20% { opacity: 1; }
+            80% { opacity: 1; }
+            100% { left: 20px; opacity: 0; }
+        }
+
+        /* Load transfer arrows */
+        .load-arrow {
+            position: absolute;
+            width: 4px;
+            height: 40px;
+            background: var(--accent-magenta);
+            opacity: 0;
+        }
+
+        .load-arrow::after {
+            content: '';
+            position: absolute;
+            top: -8px;
+            left: -6px;
+            border: 8px solid transparent;
+            border-bottom: 12px solid var(--accent-magenta);
+        }
+
+        .load-arrow.active {
+            animation: loadTransfer 0.8s ease-out forwards;
+        }
+
+        @keyframes loadTransfer {
+            0% { opacity: 0; transform: translateY(20px); }
+            50% { opacity: 1; }
+            100% { opacity: 0; transform: translateY(-20px); }
+        }
+
+        /* Data display */
+        .live-data {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 12px;
+            padding: 1rem;
+        }
+
+        .data-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .data-row:last-child { margin-bottom: 0; }
+
+        .data-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .data-value {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            font-family: 'Courier New', monospace;
+        }
+
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .play-btn {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            border: none;
+            padding: 1rem 2.5rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+
+        .play-btn:hover { transform: scale(1.05); }
+
+        /* Content sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        .info-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .info-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .info-card:hover {
+            border-color: var(--accent-cyan);
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-cyan);
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 212, 255, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(0, 212, 255, 0.1);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-cyan), var(--accent-magenta));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-magenta); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(0, 212, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .info-grid { grid-template-columns: repeat(2, 1fr); }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .info-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+<a href="https://windload.co/" class="nav-logo">
+    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+    <span class="logo-text">Wind<span>Load</span>.co</span>
+</a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Door Header</span> Wind Load Design</h1>
+                <p class="hero-subtitle">When hurricane winds push against a door, all that force travels up into the header beam. Watch how wind pressure transfers through the structure and learn to size headers that won't fail.</p>
+
+                <div class="data-badges">
+                    <div class="data-badge">
+                        <span class="value">60+</span>
+                        <span class="label">PSF Pressure</span>
+                    </div>
+                    <div class="data-badge">
+                        <span class="value">2x12</span>
+                        <span class="label">Min Header</span>
+                    </div>
+                    <div class="data-badge">
+                        <span class="value">L/360</span>
+                        <span class="label">Deflection Limit</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="animation-container">
+                <div class="animation-title">Wind Load Transfer Animation</div>
+
+                <div class="wall-section">
+                    <div class="wall-frame">
+                        <div class="stud-left"></div>
+                        <div class="stud-right"></div>
+                        <div class="header-beam" id="headerBeam">
+                            <span class="header-label">HEADER BEAM</span>
+                        </div>
+                        <div class="door-frame">
+                            <div class="door-panel"></div>
+                        </div>
+
+                        <!-- Wind arrows -->
+                        <div class="wind-arrow" id="wind1" style="top: 180px;"></div>
+                        <div class="wind-arrow" id="wind2" style="top: 220px;"></div>
+                        <div class="wind-arrow" id="wind3" style="top: 260px;"></div>
+
+                        <!-- Load arrows -->
+                        <div class="load-arrow" id="load1" style="left: 80px; top: 100px;"></div>
+                        <div class="load-arrow" id="load2" style="left: 150px; top: 100px;"></div>
+                        <div class="load-arrow" id="load3" style="left: 220px; top: 100px;"></div>
+                    </div>
+
+                    <div class="live-data">
+                        <div class="data-row">
+                            <span class="data-label">Wind Speed</span>
+                            <span class="data-value" id="windSpeed">0 mph</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Pressure</span>
+                            <span class="data-value" id="pressure">0 PSF</span>
+                        </div>
+                        <div class="data-row">
+                            <span class="data-label">Header Load</span>
+                            <span class="data-value" id="headerLoad">0 PLF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="controls">
+                    <button class="play-btn" id="playBtn">Watch Wind Hit Door</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Understanding <span class="highlight">Header Loads</span></h2>
+            <p>Think of a door header like a bridge - it spans the opening and carries weight from above while also resisting sideways wind forces.</p>
+        </div>
+
+        <div class="info-grid">
+            <div class="info-card">
+                <div class="card-icon">&#127744;</div>
+                <h3>Wind Pressure</h3>
+                <p>Hurricane winds create pressure that pushes on the door. In Palm Beach County, this can be 60+ pounds on every square foot of door surface.</p>
+            </div>
+
+            <div class="info-card">
+                <div class="card-icon">&#8593;</div>
+                <h3>Load Transfer</h3>
+                <p>The door frame takes the wind pressure and sends it up to the header. The header must be strong enough to bend that force sideways into the wall studs.</p>
+            </div>
+
+            <div class="info-card">
+                <div class="card-icon">&#128295;</div>
+                <h3>Header Sizing</h3>
+                <p>Wider doors need bigger headers. A 6-foot opening might need engineered LVL beams or steel, while a 3-foot door can use doubled 2x12 lumber.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about door header wind load calculations.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is a door header and why does it need wind load calculations?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        A door header is the horizontal beam above a door opening that holds up the wall and roof above it. During a hurricane, wind pushes hard against doors, and all that force travels up into the header. If the header is too weak, it can bend or break, causing the wall to fail. In Palm Beach County, headers must handle wind pressures of 50+ PSF.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I calculate wind load on a door header?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Multiply the door width by the design pressure to get the load per foot of header. For example, a 3-foot wide door with 60 PSF pressure puts 180 pounds of force on each foot of header. The header must be sized to carry this load plus the weight of the wall above without bending more than L/360.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What size header do I need for a door in Palm Beach County?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        For standard 3-foot doors in HVHZ zones, you typically need doubled 2x10 or 2x12 headers. Wider openings like 6-foot doors often require engineered lumber (LVL) or steel headers. The exact size depends on wind zone, door width, and building height.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do impact-rated doors reduce header load requirements?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        No, the header must still carry the same wind pressure whether the door is impact-rated or not. Impact doors prevent debris from breaking through, but wind still pushes against the entire door surface. That force transfers to the header regardless of door type.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Header Requirements</h2>
+            <p>Get instant wind load calculations for door headers in Palm Beach County. PE-stamped reports available.</p>
+            <div class="cta-buttons">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Wind Loads</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="https://windload.co/florida/">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/garage-header-sizing">Garage Header Sizing</a></li>
+                    <li><a href="/florida/palm-beach/lintel-design">Lintel Design</a></li>
+                    <li><a href="/florida/palm-beach/jamb-anchoring">Jamb Anchoring</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="https://windload.co/architects.html">For Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Palm Beach County, FL - HVHZ Compliant</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class Particle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 + 1;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width) {
+                    this.x = -10;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.fillStyle = `rgba(0, 212, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            particles.push(new Particle());
+        }
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Animation controls
+        const playBtn = document.getElementById('playBtn');
+        const headerBeam = document.getElementById('headerBeam');
+        const windSpeed = document.getElementById('windSpeed');
+        const pressure = document.getElementById('pressure');
+        const headerLoad = document.getElementById('headerLoad');
+
+        let isPlaying = false;
+
+        function runAnimation() {
+            if (isPlaying) return;
+            isPlaying = true;
+            playBtn.disabled = true;
+
+            // Animate wind speed and pressure values
+            let speed = 0;
+            const interval = setInterval(() => {
+                speed += 5;
+                windSpeed.textContent = speed + ' mph';
+                const psi = Math.round(0.00256 * speed * speed * 1.3);
+                pressure.textContent = psi + ' PSF';
+                headerLoad.textContent = Math.round(psi * 3) + ' PLF';
+
+                if (speed >= 150) {
+                    clearInterval(interval);
+                }
+            }, 50);
+
+            // Wind arrows
+            setTimeout(() => document.getElementById('wind1').classList.add('active'), 200);
+            setTimeout(() => document.getElementById('wind2').classList.add('active'), 400);
+            setTimeout(() => document.getElementById('wind3').classList.add('active'), 600);
+
+            // Header stress
+            setTimeout(() => headerBeam.classList.add('stressed'), 800);
+
+            // Load arrows
+            setTimeout(() => document.getElementById('load1').classList.add('active'), 1000);
+            setTimeout(() => document.getElementById('load2').classList.add('active'), 1200);
+            setTimeout(() => document.getElementById('load3').classList.add('active'), 1400);
+
+            // Reset
+            setTimeout(() => {
+                ['wind1', 'wind2', 'wind3', 'load1', 'load2', 'load3'].forEach(id => {
+                    document.getElementById(id).classList.remove('active');
+                });
+                headerBeam.classList.remove('stressed');
+                windSpeed.textContent = '0 mph';
+                pressure.textContent = '0 PSF';
+                headerLoad.textContent = '0 PLF';
+                isPlaying = false;
+                playBtn.disabled = false;
+            }, 4000);
+        }
+
+        playBtn.addEventListener('click', runAnimation);
+        setTimeout(runAnimation, 1500);
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.info-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
