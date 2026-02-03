@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Design Pressure (DP) Explained | DP-50 vs DP-65 Wind Simulation | WindLoad.co</title>
+    <meta name="description" content="Visual animation comparing DP-50 and DP-65 design pressure ratings. Understand what these wind load numbers mean with interactive wind simulations showing pressure effects on windows and doors.">
+    <meta name="keywords" content="design pressure, DP rating, DP-50, DP-65, wind pressure rating, PSF rating, window pressure rating, door pressure rating, wind load calculation">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/design-pressure-dp">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Design Pressure (DP) Explained - DP-50 vs DP-65 Wind Simulation">
+    <meta property="og:description" content="Interactive wind simulation showing what DP ratings mean. See the difference between DP-50 and DP-65 pressure loads on windows and doors.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/design-pressure-dp">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="Design Pressure Explained | WindLoad.co">
+    <meta name="twitter:description" content="Visual guide to DP-50 vs DP-65 pressure ratings with wind simulations.">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What does DP-50 mean?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "DP-50 means the window or door can withstand 50 pounds per square foot of wind pressure in both positive (pushing) and negative (suction) directions. It's tested at 75 PSF (1.5x) to ensure a safety margin."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What's the difference between DP-50 and DP-65?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "DP-50 handles 50 PSF of pressure suitable for wind speeds around 150 mph, while DP-65 handles 65 PSF for winds up to 170 mph. DP-65 requires stronger frames, thicker glass, and more robust anchoring."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I know if I need DP-50 or DP-65?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Your required DP depends on location, building height, exposure category, and wall zone (corner vs field). A wind load calculation per ASCE 7-22 determines your exact pressure requirements to select the right DP rating."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What does positive vs negative pressure mean?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Positive pressure pushes against the window (windward side of building), while negative pressure creates suction pulling the window outward (leeward side). Products must resist both directions equally, hence ratings like DP-50 mean plus or minus 50 PSF."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why is DP rating important for permits?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Building inspectors verify that specified products meet calculated wind load requirements. If your calculation shows you need 52 PSF, a DP-50 product won't pass inspection - you'd need DP-65 or higher. Getting this wrong means failing inspection and costly replacements."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Design Pressure DP", "item": "https://windload.co/florida/palm-beach/design-pressure-dp"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-blue: #4169e1;
+            --accent-red: #ff4444;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Hero with Wind Simulation */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Wind Simulation Container */
+        .wind-simulator {
+            background: var(--bg-card);
+            border: 1px solid rgba(65, 105, 225, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .simulator-title {
+            text-align: center;
+            font-size: 1rem;
+            color: var(--accent-cyan);
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* Side by Side Comparison */
+        .comparison-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .pressure-box {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pressure-box.dp50 {
+            border: 2px solid var(--accent-blue);
+        }
+
+        .pressure-box.dp65 {
+            border: 2px solid var(--accent-magenta);
+        }
+
+        .pressure-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.5rem;
+        }
+
+        .pressure-value {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 0.5rem;
+        }
+
+        .dp50 .pressure-value { color: var(--accent-blue); }
+        .dp65 .pressure-value { color: var(--accent-magenta); }
+
+        .pressure-unit {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Animated Window in Box */
+        .window-visual {
+            width: 80px;
+            height: 100px;
+            margin: 1.5rem auto;
+            position: relative;
+        }
+
+        .window-frame {
+            width: 100%;
+            height: 100%;
+            border: 3px solid var(--accent-cyan);
+            border-radius: 4px;
+            background: rgba(0, 212, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .window-glass {
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1), rgba(0,212,255,0.2));
+        }
+
+        /* Wind Arrows Animation */
+        .wind-arrows {
+            position: absolute;
+            top: 0;
+            left: -30px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .wind-arrow {
+            font-size: 1.2rem;
+            color: var(--accent-cyan);
+            opacity: 0;
+            animation: windPush 1.5s ease-in-out infinite;
+        }
+
+        .dp50 .wind-arrow { animation-duration: 2s; }
+        .dp65 .wind-arrow { animation-duration: 1s; }
+
+        .wind-arrow:nth-child(1) { animation-delay: 0s; }
+        .wind-arrow:nth-child(2) { animation-delay: 0.2s; }
+        .wind-arrow:nth-child(3) { animation-delay: 0.4s; }
+
+        @keyframes windPush {
+            0% { opacity: 0; transform: translateX(-20px); }
+            50% { opacity: 1; transform: translateX(0); }
+            100% { opacity: 0; transform: translateX(20px); }
+        }
+
+        /* Deflection Indicator */
+        .deflection-meter {
+            margin-top: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem;
+        }
+
+        .deflection-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .deflection-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .deflection-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+
+        .dp50 .deflection-fill {
+            width: 50%;
+            background: var(--accent-blue);
+        }
+
+        .dp65 .deflection-fill {
+            width: 80%;
+            background: var(--accent-magenta);
+        }
+
+        /* Live Pressure Display */
+        .live-pressure {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .live-stat {
+            text-align: center;
+        }
+
+        .live-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            font-family: 'Courier New', monospace;
+        }
+
+        .live-stat:nth-child(1) .live-value { color: var(--accent-blue); }
+        .live-stat:nth-child(2) .live-value { color: var(--accent-magenta); }
+
+        .live-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Explanation Section */
+        .explanation-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Pressure Direction Cards */
+        .direction-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .direction-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            border: 1px solid rgba(65, 105, 225, 0.2);
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .direction-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .direction-card.positive {
+            border-color: rgba(65, 105, 225, 0.4);
+        }
+
+        .direction-card.negative {
+            border-color: rgba(255, 68, 68, 0.4);
+        }
+
+        .direction-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            font-size: 2rem;
+        }
+
+        .positive .direction-icon {
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+        }
+
+        .negative .direction-icon {
+            background: linear-gradient(135deg, var(--accent-red), var(--accent-magenta));
+        }
+
+        .direction-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .positive h3 { color: var(--accent-blue); }
+        .negative h3 { color: var(--accent-red); }
+
+        .direction-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .direction-example {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .direction-example strong {
+            color: var(--accent-cyan);
+        }
+
+        /* Building Diagram Section */
+        .building-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+            position: relative;
+            z-index: 1;
+        }
+
+        .building-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .building-diagram {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(65, 105, 225, 0.2);
+        }
+
+        #buildingCanvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        .zone-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .legend-color.zone4 { background: var(--accent-cyan); }
+        .legend-color.zone5 { background: var(--accent-magenta); }
+        .legend-color.interior { background: #666; }
+
+        /* Requirements Table */
+        .requirements-section {
+            padding: 6rem 2rem;
+            background: var(--primary-dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .requirements-table {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(65, 105, 225, 0.3);
+        }
+
+        .table-header {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            background: rgba(65, 105, 225, 0.2);
+            padding: 1.25rem 1.5rem;
+            font-weight: 700;
+        }
+
+        .table-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1fr;
+            padding: 1.25rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: background 0.3s ease;
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+
+        .table-row.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .table-row:hover {
+            background: rgba(65, 105, 225, 0.1);
+        }
+
+        .table-row:last-child {
+            border-bottom: none;
+        }
+
+        .scenario-name {
+            color: var(--text-primary);
+        }
+
+        .dp-requirement {
+            font-weight: 600;
+            text-align: center;
+        }
+
+        .dp-low { color: #00ff88; }
+        .dp-med { color: #ffaa00; }
+        .dp-high { color: var(--accent-magenta); }
+        .dp-max { color: var(--accent-cyan); }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: var(--bg-dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(65, 105, 225, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(65, 105, 225, 0.1);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(65, 105, 225, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-blue); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(65, 105, 225, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .direction-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .comparison-container { grid-template-columns: 1fr; }
+            .table-header, .table-row { grid-template-columns: 1.5fr 1fr 1fr 1fr; font-size: 0.85rem; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+<a href="https://windload.co/" class="nav-logo">
+    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+    <span class="logo-text">Wind<span>Load</span>.co</span>
+</a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1>Understanding <span class="highlight">Design Pressure</span></h1>
+                <p class="hero-subtitle">Design Pressure (DP) tells you how much wind force a window or door can handle. Watch the difference between DP-50 and DP-65 with our wind simulation - like seeing a light breeze versus a strong gust.</p>
+            </div>
+
+            <div class="wind-simulator">
+                <div class="simulator-title">Live Wind Pressure Comparison</div>
+
+                <div class="comparison-container">
+                    <div class="pressure-box dp50">
+                        <div class="pressure-label">Lower Rating</div>
+                        <div class="pressure-value">DP-50</div>
+                        <div class="pressure-unit">50 PSF</div>
+
+                        <div class="window-visual">
+                            <div class="wind-arrows">
+                                <div class="wind-arrow">&#10145;</div>
+                                <div class="wind-arrow">&#10145;</div>
+                                <div class="wind-arrow">&#10145;</div>
+                            </div>
+                            <div class="window-frame">
+                                <div class="window-glass"></div>
+                            </div>
+                        </div>
+
+                        <div class="deflection-meter">
+                            <div class="deflection-label">Frame Stress Level</div>
+                            <div class="deflection-bar">
+                                <div class="deflection-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pressure-box dp65">
+                        <div class="pressure-label">Higher Rating</div>
+                        <div class="pressure-value">DP-65</div>
+                        <div class="pressure-unit">65 PSF</div>
+
+                        <div class="window-visual">
+                            <div class="wind-arrows">
+                                <div class="wind-arrow">&#10145;</div>
+                                <div class="wind-arrow">&#10145;</div>
+                                <div class="wind-arrow">&#10145;</div>
+                            </div>
+                            <div class="window-frame">
+                                <div class="window-glass"></div>
+                            </div>
+                        </div>
+
+                        <div class="deflection-meter">
+                            <div class="deflection-label">Frame Stress Level</div>
+                            <div class="deflection-bar">
+                                <div class="deflection-fill"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="live-pressure">
+                    <div class="live-stat">
+                        <div class="live-value" id="dp50Live">0</div>
+                        <div class="live-label">DP-50 Test PSF</div>
+                    </div>
+                    <div class="live-stat">
+                        <div class="live-value" id="dp65Live">0</div>
+                        <div class="live-label">DP-65 Test PSF</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="explanation-section">
+        <div class="section-header">
+            <h2>Positive vs <span class="highlight">Negative</span> Pressure</h2>
+            <p>Wind pushes and pulls on your windows. Products must resist both directions.</p>
+        </div>
+
+        <div class="direction-grid">
+            <div class="direction-card positive">
+                <div class="direction-icon">&#10145;</div>
+                <h3>Positive Pressure (+PSF)</h3>
+                <p>Wind pushing directly against the window. This happens on the side of the building facing the wind (windward wall). The glass and frame flex inward under this force.</p>
+                <div class="direction-example">
+                    <strong>Example:</strong> During a hurricane, the wall facing the storm receives positive pressure as wind slams into it.
+                </div>
+            </div>
+
+            <div class="direction-card negative">
+                <div class="direction-icon" style="transform: rotate(180deg);">&#10145;</div>
+                <h3>Negative Pressure (-PSF)</h3>
+                <p>Suction pulling the window outward. This occurs on the sides and back of the building (leeward wall) where wind creates a vacuum effect. Frames must resist being pulled out.</p>
+                <div class="direction-example">
+                    <strong>Example:</strong> The back wall of a building during a storm experiences suction that tries to pull windows outward - often stronger than the push.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="building-section">
+        <div class="section-header">
+            <h2>Pressure <span class="highlight">Zones</span> on a Building</h2>
+            <p>Different parts of your building face different wind pressures. Corners are worst.</p>
+        </div>
+
+        <div class="building-container">
+            <div class="building-diagram">
+                <canvas id="buildingCanvas"></canvas>
+            </div>
+
+            <div class="zone-legend">
+                <div class="legend-item">
+                    <div class="legend-color zone5"></div>
+                    <span>Zone 5 (Corners) - Highest Pressure</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color zone4"></div>
+                    <span>Zone 4 (Edges) - High Pressure</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color interior"></div>
+                    <span>Interior Zone - Standard Pressure</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="requirements-section">
+        <div class="section-header">
+            <h2>When You Need <span class="highlight">Higher DP</span></h2>
+            <p>Common scenarios and their typical DP requirements in Palm Beach County.</p>
+        </div>
+
+        <div class="requirements-table">
+            <div class="table-header">
+                <div>Scenario</div>
+                <div style="text-align:center">Field Zone</div>
+                <div style="text-align:center">Edge Zone</div>
+                <div style="text-align:center">Corner Zone</div>
+            </div>
+            <div class="table-row">
+                <div class="scenario-name">Single-story inland home</div>
+                <div class="dp-requirement dp-low">DP-40</div>
+                <div class="dp-requirement dp-med">DP-50</div>
+                <div class="dp-requirement dp-med">DP-55</div>
+            </div>
+            <div class="table-row">
+                <div class="scenario-name">2-story coastal home</div>
+                <div class="dp-requirement dp-med">DP-50</div>
+                <div class="dp-requirement dp-high">DP-65</div>
+                <div class="dp-requirement dp-high">DP-70</div>
+            </div>
+            <div class="table-row">
+                <div class="scenario-name">3-story condo (Exposure D)</div>
+                <div class="dp-requirement dp-high">DP-65</div>
+                <div class="dp-requirement dp-max">DP-75</div>
+                <div class="dp-requirement dp-max">DP-85</div>
+            </div>
+            <div class="table-row">
+                <div class="scenario-name">High-rise (10+ floors)</div>
+                <div class="dp-requirement dp-max">DP-75</div>
+                <div class="dp-requirement dp-max">DP-90</div>
+                <div class="dp-requirement dp-max">DP-100+</div>
+            </div>
+            <div class="table-row">
+                <div class="scenario-name">HVHZ commercial building</div>
+                <div class="dp-requirement dp-high">DP-70</div>
+                <div class="dp-requirement dp-max">DP-85</div>
+                <div class="dp-requirement dp-max">DP-95</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about design pressure ratings.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What does DP-50 mean?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        DP-50 means the window or door can withstand 50 pounds per square foot of wind pressure in both positive (pushing) and negative (suction) directions. It's tested at 75 PSF (1.5x) to ensure a safety margin.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What's the difference between DP-50 and DP-65?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        DP-50 handles 50 PSF of pressure suitable for wind speeds around 150 mph, while DP-65 handles 65 PSF for winds up to 170 mph. DP-65 requires stronger frames, thicker glass, and more robust anchoring - typically costing 15-20% more.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How do I know if I need DP-50 or DP-65?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Your required DP depends on location, building height, exposure category, and wall zone (corner vs field). A wind load calculation per ASCE 7-22 determines your exact pressure requirements - that's exactly what WindLoad.co provides.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What does positive vs negative pressure mean?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Positive pressure pushes against the window (windward side of building), while negative pressure creates suction pulling the window outward (leeward side). Products must resist both directions equally, hence ratings like DP-50 mean plus or minus 50 PSF.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Why is DP rating important for permits?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Building inspectors verify that specified products meet calculated wind load requirements. If your calculation shows you need 52 PSF, a DP-50 product won't pass inspection - you'd need DP-65 or higher. Getting this wrong means failing inspection and costly replacements.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Required DP Rating</h2>
+            <p>Get instant wind load calculations to know exactly what design pressure your project needs.</p>
+            <div class="cta-buttons">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Wind Loads</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="https://windload.co/florida/">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/product-wind-rating">Product Wind Ratings</a></li>
+                    <li><a href="/florida/palm-beach/structural-test-pressure">Structural Testing</a></li>
+                    <li><a href="/florida/palm-beach/hvhz-requirements">HVHZ Requirements</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="https://windload.co/architects.html">For Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Calculations per ASCE 7-22 and Florida Building Code 2024</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Canvas Background
+        const particleCanvas = document.getElementById('particleCanvas');
+        const pCtx = particleCanvas.getContext('2d');
+
+        function resizeParticleCanvas() {
+            particleCanvas.width = window.innerWidth;
+            particleCanvas.height = document.body.scrollHeight;
+        }
+        resizeParticleCanvas();
+        window.addEventListener('resize', resizeParticleCanvas);
+
+        class WindLine {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -100;
+                this.y = Math.random() * particleCanvas.height;
+                this.length = 50 + Math.random() * 100;
+                this.speed = 3 + Math.random() * 4;
+                this.opacity = 0.05 + Math.random() * 0.1;
+                this.wave = Math.random() * Math.PI * 2;
+            }
+
+            update() {
+                this.x += this.speed;
+                this.wave += 0.02;
+                this.y += Math.sin(this.wave) * 0.5;
+
+                if (this.x > particleCanvas.width + 100) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                pCtx.beginPath();
+                pCtx.moveTo(this.x, this.y);
+                pCtx.lineTo(this.x - this.length, this.y);
+                pCtx.strokeStyle = `rgba(65, 105, 225, ${this.opacity})`;
+                pCtx.lineWidth = 2;
+                pCtx.stroke();
+            }
+        }
+
+        const windLines = [];
+        for (let i = 0; i < 40; i++) {
+            const line = new WindLine();
+            line.x = Math.random() * particleCanvas.width;
+            windLines.push(line);
+        }
+
+        function animateParticles() {
+            pCtx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            pCtx.fillRect(0, 0, particleCanvas.width, particleCanvas.height);
+
+            windLines.forEach(line => {
+                line.update();
+                line.draw();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Live Pressure Animation
+        const dp50Live = document.getElementById('dp50Live');
+        const dp65Live = document.getElementById('dp65Live');
+        let pressure50 = 0;
+        let pressure65 = 0;
+        let direction50 = 1;
+        let direction65 = 1;
+
+        function animatePressure() {
+            pressure50 += direction50 * 1.5;
+            pressure65 += direction65 * 2;
+
+            if (pressure50 >= 75) direction50 = -1;
+            if (pressure50 <= 0) direction50 = 1;
+            if (pressure65 >= 97) direction65 = -1;
+            if (pressure65 <= 0) direction65 = 1;
+
+            dp50Live.textContent = Math.round(pressure50) + ' PSF';
+            dp65Live.textContent = Math.round(pressure65) + ' PSF';
+        }
+
+        setInterval(animatePressure, 50);
+
+        // Building Diagram Canvas
+        const buildingCanvas = document.getElementById('buildingCanvas');
+        const bCtx = buildingCanvas.getContext('2d');
+
+        function resizeBuildingCanvas() {
+            const container = buildingCanvas.parentElement;
+            buildingCanvas.width = container.offsetWidth;
+            buildingCanvas.height = container.offsetHeight;
+            drawBuilding();
+        }
+
+        function drawBuilding() {
+            const w = buildingCanvas.width;
+            const h = buildingCanvas.height;
+
+            // Clear
+            bCtx.fillStyle = 'rgba(26, 10, 46, 1)';
+            bCtx.fillRect(0, 0, w, h);
+
+            // Building dimensions
+            const buildingW = w * 0.5;
+            const buildingH = h * 0.7;
+            const buildingX = (w - buildingW) / 2;
+            const buildingY = (h - buildingH) / 2;
+
+            // Corner zone size (10% of smallest dimension)
+            const cornerSize = Math.min(buildingW, buildingH) * 0.15;
+
+            // Draw interior zone (gray)
+            bCtx.fillStyle = 'rgba(100, 100, 100, 0.5)';
+            bCtx.fillRect(buildingX + cornerSize, buildingY + cornerSize, buildingW - cornerSize * 2, buildingH - cornerSize * 2);
+
+            // Draw edge zones (Zone 4 - cyan)
+            bCtx.fillStyle = 'rgba(0, 212, 255, 0.5)';
+            // Top edge
+            bCtx.fillRect(buildingX + cornerSize, buildingY, buildingW - cornerSize * 2, cornerSize);
+            // Bottom edge
+            bCtx.fillRect(buildingX + cornerSize, buildingY + buildingH - cornerSize, buildingW - cornerSize * 2, cornerSize);
+            // Left edge
+            bCtx.fillRect(buildingX, buildingY + cornerSize, cornerSize, buildingH - cornerSize * 2);
+            // Right edge
+            bCtx.fillRect(buildingX + buildingW - cornerSize, buildingY + cornerSize, cornerSize, buildingH - cornerSize * 2);
+
+            // Draw corner zones (Zone 5 - magenta)
+            bCtx.fillStyle = 'rgba(233, 30, 140, 0.6)';
+            // Top-left
+            bCtx.fillRect(buildingX, buildingY, cornerSize, cornerSize);
+            // Top-right
+            bCtx.fillRect(buildingX + buildingW - cornerSize, buildingY, cornerSize, cornerSize);
+            // Bottom-left
+            bCtx.fillRect(buildingX, buildingY + buildingH - cornerSize, cornerSize, cornerSize);
+            // Bottom-right
+            bCtx.fillRect(buildingX + buildingW - cornerSize, buildingY + buildingH - cornerSize, cornerSize, cornerSize);
+
+            // Building outline
+            bCtx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            bCtx.lineWidth = 2;
+            bCtx.strokeRect(buildingX, buildingY, buildingW, buildingH);
+
+            // Wind arrows
+            bCtx.fillStyle = '#00d4ff';
+            for (let i = 0; i < 5; i++) {
+                const arrowY = buildingY + (buildingH / 6) * (i + 1);
+                drawArrow(bCtx, buildingX - 60, arrowY, buildingX - 20, arrowY);
+            }
+
+            // Labels
+            bCtx.font = '14px sans-serif';
+            bCtx.fillStyle = '#fff';
+            bCtx.textAlign = 'center';
+            bCtx.fillText('WIND', buildingX - 40, buildingY - 20);
+
+            // Zone pressure labels
+            bCtx.font = '12px sans-serif';
+            bCtx.fillStyle = '#e91e8c';
+            bCtx.fillText('Zone 5', buildingX + cornerSize/2, buildingY + cornerSize/2 + 5);
+            bCtx.fillText('~85 PSF', buildingX + cornerSize/2, buildingY + cornerSize/2 + 20);
+
+            bCtx.fillStyle = '#00d4ff';
+            bCtx.fillText('Zone 4', buildingX + buildingW/2, buildingY + cornerSize/2 + 5);
+            bCtx.fillText('~70 PSF', buildingX + buildingW/2, buildingY + cornerSize/2 + 20);
+
+            bCtx.fillStyle = '#888';
+            bCtx.fillText('Interior', buildingX + buildingW/2, buildingY + buildingH/2);
+            bCtx.fillText('~50 PSF', buildingX + buildingW/2, buildingY + buildingH/2 + 15);
+        }
+
+        function drawArrow(ctx, fromX, fromY, toX, toY) {
+            const headLen = 10;
+            const angle = Math.atan2(toY - fromY, toX - fromX);
+
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI/6), toY - headLen * Math.sin(angle - Math.PI/6));
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI/6), toY - headLen * Math.sin(angle + Math.PI/6));
+            ctx.strokeStyle = '#00d4ff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        resizeBuildingCanvas();
+        window.addEventListener('resize', resizeBuildingCanvas);
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.direction-card, .table-row, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isOpen = faqItem.classList.contains('open');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('open');
+                });
+
+                if (!isOpen) {
+                    faqItem.classList.add('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
