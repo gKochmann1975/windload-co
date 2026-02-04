@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interlayer Thickness for Wind Loads | Palm Beach Hurricane Guide | WindLoad.co</title>
+    <meta name="description" content="Learn how PVB and SGP interlayer thickness affects hurricane window performance in Palm Beach County. Thicker interlayers provide better protection against debris and wind pressure.">
+    <meta name="keywords" content="PVB interlayer thickness, SGP interlayer, hurricane glass laminate, impact window interlayer, 0.030 vs 0.060 PVB, SentryGlas Plus, HVHZ glass requirements">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/interlayer-thickness">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-QPC29V5WXL"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-QPC29V5WXL');
+    </script>
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Interlayer Thickness for Wind Loads - Palm Beach County">
+    <meta property="og:description" content="Interactive guide showing how interlayer thickness affects hurricane glass performance. See PVB and SGP options compared.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/interlayer-thickness">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the interlayer in laminated hurricane glass?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The interlayer is the plastic layer sandwiched between two pieces of glass that holds everything together when the glass breaks. It works like the filling in an Oreo cookie - it bonds the two glass pieces together. The most common types are PVB (polyvinyl butyral) and SGP (SentryGlas Plus), with SGP being about 5 times stiffer and 100 times more tear resistant."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What interlayer thickness is required for hurricane windows in Palm Beach County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Palm Beach County requires impact-rated glass that passes large missile testing (9 lb 2x4 at 50 fps). Most manufacturers use 0.060 inch PVB or 0.090 inch SGP interlayers for this level of protection. Standard 0.030 inch PVB is typically not thick enough to pass hurricane impact tests in the HVHZ."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is SGP interlayer better than PVB for hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes, SGP (SentryGlas Plus) is stronger than PVB. SGP is 5 times stiffer and resists tearing 100 times better after the glass breaks. This means SGP holds up better during long storms with multiple debris impacts. SGP also performs better in humidity and high temperatures common in Florida."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use thinner interlayer for smaller windows?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Sometimes, but it depends on the tested assembly. Each window must use a laminated glass assembly that has been tested and approved for the specific wind zone. A smaller window might qualify with thinner glass and interlayer, but the entire unit must have a valid product approval showing it passes the required impact test."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Interlayer Thickness", "item": "https://windload.co/florida/palm-beach/interlayer-thickness"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --interlayer-gold: #ffd700;
+            --glass-blue: #87ceeb;
+            --sgp-orange: #ff8c00;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links { display: flex; gap: 2rem; list-style: none; }
+        .nav-links a { color: var(--text-primary); text-decoration: none; font-weight: 500; transition: color 0.3s ease; }
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+        .cta-button:hover { transform: translateY(-2px); }
+
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.3fr;
+            gap: 4rem;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-text h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-text h1 .highlight {
+            background: linear-gradient(135deg, var(--interlayer-gold), var(--sgp-orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .thickness-badges {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .thickness-badge {
+            padding: 0.75rem 1.25rem;
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .thickness-badge.pvb {
+            background: rgba(255, 215, 0, 0.15);
+            border: 1px solid var(--interlayer-gold);
+        }
+
+        .thickness-badge.sgp {
+            background: rgba(255, 140, 0, 0.15);
+            border: 1px solid var(--sgp-orange);
+        }
+
+        .thickness-badge .value {
+            font-size: 1.1rem;
+            font-weight: 800;
+        }
+
+        .thickness-badge.pvb .value { color: var(--interlayer-gold); }
+        .thickness-badge.sgp .value { color: var(--sgp-orange); }
+
+        .thickness-badge .label {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Interlayer Demo */
+        .demo-container {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .demo-title {
+            text-align: center;
+            font-size: 0.9rem;
+            color: var(--interlayer-gold);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .glass-stack {
+            position: relative;
+            width: 280px;
+            height: 300px;
+            margin: 0 auto 2rem;
+        }
+
+        .glass-layer {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 4px;
+            transition: all 0.5s ease;
+        }
+
+        .glass-outer {
+            width: 200px;
+            height: 100px;
+            background: linear-gradient(180deg, rgba(135, 206, 235, 0.6), rgba(135, 206, 235, 0.3));
+            border: 2px solid rgba(135, 206, 235, 0.8);
+        }
+
+        .glass-outer.top { top: 20px; }
+        .glass-outer.bottom { bottom: 20px; }
+
+        .interlayer-layer {
+            width: 200px;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.5s ease;
+        }
+
+        .interlayer-layer.pvb-030 {
+            height: 15px;
+            background: linear-gradient(180deg, var(--interlayer-gold), #c9a600);
+        }
+
+        .interlayer-layer.pvb-060 {
+            height: 30px;
+            background: linear-gradient(180deg, var(--interlayer-gold), #c9a600);
+        }
+
+        .interlayer-layer.sgp-090 {
+            height: 45px;
+            background: linear-gradient(180deg, var(--sgp-orange), #cc7000);
+        }
+
+        .layer-label {
+            position: absolute;
+            right: -90px;
+            font-size: 0.75rem;
+            white-space: nowrap;
+            opacity: 0.8;
+        }
+
+        .glass-outer.top .layer-label { top: 40px; }
+        .glass-outer.bottom .layer-label { top: 40px; }
+        .interlayer-layer .layer-label { right: -100px; }
+
+        .thickness-selector {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .selector-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 215, 0, 0.3);
+            color: var(--text-primary);
+            padding: 0.75rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.85rem;
+        }
+
+        .selector-btn:hover { border-color: var(--interlayer-gold); }
+        .selector-btn.active {
+            background: var(--interlayer-gold);
+            color: var(--primary-dark);
+            border-color: var(--interlayer-gold);
+        }
+
+        .selector-btn.sgp.active {
+            background: var(--sgp-orange);
+            border-color: var(--sgp-orange);
+        }
+
+        .spec-readout {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 1.25rem;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            text-align: center;
+        }
+
+        .spec-item .spec-value {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--interlayer-gold);
+            display: block;
+        }
+
+        .spec-item .spec-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Content sections */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p { color: var(--text-secondary); font-size: 1.1rem; }
+
+        /* Comparison cards */
+        .compare-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .compare-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.5s ease;
+        }
+
+        .compare-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .compare-card.standard { border: 2px solid rgba(150, 150, 150, 0.3); }
+        .compare-card.hurricane { border: 2px solid var(--interlayer-gold); }
+        .compare-card.premium { border: 2px solid var(--sgp-orange); }
+
+        .card-header {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-header .type-label {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .compare-card.standard .type-label { color: #999; }
+        .compare-card.hurricane .type-label { color: var(--interlayer-gold); }
+        .compare-card.premium .type-label { color: var(--sgp-orange); }
+
+        .card-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-header .thickness {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .compare-card.standard .thickness { color: #ccc; }
+        .compare-card.hurricane .thickness { color: var(--interlayer-gold); }
+        .compare-card.premium .thickness { color: var(--sgp-orange); }
+
+        .card-features {
+            list-style: none;
+        }
+
+        .card-features li {
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            font-size: 0.9rem;
+        }
+
+        .card-features li:last-child { border-bottom: none; }
+
+        .feature-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            flex-shrink: 0;
+        }
+
+        .feature-icon.check { background: rgba(0, 212, 255, 0.2); color: var(--accent-cyan); }
+        .feature-icon.x { background: rgba(255, 100, 100, 0.2); color: #ff6464; }
+
+        .use-case {
+            margin-top: 1.5rem;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .use-case .label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0.5rem;
+        }
+
+        .use-case .value { font-weight: 600; }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .faq-container { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible { opacity: 1; transform: translateY(0); }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover { background: rgba(255, 215, 0, 0.1); }
+
+        .faq-toggle {
+            width: 30px; height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--interlayer-gold), var(--sgp-orange));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: var(--primary-dark);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle { transform: rotate(45deg); }
+
+        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .faq-item.open .faq-answer { max-height: 300px; }
+
+        .faq-answer-content { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); }
+
+        /* CTA */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--interlayer-gold), var(--sgp-orange));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content { max-width: 700px; margin: 0 auto; }
+        .cta-content h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; color: var(--primary-dark); }
+        .cta-content p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 2rem; color: var(--primary-dark); }
+
+        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+
+        .btn-primary {
+            background: var(--primary-dark);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border: 2px solid var(--primary-dark);
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        .btn-secondary:hover { background: var(--primary-dark); color: white; }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 { font-size: 1rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--interlayer-gold); }
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+        .footer-section a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+        .footer-section a:hover { color: var(--interlayer-gold); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 215, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p { color: var(--text-secondary); font-size: 0.85rem; }
+
+        @media (max-width: 1024px) {
+            .hero-content { grid-template-columns: 1fr; }
+            .compare-grid { grid-template-columns: 1fr; max-width: 400px; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-text h1 { font-size: 2.2rem; }
+            .thickness-selector { flex-wrap: wrap; }
+            .spec-readout { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+<a href="https://windload.co/" class="nav-logo">
+    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+    <span class="logo-text">Wind<span>Load</span>.co</span>
+</a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1><span class="highlight">Interlayer Thickness</span> for Wind</h1>
+                <p class="hero-subtitle">The plastic layer between glass panes is what keeps hurricane windows together after impact. Think of it like the filling in a sandwich - thicker filling holds the bread together better. See how different thicknesses protect your home.</p>
+
+                <div class="thickness-badges">
+                    <div class="thickness-badge pvb">
+                        <span class="value">0.060" PVB</span>
+                        <span class="label">Hurricane rated</span>
+                    </div>
+                    <div class="thickness-badge sgp">
+                        <span class="value">0.090" SGP</span>
+                        <span class="label">Premium strength</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="demo-container">
+                <div class="demo-title">Laminated Glass Cross-Section</div>
+
+                <div class="glass-stack">
+                    <div class="glass-layer glass-outer top">
+                        <span class="layer-label">Glass (outer)</span>
+                    </div>
+                    <div class="glass-layer interlayer-layer pvb-030" id="interlayerDemo">
+                        <span class="layer-label" id="interlayerLabel">0.030" PVB</span>
+                    </div>
+                    <div class="glass-layer glass-outer bottom">
+                        <span class="layer-label">Glass (inner)</span>
+                    </div>
+                </div>
+
+                <div class="thickness-selector">
+                    <button class="selector-btn active" data-type="pvb-030">0.030" PVB</button>
+                    <button class="selector-btn" data-type="pvb-060">0.060" PVB</button>
+                    <button class="selector-btn sgp" data-type="sgp-090">0.090" SGP</button>
+                </div>
+
+                <div class="spec-readout">
+                    <div class="spec-item">
+                        <span class="spec-value" id="thicknessVal">0.030"</span>
+                        <span class="spec-label">Thickness</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value" id="strengthVal">1x</span>
+                        <span class="spec-label">Relative Strength</span>
+                    </div>
+                    <div class="spec-item">
+                        <span class="spec-value" id="ratingVal">Standard</span>
+                        <span class="spec-label">Rating</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section">
+        <div class="section-header">
+            <h2>Interlayer <span class="highlight">Options</span></h2>
+            <p>Compare PVB and SGP interlayers for hurricane window applications.</p>
+        </div>
+
+        <div class="compare-grid">
+            <div class="compare-card standard">
+                <div class="card-header">
+                    <div class="type-label">Standard Glass</div>
+                    <h3>PVB 0.030"</h3>
+                    <div class="thickness">0.76mm</div>
+                </div>
+                <ul class="card-features">
+                    <li><span class="feature-icon check">+</span>Basic lamination</li>
+                    <li><span class="feature-icon check">+</span>Sound reduction</li>
+                    <li><span class="feature-icon check">+</span>UV protection</li>
+                    <li><span class="feature-icon x">-</span>Not impact rated</li>
+                    <li><span class="feature-icon x">-</span>Not HVHZ approved</li>
+                </ul>
+                <div class="use-case">
+                    <div class="label">Best for</div>
+                    <div class="value">Interior glass, skylights (non-HVHZ)</div>
+                </div>
+            </div>
+
+            <div class="compare-card hurricane">
+                <div class="card-header">
+                    <div class="type-label">Hurricane Glass</div>
+                    <h3>PVB 0.060"</h3>
+                    <div class="thickness">1.52mm</div>
+                </div>
+                <ul class="card-features">
+                    <li><span class="feature-icon check">+</span>Large missile rated</li>
+                    <li><span class="feature-icon check">+</span>HVHZ approved</li>
+                    <li><span class="feature-icon check">+</span>Good tear resistance</li>
+                    <li><span class="feature-icon check">+</span>Cost effective</li>
+                    <li><span class="feature-icon x">-</span>Less rigid than SGP</li>
+                </ul>
+                <div class="use-case">
+                    <div class="label">Best for</div>
+                    <div class="value">Standard impact windows, Palm Beach HVHZ</div>
+                </div>
+            </div>
+
+            <div class="compare-card premium">
+                <div class="card-header">
+                    <div class="type-label">Premium Glass</div>
+                    <h3>SGP 0.090"</h3>
+                    <div class="thickness">2.28mm</div>
+                </div>
+                <ul class="card-features">
+                    <li><span class="feature-icon check">+</span>5x stiffer than PVB</li>
+                    <li><span class="feature-icon check">+</span>100x tear resistant</li>
+                    <li><span class="feature-icon check">+</span>Humidity resistant</li>
+                    <li><span class="feature-icon check">+</span>Large openings</li>
+                    <li><span class="feature-icon check">+</span>Maximum protection</li>
+                </ul>
+                <div class="use-case">
+                    <div class="label">Best for</div>
+                    <div class="value">Storefront, large windows, coastal exposure</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about interlayer thickness for hurricane windows.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What is the interlayer in laminated hurricane glass?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        The interlayer is the plastic layer sandwiched between two pieces of glass that holds everything together when the glass breaks. It works like the filling in an Oreo cookie - it bonds the two glass pieces together. The most common types are PVB (polyvinyl butyral) and SGP (SentryGlas Plus), with SGP being about 5 times stiffer and 100 times more tear resistant.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What interlayer thickness is required for hurricane windows in Palm Beach County?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Palm Beach County requires impact-rated glass that passes large missile testing (9 lb 2x4 at 50 fps). Most manufacturers use 0.060 inch PVB or 0.090 inch SGP interlayers for this level of protection. Standard 0.030 inch PVB is typically not thick enough to pass hurricane impact tests in the HVHZ.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Is SGP interlayer better than PVB for hurricanes?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, SGP (SentryGlas Plus) is stronger than PVB. SGP is 5 times stiffer and resists tearing 100 times better after the glass breaks. This means SGP holds up better during long storms with multiple debris impacts. SGP also performs better in humidity and high temperatures common in Florida.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I use thinner interlayer for smaller windows?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Sometimes, but it depends on the tested assembly. Each window must use a laminated glass assembly that has been tested and approved for the specific wind zone. A smaller window might qualify with thinner glass and interlayer, but the entire unit must have a valid product approval showing it passes the required impact test.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Glass Requirements</h2>
+            <p>Get precise glass and interlayer specifications for your windows. PE-stamped calculations available.</p>
+            <div class="cta-buttons">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Wind Loads</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="https://windload.co/florida/">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/laminated-vs-tempered">Laminated vs Tempered</a></li>
+                    <li><a href="/florida/palm-beach/glass-lite-size">Glass Lite Size</a></li>
+                    <li><a href="/florida/palm-beach/impact-windows">Impact Windows</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="https://windload.co/architects.html">For Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Palm Beach County, FL - HVHZ Compliant</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class InterlayerParticle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = 2 + Math.random() * 4;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.hue = Math.random() > 0.5 ? 45 : 30; // Gold or orange
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > canvas.height) this.speedY *= -1;
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `hsla(${this.hue}, 100%, 50%, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 40; i++) particles.push(new InterlayerParticle());
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Interlayer selector
+        const selectorBtns = document.querySelectorAll('.selector-btn');
+        const interlayerDemo = document.getElementById('interlayerDemo');
+        const interlayerLabel = document.getElementById('interlayerLabel');
+        const thicknessVal = document.getElementById('thicknessVal');
+        const strengthVal = document.getElementById('strengthVal');
+        const ratingVal = document.getElementById('ratingVal');
+
+        const interlayerData = {
+            'pvb-030': { thickness: '0.030"', strength: '1x', rating: 'Standard', label: '0.030" PVB', class: 'pvb-030' },
+            'pvb-060': { thickness: '0.060"', strength: '2x', rating: 'Hurricane', label: '0.060" PVB', class: 'pvb-060' },
+            'sgp-090': { thickness: '0.090"', strength: '5x', rating: 'Premium', label: '0.090" SGP', class: 'sgp-090' }
+        };
+
+        selectorBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                selectorBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const type = btn.dataset.type;
+                const data = interlayerData[type];
+
+                interlayerDemo.className = 'glass-layer interlayer-layer ' + data.class;
+                interlayerLabel.textContent = data.label;
+                thicknessVal.textContent = data.thickness;
+                strengthVal.textContent = data.strength;
+                ratingVal.textContent = data.rating;
+
+                // Update color based on type
+                if (type.startsWith('sgp')) {
+                    thicknessVal.style.color = '#ff8c00';
+                    strengthVal.style.color = '#ff8c00';
+                    ratingVal.style.color = '#ff8c00';
+                } else {
+                    thicknessVal.style.color = '#ffd700';
+                    strengthVal.style.color = '#ffd700';
+                    ratingVal.style.color = '#ffd700';
+                }
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) entry.target.classList.add('visible');
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.compare-card, .faq-item').forEach(el => observer.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!isOpen) item.classList.add('open');
+            });
+        });
+    </script>
+</body>
+</html>
