@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Impact vs Non-Impact Windows | Side-by-Side Missile Test Comparison | WindLoad.co</title>
+    <meta name="description" content="Visual side-by-side animation comparing impact-rated and non-impact windows during missile testing. See what happens when flying debris hits each type during a hurricane and understand wind load requirements.">
+    <meta name="keywords" content="impact windows vs non-impact, impact rated glass, hurricane impact testing, missile impact test, laminated glass, flying debris test, HVHZ windows, wind load impact rating">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/impact-vs-non-impact">
+
+    <!-- Geo Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Impact vs Non-Impact Windows - Missile Test Comparison">
+    <meta property="og:description" content="Side-by-side animation showing impact vs non-impact window performance during debris missile testing. Visual guide to hurricane protection.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/impact-vs-non-impact">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What's the difference between impact and non-impact windows?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Impact windows use laminated glass with a plastic interlayer (PVB) that holds the glass together when broken. Non-impact windows use standard tempered or annealed glass that shatters completely, creating an opening for wind and water."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do I need impact windows in Palm Beach County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "In HVHZ (High Velocity Hurricane Zone) areas of Palm Beach County, impact-rated products or approved shutters are required. In non-HVHZ areas, you can use non-impact windows with approved hurricane shutters for wind-borne debris protection."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How are impact windows tested?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Impact windows undergo large missile testing (9-lb 2x4 lumber at 50 fps) and small missile testing (10 steel balls at 80 fps) per ASTM E1886/E1996. After impact, they must survive 9,000 pressure cycles without creating an opening."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Are impact windows more expensive than non-impact?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Impact windows typically cost 50-100% more than comparable non-impact windows. However, they eliminate the need for separate hurricane shutters, provide year-round protection, and often reduce insurance premiums by 25-45%."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- BreadcrumbList Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach"},
+            {"@type": "ListItem", "position": 4, "name": "Impact vs Non-Impact", "item": "https://windload.co/florida/palm-beach/impact-vs-non-impact"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-red: #ff4444;
+            --accent-green: #00ff88;
+            --bg-dark: #0d0015;
+            --bg-card: rgba(26, 10, 46, 0.8);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.7);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: rgba(13, 0, 21, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 1rem 2rem;
+        }
+
+        .nav-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-primary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover { color: var(--accent-cyan); }
+
+        .cta-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease;
+        }
+
+        .cta-button:hover { transform: translateY(-2px); }
+
+        /* Hero with Side-by-Side Comparison */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 120px 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .hero-header h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1.1;
+            margin-bottom: 1rem;
+        }
+
+        .hero-header h1 .vs {
+            color: var(--accent-magenta);
+        }
+
+        .hero-header h1 .highlight {
+            background: linear-gradient(135deg, var(--accent-green), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Side-by-Side Test Animation */
+        .comparison-arena {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .test-side {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .test-side.non-impact {
+            border: 2px solid var(--accent-red);
+        }
+
+        .test-side.impact {
+            border: 2px solid var(--accent-green);
+        }
+
+        .test-label {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .test-label h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .non-impact .test-label h3 { color: var(--accent-red); }
+        .impact .test-label h3 { color: var(--accent-green); }
+
+        .test-label span {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Window Test Visual */
+        .test-chamber {
+            position: relative;
+            height: 280px;
+            background: linear-gradient(180deg, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0.6) 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .window-specimen {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 160px;
+            border: 4px solid var(--accent-cyan);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .glass-pane {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(255,255,255,0.15), rgba(0,212,255,0.1));
+            position: relative;
+        }
+
+        /* Missile (2x4 lumber) */
+        .missile {
+            position: absolute;
+            left: -80px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 70px;
+            height: 16px;
+            background: linear-gradient(180deg, #8B4513, #654321);
+            border-radius: 2px;
+            opacity: 0;
+        }
+
+        .missile.flying {
+            animation: missileImpact 1.5s ease-in forwards;
+        }
+
+        @keyframes missileImpact {
+            0% { left: -80px; opacity: 1; }
+            70% { left: calc(50% - 35px); opacity: 1; }
+            71% { left: calc(50% - 35px); }
+            100% { left: calc(50% - 35px); opacity: 0; }
+        }
+
+        /* Shatter Effect for Non-Impact */
+        .shatter-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        .shard {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            opacity: 0;
+        }
+
+        .non-impact .shard.active {
+            animation: shatterFly 1s ease-out forwards;
+        }
+
+        @keyframes shatterFly {
+            0% { transform: translate(0, 0) rotate(0deg); opacity: 1; }
+            100% { transform: translate(var(--tx), var(--ty)) rotate(var(--rot)); opacity: 0; }
+        }
+
+        /* Crack Pattern for Impact */
+        .crack-pattern {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            opacity: 0;
+        }
+
+        .crack-pattern.visible {
+            opacity: 1;
+        }
+
+        .crack-line {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 40px;
+            height: 2px;
+            background: rgba(255, 255, 255, 0.6);
+            transform-origin: left center;
+        }
+
+        /* Status Indicator */
+        .test-status {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 0.5rem 1.5rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .test-status.visible {
+            opacity: 1;
+        }
+
+        .non-impact .test-status {
+            background: var(--accent-red);
+            color: white;
+        }
+
+        .impact .test-status {
+            background: var(--accent-green);
+            color: var(--primary-dark);
+        }
+
+        /* Control Button */
+        .test-controls {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .launch-button {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            color: white;
+            border: none;
+            padding: 1rem 3rem;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .launch-button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(233, 30, 140, 0.5);
+        }
+
+        .launch-button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Comparison Details */
+        .comparison-details {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .detail-card.non-impact {
+            border: 1px solid rgba(255, 68, 68, 0.3);
+        }
+
+        .detail-card.impact {
+            border: 1px solid rgba(0, 255, 136, 0.3);
+        }
+
+        .detail-card h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .detail-card.non-impact h4 { color: var(--accent-red); }
+        .detail-card.impact h4 { color: var(--accent-green); }
+
+        .detail-list {
+            list-style: none;
+        }
+
+        .detail-list li {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .detail-list li:last-child {
+            border-bottom: none;
+        }
+
+        .non-impact .detail-list li::before { content: '✗'; color: var(--accent-red); }
+        .impact .detail-list li::before { content: '✓'; color: var(--accent-green); }
+
+        /* Section Styles */
+        .content-section {
+            padding: 6rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            text-align: center;
+            max-width: 800px;
+            margin: 0 auto 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 .highlight {
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Glass Construction Comparison */
+        .construction-section {
+            background: linear-gradient(180deg, var(--bg-dark), var(--primary-dark));
+        }
+
+        .construction-grid {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .construction-card {
+            background: var(--bg-card);
+            border-radius: 24px;
+            padding: 2rem;
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s ease;
+        }
+
+        .construction-card.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .construction-card.non-impact {
+            border: 2px solid var(--accent-red);
+        }
+
+        .construction-card.impact {
+            border: 2px solid var(--accent-green);
+        }
+
+        .construction-visual {
+            height: 200px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 16px;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Glass Layers Visualization */
+        .glass-layers {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: flex;
+            gap: 4px;
+        }
+
+        .glass-layer {
+            width: 15px;
+            height: 120px;
+            border-radius: 2px;
+            position: relative;
+        }
+
+        .glass-layer.outer {
+            background: linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+        }
+
+        .glass-layer.inner {
+            background: linear-gradient(180deg, rgba(255,255,255,0.3), rgba(255,255,255,0.1));
+        }
+
+        .glass-layer.pvb {
+            background: linear-gradient(180deg, var(--accent-green), rgba(0, 255, 136, 0.5));
+            width: 8px;
+        }
+
+        .layer-label {
+            position: absolute;
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+            white-space: nowrap;
+        }
+
+        .construction-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .non-impact h3 { color: var(--accent-red); }
+        .impact h3 { color: var(--accent-green); }
+
+        .construction-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .spec-list {
+            list-style: none;
+        }
+
+        .spec-list li {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.9rem;
+        }
+
+        .spec-list li:last-child { border-bottom: none; }
+
+        .spec-list .label { color: var(--text-secondary); }
+        .spec-list .value { font-weight: 600; }
+
+        .non-impact .spec-list .value { color: var(--accent-red); }
+        .impact .spec-list .value { color: var(--accent-green); }
+
+        /* FAQ Section */
+        .faq-section {
+            background: var(--primary-dark);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(233, 30, 140, 0.2);
+            border-radius: 16px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px);
+            transition: all 0.5s ease;
+        }
+
+        .faq-item.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            transition: background 0.3s ease;
+        }
+
+        .faq-question:hover {
+            background: rgba(233, 30, 140, 0.1);
+        }
+
+        .faq-toggle {
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.open .faq-toggle {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease;
+        }
+
+        .faq-item.open .faq-answer {
+            max-height: 300px;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(135deg, var(--accent-magenta), var(--accent-cyan));
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .cta-content {
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .cta-content h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+
+        .cta-content p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-primary:hover { transform: translateY(-3px); }
+
+        .btn-secondary {
+            background: transparent;
+            color: white;
+            padding: 1rem 2rem;
+            border: 2px solid white;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary-dark);
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary-dark);
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+            padding: 4rem 2rem 2rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 3rem;
+        }
+
+        .footer-section h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            color: var(--accent-cyan);
+        }
+
+        .footer-section ul { list-style: none; }
+        .footer-section li { margin-bottom: 0.75rem; }
+
+        .footer-section a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-section a:hover { color: var(--accent-magenta); }
+
+        .footer-bottom {
+            max-width: 1400px;
+            margin: 3rem auto 0;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(233, 30, 140, 0.2);
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-bottom p {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        @media (max-width: 1024px) {
+            .comparison-arena, .comparison-details, .construction-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .hero-header h1 { font-size: 2.2rem; }
+            .nav-links { display: none; }
+            .footer-content { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particleCanvas"></canvas>
+
+    <nav>
+        <div class="nav-content">
+<a href="https://windload.co/" class="nav-logo">
+    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+    <span class="logo-text">Wind<span>Load</span>.co</span>
+</a>
+            <ul class="nav-links">
+                <li><a href="/">Calculator</a></li>
+                <li><a href="https://windload.co/florida/">Florida</a></li>
+                <li><a href="/engineers">Engineers</a></li>
+                <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+            </ul>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="cta-button">Calculate Wind Loads</a>
+        </div>
+    </nav>
+
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-header">
+                <h1><span class="highlight">Impact</span> <span class="vs">vs</span> Non-Impact Windows</h1>
+                <p class="hero-subtitle">Watch what happens when hurricane debris strikes. One shatters completely, the other holds together. This difference can mean life or death for your building's envelope.</p>
+            </div>
+
+            <div class="comparison-arena">
+                <div class="test-side non-impact">
+                    <div class="test-label">
+                        <h3>Non-Impact Glass</h3>
+                        <span>Standard tempered/annealed glass</span>
+                    </div>
+                    <div class="test-chamber">
+                        <div class="window-specimen" id="nonImpactWindow">
+                            <div class="glass-pane" id="nonImpactGlass">
+                                <div class="shatter-container" id="shatterContainer"></div>
+                            </div>
+                        </div>
+                        <div class="missile" id="missile1"></div>
+                        <div class="test-status" id="status1">BREACH - ENVELOPE FAILED</div>
+                    </div>
+                </div>
+
+                <div class="test-side impact">
+                    <div class="test-label">
+                        <h3>Impact-Rated Glass</h3>
+                        <span>Laminated with PVB interlayer</span>
+                    </div>
+                    <div class="test-chamber">
+                        <div class="window-specimen" id="impactWindow">
+                            <div class="glass-pane" id="impactGlass">
+                                <div class="crack-pattern" id="crackPattern"></div>
+                            </div>
+                        </div>
+                        <div class="missile" id="missile2"></div>
+                        <div class="test-status" id="status2">PASS - ENVELOPE INTACT</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="test-controls">
+                <button class="launch-button" id="launchButton">Launch Missile Test</button>
+            </div>
+
+            <div class="comparison-details">
+                <div class="detail-card non-impact">
+                    <h4>Non-Impact Result</h4>
+                    <ul class="detail-list">
+                        <li>Glass shatters completely</li>
+                        <li>Opening created for wind entry</li>
+                        <li>Interior pressurizes rapidly</li>
+                        <li>Roof lift-off risk increases</li>
+                        <li>Water intrusion guaranteed</li>
+                    </ul>
+                </div>
+                <div class="detail-card impact">
+                    <h4>Impact-Rated Result</h4>
+                    <ul class="detail-list">
+                        <li>Glass cracks but stays intact</li>
+                        <li>PVB interlayer holds shards</li>
+                        <li>Building envelope maintained</li>
+                        <li>Survives 9,000 pressure cycles</li>
+                        <li>Water infiltration prevented</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section construction-section">
+        <div class="section-header">
+            <h2>Glass <span class="highlight">Construction</span> Comparison</h2>
+            <p>The critical difference is in what's between the glass layers.</p>
+        </div>
+
+        <div class="construction-grid">
+            <div class="construction-card non-impact">
+                <div class="construction-visual">
+                    <div class="glass-layers">
+                        <div class="glass-layer outer">
+                            <div class="layer-label" style="top: -25px; left: 50%; transform: translateX(-50%);">Tempered</div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Non-Impact Glass</h3>
+                <p>Single or double pane tempered or annealed glass. Designed to break safely into small pieces but cannot resist penetration.</p>
+                <ul class="spec-list">
+                    <li><span class="label">Construction</span><span class="value">Single/Double Pane</span></li>
+                    <li><span class="label">Interlayer</span><span class="value">None or Air Gap</span></li>
+                    <li><span class="label">Break Pattern</span><span class="value">Complete Shatter</span></li>
+                    <li><span class="label">Debris Rating</span><span class="value">None</span></li>
+                    <li><span class="label">HVHZ Compliant</span><span class="value">No (Needs Shutters)</span></li>
+                </ul>
+            </div>
+
+            <div class="construction-card impact">
+                <div class="construction-visual">
+                    <div class="glass-layers">
+                        <div class="glass-layer outer">
+                            <div class="layer-label" style="top: -25px; left: 50%; transform: translateX(-50%);">Glass</div>
+                        </div>
+                        <div class="glass-layer pvb">
+                            <div class="layer-label" style="top: -25px; left: 50%; transform: translateX(-50%); color: var(--accent-green);">PVB</div>
+                        </div>
+                        <div class="glass-layer inner">
+                            <div class="layer-label" style="top: -25px; left: 50%; transform: translateX(-50%);">Glass</div>
+                        </div>
+                    </div>
+                </div>
+                <h3>Impact-Rated Glass</h3>
+                <p>Laminated glass with polyvinyl butyral (PVB) interlayer that bonds the glass layers together, preventing penetration even when cracked.</p>
+                <ul class="spec-list">
+                    <li><span class="label">Construction</span><span class="value">Laminated Multi-Pane</span></li>
+                    <li><span class="label">Interlayer</span><span class="value">0.090" PVB Minimum</span></li>
+                    <li><span class="label">Break Pattern</span><span class="value">Cracks, Stays Intact</span></li>
+                    <li><span class="label">Debris Rating</span><span class="value">Large Missile D</span></li>
+                    <li><span class="label">HVHZ Compliant</span><span class="value">Yes</span></li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section class="content-section faq-section">
+        <div class="section-header">
+            <h2>Frequently Asked <span class="highlight">Questions</span></h2>
+            <p>Common questions about impact vs non-impact windows.</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>What's the difference between impact and non-impact windows?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Impact windows use laminated glass with a plastic interlayer (PVB) that holds the glass together when broken. Non-impact windows use standard tempered or annealed glass that shatters completely, creating an opening for wind and water to enter your building.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Do I need impact windows in Palm Beach County?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        In HVHZ (High Velocity Hurricane Zone) areas of Palm Beach County, impact-rated products or approved shutters are required. In non-HVHZ areas, you can use non-impact windows with approved hurricane shutters for wind-borne debris protection.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>How are impact windows tested?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Impact windows undergo large missile testing (9-lb 2x4 lumber at 50 fps) and small missile testing (10 steel balls at 80 fps) per ASTM E1886/E1996. After impact, they must survive 9,000 pressure cycles without creating an opening in the building envelope.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Are impact windows more expensive than non-impact?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Impact windows typically cost 50-100% more than comparable non-impact windows. However, they eliminate the need for separate hurricane shutters, provide year-round protection, and often reduce insurance premiums by 25-45%, offsetting much of the cost over time.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Can I use shutters instead of impact windows?</span>
+                    <div class="faq-toggle">+</div>
+                </div>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, in most areas approved hurricane shutters provide equivalent protection to impact windows. The window/shutter combination must meet the required design pressure and debris impact ratings. However, shutters require deployment before storms and don't provide everyday security benefits.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>Calculate Your Impact Requirements</h2>
+            <p>Get instant wind load calculations to determine if you need impact-rated products for your Palm Beach County project.</p>
+            <div class="cta-buttons">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Wind Loads</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">View Pricing</a>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="footer-section">
+                <h4>Calculator</h4>
+                <ul>
+                    <li><a href="/">Wind Load Calculator</a></li>
+                    <li><a href="https://windload.co/florida/">Florida Requirements</a></li>
+                    <li><a href="/florida/palm-beach">Palm Beach County</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Resources</h4>
+                <ul>
+                    <li><a href="/florida/palm-beach/large-missile-testing">Large Missile Testing</a></li>
+                    <li><a href="/florida/palm-beach/small-missile-testing">Small Missile Testing</a></li>
+                    <li><a href="/florida/palm-beach/hvhz-requirements">HVHZ Requirements</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Professionals</h4>
+                <ul>
+                    <li><a href="/engineers">For Engineers</a></li>
+                    <li><a href="https://windload.co/architects.html">For Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">For Contractors</a></li>
+                </ul>
+            </div>
+            <div class="footer-section">
+                <h4>Company</h4>
+                <ul>
+                    <li><a href="/about">About Us</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                    <li><a href="/pe">PE Certification</a></li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>2025 WindLoad.co - Professional Wind Load Calculations</p>
+            <p>Calculations per ASCE 7-22 and ASTM E1886/E1996</p>
+        </div>
+    </footer>
+
+    <script>
+        // Particle Canvas
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = document.body.scrollHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class DebrisParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = 2 + Math.random() * 4;
+                this.speedX = 2 + Math.random() * 3;
+                this.speedY = (Math.random() - 0.5) * 2;
+                this.opacity = 0.1 + Math.random() * 0.2;
+                this.rotation = Math.random() * 360;
+                this.rotSpeed = (Math.random() - 0.5) * 5;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.rotation += this.rotSpeed;
+
+                if (this.x > canvas.width + 20) {
+                    this.x = -20;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation * Math.PI / 180);
+                ctx.fillStyle = `rgba(139, 69, 19, ${this.opacity})`;
+                ctx.fillRect(-this.size/2, -this.size/4, this.size, this.size/2);
+                ctx.restore();
+            }
+        }
+
+        const debris = [];
+        for (let i = 0; i < 30; i++) {
+            debris.push(new DebrisParticle());
+        }
+
+        function animateParticles() {
+            ctx.fillStyle = 'rgba(13, 0, 21, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            debris.forEach(d => {
+                d.update();
+                d.draw();
+            });
+
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Missile Test Animation
+        const launchButton = document.getElementById('launchButton');
+        const missile1 = document.getElementById('missile1');
+        const missile2 = document.getElementById('missile2');
+        const nonImpactGlass = document.getElementById('nonImpactGlass');
+        const shatterContainer = document.getElementById('shatterContainer');
+        const crackPattern = document.getElementById('crackPattern');
+        const status1 = document.getElementById('status1');
+        const status2 = document.getElementById('status2');
+
+        let isAnimating = false;
+
+        // Create shatter shards
+        function createShards() {
+            shatterContainer.innerHTML = '';
+            for (let i = 0; i < 30; i++) {
+                const shard = document.createElement('div');
+                shard.className = 'shard';
+                shard.style.width = (5 + Math.random() * 15) + 'px';
+                shard.style.height = (5 + Math.random() * 15) + 'px';
+                shard.style.left = (20 + Math.random() * 60) + '%';
+                shard.style.top = (20 + Math.random() * 60) + '%';
+                shard.style.setProperty('--tx', (Math.random() * 200 - 100) + 'px');
+                shard.style.setProperty('--ty', (Math.random() * 200 - 100) + 'px');
+                shard.style.setProperty('--rot', (Math.random() * 720 - 360) + 'deg');
+                shatterContainer.appendChild(shard);
+            }
+        }
+
+        // Create crack pattern
+        function createCracks() {
+            crackPattern.innerHTML = '';
+            for (let i = 0; i < 8; i++) {
+                const crack = document.createElement('div');
+                crack.className = 'crack-line';
+                crack.style.transform = `rotate(${i * 45}deg)`;
+                crackPattern.appendChild(crack);
+            }
+        }
+
+        createShards();
+        createCracks();
+
+        function runTest() {
+            if (isAnimating) return;
+            isAnimating = true;
+            launchButton.disabled = true;
+
+            // Reset
+            status1.classList.remove('visible');
+            status2.classList.remove('visible');
+            nonImpactGlass.style.background = 'linear-gradient(135deg, rgba(255,255,255,0.15), rgba(0,212,255,0.1))';
+            crackPattern.classList.remove('visible');
+            shatterContainer.querySelectorAll('.shard').forEach(s => s.classList.remove('active'));
+            createShards();
+
+            // Launch missiles
+            missile1.classList.add('flying');
+            missile2.classList.add('flying');
+
+            // Non-impact shatter after impact
+            setTimeout(() => {
+                nonImpactGlass.style.background = 'transparent';
+                shatterContainer.querySelectorAll('.shard').forEach(s => s.classList.add('active'));
+            }, 1050);
+
+            // Impact crack after impact
+            setTimeout(() => {
+                crackPattern.classList.add('visible');
+            }, 1050);
+
+            // Show status
+            setTimeout(() => {
+                status1.classList.add('visible');
+                status2.classList.add('visible');
+            }, 1500);
+
+            // Reset for next test
+            setTimeout(() => {
+                missile1.classList.remove('flying');
+                missile2.classList.remove('flying');
+                isAnimating = false;
+                launchButton.disabled = false;
+            }, 3000);
+        }
+
+        launchButton.addEventListener('click', runTest);
+
+        // Auto-run first test
+        setTimeout(runTest, 1000);
+
+        // Scroll Animations
+        const observerOptions = {
+            threshold: 0.2,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.construction-card, .faq-item').forEach(el => {
+            observer.observe(el);
+        });
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                const isOpen = faqItem.classList.contains('open');
+
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    item.classList.remove('open');
+                });
+
+                if (!isOpen) {
+                    faqItem.classList.add('open');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
