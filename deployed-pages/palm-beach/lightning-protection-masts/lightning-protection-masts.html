@@ -1,0 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-EPRPVLJNRL"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-EPRPVLJNRL');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightning Protection Mast Wind Loads | Palm Beach County FL Air Terminal Design</title>
+    <meta name="description" content="Calculate lightning protection mast wind loads for Palm Beach County FL. Interactive simulation shows bending moments on air terminals. Learn base plate and anchor bolt requirements for hurricane zones.">
+    <link rel="canonical" href="https://windload.co/florida/palm-beach/lightning-protection-masts">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County, Florida">
+    <meta name="geo.position" content="26.7056;-80.0364">
+    <meta name="ICBM" content="26.7056, -80.0364">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Lightning Protection Mast Wind Loads | Palm Beach County FL">
+    <meta property="og:description" content="Interactive lightning mast wind load visualization for Palm Beach County. See bending moments and base reactions during hurricanes.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/palm-beach/lightning-protection-masts">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads do lightning protection masts experience?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Lightning protection masts experience horizontal wind force along their height creating bending moments at the base. A typical 15-foot mast in Palm Beach County at 170 mph might see 150-250 lbs of horizontal force, creating base moments of 2,000-4,000 lb-ft depending on the mast diameter and any attached conductors."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do you anchor a lightning mast to resist wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Lightning masts are anchored through base plates with anchor bolts into concrete pads or structural members. The anchor bolt pattern must resist the overturning moment and any uplift. Typical installations use 4 bolts in a square pattern with proper edge distance and embedment depth per ACI 318."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the wind load on a lightning mast conductor?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Down conductors and air terminal cables add wind load to the mast. Per ASCE 7, small diameter cables use 1.2 lb/ft per inch of diameter per mph wind speed squared. For a typical 1/2-inch conductor in 170 mph wind, this adds about 3-4 lbs per linear foot of exposed cable."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do lightning protection systems need engineering in Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Lightning protection systems in Florida require engineering review to verify the mast and base can resist design wind loads. The structural calculations must show adequate capacity for the wind moment, shear, and any uplift forces. Most building departments require sealed drawings from a licensed PE."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do lightning masts fail during hurricanes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Lightning masts fail from: undersized base plates that cannot develop the required moment capacity, inadequate anchor bolts, corrosion of steel components, and fatigue cracking at welds. Masts with equipment or multiple conductors attached have higher loads and more frequent failures."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro"},
+            {"@type": "ListItem", "position": 3, "name": "Palm Beach County", "item": "https://windload.co/florida/palm-beach/"},
+            {"@type": "ListItem", "position": 4, "name": "Lightning Protection Masts", "item": "https://windload.co/florida/palm-beach/lightning-protection-masts"}
+        ]
+    }
+    </script>
+
+    <style>
+        :root {
+            --primary-dark: #1a0a2e;
+            --primary-mid: #2d1b4e;
+            --accent-magenta: #e91e8c;
+            --accent-cyan: #00d4ff;
+            --accent-yellow: #facc15;
+            --accent-electric: #a855f7;
+            --text-light: #ffffff;
+            --text-muted: #b8b8b8;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--primary-dark);
+            color: var(--text-light);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        #particle-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+        }
+
+        header {
+            padding: 20px 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(250, 204, 21, 0.3);
+            background: rgba(26, 10, 46, 0.95);
+            backdrop-filter: blur(10px);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
+        .nav-logo .logo-img { height: 28px; width: auto; }
+        .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; background: none; -webkit-background-clip: unset; -webkit-text-fill-color: #ffffff; }
+        .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-electric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-decoration: none;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-electric));
+            color: var(--primary-dark) !important;
+            padding: 10px 24px;
+            border-radius: 25px;
+            font-weight: 600;
+        }
+
+        .breadcrumb {
+            padding: 1rem 5%;
+            margin-top: 70px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .breadcrumb a { color: var(--accent-cyan); text-decoration: none; }
+
+        .hero {
+            padding: 60px 5% 40px;
+            text-align: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(250, 204, 21, 0.15);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: var(--accent-yellow);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: clamp(2.2rem, 5vw, 3.5rem);
+            margin-bottom: 1.5rem;
+        }
+
+        h1 span {
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-electric));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .subtitle {
+            font-size: 1.25rem;
+            color: var(--text-muted);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        /* Lightning Mast Visualization */
+        .visualization-container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 5%;
+        }
+
+        .mast-stage {
+            background: linear-gradient(180deg, rgba(45, 27, 78, 0.6), rgba(26, 10, 46, 0.9));
+            border-radius: 24px;
+            padding: 40px;
+            border: 1px solid rgba(250, 204, 21, 0.3);
+            margin-bottom: 2rem;
+        }
+
+        .stage-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .stage-title {
+            font-size: 1.3rem;
+            color: var(--accent-yellow);
+        }
+
+        .mast-canvas {
+            position: relative;
+            height: 520px;
+            background: linear-gradient(180deg, #0a0a1a 0%, #1a0a2e 60%, #2d1b4e 100%);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        /* Storm clouds background */
+        .storm-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 150px;
+            background: linear-gradient(180deg, #1a1a2e, transparent);
+            opacity: 0.8;
+        }
+
+        /* Building roof */
+        .building-roof {
+            position: absolute;
+            bottom: 80px;
+            left: 20%;
+            right: 20%;
+            height: 40px;
+            background: linear-gradient(180deg, #4a4a4a, #333);
+            border-top: 4px solid #555;
+        }
+
+        /* Lightning Mast */
+        .lightning-mast {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            bottom: 115px;
+        }
+
+        .mast-shaft {
+            width: 8px;
+            height: 180px;
+            background: linear-gradient(90deg, #888, #ccc, #888);
+            border-radius: 4px 4px 0 0;
+            margin: 0 auto;
+            transition: transform 0.3s;
+        }
+
+        .mast-shaft.bending {
+            transform-origin: bottom center;
+            animation: mastSway 1s ease-in-out infinite;
+        }
+
+        @keyframes mastSway {
+            0%, 100% { transform: rotate(0deg); }
+            50% { transform: rotate(2deg); }
+        }
+
+        .air-terminal {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 25px;
+            background: linear-gradient(180deg, var(--accent-yellow), #888);
+            border-radius: 2px 2px 0 0;
+        }
+
+        .base-plate {
+            width: 60px;
+            height: 12px;
+            background: linear-gradient(180deg, #666, #444);
+            border: 2px solid #555;
+            margin: 0 auto;
+        }
+
+        /* Conductor cable */
+        .conductor {
+            position: absolute;
+            top: 0;
+            right: 4px;
+            width: 2px;
+            height: 200px;
+            background: linear-gradient(180deg, #666, #444);
+        }
+
+        /* Anchor Bolts */
+        .anchor-bolt {
+            position: absolute;
+            bottom: -8px;
+            width: 8px;
+            height: 20px;
+            background: linear-gradient(180deg, var(--accent-yellow), #b8860b);
+            border-radius: 0 0 2px 2px;
+        }
+
+        .anchor-bolt.left { left: 8px; }
+        .anchor-bolt.right { right: 8px; }
+
+        /* Wind Force */
+        .wind-force {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            opacity: 0;
+            transition: all 0.5s;
+        }
+
+        .wind-force.visible { opacity: 1; }
+
+        .wind-shaft {
+            width: 100px;
+            height: 6px;
+            background: linear-gradient(90deg, transparent, var(--accent-cyan));
+        }
+
+        .wind-tip {
+            border-top: 14px solid transparent;
+            border-bottom: 14px solid transparent;
+            border-left: 20px solid var(--accent-cyan);
+        }
+
+        .force-label {
+            position: absolute;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-cyan);
+            left: -80px;
+        }
+
+        /* Moment Diagram */
+        .moment-diagram {
+            position: absolute;
+            left: 55%;
+            bottom: 115px;
+            width: 150px;
+            height: 180px;
+            opacity: 0;
+            transition: opacity 0.5s;
+        }
+
+        .moment-diagram.visible { opacity: 1; }
+
+        .moment-area {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(168, 85, 247, 0.4), transparent);
+            clip-path: polygon(0 0, 100% 100%, 0 100%);
+        }
+
+        .moment-label {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--accent-electric);
+        }
+
+        /* Lightning Strike Effect */
+        .lightning-bolt {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 4px;
+            height: 0;
+            background: var(--accent-yellow);
+            box-shadow: 0 0 20px var(--accent-yellow), 0 0 40px var(--accent-yellow);
+            opacity: 0;
+            transition: none;
+        }
+
+        .lightning-bolt.strike {
+            animation: lightningStrike 0.3s ease-out;
+        }
+
+        @keyframes lightningStrike {
+            0% { height: 0; opacity: 1; }
+            50% { height: 200px; opacity: 1; }
+            100% { height: 200px; opacity: 0; }
+        }
+
+        /* Results Panel */
+        .results-panel {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid rgba(250, 204, 21, 0.4);
+            border-radius: 16px;
+            padding: 20px;
+            min-width: 200px;
+        }
+
+        .panel-title {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .result-row { margin-bottom: 12px; }
+        .result-label { font-size: 0.8rem; color: var(--text-muted); }
+        .result-value { font-size: 1.3rem; font-weight: 700; }
+        .result-value.force { color: var(--accent-cyan); }
+        .result-value.moment { color: var(--accent-electric); }
+        .result-value.bolt { color: var(--accent-yellow); }
+
+        /* Height Slider */
+        .height-panel {
+            position: absolute;
+            bottom: 20px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border-radius: 12px;
+            padding: 15px;
+        }
+
+        .height-label {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .height-slider {
+            width: 150px;
+            -webkit-appearance: none;
+            height: 8px;
+            border-radius: 4px;
+            background: rgba(250, 204, 21, 0.3);
+        }
+
+        .height-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: var(--accent-yellow);
+            cursor: pointer;
+        }
+
+        .height-display {
+            text-align: center;
+            margin-top: 8px;
+            font-weight: 700;
+            color: var(--accent-yellow);
+        }
+
+        /* Controls */
+        .demo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .control-btn {
+            padding: 14px 28px;
+            background: rgba(250, 204, 21, 0.15);
+            border: 2px solid rgba(250, 204, 21, 0.4);
+            border-radius: 12px;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(250, 204, 21, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: var(--accent-yellow);
+            border-color: var(--accent-yellow);
+            color: var(--primary-dark);
+        }
+
+        .control-btn.lightning-btn {
+            background: linear-gradient(135deg, var(--accent-yellow), var(--accent-electric));
+            border-color: var(--accent-yellow);
+        }
+
+        /* CTA */
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 16px 32px;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--accent-yellow), #d4a800);
+            color: var(--primary-dark);
+            box-shadow: 0 8px 30px rgba(250, 204, 21, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Sections */
+        section {
+            padding: 80px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header h2 span { color: var(--accent-yellow); }
+
+        /* Installation Grid */
+        .install-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .install-card {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(250, 204, 21, 0.2);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .install-card:hover {
+            border-color: var(--accent-yellow);
+            transform: translateY(-5px);
+            transition: all 0.3s;
+        }
+
+        .install-icon {
+            width: 70px;
+            height: 70px;
+            background: rgba(250, 204, 21, 0.15);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .install-card h3 {
+            font-size: 1.2rem;
+            margin-bottom: 0.75rem;
+            color: var(--accent-yellow);
+        }
+
+        .install-card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            background: linear-gradient(180deg, transparent, rgba(250, 204, 21, 0.05));
+        }
+
+        .faq-list { max-width: 800px; margin: 0 auto; }
+
+        .faq-item {
+            background: rgba(45, 27, 78, 0.5);
+            border: 1px solid rgba(250, 204, 21, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+        }
+
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question:hover { background: rgba(250, 204, 21, 0.1); }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--accent-yellow);
+        }
+
+        .faq-item.open .faq-question::after { transform: rotate(45deg); }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-muted);
+        }
+
+        .faq-item.open .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            background: linear-gradient(135deg, var(--accent-yellow), #d4a800);
+            border-radius: 24px;
+            padding: 60px 40px;
+            text-align: center;
+            margin: 40px 5%;
+            max-width: 1100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-section h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            color: var(--primary-dark);
+        }
+
+        .cta-section p {
+            color: rgba(26, 10, 46, 0.8);
+            margin-bottom: 2rem;
+        }
+
+        .cta-section .btn-primary {
+            background: var(--primary-dark);
+            color: var(--accent-yellow);
+        }
+
+        footer {
+            padding: 40px 5%;
+            text-align: center;
+            border-top: 1px solid rgba(250, 204, 21, 0.2);
+            color: var(--text-muted);
+        }
+
+        footer a { color: var(--accent-cyan); text-decoration: none; }
+
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @media (max-width: 968px) {
+            .install-grid { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+        }
+
+        @media (max-width: 600px) {
+            .results-panel, .height-panel { position: static; margin: 1rem 0; }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="particle-canvas"></canvas>
+
+    <div class="content-wrapper">
+        <nav>
+            <div class="nav-container">
+                <a href="https://windload.co/" class="nav-logo">
+                    <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+                    <span class="logo-text">Wind<span>Load</span>.co</span>
+                </a>
+                <ul class="nav-links">
+                    <li><a href="https://windload.co/florida/">Florida</a></li>
+                    <li><a href="https://windload.co/states.html">All States</a></li>
+                    <li><a href="https://windload.co/architects.html">Architects</a></li>
+                    <li><a href="https://windload.co/contractors.html">Contractors</a></li>
+                    <li><a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a></li>
+                </ul>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Analysis</a>
+            </div>
+        </nav>
+
+        <div class="breadcrumb">
+            <a href="https://windload.co/">Home</a> <span>/</span>
+            <a href="https://windload.co/florida-pro.html">Florida</a> <span>/</span>
+            <a href="https://windload.co/florida/palm-beach/">Palm Beach</a> <span>/</span>
+            <span>Lightning Protection Masts</span>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+                </svg>
+                Air Terminal Wind Engineering
+            </div>
+
+            <h1>Lightning Protection <span>Mast Design</span></h1>
+
+            <p class="subtitle">
+                Watch how hurricane winds create bending moments along a lightning mast. See why base plate and anchor bolt sizing is critical for these tall, slender structures.
+            </p>
+        </section>
+
+        <div class="visualization-container">
+            <div class="mast-stage reveal">
+                <div class="stage-header">
+                    <div class="stage-title">Wind Moment Analysis - 170 MPH Palm Beach County</div>
+                </div>
+
+                <div class="mast-canvas" id="mastCanvas">
+                    <div class="storm-layer"></div>
+
+                    <!-- Building Roof -->
+                    <div class="building-roof"></div>
+
+                    <!-- Lightning Mast -->
+                    <div class="lightning-mast" id="lightningMast">
+                        <div class="air-terminal"></div>
+                        <div class="mast-shaft" id="mastShaft">
+                            <div class="conductor"></div>
+                        </div>
+                        <div class="base-plate">
+                            <div class="anchor-bolt left"></div>
+                            <div class="anchor-bolt right"></div>
+                        </div>
+                        <div class="lightning-bolt" id="lightningBolt"></div>
+                    </div>
+
+                    <!-- Wind Force -->
+                    <div class="wind-force" id="windForce" style="left: 20%; top: 30%;">
+                        <div class="force-label" id="forceLabel">185 lbs</div>
+                        <div class="wind-shaft"></div>
+                        <div class="wind-tip"></div>
+                    </div>
+
+                    <!-- Moment Diagram -->
+                    <div class="moment-diagram" id="momentDiagram">
+                        <div class="moment-area"></div>
+                        <div class="moment-label" id="momentLabel">2,775 lb-ft</div>
+                    </div>
+
+                    <!-- Results Panel -->
+                    <div class="results-panel">
+                        <div class="panel-title">Load Analysis</div>
+                        <div class="result-row">
+                            <div class="result-label">Wind Force</div>
+                            <div class="result-value force" id="resultForce">185 lbs</div>
+                        </div>
+                        <div class="result-row">
+                            <div class="result-label">Base Moment</div>
+                            <div class="result-value moment" id="resultMoment">2,775 lb-ft</div>
+                        </div>
+                        <div class="result-row">
+                            <div class="result-label">Anchor Tension</div>
+                            <div class="result-value bolt" id="resultBolt">925 lbs</div>
+                        </div>
+                    </div>
+
+                    <!-- Height Panel -->
+                    <div class="height-panel">
+                        <div class="height-label">Mast Height</div>
+                        <input type="range" class="height-slider" id="heightSlider" min="8" max="25" value="15" step="1">
+                        <div class="height-display" id="heightDisplay">15 feet</div>
+                    </div>
+                </div>
+
+                <div class="demo-controls">
+                    <button class="control-btn" id="showForcesBtn">Show Wind Forces</button>
+                    <button class="control-btn" id="showMomentBtn">Show Moment</button>
+                    <button class="control-btn" id="swayBtn">Simulate Sway</button>
+                    <button class="control-btn lightning-btn" id="strikeBtn">Lightning Strike</button>
+                </div>
+            </div>
+
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=lightning-palmbeach" class="btn btn-primary">
+                    Calculate Mast Loads
+                </a>
+                <a href="#installation" class="btn btn-secondary">Installation Details</a>
+            </div>
+        </div>
+
+        <section class="reveal" id="installation">
+            <div class="section-header">
+                <h2>Mast <span>Installation Requirements</span></h2>
+                <p>Critical details for hurricane-resistant lightning protection systems.</p>
+            </div>
+
+            <div class="install-grid">
+                <div class="install-card">
+                    <div class="install-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="10" rx="2"/>
+                            <circle cx="12" cy="16" r="2"/>
+                        </svg>
+                    </div>
+                    <h3>Base Plate Sizing</h3>
+                    <p>Base plate must develop the full moment capacity with anchor bolts. Minimum 3/8" thick steel with stiffeners for masts over 12 feet.</p>
+                </div>
+
+                <div class="install-card">
+                    <div class="install-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2">
+                            <path d="M12 2v20M8 6l4-4 4 4"/>
+                            <circle cx="12" cy="18" r="4"/>
+                        </svg>
+                    </div>
+                    <h3>Anchor Bolts</h3>
+                    <p>Four bolt pattern minimum with adequate edge distance. Stainless steel in marine environments. Embedment per ACI 318 for design tension.</p>
+                </div>
+
+                <div class="install-card">
+                    <div class="install-icon">
+                        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="#facc15" stroke-width="2">
+                            <rect x="2" y="6" width="20" height="12" rx="2"/>
+                            <path d="M6 6v12M18 6v12"/>
+                        </svg>
+                    </div>
+                    <h3>Concrete Pad</h3>
+                    <p>Reinforced concrete pad sized for moment transfer. Minimum 12" thick with proper reinforcement for anchor bolt tension zone.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>Lightning Mast <span>FAQs</span></h2>
+            </div>
+
+            <div class="faq-list">
+                <div class="faq-item open">
+                    <div class="faq-question">What wind loads do lightning protection masts experience?</div>
+                    <div class="faq-answer">
+                        Lightning protection masts experience horizontal wind force along their height creating bending moments at the base. A typical 15-foot mast in Palm Beach County at 170 mph might see 150-250 lbs of horizontal force, creating base moments of 2,000-4,000 lb-ft depending on the mast diameter and any attached conductors.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">How do you anchor a lightning mast to resist wind loads?</div>
+                    <div class="faq-answer">
+                        Lightning masts are anchored through base plates with anchor bolts into concrete pads or structural members. The anchor bolt pattern must resist the overturning moment and any uplift. Typical installations use 4 bolts in a square pattern with proper edge distance and embedment depth per ACI 318.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">What is the wind load on a lightning mast conductor?</div>
+                    <div class="faq-answer">
+                        Down conductors and air terminal cables add wind load to the mast. Per ASCE 7, small diameter cables use 1.2 lb/ft per inch of diameter per mph wind speed squared. For a typical 1/2-inch conductor in 170 mph wind, this adds about 3-4 lbs per linear foot of exposed cable.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do lightning protection systems need engineering in Florida?</div>
+                    <div class="faq-answer">
+                        Yes. Lightning protection systems in Florida require engineering review to verify the mast and base can resist design wind loads. The structural calculations must show adequate capacity for the wind moment, shear, and any uplift forces. Most building departments require sealed drawings from a licensed PE.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Why do lightning masts fail during hurricanes?</div>
+                    <div class="faq-answer">
+                        Lightning masts fail from: undersized base plates that cannot develop the required moment capacity, inadequate anchor bolts, corrosion of steel components, and fatigue cracking at welds. Masts with equipment or multiple conductors attached have higher loads and more frequent failures.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="cta-section reveal">
+            <h2>Calculate Your Mast Wind Loads</h2>
+            <p>Get the exact bending moment and anchor requirements for your Palm Beach County lightning protection installation.</p>
+            <a href="https://windloadcalc.com?utm_source=windload.co&utm_medium=landing&utm_campaign=lightning-palmbeach-cta" class="btn btn-primary">
+                Start Calculating Now
+            </a>
+        </div>
+
+        <footer>
+            <p>
+                <a href="https://windload.co/florida/palm-beach/">Palm Beach County</a> |
+                <a href="https://windload.co/florida/palm-beach/antenna-mount-design">Antenna Mounts</a> |
+                <a href="https://windload.co/florida-pro.html">All Florida</a>
+            </p>
+            <p style="margin-top: 15px;">&copy; 2025 WindLoad.co | <a href="https://windloadcalc.com">Wind Load Calculator</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Particle Background
+        const canvas = document.getElementById('particle-canvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                vx: Math.random() * 2 + 1,
+                vy: (Math.random() - 0.5) * 0.5,
+                size: Math.random() * 2 + 0.5,
+                color: Math.random() > 0.7 ? '#facc15' : '#a855f7',
+                alpha: Math.random() * 0.4 + 0.1
+            });
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                ctx.fillStyle = p.color + Math.floor(p.alpha * 255).toString(16).padStart(2, '0');
+                ctx.fill();
+
+                p.x += p.vx;
+                p.y += p.vy;
+
+                if (p.x > canvas.width + 20) {
+                    p.x = -10;
+                    p.y = Math.random() * canvas.height;
+                }
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Height slider
+        const heightSlider = document.getElementById('heightSlider');
+        const heightDisplay = document.getElementById('heightDisplay');
+
+        function updateHeight() {
+            const height = parseInt(heightSlider.value);
+            heightDisplay.textContent = height + ' feet';
+
+            // Calculate forces based on height
+            const baseForce = 185;
+            const baseMoment = 2775;
+            const baseBolt = 925;
+            const factor = height / 15;
+
+            const force = Math.round(baseForce * factor);
+            const moment = Math.round(baseMoment * factor * factor);
+            const bolt = Math.round(baseBolt * factor * factor);
+
+            document.getElementById('resultForce').textContent = force + ' lbs';
+            document.getElementById('resultMoment').textContent = moment.toLocaleString() + ' lb-ft';
+            document.getElementById('resultBolt').textContent = bolt + ' lbs';
+            document.getElementById('forceLabel').textContent = force + ' lbs';
+            document.getElementById('momentLabel').textContent = moment.toLocaleString() + ' lb-ft';
+        }
+
+        heightSlider.addEventListener('input', updateHeight);
+
+        // Show Forces
+        document.getElementById('showForcesBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('windForce').classList.toggle('visible');
+        });
+
+        // Show Moment
+        document.getElementById('showMomentBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('momentDiagram').classList.toggle('visible');
+        });
+
+        // Sway
+        document.getElementById('swayBtn').addEventListener('click', function() {
+            this.classList.toggle('active');
+            document.getElementById('mastShaft').classList.toggle('bending');
+        });
+
+        // Lightning Strike
+        document.getElementById('strikeBtn').addEventListener('click', function() {
+            const bolt = document.getElementById('lightningBolt');
+            bolt.classList.remove('strike');
+            void bolt.offsetWidth; // Trigger reflow
+            bolt.classList.add('strike');
+        });
+
+        // Scroll Reveal
+        const revealElements = document.querySelectorAll('.reveal');
+        function checkReveal() {
+            revealElements.forEach(el => {
+                if (el.getBoundingClientRect().top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+        window.addEventListener('scroll', checkReveal);
+        setTimeout(checkReveal, 100);
+
+        // FAQ
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                const wasOpen = item.classList.contains('open');
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                if (!wasOpen) item.classList.add('open');
+            });
+        });
+
+        console.log('Lightning Protection Masts - Template G initialized');
+    </script>
+</body>
+</html>
