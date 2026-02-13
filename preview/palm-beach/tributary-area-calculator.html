@@ -1,0 +1,1484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tributary Area Calculator | Wind Load Analysis | Palm Beach FL | WindLoad.co</title>
+    <meta name="description" content="Interactive tributary area visualization for wind load calculations. Understand how tributary areas affect component and cladding pressures in Palm Beach County buildings.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --purple: #a855f7;
+            --blue: #3b82f6;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Grid Background Animation */
+        .grid-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+            background-image:
+                linear-gradient(rgba(0, 229, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.1) 1px, transparent 1px);
+            background-size: 50px 50px;
+            animation: grid-move 20s linear infinite;
+        }
+
+        @keyframes grid-move {
+            0% { transform: perspective(500px) rotateX(60deg) translateY(0); }
+            100% { transform: perspective(500px) rotateX(60deg) translateY(50px); }
+        }
+
+        /* Floating Area Shapes */
+        .floating-shapes {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .floating-shape {
+            position: absolute;
+            border: 2px solid;
+            opacity: 0.1;
+            animation: float-shape 15s ease-in-out infinite;
+        }
+
+        .shape-1 { width: 100px; height: 100px; border-color: var(--cyan); top: 10%; left: 5%; animation-delay: 0s; }
+        .shape-2 { width: 150px; height: 80px; border-color: var(--green); top: 30%; right: 10%; animation-delay: 2s; }
+        .shape-3 { width: 80px; height: 120px; border-color: var(--purple); bottom: 20%; left: 15%; animation-delay: 4s; }
+        .shape-4 { width: 120px; height: 120px; border-color: var(--amber); bottom: 40%; right: 20%; animation-delay: 6s; }
+
+        @keyframes float-shape {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            50% { transform: translateY(0) rotate(0deg); }
+            75% { transform: translateY(20px) rotate(-5deg); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan-dark), var(--cyan));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(168, 85, 247, 0.1);
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--purple);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--purple), var(--cyan), var(--green));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient-flow 4s ease infinite;
+        }
+
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(168, 85, 247, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--purple);
+            background: rgba(168, 85, 247, 0.1);
+        }
+
+        /* Interactive Calculator Section */
+        .calculator-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .calculator-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .visual-panel {
+            background: var(--bg-card);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visual-panel::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--purple), var(--cyan), var(--green));
+        }
+
+        #tributaryCanvas {
+            width: 100%;
+            height: 400px;
+            border-radius: 12px;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        .visual-legend {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.03);
+            border-radius: 8px;
+            font-size: 0.875rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .controls-panel {
+            background: var(--bg-card);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .control-section {
+            margin-bottom: 2rem;
+        }
+
+        .control-section h3 {
+            font-size: 1.1rem;
+            color: var(--purple);
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .control-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .control-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .control-group label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .control-group input {
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .control-group input:focus {
+            outline: none;
+            border-color: var(--purple);
+            box-shadow: 0 0 20px rgba(168, 85, 247, 0.2);
+        }
+
+        .results-display {
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(0, 229, 255, 0.1));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .result-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .result-item {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 12px;
+        }
+
+        .result-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--cyan);
+            line-height: 1;
+        }
+
+        .result-value.highlight {
+            color: var(--green);
+        }
+
+        .result-unit {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .result-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        .pressure-bar {
+            margin-top: 1.5rem;
+        }
+
+        .pressure-label {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .pressure-track {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 6px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pressure-fill {
+            height: 100%;
+            border-radius: 6px;
+            transition: width 0.5s ease-out;
+            background: linear-gradient(90deg, var(--green), var(--cyan), var(--amber), var(--red));
+        }
+
+        .pressure-marker {
+            position: absolute;
+            top: -20px;
+            transform: translateX(-50%);
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: var(--cyan);
+            transition: left 0.5s ease-out;
+        }
+
+        /* Animated Building Section */
+        .building-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.02), transparent);
+        }
+
+        .building-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        #buildingVisualization {
+            width: 100%;
+            height: 500px;
+            background: var(--bg-card);
+            border: 1px solid rgba(168, 85, 247, 0.2);
+            border-radius: 24px;
+        }
+
+        /* Zone Cards */
+        .zones-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .zones-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+        }
+
+        .zone-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .zone-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--purple);
+        }
+
+        .zone-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .zone-card.zone-5::before { background: var(--red); }
+        .zone-card.zone-4::before { background: var(--amber); }
+        .zone-card.zone-interior::before { background: var(--green); }
+
+        .zone-number {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .zone-card.zone-5 .zone-number { color: var(--red); }
+        .zone-card.zone-4 .zone-number { color: var(--amber); }
+        .zone-card.zone-interior .zone-number { color: var(--green); }
+
+        .zone-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .zone-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .zone-specs {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .zone-spec {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            font-size: 0.875rem;
+        }
+
+        .zone-spec-label {
+            color: var(--text-secondary);
+        }
+
+        .zone-spec-value {
+            font-weight: 600;
+        }
+
+        /* Content Section */
+        .content-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-block {
+            margin-bottom: 3rem;
+        }
+
+        .content-block h3 {
+            font-size: 1.75rem;
+            color: var(--purple);
+            margin-bottom: 1rem;
+        }
+
+        .content-block p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .formula-highlight {
+            background: rgba(168, 85, 247, 0.1);
+            border-left: 4px solid var(--purple);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .formula-highlight .formula {
+            font-size: 1.2rem;
+            color: var(--cyan);
+            margin-bottom: 0.5rem;
+        }
+
+        .formula-highlight .description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Animated Area Comparison */
+        .comparison-visual {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .area-example {
+            text-align: center;
+            padding: 2rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            transition: transform 0.3s;
+        }
+
+        .area-example:hover {
+            transform: scale(1.05);
+        }
+
+        .area-box {
+            width: 100%;
+            aspect-ratio: 1;
+            max-width: 150px;
+            margin: 0 auto 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .area-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(45deg, transparent 40%, rgba(255,255,255,0.1) 50%, transparent 60%);
+            animation: shimmer-box 2s infinite;
+        }
+
+        @keyframes shimmer-box {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .area-small .area-box { background: rgba(0, 255, 136, 0.2); border: 2px solid var(--green); max-width: 80px; font-size: 1rem; }
+        .area-medium .area-box { background: rgba(245, 158, 11, 0.2); border: 2px solid var(--amber); max-width: 120px; font-size: 1.25rem; }
+        .area-large .area-box { background: rgba(255, 71, 87, 0.2); border: 2px solid var(--red); }
+
+        .area-label {
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .area-value {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+        }
+
+        .area-pressure {
+            margin-top: 0.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+        .area-small .area-pressure { color: var(--green); }
+        .area-medium .area-pressure { color: var(--amber); }
+        .area-large .area-pressure { color: var(--red); }
+
+        /* FAQ Section */
+        .faq-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.02), transparent);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(168, 85, 247, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--purple);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--purple);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(0, 229, 255, 0.05));
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            border-radius: 24px;
+            padding: 4rem;
+        }
+
+        .cta-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .calculator-container {
+                grid-template-columns: 1fr;
+            }
+
+            .zones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-visual {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .control-row {
+                grid-template-columns: 1fr;
+            }
+
+            .result-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Grid Background -->
+    <div class="grid-background"></div>
+
+    <!-- Floating Shapes -->
+    <div class="floating-shapes">
+        <div class="floating-shape shape-1"></div>
+        <div class="floating-shape shape-2"></div>
+        <div class="floating-shape shape-3"></div>
+        <div class="floating-shape shape-4"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div style="position: relative; z-index: 1; padding: 5rem 2rem 0; max-width: 1200px; margin: 0 auto;">
+        <nav style="font-size: 0.875rem; color: var(--text-secondary);">
+            <a href="https://windload.co" style="color: var(--text-secondary); text-decoration: none;">Home</a> /
+            <a href="https://windload.solutions/florida-wind-load-requirements.html" style="color: var(--text-secondary); text-decoration: none;">Florida</a> /
+            <a href="https://windload.solutions/cities/west-palm-beach-wind-load-requirements" style="color: var(--text-secondary); text-decoration: none;">Palm Beach</a> /
+            <span style="color: var(--cyan);">Tributary Area Calculator</span>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <rect x="3" y="3" width="18" height="18" rx="2"/>
+                    <path d="M3 9h18M9 21V9"/>
+                </svg>
+                Component & Cladding Analysis
+            </div>
+            <h1>
+                Understanding<br>
+                <span class="gradient-text">Tributary Area</span>
+            </h1>
+            <p>Tributary area is the key to accurate wind load calculations. Visualize how the area served by a component determines the design pressure for windows, doors, and cladding in Palm Beach County.</p>
+            <div class="hero-buttons">
+                <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-primary">Calculate C&C Loads</a>
+                <a href="#calculator" class="btn-secondary">Interactive Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Calculator Section -->
+    <section class="calculator-section" id="calculator">
+        <div class="section-header reveal">
+            <h2>Tributary Area Calculator</h2>
+            <p>Adjust dimensions to see how tributary area affects wind pressure coefficients</p>
+        </div>
+
+        <div class="calculator-container">
+            <div class="visual-panel reveal">
+                <canvas id="tributaryCanvas"></canvas>
+                <div class="visual-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--red);"></div>
+                        <span>Zone 5 (Corner)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--amber);"></div>
+                        <span>Zone 4 (Edge)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot" style="background: var(--green);"></div>
+                        <span>Interior Zone</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="controls-panel reveal">
+                <div class="control-section">
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <rect x="3" y="3" width="18" height="18" rx="2"/>
+                        </svg>
+                        Component Dimensions
+                    </h3>
+                    <div class="control-row">
+                        <div class="control-group">
+                            <label>Width (ft)</label>
+                            <input type="number" id="componentWidth" value="4" min="1" max="20" step="0.5">
+                        </div>
+                        <div class="control-group">
+                            <label>Height (ft)</label>
+                            <input type="number" id="componentHeight" value="5" min="1" max="20" step="0.5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="control-section">
+                    <h3>
+                        <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path d="M3 21V3h18v18H3z"/>
+                            <path d="M3 15h18M9 21V15"/>
+                        </svg>
+                        Building Parameters
+                    </h3>
+                    <div class="control-row">
+                        <div class="control-group">
+                            <label>Building Height (ft)</label>
+                            <input type="number" id="buildingHeight" value="30" min="10" max="200" step="5">
+                        </div>
+                        <div class="control-group">
+                            <label>Wind Speed (MPH)</label>
+                            <input type="number" id="windSpeed" value="165" min="100" max="200" step="5">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-display">
+                    <div class="result-grid">
+                        <div class="result-item">
+                            <div class="result-value" id="tributaryArea">20</div>
+                            <div class="result-unit">sq ft</div>
+                            <div class="result-label">Tributary Area</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-value highlight" id="gcpValue">-1.40</div>
+                            <div class="result-unit">GCp</div>
+                            <div class="result-label">Pressure Coefficient</div>
+                        </div>
+                    </div>
+                    <div class="pressure-bar">
+                        <div class="pressure-label">
+                            <span>Design Pressure</span>
+                            <span id="designPressure">-58.2 psf</span>
+                        </div>
+                        <div class="pressure-track">
+                            <div class="pressure-fill" id="pressureFill" style="width: 70%;"></div>
+                            <div class="pressure-marker" id="pressureMarker" style="left: 70%;">Zone 4</div>
+                        </div>
+                    </div>
+                </div>
+
+                <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-primary" style="width: 100%; display: block; text-align: center; margin-top: 1.5rem;">Get Full C&C Analysis</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Zone Cards Section -->
+    <section class="zones-section">
+        <div class="section-header reveal">
+            <h2>Wall Pressure Zones</h2>
+            <p>ASCE 7-22 defines different zones with varying pressure coefficients based on location</p>
+        </div>
+
+        <div class="zones-grid">
+            <div class="zone-card zone-5 reveal">
+                <div class="zone-number">Zone 5</div>
+                <div class="zone-name">Corner Regions</div>
+                <div class="zone-description">Highest pressures occur at building corners where wind flow separates and creates intense vortices. These areas experience extreme suction forces.</div>
+                <div class="zone-specs">
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">GCp (10 sq ft)</span>
+                        <span class="zone-spec-value">-1.80</span>
+                    </div>
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">GCp (500 sq ft)</span>
+                        <span class="zone-spec-value">-1.00</span>
+                    </div>
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">Width (a)</span>
+                        <span class="zone-spec-value">0.1 x min(L, W) or 0.4h</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zone-card zone-4 reveal">
+                <div class="zone-number">Zone 4</div>
+                <div class="zone-name">Edge Regions</div>
+                <div class="zone-description">Building edges experience elevated pressures but less severe than corners. Zone 4 extends along roof edges and wall perimeters.</div>
+                <div class="zone-specs">
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">GCp (10 sq ft)</span>
+                        <span class="zone-spec-value">-1.40</span>
+                    </div>
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">GCp (500 sq ft)</span>
+                        <span class="zone-spec-value">-0.90</span>
+                    </div>
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">Width</span>
+                        <span class="zone-spec-value">Same as Zone 5 width</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="zone-card zone-interior reveal">
+                <div class="zone-number">Int.</div>
+                <div class="zone-name">Interior Zones</div>
+                <div class="zone-description">Central wall areas experience the lowest component pressures. Larger tributary areas in interior zones benefit from load sharing.</div>
+                <div class="zone-specs">
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">GCp (10 sq ft)</span>
+                        <span class="zone-spec-value">-1.10</span>
+                    </div>
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">GCp (500 sq ft)</span>
+                        <span class="zone-spec-value">-0.70</span>
+                    </div>
+                    <div class="zone-spec">
+                        <span class="zone-spec-label">Location</span>
+                        <span class="zone-spec-value">Beyond edge zones</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Animated Area Comparison -->
+    <section class="content-section">
+        <div class="section-header reveal">
+            <h2>How Tributary Area Affects Pressure</h2>
+            <p>Smaller tributary areas experience higher design pressures due to localized peak loads</p>
+        </div>
+
+        <div class="comparison-visual reveal">
+            <div class="area-example area-small">
+                <div class="area-box">10 sf</div>
+                <div class="area-label">Small Window</div>
+                <div class="area-value">2' x 5' Opening</div>
+                <div class="area-pressure">GCp = -1.40</div>
+            </div>
+            <div class="area-example area-medium">
+                <div class="area-box">50 sf</div>
+                <div class="area-label">Large Window</div>
+                <div class="area-value">5' x 10' Storefront</div>
+                <div class="area-pressure">GCp = -1.18</div>
+            </div>
+            <div class="area-example area-large">
+                <div class="area-box">200 sf</div>
+                <div class="area-label">Wall Panel</div>
+                <div class="area-value">10' x 20' Curtain Wall</div>
+                <div class="area-pressure">GCp = -0.97</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Content -->
+    <section class="content-section" style="background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.02), transparent);">
+        <div class="content-wrapper">
+            <div class="content-block reveal">
+                <h3>What is Tributary Area in Wind Engineering?</h3>
+                <p>Tributary area represents the surface area that contributes wind load to a specific structural component or connection. In wind load calculations per ASCE 7-22, the tributary area directly determines the pressure coefficient (GCp) used for component and cladding (C&C) design.</p>
+                <p>For Palm Beach County buildings designed to the Florida Building Code 2023, understanding tributary area is essential because smaller areas experience higher localized pressures. A 10 square foot window requires a higher design pressure than a 200 square foot curtain wall panel, even though both are exposed to the same basic wind speed.</p>
+            </div>
+
+            <div class="content-block reveal">
+                <h3>The GCp Reduction Formula</h3>
+                <p>ASCE 7-22 Figure 30.3-1 provides the relationship between tributary area and pressure coefficients. The values interpolate logarithmically between 10 sf and 500 sf:</p>
+
+                <div class="formula-highlight">
+                    <div class="formula">GCp = GCp10 + (GCp500 - GCp10) x log10(A/10) / log10(50)</div>
+                    <div class="description">Where A = effective tributary area (10 sf minimum, 500 sf maximum)</div>
+                </div>
+
+                <p>This logarithmic relationship means that doubling the tributary area does not halve the pressure coefficient. The reduction is more gradual, reflecting the statistical probability of peak pressures occurring simultaneously across the entire area.</p>
+            </div>
+
+            <div class="content-block reveal">
+                <h3>Calculating Design Pressure in Palm Beach</h3>
+                <p>Once the tributary area and GCp are determined, the design wind pressure for C&C components is calculated using the velocity pressure at the component height:</p>
+
+                <div class="formula-highlight">
+                    <div class="formula">p = qh x (GCp - GCpi)</div>
+                    <div class="description">Where qh = velocity pressure at mean roof height, GCpi = internal pressure coefficient</div>
+                </div>
+
+                <p>For a typical Palm Beach County project with 165 MPH wind speed at Exposure C, the velocity pressure qh at 30 feet height is approximately 42 psf. Combined with a Zone 4 GCp of -1.40 for a 10 sf window, the net negative pressure approaches -59 psf when accounting for internal pressure.</p>
+            </div>
+
+            <div class="content-block reveal">
+                <h3>Palm Beach County C&C Requirements</h3>
+                <p>Florida Building Code Section 2404.3 requires all exterior glazing within the Wind-Borne Debris Region to comply with impact resistance requirements. For Palm Beach County, this affects all buildings within one mile of the coast for buildings over 60 feet, or all buildings within the CCCL.</p>
+                <p>The design pressure calculated from tributary area analysis must be matched to products with appropriate performance ratings. Impact-rated windows and doors tested to ASTM E1996/E1886 must meet or exceed the calculated design pressures for both positive and negative loading conditions.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-header reveal">
+            <h2>Frequently Asked Questions</h2>
+            <p>Common questions about tributary area and wind load calculations</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item reveal">
+                <button class="faq-question">How do I determine tributary area for a window?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        For a window, the tributary area equals the window's rough opening dimensions: width times height. A 3-foot by 5-foot window has a tributary area of 15 square feet. For glazing supported on two sides only, such as butt-joint corners, consult ASCE 7-22 Section 30.1.3 for effective tributary area calculation. The effective tributary area affects the GCp value but does not change which pressure zone applies to the component's location on the building.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">Why do smaller areas have higher design pressures?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Smaller tributary areas experience higher design pressures because localized peak wind pressures have a higher probability of occurring across the entire small area simultaneously. As area increases, it becomes statistically less likely that peak pressures occur everywhere at once. This phenomenon, called area averaging, is reflected in the logarithmic reduction of GCp with increasing area. For a 10 sf window, the full peak pressure must be designed for; for a 500 sf panel, the averaged pressure is significantly lower.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">What is the minimum tributary area I can use?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Per ASCE 7-22, the minimum effective tributary area for determining GCp is 10 square feet. Components smaller than 10 square feet still use the 10 sf pressure coefficients - you cannot extrapolate to higher values for smaller areas. This applies to small bathroom windows, vents, and similar openings. The maximum area for reduced coefficients is 500 sf; areas larger than 500 sf use the 500 sf values without further reduction.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">How does component location affect the tributary area calculation?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Component location determines which pressure zone applies (Zone 4, Zone 5, or Interior), which sets the base GCp values. The tributary area then modifies these base values. A window in Zone 5 (corner) uses Zone 5 GCp values, while an identical window in the Interior zone uses lower Interior zone values. Both windows use the same tributary area for the GCp interpolation, but the zone determines the GCp10 and GCp500 limits. Corner windows always have higher design pressures than interior windows of the same size.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">Do skylights and roof openings use the same tributary area approach?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, skylights and roof openings follow the same tributary area methodology, but they use different pressure zones. Roof components use Zones 1, 2, and 3 instead of wall Zones 4 and 5. Zone 3 at roof corners experiences the highest negative pressures, often exceeding -2.3 for small tributary areas. ASCE 7-22 Figure 30.3-2 provides the specific GCp values for low-slope roofs. For Palm Beach County's 165 MPH wind speed, roof corner zone design pressures can exceed -100 psf for small skylights.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card reveal">
+            <h2>Get Accurate C&C Wind Loads</h2>
+            <p>Stop guessing at tributary areas and pressure coefficients. Our calculator provides exact design pressures for every component location and size in your Palm Beach County project.</p>
+            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-primary">Calculate Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Professional Component & Cladding Analysis for Palm Beach County</p>
+    </footer>
+
+    <script>
+        // Tributary Area Canvas Visualization
+        const canvas = document.getElementById('tributaryCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            const container = canvas.parentElement;
+            canvas.width = container.clientWidth - 64;
+            canvas.height = 400;
+            drawVisualization();
+        }
+
+        const inputs = {
+            width: document.getElementById('componentWidth'),
+            height: document.getElementById('componentHeight'),
+            buildingHeight: document.getElementById('buildingHeight'),
+            windSpeed: document.getElementById('windSpeed')
+        };
+
+        const outputs = {
+            tributaryArea: document.getElementById('tributaryArea'),
+            gcpValue: document.getElementById('gcpValue'),
+            designPressure: document.getElementById('designPressure'),
+            pressureFill: document.getElementById('pressureFill'),
+            pressureMarker: document.getElementById('pressureMarker')
+        };
+
+        function calculateGCp(area, zone) {
+            // GCp values from ASCE 7-22 Figure 30.3-1 (Walls)
+            const zones = {
+                5: { gcp10: -1.80, gcp500: -1.00 },
+                4: { gcp10: -1.40, gcp500: -0.90 },
+                interior: { gcp10: -1.10, gcp500: -0.70 }
+            };
+
+            const z = zones[zone];
+            if (area <= 10) return z.gcp10;
+            if (area >= 500) return z.gcp500;
+
+            // Logarithmic interpolation
+            return z.gcp10 + (z.gcp500 - z.gcp10) * Math.log10(area / 10) / Math.log10(50);
+        }
+
+        function calculatePressure(windSpeed, height, gcp) {
+            // Simplified velocity pressure calculation
+            const kz = Math.pow(height / 33, 0.22) * 0.85; // Exposure C approximation
+            const qh = 0.00256 * kz * Math.pow(windSpeed, 2);
+            const gci = 0.18; // Enclosed building internal pressure
+            return qh * (gcp - gci);
+        }
+
+        function updateCalculations() {
+            const w = parseFloat(inputs.width.value) || 4;
+            const h = parseFloat(inputs.height.value) || 5;
+            const bh = parseFloat(inputs.buildingHeight.value) || 30;
+            const ws = parseFloat(inputs.windSpeed.value) || 165;
+
+            const area = w * h;
+            const gcp = calculateGCp(area, 4); // Zone 4 for demo
+            const pressure = calculatePressure(ws, bh, gcp);
+
+            outputs.tributaryArea.textContent = area.toFixed(1);
+            outputs.gcpValue.textContent = gcp.toFixed(2);
+            outputs.designPressure.textContent = pressure.toFixed(1) + ' psf';
+
+            // Update pressure bar
+            const percentage = Math.min(Math.abs(pressure) / 100 * 100, 100);
+            outputs.pressureFill.style.width = percentage + '%';
+            outputs.pressureMarker.style.left = percentage + '%';
+
+            // Determine zone label
+            let zoneName = 'Interior';
+            if (Math.abs(gcp) >= 1.35) zoneName = 'Zone 4';
+            if (Math.abs(gcp) >= 1.7) zoneName = 'Zone 5';
+            outputs.pressureMarker.textContent = zoneName;
+
+            drawVisualization();
+        }
+
+        function drawVisualization() {
+            const w = parseFloat(inputs.width.value) || 4;
+            const h = parseFloat(inputs.height.value) || 5;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw building wall representation
+            const wallWidth = canvas.width - 100;
+            const wallHeight = canvas.height - 100;
+            const wallX = 50;
+            const wallY = 50;
+
+            // Wall background
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.fillRect(wallX, wallY, wallWidth, wallHeight);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.strokeRect(wallX, wallY, wallWidth, wallHeight);
+
+            // Draw zone regions
+            const a = wallWidth * 0.15; // Zone width (simplified)
+
+            // Zone 5 - Corners (red)
+            ctx.fillStyle = 'rgba(255, 71, 87, 0.3)';
+            ctx.fillRect(wallX, wallY, a, a);
+            ctx.fillRect(wallX + wallWidth - a, wallY, a, a);
+            ctx.fillRect(wallX, wallY + wallHeight - a, a, a);
+            ctx.fillRect(wallX + wallWidth - a, wallY + wallHeight - a, a, a);
+
+            // Zone 4 - Edges (amber)
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.3)';
+            ctx.fillRect(wallX + a, wallY, wallWidth - 2 * a, a);
+            ctx.fillRect(wallX + a, wallY + wallHeight - a, wallWidth - 2 * a, a);
+            ctx.fillRect(wallX, wallY + a, a, wallHeight - 2 * a);
+            ctx.fillRect(wallX + wallWidth - a, wallY + a, a, wallHeight - 2 * a);
+
+            // Interior zone (green)
+            ctx.fillStyle = 'rgba(0, 255, 136, 0.2)';
+            ctx.fillRect(wallX + a, wallY + a, wallWidth - 2 * a, wallHeight - 2 * a);
+
+            // Draw the component (window) in center
+            const scale = Math.min(
+                (wallWidth - 2 * a - 40) / 10,
+                (wallHeight - 2 * a - 40) / 10
+            );
+            const compW = w * scale;
+            const compH = h * scale;
+            const compX = wallX + wallWidth / 2 - compW / 2;
+            const compY = wallY + wallHeight / 2 - compH / 2;
+
+            // Component shadow
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+            ctx.fillRect(compX + 5, compY + 5, compW, compH);
+
+            // Component fill
+            ctx.fillStyle = 'rgba(0, 229, 255, 0.3)';
+            ctx.fillRect(compX, compY, compW, compH);
+
+            // Component border with animation
+            ctx.strokeStyle = '#00e5ff';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([10, 5]);
+            ctx.lineDashOffset = -performance.now() / 50;
+            ctx.strokeRect(compX, compY, compW, compH);
+            ctx.setLineDash([]);
+
+            // Dimension lines
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.lineWidth = 1;
+
+            // Width dimension
+            ctx.beginPath();
+            ctx.moveTo(compX, compY - 20);
+            ctx.lineTo(compX + compW, compY - 20);
+            ctx.stroke();
+
+            ctx.fillStyle = '#ffffff';
+            ctx.font = '12px Segoe UI';
+            ctx.textAlign = 'center';
+            ctx.fillText(w + ' ft', compX + compW / 2, compY - 25);
+
+            // Height dimension
+            ctx.beginPath();
+            ctx.moveTo(compX - 20, compY);
+            ctx.lineTo(compX - 20, compY + compH);
+            ctx.stroke();
+
+            ctx.save();
+            ctx.translate(compX - 25, compY + compH / 2);
+            ctx.rotate(-Math.PI / 2);
+            ctx.fillText(h + ' ft', 0, 0);
+            ctx.restore();
+
+            // Area label
+            ctx.font = 'bold 16px Segoe UI';
+            ctx.fillStyle = '#00e5ff';
+            ctx.fillText((w * h).toFixed(1) + ' sq ft', compX + compW / 2, compY + compH / 2 + 6);
+
+            // Zone labels
+            ctx.font = '11px Segoe UI';
+            ctx.fillStyle = 'rgba(255, 71, 87, 0.8)';
+            ctx.fillText('Zone 5', wallX + a / 2, wallY + a / 2);
+
+            ctx.fillStyle = 'rgba(245, 158, 11, 0.8)';
+            ctx.fillText('Zone 4', wallX + wallWidth / 2, wallY + a / 2);
+
+            ctx.fillStyle = 'rgba(0, 255, 136, 0.8)';
+            ctx.fillText('Interior', wallX + wallWidth / 2, wallY + wallHeight / 2 - compH / 2 - 15);
+        }
+
+        // Animation loop for dashed border
+        function animate() {
+            drawVisualization();
+            requestAnimationFrame(animate);
+        }
+
+        // Event listeners
+        Object.values(inputs).forEach(input => {
+            input.addEventListener('input', updateCalculations);
+        });
+
+        // Initialize
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+        updateCalculations();
+        animate();
+
+        // Scroll Reveal
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleReveal);
+        handleReveal();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How do I determine tributary area for a window?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "For a window, the tributary area equals the window's rough opening dimensions: width times height. A 3-foot by 5-foot window has a tributary area of 15 square feet."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do smaller areas have higher design pressures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Smaller tributary areas experience higher design pressures because localized peak wind pressures have a higher probability of occurring across the entire small area simultaneously."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the minimum tributary area I can use?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Per ASCE 7-22, the minimum effective tributary area for determining GCp is 10 square feet. Components smaller than 10 square feet still use the 10 sf pressure coefficients."
+                }
+            }
+        ]
+    }
+    </script>
+</body>
+</html>

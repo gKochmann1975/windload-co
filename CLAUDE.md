@@ -186,38 +186,42 @@ After creating any campaign page, verify:
         <span class="logo-text">Wind<span>Load</span>.co</span>
     </a>
     <div class="nav-links">
-        <a href="/florida-pro.html">Florida</a>
-        <a href="/states.html">All States</a>
-        <a href="/architects.html">Architects</a>
-        <a href="/contractors.html">Contractors</a>
+        <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+        <a href="https://windload.co/states.html">All States</a>
+        <a href="https://windload.co/architects.html">Architects</a>
+        <a href="https://windload.co/contractors.html">Contractors</a>
         <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
     </div>
     <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
 </nav>
 ```
 
-#### WindLoad.co Internal Page Links (use these, NOT windloadcalc.com for nav):
+#### Navigation & Breadcrumb Link Destinations:
 
-| Nav Item | URL | Notes |
-|----------|-----|-------|
-| Home | `/` or `/index.html` | Root of windload.co |
-| Florida | `/florida-pro.html` | Florida landing page |
-| All States | `/states.html` | State requirements page |
-| Architects | `/architects.html` | Architect audience page |
-| Contractors | `/contractors.html` | Contractor audience page |
-| Engineers | `/engineers.html` | PE/Engineer page |
+| Link Text | URL | Notes |
+|-----------|-----|-------|
+| Home | `https://windload.co/` | Root of windload.co |
+| Florida | `https://windload.solutions/florida-wind-load-requirements` | Florida wind load requirements page on windload.solutions |
+| All States | `https://windload.co/states.html` | State requirements page |
+| Architects | `https://windload.co/architects.html` | Architect audience page |
+| Contractors | `https://windload.co/contractors.html` | Contractor audience page |
+| Engineers | `https://windload.co/engineers.html` | PE/Engineer page |
 | Pricing | `https://windloadcalc.com/wind-load-calculator-shop.html` | Links to windloadcalc.com shop |
 | Calculator CTA | `https://windloadcalc.com/...` | Use appropriate shop page |
+| **Miami-Dade** (breadcrumb) | `https://windload.solutions/cities/miami-wind-load-requirements` | Miami city page on windload.solutions |
+| **Broward** (breadcrumb) | `https://windload.solutions/florida-wind-load-requirements` | Florida page on windload.solutions |
+| **Palm Beach** (breadcrumb) | `https://windload.solutions/cities/west-palm-beach-wind-load-requirements` | West Palm Beach city page |
+| **Monroe** (breadcrumb) | `https://windload.solutions/cities/key-west-wind-load-requirements` | Key West city page |
 
-#### Breadcrumb Structure:
+#### Breadcrumb Structure (Miami-Dade example):
 ```html
 <div class="breadcrumb">
     <div class="breadcrumb-container">
-        <a href="/">Home</a>
+        <a href="https://windload.co/">Home</a>
         <span>/</span>
-        <a href="/florida-pro.html">Florida</a>
+        <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
         <span>/</span>
-        <a href="/florida/miami-dade/">Miami-Dade</a>
+        <a href="https://windload.solutions/cities/miami-wind-load-requirements">Miami-Dade</a>
         <span>/</span>
         <span class="breadcrumb-current">Page Name</span>
     </div>
@@ -637,7 +641,7 @@ Choose the appropriate link based on page content:
 
 ## CRITICAL: Navigation Links
 
-**ALL navigation links must use ABSOLUTE URLs to windload.co - NEVER use relative URLs.**
+**ALL navigation links must use ABSOLUTE URLs - NEVER use relative URLs.**
 
 ### Standard Navigation Structure:
 ```html
@@ -646,7 +650,7 @@ Choose the appropriate link based on page content:
         <img src="https://windload.co/assets/windload.co_0018ff.svg" alt="WindLoad.co" class="logo-img">
     </a>
     <ul class="nav-links">
-        <li><a href="https://windload.co/florida/">Florida</a></li>
+        <li><a href="https://windload.solutions/florida-wind-load-requirements">Florida</a></li>
         <li><a href="https://windload.co/states.html">All States</a></li>
         <li><a href="https://windload.co/architects.html">Architects</a></li>
         <li><a href="https://windload.co/contractors.html">Contractors</a></li>
@@ -657,24 +661,29 @@ Choose the appropriate link based on page content:
 ```
 
 ### FORBIDDEN Navigation URLs (NEVER USE):
-- ❌ `/florida/` - WRONG (relative)
+- ❌ `/florida/` - WRONG (relative, and 404)
+- ❌ `/florida-pro.html` - WRONG (relative)
 - ❌ `/states.html` - WRONG (relative)
 - ❌ `/architects.html` - WRONG (relative)
 - ❌ `/contractors.html` - WRONG (relative)
 - ❌ `href="/"` for logo - WRONG (relative)
+- ❌ `https://windload.co/florida/` - WRONG (404, no index.html)
+- ❌ `https://windload.co/florida/broward/` - WRONG (404)
+- ❌ `https://windload.co/florida/palm-beach/` - WRONG (404)
+- ❌ `https://windload.co/florida/monroe/` - WRONG (404)
 
-### Correct Navigation URLs:
+### Correct Navigation & Breadcrumb URLs:
 | Link | URL |
 |------|-----|
 | Logo/Home | `https://windload.co/` |
-| Florida | `https://windload.co/florida/` |
+| Florida (nav + breadcrumb) | `https://windload.solutions/florida-wind-load-requirements` |
 | All States | `https://windload.co/states.html` |
 | Architects | `https://windload.co/architects.html` |
 | Contractors | `https://windload.co/contractors.html` |
-| Miami-Dade | `https://windload.co/florida/miami-dade/` |
-| Broward | `https://windload.co/florida/broward/` |
-| Palm Beach | `https://windload.co/florida/palm-beach/` |
-| Monroe | `https://windload.co/florida/monroe/` |
+| Miami-Dade (breadcrumb) | `https://windload.solutions/cities/miami-wind-load-requirements` |
+| Broward (breadcrumb) | `https://windload.solutions/florida-wind-load-requirements` |
+| Palm Beach (breadcrumb) | `https://windload.solutions/cities/west-palm-beach-wind-load-requirements` |
+| Monroe (breadcrumb) | `https://windload.solutions/cities/key-west-wind-load-requirements` |
 | Pricing (CTA) | `https://windloadcalc.com/wind-load-calculator-shop.html` |
 
 ### Logo Requirements:

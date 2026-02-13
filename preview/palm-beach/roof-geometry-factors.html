@@ -1,0 +1,1895 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roof Geometry & Wind Pressure Coefficients | Palm Beach FL | WindLoad.co</title>
+    <meta name="description" content="Interactive visualization of how roof geometry affects wind pressure coefficients. Compare gable, hip, flat, and mansard roofs for Palm Beach County wind load calculations.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #070b12;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --teal: #14b8a6;
+            --rose: #f43f5e;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Geometric Background Animation */
+        #geometryCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.3;
+        }
+
+        /* Floating Roof Shapes */
+        .floating-roofs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.1;
+        }
+
+        .floating-roof {
+            position: absolute;
+            animation: float-rotate 20s ease-in-out infinite;
+        }
+
+        .floating-roof svg {
+            width: 100px;
+            height: 60px;
+        }
+
+        .floating-roof:nth-child(1) { top: 10%; left: 10%; animation-delay: 0s; }
+        .floating-roof:nth-child(2) { top: 60%; right: 15%; animation-delay: 5s; }
+        .floating-roof:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 10s; }
+
+        @keyframes float-rotate {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-20px) rotate(5deg); }
+            75% { transform: translateY(20px) rotate(-5deg); }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(7, 11, 18, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(20, 184, 166, 0.2);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--teal);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(20, 184, 166, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--teal), var(--cyan), var(--green));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: roof-gradient 4s ease infinite;
+        }
+
+        @keyframes roof-gradient {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(20, 184, 166, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--teal);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        /* Roof Type Selector Section */
+        .selector-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .roof-selector {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .roof-option {
+            background: var(--bg-card);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roof-option::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--cyan));
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+
+        .roof-option:hover {
+            border-color: var(--teal);
+            transform: translateY(-5px);
+        }
+
+        .roof-option.active {
+            border-color: var(--teal);
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        .roof-option.active::before {
+            opacity: 1;
+        }
+
+        .roof-icon {
+            width: 100%;
+            height: 80px;
+            margin-bottom: 1rem;
+        }
+
+        .roof-name {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .roof-slope {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        /* Visualization Panel */
+        .visualization-panel {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+        }
+
+        .roof-canvas-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        #roofCanvas {
+            width: 100%;
+            height: 450px;
+            border-radius: 12px;
+        }
+
+        .canvas-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 4px;
+        }
+
+        .coefficients-panel {
+            background: var(--bg-card);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .coefficient-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .coefficient-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coefficient-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .coefficient-item.zone1::before { background: var(--cyan); }
+        .coefficient-item.zone2::before { background: var(--amber); }
+        .coefficient-item.zone3::before { background: var(--red); }
+
+        .coef-header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 0.5rem;
+        }
+
+        .coef-zone {
+            font-weight: 600;
+        }
+
+        .coef-value {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .coefficient-item.zone1 .coef-value { color: var(--cyan); }
+        .coefficient-item.zone2 .coef-value { color: var(--amber); }
+        .coefficient-item.zone3 .coef-value { color: var(--red); }
+
+        .coef-description {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .coef-bar {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            margin-top: 0.75rem;
+            overflow: hidden;
+        }
+
+        .coef-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: width 0.5s ease-out;
+        }
+
+        .coefficient-item.zone1 .coef-bar-fill { background: var(--cyan); }
+        .coefficient-item.zone2 .coef-bar-fill { background: var(--amber); }
+        .coefficient-item.zone3 .coef-bar-fill { background: var(--red); }
+
+        /* Comparison Chart Section */
+        .comparison-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(20, 184, 166, 0.02), transparent);
+        }
+
+        .comparison-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        #comparisonChart {
+            width: 100%;
+            height: 400px;
+            background: var(--bg-card);
+            border: 1px solid rgba(20, 184, 166, 0.2);
+            border-radius: 24px;
+        }
+
+        .chart-legend {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .chart-legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .chart-legend-color {
+            width: 30px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        /* Roof Cards Grid */
+        .roofs-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .roofs-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .roof-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 24px;
+            padding: 2rem;
+            transition: transform 0.3s, border-color 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .roof-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--teal);
+        }
+
+        .roof-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .roof-card.gable::before { background: linear-gradient(90deg, var(--teal), var(--cyan)); }
+        .roof-card.hip::before { background: linear-gradient(90deg, var(--green), var(--teal)); }
+        .roof-card.flat::before { background: linear-gradient(90deg, var(--amber), var(--rose)); }
+        .roof-card.mansard::before { background: linear-gradient(90deg, var(--rose), var(--amber)); }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .roof-card.gable .card-icon { background: rgba(20, 184, 166, 0.2); }
+        .roof-card.hip .card-icon { background: rgba(0, 255, 136, 0.2); }
+        .roof-card.flat .card-icon { background: rgba(245, 158, 11, 0.2); }
+        .roof-card.mansard .card-icon { background: rgba(244, 63, 94, 0.2); }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .card-description {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .card-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .stat-box {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1rem;
+            border-radius: 12px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .roof-card.gable .stat-value { color: var(--teal); }
+        .roof-card.hip .stat-value { color: var(--green); }
+        .roof-card.flat .stat-value { color: var(--amber); }
+        .roof-card.mansard .stat-value { color: var(--rose); }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* Content Section */
+        .content-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-block {
+            margin-bottom: 3rem;
+        }
+
+        .content-block h3 {
+            font-size: 1.75rem;
+            color: var(--teal);
+            margin-bottom: 1rem;
+        }
+
+        .content-block p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--bg-card);
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th, .data-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .data-table th {
+            background: rgba(20, 184, 166, 0.1);
+            font-weight: 600;
+            color: var(--teal);
+        }
+
+        .data-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(20, 184, 166, 0.02), transparent);
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(20, 184, 166, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--teal);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--teal);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(0, 229, 255, 0.05));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 24px;
+            padding: 4rem;
+        }
+
+        .cta-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .roof-selector {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .visualization-panel {
+                grid-template-columns: 1fr;
+            }
+
+            .roofs-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .roof-selector {
+                grid-template-columns: 1fr;
+            }
+
+            .card-stats {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Geometry Background Canvas -->
+    <canvas id="geometryCanvas"></canvas>
+
+    <!-- Floating Roof Shapes -->
+    <div class="floating-roofs">
+        <div class="floating-roof">
+            <svg viewBox="0 0 100 60" fill="none" stroke="#14b8a6" stroke-width="2">
+                <path d="M10 50 L50 15 L90 50 Z"/>
+                <rect x="10" y="50" width="80" height="10"/>
+            </svg>
+        </div>
+        <div class="floating-roof">
+            <svg viewBox="0 0 100 60" fill="none" stroke="#00e5ff" stroke-width="2">
+                <path d="M10 40 L30 20 L70 20 L90 40 L90 50 L10 50 Z"/>
+            </svg>
+        </div>
+        <div class="floating-roof">
+            <svg viewBox="0 0 100 60" fill="none" stroke="#f59e0b" stroke-width="2">
+                <rect x="10" y="30" width="80" height="20"/>
+            </svg>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div style="position: relative; z-index: 1; padding: 5rem 2rem 0; max-width: 1200px; margin: 0 auto;">
+        <nav style="font-size: 0.875rem; color: var(--text-secondary);">
+            <a href="https://windload.co" style="color: var(--text-secondary); text-decoration: none;">Home</a> /
+            <a href="https://windload.solutions/florida-wind-load-requirements.html" style="color: var(--text-secondary); text-decoration: none;">Florida</a> /
+            <a href="https://windload.solutions/cities/west-palm-beach-wind-load-requirements" style="color: var(--text-secondary); text-decoration: none;">Palm Beach</a> /
+            <span style="color: var(--teal);">Roof Geometry Factors</span>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M3 21h18L12 3 3 21z"/>
+                </svg>
+                Roof Wind Analysis
+            </div>
+            <h1>
+                <span class="gradient-text">Roof Geometry</span><br>
+                & Pressure Coefficients
+            </h1>
+            <p>Different roof shapes experience dramatically different wind pressures. Visualize how gable, hip, flat, and mansard roofs affect design loads for your Palm Beach County project.</p>
+            <div class="hero-buttons">
+                <a href="https://windloadcalc.com/shop/roofing.html" class="btn-primary">Calculate Roof Loads</a>
+                <a href="#selector" class="btn-secondary">Compare Roof Types</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roof Type Selector Section -->
+    <section class="selector-section" id="selector">
+        <div class="section-header reveal">
+            <h2>Select a Roof Type</h2>
+            <p>Click to see how each geometry affects wind pressure zones and coefficients</p>
+        </div>
+
+        <div class="roof-selector reveal">
+            <div class="roof-option active" data-roof="gable">
+                <svg class="roof-icon" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 60 L50 20 L90 60" stroke="#14b8a6"/>
+                    <rect x="10" y="60" width="80" height="15" stroke="#14b8a6" fill="rgba(20, 184, 166, 0.1)"/>
+                </svg>
+                <div class="roof-name">Gable Roof</div>
+                <div class="roof-slope">20-45 degrees typical</div>
+            </div>
+
+            <div class="roof-option" data-roof="hip">
+                <svg class="roof-icon" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M10 55 L35 25 L65 25 L90 55" stroke="#00ff88"/>
+                    <path d="M35 25 L50 15 L65 25" stroke="#00ff88"/>
+                    <rect x="10" y="55" width="80" height="15" stroke="#00ff88" fill="rgba(0, 255, 136, 0.1)"/>
+                </svg>
+                <div class="roof-name">Hip Roof</div>
+                <div class="roof-slope">18-25 degrees typical</div>
+            </div>
+
+            <div class="roof-option" data-roof="flat">
+                <svg class="roof-icon" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="10" y="40" width="80" height="8" stroke="#f59e0b" fill="rgba(245, 158, 11, 0.1)"/>
+                    <rect x="10" y="48" width="80" height="22" stroke="#f59e0b" fill="rgba(245, 158, 11, 0.05)"/>
+                    <line x1="25" y1="40" x2="25" y2="36" stroke="#f59e0b"/>
+                    <line x1="50" y1="40" x2="50" y2="36" stroke="#f59e0b"/>
+                    <line x1="75" y1="40" x2="75" y2="36" stroke="#f59e0b"/>
+                </svg>
+                <div class="roof-name">Flat/Low-Slope</div>
+                <div class="roof-slope">0-7 degrees</div>
+            </div>
+
+            <div class="roof-option" data-roof="mansard">
+                <svg class="roof-icon" viewBox="0 0 100 80" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M15 65 L15 45 L30 25 L70 25 L85 45 L85 65" stroke="#f43f5e"/>
+                    <line x1="30" y1="25" x2="30" y2="20" stroke="#f43f5e"/>
+                    <line x1="70" y1="25" x2="70" y2="20" stroke="#f43f5e"/>
+                    <line x1="30" y1="20" x2="70" y2="20" stroke="#f43f5e"/>
+                    <rect x="15" y="65" width="70" height="10" stroke="#f43f5e" fill="rgba(244, 63, 94, 0.1)"/>
+                </svg>
+                <div class="roof-name">Mansard Roof</div>
+                <div class="roof-slope">70-80 lower, 20-30 upper</div>
+            </div>
+        </div>
+
+        <div class="visualization-panel">
+            <div class="roof-canvas-container reveal">
+                <canvas id="roofCanvas"></canvas>
+                <div class="canvas-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: rgba(0, 229, 255, 0.6);"></div>
+                        <span>Zone 1 (Interior)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: rgba(245, 158, 11, 0.6);"></div>
+                        <span>Zone 2 (Edge)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: rgba(255, 71, 87, 0.6);"></div>
+                        <span>Zone 3 (Corner)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="coefficients-panel reveal">
+                <div class="panel-title">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 2v20M2 12h20"/>
+                    </svg>
+                    Pressure Coefficients (GCp)
+                </div>
+
+                <div class="coefficient-list">
+                    <div class="coefficient-item zone1">
+                        <div class="coef-header">
+                            <span class="coef-zone">Zone 1 - Interior</span>
+                            <span class="coef-value" id="zone1-value">-1.00</span>
+                        </div>
+                        <div class="coef-description">Central roof area, lowest suction</div>
+                        <div class="coef-bar">
+                            <div class="coef-bar-fill" id="zone1-bar" style="width: 36%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="coefficient-item zone2">
+                        <div class="coef-header">
+                            <span class="coef-zone">Zone 2 - Edges</span>
+                            <span class="coef-value" id="zone2-value">-1.80</span>
+                        </div>
+                        <div class="coef-description">Roof perimeter, elevated suction</div>
+                        <div class="coef-bar">
+                            <div class="coef-bar-fill" id="zone2-bar" style="width: 64%;"></div>
+                        </div>
+                    </div>
+
+                    <div class="coefficient-item zone3">
+                        <div class="coef-header">
+                            <span class="coef-zone">Zone 3 - Corners</span>
+                            <span class="coef-value" id="zone3-value">-2.80</span>
+                        </div>
+                        <div class="coef-description">Corner regions, maximum suction</div>
+                        <div class="coef-bar">
+                            <div class="coef-bar-fill" id="zone3-bar" style="width: 100%;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="margin-top: 1.5rem; padding: 1rem; background: rgba(20, 184, 166, 0.1); border-radius: 12px;">
+                    <div style="font-size: 0.875rem; color: var(--text-secondary);">Design Pressure (Zone 3)</div>
+                    <div style="font-size: 1.5rem; font-weight: 700; color: var(--red);" id="design-pressure">-118 psf</div>
+                    <div style="font-size: 0.75rem; color: var(--text-secondary);">@ 165 MPH, 10 sf tributary</div>
+                </div>
+
+                <a href="https://windloadcalc.com/shop/roofing.html" class="btn-primary" style="width: 100%; display: block; text-align: center; margin-top: 1.5rem;">Calculate Full Report</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Comparison Chart Section -->
+    <section class="comparison-section">
+        <div class="section-header reveal">
+            <h2>Roof Type Comparison</h2>
+            <p>See how different roof geometries compare across all pressure zones</p>
+        </div>
+
+        <div class="comparison-container reveal">
+            <canvas id="comparisonChart"></canvas>
+            <div class="chart-legend">
+                <div class="chart-legend-item">
+                    <div class="chart-legend-color" style="background: #14b8a6;"></div>
+                    <span>Gable</span>
+                </div>
+                <div class="chart-legend-item">
+                    <div class="chart-legend-color" style="background: #00ff88;"></div>
+                    <span>Hip</span>
+                </div>
+                <div class="chart-legend-item">
+                    <div class="chart-legend-color" style="background: #f59e0b;"></div>
+                    <span>Flat</span>
+                </div>
+                <div class="chart-legend-item">
+                    <div class="chart-legend-color" style="background: #f43f5e;"></div>
+                    <span>Mansard</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Roof Cards Section -->
+    <section class="roofs-section">
+        <div class="section-header reveal">
+            <h2>Detailed Roof Analysis</h2>
+            <p>Understanding how each roof type performs under Palm Beach County wind conditions</p>
+        </div>
+
+        <div class="roofs-grid">
+            <div class="roof-card gable reveal">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 100 80" fill="none" stroke="#14b8a6" stroke-width="3">
+                            <path d="M10 60 L50 20 L90 60"/>
+                        </svg>
+                    </div>
+                    <div class="card-title">Gable Roof</div>
+                </div>
+                <div class="card-description">The classic triangular roof form. Gable roofs are susceptible to wind damage at the gable end walls and ridge line. Wind can get under overhangs and create significant uplift.</div>
+                <div class="card-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">-2.80</div>
+                        <div class="stat-label">Max GCp</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">25-35</div>
+                        <div class="stat-label">Typical Slope</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">High</div>
+                        <div class="stat-label">Gable End Risk</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roof-card hip reveal">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 100 80" fill="none" stroke="#00ff88" stroke-width="3">
+                            <path d="M10 55 L35 25 L65 25 L90 55"/>
+                        </svg>
+                    </div>
+                    <div class="card-title">Hip Roof</div>
+                </div>
+                <div class="card-description">All sides slope downward creating a more aerodynamic profile. Hip roofs generally perform better in hurricanes due to reduced surface area perpendicular to wind flow.</div>
+                <div class="card-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">-2.30</div>
+                        <div class="stat-label">Max GCp</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">18-25</div>
+                        <div class="stat-label">Typical Slope</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">Low</div>
+                        <div class="stat-label">Corner Risk</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roof-card flat reveal">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 100 80" fill="none" stroke="#f59e0b" stroke-width="3">
+                            <rect x="10" y="35" width="80" height="10"/>
+                        </svg>
+                    </div>
+                    <div class="card-title">Flat/Low-Slope Roof</div>
+                </div>
+                <div class="card-description">Common on commercial buildings and modern residential. Flat roofs experience extreme corner pressures due to vortex formation. Parapet walls can either help or hurt depending on height.</div>
+                <div class="card-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">-3.20</div>
+                        <div class="stat-label">Max GCp</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">0-7</div>
+                        <div class="stat-label">Typical Slope</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">Highest</div>
+                        <div class="stat-label">Corner Risk</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="roof-card mansard reveal">
+                <div class="card-header">
+                    <div class="card-icon">
+                        <svg width="32" height="32" viewBox="0 0 100 80" fill="none" stroke="#f43f5e" stroke-width="3">
+                            <path d="M15 55 L15 40 L30 20 L70 20 L85 40 L85 55"/>
+                        </svg>
+                    </div>
+                    <div class="card-title">Mansard Roof</div>
+                </div>
+                <div class="card-description">Two-slope design with steep lower section. The steep lower slope acts more like a wall, while the low-slope upper section experiences typical roof pressures. Complex wind behavior.</div>
+                <div class="card-stats">
+                    <div class="stat-box">
+                        <div class="stat-value">-2.50</div>
+                        <div class="stat-label">Max GCp</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">70/20</div>
+                        <div class="stat-label">Lower/Upper</div>
+                    </div>
+                    <div class="stat-box">
+                        <div class="stat-value">Medium</div>
+                        <div class="stat-label">Overall Risk</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="content-wrapper">
+            <div class="content-block reveal">
+                <h3>How Roof Slope Affects Wind Pressure</h3>
+                <p>ASCE 7-22 provides different pressure coefficients based on roof slope. The relationship between slope and pressure is not linear - there's a critical transition zone around 27 degrees where behavior changes significantly.</p>
+                <p>For slopes below approximately 7 degrees, roofs are classified as "low-slope" and experience the highest negative pressure coefficients at corners. As slope increases toward 27 degrees, corner pressures decrease. Above 27 degrees, the windward roof slope can experience positive pressure as wind pushes against it.</p>
+            </div>
+
+            <table class="data-table reveal">
+                <thead>
+                    <tr>
+                        <th>Roof Slope</th>
+                        <th>Zone 1 GCp</th>
+                        <th>Zone 2 GCp</th>
+                        <th>Zone 3 GCp</th>
+                        <th>Notes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>0-7 degrees</td>
+                        <td>-1.00</td>
+                        <td>-1.80</td>
+                        <td>-2.80</td>
+                        <td>Low-slope, highest corners</td>
+                    </tr>
+                    <tr>
+                        <td>7-20 degrees</td>
+                        <td>-0.90</td>
+                        <td>-1.50</td>
+                        <td>-2.60</td>
+                        <td>Moderate improvement</td>
+                    </tr>
+                    <tr>
+                        <td>20-27 degrees</td>
+                        <td>-0.80</td>
+                        <td>-1.30</td>
+                        <td>-2.30</td>
+                        <td>Significant reduction</td>
+                    </tr>
+                    <tr>
+                        <td>27-45 degrees</td>
+                        <td>-0.60</td>
+                        <td>-1.00</td>
+                        <td>-1.80</td>
+                        <td>Best performance range</td>
+                    </tr>
+                    <tr>
+                        <td>Above 45 degrees</td>
+                        <td>+0.40*</td>
+                        <td>-0.80</td>
+                        <td>-1.50</td>
+                        <td>*Windward positive</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="content-block reveal">
+                <h3>Palm Beach County Roof Recommendations</h3>
+                <p>Based on wind performance data and post-hurricane damage assessments, hip roofs consistently outperform gable roofs in Florida hurricanes. The Insurance Institute for Business and Home Safety (IBHS) Fortified program specifically rewards hip roofs with lower insurance premiums.</p>
+                <p>For new construction in Palm Beach County, consider these factors:</p>
+                <ul style="color: var(--text-secondary); margin-left: 2rem; margin-top: 1rem;">
+                    <li><strong>Hip roofs</strong> reduce corner pressures by 15-20% compared to gables</li>
+                    <li><strong>Slopes of 25-35 degrees</strong> provide optimal balance of aesthetics and wind resistance</li>
+                    <li><strong>Sealed roof decks</strong> are required in HVHZ but recommended throughout Palm Beach</li>
+                    <li><strong>Secondary water resistance</strong> protects against water intrusion if primary roofing fails</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-header reveal">
+            <h2>Frequently Asked Questions</h2>
+            <p>Common questions about roof geometry and wind loads</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item reveal">
+                <button class="faq-question">Which roof shape is best for hurricane resistance?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Hip roofs consistently perform best in hurricane wind events. Their sloped surfaces on all four sides create a more aerodynamic profile, reducing both corner pressures and overall lift. Studies by IBHS show that hip roofs experience up to 40% less damage than gable roofs in Category 4+ hurricanes. For Palm Beach County construction, a 4:12 to 6:12 hip roof (approximately 18-27 degrees) provides excellent wind performance while allowing reasonable attic space.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">How does roof overhang affect wind loads?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Roof overhangs create additional surfaces for wind uplift and can act as "sails" in high winds. ASCE 7-22 Section 30.9 addresses overhang pressures, which combine bottom surface positive pressure with top surface negative pressure. For Palm Beach County's 165 MPH wind speed, limiting overhangs to 2 feet or less significantly reduces uplift forces. Larger overhangs require additional bracing and stronger fascia connections. Florida Building Code limits overhangs in the HVHZ to minimize this vulnerability.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">Do parapets reduce wind pressure on flat roofs?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Parapets can reduce roof corner pressures when properly designed, but they also create their own wind loading challenges. ASCE 7-22 Section 30.6 provides parapet wind load provisions. A parapet height of at least 3 feet can reduce Zone 3 corner pressures by moving the separation point away from the roof surface. However, parapets must be designed to resist both positive pressure on the windward face and negative pressure on the leeward face. Improperly designed parapets have failed in past hurricanes, causing cascading damage.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">What is the wind load difference between Zone 1 and Zone 3?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        For a typical low-slope roof in Palm Beach County at 165 MPH, the pressure difference is substantial. Zone 1 (interior) experiences approximately -42 psf of suction (GCp = -1.00 x 42 psf qh). Zone 3 (corners) experiences approximately -118 psf (GCp = -2.80 x 42 psf qh). This means corner regions require nearly three times the fastening capacity of interior areas. For a 4-foot x 4-foot corner panel, the total uplift force exceeds 1,880 pounds - requiring significantly more fasteners or heavier gauge decking.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">How do I determine the zone width for my roof?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Zone widths are calculated using the dimension "a" from ASCE 7-22 Figure 30.3-2. For low-slope roofs, "a" equals the greater of 10% of the least horizontal dimension or 40% of the mean roof height, but not less than 4% of least horizontal dimension nor 3 feet. For a 50-foot x 80-foot building at 25 feet height, "a" = max(0.1 x 50 = 5 ft, 0.4 x 25 = 10 ft) = 10 feet. Zone 3 corners are squares of dimension "a" at each corner, Zone 2 extends "a" along edges, and Zone 1 is the remaining interior.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card reveal">
+            <h2>Get Your Roof Pressure Report</h2>
+            <p>Stop guessing at zone boundaries and pressure coefficients. Our calculator provides exact design pressures for your specific roof geometry and Palm Beach County location.</p>
+            <a href="https://windloadcalc.com/shop/roofing.html" class="btn-primary">Calculate Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Professional Roof Wind Load Analysis for Palm Beach County</p>
+    </footer>
+
+    <script>
+        // Geometry Background Canvas
+        const geometryCanvas = document.getElementById('geometryCanvas');
+        const geometryCtx = geometryCanvas.getContext('2d');
+
+        function resizeGeometryCanvas() {
+            geometryCanvas.width = window.innerWidth;
+            geometryCanvas.height = window.innerHeight;
+        }
+        resizeGeometryCanvas();
+        window.addEventListener('resize', resizeGeometryCanvas);
+
+        // Floating geometric shapes
+        class GeometricShape {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * geometryCanvas.width;
+                this.y = Math.random() * geometryCanvas.height;
+                this.size = Math.random() * 30 + 20;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.vx = (Math.random() - 0.5) * 0.5;
+                this.vy = (Math.random() - 0.5) * 0.5;
+                this.type = Math.floor(Math.random() * 3); // 0: triangle, 1: square, 2: pentagon
+                this.opacity = Math.random() * 0.3 + 0.1;
+
+                const colors = ['#14b8a6', '#00e5ff', '#00ff88', '#f59e0b'];
+                this.color = colors[Math.floor(Math.random() * colors.length)];
+            }
+
+            update() {
+                this.x += this.vx;
+                this.y += this.vy;
+                this.rotation += this.rotationSpeed;
+
+                if (this.x < -50 || this.x > geometryCanvas.width + 50 ||
+                    this.y < -50 || this.y > geometryCanvas.height + 50) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                geometryCtx.save();
+                geometryCtx.translate(this.x, this.y);
+                geometryCtx.rotate(this.rotation);
+                geometryCtx.strokeStyle = this.color;
+                geometryCtx.lineWidth = 1;
+                geometryCtx.globalAlpha = this.opacity;
+
+                geometryCtx.beginPath();
+                const sides = this.type + 3; // 3, 4, or 5 sides
+
+                for (let i = 0; i < sides; i++) {
+                    const angle = (i / sides) * Math.PI * 2 - Math.PI / 2;
+                    const x = Math.cos(angle) * this.size;
+                    const y = Math.sin(angle) * this.size;
+
+                    if (i === 0) {
+                        geometryCtx.moveTo(x, y);
+                    } else {
+                        geometryCtx.lineTo(x, y);
+                    }
+                }
+                geometryCtx.closePath();
+                geometryCtx.stroke();
+                geometryCtx.restore();
+            }
+        }
+
+        const shapes = Array.from({ length: 15 }, () => new GeometricShape());
+
+        function animateGeometry() {
+            geometryCtx.fillStyle = 'rgba(7, 11, 18, 0.1)';
+            geometryCtx.fillRect(0, 0, geometryCanvas.width, geometryCanvas.height);
+
+            shapes.forEach(shape => {
+                shape.update();
+                shape.draw();
+            });
+
+            requestAnimationFrame(animateGeometry);
+        }
+        animateGeometry();
+
+        // Roof data
+        const roofData = {
+            gable: {
+                zone1: -1.00, zone2: -1.80, zone3: -2.80,
+                color: '#14b8a6', name: 'Gable'
+            },
+            hip: {
+                zone1: -0.85, zone2: -1.50, zone3: -2.30,
+                color: '#00ff88', name: 'Hip'
+            },
+            flat: {
+                zone1: -1.00, zone2: -1.80, zone3: -3.20,
+                color: '#f59e0b', name: 'Flat'
+            },
+            mansard: {
+                zone1: -0.90, zone2: -1.60, zone3: -2.50,
+                color: '#f43f5e', name: 'Mansard'
+            }
+        };
+
+        let currentRoof = 'gable';
+
+        // Roof Canvas
+        const roofCanvas = document.getElementById('roofCanvas');
+        const roofCtx = roofCanvas.getContext('2d');
+
+        function resizeRoofCanvas() {
+            const container = roofCanvas.parentElement;
+            roofCanvas.width = container.clientWidth - 64;
+            roofCanvas.height = 450;
+        }
+        resizeRoofCanvas();
+        window.addEventListener('resize', resizeRoofCanvas);
+
+        let roofTime = 0;
+
+        function drawRoofVisualization() {
+            const w = roofCanvas.width;
+            const h = roofCanvas.height;
+
+            roofCtx.clearRect(0, 0, w, h);
+
+            const centerX = w / 2;
+            const centerY = h / 2 + 50;
+            const roofWidth = w * 0.7;
+            const roofHeight = h * 0.25;
+
+            // Calculate zone dimension 'a'
+            const a = roofWidth * 0.12;
+
+            // Draw roof based on type
+            switch (currentRoof) {
+                case 'gable':
+                    drawGableRoof(centerX, centerY, roofWidth, roofHeight, a);
+                    break;
+                case 'hip':
+                    drawHipRoof(centerX, centerY, roofWidth, roofHeight, a);
+                    break;
+                case 'flat':
+                    drawFlatRoof(centerX, centerY, roofWidth, roofHeight, a);
+                    break;
+                case 'mansard':
+                    drawMansardRoof(centerX, centerY, roofWidth, roofHeight, a);
+                    break;
+            }
+
+            // Draw wind arrows
+            const pulse = Math.sin(roofTime * 0.05) * 0.3 + 1;
+            roofCtx.strokeStyle = 'rgba(0, 229, 255, 0.5)';
+            roofCtx.lineWidth = 2;
+
+            for (let i = 0; i < 5; i++) {
+                const arrowY = centerY - roofHeight + i * 30;
+                const arrowLen = 50 + Math.sin(roofTime * 0.03 + i) * 10;
+
+                roofCtx.beginPath();
+                roofCtx.moveTo(50 - 20 + Math.sin(roofTime * 0.02) * 10, arrowY);
+                roofCtx.lineTo(50 + arrowLen, arrowY);
+                roofCtx.stroke();
+
+                roofCtx.beginPath();
+                roofCtx.moveTo(50 + arrowLen, arrowY);
+                roofCtx.lineTo(50 + arrowLen - 10, arrowY - 6);
+                roofCtx.moveTo(50 + arrowLen, arrowY);
+                roofCtx.lineTo(50 + arrowLen - 10, arrowY + 6);
+                roofCtx.stroke();
+            }
+
+            // Wind label
+            roofCtx.fillStyle = '#00e5ff';
+            roofCtx.font = 'bold 14px Segoe UI';
+            roofCtx.textAlign = 'center';
+            roofCtx.fillText('165 MPH', 70, 50);
+
+            roofTime++;
+            requestAnimationFrame(drawRoofVisualization);
+        }
+
+        function drawGableRoof(cx, cy, rw, rh, a) {
+            const x1 = cx - rw / 2;
+            const x2 = cx + rw / 2;
+            const y = cy;
+            const peak = cy - rh;
+
+            // Zone 1 - Interior (cyan)
+            roofCtx.fillStyle = 'rgba(0, 229, 255, 0.4)';
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1 + a, y - a * 0.7);
+            roofCtx.lineTo(cx, peak + a);
+            roofCtx.lineTo(x2 - a, y - a * 0.7);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 2 - Edges (amber)
+            roofCtx.fillStyle = 'rgba(245, 158, 11, 0.5)';
+            // Left edge
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1, y);
+            roofCtx.lineTo(x1 + a, y - a * 0.7);
+            roofCtx.lineTo(cx, peak + a);
+            roofCtx.lineTo(cx - a * 2, peak + a + a * 0.7);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Right edge
+            roofCtx.beginPath();
+            roofCtx.moveTo(x2, y);
+            roofCtx.lineTo(x2 - a, y - a * 0.7);
+            roofCtx.lineTo(cx, peak + a);
+            roofCtx.lineTo(cx + a * 2, peak + a + a * 0.7);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 3 - Corners (red)
+            roofCtx.fillStyle = 'rgba(255, 71, 87, 0.6)';
+            // Peak/ridge
+            roofCtx.beginPath();
+            roofCtx.moveTo(cx - a, peak);
+            roofCtx.lineTo(cx, peak);
+            roofCtx.lineTo(cx + a, peak);
+            roofCtx.lineTo(cx, peak + a);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Eave corners
+            roofCtx.beginPath();
+            roofCtx.arc(x1, y, a, -Math.PI / 2, 0);
+            roofCtx.lineTo(x1, y);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            roofCtx.beginPath();
+            roofCtx.arc(x2, y, a, -Math.PI, -Math.PI / 2);
+            roofCtx.lineTo(x2, y);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Outline
+            roofCtx.strokeStyle = roofData.gable.color;
+            roofCtx.lineWidth = 3;
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1, y);
+            roofCtx.lineTo(cx, peak);
+            roofCtx.lineTo(x2, y);
+            roofCtx.closePath();
+            roofCtx.stroke();
+        }
+
+        function drawHipRoof(cx, cy, rw, rh, a) {
+            const x1 = cx - rw / 2;
+            const x2 = cx + rw / 2;
+            const y = cy;
+            const ridgeY = cy - rh;
+            const ridgeX1 = cx - rw * 0.2;
+            const ridgeX2 = cx + rw * 0.2;
+
+            // Zone 1 - Interior
+            roofCtx.fillStyle = 'rgba(0, 229, 255, 0.4)';
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1 + a * 1.5, y - a);
+            roofCtx.lineTo(ridgeX1 + a, ridgeY + a);
+            roofCtx.lineTo(ridgeX2 - a, ridgeY + a);
+            roofCtx.lineTo(x2 - a * 1.5, y - a);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 2 - Edges
+            roofCtx.fillStyle = 'rgba(245, 158, 11, 0.5)';
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1 + a, y);
+            roofCtx.lineTo(x1 + a * 1.5, y - a);
+            roofCtx.lineTo(ridgeX1 + a, ridgeY + a);
+            roofCtx.lineTo(ridgeX1, ridgeY);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            roofCtx.beginPath();
+            roofCtx.moveTo(x2 - a, y);
+            roofCtx.lineTo(x2 - a * 1.5, y - a);
+            roofCtx.lineTo(ridgeX2 - a, ridgeY + a);
+            roofCtx.lineTo(ridgeX2, ridgeY);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 3 - Corners
+            roofCtx.fillStyle = 'rgba(255, 71, 87, 0.6)';
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1, y);
+            roofCtx.lineTo(x1 + a, y);
+            roofCtx.lineTo(ridgeX1, ridgeY);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            roofCtx.beginPath();
+            roofCtx.moveTo(x2, y);
+            roofCtx.lineTo(x2 - a, y);
+            roofCtx.lineTo(ridgeX2, ridgeY);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Outline
+            roofCtx.strokeStyle = roofData.hip.color;
+            roofCtx.lineWidth = 3;
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1, y);
+            roofCtx.lineTo(ridgeX1, ridgeY);
+            roofCtx.lineTo(ridgeX2, ridgeY);
+            roofCtx.lineTo(x2, y);
+            roofCtx.closePath();
+            roofCtx.stroke();
+            roofCtx.beginPath();
+            roofCtx.moveTo(ridgeX1, ridgeY);
+            roofCtx.lineTo(ridgeX2, ridgeY);
+            roofCtx.stroke();
+        }
+
+        function drawFlatRoof(cx, cy, rw, rh, a) {
+            const x1 = cx - rw / 2;
+            const x2 = cx + rw / 2;
+            const y = cy - rh * 0.3;
+            const depth = rw * 0.3;
+
+            // Zone 1 - Interior
+            roofCtx.fillStyle = 'rgba(0, 229, 255, 0.4)';
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1 + a, y + a * 0.5);
+            roofCtx.lineTo(x1 + a + depth * 0.3, y - depth * 0.3 + a * 0.5);
+            roofCtx.lineTo(x2 - a + depth * 0.3, y - depth * 0.3 + a * 0.5);
+            roofCtx.lineTo(x2 - a, y + a * 0.5);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 2 - Edges
+            roofCtx.fillStyle = 'rgba(245, 158, 11, 0.5)';
+            // All edges
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1, y);
+            roofCtx.lineTo(x1 + a, y + a * 0.5);
+            roofCtx.lineTo(x2 - a, y + a * 0.5);
+            roofCtx.lineTo(x2, y);
+            roofCtx.lineTo(x2 + depth * 0.3, y - depth * 0.3);
+            roofCtx.lineTo(x2 - a + depth * 0.3, y - depth * 0.3 + a * 0.5);
+            roofCtx.lineTo(x1 + a + depth * 0.3, y - depth * 0.3 + a * 0.5);
+            roofCtx.lineTo(x1 + depth * 0.3, y - depth * 0.3);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 3 - Corners (larger for flat roofs)
+            roofCtx.fillStyle = 'rgba(255, 71, 87, 0.7)';
+            // All four corners
+            roofCtx.fillRect(x1, y - a, a, a);
+            roofCtx.fillRect(x2 - a, y - a, a, a);
+            roofCtx.fillRect(x1 + depth * 0.3, y - depth * 0.3 - a, a, a);
+            roofCtx.fillRect(x2 - a + depth * 0.3, y - depth * 0.3 - a, a, a);
+
+            // Outline
+            roofCtx.strokeStyle = roofData.flat.color;
+            roofCtx.lineWidth = 3;
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1, y);
+            roofCtx.lineTo(x2, y);
+            roofCtx.lineTo(x2 + depth * 0.3, y - depth * 0.3);
+            roofCtx.lineTo(x1 + depth * 0.3, y - depth * 0.3);
+            roofCtx.closePath();
+            roofCtx.stroke();
+        }
+
+        function drawMansardRoof(cx, cy, rw, rh, a) {
+            const x1 = cx - rw / 2;
+            const x2 = cx + rw / 2;
+            const y = cy;
+            const upperY = cy - rh * 0.6;
+            const upperX1 = cx - rw * 0.35;
+            const upperX2 = cx + rw * 0.35;
+            const topY = cy - rh;
+
+            // Zone 1 - Interior (upper flat part)
+            roofCtx.fillStyle = 'rgba(0, 229, 255, 0.4)';
+            roofCtx.beginPath();
+            roofCtx.moveTo(upperX1 + a, upperY + a * 0.3);
+            roofCtx.lineTo(upperX1 + a, topY + a);
+            roofCtx.lineTo(upperX2 - a, topY + a);
+            roofCtx.lineTo(upperX2 - a, upperY + a * 0.3);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 2 - Edges
+            roofCtx.fillStyle = 'rgba(245, 158, 11, 0.5)';
+            roofCtx.beginPath();
+            roofCtx.moveTo(upperX1, upperY);
+            roofCtx.lineTo(upperX1 + a, upperY + a * 0.3);
+            roofCtx.lineTo(upperX2 - a, upperY + a * 0.3);
+            roofCtx.lineTo(upperX2, upperY);
+            roofCtx.closePath();
+            roofCtx.fill();
+
+            // Zone 3 - Corners
+            roofCtx.fillStyle = 'rgba(255, 71, 87, 0.6)';
+            roofCtx.fillRect(upperX1, topY, a, a);
+            roofCtx.fillRect(upperX2 - a, topY, a, a);
+
+            // Outline
+            roofCtx.strokeStyle = roofData.mansard.color;
+            roofCtx.lineWidth = 3;
+            roofCtx.beginPath();
+            roofCtx.moveTo(x1, y);
+            roofCtx.lineTo(upperX1, upperY);
+            roofCtx.lineTo(upperX1, topY);
+            roofCtx.lineTo(upperX2, topY);
+            roofCtx.lineTo(upperX2, upperY);
+            roofCtx.lineTo(x2, y);
+            roofCtx.stroke();
+        }
+
+        drawRoofVisualization();
+
+        // Update coefficients
+        function updateCoefficients(roofType) {
+            const data = roofData[roofType];
+            const qh = 42; // Velocity pressure
+
+            document.getElementById('zone1-value').textContent = data.zone1.toFixed(2);
+            document.getElementById('zone2-value').textContent = data.zone2.toFixed(2);
+            document.getElementById('zone3-value').textContent = data.zone3.toFixed(2);
+
+            // Update bars (relative to max of -3.20)
+            document.getElementById('zone1-bar').style.width = (Math.abs(data.zone1) / 3.20 * 100) + '%';
+            document.getElementById('zone2-bar').style.width = (Math.abs(data.zone2) / 3.20 * 100) + '%';
+            document.getElementById('zone3-bar').style.width = (Math.abs(data.zone3) / 3.20 * 100) + '%';
+
+            // Update design pressure
+            const pressure = Math.round(data.zone3 * qh);
+            document.getElementById('design-pressure').textContent = pressure + ' psf';
+        }
+
+        // Roof selector
+        document.querySelectorAll('.roof-option').forEach(option => {
+            option.addEventListener('click', function() {
+                document.querySelectorAll('.roof-option').forEach(o => o.classList.remove('active'));
+                this.classList.add('active');
+                currentRoof = this.dataset.roof;
+                updateCoefficients(currentRoof);
+            });
+        });
+
+        // Comparison Chart
+        const compChart = document.getElementById('comparisonChart');
+        const compCtx = compChart.getContext('2d');
+
+        function resizeCompChart() {
+            const container = compChart.parentElement;
+            compChart.width = container.clientWidth;
+            compChart.height = 400;
+            drawComparisonChart();
+        }
+
+        function drawComparisonChart() {
+            const w = compChart.width;
+            const h = compChart.height;
+            const padding = 60;
+            const chartW = w - padding * 2;
+            const chartH = h - padding * 2;
+
+            compCtx.clearRect(0, 0, w, h);
+
+            // Background
+            compCtx.fillStyle = 'rgba(255, 255, 255, 0.02)';
+            compCtx.fillRect(padding, padding, chartW, chartH);
+
+            // Grid lines
+            compCtx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            compCtx.lineWidth = 1;
+
+            for (let i = 0; i <= 4; i++) {
+                const y = padding + (chartH / 4) * i;
+                compCtx.beginPath();
+                compCtx.moveTo(padding, y);
+                compCtx.lineTo(w - padding, y);
+                compCtx.stroke();
+
+                // Y-axis labels
+                const value = -3.5 + i * 0.875;
+                compCtx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+                compCtx.font = '12px Segoe UI';
+                compCtx.textAlign = 'right';
+                compCtx.fillText(value.toFixed(2), padding - 10, y + 4);
+            }
+
+            // X-axis labels
+            const zones = ['Zone 1', 'Zone 2', 'Zone 3'];
+            const barGroupWidth = chartW / 3;
+
+            zones.forEach((zone, i) => {
+                const x = padding + barGroupWidth * i + barGroupWidth / 2;
+                compCtx.fillStyle = 'rgba(255, 255, 255, 0.7)';
+                compCtx.textAlign = 'center';
+                compCtx.fillText(zone, x, h - padding + 20);
+            });
+
+            // Draw bars for each roof type
+            const roofTypes = ['gable', 'hip', 'flat', 'mansard'];
+            const barWidth = barGroupWidth / 5;
+
+            zones.forEach((zone, zoneIndex) => {
+                roofTypes.forEach((roof, roofIndex) => {
+                    const data = roofData[roof];
+                    const value = zoneIndex === 0 ? data.zone1 : zoneIndex === 1 ? data.zone2 : data.zone3;
+
+                    const x = padding + barGroupWidth * zoneIndex + barWidth * roofIndex + barWidth * 0.5;
+                    const barHeight = (Math.abs(value) / 3.5) * chartH;
+                    const y = padding + chartH - barHeight;
+
+                    compCtx.fillStyle = data.color;
+                    compCtx.fillRect(x, y, barWidth * 0.8, barHeight);
+
+                    // Value on top
+                    compCtx.fillStyle = '#ffffff';
+                    compCtx.font = '10px Segoe UI';
+                    compCtx.textAlign = 'center';
+                    compCtx.fillText(value.toFixed(2), x + barWidth * 0.4, y - 5);
+                });
+            });
+        }
+
+        resizeCompChart();
+        window.addEventListener('resize', resizeCompChart);
+
+        // Scroll Reveal
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleReveal);
+        handleReveal();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize
+        updateCoefficients('gable');
+    </script>
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Which roof shape is best for hurricane resistance?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hip roofs consistently perform best in hurricane wind events. Their sloped surfaces on all four sides create a more aerodynamic profile, reducing both corner pressures and overall lift."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does roof overhang affect wind loads?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Roof overhangs create additional surfaces for wind uplift and can act as sails in high winds. Limiting overhangs to 2 feet or less significantly reduces uplift forces."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Do parapets reduce wind pressure on flat roofs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Parapets can reduce roof corner pressures when properly designed. A parapet height of at least 3 feet can reduce Zone 3 corner pressures by moving the separation point away from the roof surface."
+                }
+            }
+        ]
+    }
+    </script>
+</body>
+</html>

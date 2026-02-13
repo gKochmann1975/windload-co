@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stilt Home Lateral Force Engineering | Florida Keys Elevated Structures</title>
+    <meta name="description" content="Understanding lateral force distribution in Florida Keys stilt homes. Engineering analysis for elevated structures facing extreme wind and flood conditions in Monroe County.">
+    <meta name="keywords" content="stilt home engineering, lateral forces, elevated structures, Florida Keys construction, pile foundation wind loads, ASCE 7-22">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <link rel="canonical" href="https://windload.co/florida/monroe/stilt-home-lateral.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Stilt Home Lateral Force Engineering | Florida Keys">
+    <meta property="og:description" content="Complete engineering guide for lateral force distribution in elevated stilt homes. Critical for Florida Keys hurricane resistance.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/stilt-home-lateral.html">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How are lateral forces distributed in stilt homes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Lateral forces in stilt homes are distributed through the elevated floor diaphragm to the supporting piles via moment-resisting connections or braced frames. The force path starts at wind-exposed surfaces, travels through the structural framing to the floor system, and transfers down through diagonal bracing or pile moment capacity to the foundation."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the minimum pile embedment depth for Florida Keys stilt homes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Florida Keys stilt homes typically require pile embedment depths of 15-25 feet depending on soil conditions. Timber piles require minimum 10-foot embedment in competent soil, while concrete piles may require deeper embedment in coral rock or limestone formations common throughout the Keys."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does elevation height affect lateral load calculations?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Elevation height directly impacts lateral loads through increased wind exposure and moment arm. For every additional foot of elevation, the overturning moment increases proportionally. A structure elevated 15 feet experiences approximately 40% higher base moments than one at 10 feet due to the combined effects of greater wind pressure at height and longer moment arm."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What bracing systems work best for Florida Keys stilt homes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The most effective bracing systems for Keys stilt homes include: 1) Knee bracing with steel gusset plates for timber piles, 2) Reinforced concrete moment frames for concrete pile systems, 3) Steel diagonal cross-bracing for hybrid systems, and 4) Shear walls at grade for breakaway construction. Each must be designed for the specific exposure and elevation requirements."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do flood loads combine with wind loads on stilt structures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ASCE 7-22 requires evaluation of multiple load combinations including simultaneous wind and flood. For stilt homes, the critical combination typically includes 0.6D + W + Fa (flood) where D is dead load, W is wind, and Fa is flood. The flood velocity force acts horizontally on exposed piles while wind acts on the elevated structure, creating complex force distributions."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated House Canvas */
+        #houseCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Force Diagram Overlay */
+        .force-diagram-fixed {
+            position: fixed;
+            top: 50%;
+            right: 5%;
+            transform: translateY(-50%);
+            width: 350px;
+            height: 450px;
+            z-index: 5;
+            opacity: 0.9;
+            pointer-events: none;
+        }
+
+        @media (max-width: 1200px) {
+            .force-diagram-fixed {
+                display: none;
+            }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Main Content */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            margin-top: 70px;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--cyan);
+        }
+
+        .breadcrumb span {
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-current {
+            color: var(--cyan);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--amber), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        /* Interactive House Diagram Section */
+        .diagram-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(168, 85, 247, 0.03));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .interactive-diagram {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .house-svg-container {
+            width: 100%;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #houseDiagram {
+            width: 100%;
+            height: 500px;
+        }
+
+        /* Force Flow Animation */
+        .force-arrow {
+            stroke: var(--cyan);
+            stroke-width: 3;
+            fill: none;
+            stroke-dasharray: 10, 5;
+            animation: flow-dash 1s linear infinite;
+        }
+
+        .force-arrow.tension {
+            stroke: var(--green);
+        }
+
+        .force-arrow.compression {
+            stroke: var(--red);
+        }
+
+        @keyframes flow-dash {
+            0% { stroke-dashoffset: 15; }
+            100% { stroke-dashoffset: 0; }
+        }
+
+        /* Force Legend */
+        .force-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .legend-color {
+            width: 30px;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        .legend-color.wind { background: var(--cyan); }
+        .legend-color.tension { background: var(--green); }
+        .legend-color.compression { background: var(--red); }
+        .legend-color.moment { background: var(--purple); }
+
+        /* Force Distribution Cards */
+        .force-cards {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            max-width: 900px;
+            margin: 3rem auto 0;
+        }
+
+        .force-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .force-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-5px);
+        }
+
+        .force-card-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .force-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .force-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Pile Analysis Section */
+        .pile-section {
+            padding: 6rem 2rem;
+        }
+
+        .pile-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .pile-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .pile-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+        }
+
+        .pile-visual {
+            width: 80px;
+            height: 120px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .pile-visual .pile {
+            width: 20px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--amber), #8B4513);
+            margin: 0 auto;
+            border-radius: 3px;
+        }
+
+        .pile-visual .soil {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: linear-gradient(180deg, rgba(139, 69, 19, 0.3), rgba(139, 69, 19, 0.6));
+            border-radius: 5px;
+        }
+
+        .pile-visual .force-indicator {
+            position: absolute;
+            width: 30px;
+            height: 3px;
+            background: var(--cyan);
+            left: 50%;
+            transform: translateX(-50%);
+            animation: pulse-force 1.5s ease-in-out infinite;
+        }
+
+        .pile-visual .force-indicator:nth-child(3) { top: 20%; animation-delay: 0s; }
+        .pile-visual .force-indicator:nth-child(4) { top: 40%; animation-delay: 0.3s; }
+        .pile-visual .force-indicator:nth-child(5) { top: 60%; animation-delay: 0.6s; }
+
+        @keyframes pulse-force {
+            0%, 100% { opacity: 0.3; transform: translateX(-50%) scaleX(1); }
+            50% { opacity: 1; transform: translateX(-50%) scaleX(1.5); }
+        }
+
+        .pile-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .pile-card .pile-depth {
+            color: var(--cyan);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .pile-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Moment Distribution Visualization */
+        .moment-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(0, 229, 255, 0.02), transparent);
+        }
+
+        .moment-diagram {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        #momentCanvas {
+            width: 100%;
+            height: 400px;
+            display: block;
+        }
+
+        /* Load Combinations */
+        .combinations-section {
+            padding: 6rem 2rem;
+        }
+
+        .combinations-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .combination-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .combination-card:hover {
+            border-color: var(--amber);
+        }
+
+        .combination-formula {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            color: var(--cyan);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .combination-card h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .combination-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .combination-critical {
+            border-color: var(--red);
+        }
+
+        .combination-critical::before {
+            content: 'CRITICAL';
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--red);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(168, 85, 247, 0.1));
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .force-cards,
+            .pile-grid,
+            .combinations-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Background Canvas -->
+    <canvas id="houseCanvas"></canvas>
+
+    <!-- Fixed Force Diagram (desktop only) -->
+    <svg class="force-diagram-fixed" viewBox="0 0 350 450">
+        <!-- Simplified house silhouette -->
+        <g id="house-silhouette" opacity="0.15">
+            <!-- House body -->
+            <rect x="75" y="150" width="200" height="120" fill="none" stroke="#00e5ff" stroke-width="2"/>
+            <!-- Roof -->
+            <polygon points="75,150 175,80 275,150" fill="none" stroke="#00e5ff" stroke-width="2"/>
+            <!-- Stilts -->
+            <line x1="100" y1="270" x2="100" y2="400" stroke="#f59e0b" stroke-width="4"/>
+            <line x1="175" y1="270" x2="175" y2="400" stroke="#f59e0b" stroke-width="4"/>
+            <line x1="250" y1="270" x2="250" y2="400" stroke="#f59e0b" stroke-width="4"/>
+            <!-- Bracing -->
+            <line x1="100" y1="400" x2="175" y2="320" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,3"/>
+            <line x1="250" y1="400" x2="175" y2="320" stroke="#a855f7" stroke-width="2" stroke-dasharray="5,3"/>
+        </g>
+
+        <!-- Animated wind arrows -->
+        <g class="wind-arrows">
+            <path d="M 20,120 L 60,120" class="force-arrow" style="animation-delay: 0s"/>
+            <path d="M 20,180 L 60,180" class="force-arrow" style="animation-delay: 0.2s"/>
+            <path d="M 20,240 L 60,240" class="force-arrow" style="animation-delay: 0.4s"/>
+        </g>
+
+        <!-- Force labels -->
+        <text x="30" y="105" fill="#00e5ff" font-size="10">Wind</text>
+        <text x="85" y="420" fill="#00ff88" font-size="10">Reaction</text>
+    </svg>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <div class="content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/cities/key-west-wind-load-requirements">Monroe</a> /
+                <span class="breadcrumb-current">Stilt Home Lateral Forces</span>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M3 21h18M9 8h1M9 12h1M9 16h1M14 8h1M14 12h1M14 16h1M5 21V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v16"/>
+                    </svg>
+                    STRUCTURAL ENGINEERING
+                </div>
+                <h1>Stilt Home <span class="highlight">Lateral Force</span> Distribution</h1>
+                <p class="hero-description">
+                    Florida Keys elevated structures face unique engineering challenges. Understanding how lateral forces travel through stilt homes is essential for hurricane-resistant design. Every pile, brace, and connection must work together as a unified system.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                        Calculate Lateral Loads
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">View All Calculators</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Diagram -->
+        <section class="diagram-section reveal">
+            <div class="section-header">
+                <h2>Force Path Visualization</h2>
+                <p>Watch how wind loads travel through an elevated structure</p>
+            </div>
+            <div class="interactive-diagram">
+                <div class="house-svg-container">
+                    <svg id="houseDiagram" viewBox="0 0 800 500">
+                        <!-- Ground line -->
+                        <line x1="0" y1="450" x2="800" y2="450" stroke="#333" stroke-width="2"/>
+                        <rect x="0" y="450" width="800" height="50" fill="url(#groundGradient)"/>
+
+                        <defs>
+                            <linearGradient id="groundGradient" x1="0%" y1="0%" x2="0%" y2="100%">
+                                <stop offset="0%" style="stop-color:#2a1a0a;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#1a0f05;stop-opacity:1" />
+                            </linearGradient>
+                            <linearGradient id="pileGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#8B4513" />
+                                <stop offset="50%" style="stop-color:#A0522D" />
+                                <stop offset="100%" style="stop-color:#8B4513" />
+                            </linearGradient>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#00e5ff" />
+                            </marker>
+                            <marker id="arrowheadGreen" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#00ff88" />
+                            </marker>
+                            <marker id="arrowheadRed" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#ff4757" />
+                            </marker>
+                        </defs>
+
+                        <!-- Piles -->
+                        <rect x="170" y="250" width="20" height="200" fill="url(#pileGradient)" rx="3"/>
+                        <rect x="390" y="250" width="20" height="200" fill="url(#pileGradient)" rx="3"/>
+                        <rect x="610" y="250" width="20" height="200" fill="url(#pileGradient)" rx="3"/>
+
+                        <!-- Floor beam -->
+                        <rect x="150" y="230" width="500" height="25" fill="#1a365d" stroke="#00e5ff" stroke-width="1"/>
+
+                        <!-- House structure -->
+                        <rect x="180" y="80" width="440" height="150" fill="rgba(26, 54, 93, 0.5)" stroke="#00e5ff" stroke-width="2"/>
+
+                        <!-- Roof -->
+                        <polygon points="160,80 400,20 640,80" fill="rgba(26, 54, 93, 0.3)" stroke="#00e5ff" stroke-width="2"/>
+
+                        <!-- Bracing -->
+                        <line x1="190" y1="440" x2="400" y2="270" stroke="#a855f7" stroke-width="3" opacity="0.7"/>
+                        <line x1="610" y1="440" x2="400" y2="270" stroke="#a855f7" stroke-width="3" opacity="0.7"/>
+
+                        <!-- Wind Force Arrows (animated) -->
+                        <g id="windForces">
+                            <line x1="50" y1="60" x2="150" y2="60" stroke="#00e5ff" stroke-width="3" marker-end="url(#arrowhead)" class="force-arrow"/>
+                            <line x1="50" y1="130" x2="170" y2="130" stroke="#00e5ff" stroke-width="3" marker-end="url(#arrowhead)" class="force-arrow" style="animation-delay: 0.2s"/>
+                            <line x1="50" y1="200" x2="170" y2="200" stroke="#00e5ff" stroke-width="3" marker-end="url(#arrowhead)" class="force-arrow" style="animation-delay: 0.4s"/>
+                        </g>
+
+                        <!-- Force flow through structure -->
+                        <g id="forceFlow" opacity="0.7">
+                            <path d="M 180,150 L 400,240" stroke="#00e5ff" stroke-width="2" class="force-arrow" style="animation-delay: 0.6s"/>
+                            <path d="M 620,150 L 400,240" stroke="#00e5ff" stroke-width="2" class="force-arrow" style="animation-delay: 0.7s"/>
+                        </g>
+
+                        <!-- Reaction forces at base -->
+                        <g id="reactionForces">
+                            <line x1="180" y1="450" x2="180" y2="480" stroke="#00ff88" stroke-width="3" marker-end="url(#arrowheadGreen)"/>
+                            <line x1="400" y1="450" x2="400" y2="480" stroke="#00ff88" stroke-width="3" marker-end="url(#arrowheadGreen)"/>
+                            <line x1="620" y1="450" x2="620" y2="480" stroke="#00ff88" stroke-width="3" marker-end="url(#arrowheadGreen)"/>
+                        </g>
+
+                        <!-- Labels -->
+                        <text x="60" y="45" fill="#00e5ff" font-size="14" font-weight="bold">WIND LOAD</text>
+                        <text x="330" y="500" fill="#00ff88" font-size="14" font-weight="bold">PILE REACTIONS</text>
+                        <text x="430" y="300" fill="#a855f7" font-size="12">Diagonal Bracing</text>
+                        <text x="360" y="220" fill="#00e5ff" font-size="12">Floor Diaphragm</text>
+
+                        <!-- Moment indicator -->
+                        <ellipse cx="180" cy="280" rx="25" ry="40" fill="none" stroke="#ff4757" stroke-width="2" stroke-dasharray="5,3" opacity="0.6"/>
+                        <text x="145" y="265" fill="#ff4757" font-size="10">M</text>
+                    </svg>
+                </div>
+            </div>
+
+            <div class="force-legend">
+                <div class="legend-item">
+                    <div class="legend-color wind"></div>
+                    <span>Wind Load</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color tension"></div>
+                    <span>Pile Reaction</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color compression"></div>
+                    <span>Moment</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color moment"></div>
+                    <span>Bracing Force</span>
+                </div>
+            </div>
+
+            <div class="force-cards">
+                <div class="force-card">
+                    <div class="force-card-icon">1</div>
+                    <h3>Wind Application</h3>
+                    <p>Wind pressure acts on exposed surfaces of the elevated structure, creating lateral forces that must be transferred to the foundation.</p>
+                </div>
+                <div class="force-card">
+                    <div class="force-card-icon">2</div>
+                    <h3>Diaphragm Transfer</h3>
+                    <p>The floor acts as a rigid diaphragm, collecting forces from walls and distributing them to pile connections.</p>
+                </div>
+                <div class="force-card">
+                    <div class="force-card-icon">3</div>
+                    <h3>Bracing Action</h3>
+                    <p>Diagonal braces convert lateral forces into axial tension and compression, reducing moment demand on piles.</p>
+                </div>
+                <div class="force-card">
+                    <div class="force-card-icon">4</div>
+                    <h3>Pile Resistance</h3>
+                    <p>Piles resist through a combination of lateral soil pressure, embedment depth, and connection moment capacity.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pile Types -->
+        <section class="pile-section reveal">
+            <div class="section-header">
+                <h2>Pile Foundation Systems</h2>
+                <p>Common pile types for Florida Keys elevated construction</p>
+            </div>
+            <div class="pile-grid">
+                <div class="pile-card">
+                    <div class="pile-visual">
+                        <div class="pile" style="background: linear-gradient(180deg, #8B4513, #654321);"></div>
+                        <div class="soil"></div>
+                        <div class="force-indicator"></div>
+                        <div class="force-indicator"></div>
+                        <div class="force-indicator"></div>
+                    </div>
+                    <h3>Timber Piles</h3>
+                    <div class="pile-depth">15-20 ft</div>
+                    <p>CCA-treated timber piles. Cost-effective for residential. Require steel knee bracing for lateral resistance.</p>
+                </div>
+                <div class="pile-card">
+                    <div class="pile-visual">
+                        <div class="pile" style="background: linear-gradient(180deg, #6b7280, #4b5563);"></div>
+                        <div class="soil"></div>
+                        <div class="force-indicator"></div>
+                        <div class="force-indicator"></div>
+                        <div class="force-indicator"></div>
+                    </div>
+                    <h3>Concrete Piles</h3>
+                    <div class="pile-depth">20-30 ft</div>
+                    <p>Pre-cast or cast-in-place concrete. Superior moment capacity. Required for commercial and larger residential.</p>
+                </div>
+                <div class="pile-card">
+                    <div class="pile-visual">
+                        <div class="pile" style="background: linear-gradient(180deg, #374151, #1f2937);"></div>
+                        <div class="soil"></div>
+                        <div class="force-indicator"></div>
+                        <div class="force-indicator"></div>
+                        <div class="force-indicator"></div>
+                    </div>
+                    <h3>Steel H-Piles</h3>
+                    <div class="pile-depth">25-40 ft</div>
+                    <p>High capacity for difficult soils. Excellent for coral rock penetration. Requires corrosion protection in marine environments.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Load Combinations -->
+        <section class="combinations-section reveal">
+            <div class="section-header">
+                <h2>Critical Load Combinations</h2>
+                <p>ASCE 7-22 load combinations for stilt home design</p>
+            </div>
+            <div class="combinations-grid">
+                <div class="combination-card" style="position: relative;">
+                    <div class="combination-formula">1.2D + 1.0W + L + 0.5(Lr or S)</div>
+                    <h3>Wind Uplift - Strength</h3>
+                    <p>Controls roof-to-wall connections and uplift resistance. Critical for hurricane conditions.</p>
+                </div>
+                <div class="combination-card combination-critical" style="position: relative;">
+                    <div class="combination-formula">0.9D + 1.0W</div>
+                    <h3>Overturning - Critical</h3>
+                    <p>Most critical for stilt home stability. Minimum dead load with maximum wind creates worst-case overturning.</p>
+                </div>
+                <div class="combination-card" style="position: relative;">
+                    <div class="combination-formula">1.2D + 1.0W + 1.0Fa</div>
+                    <h3>Wind + Flood Combined</h3>
+                    <p>Simultaneous wind and flood. Fa includes hydrostatic, hydrodynamic, and wave forces on exposed piles.</p>
+                </div>
+                <div class="combination-card" style="position: relative;">
+                    <div class="combination-formula">1.2D + 1.6L + 0.5W</div>
+                    <h3>Gravity Dominant</h3>
+                    <p>Full live load with partial wind. Controls floor beam and pile axial capacity design.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Moment Distribution Canvas -->
+        <section class="moment-section reveal">
+            <div class="section-header">
+                <h2>Pile Moment Distribution</h2>
+                <p>How bending moments distribute along pile length under lateral loading</p>
+            </div>
+            <div class="moment-diagram">
+                <canvas id="momentCanvas"></canvas>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Expert answers on stilt home structural engineering</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">How are lateral forces distributed in stilt homes?</div>
+                    <div class="faq-answer">
+                        Lateral forces in stilt homes are distributed through the elevated floor diaphragm to the supporting piles via moment-resisting connections or braced frames. The force path starts at wind-exposed surfaces, travels through the structural framing to the floor system, and transfers down through diagonal bracing or pile moment capacity to the foundation. The effectiveness of this system depends on proper connection detailing and adequate bracing configuration.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What is the minimum pile embedment depth for Florida Keys stilt homes?</div>
+                    <div class="faq-answer">
+                        Florida Keys stilt homes typically require pile embedment depths of 15-25 feet depending on soil conditions. Timber piles require minimum 10-foot embedment in competent soil, while concrete piles may require deeper embedment in coral rock or limestone formations common throughout the Keys. A geotechnical investigation is essential to determine actual embedment requirements based on site-specific conditions.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How does elevation height affect lateral load calculations?</div>
+                    <div class="faq-answer">
+                        Elevation height directly impacts lateral loads through increased wind exposure and moment arm. For every additional foot of elevation, the overturning moment increases proportionally. A structure elevated 15 feet experiences approximately 40% higher base moments than one at 10 feet due to the combined effects of greater wind pressure at height and longer moment arm. This relationship is not linear due to the velocity pressure coefficient (Kz) which increases with height.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What bracing systems work best for Florida Keys stilt homes?</div>
+                    <div class="faq-answer">
+                        The most effective bracing systems for Keys stilt homes include: 1) Knee bracing with steel gusset plates for timber piles, providing additional moment resistance at the pile-floor connection, 2) Reinforced concrete moment frames for concrete pile systems where piles are cast monolithically with grade beams, 3) Steel diagonal cross-bracing for hybrid systems where the open area beneath must be maximized, and 4) Shear walls at grade for breakaway construction where flood requirements permit.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How do flood loads combine with wind loads on stilt structures?</div>
+                    <div class="faq-answer">
+                        ASCE 7-22 requires evaluation of multiple load combinations including simultaneous wind and flood. For stilt homes, the critical combination typically includes 0.9D + W + Fa (flood) for stability, or 1.2D + W + Fa for strength design, where D is dead load, W is wind, and Fa is flood. The flood velocity force acts horizontally on exposed piles while wind acts on the elevated structure, creating complex force distributions that require careful analysis of each pile and connection.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal">
+            <div class="cta-box">
+                <h2>Calculate Your Stilt Home Wind Loads</h2>
+                <p>Professional ASCE 7-22 compliant analysis for elevated structures. Input your elevation, pile configuration, and location for accurate lateral force calculations.</p>
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                    Start Lateral Load Analysis
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+                <a href="https://windload.solutions/state-requirements">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-engineers.html">Engineers</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 WindLoad.co - Professional Wind Load Engineering Solutions</p>
+        </footer>
+    </div>
+
+    <script>
+        // Background particle system
+        const bgCanvas = document.getElementById('houseCanvas');
+        const bgCtx = bgCanvas.getContext('2d');
+
+        function resizeCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Floating structural particles
+        class StructuralParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = Math.random() * bgCanvas.height;
+                this.size = Math.random() * 2 + 1;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.type = Math.random() > 0.5 ? 'circle' : 'square';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x < 0 || this.x > bgCanvas.width) this.speedX *= -1;
+                if (this.y < 0 || this.y > bgCanvas.height) this.speedY *= -1;
+            }
+
+            draw() {
+                bgCtx.beginPath();
+                if (this.type === 'circle') {
+                    bgCtx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                } else {
+                    bgCtx.rect(this.x - this.size, this.y - this.size, this.size * 2, this.size * 2);
+                }
+                bgCtx.fillStyle = `rgba(168, 85, 247, ${this.opacity})`;
+                bgCtx.fill();
+            }
+        }
+
+        const bgParticles = [];
+        for (let i = 0; i < 50; i++) {
+            bgParticles.push(new StructuralParticle());
+        }
+
+        // Connection lines between nearby particles
+        function drawConnections() {
+            for (let i = 0; i < bgParticles.length; i++) {
+                for (let j = i + 1; j < bgParticles.length; j++) {
+                    const dx = bgParticles[i].x - bgParticles[j].x;
+                    const dy = bgParticles[i].y - bgParticles[j].y;
+                    const distance = Math.sqrt(dx * dx + dy * dy);
+
+                    if (distance < 150) {
+                        bgCtx.beginPath();
+                        bgCtx.moveTo(bgParticles[i].x, bgParticles[i].y);
+                        bgCtx.lineTo(bgParticles[j].x, bgParticles[j].y);
+                        bgCtx.strokeStyle = `rgba(0, 229, 255, ${0.1 * (1 - distance / 150)})`;
+                        bgCtx.lineWidth = 1;
+                        bgCtx.stroke();
+                    }
+                }
+            }
+        }
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+            bgParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            drawConnections();
+
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // Moment diagram canvas
+        const momentCanvas = document.getElementById('momentCanvas');
+        const momentCtx = momentCanvas.getContext('2d');
+
+        function resizeMomentCanvas() {
+            const container = momentCanvas.parentElement;
+            momentCanvas.width = container.clientWidth;
+            momentCanvas.height = 400;
+        }
+        resizeMomentCanvas();
+        window.addEventListener('resize', resizeMomentCanvas);
+
+        let momentAnimProgress = 0;
+
+        function drawMomentDiagram() {
+            momentCtx.clearRect(0, 0, momentCanvas.width, momentCanvas.height);
+
+            const pileX = momentCanvas.width / 2;
+            const pileTop = 50;
+            const pileBottom = 350;
+            const pileHeight = pileBottom - pileTop;
+
+            // Draw pile
+            momentCtx.fillStyle = '#654321';
+            momentCtx.fillRect(pileX - 15, pileTop, 30, pileHeight);
+
+            // Draw ground line
+            momentCtx.strokeStyle = '#444';
+            momentCtx.lineWidth = 2;
+            momentCtx.beginPath();
+            momentCtx.moveTo(50, 250);
+            momentCtx.lineTo(momentCanvas.width - 50, 250);
+            momentCtx.stroke();
+
+            // Draw moment diagram (parabolic shape)
+            const maxMoment = 100 * momentAnimProgress;
+
+            momentCtx.beginPath();
+            momentCtx.moveTo(pileX, pileTop);
+
+            for (let y = pileTop; y <= pileBottom; y += 5) {
+                const depth = (y - pileTop) / pileHeight;
+                let moment;
+
+                if (depth < 0.6) {
+                    // Above ground - linear increase
+                    moment = maxMoment * (depth / 0.6);
+                } else {
+                    // Below ground - parabolic decrease
+                    const belowGround = (depth - 0.6) / 0.4;
+                    moment = maxMoment * (1 - belowGround * belowGround);
+                }
+
+                momentCtx.lineTo(pileX + moment, y);
+            }
+
+            momentCtx.lineTo(pileX, pileBottom);
+
+            const gradient = momentCtx.createLinearGradient(pileX, pileTop, pileX + maxMoment, pileTop);
+            gradient.addColorStop(0, 'rgba(255, 71, 87, 0.1)');
+            gradient.addColorStop(1, 'rgba(255, 71, 87, 0.5)');
+            momentCtx.fillStyle = gradient;
+            momentCtx.fill();
+
+            momentCtx.strokeStyle = '#ff4757';
+            momentCtx.lineWidth = 3;
+            momentCtx.stroke();
+
+            // Labels
+            momentCtx.fillStyle = '#fff';
+            momentCtx.font = '14px sans-serif';
+            momentCtx.fillText('Pile Top', pileX - 50, pileTop - 10);
+            momentCtx.fillText('Ground Level', 60, 245);
+            momentCtx.fillText('Max Moment Point', pileX + 110, pileTop + pileHeight * 0.6);
+            momentCtx.fillText('Pile Embedment', pileX - 60, pileBottom + 25);
+
+            // Moment arrow
+            if (momentAnimProgress > 0.5) {
+                momentCtx.beginPath();
+                momentCtx.arc(pileX + maxMoment, pileTop + pileHeight * 0.5, 20, 0, Math.PI * 1.5);
+                momentCtx.strokeStyle = '#ff4757';
+                momentCtx.lineWidth = 2;
+                momentCtx.stroke();
+            }
+        }
+
+        // Animate moment diagram when visible
+        const momentObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const animateMoment = () => {
+                        if (momentAnimProgress < 1) {
+                            momentAnimProgress += 0.02;
+                            drawMomentDiagram();
+                            requestAnimationFrame(animateMoment);
+                        }
+                    };
+                    animateMoment();
+                }
+            });
+        }, { threshold: 0.5 });
+
+        momentObserver.observe(momentCanvas);
+
+        // Initial draw
+        drawMomentDiagram();
+
+        // Reveal animations
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

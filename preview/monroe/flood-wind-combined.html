@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Flood and Wind Loading | Florida Keys Dual Hazard Engineering</title>
+    <meta name="description" content="Engineering guide for combined flood and wind load analysis in the Florida Keys. Understand ASCE 7-22 and ASCE 7-22 Chapter 5 requirements for structures facing simultaneous hurricane wind and storm surge.">
+    <meta name="keywords" content="flood wind combined loading, storm surge engineering, ASCE 7-22, Florida Keys flood zone, dual hazard design, hurricane engineering">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <link rel="canonical" href="https://windload.co/florida/monroe/flood-wind-combined.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Combined Flood and Wind Loading | Florida Keys Engineering">
+    <meta property="og:description" content="Master dual hazard engineering for Florida Keys structures. Combined flood and wind load analysis per ASCE 7-22.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/flood-wind-combined.html">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How are flood and wind loads combined in structural design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "ASCE 7-22 Section 2.3.6 requires combining flood loads with other loads using specific factors. The critical combinations for coastal structures include: 1.2D + 1.0W + Fa for strength design, and 0.9D + 1.0W + Fa for stability checks, where Fa encompasses hydrostatic, hydrodynamic, wave, and debris impact forces."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What flood zone designations apply to the Florida Keys?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Florida Keys include VE zones (coastal high hazard with wave action), AE zones (base flood elevations determined), and AO zones (sheet flow areas). Most oceanfront and bayside properties fall within VE zones requiring wave load analysis and minimum pile foundation construction."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between stillwater depth and design flood elevation?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Stillwater depth is the water surface elevation without wave action, while Design Flood Elevation (DFE) includes wave crest height in VE zones. For Florida Keys VE zones, DFE typically adds 1.5 to 3 feet of wave crest above stillwater elevation. The Base Flood Elevation (BFE) shown on FIRM maps represents the 1% annual chance flood level."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do breaking waves affect structural loading?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Breaking waves create impact pressures that can exceed 100 psf instantaneously. ASCE 7-22 calculates breaking wave loads using Fbrkp = 1.1 Cp γw ds² where Cp depends on structure orientation. For vertical walls facing wave approach, dynamic breaking wave pressure can reach 2.5 times hydrostatic pressure at the wave crest elevation."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is breakaway wall construction?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Breakaway walls are non-structural enclosures below the BFE designed to fail under flood loads without damaging the structural system. FEMA requires breakaway walls to fail at pressures between 10-20 psf, and they cannot be used for building utilities or habitable space. They allow floodwaters to pass through, reducing lateral loads on foundations."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --blue: #3b82f6;
+            --blue-dark: #1d4ed8;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Water Canvas */
+        #waterCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Water Level Indicator */
+        .water-indicator {
+            position: fixed;
+            left: 30px;
+            bottom: 30px;
+            width: 80px;
+            height: 250px;
+            background: rgba(10, 14, 23, 0.95);
+            border: 1px solid var(--blue);
+            border-radius: 15px;
+            padding: 15px 10px;
+            z-index: 100;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.2);
+        }
+
+        .water-indicator-title {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--blue);
+            text-align: center;
+            margin-bottom: 10px;
+        }
+
+        .water-gauge {
+            height: 170px;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .water-level {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.8), rgba(29, 78, 216, 0.9));
+            transition: height 0.5s ease;
+            animation: wave-bob 2s ease-in-out infinite;
+        }
+
+        .water-level::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 10px;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.3), transparent);
+            animation: shimmer-wave 2s linear infinite;
+        }
+
+        @keyframes wave-bob {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @keyframes shimmer-wave {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .water-markers {
+            position: absolute;
+            right: 5px;
+            top: 0;
+            bottom: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+        }
+
+        /* Wind Indicator */
+        .wind-speed-box {
+            position: fixed;
+            right: 30px;
+            bottom: 30px;
+            background: rgba(10, 14, 23, 0.95);
+            border: 1px solid var(--cyan);
+            border-radius: 15px;
+            padding: 15px;
+            z-index: 100;
+            text-align: center;
+            min-width: 120px;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+        }
+
+        .wind-speed-box .label {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--cyan);
+        }
+
+        .wind-speed-box .value {
+            font-size: 2rem;
+            font-weight: 800;
+        }
+
+        .wind-speed-box .unit {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Main Content */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            margin-top: 70px;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--cyan);
+        }
+
+        .breadcrumb span {
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-current {
+            color: var(--cyan);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(0, 229, 255, 0.2));
+            border: 1px solid rgba(59, 130, 246, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--blue);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight-water {
+            background: linear-gradient(135deg, var(--blue), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero h1 .highlight-wind {
+            background: linear-gradient(135deg, var(--cyan), var(--green));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--blue);
+            color: var(--blue);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(59, 130, 246, 0.1);
+        }
+
+        /* Combined Loading Visualization */
+        .viz-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(59, 130, 246, 0.03));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .combined-viz {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #combinedCanvas {
+            width: 100%;
+            height: 500px;
+            display: block;
+        }
+
+        /* Force Comparison */
+        .force-comparison {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            max-width: 1000px;
+            margin: 3rem auto 0;
+        }
+
+        .force-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .force-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan);
+        }
+
+        .force-card.wind-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--green));
+        }
+
+        .force-card.flood-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--blue), var(--cyan));
+        }
+
+        .force-card.combined-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--amber), var(--red));
+        }
+
+        .force-icon {
+            width: 60px;
+            height: 60px;
+            margin: 0 auto 1rem;
+            position: relative;
+        }
+
+        .force-icon svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .force-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .force-card.wind-card .force-value { color: var(--cyan); }
+        .force-card.flood-card .force-value { color: var(--blue); }
+        .force-card.combined-card .force-value { color: var(--amber); }
+
+        .force-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .force-sublabel {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            opacity: 0.7;
+        }
+
+        /* Flood Zones Section */
+        .zones-section {
+            padding: 6rem 2rem;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .zone-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .zone-card:hover {
+            border-color: var(--blue);
+        }
+
+        .zone-letter {
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+            font-size: 3rem;
+            font-weight: 800;
+            opacity: 0.2;
+            color: var(--blue);
+        }
+
+        .zone-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .zone-badge {
+            font-size: 0.7rem;
+            padding: 0.2rem 0.5rem;
+            background: var(--blue);
+            color: white;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .zone-badge.critical {
+            background: var(--red);
+        }
+
+        .zone-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .zone-requirements {
+            list-style: none;
+            font-size: 0.85rem;
+        }
+
+        .zone-requirements li {
+            padding: 0.3rem 0;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .zone-requirements li::before {
+            content: '';
+            width: 6px;
+            height: 6px;
+            background: var(--cyan);
+            border-radius: 50%;
+        }
+
+        /* Load Types Section */
+        .loads-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.03), transparent);
+        }
+
+        .loads-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .loads-timeline::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: linear-gradient(180deg, var(--cyan), var(--blue), var(--blue-dark));
+            transform: translateX(-50%);
+        }
+
+        .load-item {
+            display: flex;
+            margin-bottom: 3rem;
+            position: relative;
+        }
+
+        .load-item:nth-child(odd) {
+            flex-direction: row;
+        }
+
+        .load-item:nth-child(even) {
+            flex-direction: row-reverse;
+        }
+
+        .load-content {
+            width: 45%;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        .load-content:hover {
+            border-color: var(--blue);
+        }
+
+        .load-icon {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 40px;
+            height: 40px;
+            background: var(--bg-dark);
+            border: 2px solid var(--blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        .load-content h3 {
+            margin-bottom: 0.5rem;
+        }
+
+        .load-content .formula {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.5rem;
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: var(--cyan);
+            margin: 0.5rem 0;
+        }
+
+        .load-content p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Combination Table */
+        .combinations-section {
+            padding: 6rem 2rem;
+        }
+
+        .combo-table {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .combo-row {
+            display: grid;
+            grid-template-columns: 2fr 3fr 1fr;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .combo-row:last-child {
+            border-bottom: none;
+        }
+
+        .combo-cell {
+            padding: 1.25rem;
+        }
+
+        .combo-header {
+            background: rgba(59, 130, 246, 0.1);
+            font-weight: 700;
+            color: var(--blue);
+        }
+
+        .combo-name {
+            font-weight: 600;
+        }
+
+        .combo-formula {
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--cyan);
+        }
+
+        .combo-critical {
+            text-align: center;
+        }
+
+        .critical-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .critical-badge.high {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--red);
+        }
+
+        .critical-badge.medium {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--amber);
+        }
+
+        .critical-badge.low {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--green);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--blue);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(59, 130, 246, 0.1), rgba(0, 229, 255, 0.1));
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .force-comparison,
+            .zones-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .loads-timeline::before {
+                left: 20px;
+            }
+
+            .load-item,
+            .load-item:nth-child(even) {
+                flex-direction: column;
+                padding-left: 50px;
+            }
+
+            .load-content {
+                width: 100%;
+            }
+
+            .load-icon {
+                left: 20px;
+            }
+
+            .combo-row {
+                grid-template-columns: 1fr;
+            }
+
+            .water-indicator,
+            .wind-speed-box {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Water Canvas -->
+    <canvas id="waterCanvas"></canvas>
+
+    <!-- Water Level Indicator -->
+    <div class="water-indicator">
+        <div class="water-indicator-title">Surge Level</div>
+        <div class="water-gauge">
+            <div class="water-level" id="waterLevel" style="height: 60%;"></div>
+            <div class="water-markers">
+                <span>15ft</span>
+                <span>10ft</span>
+                <span>5ft</span>
+                <span>0</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Wind Speed Indicator -->
+    <div class="wind-speed-box">
+        <div class="label">Wind</div>
+        <div class="value" id="windValue">145</div>
+        <div class="unit">MPH</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <div class="content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/cities/key-west-wind-load-requirements">Monroe</a> /
+                <span class="breadcrumb-current">Combined Flood + Wind Loading</span>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                    </svg>
+                    DUAL HAZARD ENGINEERING
+                </div>
+                <h1>Combined <span class="highlight-water">Flood</span> + <span class="highlight-wind">Wind</span> Loading</h1>
+                <p class="hero-description">
+                    Florida Keys structures face simultaneous assault from storm surge and hurricane winds. Understanding how these forces combine is essential for designing structures that survive the full spectrum of hurricane impacts.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                        Calculate Combined Loads
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">All Calculators</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Combined Visualization -->
+        <section class="viz-section reveal">
+            <div class="section-header">
+                <h2>Dual Hazard Visualization</h2>
+                <p>See how wind and flood forces act simultaneously on coastal structures</p>
+            </div>
+            <div class="combined-viz">
+                <canvas id="combinedCanvas"></canvas>
+            </div>
+
+            <div class="force-comparison">
+                <div class="force-card wind-card">
+                    <div class="force-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9.59 4.59A2 2 0 1 1 11 8H2m10.59 11.41A2 2 0 1 0 14 16H2m15.73-8.27A2.5 2.5 0 1 1 19.5 12H2"/>
+                        </svg>
+                    </div>
+                    <div class="force-value">45</div>
+                    <div class="force-label">Wind Pressure (psf)</div>
+                    <div class="force-sublabel">At 180 MPH design speed</div>
+                </div>
+                <div class="force-card flood-card">
+                    <div class="force-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"/>
+                        </svg>
+                    </div>
+                    <div class="force-value">62</div>
+                    <div class="force-label">Hydrostatic (psf)</div>
+                    <div class="force-sublabel">At 10 ft flood depth</div>
+                </div>
+                <div class="force-card combined-card">
+                    <div class="force-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                            <line x1="12" y1="9" x2="12" y2="13"/>
+                            <line x1="12" y1="17" x2="12.01" y2="17"/>
+                        </svg>
+                    </div>
+                    <div class="force-value">140+</div>
+                    <div class="force-label">Combined Load (psf)</div>
+                    <div class="force-sublabel">With wave + debris impact</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flood Zones -->
+        <section class="zones-section reveal">
+            <div class="section-header">
+                <h2>Florida Keys Flood Zone Designations</h2>
+                <p>Understanding FEMA zone requirements for structural design</p>
+            </div>
+            <div class="zones-grid">
+                <div class="zone-card">
+                    <span class="zone-letter">VE</span>
+                    <h3>VE Zone <span class="zone-badge critical">High Hazard</span></h3>
+                    <p>Coastal high hazard area with wave action. Most restrictive requirements for Florida Keys oceanfront and bayside properties.</p>
+                    <ul class="zone-requirements">
+                        <li>Wave heights 3+ feet expected</li>
+                        <li>Pile or column foundation required</li>
+                        <li>Lowest floor above BFE + freeboard</li>
+                        <li>Breaking wave load analysis required</li>
+                    </ul>
+                </div>
+                <div class="zone-card">
+                    <span class="zone-letter">AE</span>
+                    <h3>AE Zone <span class="zone-badge">Base Flood</span></h3>
+                    <p>Areas with determined base flood elevations. Common in interior Keys locations away from direct ocean exposure.</p>
+                    <ul class="zone-requirements">
+                        <li>Base Flood Elevation determined</li>
+                        <li>Slab on grade may be permitted</li>
+                        <li>Flood venting required below BFE</li>
+                        <li>Hydrostatic and hydrodynamic analysis</li>
+                    </ul>
+                </div>
+                <div class="zone-card">
+                    <span class="zone-letter">AO</span>
+                    <h3>AO Zone <span class="zone-badge">Sheet Flow</span></h3>
+                    <p>Areas of shallow flooding with sheet flow. Depths typically 1-3 feet with velocity concerns.</p>
+                    <ul class="zone-requirements">
+                        <li>Depth number specified on FIRM</li>
+                        <li>Velocity flow considerations</li>
+                        <li>Drainage path analysis required</li>
+                        <li>Elevation above adjacent grade</li>
+                    </ul>
+                </div>
+                <div class="zone-card">
+                    <span class="zone-letter">X</span>
+                    <h3>X Zone <span class="zone-badge">Minimal</span></h3>
+                    <p>Areas outside the 1% annual chance flood zone. Rare in the Florida Keys due to low elevation throughout.</p>
+                    <ul class="zone-requirements">
+                        <li>No mandatory flood insurance</li>
+                        <li>Standard construction permitted</li>
+                        <li>Climate resilience still recommended</li>
+                        <li>Sea level rise considerations</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Flood Load Types -->
+        <section class="loads-section reveal">
+            <div class="section-header">
+                <h2>Flood Load Components</h2>
+                <p>Types of flood loads per ASCE 7-22 Chapter 5</p>
+            </div>
+            <div class="loads-timeline">
+                <div class="load-item">
+                    <div class="load-content">
+                        <h3>Hydrostatic Loads (Fh)</h3>
+                        <div class="formula">Fh = 0.5 * gamma * ds^2</div>
+                        <p>Static pressure from standing water against vertical surfaces. Increases with the square of depth.</p>
+                    </div>
+                    <div class="load-icon">1</div>
+                </div>
+                <div class="load-item">
+                    <div class="load-content">
+                        <h3>Hydrodynamic Loads (Fdyn)</h3>
+                        <div class="formula">Fdyn = 0.5 * Cd * rho * V^2 * A</div>
+                        <p>Moving water creates drag forces proportional to velocity squared. Critical during storm surge inflow.</p>
+                    </div>
+                    <div class="load-icon">2</div>
+                </div>
+                <div class="load-item">
+                    <div class="load-content">
+                        <h3>Breaking Wave Loads (Fbrkw)</h3>
+                        <div class="formula">Fbrkw = 1.1 * Cp * gamma * ds^2</div>
+                        <p>Impact from breaking waves creates peak pressures 2-3x hydrostatic. VE zones require this analysis.</p>
+                    </div>
+                    <div class="load-icon">3</div>
+                </div>
+                <div class="load-item">
+                    <div class="load-content">
+                        <h3>Debris Impact Loads (Fi)</h3>
+                        <div class="formula">Fi = m * V / delta_t</div>
+                        <p>Floating debris including boats, trees, and building materials create impulse loads during storm surge.</p>
+                    </div>
+                    <div class="load-icon">4</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Load Combinations Table -->
+        <section class="combinations-section reveal">
+            <div class="section-header">
+                <h2>Critical Load Combinations</h2>
+                <p>ASCE 7-22 combinations for dual hazard design</p>
+            </div>
+            <div class="combo-table">
+                <div class="combo-row">
+                    <div class="combo-cell combo-header">Combination</div>
+                    <div class="combo-cell combo-header">Formula</div>
+                    <div class="combo-cell combo-header combo-critical">Priority</div>
+                </div>
+                <div class="combo-row">
+                    <div class="combo-cell combo-name">Strength - Wind + Flood</div>
+                    <div class="combo-cell combo-formula">1.2D + 1.0W + 1.0Fa + L</div>
+                    <div class="combo-cell combo-critical"><span class="critical-badge high">High</span></div>
+                </div>
+                <div class="combo-row">
+                    <div class="combo-cell combo-name">Stability - Overturning</div>
+                    <div class="combo-cell combo-formula">0.9D + 1.0W + 1.0Fa</div>
+                    <div class="combo-cell combo-critical"><span class="critical-badge high">High</span></div>
+                </div>
+                <div class="combo-row">
+                    <div class="combo-cell combo-name">Uplift + Flood</div>
+                    <div class="combo-cell combo-formula">0.9D - 1.0W + 1.0Fa</div>
+                    <div class="combo-cell combo-critical"><span class="critical-badge high">High</span></div>
+                </div>
+                <div class="combo-row">
+                    <div class="combo-cell combo-name">Gravity Dominant</div>
+                    <div class="combo-cell combo-formula">1.2D + 1.6L + 0.5W</div>
+                    <div class="combo-cell combo-critical"><span class="critical-badge medium">Medium</span></div>
+                </div>
+                <div class="combo-row">
+                    <div class="combo-cell combo-name">Service Level</div>
+                    <div class="combo-cell combo-formula">D + W + Fa</div>
+                    <div class="combo-cell combo-critical"><span class="critical-badge low">Check</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Expert answers on combined flood and wind loading</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">How are flood and wind loads combined in structural design?</div>
+                    <div class="faq-answer">
+                        ASCE 7-22 Section 2.3.6 requires combining flood loads with other loads using specific factors. The critical combinations for coastal structures include: 1.2D + 1.0W + Fa for strength design, and 0.9D + 1.0W + Fa for stability checks, where Fa encompasses hydrostatic, hydrodynamic, wave, and debris impact forces. The simultaneous occurrence of peak wind and peak flood is considered for design, even though peak conditions may not perfectly align.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What flood zone designations apply to the Florida Keys?</div>
+                    <div class="faq-answer">
+                        The Florida Keys include VE zones (coastal high hazard with wave action), AE zones (base flood elevations determined), and AO zones (sheet flow areas). Most oceanfront and bayside properties fall within VE zones requiring wave load analysis and minimum pile foundation construction. The entire Keys chain is vulnerable due to average elevations of only 5-8 feet above sea level.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What is the difference between stillwater depth and design flood elevation?</div>
+                    <div class="faq-answer">
+                        Stillwater depth is the water surface elevation without wave action, while Design Flood Elevation (DFE) includes wave crest height in VE zones. For Florida Keys VE zones, DFE typically adds 1.5 to 3 feet of wave crest above stillwater elevation. The Base Flood Elevation (BFE) shown on FIRM maps represents the 1% annual chance flood level. Design often requires additional freeboard above BFE.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How do breaking waves affect structural loading?</div>
+                    <div class="faq-answer">
+                        Breaking waves create impact pressures that can exceed 100 psf instantaneously. ASCE 7-22 calculates breaking wave loads using Fbrkp = 1.1 Cp gamma ds^2 where Cp depends on structure orientation. For vertical walls facing wave approach, dynamic breaking wave pressure can reach 2.5 times hydrostatic pressure at the wave crest elevation. This is why VE zone construction requires pile foundations to allow wave passage.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What is breakaway wall construction?</div>
+                    <div class="faq-answer">
+                        Breakaway walls are non-structural enclosures below the BFE designed to fail under flood loads without damaging the structural system. FEMA requires breakaway walls to fail at pressures between 10-20 psf, and they cannot be used for building utilities or habitable space. They allow floodwaters to pass through, reducing lateral loads on foundations. Proper certification and documentation is required for insurance purposes.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal">
+            <div class="cta-box">
+                <h2>Calculate Combined Loading Requirements</h2>
+                <p>Get accurate ASCE 7-22 wind and flood load analysis for your Florida Keys project. Include wave loads, debris impact, and all critical combinations.</p>
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                    Start Combined Analysis
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+                <a href="https://windload.solutions/state-requirements">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-engineers.html">Engineers</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 WindLoad.co - Professional Wind Load Engineering Solutions</p>
+        </footer>
+    </div>
+
+    <script>
+        // Water Canvas Animation
+        const canvas = document.getElementById('waterCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Wave particles
+        class WaveParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height - Math.random() * 200;
+                this.radius = Math.random() * 3 + 1;
+                this.speedX = Math.random() * 2 - 1;
+                this.speedY = Math.random() * -2 - 0.5;
+                this.opacity = Math.random() * 0.5 + 0.1;
+                this.type = Math.random() > 0.5 ? 'bubble' : 'drop';
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.opacity -= 0.002;
+
+                if (this.y < canvas.height - 300 || this.opacity <= 0) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                ctx.fillStyle = this.type === 'bubble'
+                    ? `rgba(59, 130, 246, ${this.opacity})`
+                    : `rgba(0, 229, 255, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        // Wind streaks
+        class WindStreak {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -100;
+                this.y = Math.random() * canvas.height * 0.7;
+                this.length = Math.random() * 100 + 50;
+                this.speed = Math.random() * 10 + 8;
+                this.opacity = Math.random() * 0.2 + 0.05;
+            }
+
+            update() {
+                this.x += this.speed;
+                if (this.x > canvas.width + 100) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                const gradient = ctx.createLinearGradient(this.x - this.length, this.y, this.x, this.y);
+                gradient.addColorStop(0, 'transparent');
+                gradient.addColorStop(0.5, `rgba(0, 229, 255, ${this.opacity})`);
+                gradient.addColorStop(1, 'transparent');
+
+                ctx.beginPath();
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.moveTo(this.x - this.length, this.y);
+                ctx.lineTo(this.x, this.y);
+                ctx.stroke();
+            }
+        }
+
+        const waveParticles = [];
+        const windStreaks = [];
+
+        for (let i = 0; i < 50; i++) {
+            waveParticles.push(new WaveParticle());
+        }
+
+        for (let i = 0; i < 15; i++) {
+            const streak = new WindStreak();
+            streak.x = Math.random() * canvas.width;
+            windStreaks.push(streak);
+        }
+
+        // Water wave at bottom
+        let waveOffset = 0;
+
+        function drawWaterWave() {
+            waveOffset += 0.02;
+
+            const gradient = ctx.createLinearGradient(0, canvas.height - 100, 0, canvas.height);
+            gradient.addColorStop(0, 'rgba(29, 78, 216, 0)');
+            gradient.addColorStop(0.5, 'rgba(29, 78, 216, 0.1)');
+            gradient.addColorStop(1, 'rgba(29, 78, 216, 0.2)');
+
+            ctx.beginPath();
+            ctx.moveTo(0, canvas.height);
+
+            for (let x = 0; x <= canvas.width; x += 10) {
+                const y = canvas.height - 50 + Math.sin(x * 0.02 + waveOffset) * 20 + Math.sin(x * 0.01 + waveOffset * 0.5) * 10;
+                ctx.lineTo(x, y);
+            }
+
+            ctx.lineTo(canvas.width, canvas.height);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            drawWaterWave();
+
+            waveParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            windStreaks.forEach(s => {
+                s.update();
+                s.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Combined visualization canvas
+        const combinedCanvas = document.getElementById('combinedCanvas');
+        const combinedCtx = combinedCanvas.getContext('2d');
+
+        function resizeCombinedCanvas() {
+            const container = combinedCanvas.parentElement;
+            combinedCanvas.width = container.clientWidth - 64;
+            combinedCanvas.height = 500;
+        }
+        resizeCombinedCanvas();
+        window.addEventListener('resize', resizeCombinedCanvas);
+
+        let animFrame = 0;
+
+        function drawCombinedVisualization() {
+            const w = combinedCanvas.width;
+            const h = combinedCanvas.height;
+            combinedCtx.clearRect(0, 0, w, h);
+
+            animFrame++;
+
+            // Ground
+            combinedCtx.fillStyle = '#1a0f05';
+            combinedCtx.fillRect(0, h - 50, w, 50);
+
+            // Water level (animated)
+            const waterHeight = 150 + Math.sin(animFrame * 0.03) * 20;
+            const waterGradient = combinedCtx.createLinearGradient(0, h - waterHeight, 0, h - 50);
+            waterGradient.addColorStop(0, 'rgba(59, 130, 246, 0.4)');
+            waterGradient.addColorStop(1, 'rgba(29, 78, 216, 0.7)');
+            combinedCtx.fillStyle = waterGradient;
+            combinedCtx.fillRect(0, h - waterHeight, w, waterHeight - 50);
+
+            // Wave surface
+            combinedCtx.beginPath();
+            combinedCtx.moveTo(0, h - waterHeight);
+            for (let x = 0; x <= w; x += 5) {
+                const waveY = h - waterHeight + Math.sin(x * 0.02 + animFrame * 0.05) * 15;
+                combinedCtx.lineTo(x, waveY);
+            }
+            combinedCtx.lineTo(w, h - 50);
+            combinedCtx.lineTo(0, h - 50);
+            combinedCtx.closePath();
+            combinedCtx.fillStyle = 'rgba(59, 130, 246, 0.3)';
+            combinedCtx.fill();
+
+            // Structure (stilt home)
+            const houseX = w / 2 - 100;
+            const houseY = 100;
+
+            // Piles
+            combinedCtx.fillStyle = '#654321';
+            combinedCtx.fillRect(houseX + 20, houseY + 150, 15, h - houseY - 200);
+            combinedCtx.fillRect(houseX + 165, houseY + 150, 15, h - houseY - 200);
+
+            // House
+            combinedCtx.fillStyle = 'rgba(30, 58, 95, 0.9)';
+            combinedCtx.fillRect(houseX, houseY, 200, 150);
+
+            // Roof
+            combinedCtx.beginPath();
+            combinedCtx.moveTo(houseX - 20, houseY);
+            combinedCtx.lineTo(houseX + 100, houseY - 60);
+            combinedCtx.lineTo(houseX + 220, houseY);
+            combinedCtx.closePath();
+            combinedCtx.fillStyle = 'rgba(30, 58, 95, 0.7)';
+            combinedCtx.fill();
+
+            // Wind arrows
+            for (let i = 0; i < 5; i++) {
+                const arrowY = houseY + i * 30;
+                const arrowX = 50 + (animFrame * 3 + i * 20) % 100;
+                drawArrow(combinedCtx, arrowX, arrowY, arrowX + 80, arrowY, '#00e5ff', 0.5 + Math.sin(animFrame * 0.1 + i) * 0.3);
+            }
+
+            // Flood force arrows (horizontal from water)
+            for (let i = 0; i < 3; i++) {
+                const arrowY = h - 100 - i * 30;
+                if (arrowY > h - waterHeight) {
+                    const arrowX = 50 + (animFrame * 2 + i * 30) % 80;
+                    drawArrow(combinedCtx, arrowX, arrowY, arrowX + 60, arrowY, '#3b82f6', 0.6);
+                }
+            }
+
+            // Labels
+            combinedCtx.font = 'bold 14px sans-serif';
+            combinedCtx.fillStyle = '#00e5ff';
+            combinedCtx.fillText('WIND LOAD', 30, 80);
+
+            combinedCtx.fillStyle = '#3b82f6';
+            combinedCtx.fillText('FLOOD LOAD', 30, h - 180);
+
+            combinedCtx.fillStyle = '#f59e0b';
+            combinedCtx.fillText('BFE', w - 80, h - waterHeight - 30);
+
+            // BFE line
+            combinedCtx.setLineDash([5, 5]);
+            combinedCtx.strokeStyle = '#f59e0b';
+            combinedCtx.beginPath();
+            combinedCtx.moveTo(0, h - waterHeight - 20);
+            combinedCtx.lineTo(w, h - waterHeight - 20);
+            combinedCtx.stroke();
+            combinedCtx.setLineDash([]);
+
+            requestAnimationFrame(drawCombinedVisualization);
+        }
+
+        function drawArrow(ctx, fromX, fromY, toX, toY, color, opacity) {
+            const headLen = 10;
+            const dx = toX - fromX;
+            const dy = toY - fromY;
+            const angle = Math.atan2(dy, dx);
+
+            ctx.beginPath();
+            ctx.moveTo(fromX, fromY);
+            ctx.lineTo(toX, toY);
+            ctx.lineTo(toX - headLen * Math.cos(angle - Math.PI / 6), toY - headLen * Math.sin(angle - Math.PI / 6));
+            ctx.moveTo(toX, toY);
+            ctx.lineTo(toX - headLen * Math.cos(angle + Math.PI / 6), toY - headLen * Math.sin(angle + Math.PI / 6));
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = opacity;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        }
+
+        drawCombinedVisualization();
+
+        // Animate water level indicator
+        const waterLevel = document.getElementById('waterLevel');
+        let levelAnim = 0;
+        setInterval(() => {
+            levelAnim += 0.05;
+            const height = 55 + Math.sin(levelAnim) * 10;
+            waterLevel.style.height = height + '%';
+        }, 100);
+
+        // Animate wind value
+        const windValue = document.getElementById('windValue');
+        setInterval(() => {
+            windValue.textContent = 140 + Math.floor(Math.random() * 20);
+        }, 500);
+
+        // Reveal animations
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

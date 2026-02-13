@@ -1,0 +1,1580 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hurricane Categories Explained: Saffir-Simpson Scale &amp; Wind Loads | Miami-Dade | WindLoad.co</title>
+    <meta name="description" content="Understand the Saffir-Simpson Hurricane Wind Scale and how each category affects building design requirements in Miami-Dade County. Interactive wind speed meter visualization.">
+    <meta name="keywords" content="Saffir-Simpson scale, hurricane categories, wind speed, Miami-Dade building codes, Category 5 hurricane, storm damage">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <link rel="canonical" href="https://windload.co/preview/miami-dade/hurricane-categories.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Hurricane Categories: Understanding the Saffir-Simpson Scale">
+    <meta property="og:description" content="Interactive guide to hurricane categories and their impact on building design requirements.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/preview/miami-dade/hurricane-categories.html">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind speeds define each hurricane category?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Category 1: 74-95 mph, Category 2: 96-110 mph, Category 3: 111-129 mph (major), Category 4: 130-156 mph (major), Category 5: 157+ mph (major). Miami-Dade's 180 mph design wind speed exceeds even Category 5 to provide adequate safety margins."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does Miami-Dade require 180 MPH design wind speed when Category 5 starts at 157 MPH?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Building codes use ultimate wind speeds with safety factors to account for gusts exceeding sustained winds, uncertainties in construction, material variability, and critical life-safety requirements. The 180 MPH design speed provides approximately 15% margin above extreme Category 5 conditions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does wind pressure relate to wind speed in building design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind pressure increases with the square of velocity: P = 0.00256 x V^2. This means doubling wind speed quadruples the pressure. A 180 MPH wind creates about 83 psf of velocity pressure, compared to only 21 psf at 90 MPH."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What distinguishes a major hurricane from other categories?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Major hurricanes are Category 3, 4, or 5 storms with sustained winds of 111 mph or greater. These storms cause devastating to catastrophic damage and account for 85% of all hurricane damage despite representing only about 25% of landfalling storms."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How often do Category 5 hurricanes hit Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Since 1851, only four Category 5 hurricanes have made landfall in Florida: the 1935 Labor Day Hurricane, Andrew (1992), Irma (2017 at Florida Keys), and Michael (2018 at the Panhandle). However, many storms intensify to Cat 5 over the Gulf or Atlantic before weakening slightly at landfall."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(180deg, #0a0f1a 0%, #0d1525 50%, #0a0f1a 100%);
+            color: #ffffff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #storm-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #00e5ff;
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, #00e5ff 0%, #00b4d8 100%);
+            color: #0c1220;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem 1rem;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .breadcrumb a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: #00e5ff;
+        }
+
+        .breadcrumb span {
+            color: #64748b;
+        }
+
+        .breadcrumb-current {
+            color: #00e5ff;
+        }
+
+        /* Main Content */
+        .content {
+            position: relative;
+            z-index: 1;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 3rem 0 4rem;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            background: rgba(255, 71, 87, 0.15);
+            border: 1px solid rgba(255, 71, 87, 0.4);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: #ff4757;
+            margin-bottom: 1.5rem;
+            animation: pulse-red 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(255, 71, 87, 0.4); }
+            50% { box-shadow: 0 0 0 10px rgba(255, 71, 87, 0); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, #ff4757, #ff8f00, #ffeb3b, #ff4757);
+            background-size: 300% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fire-shimmer 3s linear infinite;
+        }
+
+        @keyframes fire-shimmer {
+            0% { background-position: 0% center; }
+            100% { background-position: 300% center; }
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            line-height: 1.6;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #00e5ff 0%, #00b4d8 100%);
+            color: #0c1220;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid rgba(255, 71, 87, 0.5);
+            color: #ff4757;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255, 71, 87, 0.1);
+            border-color: #ff4757;
+        }
+
+        /* Wind Speed Meter Section */
+        .meter-section {
+            margin-bottom: 4rem;
+        }
+
+        .meter-container {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 30px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .meter-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .meter-header h2 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .meter-header p {
+            color: #94a3b8;
+        }
+
+        /* Speedometer */
+        .speedometer-wrapper {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .speedometer {
+            position: relative;
+            width: 400px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .speedometer svg {
+            width: 100%;
+            height: 250px;
+        }
+
+        .speed-arc {
+            fill: none;
+            stroke-width: 30;
+            stroke-linecap: round;
+        }
+
+        .arc-bg {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+
+        .arc-cat1 { stroke: #3498db; }
+        .arc-cat2 { stroke: #27ae60; }
+        .arc-cat3 { stroke: #f1c40f; }
+        .arc-cat4 { stroke: #e67e22; }
+        .arc-cat5 { stroke: #e74c3c; }
+        .arc-design { stroke: #9b59b6; }
+
+        .speed-needle {
+            transform-origin: 200px 200px;
+            transition: transform 1s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .speed-display {
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .speed-value {
+            font-size: 3rem;
+            font-weight: 900;
+            line-height: 1;
+            transition: color 0.3s ease;
+        }
+
+        .speed-unit {
+            font-size: 1rem;
+            color: #94a3b8;
+            margin-left: 0.25rem;
+        }
+
+        .speed-label {
+            font-size: 0.9rem;
+            color: #00e5ff;
+            margin-top: 0.25rem;
+            font-weight: 600;
+        }
+
+        /* Category Selector */
+        .category-selector {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+
+        .cat-btn {
+            padding: 0.75rem 1.5rem;
+            border: 2px solid;
+            border-radius: 50px;
+            background: transparent;
+            font-weight: 700;
+            font-size: 0.875rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: #ffffff;
+        }
+
+        .cat-btn:hover, .cat-btn.active {
+            transform: scale(1.05);
+        }
+
+        .cat-btn[data-cat="1"] { border-color: #3498db; }
+        .cat-btn[data-cat="1"]:hover, .cat-btn[data-cat="1"].active { background: #3498db; color: #0a0f1a; }
+
+        .cat-btn[data-cat="2"] { border-color: #27ae60; }
+        .cat-btn[data-cat="2"]:hover, .cat-btn[data-cat="2"].active { background: #27ae60; color: #0a0f1a; }
+
+        .cat-btn[data-cat="3"] { border-color: #f1c40f; }
+        .cat-btn[data-cat="3"]:hover, .cat-btn[data-cat="3"].active { background: #f1c40f; color: #0a0f1a; }
+
+        .cat-btn[data-cat="4"] { border-color: #e67e22; }
+        .cat-btn[data-cat="4"]:hover, .cat-btn[data-cat="4"].active { background: #e67e22; color: #0a0f1a; }
+
+        .cat-btn[data-cat="5"] { border-color: #e74c3c; }
+        .cat-btn[data-cat="5"]:hover, .cat-btn[data-cat="5"].active { background: #e74c3c; color: #ffffff; }
+
+        .cat-btn[data-cat="design"] { border-color: #9b59b6; }
+        .cat-btn[data-cat="design"]:hover, .cat-btn[data-cat="design"].active { background: #9b59b6; color: #ffffff; }
+
+        /* Category Detail Card */
+        .category-detail {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            gap: 2rem;
+            transition: border-color 0.3s ease;
+            border: 2px solid transparent;
+        }
+
+        .detail-item {
+            text-align: center;
+        }
+
+        .detail-label {
+            font-size: 0.875rem;
+            color: #64748b;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .detail-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .detail-note {
+            font-size: 0.875rem;
+            color: #94a3b8;
+            margin-top: 0.25rem;
+        }
+
+        /* Category Cards */
+        .categories-section {
+            margin-bottom: 4rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .category-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+
+        .category-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 2px solid;
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .category-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .category-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .category-card.cat-1 { border-color: rgba(52, 152, 219, 0.3); }
+        .category-card.cat-1:hover { box-shadow: 0 20px 60px rgba(52, 152, 219, 0.2); }
+        .category-card.cat-1::before { background: #3498db; }
+
+        .category-card.cat-2 { border-color: rgba(39, 174, 96, 0.3); }
+        .category-card.cat-2:hover { box-shadow: 0 20px 60px rgba(39, 174, 96, 0.2); }
+        .category-card.cat-2::before { background: #27ae60; }
+
+        .category-card.cat-3 { border-color: rgba(241, 196, 15, 0.3); }
+        .category-card.cat-3:hover { box-shadow: 0 20px 60px rgba(241, 196, 15, 0.2); }
+        .category-card.cat-3::before { background: #f1c40f; }
+
+        .category-card.cat-4 { border-color: rgba(230, 126, 34, 0.3); }
+        .category-card.cat-4:hover { box-shadow: 0 20px 60px rgba(230, 126, 34, 0.2); }
+        .category-card.cat-4::before { background: #e67e22; }
+
+        .category-card.cat-5 { border-color: rgba(231, 76, 60, 0.3); }
+        .category-card.cat-5:hover { box-shadow: 0 20px 60px rgba(231, 76, 60, 0.2); }
+        .category-card.cat-5::before { background: #e74c3c; }
+
+        .category-card.design-card { border-color: rgba(155, 89, 182, 0.3); }
+        .category-card.design-card:hover { box-shadow: 0 20px 60px rgba(155, 89, 182, 0.2); }
+        .category-card.design-card::before { background: #9b59b6; }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-number {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 900;
+        }
+
+        .cat-1 .card-number { background: rgba(52, 152, 219, 0.2); color: #3498db; }
+        .cat-2 .card-number { background: rgba(39, 174, 96, 0.2); color: #27ae60; }
+        .cat-3 .card-number { background: rgba(241, 196, 15, 0.2); color: #f1c40f; }
+        .cat-4 .card-number { background: rgba(230, 126, 34, 0.2); color: #e67e22; }
+        .cat-5 .card-number { background: rgba(231, 76, 60, 0.2); color: #e74c3c; }
+        .design-card .card-number { background: rgba(155, 89, 182, 0.2); color: #9b59b6; }
+
+        .card-title h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-title .wind-range {
+            font-size: 0.875rem;
+            color: #94a3b8;
+        }
+
+        .card-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .stat {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 0.75rem;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        .card-description {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Pressure Comparison Section */
+        .pressure-section {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .pressure-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .pressure-section > p {
+            text-align: center;
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .pressure-bars {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .pressure-bar-row {
+            display: grid;
+            grid-template-columns: 120px 1fr 80px;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .pressure-label {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .pressure-bar-container {
+            height: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .pressure-bar {
+            height: 100%;
+            border-radius: 15px;
+            transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            width: 0;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 1rem;
+        }
+
+        .pressure-bar.cat-1-bar { background: linear-gradient(90deg, #3498db, #2980b9); }
+        .pressure-bar.cat-2-bar { background: linear-gradient(90deg, #27ae60, #1e8449); }
+        .pressure-bar.cat-3-bar { background: linear-gradient(90deg, #f1c40f, #d4ac0d); }
+        .pressure-bar.cat-4-bar { background: linear-gradient(90deg, #e67e22, #ca6f1e); }
+        .pressure-bar.cat-5-bar { background: linear-gradient(90deg, #e74c3c, #c0392b); }
+        .pressure-bar.design-bar { background: linear-gradient(90deg, #9b59b6, #8e44ad); }
+
+        .pressure-value {
+            font-weight: 700;
+            text-align: right;
+        }
+
+        /* Content Section */
+        .content-section {
+            margin-bottom: 4rem;
+        }
+
+        .content-section h2 {
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section h3 {
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            color: #00e5ff;
+        }
+
+        .content-section p {
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .content-section li {
+            padding: 0.5rem 0;
+            padding-left: 1.5rem;
+            position: relative;
+            color: #94a3b8;
+        }
+
+        .content-section li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 1rem;
+            width: 6px;
+            height: 6px;
+            background: #ff4757;
+            border-radius: 50%;
+        }
+
+        /* Alert Box */
+        .alert-box {
+            background: rgba(255, 71, 87, 0.1);
+            border-left: 4px solid #ff4757;
+            padding: 1.5rem;
+            border-radius: 0 15px 15px 0;
+            margin: 2rem 0;
+        }
+
+        .alert-box h4 {
+            color: #ff4757;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .alert-box p {
+            color: #ffc5c9;
+            margin: 0;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-bottom: 4rem;
+        }
+
+        .faq-section h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(255, 71, 87, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #ffffff;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #ff4757;
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+            padding: 0 1.5rem 1.5rem;
+        }
+
+        .faq-answer p {
+            color: #94a3b8;
+            line-height: 1.7;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            text-align: center;
+            padding: 4rem;
+            background: linear-gradient(135deg, rgba(255, 71, 87, 0.1), rgba(155, 89, 182, 0.1));
+            border-radius: 30px;
+            border: 1px solid rgba(255, 71, 87, 0.2);
+            margin-bottom: 4rem;
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: #94a3b8;
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.3);
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .footer-links a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 0.875rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: #00e5ff;
+        }
+
+        .footer-copy {
+            color: #64748b;
+            font-size: 0.875rem;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease, transform 0.6s ease;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 1024px) {
+            .speedometer {
+                width: 300px;
+                height: 200px;
+            }
+
+            .speed-value {
+                font-size: 3rem;
+            }
+
+            .category-detail {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .category-selector {
+                gap: 0.25rem;
+            }
+
+            .cat-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .pressure-bar-row {
+                grid-template-columns: 80px 1fr 60px;
+            }
+
+            .pressure-label {
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Storm Canvas -->
+    <canvas id="storm-canvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="https://windload.co">Home</a>
+            <span>/</span>
+            <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a>
+            <span>/</span>
+            <a href="https://windload.solutions/cities/miami-wind-load-requirements">Miami-Dade</a>
+            <span>/</span>
+            <span class="breadcrumb-current">Hurricane Categories</span>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="content">
+        <!-- Hero Section -->
+        <section class="hero reveal">
+            <span class="hero-badge">Saffir-Simpson Scale</span>
+            <h1>Hurricane Categories:<br><span class="gradient-text">From Tropical Storm to Catastrophe</span></h1>
+            <p class="hero-subtitle">Explore the Saffir-Simpson Hurricane Wind Scale and understand why Miami-Dade's 180 MPH design wind speed exceeds even the most extreme Category 5 conditions.</p>
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                    Calculate Wind Loads
+                </a>
+                <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-secondary">Impact Protection</a>
+            </div>
+        </section>
+
+        <!-- Wind Speed Meter Section -->
+        <section class="meter-section reveal">
+            <div class="meter-container">
+                <div class="meter-header">
+                    <h2>Interactive Wind Speed Meter</h2>
+                    <p>Select a hurricane category to see how wind speeds and pressures compare</p>
+                </div>
+
+                <div class="speedometer-wrapper">
+                    <div class="speedometer">
+                        <svg viewBox="0 0 400 250">
+                            <!-- Background Arc -->
+                            <path class="speed-arc arc-bg" d="M 50 200 A 150 150 0 0 1 350 200" />
+
+                            <!-- Category Arcs (showing scale segments) -->
+                            <defs>
+                                <linearGradient id="arcGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                    <stop offset="0%" stop-color="#3498db" />
+                                    <stop offset="20%" stop-color="#27ae60" />
+                                    <stop offset="40%" stop-color="#f1c40f" />
+                                    <stop offset="60%" stop-color="#e67e22" />
+                                    <stop offset="80%" stop-color="#e74c3c" />
+                                    <stop offset="100%" stop-color="#9b59b6" />
+                                </linearGradient>
+                            </defs>
+
+                            <!-- Tick marks -->
+                            <g stroke="#ffffff" stroke-width="2" opacity="0.3">
+                                <line x1="50" y1="200" x2="65" y2="200" />
+                                <line x1="80" y1="120" x2="92" y2="128" />
+                                <line x1="140" y1="60" x2="148" y2="72" />
+                                <line x1="200" y1="50" x2="200" y2="65" />
+                                <line x1="260" y1="60" x2="252" y2="72" />
+                                <line x1="320" y1="120" x2="308" y2="128" />
+                                <line x1="350" y1="200" x2="335" y2="200" />
+                            </g>
+
+                            <!-- Tick labels -->
+                            <g fill="#64748b" font-size="12" text-anchor="middle">
+                                <text x="35" y="205">0</text>
+                                <text x="60" y="110">50</text>
+                                <text x="120" y="45">100</text>
+                                <text x="200" y="35">130</text>
+                                <text x="280" y="45">160</text>
+                                <text x="340" y="110">180</text>
+                                <text x="365" y="205">200</text>
+                            </g>
+
+                            <!-- Needle -->
+                            <g class="speed-needle" id="needle">
+                                <polygon points="200,70 195,200 205,200" fill="url(#arcGradient)" />
+                                <circle cx="200" cy="200" r="15" fill="#ffffff" />
+                                <circle cx="200" cy="200" r="10" fill="#0a0f1a" />
+                            </g>
+                        </svg>
+                    </div>
+                    <div class="speed-display">
+                        <span class="speed-value" id="speed-value">0</span><span class="speed-unit">MPH</span>
+                        <div class="speed-label" id="speed-label">Select Category</div>
+                    </div>
+                </div>
+
+                <!-- Category Selector -->
+                <div class="category-selector">
+                    <button class="cat-btn" data-cat="1" data-speed="85" data-label="Category 1">Cat 1</button>
+                    <button class="cat-btn" data-cat="2" data-speed="103" data-label="Category 2">Cat 2</button>
+                    <button class="cat-btn" data-cat="3" data-speed="120" data-label="Category 3 (Major)">Cat 3</button>
+                    <button class="cat-btn" data-cat="4" data-speed="143" data-label="Category 4 (Major)">Cat 4</button>
+                    <button class="cat-btn" data-cat="5" data-speed="165" data-label="Category 5 (Major)">Cat 5</button>
+                    <button class="cat-btn" data-cat="design" data-speed="180" data-label="Miami-Dade Design">Design</button>
+                </div>
+
+                <!-- Category Detail -->
+                <div class="category-detail" id="category-detail">
+                    <div class="detail-item">
+                        <div class="detail-label">Velocity Pressure</div>
+                        <div class="detail-value" id="detail-pressure">-- psf</div>
+                        <div class="detail-note">q = 0.00256V<sup>2</sup></div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Damage Potential</div>
+                        <div class="detail-value" id="detail-damage">--</div>
+                        <div class="detail-note">Expected structural impact</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">Storm Surge Risk</div>
+                        <div class="detail-value" id="detail-surge">-- ft</div>
+                        <div class="detail-note">Above normal tide</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Category Cards -->
+        <section class="categories-section reveal">
+            <div class="section-header">
+                <h2>The Saffir-Simpson Hurricane Wind Scale</h2>
+                <p>Understanding each category's destructive potential and why building codes exceed them</p>
+            </div>
+
+            <div class="category-cards">
+                <div class="category-card cat-1">
+                    <div class="card-header">
+                        <div class="card-number">1</div>
+                        <div class="card-title">
+                            <h3>Category 1</h3>
+                            <span class="wind-range">74-95 mph</span>
+                        </div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">14-23</div>
+                            <div class="stat-label">psf pressure</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">4-5 ft</div>
+                            <div class="stat-label">Storm surge</div>
+                        </div>
+                    </div>
+                    <p class="card-description">Dangerous winds causing some damage to roof shingles, vinyl siding, and gutters. Large branches break; power outages expected for days.</p>
+                </div>
+
+                <div class="category-card cat-2">
+                    <div class="card-header">
+                        <div class="card-number">2</div>
+                        <div class="card-title">
+                            <h3>Category 2</h3>
+                            <span class="wind-range">96-110 mph</span>
+                        </div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">24-31</div>
+                            <div class="stat-label">psf pressure</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">6-8 ft</div>
+                            <div class="stat-label">Storm surge</div>
+                        </div>
+                    </div>
+                    <p class="card-description">Extremely dangerous winds causing extensive damage. Major roof and siding damage; many trees uprooted. Power outages for weeks.</p>
+                </div>
+
+                <div class="category-card cat-3">
+                    <div class="card-header">
+                        <div class="card-number">3</div>
+                        <div class="card-title">
+                            <h3>Category 3 - Major</h3>
+                            <span class="wind-range">111-129 mph</span>
+                        </div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">32-43</div>
+                            <div class="stat-label">psf pressure</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">9-12 ft</div>
+                            <div class="stat-label">Storm surge</div>
+                        </div>
+                    </div>
+                    <p class="card-description">Devastating damage. Roof decking removed; gable ends fail. Many trees snapped. Water and electricity unavailable for weeks.</p>
+                </div>
+
+                <div class="category-card cat-4">
+                    <div class="card-header">
+                        <div class="card-number">4</div>
+                        <div class="card-title">
+                            <h3>Category 4 - Major</h3>
+                            <span class="wind-range">130-156 mph</span>
+                        </div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">43-62</div>
+                            <div class="stat-label">psf pressure</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">13-18 ft</div>
+                            <div class="stat-label">Storm surge</div>
+                        </div>
+                    </div>
+                    <p class="card-description">Catastrophic damage. Well-built homes suffer severe damage with roof structure loss. Most trees snapped. Area uninhabitable for months.</p>
+                </div>
+
+                <div class="category-card cat-5">
+                    <div class="card-header">
+                        <div class="card-number">5</div>
+                        <div class="card-title">
+                            <h3>Category 5 - Major</h3>
+                            <span class="wind-range">157+ mph</span>
+                        </div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">63+</div>
+                            <div class="stat-label">psf pressure</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">18+ ft</div>
+                            <div class="stat-label">Storm surge</div>
+                        </div>
+                    </div>
+                    <p class="card-description">Catastrophic destruction. High percentage of frame homes destroyed. Fallen trees and power poles isolate areas. Uninhabitable for weeks to months.</p>
+                </div>
+
+                <div class="category-card design-card">
+                    <div class="card-header">
+                        <div class="card-number">D</div>
+                        <div class="card-title">
+                            <h3>Miami-Dade Design</h3>
+                            <span class="wind-range">180 mph ultimate</span>
+                        </div>
+                    </div>
+                    <div class="card-stats">
+                        <div class="stat">
+                            <div class="stat-value">83</div>
+                            <div class="stat-label">psf pressure</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">Safety</div>
+                            <div class="stat-label">Factor included</div>
+                        </div>
+                    </div>
+                    <p class="card-description">Building code requirement exceeds Cat 5 to account for gusts, safety factors, and critical life-safety margins. The benchmark for hurricane-resilient construction.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pressure Comparison -->
+        <section class="pressure-section reveal">
+            <h2>Wind Pressure vs. Category</h2>
+            <p>Pressure increases with the square of velocity. This exponential relationship means Category 5 storms create 4x the pressure of Category 1.</p>
+
+            <div class="pressure-bars" id="pressure-bars">
+                <div class="pressure-bar-row">
+                    <span class="pressure-label" style="color: #3498db;">Category 1</span>
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar cat-1-bar" data-width="17"></div>
+                    </div>
+                    <span class="pressure-value" style="color: #3498db;">18 psf</span>
+                </div>
+                <div class="pressure-bar-row">
+                    <span class="pressure-label" style="color: #27ae60;">Category 2</span>
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar cat-2-bar" data-width="27"></div>
+                    </div>
+                    <span class="pressure-value" style="color: #27ae60;">27 psf</span>
+                </div>
+                <div class="pressure-bar-row">
+                    <span class="pressure-label" style="color: #f1c40f;">Category 3</span>
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar cat-3-bar" data-width="37"></div>
+                    </div>
+                    <span class="pressure-value" style="color: #f1c40f;">37 psf</span>
+                </div>
+                <div class="pressure-bar-row">
+                    <span class="pressure-label" style="color: #e67e22;">Category 4</span>
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar cat-4-bar" data-width="52"></div>
+                    </div>
+                    <span class="pressure-value" style="color: #e67e22;">52 psf</span>
+                </div>
+                <div class="pressure-bar-row">
+                    <span class="pressure-label" style="color: #e74c3c;">Category 5</span>
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar cat-5-bar" data-width="70"></div>
+                    </div>
+                    <span class="pressure-value" style="color: #e74c3c;">70 psf</span>
+                </div>
+                <div class="pressure-bar-row">
+                    <span class="pressure-label" style="color: #9b59b6;">Design (180)</span>
+                    <div class="pressure-bar-container">
+                        <div class="pressure-bar design-bar" data-width="100"></div>
+                    </div>
+                    <span class="pressure-value" style="color: #9b59b6;">83 psf</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- Content Section -->
+        <section class="content-section reveal">
+            <h2>Understanding the Saffir-Simpson Scale</h2>
+
+            <p>The Saffir-Simpson Hurricane Wind Scale (SSHWS) classifies hurricanes into five categories based on sustained wind speeds. Developed in 1971 by civil engineer Herbert Saffir and meteorologist Robert Simpson, this scale provides a simple metric for communicating the potential damage a hurricane might cause. However, the scale focuses solely on wind speed and does not account for other hazards like storm surge, rainfall flooding, or tornadoes.</p>
+
+            <p>For structural engineers and building officials in Miami-Dade County, the Saffir-Simpson scale serves as a reference point, but building codes must exceed even the most extreme category. The 180 MPH ultimate design wind speed specified for the High-Velocity Hurricane Zone (HVHZ) includes safety factors, accounts for gust effects, and ensures buildings can withstand forces beyond what typical Category 5 storms produce.</p>
+
+            <h3>Why Design Speeds Exceed Category 5</h3>
+
+            <p>Building codes don't design for "average" storm conditions. They account for worst-case scenarios with appropriate safety margins. Several factors explain why Miami-Dade's 180 MPH requirement exceeds Category 5's 157+ MPH threshold:</p>
+
+            <ul>
+                <li><strong>Gust factors:</strong> Sustained wind speeds used in the Saffir-Simpson scale are 1-minute averages. Actual gusts during a hurricane can exceed sustained speeds by 25-40%. A 157 MPH sustained wind might produce gusts exceeding 200 MPH.</li>
+                <li><strong>Return period:</strong> Building codes use 700-year return period wind speeds for typical structures (Risk Category II), representing events with only a 0.14% annual probability of occurrence.</li>
+                <li><strong>Safety factors:</strong> Load and Resistance Factor Design (LRFD) applies safety factors to both loads and material strengths, providing additional margins against failure.</li>
+                <li><strong>Construction variability:</strong> Real-world construction never perfectly matches design assumptions. Code requirements must account for installation tolerances and workmanship variations.</li>
+            </ul>
+
+            <div class="alert-box">
+                <h4>
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="#ff4757"><path d="M12 2L1 21h22L12 2zm0 3.5L19.5 19h-15L12 5.5zM11 10v4h2v-4h-2zm0 6v2h2v-2h-2z"/></svg>
+                    Critical Engineering Consideration
+                </h4>
+                <p>Wind pressure scales with the square of velocity. A 20% increase in wind speed results in a 44% increase in pressure. This exponential relationship makes the difference between Category 4 and Category 5 far more significant than the scale numbers suggest.</p>
+            </div>
+
+            <h3>Historical Category 5 Landfalls in Florida</h3>
+
+            <p>Understanding historical hurricane impacts helps contextualize why building codes have become increasingly stringent. Florida has experienced four Category 5 hurricane landfalls since reliable records began in 1851:</p>
+
+            <ul>
+                <li><strong>Labor Day Hurricane (1935):</strong> Struck the Florida Keys with estimated sustained winds of 185 MPH and a minimum pressure of 892 mb. This remains the most intense hurricane to make U.S. landfall and killed over 400 people.</li>
+                <li><strong>Hurricane Andrew (1992):</strong> Made landfall in Homestead with 165 MPH sustained winds. Andrew caused $27 billion in damage (1992 dollars) and led to major revisions of the Florida Building Code.</li>
+                <li><strong>Hurricane Irma (2017):</strong> Made initial U.S. landfall in the Florida Keys as a Category 4, having been Category 5 shortly before. Irma demonstrated how large storms maintain destructive power across wide areas.</li>
+                <li><strong>Hurricane Michael (2018):</strong> Struck the Florida Panhandle near Mexico Beach with 160 MPH sustained winds, the first Category 5 to hit the Panhandle in recorded history.</li>
+            </ul>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section reveal">
+            <h2>Frequently Asked Questions</h2>
+
+            <div class="faq-item">
+                <div class="faq-question">What wind speeds define each hurricane category?</div>
+                <div class="faq-answer">
+                    <p>Category 1: 74-95 mph, Category 2: 96-110 mph, Category 3: 111-129 mph (major), Category 4: 130-156 mph (major), Category 5: 157+ mph (major). Miami-Dade's 180 mph design wind speed exceeds even Category 5 to provide adequate safety margins for building construction.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Why does Miami-Dade require 180 MPH design wind speed when Category 5 starts at 157 MPH?</div>
+                <div class="faq-answer">
+                    <p>Building codes use ultimate wind speeds with safety factors to account for gusts exceeding sustained winds, uncertainties in construction, material variability, and critical life-safety requirements. The 180 MPH design speed provides approximately 15% margin above extreme Category 5 conditions and accounts for gust factors that can add 25-40% to sustained wind speeds.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How does wind pressure relate to wind speed in building design?</div>
+                <div class="faq-answer">
+                    <p>Wind pressure increases with the square of velocity: P = 0.00256 x V squared. This means doubling wind speed quadruples the pressure. A 180 MPH wind creates about 83 psf of velocity pressure, compared to only 21 psf at 90 MPH. This exponential relationship makes high wind speeds disproportionately more destructive.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What distinguishes a major hurricane from other categories?</div>
+                <div class="faq-answer">
+                    <p>Major hurricanes are Category 3, 4, or 5 storms with sustained winds of 111 mph or greater. These storms cause devastating to catastrophic damage and account for 85% of all hurricane damage despite representing only about 25% of landfalling storms. Building code requirements in HVHZ areas like Miami-Dade specifically target resistance to major hurricane events.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How often do Category 5 hurricanes hit Florida?</div>
+                <div class="faq-answer">
+                    <p>Since 1851, only four Category 5 hurricanes have made landfall in Florida: the 1935 Labor Day Hurricane, Andrew (1992), Irma (2017 at Florida Keys), and Michael (2018 at the Panhandle). However, many storms intensify to Category 5 over the Gulf or Atlantic before weakening slightly at landfall, making it essential to design for extreme conditions.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal">
+            <h2>Design for Maximum Protection</h2>
+            <p>Get accurate wind load calculations that meet Miami-Dade's stringent 180 MPH design requirements. Ensure your project can withstand even the most extreme hurricane conditions.</p>
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Wind Loads</a>
+                <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-secondary">Impact Protection Loads</a>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-links">
+                <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+                <a href="https://windload.solutions/state-requirements">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-engineers.html">Engineers</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </div>
+            <div class="footer-copy">
+                &copy; 2026 WindLoad.co. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Storm Canvas Animation - Spiral Hurricane Effect
+        const canvas = document.getElementById('storm-canvas');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let centerX, centerY;
+        let time = 0;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+            centerX = canvas.width / 2;
+            centerY = canvas.height / 3;
+        }
+
+        class StormParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.angle = Math.random() * Math.PI * 2;
+                this.radius = Math.random() * 300 + 50;
+                this.speed = (0.5 + Math.random() * 0.5) / this.radius * 50;
+                this.size = Math.random() * 2 + 0.5;
+                this.opacity = Math.random() * 0.3 + 0.1;
+
+                // Color based on distance from center
+                const hue = 200 + (this.radius / 350) * 20;
+                this.color = `hsla(${hue}, 80%, 60%, ${this.opacity})`;
+            }
+
+            update() {
+                this.angle += this.speed;
+                this.radius -= 0.1;
+
+                if (this.radius < 30) {
+                    this.reset();
+                    this.radius = 300 + Math.random() * 100;
+                }
+            }
+
+            draw() {
+                const x = centerX + Math.cos(this.angle) * this.radius;
+                const y = centerY + Math.sin(this.angle) * this.radius * 0.5;
+
+                ctx.beginPath();
+                ctx.arc(x, y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.fill();
+            }
+        }
+
+        function initStormParticles() {
+            particles = [];
+            const particleCount = Math.min(200, Math.floor((canvas.width * canvas.height) / 10000));
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new StormParticle());
+            }
+        }
+
+        function animateStorm() {
+            ctx.fillStyle = 'rgba(10, 15, 26, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // Draw eye of storm
+            const gradient = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, 50);
+            gradient.addColorStop(0, 'rgba(10, 15, 26, 0.8)');
+            gradient.addColorStop(1, 'rgba(10, 15, 26, 0)');
+            ctx.fillStyle = gradient;
+            ctx.beginPath();
+            ctx.arc(centerX, centerY, 50, 0, Math.PI * 2);
+            ctx.fill();
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            time += 0.01;
+            requestAnimationFrame(animateStorm);
+        }
+
+        resizeCanvas();
+        initStormParticles();
+        animateStorm();
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            initStormParticles();
+        });
+
+        // Speedometer Functionality
+        const needle = document.getElementById('needle');
+        const speedValue = document.getElementById('speed-value');
+        const speedLabel = document.getElementById('speed-label');
+        const categoryDetail = document.getElementById('category-detail');
+        const detailPressure = document.getElementById('detail-pressure');
+        const detailDamage = document.getElementById('detail-damage');
+        const detailSurge = document.getElementById('detail-surge');
+        const catButtons = document.querySelectorAll('.cat-btn');
+
+        const categoryData = {
+            '1': { pressure: '18 psf', damage: 'Some Damage', surge: '4-5 ft', color: '#3498db' },
+            '2': { pressure: '27 psf', damage: 'Extensive', surge: '6-8 ft', color: '#27ae60' },
+            '3': { pressure: '37 psf', damage: 'Devastating', surge: '9-12 ft', color: '#f1c40f' },
+            '4': { pressure: '52 psf', damage: 'Catastrophic', surge: '13-18 ft', color: '#e67e22' },
+            '5': { pressure: '70 psf', damage: 'Catastrophic', surge: '18+ ft', color: '#e74c3c' },
+            'design': { pressure: '83 psf', damage: 'Code Margin', surge: 'N/A', color: '#9b59b6' }
+        };
+
+        function setSpeed(speed, cat, label) {
+            // Calculate needle rotation (0-200 mph maps to -90 to 90 degrees)
+            const rotation = (speed / 200) * 180 - 90;
+            needle.style.transform = `rotate(${rotation}deg)`;
+
+            // Animate speed value
+            let currentSpeed = parseInt(speedValue.textContent) || 0;
+            const targetSpeed = speed;
+            const increment = (targetSpeed - currentSpeed) / 30;
+
+            function animateValue() {
+                currentSpeed += increment;
+                if ((increment > 0 && currentSpeed < targetSpeed) || (increment < 0 && currentSpeed > targetSpeed)) {
+                    speedValue.textContent = Math.round(currentSpeed);
+                    requestAnimationFrame(animateValue);
+                } else {
+                    speedValue.textContent = targetSpeed;
+                }
+            }
+            animateValue();
+
+            speedLabel.textContent = label;
+            speedValue.style.color = categoryData[cat].color;
+
+            // Update detail card
+            detailPressure.textContent = categoryData[cat].pressure;
+            detailDamage.textContent = categoryData[cat].damage;
+            detailSurge.textContent = categoryData[cat].surge;
+            categoryDetail.style.borderColor = categoryData[cat].color;
+
+            // Update active button
+            catButtons.forEach(btn => btn.classList.remove('active'));
+            document.querySelector(`[data-cat="${cat}"]`).classList.add('active');
+        }
+
+        catButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const speed = parseInt(btn.dataset.speed);
+                const cat = btn.dataset.cat;
+                const label = btn.dataset.label;
+                setSpeed(speed, cat, label);
+            });
+        });
+
+        // Scroll Reveal Animation
+        const revealElements = document.querySelectorAll('.reveal');
+
+        function revealOnScroll() {
+            revealElements.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                const windowHeight = window.innerHeight;
+
+                if (rect.top < windowHeight * 0.85) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll();
+
+        // Pressure Bar Animation
+        const pressureBars = document.querySelectorAll('.pressure-bar');
+
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    pressureBars.forEach(bar => {
+                        const width = bar.dataset.width;
+                        bar.style.width = width + '%';
+                    });
+                }
+            });
+        }, { threshold: 0.3 });
+
+        barObserver.observe(document.getElementById('pressure-bars'));
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const isActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!isActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Auto-animate speedometer on load
+        setTimeout(() => {
+            setSpeed(180, 'design', 'Miami-Dade Design');
+        }, 1000);
+    </script>
+</body>
+</html>

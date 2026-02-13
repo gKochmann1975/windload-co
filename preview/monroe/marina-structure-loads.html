@@ -1,0 +1,1537 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marina Structure Wind Loads | Florida Keys Waterfront Engineering</title>
+    <meta name="description" content="Wind load engineering for Florida Keys marina structures. Boat lifts, docks, fuel facilities, and waterfront buildings require specialized ASCE 7-22 analysis for extreme exposure conditions.">
+    <meta name="keywords" content="marina wind loads, boat lift engineering, dock wind design, Florida Keys marina, waterfront structures, ASCE 7-22">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <link rel="canonical" href="https://windload.co/florida/monroe/marina-structure-loads.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Marina Structure Wind Loads | Florida Keys Engineering">
+    <meta property="og:description" content="Complete wind load analysis for marina facilities including boat lifts, docks, and waterfront buildings in extreme exposure conditions.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/marina-structure-loads.html">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What wind loads apply to boat lift structures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Boat lifts in the Florida Keys require design for 180+ MPH winds with Exposure Category D. The lift structure, cables, and anchoring must resist both wind on the structure and wind on the stored vessel. ASCE 7-22 treats boat lifts as 'other structures' requiring component and cladding analysis for the canopy plus MWFRS loads for the frame."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How are floating dock wind loads calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Floating docks experience wind loads transmitted through mooring connections. Calculate wind load on exposed freeboard plus any structures (handrails, ramps, gangways). The wave action component adds dynamic loading. Pile guides must resist accumulated loads from multiple dock sections while allowing vertical movement."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What special requirements apply to marina fuel facilities?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Marina fuel facilities require Importance Factor of 1.15 (Risk Category III) due to hazardous contents. All structural connections must be designed for 180 MPH conditions without failure. Canopy structures over fuel dispensers require additional analysis for concentrated uplift at edges and internal pressure from partially enclosed conditions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does wave action combine with wind loads on marina structures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wave-induced oscillation creates fatigue loading on marina piles and decking. ASCE 7-22 requires combining wave loads per Chapter 5 with wind loads. For vertical-pile supported structures, lateral wave forces add directly to wind forces. Floating structures experience different load paths where wave motion affects mooring line tensions rather than structure directly."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What exposure category applies to marina structures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Marina structures in the Florida Keys uniformly fall under Exposure Category D per ASCE 7-22. This applies to flat, unobstructed areas exposed to wind flowing over open water for at least 1 mile. The Kz coefficient for Exposure D at typical marina elevations (15-25 feet) ranges from 1.03 to 1.16, significantly higher than inland conditions."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --teal: #14b8a6;
+            --blue: #3b82f6;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Marina Canvas */
+        #marinaCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Boat Animation Overlay */
+        .boat-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10, 14, 23, 0.95);
+            border: 1px solid var(--teal);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 100;
+            width: 180px;
+            box-shadow: 0 0 30px rgba(20, 184, 166, 0.2);
+        }
+
+        .boat-indicator-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--teal);
+            margin-bottom: 10px;
+        }
+
+        .boat-svg {
+            width: 100%;
+            height: 60px;
+            animation: rock-boat 3s ease-in-out infinite;
+        }
+
+        @keyframes rock-boat {
+            0%, 100% { transform: rotate(-3deg) translateY(0); }
+            50% { transform: rotate(3deg) translateY(-5px); }
+        }
+
+        .boat-load {
+            margin-top: 10px;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .boat-load span {
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            margin-top: 70px;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--cyan);
+        }
+
+        .breadcrumb span {
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-current {
+            color: var(--cyan);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(20, 184, 166, 0.1);
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--teal);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--teal);
+            color: var(--teal);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(20, 184, 166, 0.1);
+        }
+
+        /* Marina Visualization */
+        .marina-viz-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(20, 184, 166, 0.03));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .marina-diagram {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            overflow: hidden;
+        }
+
+        #marinaDiagram {
+            width: 100%;
+            height: 500px;
+            display: block;
+        }
+
+        /* Structure Types Grid */
+        .structures-section {
+            padding: 6rem 2rem;
+        }
+
+        .structures-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .structure-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .structure-card:hover {
+            border-color: var(--teal);
+            transform: translateY(-5px);
+        }
+
+        .structure-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--teal), var(--cyan));
+        }
+
+        .structure-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--teal), var(--cyan));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            position: relative;
+        }
+
+        .structure-icon svg {
+            width: 30px;
+            height: 30px;
+            stroke: var(--bg-dark);
+        }
+
+        .structure-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .structure-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        .structure-specs {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .spec-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+
+        .spec-label {
+            color: var(--text-secondary);
+        }
+
+        .spec-value {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        /* Exposure Analysis */
+        .exposure-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(20, 184, 166, 0.03), transparent);
+        }
+
+        .exposure-diagram {
+            max-width: 900px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        .exposure-visual {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            min-height: 350px;
+        }
+
+        #exposureCanvas {
+            width: 100%;
+            height: 300px;
+        }
+
+        .exposure-data {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .exposure-factor {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1.25rem;
+            transition: all 0.3s ease;
+        }
+
+        .exposure-factor:hover {
+            border-color: var(--teal);
+        }
+
+        .factor-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .factor-name {
+            font-weight: 600;
+        }
+
+        .factor-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .factor-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .factor-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--teal), var(--cyan));
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .factor-description {
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Load Calculations */
+        .calc-section {
+            padding: 6rem 2rem;
+        }
+
+        .calc-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .calc-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .calc-header h3 {
+            font-size: 1.25rem;
+        }
+
+        .calc-result {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .calc-formula {
+            font-family: 'Courier New', monospace;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+            color: var(--teal);
+            overflow-x: auto;
+        }
+
+        .calc-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+        }
+
+        .calc-step {
+            text-align: center;
+            padding: 1rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 8px;
+        }
+
+        .step-value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .step-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+            margin-top: 0.25rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(20, 184, 166, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--teal);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(20, 184, 166, 0.1), rgba(0, 229, 255, 0.1));
+            border: 1px solid rgba(20, 184, 166, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .structures-grid,
+            .exposure-diagram {
+                grid-template-columns: 1fr;
+            }
+
+            .boat-indicator {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Marina Canvas -->
+    <canvas id="marinaCanvas"></canvas>
+
+    <!-- Boat Indicator -->
+    <div class="boat-indicator">
+        <div class="boat-indicator-title">Vessel Wind Load</div>
+        <svg class="boat-svg" viewBox="0 0 100 40">
+            <path d="M10 30 Q20 35 50 35 Q80 35 90 30 L85 25 Q50 28 15 25 Z" fill="#1e3a5f" stroke="#00e5ff" stroke-width="1"/>
+            <rect x="40" y="10" width="5" height="20" fill="#2d4a6f"/>
+            <polygon points="45,10 45,25 75,20" fill="#00b4d8" opacity="0.8"/>
+            <circle cx="50" cy="22" r="3" fill="#14b8a6"/>
+        </svg>
+        <div class="boat-load">Projected Area: <span>280 sf</span></div>
+        <div class="boat-load">Wind Load: <span>12.6 kips</span></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <div class="content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/cities/key-west-wind-load-requirements">Monroe</a> /
+                <span class="breadcrumb-current">Marina Structure Loads</span>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 12l-4-4v3H3v2h15v3l4-4z"/>
+                    </svg>
+                    WATERFRONT ENGINEERING
+                </div>
+                <h1><span class="highlight">Marina</span> Structure Wind Loads</h1>
+                <p class="hero-description">
+                    Florida Keys marinas face the most severe wind exposure conditions in the United States. Boat lifts, docks, fuel facilities, and waterfront buildings require specialized engineering to survive 180+ MPH hurricanes.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">
+                        Calculate Marina Loads
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">All Calculators</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marina Visualization -->
+        <section class="marina-viz-section reveal">
+            <div class="section-header">
+                <h2>Marina Wind Load Distribution</h2>
+                <p>Visualizing wind forces on typical marina components</p>
+            </div>
+            <div class="marina-diagram">
+                <canvas id="marinaDiagram"></canvas>
+            </div>
+        </section>
+
+        <!-- Structure Types -->
+        <section class="structures-section reveal">
+            <div class="section-header">
+                <h2>Marina Structure Categories</h2>
+                <p>Wind load requirements by structure type</p>
+            </div>
+            <div class="structures-grid">
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="8" width="18" height="12" rx="1"/>
+                            <line x1="7" y1="20" x2="7" y2="24"/>
+                            <line x1="17" y1="20" x2="17" y2="24"/>
+                            <path d="M3 8 L12 3 L21 8"/>
+                        </svg>
+                    </div>
+                    <h3>Boat Lift Canopies</h3>
+                    <p>Covered boat lifts require analysis for wind on both the canopy structure and the stored vessel. Lift cables and anchoring must resist combined loads.</p>
+                    <div class="structure-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">Category</span>
+                            <span class="spec-value">C&C</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Exposure</span>
+                            <span class="spec-value">D</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Typical Load</span>
+                            <span class="spec-value">45+ psf</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Uplift</span>
+                            <span class="spec-value">-65 psf</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="2" y="16" width="20" height="4"/>
+                            <line x1="5" y1="20" x2="5" y2="24"/>
+                            <line x1="12" y1="20" x2="12" y2="24"/>
+                            <line x1="19" y1="20" x2="19" y2="24"/>
+                            <path d="M4 16 L4 12 L20 12 L20 16"/>
+                        </svg>
+                    </div>
+                    <h3>Fixed Dock Systems</h3>
+                    <p>Pile-supported docks transmit wind loads through rigid connections. Deck and railing components require C&C analysis.</p>
+                    <div class="structure-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">Category</span>
+                            <span class="spec-value">MWFRS</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Exposure</span>
+                            <span class="spec-value">D</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Pile Load</span>
+                            <span class="spec-value">8-15 kips</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Deck Press.</span>
+                            <span class="spec-value">35 psf</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"/>
+                            <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+                        </svg>
+                    </div>
+                    <h3>Fuel Facility Canopies</h3>
+                    <p>Risk Category III structures require Importance Factor 1.15. Canopy edge uplift and internal pressure from partial enclosure are critical.</p>
+                    <div class="structure-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">Risk Cat</span>
+                            <span class="spec-value">III</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Importance</span>
+                            <span class="spec-value">1.15</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Edge Uplift</span>
+                            <span class="spec-value">-85 psf</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">GCpi</span>
+                            <span class="spec-value">+/-0.55</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="structure-card">
+                    <div class="structure-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8"/>
+                            <line x1="3" y1="16" x2="21" y2="16"/>
+                            <polyline points="12 22 12 16"/>
+                        </svg>
+                    </div>
+                    <h3>Marina Buildings</h3>
+                    <p>Office, storage, and service buildings require full MWFRS analysis. Enclosed buildings use different internal pressure coefficients than open structures.</p>
+                    <div class="structure-specs">
+                        <div class="spec-item">
+                            <span class="spec-label">Category</span>
+                            <span class="spec-value">MWFRS</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Enclosure</span>
+                            <span class="spec-value">Enclosed</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Wall Press.</span>
+                            <span class="spec-value">50+ psf</span>
+                        </div>
+                        <div class="spec-item">
+                            <span class="spec-label">Roof Uplift</span>
+                            <span class="spec-value">-55 psf</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exposure Analysis -->
+        <section class="exposure-section reveal">
+            <div class="section-header">
+                <h2>Exposure Category D Analysis</h2>
+                <p>Understanding marina wind exposure factors</p>
+            </div>
+            <div class="exposure-diagram">
+                <div class="exposure-visual">
+                    <canvas id="exposureCanvas"></canvas>
+                </div>
+                <div class="exposure-data">
+                    <div class="exposure-factor">
+                        <div class="factor-header">
+                            <span class="factor-name">Velocity Pressure (Kz)</span>
+                            <span class="factor-value">1.03</span>
+                        </div>
+                        <div class="factor-bar">
+                            <div class="factor-fill" style="width: 85%;"></div>
+                        </div>
+                        <div class="factor-description">At 15 ft height, Exposure D</div>
+                    </div>
+                    <div class="exposure-factor">
+                        <div class="factor-header">
+                            <span class="factor-name">Topographic (Kzt)</span>
+                            <span class="factor-value">1.00</span>
+                        </div>
+                        <div class="factor-bar">
+                            <div class="factor-fill" style="width: 50%;"></div>
+                        </div>
+                        <div class="factor-description">Flat terrain, no speed-up</div>
+                    </div>
+                    <div class="exposure-factor">
+                        <div class="factor-header">
+                            <span class="factor-name">Ground Elevation (Ke)</span>
+                            <span class="factor-value">1.00</span>
+                        </div>
+                        <div class="factor-bar">
+                            <div class="factor-fill" style="width: 50%;"></div>
+                        </div>
+                        <div class="factor-description">Sea level elevation</div>
+                    </div>
+                    <div class="exposure-factor">
+                        <div class="factor-header">
+                            <span class="factor-name">Directionality (Kd)</span>
+                            <span class="factor-value">0.85</span>
+                        </div>
+                        <div class="factor-bar">
+                            <div class="factor-fill" style="width: 70%;"></div>
+                        </div>
+                        <div class="factor-description">All structure types</div>
+                    </div>
+                    <div class="exposure-factor">
+                        <div class="factor-header">
+                            <span class="factor-name">Design Wind Speed</span>
+                            <span class="factor-value">180 MPH</span>
+                        </div>
+                        <div class="factor-bar">
+                            <div class="factor-fill" style="width: 95%;"></div>
+                        </div>
+                        <div class="factor-description">Risk Category II ultimate</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Load Calculations -->
+        <section class="calc-section reveal">
+            <div class="section-header">
+                <h2>Sample Load Calculations</h2>
+                <p>Typical wind load analysis for marina structures</p>
+            </div>
+            <div class="calc-container">
+                <div class="calc-card">
+                    <div class="calc-header">
+                        <h3>Boat Lift Canopy (20' x 30')</h3>
+                        <div class="calc-result">27,000 lbs uplift</div>
+                    </div>
+                    <div class="calc-formula">
+                        p = qh × G × (GCp - GCpi) = 73.2 × 0.85 × (-1.3 - 0.18) = -92 psf (edge zone)
+                    </div>
+                    <div class="calc-steps">
+                        <div class="calc-step">
+                            <div class="step-value">73.2</div>
+                            <div class="step-label">qh (psf)</div>
+                        </div>
+                        <div class="calc-step">
+                            <div class="step-value">0.85</div>
+                            <div class="step-label">G</div>
+                        </div>
+                        <div class="calc-step">
+                            <div class="step-value">-1.3</div>
+                            <div class="step-label">GCp</div>
+                        </div>
+                        <div class="calc-step">
+                            <div class="step-value">600</div>
+                            <div class="step-label">Area (sf)</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="calc-card">
+                    <div class="calc-header">
+                        <h3>Fixed Dock Pile (12' exposed)</h3>
+                        <div class="calc-result">8.2 kips lateral</div>
+                    </div>
+                    <div class="calc-formula">
+                        F = qz × G × Cf × Af = 68.5 × 0.85 × 2.0 × (1.0 × 12) = 1,396 lbs per pile + wave
+                    </div>
+                    <div class="calc-steps">
+                        <div class="calc-step">
+                            <div class="step-value">68.5</div>
+                            <div class="step-label">qz (psf)</div>
+                        </div>
+                        <div class="calc-step">
+                            <div class="step-value">2.0</div>
+                            <div class="step-label">Cf (round)</div>
+                        </div>
+                        <div class="calc-step">
+                            <div class="step-value">12</div>
+                            <div class="step-label">Height (ft)</div>
+                        </div>
+                        <div class="calc-step">
+                            <div class="step-value">5.8x</div>
+                            <div class="step-label">Wave Factor</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Expert answers on marina wind load engineering</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">What wind loads apply to boat lift structures?</div>
+                    <div class="faq-answer">
+                        Boat lifts in the Florida Keys require design for 180+ MPH winds with Exposure Category D. The lift structure, cables, and anchoring must resist both wind on the structure and wind on the stored vessel. ASCE 7-22 treats boat lifts as 'other structures' requiring component and cladding analysis for the canopy plus MWFRS loads for the frame. When a vessel is stored on the lift, add projected area wind load for the boat.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How are floating dock wind loads calculated?</div>
+                    <div class="faq-answer">
+                        Floating docks experience wind loads transmitted through mooring connections. Calculate wind load on exposed freeboard plus any structures (handrails, ramps, gangways). The wave action component adds dynamic loading. Pile guides must resist accumulated loads from multiple dock sections while allowing vertical movement. Mooring hardware and connections are often the critical elements.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What special requirements apply to marina fuel facilities?</div>
+                    <div class="faq-answer">
+                        Marina fuel facilities require Importance Factor of 1.15 (Risk Category III) due to hazardous contents. All structural connections must be designed for 180 MPH conditions without failure. Canopy structures over fuel dispensers require additional analysis for concentrated uplift at edges and internal pressure from partially enclosed conditions. Fire suppression and containment systems must remain functional after hurricane events.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How does wave action combine with wind loads on marina structures?</div>
+                    <div class="faq-answer">
+                        Wave-induced oscillation creates fatigue loading on marina piles and decking. ASCE 7-22 requires combining wave loads per Chapter 5 with wind loads. For vertical-pile supported structures, lateral wave forces add directly to wind forces. Floating structures experience different load paths where wave motion affects mooring line tensions rather than structure directly. The combination often controls pile embedment and connection design.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What exposure category applies to marina structures?</div>
+                    <div class="faq-answer">
+                        Marina structures in the Florida Keys uniformly fall under Exposure Category D per ASCE 7-22. This applies to flat, unobstructed areas exposed to wind flowing over open water for at least 1 mile. The Kz coefficient for Exposure D at typical marina elevations (15-25 feet) ranges from 1.03 to 1.16, significantly higher than inland conditions. No reductions are available for surrounding development.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal">
+            <div class="cta-box">
+                <h2>Calculate Your Marina Wind Loads</h2>
+                <p>Professional ASCE 7-22 compliant analysis for boat lifts, docks, fuel facilities, and waterfront buildings. Get accurate loads for Florida Keys conditions.</p>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">
+                    Start Marina Analysis
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+                <a href="https://windload.solutions/state-requirements">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-engineers.html">Engineers</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 WindLoad.co - Professional Wind Load Engineering Solutions</p>
+        </footer>
+    </div>
+
+    <script>
+        // Marina background canvas
+        const bgCanvas = document.getElementById('marinaCanvas');
+        const bgCtx = bgCanvas.getContext('2d');
+
+        function resizeCanvas() {
+            bgCanvas.width = window.innerWidth;
+            bgCanvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Water wave animation
+        let waveOffset = 0;
+
+        // Floating particles (spray)
+        class SprayParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * bgCanvas.width;
+                this.y = bgCanvas.height - Math.random() * 150;
+                this.radius = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 3 + 1;
+                this.speedY = Math.random() * -3 - 1;
+                this.opacity = Math.random() * 0.4 + 0.1;
+                this.life = 100;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.speedY += 0.05; // gravity
+                this.life--;
+                this.opacity -= 0.004;
+
+                if (this.life <= 0 || this.opacity <= 0 || this.y > bgCanvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                bgCtx.beginPath();
+                bgCtx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                bgCtx.fillStyle = `rgba(20, 184, 166, ${this.opacity})`;
+                bgCtx.fill();
+            }
+        }
+
+        const sprayParticles = [];
+        for (let i = 0; i < 40; i++) {
+            sprayParticles.push(new SprayParticle());
+        }
+
+        function drawWaterSurface() {
+            waveOffset += 0.02;
+
+            // Deep water gradient
+            const gradient = bgCtx.createLinearGradient(0, bgCanvas.height - 200, 0, bgCanvas.height);
+            gradient.addColorStop(0, 'rgba(20, 184, 166, 0)');
+            gradient.addColorStop(0.3, 'rgba(20, 184, 166, 0.05)');
+            gradient.addColorStop(1, 'rgba(20, 184, 166, 0.15)');
+
+            bgCtx.beginPath();
+            bgCtx.moveTo(0, bgCanvas.height);
+
+            for (let x = 0; x <= bgCanvas.width; x += 8) {
+                const y = bgCanvas.height - 80 +
+                    Math.sin(x * 0.015 + waveOffset) * 25 +
+                    Math.sin(x * 0.025 + waveOffset * 1.5) * 15;
+                bgCtx.lineTo(x, y);
+            }
+
+            bgCtx.lineTo(bgCanvas.width, bgCanvas.height);
+            bgCtx.closePath();
+            bgCtx.fillStyle = gradient;
+            bgCtx.fill();
+
+            // Wave crest highlight
+            bgCtx.beginPath();
+            for (let x = 0; x <= bgCanvas.width; x += 8) {
+                const y = bgCanvas.height - 80 +
+                    Math.sin(x * 0.015 + waveOffset) * 25 +
+                    Math.sin(x * 0.025 + waveOffset * 1.5) * 15;
+                if (x === 0) {
+                    bgCtx.moveTo(x, y);
+                } else {
+                    bgCtx.lineTo(x, y);
+                }
+            }
+            bgCtx.strokeStyle = 'rgba(0, 229, 255, 0.3)';
+            bgCtx.lineWidth = 2;
+            bgCtx.stroke();
+        }
+
+        function animateBg() {
+            bgCtx.clearRect(0, 0, bgCanvas.width, bgCanvas.height);
+
+            drawWaterSurface();
+
+            sprayParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateBg);
+        }
+        animateBg();
+
+        // Marina diagram canvas
+        const diagramCanvas = document.getElementById('marinaDiagram');
+        const diagramCtx = diagramCanvas.getContext('2d');
+
+        function resizeDiagramCanvas() {
+            const container = diagramCanvas.parentElement;
+            diagramCanvas.width = container.clientWidth - 64;
+            diagramCanvas.height = 500;
+        }
+        resizeDiagramCanvas();
+        window.addEventListener('resize', resizeDiagramCanvas);
+
+        let frame = 0;
+
+        function drawMarinaDiagram() {
+            const w = diagramCanvas.width;
+            const h = diagramCanvas.height;
+            diagramCtx.clearRect(0, 0, w, h);
+            frame++;
+
+            // Water
+            const waterY = h - 150 + Math.sin(frame * 0.02) * 10;
+            const waterGradient = diagramCtx.createLinearGradient(0, waterY, 0, h);
+            waterGradient.addColorStop(0, 'rgba(20, 184, 166, 0.3)');
+            waterGradient.addColorStop(1, 'rgba(14, 116, 144, 0.5)');
+            diagramCtx.fillStyle = waterGradient;
+            diagramCtx.fillRect(0, waterY, w, h - waterY);
+
+            // Wave surface
+            diagramCtx.beginPath();
+            diagramCtx.moveTo(0, waterY);
+            for (let x = 0; x <= w; x += 5) {
+                const waveY = waterY + Math.sin(x * 0.02 + frame * 0.05) * 8;
+                diagramCtx.lineTo(x, waveY);
+            }
+            diagramCtx.lineTo(w, h);
+            diagramCtx.lineTo(0, h);
+            diagramCtx.closePath();
+            diagramCtx.fillStyle = 'rgba(20, 184, 166, 0.2)';
+            diagramCtx.fill();
+
+            // Dock piles
+            for (let i = 0; i < 5; i++) {
+                const pileX = 100 + i * 150;
+                diagramCtx.fillStyle = '#5d4037';
+                diagramCtx.fillRect(pileX - 8, 200, 16, h - 200);
+            }
+
+            // Dock platform
+            diagramCtx.fillStyle = '#795548';
+            diagramCtx.fillRect(80, 190, 620, 20);
+
+            // Boat lift structure
+            const liftX = w - 200;
+            const liftY = 100;
+
+            // Lift posts
+            diagramCtx.fillStyle = '#424242';
+            diagramCtx.fillRect(liftX - 80, liftY + 50, 12, 200);
+            diagramCtx.fillRect(liftX + 70, liftY + 50, 12, 200);
+
+            // Lift beam
+            diagramCtx.fillStyle = '#616161';
+            diagramCtx.fillRect(liftX - 90, liftY + 40, 180, 15);
+
+            // Canopy
+            diagramCtx.fillStyle = 'rgba(0, 180, 216, 0.4)';
+            diagramCtx.beginPath();
+            diagramCtx.moveTo(liftX - 100, liftY + 30);
+            diagramCtx.lineTo(liftX, liftY);
+            diagramCtx.lineTo(liftX + 100, liftY + 30);
+            diagramCtx.lineTo(liftX + 100, liftY + 40);
+            diagramCtx.lineTo(liftX - 100, liftY + 40);
+            diagramCtx.closePath();
+            diagramCtx.fill();
+            diagramCtx.strokeStyle = '#00b4d8';
+            diagramCtx.lineWidth = 2;
+            diagramCtx.stroke();
+
+            // Boat on lift (rocking)
+            const boatRock = Math.sin(frame * 0.03) * 3;
+            diagramCtx.save();
+            diagramCtx.translate(liftX, liftY + 160);
+            diagramCtx.rotate(boatRock * Math.PI / 180);
+
+            diagramCtx.fillStyle = '#1e3a5f';
+            diagramCtx.beginPath();
+            diagramCtx.moveTo(-60, 0);
+            diagramCtx.quadraticCurveTo(-40, 30, 0, 35);
+            diagramCtx.quadraticCurveTo(40, 30, 60, 0);
+            diagramCtx.lineTo(50, -10);
+            diagramCtx.quadraticCurveTo(0, -5, -50, -10);
+            diagramCtx.closePath();
+            diagramCtx.fill();
+
+            diagramCtx.restore();
+
+            // Wind arrows (animated)
+            for (let i = 0; i < 4; i++) {
+                const arrowY = 80 + i * 60;
+                const arrowX = 30 + (frame * 4 + i * 40) % 120;
+                drawWindArrow(diagramCtx, arrowX, arrowY, 80, '#00e5ff', 0.6);
+            }
+
+            // Force labels
+            diagramCtx.font = 'bold 12px sans-serif';
+            diagramCtx.fillStyle = '#00e5ff';
+            diagramCtx.fillText('WIND 180 MPH', 20, 60);
+
+            diagramCtx.fillStyle = '#14b8a6';
+            diagramCtx.fillText('WAVE + SURGE', 20, h - 30);
+
+            // Uplift arrows on canopy
+            drawUpliftArrow(diagramCtx, liftX - 60, liftY + 20, 30, '#ff4757');
+            drawUpliftArrow(diagramCtx, liftX, liftY + 10, 40, '#ff4757');
+            drawUpliftArrow(diagramCtx, liftX + 60, liftY + 20, 30, '#ff4757');
+
+            diagramCtx.fillStyle = '#ff4757';
+            diagramCtx.fillText('UPLIFT', liftX - 20, liftY - 30);
+
+            requestAnimationFrame(drawMarinaDiagram);
+        }
+
+        function drawWindArrow(ctx, x, y, length, color, opacity) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + length, y);
+            ctx.lineTo(x + length - 10, y - 6);
+            ctx.moveTo(x + length, y);
+            ctx.lineTo(x + length - 10, y + 6);
+            ctx.strokeStyle = color;
+            ctx.globalAlpha = opacity;
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+        }
+
+        function drawUpliftArrow(ctx, x, y, length, color) {
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x, y - length);
+            ctx.lineTo(x - 5, y - length + 8);
+            ctx.moveTo(x, y - length);
+            ctx.lineTo(x + 5, y - length + 8);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+        }
+
+        drawMarinaDiagram();
+
+        // Exposure canvas
+        const expCanvas = document.getElementById('exposureCanvas');
+        const expCtx = expCanvas.getContext('2d');
+
+        function resizeExpCanvas() {
+            const container = expCanvas.parentElement;
+            expCanvas.width = container.clientWidth - 64;
+            expCanvas.height = 300;
+        }
+        resizeExpCanvas();
+        window.addEventListener('resize', resizeExpCanvas);
+
+        let expFrame = 0;
+
+        function drawExposureViz() {
+            const w = expCanvas.width;
+            const h = expCanvas.height;
+            expCtx.clearRect(0, 0, w, h);
+            expFrame++;
+
+            // Ocean
+            const oceanGradient = expCtx.createLinearGradient(0, h * 0.6, 0, h);
+            oceanGradient.addColorStop(0, 'rgba(20, 184, 166, 0.2)');
+            oceanGradient.addColorStop(1, 'rgba(14, 116, 144, 0.4)');
+            expCtx.fillStyle = oceanGradient;
+            expCtx.fillRect(0, h * 0.6, w * 0.7, h * 0.4);
+
+            // Land
+            expCtx.fillStyle = 'rgba(139, 90, 43, 0.3)';
+            expCtx.fillRect(w * 0.7, h * 0.6, w * 0.3, h * 0.4);
+
+            // Marina structure
+            expCtx.fillStyle = '#2d4a6f';
+            expCtx.fillRect(w * 0.6, h * 0.35, 60, h * 0.25);
+            expCtx.fillRect(w * 0.6 - 10, h * 0.3, 80, 15);
+
+            // Wind flow lines
+            for (let i = 0; i < 6; i++) {
+                const lineY = h * 0.2 + i * 30;
+                const progress = (expFrame * 3 + i * 50) % w;
+
+                expCtx.beginPath();
+                expCtx.moveTo(progress - 100, lineY);
+
+                for (let x = progress - 100; x < progress; x += 10) {
+                    const waveY = lineY + Math.sin(x * 0.05 + expFrame * 0.05) * 5;
+                    expCtx.lineTo(x, waveY);
+                }
+
+                const gradient = expCtx.createLinearGradient(progress - 100, lineY, progress, lineY);
+                gradient.addColorStop(0, 'transparent');
+                gradient.addColorStop(0.5, 'rgba(0, 229, 255, 0.4)');
+                gradient.addColorStop(1, 'transparent');
+                expCtx.strokeStyle = gradient;
+                expCtx.lineWidth = 2;
+                expCtx.stroke();
+            }
+
+            // Labels
+            expCtx.font = 'bold 11px sans-serif';
+            expCtx.fillStyle = '#14b8a6';
+            expCtx.fillText('OPEN WATER', 30, h * 0.75);
+            expCtx.fillText('1+ MILE FETCH', 30, h * 0.85);
+
+            expCtx.fillStyle = '#00e5ff';
+            expCtx.fillText('EXPOSURE D', w * 0.5, h * 0.15);
+
+            requestAnimationFrame(drawExposureViz);
+        }
+        drawExposureViz();
+
+        // Reveal animations
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1471 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Speed Interpolation Map | Palm Beach County FL | WindLoad.co</title>
+    <meta name="description" content="Interactive wind speed interpolation map for Palm Beach County. Visualize basic wind speeds from 150-170 MPH across zones, calculate precise V-asd values for your project location.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0f1c;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Wind Map Canvas */
+        #windMapCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(10, 15, 28, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan-dark), var(--cyan));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--cyan);
+            margin-bottom: 1.5rem;
+            animation: pulse-glow 2s infinite;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.4); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--cyan), var(--green), var(--cyan));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% center; }
+            100% { background-position: -200% center; }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan-dark), var(--cyan));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--cyan);
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        /* Interactive Map Section */
+        .map-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.02), transparent);
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .map-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 2rem;
+            align-items: start;
+        }
+
+        .interactive-map {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .interactive-map::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--cyan), var(--green), var(--amber));
+        }
+
+        #palmBeachMap {
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            background: rgba(0, 20, 40, 0.5);
+        }
+
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+        }
+
+        .map-controls {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .control-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .control-group label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--cyan);
+        }
+
+        .control-group input, .control-group select {
+            width: 100%;
+            padding: 0.75rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+        }
+
+        .control-group input:focus, .control-group select:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+        }
+
+        .control-group select {
+            background-color: #1a2235;
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300e5ff' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10l-5 5z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+
+        .control-group select option {
+            background-color: #1a2235;
+            color: #ffffff;
+            padding: 10px;
+        }
+
+        .result-display {
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(0, 255, 136, 0.1));
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            margin-top: 1rem;
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--cyan);
+            line-height: 1;
+        }
+
+        .result-unit {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .result-label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+        }
+
+        /* Wind Speed Grid Animation */
+        .speed-grid {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .grid-visual {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1rem;
+        }
+
+        .speed-cell {
+            aspect-ratio: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 1.25rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            animation: cell-pulse var(--delay, 2s) ease-in-out infinite;
+            cursor: pointer;
+        }
+
+        .speed-cell:hover {
+            transform: scale(1.1);
+            z-index: 10;
+        }
+
+        .speed-cell .location {
+            font-size: 0.75rem;
+            font-weight: 400;
+            opacity: 0.8;
+            margin-top: 0.25rem;
+        }
+
+        @keyframes cell-pulse {
+            0%, 100% { opacity: 0.8; }
+            50% { opacity: 1; }
+        }
+
+        /* Content Sections */
+        .content-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .content-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .content-text h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--cyan);
+        }
+
+        .content-text p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .content-text ul {
+            list-style: none;
+            margin-top: 1.5rem;
+        }
+
+        .content-text li {
+            padding: 0.75rem 0;
+            padding-left: 2rem;
+            position: relative;
+            color: var(--text-secondary);
+        }
+
+        .content-text li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 8px;
+            height: 8px;
+            background: var(--cyan);
+            border-radius: 50%;
+            box-shadow: 0 0 10px var(--cyan);
+        }
+
+        /* Interpolation Formula Card */
+        .formula-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .formula-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: conic-gradient(from 0deg, transparent, rgba(0, 229, 255, 0.1), transparent);
+            animation: rotate-gradient 10s linear infinite;
+        }
+
+        @keyframes rotate-gradient {
+            100% { transform: rotate(360deg); }
+        }
+
+        .formula-inner {
+            position: relative;
+            background: var(--bg-dark);
+            border-radius: 16px;
+            padding: 2rem;
+        }
+
+        .formula-title {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--cyan);
+        }
+
+        .formula {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1rem;
+            background: rgba(0, 229, 255, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 3px solid var(--cyan);
+        }
+
+        .formula-vars {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            font-size: 0.875rem;
+        }
+
+        .formula-vars span {
+            color: var(--text-secondary);
+        }
+
+        .formula-vars code {
+            color: var(--green);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            position: relative;
+            z-index: 1;
+            padding: 4rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.03), transparent);
+        }
+
+        .stats-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan);
+        }
+
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--cyan);
+            line-height: 1;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            margin-top: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--cyan);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--cyan);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(0, 255, 136, 0.05));
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 24px;
+            padding: 4rem;
+        }
+
+        .cta-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .map-container {
+                grid-template-columns: 1fr;
+            }
+
+            .content-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .grid-visual {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+
+            .stats-grid {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .grid-visual {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Wind Contour Animation Overlay */
+        .contour-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.15;
+        }
+    </style>
+</head>
+<body>
+    <!-- Wind Map Canvas Background -->
+    <canvas id="windMapCanvas"></canvas>
+
+    <!-- Contour Animation Overlay -->
+    <svg class="contour-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <defs>
+            <linearGradient id="contourGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#00e5ff;stop-opacity:0.5" />
+                <stop offset="50%" style="stop-color:#00ff88;stop-opacity:0.3" />
+                <stop offset="100%" style="stop-color:#f59e0b;stop-opacity:0.5" />
+            </linearGradient>
+        </defs>
+        <g class="contour-lines">
+            <path d="M0,50 Q25,30 50,50 T100,50" stroke="url(#contourGrad)" fill="none" stroke-width="0.2" class="contour-animate"/>
+            <path d="M0,40 Q25,20 50,40 T100,40" stroke="url(#contourGrad)" fill="none" stroke-width="0.15" class="contour-animate" style="animation-delay: 0.5s"/>
+            <path d="M0,60 Q25,40 50,60 T100,60" stroke="url(#contourGrad)" fill="none" stroke-width="0.15" class="contour-animate" style="animation-delay: 1s"/>
+            <path d="M0,30 Q25,10 50,30 T100,30" stroke="url(#contourGrad)" fill="none" stroke-width="0.1" class="contour-animate" style="animation-delay: 1.5s"/>
+            <path d="M0,70 Q25,50 50,70 T100,70" stroke="url(#contourGrad)" fill="none" stroke-width="0.1" class="contour-animate" style="animation-delay: 2s"/>
+        </g>
+    </svg>
+    <style>
+        .contour-animate {
+            stroke-dasharray: 200;
+            stroke-dashoffset: 200;
+            animation: contour-draw 4s ease-in-out infinite;
+        }
+        @keyframes contour-draw {
+            0% { stroke-dashoffset: 200; opacity: 0; }
+            50% { stroke-dashoffset: 0; opacity: 1; }
+            100% { stroke-dashoffset: -200; opacity: 0; }
+        }
+    </style>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div style="position: relative; z-index: 1; padding: 5rem 2rem 0; max-width: 1200px; margin: 0 auto;">
+        <nav style="font-size: 0.875rem; color: var(--text-secondary);">
+            <a href="https://windload.co" style="color: var(--text-secondary); text-decoration: none;">Home</a> /
+            <a href="https://windload.solutions/florida-wind-load-requirements.html" style="color: var(--text-secondary); text-decoration: none;">Florida</a> /
+            <a href="https://windload.solutions/cities/west-palm-beach-wind-load-requirements" style="color: var(--text-secondary); text-decoration: none;">Palm Beach</a> /
+            <span style="color: var(--cyan);">Wind Speed Interpolation</span>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M8 1v14M1 8h14M3 3l10 10M13 3L3 13"/>
+                </svg>
+                Palm Beach County Wind Analysis
+            </div>
+            <h1>
+                <span class="gradient-text">Wind Speed Interpolation</span><br>
+                Across Palm Beach County
+            </h1>
+            <p>Visualize how basic wind speeds transition from 170 MPH at the coast to 150 MPH inland. Our interactive map calculates precise interpolated values for any location using ASCE 7-22 methodology.</p>
+            <div class="hero-buttons">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Your Wind Speed</a>
+                <a href="#map" class="btn-secondary">Explore the Map</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Map Section -->
+    <section class="map-section" id="map">
+        <div class="section-header reveal">
+            <h2>Interactive Wind Speed Map</h2>
+            <p>Click anywhere on the map to see interpolated wind speeds based on distance from the coastline</p>
+        </div>
+
+        <div class="map-container">
+            <div class="interactive-map reveal">
+                <canvas id="palmBeachMap"></canvas>
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(180deg, #ff4757, #ff6b7a);"></div>
+                        <span>170 MPH (Coastal)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(180deg, #f59e0b, #fbbf24);"></div>
+                        <span>160 MPH (Mid-County)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background: linear-gradient(180deg, #00e5ff, #00ff88);"></div>
+                        <span>150 MPH (Inland)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="map-controls reveal">
+                <h3 style="margin-bottom: 1.5rem; color: var(--cyan);">Location Calculator</h3>
+                <div class="control-group">
+                    <label>Distance from Coast (miles)</label>
+                    <input type="range" id="distanceSlider" min="0" max="40" value="10" step="0.5">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem;">
+                        <span>0 mi (Coast)</span>
+                        <span id="distanceValue">10 mi</span>
+                        <span>40 mi (Inland)</span>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Risk Category</label>
+                    <select id="riskCategory">
+                        <option value="II">Category II (Standard)</option>
+                        <option value="III">Category III (Essential)</option>
+                        <option value="IV">Category IV (Critical)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Exposure Category</label>
+                    <select id="exposure">
+                        <option value="B">B - Urban/Suburban</option>
+                        <option value="C">C - Open Terrain</option>
+                        <option value="D">D - Coastal/Flat</option>
+                    </select>
+                </div>
+                <div class="result-display">
+                    <div class="result-value"><span id="windSpeedResult">162</span><span class="result-unit"> MPH</span></div>
+                    <div class="result-label">Ultimate Design Wind Speed (V<sub>ult</sub>)</div>
+                </div>
+                <div class="result-display" style="margin-top: 1rem; background: linear-gradient(135deg, rgba(168, 85, 247, 0.1), rgba(139, 92, 246, 0.1)); border-color: rgba(168, 85, 247, 0.3);">
+                    <div class="result-value" style="font-size: 2rem; color: #a855f7;"><span id="velocityPressure">56</span><span class="result-unit" style="font-size: 1rem;"> PSF</span></div>
+                    <div class="result-label">Velocity Pressure (q<sub>h</sub>) at 30ft</div>
+                </div>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary" style="width: 100%; display: block; text-align: center; margin-top: 1.5rem;">Get Full Analysis</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Wind Speed Grid Visualization -->
+    <section class="speed-grid">
+        <div class="section-header reveal">
+            <h2>Wind Speed Distribution Grid</h2>
+            <p>Real-time visualization of wind speed gradients across Palm Beach County zones</p>
+        </div>
+
+        <div class="grid-visual reveal" id="speedGrid">
+            <!-- Generated by JavaScript -->
+        </div>
+    </section>
+
+    <!-- Content Section: Understanding Interpolation -->
+    <section class="content-section">
+        <div class="content-grid">
+            <div class="content-text reveal">
+                <h3>Understanding Wind Speed Interpolation</h3>
+                <p>Wind speed interpolation in Palm Beach County follows ASCE 7-22 Section 26.5.1, which defines basic wind speeds based on geographic location and risk category. The transition from coastal to inland areas creates a gradient that must be carefully calculated for each project site.</p>
+                <p>Per Florida Building Code 2023 Section 1609.3, projects located between wind speed contour lines must use linear interpolation to determine the appropriate design wind speed. This ensures structural adequacy while avoiding unnecessary over-design.</p>
+                <ul>
+                    <li><strong>Coastal Zone (0-1 mile):</strong> 170 MPH base wind speed for Risk Category II</li>
+                    <li><strong>Transition Zone (1-15 miles):</strong> Linear interpolation between 170-160 MPH</li>
+                    <li><strong>Central Zone (15-30 miles):</strong> Interpolation between 160-155 MPH</li>
+                    <li><strong>Inland Zone (30+ miles):</strong> 150-155 MPH depending on exact location</li>
+                </ul>
+            </div>
+            <div class="formula-card reveal">
+                <div class="formula-inner">
+                    <div class="formula-title">Linear Interpolation Formula</div>
+                    <div class="formula">
+                        V = V<sub>1</sub> + (V<sub>2</sub> - V<sub>1</sub>) x (d / D)
+                    </div>
+                    <div class="formula-vars">
+                        <span><code>V</code> = Interpolated wind speed</span>
+                        <span><code>V<sub>1</sub></code> = Wind speed at contour 1</span>
+                        <span><code>V<sub>2</sub></code> = Wind speed at contour 2</span>
+                        <span><code>d</code> = Distance from contour 1</span>
+                        <span><code>D</code> = Total distance between contours</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats-section">
+        <div class="stats-grid">
+            <div class="stat-card reveal">
+                <div class="stat-value" data-target="170">0</div>
+                <div class="stat-label">Maximum Wind Speed (MPH)</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="stat-value" data-target="150">0</div>
+                <div class="stat-label">Minimum Wind Speed (MPH)</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="stat-value" data-target="2386">0</div>
+                <div class="stat-label">Square Miles Coverage</div>
+            </div>
+            <div class="stat-card reveal">
+                <div class="stat-value" data-target="47">0</div>
+                <div class="stat-label">Mile Coastal Stretch</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Content Section -->
+    <section class="content-section" style="background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.02), transparent);">
+        <div class="content-grid" style="max-width: 900px;">
+            <div class="content-text reveal" style="grid-column: 1 / -1;">
+                <h3>Why Accurate Interpolation Matters in Palm Beach</h3>
+                <p>Palm Beach County spans from the Atlantic Ocean to the agricultural regions near Lake Okeechobee, creating one of Florida's most significant wind speed gradients. A project in Wellington experiences fundamentally different wind loads than one in Palm Beach Shores, even though both fall within the same county jurisdiction.</p>
+
+                <p>The Florida Building Code Section 1609.3.1 specifically addresses wind speed interpolation, requiring engineers to use the higher value when a site falls exactly on a contour line. This conservative approach accounts for the uncertainty inherent in mapping wind speed zones and ensures adequate structural performance during extreme wind events.</p>
+
+                <p>For Palm Beach County specifically, the wind speed map shows contours at 5 MPH intervals, creating distinct zones that require careful interpolation. The 170 MPH contour follows the coastline closely, while the 150 MPH contour runs through the western portions of the county near the Loxahatchee Wildlife Refuge.</p>
+
+                <h3 style="margin-top: 2rem;">ASCE 7-22 Risk Categories and Palm Beach</h3>
+                <p>The basic wind speed values shown on our map assume Risk Category II structures, which includes most residential and commercial buildings. For higher risk categories, the design wind speed increases significantly:</p>
+
+                <ul>
+                    <li><strong>Risk Category II:</strong> Standard occupancy buildings - Use mapped values directly</li>
+                    <li><strong>Risk Category III:</strong> Essential facilities like schools and hospitals - Add approximately 6% to mapped values</li>
+                    <li><strong>Risk Category IV:</strong> Critical infrastructure - Add approximately 8% to mapped values</li>
+                </ul>
+
+                <p>Understanding which risk category applies to your project is essential before calculating wind loads. Palm Beach County has numerous hospitals, emergency response facilities, and essential government buildings that require the higher wind speed values associated with Risk Categories III and IV.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-header reveal">
+            <h2>Frequently Asked Questions</h2>
+            <p>Common questions about wind speed interpolation in Palm Beach County</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item reveal">
+                <button class="faq-question">What is the basic wind speed for Palm Beach Gardens?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Palm Beach Gardens falls within the 160-165 MPH zone for Risk Category II structures. The city is located approximately 5-8 miles from the Atlantic coast, placing it in the transition zone between coastal and mid-county wind speeds. Per ASCE 7-22 Figure 26.5-1B, the precise value depends on the exact location within the city limits. Eastern areas near I-95 experience approximately 165 MPH, while western developments near the Turnpike see values closer to 160 MPH.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">How does the High Velocity Hurricane Zone affect Palm Beach?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Palm Beach County is NOT within the High Velocity Hurricane Zone (HVHZ), which only includes Miami-Dade and Broward counties. However, Palm Beach still requires strict wind resistance standards under the Florida Building Code. The county enforces additional requirements for coastal construction through its local amendments, particularly for properties within the Coastal Construction Control Line (CCCL). Projects in coastal Palm Beach must comply with Florida Building Code Section 3109 for coastal construction.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">What wind speed should I use for a project in Boca Raton?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Boca Raton's design wind speed varies from 165-170 MPH depending on proximity to the coast. The eastern portions of the city, including Boca Raton Beach and Spanish River Park area, require the full 170 MPH design wind speed. Central Boca Raton near Town Center Mall falls in the 165 MPH zone, while western communities like Boca West use approximately 160-163 MPH. Always verify the exact contour location using ASCE 7-22 Figure 26.5-1B or our calculator for precise values.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">Does exposure category affect interpolated wind speeds?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Exposure category does not directly affect the basic wind speed interpolation, but it significantly impacts the calculated wind pressure. Exposure Category C (open terrain) and D (coastal/flat) produce higher velocity pressures than Exposure B (suburban). In Palm Beach County, coastal areas typically use Exposure D within 600 feet of the mean high water line, while most suburban developments use Exposure B. The exposure category is applied through the Kz velocity pressure coefficient in the wind load equations, not through changes to the basic wind speed.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">How do I determine wind speed for Wellington or Loxahatchee?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Wellington and Loxahatchee are located in the western inland portions of Palm Beach County, where wind speeds are lowest. Wellington falls within the 155-158 MPH zone, while western Loxahatchee approaches the 150 MPH minimum. These areas are more than 20 miles from the coast, resulting in significantly reduced design wind speeds compared to coastal communities. However, buildings in these areas must still meet Florida Building Code requirements for wind resistance, and Risk Category III/IV structures will have higher requirements regardless of the reduced base wind speed.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card reveal">
+            <h2>Get Precise Wind Loads for Your Project</h2>
+            <p>Stop guessing at interpolated values. Our calculator provides exact wind speeds and complete load calculations for any address in Palm Beach County.</p>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">Calculate Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Professional Wind Load Calculations for Palm Beach County</p>
+    </footer>
+
+    <script>
+        // Wind Map Canvas Animation
+        const canvas = document.getElementById('windMapCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Wind particles
+        class WindParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = Math.random() * 4 + 2;
+                this.speedY = Math.random() * 0.5 - 0.25;
+                this.opacity = Math.random() * 0.5 + 0.2;
+
+                // Color based on vertical position (simulating wind speed zones)
+                const yRatio = this.y / canvas.height;
+                if (yRatio < 0.3) {
+                    this.color = `rgba(255, 71, 87, ${this.opacity})`; // Red - high speed
+                } else if (yRatio < 0.6) {
+                    this.color = `rgba(245, 158, 11, ${this.opacity})`; // Amber - medium
+                } else {
+                    this.color = `rgba(0, 229, 255, ${this.opacity})`; // Cyan - lower speed
+                }
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width) {
+                    this.x = 0;
+                    this.y = Math.random() * canvas.height;
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.moveTo(this.x, this.y);
+                ctx.lineTo(this.x - this.size * 10, this.y);
+                ctx.strokeStyle = this.color;
+                ctx.lineWidth = this.size;
+                ctx.lineCap = 'round';
+                ctx.stroke();
+            }
+        }
+
+        const particles = Array.from({ length: 100 }, () => new WindParticle());
+
+        function animateBackground() {
+            ctx.fillStyle = 'rgba(10, 15, 28, 0.1)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            particles.forEach(particle => {
+                particle.update();
+                particle.draw();
+            });
+
+            requestAnimationFrame(animateBackground);
+        }
+        animateBackground();
+
+        // Palm Beach Map Canvas
+        const mapCanvas = document.getElementById('palmBeachMap');
+        const mapCtx = mapCanvas.getContext('2d');
+
+        function resizeMapCanvas() {
+            const container = mapCanvas.parentElement;
+            mapCanvas.width = container.clientWidth - 64;
+            mapCanvas.height = 500;
+            drawMap();
+        }
+
+        function getWindSpeedColor(speed) {
+            if (speed >= 168) return { r: 255, g: 71, b: 87 };
+            if (speed >= 163) return { r: 255, g: 140, b: 66 };
+            if (speed >= 158) return { r: 245, g: 158, b: 11 };
+            if (speed >= 153) return { r: 0, g: 229, b: 255 };
+            return { r: 0, g: 255, b: 136 };
+        }
+
+        function interpolateWindSpeed(x, mapWidth) {
+            const coastalSpeed = 170;
+            const inlandSpeed = 150;
+            const ratio = x / mapWidth;
+            return coastalSpeed - (ratio * (coastalSpeed - inlandSpeed));
+        }
+
+        function drawMap() {
+            const width = mapCanvas.width;
+            const height = mapCanvas.height;
+
+            // Draw gradient background representing wind speed zones
+            for (let x = 0; x < width; x++) {
+                const speed = interpolateWindSpeed(x, width);
+                const color = getWindSpeedColor(speed);
+                const alpha = 0.6 + (speed - 150) / 100;
+
+                mapCtx.fillStyle = `rgba(${color.r}, ${color.g}, ${color.b}, ${alpha})`;
+                mapCtx.fillRect(x, 0, 1, height);
+            }
+
+            // Draw contour lines
+            const contours = [170, 165, 160, 155, 150];
+            contours.forEach(speed => {
+                const x = ((170 - speed) / 20) * width;
+                mapCtx.beginPath();
+                mapCtx.moveTo(x, 0);
+                mapCtx.lineTo(x, height);
+                mapCtx.strokeStyle = 'rgba(255, 255, 255, 0.5)';
+                mapCtx.lineWidth = 2;
+                mapCtx.setLineDash([10, 5]);
+                mapCtx.stroke();
+                mapCtx.setLineDash([]);
+
+                // Label
+                mapCtx.fillStyle = '#ffffff';
+                mapCtx.font = 'bold 14px Segoe UI';
+                mapCtx.textAlign = 'center';
+                mapCtx.fillText(`${speed} MPH`, x, 25);
+            });
+
+            // Draw location markers
+            const locations = [
+                { name: 'Palm Beach', x: 0.05, y: 0.3 },
+                { name: 'West Palm Beach', x: 0.15, y: 0.35 },
+                { name: 'Boca Raton', x: 0.1, y: 0.8 },
+                { name: 'Wellington', x: 0.6, y: 0.5 },
+                { name: 'Belle Glade', x: 0.9, y: 0.4 }
+            ];
+
+            locations.forEach(loc => {
+                const px = loc.x * width;
+                const py = loc.y * height;
+
+                // Marker dot
+                mapCtx.beginPath();
+                mapCtx.arc(px, py, 8, 0, Math.PI * 2);
+                mapCtx.fillStyle = '#ffffff';
+                mapCtx.fill();
+                mapCtx.strokeStyle = '#00e5ff';
+                mapCtx.lineWidth = 3;
+                mapCtx.stroke();
+
+                // Label background
+                const textWidth = mapCtx.measureText(loc.name).width;
+                mapCtx.fillStyle = 'rgba(0, 0, 0, 0.7)';
+                mapCtx.fillRect(px - textWidth/2 - 5, py + 15, textWidth + 10, 20);
+
+                // Label text
+                mapCtx.fillStyle = '#ffffff';
+                mapCtx.font = '12px Segoe UI';
+                mapCtx.textAlign = 'center';
+                mapCtx.fillText(loc.name, px, py + 30);
+            });
+
+            // Draw ocean area
+            mapCtx.fillStyle = 'rgba(0, 100, 200, 0.3)';
+            mapCtx.fillRect(0, 0, 20, height);
+            mapCtx.fillStyle = '#ffffff';
+            mapCtx.font = 'bold 12px Segoe UI';
+            mapCtx.save();
+            mapCtx.translate(10, height/2);
+            mapCtx.rotate(-Math.PI/2);
+            mapCtx.textAlign = 'center';
+            mapCtx.fillText('ATLANTIC OCEAN', 0, 0);
+            mapCtx.restore();
+        }
+
+        resizeMapCanvas();
+        window.addEventListener('resize', resizeMapCanvas);
+
+        // Distance slider interaction
+        const distanceSlider = document.getElementById('distanceSlider');
+        const distanceValue = document.getElementById('distanceValue');
+        const windSpeedResult = document.getElementById('windSpeedResult');
+        const riskCategory = document.getElementById('riskCategory');
+        const exposure = document.getElementById('exposure');
+
+        // Risk category multipliers per ASCE 7-22
+        const riskMultipliers = {
+            'II': 1.0,    // Standard occupancy
+            'III': 1.06,  // Essential facilities (~6% increase)
+            'IV': 1.08    // Critical infrastructure (~8% increase)
+        };
+
+        // Exposure category Kz factors (at 30ft mean roof height)
+        const exposureKz = {
+            'B': 0.70,  // Urban/Suburban - most sheltered
+            'C': 0.85,  // Open terrain
+            'D': 1.03   // Coastal/Flat - most exposed
+        };
+
+        function calculateBaseWindSpeed(distance) {
+            // Calculate interpolated base wind speed for Risk Cat II
+            if (distance <= 1) {
+                return 170;
+            } else if (distance <= 15) {
+                return 170 - ((distance - 1) / 14) * 10; // 170 to 160
+            } else if (distance <= 30) {
+                return 160 - ((distance - 15) / 15) * 5; // 160 to 155
+            } else {
+                return 155 - ((distance - 30) / 10) * 5; // 155 to 150
+            }
+        }
+
+        function updateWindSpeed() {
+            const distance = parseFloat(distanceSlider.value);
+            const risk = riskCategory.value;
+            const exp = exposure.value;
+
+            distanceValue.textContent = `${distance} mi`;
+
+            // Calculate base wind speed
+            const baseSpeed = calculateBaseWindSpeed(distance);
+
+            // Apply risk category multiplier
+            const adjustedSpeed = baseSpeed * riskMultipliers[risk];
+
+            // Display the adjusted wind speed
+            windSpeedResult.textContent = Math.round(adjustedSpeed);
+
+            // Calculate velocity pressure: qh = 0.00256 * Kz * Kzt * Kd * V^2
+            // Kzt = 1.0 (flat terrain), Kd = 0.85 (components)
+            const Kz = exposureKz[exp];
+            const Kzt = 1.0;
+            const Kd = 0.85;
+            const qh = 0.00256 * Kz * Kzt * Kd * Math.pow(adjustedSpeed, 2);
+
+            // Display velocity pressure
+            const velocityPressureEl = document.getElementById('velocityPressure');
+            velocityPressureEl.textContent = Math.round(qh);
+
+            // Update result display color based on speed
+            const resultDisplay = document.querySelector('.result-display');
+            if (adjustedSpeed >= 175) {
+                resultDisplay.style.borderColor = '#ff4757';
+                resultDisplay.style.background = 'linear-gradient(135deg, rgba(255, 71, 87, 0.15), rgba(255, 100, 100, 0.1))';
+            } else if (adjustedSpeed >= 165) {
+                resultDisplay.style.borderColor = '#f59e0b';
+                resultDisplay.style.background = 'linear-gradient(135deg, rgba(245, 158, 11, 0.15), rgba(251, 191, 36, 0.1))';
+            } else {
+                resultDisplay.style.borderColor = 'rgba(0, 229, 255, 0.3)';
+                resultDisplay.style.background = 'linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(0, 255, 136, 0.1))';
+            }
+
+            // Animate the result
+            windSpeedResult.style.transform = 'scale(1.1)';
+            windSpeedResult.style.transition = 'transform 0.15s ease';
+            setTimeout(() => {
+                windSpeedResult.style.transform = 'scale(1)';
+            }, 150);
+        }
+
+        // Add event listeners to all controls
+        distanceSlider.addEventListener('input', updateWindSpeed);
+        riskCategory.addEventListener('change', updateWindSpeed);
+        exposure.addEventListener('change', updateWindSpeed);
+
+        // Generate Wind Speed Grid
+        const speedGrid = document.getElementById('speedGrid');
+        const gridLocations = [
+            { name: 'Jupiter', speed: 167 },
+            { name: 'Palm Beach Gardens', speed: 164 },
+            { name: 'West Palm Beach', speed: 165 },
+            { name: 'Lake Worth', speed: 163 },
+            { name: 'Boynton Beach', speed: 164 },
+            { name: 'Delray Beach', speed: 165 },
+            { name: 'Boca Raton', speed: 166 },
+            { name: 'Wellington', speed: 157 },
+            { name: 'Royal Palm Beach', speed: 159 },
+            { name: 'Belle Glade', speed: 152 }
+        ];
+
+        gridLocations.forEach((loc, i) => {
+            const cell = document.createElement('div');
+            cell.className = 'speed-cell';
+            cell.style.cssText = `
+                --delay: ${2 + i * 0.2}s;
+                background: linear-gradient(135deg,
+                    ${getSpeedGradient(loc.speed)});
+            `;
+            cell.innerHTML = `
+                <span>${loc.speed}</span>
+                <span class="location">${loc.name}</span>
+            `;
+            speedGrid.appendChild(cell);
+        });
+
+        function getSpeedGradient(speed) {
+            if (speed >= 165) return 'rgba(255, 71, 87, 0.8), rgba(255, 100, 100, 0.6)';
+            if (speed >= 160) return 'rgba(245, 158, 11, 0.8), rgba(251, 191, 36, 0.6)';
+            if (speed >= 155) return 'rgba(0, 229, 255, 0.8), rgba(0, 180, 216, 0.6)';
+            return 'rgba(0, 255, 136, 0.8), rgba(0, 200, 100, 0.6)';
+        }
+
+        // Counter Animation
+        function animateCounters() {
+            const counters = document.querySelectorAll('.stat-value[data-target]');
+
+            counters.forEach(counter => {
+                const target = parseInt(counter.getAttribute('data-target'));
+                const duration = 2000;
+                const start = 0;
+                const startTime = performance.now();
+
+                function updateCounter(currentTime) {
+                    const elapsed = currentTime - startTime;
+                    const progress = Math.min(elapsed / duration, 1);
+                    const easeOut = 1 - Math.pow(1 - progress, 3);
+                    const current = Math.round(start + (target - start) * easeOut);
+
+                    counter.textContent = current.toLocaleString();
+
+                    if (progress < 1) {
+                        requestAnimationFrame(updateCounter);
+                    }
+                }
+
+                requestAnimationFrame(updateCounter);
+            });
+        }
+
+        // Scroll Reveal
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Initialize
+        window.addEventListener('scroll', handleReveal);
+        handleReveal();
+        updateWindSpeed(); // Initialize calculator values
+
+        // Trigger counter animation when stats section is visible
+        const statsSection = document.querySelector('.stats-section');
+        const statsObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                animateCounters();
+                statsObserver.disconnect();
+            }
+        }, { threshold: 0.5 });
+        statsObserver.observe(statsSection);
+    </script>
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the basic wind speed for Palm Beach Gardens?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Palm Beach Gardens falls within the 160-165 MPH zone for Risk Category II structures. The city is located approximately 5-8 miles from the Atlantic coast, placing it in the transition zone between coastal and mid-county wind speeds."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the High Velocity Hurricane Zone affect Palm Beach?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Palm Beach County is NOT within the High Velocity Hurricane Zone (HVHZ), which only includes Miami-Dade and Broward counties. However, Palm Beach still requires strict wind resistance standards under the Florida Building Code."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What wind speed should I use for a project in Boca Raton?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Boca Raton's design wind speed varies from 165-170 MPH depending on proximity to the coast. Eastern portions require the full 170 MPH design wind speed, while western communities use approximately 160-163 MPH."
+                }
+            }
+        ]
+    }
+    </script>
+</body>
+</html>

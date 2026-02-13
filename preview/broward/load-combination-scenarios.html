@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Wind Load Combination Scenarios D+L+W | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Interactive guide to ASCE 7-22 load combinations for Broward County. Visualize D+L+W, D+W, and 0.6D+W scenarios with animated diagrams showing how loads combine.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Wind Load Combination Scenarios | Broward County">
+    <meta property="og:description" content="Interactive visualization of ASCE 7-22 load combinations for Broward County structural analysis.">
+    <meta property="og:type" content="article">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0f1a;
+            --bg-card: rgba(15, 25, 45, 0.8);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --green: #00ff88;
+            --amber: #f59e0b;
+            --red: #ff4757;
+            --purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #loadCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 2rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--cyan);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--cyan), var(--green), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 4s ease infinite;
+            background-size: 200% 200%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        /* Load Combination Visualizer */
+        .visualizer-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .load-diagram {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .building-container {
+            display: flex;
+            justify-content: center;
+            align-items: flex-end;
+            height: 400px;
+            position: relative;
+        }
+
+        .building {
+            width: 200px;
+            height: 300px;
+            background: linear-gradient(180deg, rgba(0, 229, 255, 0.2), rgba(0, 229, 255, 0.05));
+            border: 3px solid var(--cyan);
+            border-radius: 8px 8px 0 0;
+            position: relative;
+            transition: all 0.5s ease;
+        }
+
+        .building::before {
+            content: '';
+            position: absolute;
+            top: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 110px solid transparent;
+            border-right: 110px solid transparent;
+            border-bottom: 40px solid var(--cyan);
+            opacity: 0.6;
+        }
+
+        /* Load Arrows */
+        .load-arrow {
+            position: absolute;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+            font-size: 1.1rem;
+            opacity: 0;
+            transition: all 0.5s ease;
+        }
+
+        .load-arrow.active {
+            opacity: 1;
+        }
+
+        .load-arrow.dead-load {
+            top: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            flex-direction: column;
+            color: var(--amber);
+        }
+
+        .load-arrow.dead-load .arrow {
+            width: 4px;
+            height: 60px;
+            background: var(--amber);
+            position: relative;
+        }
+
+        .load-arrow.dead-load .arrow::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-top: 15px solid var(--amber);
+        }
+
+        .load-arrow.live-load {
+            top: 50%;
+            right: -120px;
+            transform: translateY(-50%);
+            flex-direction: row-reverse;
+            color: var(--green);
+        }
+
+        .load-arrow.live-load .arrow {
+            width: 80px;
+            height: 4px;
+            background: var(--green);
+            position: relative;
+        }
+
+        .load-arrow.live-load .arrow::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-right: 15px solid var(--green);
+        }
+
+        .load-arrow.wind-load {
+            top: 30%;
+            left: -140px;
+            color: var(--cyan);
+        }
+
+        .load-arrow.wind-load .arrow {
+            width: 100px;
+            height: 4px;
+            background: var(--cyan);
+            position: relative;
+            animation: windPulse 1.5s ease infinite;
+        }
+
+        @keyframes windPulse {
+            0%, 100% { opacity: 1; transform: scaleX(1); }
+            50% { opacity: 0.7; transform: scaleX(1.1); }
+        }
+
+        .load-arrow.wind-load .arrow::after {
+            content: '';
+            position: absolute;
+            right: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            border-top: 10px solid transparent;
+            border-bottom: 10px solid transparent;
+            border-left: 15px solid var(--cyan);
+        }
+
+        .load-arrow.uplift {
+            bottom: -80px;
+            left: 50%;
+            transform: translateX(-50%);
+            flex-direction: column-reverse;
+            color: var(--red);
+        }
+
+        .load-arrow.uplift .arrow {
+            width: 4px;
+            height: 60px;
+            background: var(--red);
+            position: relative;
+        }
+
+        .load-arrow.uplift .arrow::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-left: 10px solid transparent;
+            border-right: 10px solid transparent;
+            border-bottom: 15px solid var(--red);
+        }
+
+        /* Combination Controls */
+        .combo-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 3rem;
+            flex-wrap: wrap;
+        }
+
+        .combo-btn {
+            background: rgba(0, 229, 255, 0.1);
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .combo-btn:hover, .combo-btn.active {
+            background: var(--cyan);
+            color: var(--bg-dark);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Equation Display */
+        .equation-display {
+            text-align: center;
+            margin-top: 2rem;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            border: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .equation {
+            font-size: 2.5rem;
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            color: var(--text-primary);
+            letter-spacing: 0.1em;
+        }
+
+        .equation .term {
+            display: inline-block;
+            transition: all 0.5s ease;
+            padding: 0.25rem 0.5rem;
+            border-radius: 5px;
+        }
+
+        .equation .term.D { color: var(--amber); }
+        .equation .term.L { color: var(--green); }
+        .equation .term.W { color: var(--cyan); }
+        .equation .term.factor { color: var(--purple); }
+        .equation .term.operator { color: var(--text-secondary); }
+
+        .equation .term.active {
+            transform: scale(1.2);
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .equation-description {
+            margin-top: 1.5rem;
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+        }
+
+        /* Load Factor Table */
+        .factor-table {
+            margin-top: 3rem;
+            overflow-x: auto;
+        }
+
+        .factor-table table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .factor-table th, .factor-table td {
+            padding: 1rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .factor-table th {
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        .factor-table tr:hover {
+            background: rgba(0, 229, 255, 0.05);
+        }
+
+        .factor-table .highlight {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 4rem;
+        }
+
+        .info-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .info-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan);
+            box-shadow: 0 20px 40px rgba(0, 229, 255, 0.1);
+        }
+
+        .info-card-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .info-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .info-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Code Reference Section */
+        .code-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem;
+            margin-top: 2rem;
+            overflow-x: auto;
+        }
+
+        .code-block pre {
+            font-family: 'Courier New', monospace;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .code-block .highlight-cyan { color: var(--cyan); }
+        .code-block .highlight-green { color: var(--green); }
+        .code-block .highlight-amber { color: var(--amber); }
+
+        /* Interactive Demo */
+        .demo-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .demo-calculator {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .input-field {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-field label {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 500;
+        }
+
+        .input-field input {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 8px;
+            padding: 0.75rem 1rem;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .input-field input:focus {
+            outline: none;
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+        }
+
+        .result-display {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid var(--cyan);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .result-display h3 {
+            color: var(--cyan);
+            margin-bottom: 1rem;
+        }
+
+        .result-value {
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .result-value span {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--cyan);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--cyan);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.05));
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(0, 229, 255, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .building-container {
+                height: 300px;
+            }
+
+            .building {
+                width: 120px;
+                height: 180px;
+            }
+
+            .load-arrow {
+                font-size: 0.875rem;
+            }
+
+            .equation {
+                font-size: 1.5rem;
+            }
+
+            .combo-controls {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .combo-btn {
+                width: 100%;
+                max-width: 300px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="loadCanvas"></canvas>
+
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <main>
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements">Broward</a>
+                <span>/</span>
+                <span class="breadcrumb-current">Load Combinations</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                ASCE 7-22 Load Combinations
+            </div>
+            <h1>Understanding <span class="gradient-text">D+L+W Load Combinations</span> in Broward County</h1>
+            <p>Interactive visualization showing how dead loads, live loads, and wind loads combine according to ASCE 7-22 for structural analysis in Broward County's High-Velocity Hurricane Zone.</p>
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4zm2 2H5V5h14v14z"/></svg>
+                    Calculate MWFRS Loads
+                </a>
+                <a href="#visualizer" class="btn-secondary">Explore Combinations</a>
+            </div>
+        </section>
+
+        <section id="visualizer" class="visualizer-section reveal">
+            <div class="section-header">
+                <h2>Interactive Load Combination Visualizer</h2>
+                <p style="color: var(--text-secondary); margin-top: 0.5rem;">Click the buttons below to see how different loads combine on a structure</p>
+            </div>
+
+            <div class="load-diagram">
+                <div class="building-container">
+                    <div class="building" id="building">
+                        <div class="load-arrow dead-load" id="deadLoad">
+                            <span>D (Dead)</span>
+                            <div class="arrow"></div>
+                        </div>
+                        <div class="load-arrow live-load" id="liveLoad">
+                            <div class="arrow"></div>
+                            <span>L (Live)</span>
+                        </div>
+                        <div class="load-arrow wind-load" id="windLoad">
+                            <div class="arrow"></div>
+                            <span>W (Wind)</span>
+                        </div>
+                        <div class="load-arrow uplift" id="upliftLoad">
+                            <div class="arrow"></div>
+                            <span>Uplift</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="combo-controls">
+                    <button class="combo-btn active" data-combo="1.4D">1.4D</button>
+                    <button class="combo-btn" data-combo="1.2D+1.6L">1.2D + 1.6L</button>
+                    <button class="combo-btn" data-combo="1.2D+L+W">1.2D + L + W</button>
+                    <button class="combo-btn" data-combo="0.9D+W">0.9D + W</button>
+                    <button class="combo-btn" data-combo="uplift">0.6D + W (Uplift)</button>
+                </div>
+
+                <div class="equation-display">
+                    <div class="equation" id="equation">
+                        <span class="term factor">1.4</span><span class="term D active">D</span>
+                    </div>
+                    <p class="equation-description" id="eqDescription">Dead load only - used for checking gravity load effects with no live or environmental loads present.</p>
+                </div>
+            </div>
+
+            <div class="factor-table reveal">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ASCE 7-22 Combination</th>
+                            <th>Application</th>
+                            <th>Broward County Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="highlight">1.4D</td>
+                            <td>Dead load only check</td>
+                            <td>Baseline for self-weight verification</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight">1.2D + 1.6L + 0.5(Lr or S or R)</td>
+                            <td>Maximum gravity loading</td>
+                            <td>Controls beam and column sizing</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight">1.2D + 1.0W + L + 0.5(Lr or S or R)</td>
+                            <td>Wind combined with gravity</td>
+                            <td>Critical in HVHZ - 170+ MPH design speeds</td>
+                        </tr>
+                        <tr>
+                            <td class="highlight">0.9D + 1.0W</td>
+                            <td>Uplift/overturning check</td>
+                            <td>Often governs roof-to-wall connections</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="info-grid reveal">
+                <div class="info-card">
+                    <div class="info-card-icon">D</div>
+                    <h3>Dead Load (D)</h3>
+                    <p>Permanent loads from the weight of the structure itself, including roofing materials, framing, finishes, and fixed equipment. In Broward County, typical roof dead loads range from 10-20 PSF depending on materials.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">L</div>
+                    <h3>Live Load (L)</h3>
+                    <p>Variable loads from occupancy, furniture, and temporary storage. Residential floors typically require 40 PSF, while roofs use 20 PSF minimum live load per ASCE 7-22 Table 4.3-1.</p>
+                </div>
+                <div class="info-card">
+                    <div class="info-card-icon">W</div>
+                    <h3>Wind Load (W)</h3>
+                    <p>Lateral and uplift forces from wind pressure. Broward County's HVHZ areas require design wind speeds of 170-180 MPH, creating pressures exceeding 50 PSF on components.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="code-section reveal">
+            <div class="section-header">
+                <h2>ASCE 7-22 Load Combinations Reference</h2>
+                <p style="color: var(--text-secondary);">Section 2.3.1 - Strength Design Load Combinations</p>
+            </div>
+
+            <div class="code-block">
+                <pre>
+<span class="highlight-cyan">// ASCE 7-22 Section 2.3.1 - Basic Combinations for Strength Design</span>
+
+<span class="highlight-amber">Combination 1:</span>  1.4D
+<span class="highlight-amber">Combination 2:</span>  1.2D + 1.6L + 0.5(Lr or S or R)
+<span class="highlight-amber">Combination 3:</span>  1.2D + 1.6(Lr or S or R) + (L or 0.5W)
+<span class="highlight-amber">Combination 4:</span>  1.2D + 1.0W + L + 0.5(Lr or S or R)
+<span class="highlight-amber">Combination 5:</span>  1.2D + 1.0E + L + 0.2S
+<span class="highlight-amber">Combination 6:</span>  0.9D + 1.0W
+<span class="highlight-amber">Combination 7:</span>  0.9D + 1.0E
+
+<span class="highlight-green">// For Broward County HVHZ with 170 MPH design wind speed:</span>
+<span class="highlight-green">// Combination 4 and 6 typically govern structural design</span>
+<span class="highlight-green">// Net uplift = Wind Uplift - 0.6(Dead Load)</span>
+                </pre>
+            </div>
+        </section>
+
+        <section class="demo-section reveal">
+            <div class="section-header">
+                <h2>Quick Load Combination Calculator</h2>
+                <p style="color: var(--text-secondary);">Enter your loads to see the combined design values</p>
+            </div>
+
+            <div class="demo-calculator">
+                <div class="input-group">
+                    <div class="input-field">
+                        <label>Dead Load (D) - PSF</label>
+                        <input type="number" id="inputD" value="15" min="0" step="0.5">
+                    </div>
+                    <div class="input-field">
+                        <label>Live Load (L) - PSF</label>
+                        <input type="number" id="inputL" value="40" min="0" step="0.5">
+                    </div>
+                    <div class="input-field">
+                        <label>Wind Load (W) - PSF</label>
+                        <input type="number" id="inputW" value="55" min="0" step="0.5">
+                    </div>
+                </div>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+                    <div class="result-display">
+                        <h3>1.2D + 1.6L</h3>
+                        <div class="result-value" id="result1">82 <span>PSF</span></div>
+                    </div>
+                    <div class="result-display">
+                        <h3>1.2D + L + W</h3>
+                        <div class="result-value" id="result2">113 <span>PSF</span></div>
+                    </div>
+                    <div class="result-display">
+                        <h3>0.9D + W (Uplift)</h3>
+                        <div class="result-value" id="result3">41.5 <span>PSF</span></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Why does Broward County require different load combinations than other areas?</div>
+                <div class="faq-answer">Broward County is within Florida's High-Velocity Hurricane Zone (HVHZ), requiring design for wind speeds of 170-180 MPH. The standard ASCE 7-22 load combinations still apply, but the magnitude of the wind load component (W) is significantly higher. This means combinations including wind loads (like 1.2D + W + L) often become the governing design case rather than gravity-only combinations.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the 0.6D factor used for in uplift calculations?</div>
+                <div class="faq-answer">The 0.6D factor represents the minimum dead load that can be relied upon to resist uplift forces. During high winds, suction on the roof creates uplift that tries to lift the structure. Only 60% of the dead load is counted as resisting this uplift because some materials may be removed, deteriorated, or lighter than specified. This conservative approach ensures adequate anchorage even in worst-case scenarios.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I know which load combination governs my design?</div>
+                <div class="faq-answer">You must check all applicable combinations and design for the worst case. For Broward County structures, combination 4 (1.2D + W + L) typically governs lateral systems and connections, while combination 6 (0.9D + W) often governs uplift and overturning. Use our calculator to quickly compare factored loads and identify the critical combination for your specific application.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Are there special considerations for roof-to-wall connections?</div>
+                <div class="faq-answer">Yes, roof-to-wall connections in Broward County must resist significant uplift forces. The net uplift is calculated as the wind uplift pressure minus 0.6 times the dead load. For a typical residential roof with 15 PSF dead load and 55 PSF wind uplift, the net design uplift would be approximately 55 - (0.6 x 15) = 46 PSF. Hurricane clips or straps must be sized accordingly.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Does the Florida Building Code modify ASCE 7-22 load combinations?</div>
+                <div class="faq-answer">The Florida Building Code 8th Edition (2023) adopts ASCE 7-22 with Florida-specific amendments. The basic load combination formulas remain the same, but Florida adds requirements for wind-borne debris regions, enhanced protection zones, and specific product approval requirements (FBC or Miami-Dade NOA) that affect how loads are transferred through approved products.</div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Get Accurate Wind Load Calculations</h2>
+            <p>Stop guessing at load combinations. Our ASCE 7-22 calculator handles all combinations automatically for Broward County.</p>
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                Calculate MWFRS Now
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Professional Wind Load Analysis for Broward County</p>
+        <p style="margin-top: 0.5rem;"><a href="https://windload.solutions/florida-wind-load-requirements">Florida</a> | <a href="https://windload.solutions/state-requirements">All States</a> | <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Get Started</a></p>
+    </footer>
+
+    <script>
+        // Canvas Animation - Load Force Particles
+        const canvas = document.getElementById('loadCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class LoadParticle {
+            constructor(type) {
+                this.type = type;
+                this.reset();
+            }
+
+            reset() {
+                if (this.type === 'dead') {
+                    this.x = Math.random() * canvas.width;
+                    this.y = -10;
+                    this.speedX = 0;
+                    this.speedY = Math.random() * 1 + 0.5;
+                    this.color = '#f59e0b';
+                } else if (this.type === 'wind') {
+                    this.x = -10;
+                    this.y = Math.random() * canvas.height;
+                    this.speedX = Math.random() * 3 + 2;
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.color = '#00e5ff';
+                } else {
+                    this.x = Math.random() * canvas.width;
+                    this.y = canvas.height + 10;
+                    this.speedX = 0;
+                    this.speedY = -(Math.random() * 1 + 0.5);
+                    this.color = '#ff4757';
+                }
+                this.size = Math.random() * 2 + 1;
+                this.life = Math.random() * 100 + 50;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+
+                if (this.life <= 0 || this.x > canvas.width + 10 || this.y > canvas.height + 10 || this.y < -10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = Math.min(this.life / 50, 1) * 0.6;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 30; i++) particles.push(new LoadParticle('dead'));
+        for (let i = 0; i < 40; i++) particles.push(new LoadParticle('wind'));
+        for (let i = 0; i < 20; i++) particles.push(new LoadParticle('uplift'));
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
+        // Load Combination Controls
+        const comboBtns = document.querySelectorAll('.combo-btn');
+        const deadLoad = document.getElementById('deadLoad');
+        const liveLoad = document.getElementById('liveLoad');
+        const windLoad = document.getElementById('windLoad');
+        const upliftLoad = document.getElementById('upliftLoad');
+        const equation = document.getElementById('equation');
+        const eqDescription = document.getElementById('eqDescription');
+        const building = document.getElementById('building');
+
+        const combinations = {
+            '1.4D': {
+                dead: true, live: false, wind: false, uplift: false,
+                eq: '<span class="term factor">1.4</span><span class="term D active">D</span>',
+                desc: 'Dead load only - used for checking gravity load effects with no live or environmental loads present.'
+            },
+            '1.2D+1.6L': {
+                dead: true, live: true, wind: false, uplift: false,
+                eq: '<span class="term factor">1.2</span><span class="term D active">D</span> <span class="term operator">+</span> <span class="term factor">1.6</span><span class="term L active">L</span>',
+                desc: 'Maximum gravity loading - typically controls floor beam and column sizing for occupied spaces.'
+            },
+            '1.2D+L+W': {
+                dead: true, live: true, wind: true, uplift: false,
+                eq: '<span class="term factor">1.2</span><span class="term D active">D</span> <span class="term operator">+</span> <span class="term L active">L</span> <span class="term operator">+</span> <span class="term W active">W</span>',
+                desc: 'Wind combined with gravity loads - critical combination for HVHZ areas in Broward County with 170+ MPH design speeds.'
+            },
+            '0.9D+W': {
+                dead: true, live: false, wind: true, uplift: false,
+                eq: '<span class="term factor">0.9</span><span class="term D active">D</span> <span class="term operator">+</span> <span class="term W active">W</span>',
+                desc: 'Reduced dead load with wind - checks overturning and sliding stability of the structure.'
+            },
+            'uplift': {
+                dead: true, live: false, wind: false, uplift: true,
+                eq: '<span class="term factor">0.6</span><span class="term D active">D</span> <span class="term operator">+</span> <span class="term W active">W</span><sub>uplift</sub>',
+                desc: 'Net uplift calculation - determines required capacity for roof-to-wall connections and hold-down anchors.'
+            }
+        };
+
+        comboBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                comboBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                const combo = combinations[btn.dataset.combo];
+
+                deadLoad.classList.toggle('active', combo.dead);
+                liveLoad.classList.toggle('active', combo.live);
+                windLoad.classList.toggle('active', combo.wind);
+                upliftLoad.classList.toggle('active', combo.uplift);
+
+                equation.innerHTML = combo.eq;
+                eqDescription.textContent = combo.desc;
+
+                // Animate building
+                if (combo.uplift) {
+                    building.style.transform = 'translateY(-10px)';
+                } else if (combo.wind) {
+                    building.style.transform = 'skewX(-2deg)';
+                } else {
+                    building.style.transform = 'none';
+                }
+            });
+        });
+
+        // Initialize first combination
+        deadLoad.classList.add('active');
+
+        // Calculator functionality
+        const inputD = document.getElementById('inputD');
+        const inputL = document.getElementById('inputL');
+        const inputW = document.getElementById('inputW');
+
+        function updateResults() {
+            const D = parseFloat(inputD.value) || 0;
+            const L = parseFloat(inputL.value) || 0;
+            const W = parseFloat(inputW.value) || 0;
+
+            const r1 = 1.2 * D + 1.6 * L;
+            const r2 = 1.2 * D + L + W;
+            const r3 = W - 0.6 * D;
+
+            document.getElementById('result1').innerHTML = r1.toFixed(1) + ' <span>PSF</span>';
+            document.getElementById('result2').innerHTML = r2.toFixed(1) + ' <span>PSF</span>';
+            document.getElementById('result3').innerHTML = Math.max(0, r3).toFixed(1) + ' <span>PSF</span>';
+        }
+
+        [inputD, inputL, inputW].forEach(input => {
+            input.addEventListener('input', updateResults);
+        });
+        updateResults();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>

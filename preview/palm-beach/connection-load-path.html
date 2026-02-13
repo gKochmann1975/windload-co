@@ -1,0 +1,1568 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connection Load Path Visualization | Roof to Foundation | Palm Beach FL | WindLoad.co</title>
+    <meta name="description" content="Animated visualization of the continuous load path from roof to foundation. Understand how wind forces transfer through connections in Palm Beach County hurricane-resistant construction.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Palm Beach County">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #080c14;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --orange: #ff8c00;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Background with Force Lines */
+        #forceCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(8, 12, 20, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 140, 0, 0.2);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--orange), var(--amber));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 140, 0, 0.3);
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8rem 2rem 4rem;
+            z-index: 1;
+        }
+
+        .hero-content {
+            max-width: 900px;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 140, 0, 0.1);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+            animation: glow-orange 2s infinite;
+        }
+
+        @keyframes glow-orange {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 140, 0, 0.2); }
+            50% { box-shadow: 0 0 40px rgba(255, 140, 0, 0.4); }
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .gradient-text {
+            background: linear-gradient(135deg, var(--orange), var(--amber), var(--cyan));
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: fire-flow 3s ease infinite;
+        }
+
+        @keyframes fire-flow {
+            0%, 100% { background-position: 0% center; }
+            50% { background-position: 100% center; }
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), var(--amber));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(255, 140, 0, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--orange);
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        /* Main Visualization Section */
+        .visualization-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .building-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+        }
+
+        .building-visual {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            position: relative;
+        }
+
+        .building-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange), var(--amber), var(--cyan));
+        }
+
+        #buildingCanvas {
+            width: 100%;
+            height: 600px;
+            border-radius: 12px;
+        }
+
+        .playback-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+
+        .control-btn {
+            padding: 0.75rem 1.5rem;
+            background: rgba(255, 140, 0, 0.2);
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 8px;
+            color: var(--orange);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .control-btn:hover {
+            background: rgba(255, 140, 0, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .control-btn.active {
+            background: var(--orange);
+            color: var(--bg-dark);
+        }
+
+        .info-panel {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 24px;
+            padding: 2rem;
+            height: fit-content;
+        }
+
+        .panel-title {
+            font-size: 1.25rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .connection-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .connection-item {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .connection-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+        }
+
+        .connection-item.active {
+            border-color: var(--orange);
+            background: rgba(255, 140, 0, 0.1);
+        }
+
+        .connection-item:hover {
+            border-color: rgba(255, 140, 0, 0.3);
+        }
+
+        .connection-item.roof-deck::before { background: var(--red); }
+        .connection-item.roof-wall::before { background: var(--orange); }
+        .connection-item.wall-wall::before { background: var(--amber); }
+        .connection-item.wall-floor::before { background: var(--cyan); }
+        .connection-item.floor-foundation::before { background: var(--green); }
+
+        .connection-name {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .connection-load {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .connection-value {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 0.5rem;
+            padding-top: 0.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .value-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .value-number {
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        /* Load Path Steps Section */
+        .steps-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(255, 140, 0, 0.02), transparent);
+        }
+
+        .steps-container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .step-row {
+            display: grid;
+            grid-template-columns: 60px 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+            position: relative;
+        }
+
+        .step-row::before {
+            content: '';
+            position: absolute;
+            left: 30px;
+            top: 60px;
+            bottom: -2rem;
+            width: 2px;
+            background: linear-gradient(180deg, var(--orange), transparent);
+        }
+
+        .step-row:last-child::before {
+            display: none;
+        }
+
+        .step-number {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--orange), var(--amber));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--bg-dark);
+            position: relative;
+            z-index: 1;
+        }
+
+        .step-content {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 140, 0, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+        }
+
+        .step-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--orange);
+            margin-bottom: 0.5rem;
+        }
+
+        .step-description {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .step-specs {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1rem;
+        }
+
+        .spec-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .spec-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .spec-label {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Connection Details Grid */
+        .details-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .details-grid {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+        }
+
+        .detail-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s, border-color 0.3s;
+        }
+
+        .detail-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--orange);
+        }
+
+        .detail-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+        }
+
+        .detail-card.uplift::before { background: linear-gradient(90deg, var(--red), var(--orange)); }
+        .detail-card.shear::before { background: linear-gradient(90deg, var(--amber), var(--cyan)); }
+        .detail-card.compression::before { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+        .detail-card.transfer::before { background: linear-gradient(90deg, var(--cyan), var(--orange)); }
+
+        .detail-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-card.uplift .detail-icon { background: rgba(255, 71, 87, 0.2); }
+        .detail-card.shear .detail-icon { background: rgba(245, 158, 11, 0.2); }
+        .detail-card.compression .detail-icon { background: rgba(0, 255, 136, 0.2); }
+        .detail-card.transfer .detail-icon { background: rgba(0, 229, 255, 0.2); }
+
+        .detail-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .detail-text {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .stat-name {
+            color: var(--text-secondary);
+        }
+
+        .stat-value {
+            font-weight: 600;
+            color: var(--cyan);
+        }
+
+        /* Content Section */
+        .content-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(255, 140, 0, 0.02), transparent);
+        }
+
+        .content-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .content-block {
+            margin-bottom: 3rem;
+        }
+
+        .content-block h3 {
+            font-size: 1.75rem;
+            color: var(--orange);
+            margin-bottom: 1rem;
+        }
+
+        .content-block p {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+        }
+
+        .highlight-box {
+            background: rgba(255, 140, 0, 0.1);
+            border-left: 4px solid var(--orange);
+            padding: 1.5rem;
+            border-radius: 0 12px 12px 0;
+            margin: 1.5rem 0;
+        }
+
+        .highlight-box strong {
+            color: var(--orange);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 140, 0, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--orange);
+        }
+
+        .faq-question {
+            width: 100%;
+            padding: 1.5rem;
+            background: transparent;
+            border: none;
+            color: var(--text-primary);
+            font-size: 1.1rem;
+            font-weight: 600;
+            text-align: left;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--orange);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease-out;
+        }
+
+        .faq-answer-content {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            position: relative;
+            z-index: 1;
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-card {
+            max-width: 800px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(255, 140, 0, 0.1), rgba(245, 158, 11, 0.05));
+            border: 1px solid rgba(255, 140, 0, 0.3);
+            border-radius: 24px;
+            padding: 4rem;
+        }
+
+        .cta-card h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 1;
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .building-container {
+                grid-template-columns: 1fr;
+            }
+
+            .details-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .step-specs {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav {
+                padding: 1rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .step-row {
+                grid-template-columns: 40px 1fr;
+                gap: 1rem;
+            }
+
+            .step-number {
+                width: 40px;
+                height: 40px;
+                font-size: 1rem;
+            }
+
+            .step-row::before {
+                left: 20px;
+            }
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <!-- Force Lines Background Canvas -->
+    <canvas id="forceCanvas"></canvas>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div style="position: relative; z-index: 1; padding: 5rem 2rem 0; max-width: 1200px; margin: 0 auto;">
+        <nav style="font-size: 0.875rem; color: var(--text-secondary);">
+            <a href="https://windload.co" style="color: var(--text-secondary); text-decoration: none;">Home</a> /
+            <a href="https://windload.solutions/florida-wind-load-requirements.html" style="color: var(--text-secondary); text-decoration: none;">Florida</a> /
+            <a href="https://windload.solutions/cities/west-palm-beach-wind-load-requirements" style="color: var(--text-secondary); text-decoration: none;">Palm Beach</a> /
+            <span style="color: var(--orange);">Connection Load Path</span>
+        </nav>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <div class="hero-badge">
+                <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path d="M12 2v20M2 12h20"/>
+                    <path d="M12 2l4 4M12 2l-4 4M12 22l4-4M12 22l-4-4"/>
+                </svg>
+                Structural Load Path Analysis
+            </div>
+            <h1>
+                <span class="gradient-text">Continuous Load Path</span><br>
+                From Roof to Foundation
+            </h1>
+            <p>Visualize how wind forces transfer through every connection point in a building. Understanding the continuous load path is essential for hurricane-resistant construction in Palm Beach County.</p>
+            <div class="hero-buttons">
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+                <a href="#visualization" class="btn-secondary">View Animation</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Visualization Section -->
+    <section class="visualization-section" id="visualization">
+        <div class="section-header reveal">
+            <h2>Interactive Load Path Visualization</h2>
+            <p>Click on connections to see how forces transfer through the structural system</p>
+        </div>
+
+        <div class="building-container">
+            <div class="building-visual reveal">
+                <canvas id="buildingCanvas"></canvas>
+                <div class="playback-controls">
+                    <button class="control-btn" id="playBtn">Play Animation</button>
+                    <button class="control-btn" id="resetBtn">Reset</button>
+                    <button class="control-btn" id="windBtn">Toggle Wind</button>
+                </div>
+            </div>
+
+            <div class="info-panel reveal">
+                <div class="panel-title">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 2v20M2 12h20"/>
+                    </svg>
+                    Connection Points
+                </div>
+
+                <div class="connection-list">
+                    <div class="connection-item roof-deck active" data-connection="roof-deck">
+                        <div class="connection-name">Roof Deck to Framing</div>
+                        <div class="connection-load">Ring-shank nails @ 6" o.c.</div>
+                        <div class="connection-value">
+                            <div><span class="value-label">Uplift</span></div>
+                            <div class="value-number">580 plf</div>
+                        </div>
+                    </div>
+
+                    <div class="connection-item roof-wall" data-connection="roof-wall">
+                        <div class="connection-name">Roof to Wall (Hurricane Straps)</div>
+                        <div class="connection-load">H2.5A @ 24" o.c.</div>
+                        <div class="connection-value">
+                            <div><span class="value-label">Uplift</span></div>
+                            <div class="value-number">1,175 lbs</div>
+                        </div>
+                    </div>
+
+                    <div class="connection-item wall-wall" data-connection="wall-wall">
+                        <div class="connection-name">Top Plate to Studs</div>
+                        <div class="connection-load">Nails + Straps as required</div>
+                        <div class="connection-value">
+                            <div><span class="value-label">Uplift</span></div>
+                            <div class="value-number">1,400 lbs</div>
+                        </div>
+                    </div>
+
+                    <div class="connection-item wall-floor" data-connection="wall-floor">
+                        <div class="connection-name">Wall to Floor/Sill</div>
+                        <div class="connection-load">Hold-downs @ openings</div>
+                        <div class="connection-value">
+                            <div><span class="value-label">Uplift</span></div>
+                            <div class="value-number">2,850 lbs</div>
+                        </div>
+                    </div>
+
+                    <div class="connection-item floor-foundation" data-connection="floor-foundation">
+                        <div class="connection-name">Sill to Foundation</div>
+                        <div class="connection-load">Anchor bolts @ 4' o.c.</div>
+                        <div class="connection-value">
+                            <div><span class="value-label">Uplift</span></div>
+                            <div class="value-number">3,200 lbs</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Load Path Steps -->
+    <section class="steps-section">
+        <div class="section-header reveal">
+            <h2>The Complete Load Path</h2>
+            <p>Follow the wind forces as they transfer from roof to foundation</p>
+        </div>
+
+        <div class="steps-container">
+            <div class="step-row reveal">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <div class="step-title">Wind Strikes the Building</div>
+                    <div class="step-description">At 165 MPH, wind creates positive pressure on windward walls (pushing in) and negative pressure on leeward walls and roof (suction). The velocity pressure qh at 30 ft height is approximately 42 psf.</div>
+                    <div class="step-specs">
+                        <div class="spec-item">
+                            <div class="spec-value">165</div>
+                            <div class="spec-label">Wind Speed (MPH)</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">42</div>
+                            <div class="spec-label">Velocity Pressure (psf)</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">-85</div>
+                            <div class="spec-label">Roof Uplift (psf)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-row reveal">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <div class="step-title">Roof Diaphragm Collects Forces</div>
+                    <div class="step-description">The roof sheathing acts as a diaphragm, collecting distributed wind loads and transferring them to perimeter framing. Proper nailing (8d ring-shank @ 6" o.c. edges) is critical for this transfer.</div>
+                    <div class="step-specs">
+                        <div class="spec-item">
+                            <div class="spec-value">7/16"</div>
+                            <div class="spec-label">OSB Minimum</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">6"</div>
+                            <div class="spec-label">Edge Nailing</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">580</div>
+                            <div class="spec-label">Shear (plf)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-row reveal">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <div class="step-title">Roof-to-Wall Connection</div>
+                    <div class="step-description">Hurricane straps (H2.5A or equivalent) transfer uplift forces from rafters/trusses to the top wall plate. Each connector must resist the accumulated uplift from its tributary roof area.</div>
+                    <div class="step-specs">
+                        <div class="spec-item">
+                            <div class="spec-value">1,175</div>
+                            <div class="spec-label">Uplift (lbs)</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">H2.5A</div>
+                            <div class="spec-label">Strap Model</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">24"</div>
+                            <div class="spec-label">Spacing (o.c.)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-row reveal">
+                <div class="step-number">4</div>
+                <div class="step-content">
+                    <div class="step-title">Wall Frame Transfer</div>
+                    <div class="step-description">Forces travel through the wall framing system. Continuous studs transfer loads to the bottom plate. Hold-downs at shear wall ends resist overturning from lateral loads.</div>
+                    <div class="step-specs">
+                        <div class="spec-item">
+                            <div class="spec-value">2x6</div>
+                            <div class="spec-label">Stud Size</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">16"</div>
+                            <div class="spec-label">Stud Spacing</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">1,400</div>
+                            <div class="spec-label">Transfer Load (lbs)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="step-row reveal">
+                <div class="step-number">5</div>
+                <div class="step-content">
+                    <div class="step-title">Foundation Anchorage</div>
+                    <div class="step-description">The sill plate connects to the concrete foundation via anchor bolts. These must resist both uplift and lateral shear forces. Minimum 1/2" bolts at 4' o.c. with proper embedment.</div>
+                    <div class="step-specs">
+                        <div class="spec-item">
+                            <div class="spec-value">1/2"</div>
+                            <div class="spec-label">Bolt Diameter</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">7"</div>
+                            <div class="spec-label">Embedment</div>
+                        </div>
+                        <div class="spec-item">
+                            <div class="spec-value">3,200</div>
+                            <div class="spec-label">Capacity (lbs)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Details Grid -->
+    <section class="details-section">
+        <div class="section-header reveal">
+            <h2>Load Types in the Path</h2>
+            <p>Understanding the different forces that connections must resist</p>
+        </div>
+
+        <div class="details-grid">
+            <div class="detail-card uplift reveal">
+                <div class="detail-icon">
+                    <svg width="32" height="32" fill="none" stroke="#ff4757" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 19V5M5 12l7-7 7 7"/>
+                    </svg>
+                </div>
+                <div class="detail-title">Uplift Forces</div>
+                <div class="detail-text">Wind suction on the roof creates powerful uplift forces that try to lift the building off its foundation. Every connection in the load path must resist this upward pull.</div>
+                <div class="detail-stat">
+                    <span class="stat-name">Peak Roof Uplift</span>
+                    <span class="stat-value">-105 psf</span>
+                </div>
+                <div class="detail-stat">
+                    <span class="stat-name">Foundation Reaction</span>
+                    <span class="stat-value">3,200 lbs</span>
+                </div>
+            </div>
+
+            <div class="detail-card shear reveal">
+                <div class="detail-icon">
+                    <svg width="32" height="32" fill="none" stroke="#f59e0b" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </div>
+                <div class="detail-title">Shear Forces</div>
+                <div class="detail-text">Horizontal wind pressure creates shear forces that try to slide the building sideways. Shear walls and diaphragms resist these lateral loads through nailing patterns.</div>
+                <div class="detail-stat">
+                    <span class="stat-name">Wall Shear</span>
+                    <span class="stat-value">850 plf</span>
+                </div>
+                <div class="detail-stat">
+                    <span class="stat-name">Diaphragm Shear</span>
+                    <span class="stat-value">580 plf</span>
+                </div>
+            </div>
+
+            <div class="detail-card compression reveal">
+                <div class="detail-icon">
+                    <svg width="32" height="32" fill="none" stroke="#00ff88" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M12 5v14M19 12l-7 7-7-7"/>
+                    </svg>
+                </div>
+                <div class="detail-title">Compression Forces</div>
+                <div class="detail-text">Gravity loads and overturning moments create compression in structural members. Studs, posts, and foundations must have adequate bearing capacity.</div>
+                <div class="detail-stat">
+                    <span class="stat-name">Max Compression</span>
+                    <span class="stat-value">12,500 lbs</span>
+                </div>
+                <div class="detail-stat">
+                    <span class="stat-name">Bearing Area</span>
+                    <span class="stat-value">64 sq in</span>
+                </div>
+            </div>
+
+            <div class="detail-card transfer reveal">
+                <div class="detail-icon">
+                    <svg width="32" height="32" fill="none" stroke="#00e5ff" stroke-width="2" viewBox="0 0 24 24">
+                        <path d="M4 12h16M8 8l-4 4 4 4M16 8l4 4-4 4"/>
+                    </svg>
+                </div>
+                <div class="detail-title">Load Transfer</div>
+                <div class="detail-text">Forces must transfer smoothly between elements. Any gap in the load path creates a weak point where failure can occur during a hurricane.</div>
+                <div class="detail-stat">
+                    <span class="stat-name">Critical Points</span>
+                    <span class="stat-value">5 connections</span>
+                </div>
+                <div class="detail-stat">
+                    <span class="stat-name">Path Continuity</span>
+                    <span class="stat-value">100% Required</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Content Section -->
+    <section class="content-section">
+        <div class="content-wrapper">
+            <div class="content-block reveal">
+                <h3>Why Continuous Load Path Matters in Palm Beach</h3>
+                <p>Florida Building Code Section 1609 and ASCE 7-22 require that buildings in high-wind regions have a continuous path to transfer wind forces from the point of application to the foundation. In Palm Beach County, with design wind speeds of 150-170 MPH, this requirement is not optional - it is essential for survival.</p>
+                <p>Post-hurricane damage assessments consistently show that failures occur at connection points, not in the middle of structural members. A roof that blows off almost always fails at the roof-to-wall connection, not by breaking the rafters in half.</p>
+            </div>
+
+            <div class="highlight-box reveal">
+                <strong>Florida Building Code 2023 Section 1609.1.1:</strong> "Buildings and other structures shall be designed and constructed to resist wind loads as determined in accordance with ASCE 7. The structure shall have a complete lateral force-resisting system with a continuous load path."
+            </div>
+
+            <div class="content-block reveal">
+                <h3>Calculating Connection Loads</h3>
+                <p>Each connection in the load path must be designed for the cumulative forces from all elements above it. The roof-to-wall connection carries only roof loads, but the sill-to-foundation connection must carry the accumulated loads from the entire wall and roof system.</p>
+                <p>For a typical single-story home in Palm Beach with 165 MPH wind speed:</p>
+                <ul style="color: var(--text-secondary); margin-left: 2rem; margin-top: 1rem;">
+                    <li>Roof-to-wall uplift: ~1,175 lbs per connection at 24" spacing</li>
+                    <li>Wall-to-sill uplift: ~2,850 lbs at hold-down locations</li>
+                    <li>Sill-to-foundation: ~3,200 lbs per anchor bolt tributary area</li>
+                </ul>
+            </div>
+
+            <div class="content-block reveal">
+                <h3>Common Load Path Failures</h3>
+                <p>Hurricane damage investigations in Florida have identified these common failure modes:</p>
+                <p><strong>Roof Sheathing:</strong> Improper nailing (6d instead of 8d, smooth shank instead of ring-shank, or spacing exceeding 6" at edges) allows sheathing to peel off in high winds.</p>
+                <p><strong>Hurricane Straps:</strong> Missing straps, improperly installed straps (wrong nail type, missing nails), or straps that don't match the calculated load allow roof-to-wall separation.</p>
+                <p><strong>Anchor Bolts:</strong> Insufficient embedment, missing bolts, or bolts placed too far from corners allow walls to slide or uplift from foundations.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="faq-section">
+        <div class="section-header reveal">
+            <h2>Frequently Asked Questions</h2>
+            <p>Common questions about continuous load path requirements</p>
+        </div>
+
+        <div class="faq-container">
+            <div class="faq-item reveal">
+                <button class="faq-question">What is the minimum hurricane strap spacing in Palm Beach County?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Hurricane strap spacing depends on the calculated uplift load per connection. For typical residential construction in Palm Beach County with 165 MPH wind speed, straps are commonly spaced at 24" on center using H2.5A or equivalent connectors. However, this must be verified by calculation - areas with higher tributary loads or corner conditions may require closer spacing or higher-capacity connectors like H10 or HDU hold-downs. Always consult the truss engineering drawings or a structural engineer.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">Can I use toe-nailing instead of hurricane straps?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        No. Florida Building Code prohibits toe-nailing as the sole connection method for roof-to-wall connections in high-wind regions. Toe-nails have an uplift capacity of only 80-100 lbs per nail, while Palm Beach County wind loads require 500-1,200+ lbs per connection. Hurricane straps or equivalent engineered connectors are mandatory per FBC Section 2308.7.5. This requirement applies to all new construction and re-roofing projects.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">How do I know if my existing home has a continuous load path?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Homes built before 1994 (pre-FBC) likely lack proper hurricane straps and may have inadequate anchor bolts. A wind mitigation inspection can identify missing load path elements. Key items to check: roof-to-wall straps visible in attic, anchor bolts visible at sill plate (usually 4-6' spacing), and shear wall connections at corners. Retrofitting an existing home with proper connections is possible and may qualify for insurance discounts through Florida's My Safe Florida Home program.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">What happens if one connection in the load path fails?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        If any single connection fails, the load it was carrying redistributes to adjacent connections, which may then become overloaded and fail in sequence. This progressive failure can cause catastrophic damage in seconds. For example, if one hurricane strap fails, the adjacent straps experience increased load; if they fail, the entire roof section can separate from the wall. This is why redundancy and adequate safety factors are built into code requirements.
+                    </div>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <button class="faq-question">Are load path requirements different for two-story buildings?</button>
+                <div class="faq-answer">
+                    <div class="faq-answer-content">
+                        Yes, two-story buildings have additional load path considerations. The second-floor framing must connect to the first-floor walls, and forces accumulate as they travel downward. Hold-downs at shear wall ends carry higher loads in two-story construction. The second-floor platform acts as a diaphragm that must be properly connected to walls above and below. Inter-story shear transfer through the floor system requires blocking and proper nailing patterns per FBC Section 2308.8.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="cta-card reveal">
+            <h2>Get Accurate Connection Loads</h2>
+            <p>Stop guessing at hurricane strap requirements. Our MWFRS calculator provides exact uplift and shear values for every connection point in your Palm Beach County project.</p>
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate Now</a>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Professional Load Path Analysis for Palm Beach County</p>
+    </footer>
+
+    <script>
+        // Force Lines Background Animation
+        const forceCanvas = document.getElementById('forceCanvas');
+        const forceCtx = forceCanvas.getContext('2d');
+
+        function resizeForceCanvas() {
+            forceCanvas.width = window.innerWidth;
+            forceCanvas.height = window.innerHeight;
+        }
+        resizeForceCanvas();
+        window.addEventListener('resize', resizeForceCanvas);
+
+        // Force particles flowing downward (representing load path)
+        class ForceParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * forceCanvas.width;
+                this.y = 0;
+                this.speed = Math.random() * 2 + 1;
+                this.size = Math.random() * 2 + 1;
+                this.opacity = Math.random() * 0.5 + 0.2;
+
+                // Color gradient from orange (top) to cyan (bottom)
+                this.hue = 30; // Start orange
+            }
+
+            update() {
+                this.y += this.speed;
+
+                // Transition color as particle falls
+                const progress = this.y / forceCanvas.height;
+                this.hue = 30 - progress * 150; // Orange to cyan
+
+                if (this.y > forceCanvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                forceCtx.beginPath();
+                forceCtx.moveTo(this.x, this.y);
+                forceCtx.lineTo(this.x, this.y - 20);
+                forceCtx.strokeStyle = `hsla(${this.hue}, 100%, 60%, ${this.opacity})`;
+                forceCtx.lineWidth = this.size;
+                forceCtx.lineCap = 'round';
+                forceCtx.stroke();
+            }
+        }
+
+        const forceParticles = Array.from({ length: 50 }, () => new ForceParticle());
+
+        function animateForceBackground() {
+            forceCtx.fillStyle = 'rgba(8, 12, 20, 0.1)';
+            forceCtx.fillRect(0, 0, forceCanvas.width, forceCanvas.height);
+
+            forceParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animateForceBackground);
+        }
+        animateForceBackground();
+
+        // Building Visualization Canvas
+        const buildingCanvas = document.getElementById('buildingCanvas');
+        const buildingCtx = buildingCanvas.getContext('2d');
+
+        function resizeBuildingCanvas() {
+            const container = buildingCanvas.parentElement;
+            buildingCanvas.width = container.clientWidth - 64;
+            buildingCanvas.height = 600;
+        }
+        resizeBuildingCanvas();
+        window.addEventListener('resize', resizeBuildingCanvas);
+
+        // Animation state
+        let animationProgress = 0;
+        let isPlaying = false;
+        let showWind = true;
+        let activeConnection = 'roof-deck';
+
+        // Connection positions (relative to building)
+        const connections = {
+            'roof-deck': { y: 0.15, color: '#ff4757', label: 'Roof Deck' },
+            'roof-wall': { y: 0.25, color: '#ff8c00', label: 'Roof-Wall' },
+            'wall-wall': { y: 0.45, color: '#f59e0b', label: 'Top Plate' },
+            'wall-floor': { y: 0.65, color: '#00e5ff', label: 'Wall-Floor' },
+            'floor-foundation': { y: 0.85, color: '#00ff88', label: 'Foundation' }
+        };
+
+        function drawBuilding() {
+            const w = buildingCanvas.width;
+            const h = buildingCanvas.height;
+
+            buildingCtx.clearRect(0, 0, w, h);
+
+            // Building dimensions
+            const buildingWidth = w * 0.5;
+            const buildingHeight = h * 0.7;
+            const buildingX = (w - buildingWidth) / 2;
+            const buildingY = h * 0.15;
+            const roofHeight = h * 0.15;
+
+            // Draw wind arrows if enabled
+            if (showWind) {
+                const windOffset = Math.sin(Date.now() / 200) * 10;
+                buildingCtx.strokeStyle = 'rgba(0, 229, 255, 0.4)';
+                buildingCtx.lineWidth = 2;
+
+                for (let i = 0; i < 5; i++) {
+                    const arrowY = buildingY + i * (buildingHeight / 5) + 30;
+                    const arrowX = buildingX - 80 + windOffset;
+
+                    buildingCtx.beginPath();
+                    buildingCtx.moveTo(arrowX - 40, arrowY);
+                    buildingCtx.lineTo(arrowX, arrowY);
+                    buildingCtx.lineTo(arrowX - 10, arrowY - 8);
+                    buildingCtx.moveTo(arrowX, arrowY);
+                    buildingCtx.lineTo(arrowX - 10, arrowY + 8);
+                    buildingCtx.stroke();
+                }
+
+                // Wind speed label
+                buildingCtx.fillStyle = 'rgba(0, 229, 255, 0.8)';
+                buildingCtx.font = 'bold 14px Segoe UI';
+                buildingCtx.textAlign = 'center';
+                buildingCtx.fillText('165 MPH', buildingX - 60, buildingY - 10);
+            }
+
+            // Draw foundation
+            buildingCtx.fillStyle = 'rgba(100, 100, 100, 0.5)';
+            buildingCtx.fillRect(buildingX - 20, buildingY + buildingHeight, buildingWidth + 40, 30);
+
+            // Draw walls
+            buildingCtx.fillStyle = 'rgba(255, 140, 0, 0.2)';
+            buildingCtx.strokeStyle = 'rgba(255, 140, 0, 0.5)';
+            buildingCtx.lineWidth = 2;
+            buildingCtx.fillRect(buildingX, buildingY, buildingWidth, buildingHeight);
+            buildingCtx.strokeRect(buildingX, buildingY, buildingWidth, buildingHeight);
+
+            // Draw roof
+            buildingCtx.fillStyle = 'rgba(255, 71, 87, 0.3)';
+            buildingCtx.strokeStyle = 'rgba(255, 71, 87, 0.5)';
+            buildingCtx.beginPath();
+            buildingCtx.moveTo(buildingX - 20, buildingY);
+            buildingCtx.lineTo(buildingX + buildingWidth / 2, buildingY - roofHeight);
+            buildingCtx.lineTo(buildingX + buildingWidth + 20, buildingY);
+            buildingCtx.closePath();
+            buildingCtx.fill();
+            buildingCtx.stroke();
+
+            // Draw studs
+            buildingCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            buildingCtx.lineWidth = 1;
+            const studSpacing = buildingWidth / 8;
+            for (let i = 1; i < 8; i++) {
+                const studX = buildingX + i * studSpacing;
+                buildingCtx.beginPath();
+                buildingCtx.moveTo(studX, buildingY);
+                buildingCtx.lineTo(studX, buildingY + buildingHeight);
+                buildingCtx.stroke();
+            }
+
+            // Draw connection points
+            Object.entries(connections).forEach(([key, conn]) => {
+                const connY = buildingY + conn.y * buildingHeight;
+                const isActive = key === activeConnection;
+
+                // Connection line
+                buildingCtx.strokeStyle = isActive ? conn.color : 'rgba(255, 255, 255, 0.3)';
+                buildingCtx.lineWidth = isActive ? 4 : 2;
+                buildingCtx.setLineDash(isActive ? [] : [5, 5]);
+                buildingCtx.beginPath();
+                buildingCtx.moveTo(buildingX - 10, connY);
+                buildingCtx.lineTo(buildingX + buildingWidth + 10, connY);
+                buildingCtx.stroke();
+                buildingCtx.setLineDash([]);
+
+                // Connection nodes
+                const nodePositions = [buildingX, buildingX + buildingWidth / 2, buildingX + buildingWidth];
+                nodePositions.forEach(nodeX => {
+                    buildingCtx.beginPath();
+                    buildingCtx.arc(nodeX, connY, isActive ? 8 : 5, 0, Math.PI * 2);
+                    buildingCtx.fillStyle = conn.color;
+                    buildingCtx.fill();
+
+                    if (isActive) {
+                        buildingCtx.beginPath();
+                        buildingCtx.arc(nodeX, connY, 15, 0, Math.PI * 2);
+                        buildingCtx.strokeStyle = conn.color;
+                        buildingCtx.lineWidth = 2;
+                        buildingCtx.stroke();
+                    }
+                });
+
+                // Label
+                if (isActive) {
+                    buildingCtx.fillStyle = '#ffffff';
+                    buildingCtx.font = 'bold 12px Segoe UI';
+                    buildingCtx.textAlign = 'right';
+                    buildingCtx.fillText(conn.label, buildingX - 20, connY + 4);
+                }
+            });
+
+            // Draw animated load path arrows
+            if (isPlaying && animationProgress > 0) {
+                drawLoadPathAnimation(buildingX, buildingY, buildingWidth, buildingHeight);
+            }
+        }
+
+        function drawLoadPathAnimation(bx, by, bw, bh) {
+            const pathPoints = [
+                { x: bx + bw / 2, y: by - 40 }, // Above roof
+                { x: bx + bw / 2, y: by + bh * 0.15 }, // Roof deck
+                { x: bx + bw / 2, y: by + bh * 0.25 }, // Roof-wall
+                { x: bx + bw / 2, y: by + bh * 0.45 }, // Top plate
+                { x: bx + bw / 2, y: by + bh * 0.65 }, // Wall-floor
+                { x: bx + bw / 2, y: by + bh * 0.85 }, // Foundation
+                { x: bx + bw / 2, y: by + bh + 20 } // Into ground
+            ];
+
+            const currentPoint = Math.min(Math.floor(animationProgress * pathPoints.length), pathPoints.length - 1);
+
+            // Draw traveled path
+            buildingCtx.strokeStyle = 'rgba(0, 255, 136, 0.8)';
+            buildingCtx.lineWidth = 4;
+            buildingCtx.beginPath();
+            buildingCtx.moveTo(pathPoints[0].x, pathPoints[0].y);
+
+            for (let i = 1; i <= currentPoint; i++) {
+                buildingCtx.lineTo(pathPoints[i].x, pathPoints[i].y);
+            }
+            buildingCtx.stroke();
+
+            // Draw animated arrow head
+            if (currentPoint < pathPoints.length - 1) {
+                const current = pathPoints[currentPoint];
+                const next = pathPoints[currentPoint + 1];
+                const progress = (animationProgress * pathPoints.length) % 1;
+                const arrowX = current.x + (next.x - current.x) * progress;
+                const arrowY = current.y + (next.y - current.y) * progress;
+
+                buildingCtx.fillStyle = '#00ff88';
+                buildingCtx.beginPath();
+                buildingCtx.moveTo(arrowX, arrowY + 10);
+                buildingCtx.lineTo(arrowX - 8, arrowY - 5);
+                buildingCtx.lineTo(arrowX + 8, arrowY - 5);
+                buildingCtx.closePath();
+                buildingCtx.fill();
+
+                // Glow effect
+                buildingCtx.beginPath();
+                buildingCtx.arc(arrowX, arrowY, 15, 0, Math.PI * 2);
+                buildingCtx.fillStyle = 'rgba(0, 255, 136, 0.3)';
+                buildingCtx.fill();
+            }
+        }
+
+        function animateBuilding() {
+            if (isPlaying) {
+                animationProgress += 0.005;
+                if (animationProgress >= 1) {
+                    animationProgress = 0;
+                }
+            }
+            drawBuilding();
+            requestAnimationFrame(animateBuilding);
+        }
+
+        // Control buttons
+        document.getElementById('playBtn').addEventListener('click', function() {
+            isPlaying = !isPlaying;
+            this.textContent = isPlaying ? 'Pause' : 'Play Animation';
+            this.classList.toggle('active', isPlaying);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', function() {
+            animationProgress = 0;
+            isPlaying = false;
+            document.getElementById('playBtn').textContent = 'Play Animation';
+            document.getElementById('playBtn').classList.remove('active');
+        });
+
+        document.getElementById('windBtn').addEventListener('click', function() {
+            showWind = !showWind;
+            this.classList.toggle('active', showWind);
+        });
+
+        // Connection items click
+        document.querySelectorAll('.connection-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.connection-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                activeConnection = this.dataset.connection;
+            });
+        });
+
+        // Initialize
+        animateBuilding();
+
+        // Scroll Reveal
+        function handleReveal() {
+            const reveals = document.querySelectorAll('.reveal');
+            reveals.forEach(el => {
+                const rect = el.getBoundingClientRect();
+                if (rect.top < window.innerHeight - 100) {
+                    el.classList.add('active');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', handleReveal);
+        handleReveal();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(button => {
+            button.addEventListener('click', () => {
+                const item = button.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+    </script>
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the minimum hurricane strap spacing in Palm Beach County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Hurricane strap spacing depends on the calculated uplift load per connection. For typical residential construction in Palm Beach County with 165 MPH wind speed, straps are commonly spaced at 24 inches on center using H2.5A or equivalent connectors."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use toe-nailing instead of hurricane straps?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. Florida Building Code prohibits toe-nailing as the sole connection method for roof-to-wall connections in high-wind regions. Hurricane straps or equivalent engineered connectors are mandatory per FBC Section 2308.7.5."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do I know if my existing home has a continuous load path?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Homes built before 1994 (pre-FBC) likely lack proper hurricane straps and may have inadequate anchor bolts. A wind mitigation inspection can identify missing load path elements."
+                }
+            }
+        ]
+    }
+    </script>
+</body>
+</html>

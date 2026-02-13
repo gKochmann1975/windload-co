@@ -1,0 +1,1145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fascia Board Wind Uplift Forces | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Animated visualization of wind uplift forces on fascia boards in Broward County. Learn how ASCE 7-22 calculates overhang pressures and why fascia failures occur during hurricanes.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Fascia Wind Uplift Forces | Broward County">
+    <meta property="og:description" content="Understand how wind creates uplift on fascia boards and how to design for hurricane resistance.">
+    <meta property="og:type" content="article">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0f1a;
+            --bg-card: rgba(15, 25, 45, 0.8);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --orange: #f97316;
+            --orange-light: #fb923c;
+            --red: #ef4444;
+            --purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #windCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(249, 115, 22, 0.2);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--orange);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(249, 115, 22, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 2rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid rgba(249, 115, 22, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--orange);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--orange), var(--red));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--orange), var(--orange-light));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(249, 115, 22, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        /* Animated Fascia Diagram */
+        .diagram-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .fascia-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .diagram-wrapper {
+            position: relative;
+            width: 100%;
+            height: 550px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        /* SVG Roof/Fascia Diagram */
+        .roof-diagram {
+            width: 100%;
+            max-width: 900px;
+            height: 500px;
+            position: relative;
+        }
+
+        .roof-diagram svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Animated Arrows */
+        .force-arrow {
+            stroke-width: 3;
+            fill: none;
+            stroke-linecap: round;
+        }
+
+        .force-arrow.uplift {
+            stroke: var(--red);
+            animation: arrowPulse 1.5s ease infinite;
+        }
+
+        .force-arrow.pressure {
+            stroke: var(--cyan);
+            animation: arrowPulse 1.5s ease infinite 0.5s;
+        }
+
+        @keyframes arrowPulse {
+            0%, 100% { opacity: 0.5; stroke-width: 3; }
+            50% { opacity: 1; stroke-width: 4; }
+        }
+
+        .force-label {
+            font-size: 14px;
+            font-weight: 600;
+            fill: var(--text-primary);
+        }
+
+        .pressure-value {
+            font-size: 18px;
+            font-weight: 700;
+            fill: var(--orange);
+            animation: valueGlow 2s ease infinite;
+        }
+
+        @keyframes valueGlow {
+            0%, 100% { filter: drop-shadow(0 0 5px rgba(249, 115, 22, 0.3)); }
+            50% { filter: drop-shadow(0 0 15px rgba(249, 115, 22, 0.6)); }
+        }
+
+        /* Fascia Animation */
+        .fascia-board {
+            transition: transform 0.3s ease;
+        }
+
+        .fascia-board.stressed {
+            transform-origin: top center;
+            animation: fasciaStress 2s ease infinite;
+        }
+
+        @keyframes fasciaStress {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-1deg) translateY(-2px); }
+            75% { transform: rotate(1deg) translateY(2px); }
+        }
+
+        /* Wind Speed Control */
+        .wind-control {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 2rem;
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 15px;
+            flex-wrap: wrap;
+        }
+
+        .speed-label {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+        }
+
+        .speed-slider {
+            width: 300px;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, var(--cyan), var(--orange), var(--red));
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .speed-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .speed-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--orange);
+            min-width: 120px;
+            text-align: center;
+        }
+
+        .pressure-output {
+            text-align: center;
+            padding: 1rem 2rem;
+            background: rgba(249, 115, 22, 0.1);
+            border: 1px solid var(--orange);
+            border-radius: 10px;
+        }
+
+        .pressure-output .label {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            margin-bottom: 0.25rem;
+        }
+
+        .pressure-output .value {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        /* Pressure Zones */
+        .zones-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .zones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .zone-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .zone-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--orange);
+            box-shadow: 0 20px 40px rgba(249, 115, 22, 0.15);
+        }
+
+        .zone-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--orange));
+        }
+
+        .zone-number {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--orange);
+            opacity: 0.3;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+        }
+
+        .zone-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .zone-card .location {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .zone-pressure {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .zone-pressure:first-of-type {
+            border-top: none;
+        }
+
+        .zone-pressure .type {
+            color: var(--text-secondary);
+        }
+
+        .zone-pressure .value {
+            font-weight: 600;
+        }
+
+        .zone-pressure .value.positive {
+            color: var(--cyan);
+        }
+
+        .zone-pressure .value.negative {
+            color: var(--red);
+        }
+
+        /* Force Diagram */
+        .force-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .force-breakdown {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .force-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 900px) {
+            .force-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .force-item {
+            text-align: center;
+            padding: 2rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 15px;
+            position: relative;
+        }
+
+        .force-item.plus::after {
+            content: '+';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .force-item.equals::after {
+            content: '=';
+            position: absolute;
+            right: -1.5rem;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 2rem;
+            color: var(--text-secondary);
+        }
+
+        .force-item:last-child::after {
+            display: none;
+        }
+
+        .force-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 1rem;
+            background: linear-gradient(135deg, var(--orange), var(--red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .force-icon svg {
+            width: 40px;
+            height: 40px;
+            fill: white;
+        }
+
+        .force-item h4 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .force-item .force-value {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--orange);
+        }
+
+        .force-item .force-desc {
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Technical Details */
+        .technical-section {
+            padding: 4rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .equation-box {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 15px;
+            padding: 2rem 3rem;
+            margin: 2rem 0;
+            text-align: center;
+        }
+
+        .equation {
+            font-family: 'Georgia', serif;
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .equation .var {
+            font-style: italic;
+            color: var(--cyan);
+        }
+
+        .equation .sub {
+            font-size: 0.75em;
+            vertical-align: sub;
+        }
+
+        .equation-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .var-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+        }
+
+        .var-table th,
+        .var-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .var-table th {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+
+        .var-table td:first-child {
+            font-family: 'Georgia', serif;
+            font-style: italic;
+            color: var(--orange);
+            font-size: 1.1rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(249, 115, 22, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--orange);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--orange);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(249, 115, 22, 0.05));
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(249, 115, 22, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .diagram-wrapper {
+                height: 350px;
+            }
+
+            .wind-control {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            .speed-slider {
+                width: 100%;
+            }
+
+            .force-item.plus::after,
+            .force-item.equals::after {
+                right: 50%;
+                transform: translateX(50%);
+                top: auto;
+                bottom: -1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="windCanvas"></canvas>
+
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/shop/roofing.html" class="nav-cta">Calculate Uplift</a>
+    </nav>
+
+    <main>
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements">Broward</a>
+                <span>/</span>
+                <span class="breadcrumb-current">Fascia Wind Uplift</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 19h20L12 2zm0 3.5L18.5 17h-13L12 5.5z"/></svg>
+                ASCE 7-22 Overhang Analysis
+            </div>
+            <h1>Understanding <span class="highlight">Fascia Wind Uplift</span> in Broward County</h1>
+            <p>See exactly how wind creates uplift forces on fascia boards during hurricanes. Learn how top and bottom surface pressures combine to cause fascia failures.</p>
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com/shop/roofing.html" class="btn-primary">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l4.59-4.58L18 11l-6 6z"/></svg>
+                    Calculate Fascia Loads
+                </a>
+                <a href="#diagram" class="btn-secondary">View Pressure Data</a>
+            </div>
+        </section>
+
+        <section id="diagram" class="diagram-section reveal">
+            <div class="section-header">
+                <h2>Fascia Uplift Pressure Summary</h2>
+                <p style="color: var(--text-secondary);">Zone 2 overhang pressures at 170 MPH design wind speed (Broward County)</p>
+            </div>
+
+            <!-- Simple Pressure Summary Cards -->
+            <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 900px; margin: 0 auto;">
+                <div style="background: rgba(239,68,68,0.1); border: 2px solid #ef4444; border-radius: 16px; padding: 2rem; text-align: center;">
+                    <div style="color: #ef4444; font-size: 0.9rem; margin-bottom: 0.5rem;">Top Surface Suction</div>
+                    <div style="color: #ef4444; font-size: 3rem; font-weight: 800;">-176</div>
+                    <div style="color: #ef4444; font-size: 1rem;">PSF</div>
+                    <div style="color: #94a3b8; font-size: 0.8rem; margin-top: 1rem;">GCp = -2.8 (Zone 2)</div>
+                </div>
+
+                <div style="background: rgba(34,197,94,0.1); border: 2px solid #22c55e; border-radius: 16px; padding: 2rem; text-align: center;">
+                    <div style="color: #22c55e; font-size: 0.9rem; margin-bottom: 0.5rem;">Bottom Surface Pressure</div>
+                    <div style="color: #22c55e; font-size: 3rem; font-weight: 800;">+50</div>
+                    <div style="color: #22c55e; font-size: 1rem;">PSF</div>
+                    <div style="color: #94a3b8; font-size: 0.8rem; margin-top: 1rem;">GCp = +0.8 (Zone 2)</div>
+                </div>
+
+                <div style="background: rgba(249,115,22,0.15); border: 3px solid #f97316; border-radius: 16px; padding: 2rem; text-align: center;">
+                    <div style="color: #f97316; font-size: 0.9rem; margin-bottom: 0.5rem;">Net Uplift Force</div>
+                    <div style="color: #f97316; font-size: 3.5rem; font-weight: 800;">-226</div>
+                    <div style="color: #f97316; font-size: 1rem;">PSF</div>
+                    <div style="color: #94a3b8; font-size: 0.8rem; margin-top: 1rem;">@ 170 MPH design wind</div>
+                </div>
+            </div>
+
+            <div style="max-width: 700px; margin: 2rem auto 0; text-align: center; color: #94a3b8; font-size: 0.9rem;">
+                <p>Overhang uplift combines top surface suction with bottom surface positive pressure, creating extreme net uplift forces that can tear fascia boards from structures during hurricanes.</p>
+            </div>
+        </section>
+
+        <section class="zones-section reveal">
+            <div class="section-header">
+                <h2>Overhang Pressure Zones</h2>
+                <p style="color: var(--text-secondary);">ASCE 7-22 defines different pressure coefficients for overhang surfaces</p>
+            </div>
+
+            <div class="zones-grid">
+                <div class="zone-card">
+                    <span class="zone-number">1</span>
+                    <h3>Zone 1 Overhang</h3>
+                    <p class="location">Field of Roof - Interior Overhang Areas</p>
+                    <div class="zone-pressure">
+                        <span class="type">Top Surface</span>
+                        <span class="value negative">-1.7 (GCp)</span>
+                    </div>
+                    <div class="zone-pressure">
+                        <span class="type">Bottom Surface</span>
+                        <span class="value positive">+0.8 (GCp)</span>
+                    </div>
+                    <div class="zone-pressure">
+                        <span class="type">Net Coefficient</span>
+                        <span class="value negative">-2.5 (GCp)</span>
+                    </div>
+                </div>
+
+                <div class="zone-card">
+                    <span class="zone-number">2</span>
+                    <h3>Zone 2 Overhang</h3>
+                    <p class="location">Eave Edge - Perimeter Overhang Areas</p>
+                    <div class="zone-pressure">
+                        <span class="type">Top Surface</span>
+                        <span class="value negative">-2.8 (GCp)</span>
+                    </div>
+                    <div class="zone-pressure">
+                        <span class="type">Bottom Surface</span>
+                        <span class="value positive">+0.8 (GCp)</span>
+                    </div>
+                    <div class="zone-pressure">
+                        <span class="type">Net Coefficient</span>
+                        <span class="value negative">-3.6 (GCp)</span>
+                    </div>
+                </div>
+
+                <div class="zone-card">
+                    <span class="zone-number">3</span>
+                    <h3>Zone 3 Overhang</h3>
+                    <p class="location">Corner - Highest Uplift Areas</p>
+                    <div class="zone-pressure">
+                        <span class="type">Top Surface</span>
+                        <span class="value negative">-3.4 (GCp)</span>
+                    </div>
+                    <div class="zone-pressure">
+                        <span class="type">Bottom Surface</span>
+                        <span class="value positive">+0.8 (GCp)</span>
+                    </div>
+                    <div class="zone-pressure">
+                        <span class="type">Net Coefficient</span>
+                        <span class="value negative">-4.2 (GCp)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="force-section reveal">
+            <div class="section-header">
+                <h2>Net Uplift Force Calculation</h2>
+                <p style="color: var(--text-secondary);">How top and bottom surface pressures combine to create net uplift</p>
+            </div>
+
+            <div class="force-breakdown">
+                <div class="force-grid">
+                    <div class="force-item plus">
+                        <div class="force-icon">
+                            <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5H7z"/></svg>
+                        </div>
+                        <h4>Top Surface Suction</h4>
+                        <div class="force-value">-45 PSF</div>
+                        <div class="force-desc">Wind flow over roof creates low pressure (suction) pulling upward</div>
+                    </div>
+
+                    <div class="force-item equals">
+                        <div class="force-icon">
+                            <svg viewBox="0 0 24 24"><path d="M7 10l5 5 5-5H7z"/></svg>
+                        </div>
+                        <h4>Bottom Surface Pressure</h4>
+                        <div class="force-value">+25 PSF</div>
+                        <div class="force-desc">Positive pressure on bottom surface pushes upward</div>
+                    </div>
+
+                    <div class="force-item">
+                        <div class="force-icon" style="background: linear-gradient(135deg, #f97316, #dc2626);">
+                            <svg viewBox="0 0 24 24"><path d="M7 14l5-5 5 5H7z"/></svg>
+                        </div>
+                        <h4>Net Uplift Force</h4>
+                        <div class="force-value" style="color: #ef4444;">-70 PSF</div>
+                        <div class="force-desc">Combined uplift that fascia fasteners must resist</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="technical-section reveal">
+            <div class="section-header">
+                <h2>Technical Reference</h2>
+                <p style="color: var(--text-secondary);">ASCE 7-22 equations for overhang pressure calculation</p>
+            </div>
+
+            <div class="equation-box">
+                <div class="equation">
+                    <span class="var">p</span> = <span class="var">q<span class="sub">h</span></span> [(<span class="var">GC<span class="sub">p</span></span>)<span class="sub">top</span> - (<span class="var">GC<span class="sub">p</span></span>)<span class="sub">bottom</span>]
+                </div>
+                <p class="equation-desc">Net design pressure on roof overhang per ASCE 7-22 Figure 30.3-2A</p>
+            </div>
+
+            <table class="var-table">
+                <thead>
+                    <tr>
+                        <th>Variable</th>
+                        <th>Description</th>
+                        <th>Typical Value (Broward)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>q<sub>h</sub></td>
+                        <td>Velocity pressure at mean roof height</td>
+                        <td>55-75 PSF (170-180 MPH)</td>
+                    </tr>
+                    <tr>
+                        <td>GC<sub>p</sub></td>
+                        <td>Combined gust effect and pressure coefficient</td>
+                        <td>-1.7 to -3.4 (top), +0.8 (bottom)</td>
+                    </tr>
+                    <tr>
+                        <td>K<sub>z</sub></td>
+                        <td>Velocity pressure exposure coefficient</td>
+                        <td>0.85-1.21 (varies by height/exposure)</td>
+                    </tr>
+                    <tr>
+                        <td>K<sub>zt</sub></td>
+                        <td>Topographic factor</td>
+                        <td>1.0 (flat terrain typical in Broward)</td>
+                    </tr>
+                    <tr>
+                        <td>K<sub>d</sub></td>
+                        <td>Wind directionality factor</td>
+                        <td>0.85 (components and cladding)</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Why do fascia boards fail during hurricanes?</div>
+                <div class="faq-answer">Fascia boards fail because they experience the combined uplift from both surfaces - suction on top and positive pressure from below. This net uplift can exceed 70-100 PSF in Broward County's HVHZ, far exceeding what standard nailing patterns can resist. Additionally, repeated pressure cycling during extended storms fatigues connections.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What fastening is required for fascia in Broward County?</div>
+                <div class="faq-answer">Fascia boards must be fastened to resist the calculated net uplift pressure. For typical residential fascia (1x6 or 1x8), this often requires ring-shank nails at 6" O.C. or corrosion-resistant screws. All fasteners within 3,000 feet of saltwater must be hot-dip galvanized or stainless steel. Product approvals (NOA/FBC) should specify the required fastener pattern.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How does overhang length affect uplift?</div>
+                <div class="faq-answer">Longer overhangs generally experience higher total uplift loads because the pressure acts over a larger area. However, the pressure coefficient (GCp) is based on the effective wind area. Per ASCE 7-22, the effective wind area for overhangs uses the overhang width times a span length. Shorter overhangs may have higher unit pressures due to smaller effective areas.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Do aluminum fascia covers change the design requirements?</div>
+                <div class="faq-answer">Aluminum fascia covers must be designed to resist the same wind pressures as the underlying fascia. However, aluminum installations have specific requirements: the cover must be secured to resist both positive and negative pressures, and the fastener schedule must account for the metal's thermal expansion. Many aluminum fascia systems have their own NOA approvals with specific installation requirements.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Is the fascia calculation different from soffit calculation?</div>
+                <div class="faq-answer">Yes, while both are affected by overhang pressures, soffits (horizontal undersurface) primarily experience the positive bottom surface pressure, while fascia (vertical board at roof edge) must transfer the combined net uplift from both surfaces to the roof structure. Soffits also have different failure modes - they're more susceptible to blow-in from positive pressure rather than blow-out from suction.</div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Calculate Your Fascia Uplift Loads</h2>
+            <p>Get accurate overhang pressure calculations for your Broward County project using our ASCE 7-22 compliant calculator.</p>
+            <a href="https://windloadcalc.com/shop/roofing.html" class="btn-primary">
+                Calculate Roof Loads
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Fascia Uplift Analysis for Broward County</p>
+        <p style="margin-top: 0.5rem;"><a href="https://windload.solutions/florida-wind-load-requirements">Florida</a> | <a href="https://windload.solutions/state-requirements">All States</a> | <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Get Started</a></p>
+    </footer>
+
+    <script>
+        // Canvas Animation - Wind Particles
+        const canvas = document.getElementById('windCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class WindParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -10;
+                this.y = Math.random() * canvas.height;
+                this.speedX = Math.random() * 4 + 2;
+                this.speedY = Math.random() * 1 - 0.5;
+                this.size = Math.random() * 2 + 1;
+                this.color = Math.random() > 0.5 ? '#f97316' : '#00e5ff';
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+
+                if (this.x > canvas.width + 10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.shadowBlur = 10;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 60; i++) {
+            const p = new WindParticle();
+            p.x = Math.random() * canvas.width;
+            particles.push(p);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Static page - no slider needed
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>

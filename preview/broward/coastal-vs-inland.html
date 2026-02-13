@@ -1,0 +1,1405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Coastal vs Inland Wind Requirements | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Interactive comparison of coastal and inland wind load requirements in Broward County. See how exposure categories, wind speeds, and building codes differ by location.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Coastal vs Inland Wind Requirements | Broward County">
+    <meta property="og:description" content="Compare wind load requirements for coastal and inland Broward County locations with interactive map visualization.">
+    <meta property="og:type" content="article">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0f1a;
+            --bg-card: rgba(15, 25, 45, 0.8);
+            --coastal-blue: #0077b6;
+            --coastal-light: #00b4d8;
+            --inland-green: #059669;
+            --inland-light: #34d399;
+            --amber: #f59e0b;
+            --red: #ff4757;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Animated Map Background */
+        #mapCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 180, 216, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--coastal-light);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--coastal-light), var(--coastal-blue));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 180, 216, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--coastal-light);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 2rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, rgba(0, 119, 182, 0.2), rgba(5, 150, 105, 0.2));
+            border: 1px solid rgba(0, 180, 216, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--coastal-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .coastal {
+            color: var(--coastal-light);
+        }
+
+        .hero h1 .inland {
+            color: var(--inland-light);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--coastal-light), var(--coastal-blue));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 180, 216, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--inland-light);
+            color: var(--inland-light);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(5, 150, 105, 0.1);
+        }
+
+        /* Map Comparison Section */
+        .map-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .map-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        @media (max-width: 968px) {
+            .map-container {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .zone-card {
+            background: var(--bg-card);
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            transition: all 0.5s;
+        }
+
+        .zone-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .zone-card.coastal {
+            border: 2px solid var(--coastal-blue);
+        }
+
+        .zone-card.coastal:hover {
+            box-shadow: 0 30px 60px rgba(0, 119, 182, 0.3);
+        }
+
+        .zone-card.inland {
+            border: 2px solid var(--inland-green);
+        }
+
+        .zone-card.inland:hover {
+            box-shadow: 0 30px 60px rgba(5, 150, 105, 0.3);
+        }
+
+        .zone-header {
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .coastal .zone-header {
+            background: linear-gradient(135deg, var(--coastal-blue), var(--coastal-light));
+        }
+
+        .inland .zone-header {
+            background: linear-gradient(135deg, var(--inland-green), var(--inland-light));
+        }
+
+        .zone-header h3 {
+            font-size: 1.75rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .zone-header p {
+            opacity: 0.9;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Animated Wave/Tree Background */
+        .zone-header::before {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 40px;
+            background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 120' preserveAspectRatio='none'%3E%3Cpath d='M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z' fill='rgba(10,15,26,0.8)'%3E%3C/path%3E%3C/svg%3E") no-repeat bottom;
+            background-size: cover;
+        }
+
+        .zone-icon {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 3rem;
+            opacity: 0.3;
+        }
+
+        .zone-body {
+            padding: 2rem;
+        }
+
+        .zone-stat {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .zone-stat:last-child {
+            border-bottom: none;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .stat-value {
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .coastal .stat-value {
+            color: var(--coastal-light);
+        }
+
+        .inland .stat-value {
+            color: var(--inland-light);
+        }
+
+        .stat-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            overflow: hidden;
+        }
+
+        .stat-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 1s ease;
+        }
+
+        .coastal .stat-bar-fill {
+            background: linear-gradient(90deg, var(--coastal-blue), var(--coastal-light));
+        }
+
+        .inland .stat-bar-fill {
+            background: linear-gradient(90deg, var(--inland-green), var(--inland-light));
+        }
+
+        /* Interactive Map */
+        .interactive-map {
+            margin-top: 4rem;
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .map-visual {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            position: relative;
+        }
+
+        .broward-outline {
+            width: 100%;
+            max-width: 600px;
+            position: relative;
+        }
+
+        .broward-outline svg {
+            width: 100%;
+            height: auto;
+        }
+
+        .zone-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .coastal-zone {
+            position: absolute;
+            right: 0;
+            top: 0;
+            width: 30%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 119, 182, 0.3));
+            animation: coastalPulse 3s ease infinite;
+        }
+
+        @keyframes coastalPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .inland-zone {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 70%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(5, 150, 105, 0.2), transparent);
+            animation: inlandPulse 3s ease infinite 1.5s;
+        }
+
+        @keyframes inlandPulse {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        .map-legend {
+            display: flex;
+            justify-content: center;
+            gap: 3rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .legend-color {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+        }
+
+        .legend-color.coastal {
+            background: linear-gradient(135deg, var(--coastal-blue), var(--coastal-light));
+        }
+
+        .legend-color.inland {
+            background: linear-gradient(135deg, var(--inland-green), var(--inland-light));
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: var(--bg-card);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.25rem 1.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comparison-table th {
+            background: rgba(0, 0, 0, 0.3);
+            font-weight: 600;
+        }
+
+        .comparison-table th:nth-child(2) {
+            color: var(--coastal-light);
+        }
+
+        .comparison-table th:nth-child(3) {
+            color: var(--inland-light);
+        }
+
+        .comparison-table tr:hover {
+            background: rgba(255, 255, 255, 0.02);
+        }
+
+        .comparison-table .category {
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .comparison-table .coastal-val {
+            color: var(--coastal-light);
+            font-weight: 500;
+        }
+
+        .comparison-table .inland-val {
+            color: var(--inland-light);
+            font-weight: 500;
+        }
+
+        /* Animated Difference Indicator */
+        .diff-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .diff-indicator.higher {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--red);
+        }
+
+        .diff-indicator.lower {
+            background: rgba(52, 211, 153, 0.2);
+            color: var(--inland-light);
+        }
+
+        /* Wind Speed Animation */
+        .wind-visual {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .wind-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+        }
+
+        @media (max-width: 768px) {
+            .wind-comparison {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .wind-meter {
+            background: var(--bg-card);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wind-meter.coastal {
+            border: 2px solid var(--coastal-blue);
+        }
+
+        .wind-meter.inland {
+            border: 2px solid var(--inland-green);
+        }
+
+        .meter-gauge {
+            width: 200px;
+            height: 100px;
+            margin: 0 auto 1.5rem;
+            position: relative;
+        }
+
+        .gauge-bg {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            border-radius: 100px 100px 0 0;
+            background: conic-gradient(from 180deg,
+                var(--inland-light) 0deg,
+                var(--amber) 90deg,
+                var(--red) 180deg);
+            opacity: 0.3;
+        }
+
+        .gauge-fill {
+            position: absolute;
+            width: 200px;
+            height: 100px;
+            border-radius: 100px 100px 0 0;
+            background: transparent;
+            overflow: hidden;
+        }
+
+        .gauge-needle {
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            height: 80px;
+            background: white;
+            transform-origin: bottom center;
+            transform: translateX(-50%) rotate(-90deg);
+            transition: transform 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            border-radius: 2px;
+        }
+
+        .wind-meter.coastal .gauge-needle {
+            transform: translateX(-50%) rotate(60deg);
+        }
+
+        .wind-meter.inland .gauge-needle {
+            transform: translateX(-50%) rotate(30deg);
+        }
+
+        .gauge-center {
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+        }
+
+        .wind-speed-value {
+            font-size: 3rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .wind-meter.coastal .wind-speed-value {
+            color: var(--coastal-light);
+        }
+
+        .wind-meter.inland .wind-speed-value {
+            color: var(--inland-light);
+        }
+
+        .wind-speed-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Particles flowing representing wind */
+        .wind-particles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+            overflow: hidden;
+        }
+
+        .wind-particle {
+            position: absolute;
+            width: 3px;
+            height: 3px;
+            border-radius: 50%;
+            animation: windFlow 2s linear infinite;
+        }
+
+        .coastal .wind-particle {
+            background: var(--coastal-light);
+        }
+
+        .inland .wind-particle {
+            background: var(--inland-light);
+        }
+
+        @keyframes windFlow {
+            0% {
+                transform: translateX(-20px);
+                opacity: 0;
+            }
+            20% {
+                opacity: 1;
+            }
+            80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(calc(100% + 20px));
+                opacity: 0;
+            }
+        }
+
+        /* Key Differences */
+        .differences-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .diff-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            transition: all 0.3s;
+        }
+
+        .diff-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(0, 180, 216, 0.3);
+        }
+
+        .diff-card h4 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .diff-card h4 svg {
+            color: var(--coastal-light);
+        }
+
+        .diff-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 180, 216, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--coastal-light);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--coastal-light);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(0, 119, 182, 0.1));
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(0, 180, 216, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--coastal-light);
+            text-decoration: none;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .comparison-table {
+                font-size: 0.875rem;
+            }
+
+            .comparison-table th,
+            .comparison-table td {
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="mapCanvas"></canvas>
+
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <main>
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements">Broward</a>
+                <span>/</span>
+                <span class="breadcrumb-current">Coastal vs Inland</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/></svg>
+                Exposure Category Analysis
+            </div>
+            <h1><span class="coastal">Coastal</span> vs <span class="inland">Inland</span> Wind Requirements</h1>
+            <p>Broward County spans from the Atlantic coast to the Everglades. Understanding how wind load requirements differ between coastal and inland areas is critical for code compliance and structural safety.</p>
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">
+                    <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"/></svg>
+                    Get Site-Specific Analysis
+                </a>
+                <a href="#comparison" class="btn-secondary">Compare Zones</a>
+            </div>
+        </section>
+
+        <section id="comparison" class="map-section reveal">
+            <div class="section-header">
+                <h2>Zone Comparison</h2>
+                <p style="color: var(--text-secondary);">Side-by-side comparison of coastal and inland wind requirements in Broward County</p>
+            </div>
+
+            <div class="map-container">
+                <div class="zone-card coastal">
+                    <div class="zone-header">
+                        <div class="zone-icon">&#127754;</div>
+                        <h3>Coastal Zone</h3>
+                        <p>Within 1 mile of mean high water line</p>
+                    </div>
+                    <div class="zone-body">
+                        <div class="zone-stat">
+                            <span class="stat-label">Exposure Category</span>
+                            <span class="stat-value">D</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-label">Basic Wind Speed</span>
+                            <span class="stat-value">180 MPH</span>
+                        </div>
+                        <div class="zone-stat">
+                            <div>
+                                <span class="stat-label">Wind Pressure Factor</span>
+                                <div class="stat-bar"><div class="stat-bar-fill" style="width: 100%;"></div></div>
+                            </div>
+                            <span class="stat-value">Kz = 1.21</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-label">Wind-Borne Debris</span>
+                            <span class="stat-value">Required</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-label">Typical Component Pressure</span>
+                            <span class="stat-value">55-85 PSF</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="zone-card inland">
+                    <div class="zone-header">
+                        <div class="zone-icon">&#127795;</div>
+                        <h3>Inland Zone</h3>
+                        <p>More than 1 mile from coastline</p>
+                    </div>
+                    <div class="zone-body">
+                        <div class="zone-stat">
+                            <span class="stat-label">Exposure Category</span>
+                            <span class="stat-value">B or C</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-label">Basic Wind Speed</span>
+                            <span class="stat-value">170-175 MPH</span>
+                        </div>
+                        <div class="zone-stat">
+                            <div>
+                                <span class="stat-label">Wind Pressure Factor</span>
+                                <div class="stat-bar"><div class="stat-bar-fill" style="width: 75%;"></div></div>
+                            </div>
+                            <span class="stat-value">Kz = 0.85-1.04</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-label">Wind-Borne Debris</span>
+                            <span class="stat-value">Required*</span>
+                        </div>
+                        <div class="zone-stat">
+                            <span class="stat-label">Typical Component Pressure</span>
+                            <span class="stat-value">35-55 PSF</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="interactive-map">
+                <div class="map-visual">
+                    <svg viewBox="0 0 400 300" class="broward-outline">
+                        <!-- Simplified Broward County outline -->
+                        <defs>
+                            <linearGradient id="coastalGrad" x1="100%" y1="0%" x2="0%" y2="0%">
+                                <stop offset="0%" style="stop-color:#0077b6;stop-opacity:0.6" />
+                                <stop offset="100%" style="stop-color:#0077b6;stop-opacity:0" />
+                            </linearGradient>
+                            <linearGradient id="inlandGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                                <stop offset="0%" style="stop-color:#059669;stop-opacity:0.4" />
+                                <stop offset="100%" style="stop-color:#059669;stop-opacity:0" />
+                            </linearGradient>
+                        </defs>
+
+                        <!-- County outline -->
+                        <path d="M50,50 L350,50 L350,250 L50,250 Z" fill="none" stroke="rgba(255,255,255,0.3)" stroke-width="2"/>
+
+                        <!-- Inland zone -->
+                        <rect x="50" y="50" width="220" height="200" fill="url(#inlandGrad)"/>
+
+                        <!-- Coastal zone -->
+                        <rect x="270" y="50" width="80" height="200" fill="url(#coastalGrad)"/>
+
+                        <!-- Ocean -->
+                        <rect x="350" y="50" width="50" height="200" fill="rgba(0,119,182,0.2)"/>
+                        <text x="375" y="150" fill="rgba(255,255,255,0.4)" font-size="10" text-anchor="middle" transform="rotate(-90, 375, 150)">ATLANTIC</text>
+
+                        <!-- Coastline -->
+                        <line x1="350" y1="50" x2="350" y2="250" stroke="#00b4d8" stroke-width="3" stroke-dasharray="5,5">
+                            <animate attributeName="stroke-dashoffset" from="0" to="20" dur="1s" repeatCount="indefinite"/>
+                        </line>
+
+                        <!-- Location markers -->
+                        <circle cx="330" cy="100" r="6" fill="#00b4d8">
+                            <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite"/>
+                        </circle>
+                        <text x="330" y="85" fill="white" font-size="10" text-anchor="middle">Fort Lauderdale Beach</text>
+
+                        <circle cx="330" cy="180" r="6" fill="#00b4d8">
+                            <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                        </circle>
+                        <text x="330" y="165" fill="white" font-size="10" text-anchor="middle">Hollywood Beach</text>
+
+                        <circle cx="150" cy="120" r="6" fill="#34d399">
+                            <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite" begin="1s"/>
+                        </circle>
+                        <text x="150" y="105" fill="white" font-size="10" text-anchor="middle">Coral Springs</text>
+
+                        <circle cx="120" cy="200" r="6" fill="#34d399">
+                            <animate attributeName="r" values="6;8;6" dur="2s" repeatCount="indefinite" begin="1.5s"/>
+                        </circle>
+                        <text x="120" y="185" fill="white" font-size="10" text-anchor="middle">Weston</text>
+
+                        <!-- Wind arrows -->
+                        <g class="wind-arrows" opacity="0.6">
+                            <path d="M380,80 L340,80" stroke="#00b4d8" stroke-width="2" marker-end="url(#arrowhead)">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite"/>
+                            </path>
+                            <path d="M380,150 L340,150" stroke="#00b4d8" stroke-width="2">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" begin="0.5s"/>
+                            </path>
+                            <path d="M380,220 L340,220" stroke="#00b4d8" stroke-width="2">
+                                <animate attributeName="opacity" values="0.3;1;0.3" dur="2s" repeatCount="indefinite" begin="1s"/>
+                            </path>
+                        </g>
+
+                        <defs>
+                            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="9" refY="3.5" orient="auto">
+                                <polygon points="0 0, 10 3.5, 0 7" fill="#00b4d8"/>
+                            </marker>
+                        </defs>
+                    </svg>
+                </div>
+
+                <div class="map-legend">
+                    <div class="legend-item">
+                        <div class="legend-color coastal"></div>
+                        <span>Coastal Zone (Exposure D)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color inland"></div>
+                        <span>Inland Zone (Exposure B/C)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="wind-visual reveal">
+            <div class="section-header">
+                <h2>Design Wind Speed Comparison</h2>
+                <p style="color: var(--text-secondary);">Visualizing the difference in basic wind speeds per ASCE 7-22</p>
+            </div>
+
+            <div class="wind-comparison">
+                <div class="wind-meter coastal">
+                    <div class="wind-particles">
+                        <div class="wind-particle" style="top: 20%; animation-delay: 0s;"></div>
+                        <div class="wind-particle" style="top: 40%; animation-delay: 0.3s;"></div>
+                        <div class="wind-particle" style="top: 60%; animation-delay: 0.6s;"></div>
+                        <div class="wind-particle" style="top: 80%; animation-delay: 0.9s;"></div>
+                    </div>
+                    <div class="meter-gauge">
+                        <div class="gauge-bg"></div>
+                        <div class="gauge-fill"></div>
+                        <div class="gauge-needle"></div>
+                        <div class="gauge-center"></div>
+                    </div>
+                    <div class="wind-speed-value">180 <span style="font-size: 1.5rem;">MPH</span></div>
+                    <div class="wind-speed-label">Coastal Design Wind Speed</div>
+                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.9rem;">Risk Category II buildings within 1 mile of coast</p>
+                </div>
+
+                <div class="wind-meter inland">
+                    <div class="wind-particles">
+                        <div class="wind-particle" style="top: 25%; animation-delay: 0.2s;"></div>
+                        <div class="wind-particle" style="top: 50%; animation-delay: 0.5s;"></div>
+                        <div class="wind-particle" style="top: 75%; animation-delay: 0.8s;"></div>
+                    </div>
+                    <div class="meter-gauge">
+                        <div class="gauge-bg"></div>
+                        <div class="gauge-fill"></div>
+                        <div class="gauge-needle"></div>
+                        <div class="gauge-center"></div>
+                    </div>
+                    <div class="wind-speed-value">170 <span style="font-size: 1.5rem;">MPH</span></div>
+                    <div class="wind-speed-label">Inland Design Wind Speed</div>
+                    <p style="color: var(--text-secondary); margin-top: 1rem; font-size: 0.9rem;">Risk Category II buildings in western Broward</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="comparison-section reveal">
+            <div class="section-header">
+                <h2>Detailed Requirements Comparison</h2>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Requirement</th>
+                        <th>Coastal Zone</th>
+                        <th>Inland Zone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="category">Basic Wind Speed (V)</td>
+                        <td class="coastal-val">180 MPH <span class="diff-indicator higher">+6%</span></td>
+                        <td class="inland-val">170 MPH</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Exposure Category</td>
+                        <td class="coastal-val">D (Open water)</td>
+                        <td class="inland-val">B or C (Suburban/Open)</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Velocity Pressure (Kz at 30 ft)</td>
+                        <td class="coastal-val">1.21 <span class="diff-indicator higher">+16%</span></td>
+                        <td class="inland-val">0.98-1.04</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Topographic Factor (Kzt)</td>
+                        <td class="coastal-val">1.0 (Flat terrain)</td>
+                        <td class="inland-val">1.0 (Flat terrain)</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Wind-Borne Debris Region</td>
+                        <td class="coastal-val">Yes - Large missile</td>
+                        <td class="inland-val">Yes - All HVHZ</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Impact Protection Required</td>
+                        <td class="coastal-val">All glazing</td>
+                        <td class="inland-val">All glazing in HVHZ</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Product Approval</td>
+                        <td class="coastal-val">Miami-Dade NOA or FBC</td>
+                        <td class="inland-val">FBC (NOA accepted)</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Typical Roof Uplift (Corner)</td>
+                        <td class="coastal-val">-85 to -120 PSF</td>
+                        <td class="inland-val">-55 to -75 PSF</td>
+                    </tr>
+                    <tr>
+                        <td class="category">Typical Wall Pressure</td>
+                        <td class="coastal-val">45-65 PSF</td>
+                        <td class="inland-val">30-45 PSF</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="differences-grid">
+                <div class="diff-card">
+                    <h4>
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+                        Exposure Category Impact
+                    </h4>
+                    <p>Exposure D (coastal) produces 20-40% higher wind pressures than Exposure B (suburban inland) at the same wind speed due to reduced surface roughness over open water.</p>
+                </div>
+                <div class="diff-card">
+                    <h4>
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+                        Product Approval Differences
+                    </h4>
+                    <p>While the entire HVHZ requires approved products, coastal projects often specify Miami-Dade NOA products due to stricter testing requirements that match the higher wind loads.</p>
+                </div>
+                <div class="diff-card">
+                    <h4>
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4z"/></svg>
+                        Salt Air Corrosion
+                    </h4>
+                    <p>Coastal installations require corrosion-resistant fasteners and hardware. Stainless steel or hot-dip galvanized components are mandatory within 3,000 feet of saltwater.</p>
+                </div>
+                <div class="diff-card">
+                    <h4>
+                        <svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M11 17h2v-6h-2v6zm1-15C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zM11 9h2V7h-2v2z"/></svg>
+                        Insurance Implications
+                    </h4>
+                    <p>Properties in coastal zones typically face higher wind insurance premiums. Proper documentation of wind mitigation features can reduce premiums by 30-50%.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How do I determine if my property is in the coastal or inland zone?</div>
+                <div class="faq-answer">The coastal zone for Exposure D typically extends 1 mile from the mean high water line along the Atlantic Ocean. You can verify your exact exposure category using the ASCE 7 Hazard Tool or by consulting with Broward County Building Department. Properties in the coastal zone have unobstructed paths to the ocean with flat, open terrain.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Does the entire Broward County require impact-resistant glazing?</div>
+                <div class="faq-answer">Yes, all of Broward County is within Florida's High-Velocity Hurricane Zone (HVHZ), which means all glazed openings must have impact protection or approved shutters. This applies regardless of whether you're coastal or inland. The difference is in the required design pressure ratings - coastal installations need higher DP ratings.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I use the same products for coastal and inland installations?</div>
+                <div class="faq-answer">Products rated for coastal zones will work in inland areas, but not vice versa. If a product has a DP rating of +55/-85 for coastal Exposure D, it can be used in inland Exposure B/C where lower pressures apply. However, a product rated only for inland use won't meet coastal requirements. Always verify the product's tested exposure category and DP rating matches your site conditions.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What is the transition zone between coastal and inland?</div>
+                <div class="faq-answer">ASCE 7-22 allows for a gradual transition from Exposure D to C over a distance defined by the upwind roughness length. In practice, properties 600-1500 feet from the coast may qualify for Exposure C depending on intervening buildings and vegetation. A site-specific analysis by a licensed engineer can determine if transition exposure applies.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How do flood zone requirements interact with wind zones?</div>
+                <div class="faq-answer">Coastal properties often face overlapping wind and flood requirements. FEMA flood zones (V, VE, A, AE) add elevation and foundation requirements on top of wind design. Buildings in V zones must also account for wave action loads that combine with wind loads. Broward County coordinates these requirements through the building permit process.</div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Get Location-Specific Wind Loads</h2>
+            <p>Our calculator automatically determines your exposure category and calculates precise wind pressures for your Broward County project location.</p>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">
+                Calculate Now
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M10 6L8.59 7.41 13.17 12l-4.58 4.59L10 18l6-6z"/></svg>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Coastal & Inland Wind Analysis for Broward County</p>
+        <p style="margin-top: 0.5rem;"><a href="https://windload.solutions/florida-wind-load-requirements">Florida</a> | <a href="https://windload.solutions/state-requirements">All States</a> | <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Get Started</a></p>
+    </footer>
+
+    <script>
+        // Canvas Animation - Dual Zone Particles
+        const canvas = document.getElementById('mapCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class ZoneParticle {
+            constructor(isCoastal) {
+                this.isCoastal = isCoastal;
+                this.reset();
+            }
+
+            reset() {
+                if (this.isCoastal) {
+                    // Coastal particles - come from right side
+                    this.x = canvas.width + 10;
+                    this.y = Math.random() * canvas.height;
+                    this.speedX = -(Math.random() * 2 + 1);
+                    this.speedY = Math.random() * 0.5 - 0.25;
+                    this.color = '#00b4d8';
+                    this.size = Math.random() * 3 + 1;
+                } else {
+                    // Inland particles - slower, drift
+                    this.x = Math.random() * canvas.width * 0.7;
+                    this.y = Math.random() * canvas.height;
+                    this.speedX = Math.random() * 0.5;
+                    this.speedY = Math.random() * 0.3 - 0.15;
+                    this.color = '#34d399';
+                    this.size = Math.random() * 2 + 0.5;
+                }
+                this.life = Math.random() * 200 + 100;
+            }
+
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+
+                if (this.life <= 0 || this.x < -10 || this.x > canvas.width + 10) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = Math.min(this.life / 100, 1) * 0.4;
+                ctx.shadowBlur = 8;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 40; i++) particles.push(new ZoneParticle(true));
+        for (let i = 0; i < 30; i++) particles.push(new ZoneParticle(false));
+
+        // Gradient zones
+        function drawZones() {
+            // Coastal gradient
+            const coastalGrad = ctx.createLinearGradient(canvas.width, 0, canvas.width * 0.7, 0);
+            coastalGrad.addColorStop(0, 'rgba(0, 119, 182, 0.15)');
+            coastalGrad.addColorStop(1, 'rgba(0, 119, 182, 0)');
+            ctx.fillStyle = coastalGrad;
+            ctx.fillRect(canvas.width * 0.7, 0, canvas.width * 0.3, canvas.height);
+
+            // Inland gradient
+            const inlandGrad = ctx.createLinearGradient(0, 0, canvas.width * 0.3, 0);
+            inlandGrad.addColorStop(0, 'rgba(5, 150, 105, 0.1)');
+            inlandGrad.addColorStop(1, 'rgba(5, 150, 105, 0)');
+            ctx.fillStyle = inlandGrad;
+            ctx.fillRect(0, 0, canvas.width * 0.3, canvas.height);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            drawZones();
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // Animate stat bars on scroll
+        const statBars = document.querySelectorAll('.stat-bar-fill');
+        const barObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.width = entry.target.style.width || '100%';
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statBars.forEach(bar => {
+            bar.style.width = '0%';
+            barObserver.observe(bar);
+        });
+    </script>
+</body>
+</html>

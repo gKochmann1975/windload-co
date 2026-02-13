@@ -1,0 +1,1393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Florida Keys Extreme Wind Loads | 180+ MPH Design Speeds | Monroe County</title>
+    <meta name="description" content="Florida Keys wind load requirements for extreme 180+ MPH conditions. Understand ASCE 7-22 calculations, exposure categories, and engineering specifications for hurricane-resistant structures in Monroe County.">
+    <meta name="keywords" content="Florida Keys wind loads, Monroe County wind speed, 180 MPH design wind, ASCE 7-22, hurricane engineering, extreme wind zones">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <link rel="canonical" href="https://windload.co/florida/monroe/keys-extreme-wind.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Florida Keys Extreme Wind Loads | 180+ MPH Design Requirements">
+    <meta property="og:description" content="Engineering specifications for extreme wind conditions in the Florida Keys. Design wind speeds exceeding 180 MPH require specialized calculations.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/keys-extreme-wind.html">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the design wind speed for the Florida Keys?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Florida Keys fall within ASCE 7-22 Risk Category II design wind speeds ranging from 180 to 195 MPH, depending on specific location. Key West and surrounding areas require 180 MPH ultimate design wind speed, while portions of the Upper Keys may require up to 195 MPH for critical facilities."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why are Florida Keys wind requirements higher than mainland Florida?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Florida Keys experience higher wind requirements due to three factors: 1) Geographic exposure with minimal terrain roughness over open water, 2) Exposure Category D conditions for most structures near the coastline, and 3) Historical hurricane intensity data showing the Keys sustain more direct hurricane impacts."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What exposure category applies to Florida Keys structures?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most Florida Keys structures fall under Exposure Category D per ASCE 7-22, which applies to flat, unobstructed areas exposed to wind flowing over open water for a distance of at least 1 mile. This results in significantly higher wind pressure coefficients than inland locations."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How do wind loads in the Keys compare to Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "While Miami-Dade requires 175-180 MPH design wind speeds, the Florida Keys face similar or higher requirements but with crucial differences: Exposure Category D vs. C for many Keys locations increases effective pressure by 15-25%, and the narrow island geography provides zero wind shadow protection."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What special considerations exist for Keys stilt homes?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Florida Keys elevated structures face compound loading: extreme wind speeds combined with flood zone requirements mandate minimum elevation heights often exceeding 12-15 feet. Wind loads on exposed pilings and lateral bracing must account for wave action, debris impact, and the full exposure of the elevated structure to unobstructed wind flow."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --green: #00ff88;
+            --red: #ff4757;
+            --amber: #f59e0b;
+            --purple: #a855f7;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Wind Speed Canvas */
+        #windCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Anemometer Visualization */
+        .anemometer-container {
+            position: fixed;
+            top: 20%;
+            right: 5%;
+            width: 200px;
+            height: 200px;
+            z-index: 1;
+            opacity: 0.3;
+            pointer-events: none;
+        }
+
+        .anemometer {
+            width: 100%;
+            height: 100%;
+            position: relative;
+        }
+
+        .anemometer-arm {
+            position: absolute;
+            width: 80px;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, var(--cyan));
+            top: 50%;
+            left: 50%;
+            transform-origin: 0 50%;
+            animation: spin-anemometer 0.5s linear infinite;
+        }
+
+        .anemometer-arm::after {
+            content: '';
+            position: absolute;
+            right: -15px;
+            top: -8px;
+            width: 20px;
+            height: 20px;
+            background: var(--cyan);
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(45deg);
+            box-shadow: 0 0 20px var(--cyan);
+        }
+
+        .anemometer-arm:nth-child(2) { animation-delay: -0.166s; }
+        .anemometer-arm:nth-child(3) { animation-delay: -0.333s; }
+
+        @keyframes spin-anemometer {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        /* Wind Speed Indicator */
+        .wind-indicator {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10, 14, 23, 0.95);
+            border: 1px solid var(--cyan);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 100;
+            min-width: 200px;
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+            backdrop-filter: blur(10px);
+        }
+
+        .wind-indicator-title {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--cyan);
+            margin-bottom: 10px;
+        }
+
+        .wind-speed-display {
+            font-size: 3rem;
+            font-weight: 800;
+            color: var(--text-primary);
+            line-height: 1;
+        }
+
+        .wind-speed-display span {
+            font-size: 1rem;
+            color: var(--text-secondary);
+        }
+
+        .wind-category {
+            margin-top: 10px;
+            padding: 5px 10px;
+            background: rgba(255, 71, 87, 0.2);
+            border-radius: 5px;
+            font-size: 0.85rem;
+            color: var(--red);
+            display: inline-block;
+            animation: pulse-category 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse-category {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 23, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Main Content */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 8rem 2rem 4rem;
+            position: relative;
+        }
+
+        .hero-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 71, 87, 0.1);
+            border: 1px solid rgba(255, 71, 87, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--red);
+            margin-bottom: 1.5rem;
+            animation: flash-badge 3s ease-in-out infinite;
+        }
+
+        @keyframes flash-badge {
+            0%, 100% { border-color: rgba(255, 71, 87, 0.3); }
+            50% { border-color: rgba(255, 71, 87, 0.8); box-shadow: 0 0 20px rgba(255, 71, 87, 0.3); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            max-width: 600px;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--cyan);
+            color: var(--cyan);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(0, 229, 255, 0.1);
+        }
+
+        /* Wind Speed Visualization Section */
+        .wind-viz-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.02));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Animated Wind Speed Chart */
+        .wind-chart-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wind-chart {
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            gap: 2rem;
+            height: 400px;
+            padding: 2rem 0;
+        }
+
+        .wind-bar {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .wind-bar-visual {
+            width: 60px;
+            background: linear-gradient(180deg, var(--cyan), var(--cyan-dark));
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            transition: height 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.3);
+        }
+
+        .wind-bar-visual::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(255,255,255,0.1), transparent);
+            border-radius: 10px 10px 0 0;
+        }
+
+        .wind-bar-visual.extreme {
+            background: linear-gradient(180deg, var(--red), #ff8080);
+            box-shadow: 0 0 30px rgba(255, 71, 87, 0.5);
+        }
+
+        .wind-bar-value {
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+            transform: translateX(-50%);
+            font-size: 1.25rem;
+            font-weight: 700;
+            white-space: nowrap;
+        }
+
+        .wind-bar-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            text-align: center;
+            max-width: 80px;
+        }
+
+        /* Wind Streamlines Animation */
+        .streamlines-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            overflow: hidden;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .streamline {
+            position: absolute;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--cyan), transparent);
+            animation: flow-streamline 2s linear infinite;
+        }
+
+        @keyframes flow-streamline {
+            0% { transform: translateX(-100%); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateX(100vw); opacity: 0; }
+        }
+
+        /* Exposure Categories Section */
+        .exposure-section {
+            padding: 6rem 2rem;
+        }
+
+        .exposure-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .exposure-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .exposure-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .exposure-card.active {
+            border-color: var(--cyan);
+            box-shadow: 0 0 30px rgba(0, 229, 255, 0.2);
+        }
+
+        .exposure-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyan), var(--purple));
+        }
+
+        .exposure-letter {
+            font-size: 4rem;
+            font-weight: 800;
+            color: var(--cyan);
+            opacity: 0.3;
+            position: absolute;
+            top: 1rem;
+            right: 1.5rem;
+        }
+
+        .exposure-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .exposure-card p {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .exposure-multiplier {
+            margin-top: 1rem;
+            padding: 0.5rem 1rem;
+            background: rgba(0, 229, 255, 0.1);
+            border-radius: 8px;
+            display: inline-block;
+        }
+
+        .exposure-multiplier span {
+            color: var(--cyan);
+            font-weight: 700;
+        }
+
+        /* Comparison Section */
+        .comparison-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(0, 229, 255, 0.02), transparent);
+        }
+
+        .comparison-table {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            overflow: hidden;
+        }
+
+        .comparison-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr 1fr;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .comparison-row:last-child {
+            border-bottom: none;
+        }
+
+        .comparison-cell {
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .comparison-header {
+            background: rgba(0, 229, 255, 0.05);
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .comparison-location {
+            font-weight: 600;
+            text-align: left;
+        }
+
+        .comparison-value {
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .comparison-value.extreme {
+            color: var(--red);
+        }
+
+        /* Technical Specs */
+        .specs-section {
+            padding: 6rem 2rem;
+        }
+
+        .specs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .spec-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .spec-card:hover {
+            border-color: var(--cyan);
+            transform: translateY(-5px);
+        }
+
+        .spec-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, var(--cyan), var(--purple));
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            font-size: 1.5rem;
+        }
+
+        .spec-value {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+        }
+
+        .spec-label {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(0, 229, 255, 0.02));
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(0, 229, 255, 0.1), rgba(168, 85, 247, 0.1));
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            margin-top: 70px;
+            position: relative;
+            z-index: 10;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--cyan);
+        }
+
+        .breadcrumb span {
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-current {
+            color: var(--cyan);
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .exposure-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wind-chart {
+                flex-wrap: wrap;
+                height: auto;
+            }
+
+            .comparison-row {
+                grid-template-columns: 1fr;
+            }
+
+            .anemometer-container {
+                display: none;
+            }
+
+            .wind-indicator {
+                bottom: 10px;
+                right: 10px;
+                padding: 15px;
+                min-width: 150px;
+            }
+
+            .wind-speed-display {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Wind Canvas -->
+    <canvas id="windCanvas"></canvas>
+
+    <!-- Anemometer -->
+    <div class="anemometer-container">
+        <div class="anemometer">
+            <div class="anemometer-arm"></div>
+            <div class="anemometer-arm"></div>
+            <div class="anemometer-arm"></div>
+        </div>
+    </div>
+
+    <!-- Wind Speed Indicator -->
+    <div class="wind-indicator">
+        <div class="wind-indicator-title">Current Animation</div>
+        <div class="wind-speed-display"><span id="windSpeedValue">180</span> <span>MPH</span></div>
+        <div class="wind-category">CAT 5 EQUIVALENT</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <div class="content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/cities/key-west-wind-load-requirements">Monroe</a> /
+                <span class="breadcrumb-current">Extreme Wind Loads</span>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                        <line x1="12" y1="9" x2="12" y2="13"/>
+                        <line x1="12" y1="17" x2="12.01" y2="17"/>
+                    </svg>
+                    EXTREME WIND ZONE - 180+ MPH
+                </div>
+                <h1>Florida Keys <span class="highlight">Extreme Wind</span> Engineering</h1>
+                <p class="hero-description">
+                    The Florida Keys represent the most demanding wind load environment in the continental United States. With design wind speeds exceeding 180 MPH and Exposure Category D conditions, every structural element must be engineered for survival.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                        Calculate MWFRS Loads
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">View All Calculators</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Wind Visualization -->
+        <section class="wind-viz-section reveal">
+            <div class="section-header">
+                <h2>Design Wind Speed Comparison</h2>
+                <p>How Florida Keys requirements compare to other high-wind regions</p>
+            </div>
+            <div class="wind-chart-container">
+                <div class="streamlines-container" id="streamlines"></div>
+                <div class="wind-chart">
+                    <div class="wind-bar">
+                        <div class="wind-bar-visual" data-height="60" style="height: 0;">
+                            <span class="wind-bar-value">130 MPH</span>
+                        </div>
+                        <div class="wind-bar-label">Standard Coastal</div>
+                    </div>
+                    <div class="wind-bar">
+                        <div class="wind-bar-visual" data-height="70" style="height: 0;">
+                            <span class="wind-bar-value">150 MPH</span>
+                        </div>
+                        <div class="wind-bar-label">Palm Beach</div>
+                    </div>
+                    <div class="wind-bar">
+                        <div class="wind-bar-visual" data-height="80" style="height: 0;">
+                            <span class="wind-bar-value">170 MPH</span>
+                        </div>
+                        <div class="wind-bar-label">Broward</div>
+                    </div>
+                    <div class="wind-bar">
+                        <div class="wind-bar-visual" data-height="88" style="height: 0;">
+                            <span class="wind-bar-value">175 MPH</span>
+                        </div>
+                        <div class="wind-bar-label">Miami-Dade</div>
+                    </div>
+                    <div class="wind-bar">
+                        <div class="wind-bar-visual extreme" data-height="100" style="height: 0;">
+                            <span class="wind-bar-value">180+ MPH</span>
+                        </div>
+                        <div class="wind-bar-label">Florida Keys</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Exposure Categories -->
+        <section class="exposure-section reveal">
+            <div class="section-header">
+                <h2>Understanding Exposure Categories</h2>
+                <p>Why the Florida Keys require Exposure Category D calculations</p>
+            </div>
+            <div class="exposure-grid">
+                <div class="exposure-card">
+                    <span class="exposure-letter">B</span>
+                    <h3>Exposure B</h3>
+                    <p>Urban and suburban areas with closely spaced obstructions. Trees and buildings reduce effective wind pressure.</p>
+                    <div class="exposure-multiplier">Kz factor: <span>0.70</span></div>
+                </div>
+                <div class="exposure-card">
+                    <span class="exposure-letter">C</span>
+                    <h3>Exposure C</h3>
+                    <p>Open terrain with scattered obstructions. Typical for flat farmland and grasslands.</p>
+                    <div class="exposure-multiplier">Kz factor: <span>0.85</span></div>
+                </div>
+                <div class="exposure-card">
+                    <span class="exposure-letter">D</span>
+                    <h3>Exposure D</h3>
+                    <p>Flat, unobstructed areas facing open water. Wind flows unimpeded for miles before reaching structures.</p>
+                    <div class="exposure-multiplier">Kz factor: <span>1.03</span></div>
+                </div>
+                <div class="exposure-card active">
+                    <span class="exposure-letter">D+</span>
+                    <h3>Keys Special Conditions</h3>
+                    <p>Florida Keys structures face Exposure D from multiple directions. Narrow islands provide zero wind shadow protection.</p>
+                    <div class="exposure-multiplier">Effective increase: <span>+25%</span></div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Comparison Table -->
+        <section class="comparison-section reveal">
+            <div class="section-header">
+                <h2>Wind Load Requirements by Location</h2>
+                <p>Design parameters per ASCE 7-22 for South Florida regions</p>
+            </div>
+            <div class="comparison-table">
+                <div class="comparison-row">
+                    <div class="comparison-cell comparison-header">Location</div>
+                    <div class="comparison-cell comparison-header">Design Wind Speed</div>
+                    <div class="comparison-cell comparison-header">Typical Exposure</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell comparison-location">Palm Beach County</div>
+                    <div class="comparison-cell comparison-value">150-165 MPH</div>
+                    <div class="comparison-cell">C / D Coastal</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell comparison-location">Broward County</div>
+                    <div class="comparison-cell comparison-value">165-175 MPH</div>
+                    <div class="comparison-cell">C / D Coastal</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell comparison-location">Miami-Dade County</div>
+                    <div class="comparison-cell comparison-value">175-180 MPH</div>
+                    <div class="comparison-cell">C / D HVHZ</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell comparison-location">Upper Keys (Key Largo)</div>
+                    <div class="comparison-cell comparison-value extreme">180-185 MPH</div>
+                    <div class="comparison-cell">D Full Exposure</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell comparison-location">Middle Keys (Marathon)</div>
+                    <div class="comparison-cell comparison-value extreme">180-190 MPH</div>
+                    <div class="comparison-cell">D Full Exposure</div>
+                </div>
+                <div class="comparison-row">
+                    <div class="comparison-cell comparison-location">Lower Keys (Key West)</div>
+                    <div class="comparison-cell comparison-value extreme">180+ MPH</div>
+                    <div class="comparison-cell">D Full Exposure</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Technical Specs -->
+        <section class="specs-section reveal">
+            <div class="section-header">
+                <h2>Critical Engineering Parameters</h2>
+                <p>Key factors affecting Florida Keys wind load calculations</p>
+            </div>
+            <div class="specs-grid">
+                <div class="spec-card">
+                    <div class="spec-icon">V</div>
+                    <div class="spec-value">180+</div>
+                    <div class="spec-label">Ultimate Design Wind Speed (MPH)</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">Kz</div>
+                    <div class="spec-value">1.03</div>
+                    <div class="spec-label">Velocity Pressure Coefficient</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">Kd</div>
+                    <div class="spec-value">0.85</div>
+                    <div class="spec-label">Wind Directionality Factor</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">Ke</div>
+                    <div class="spec-value">1.00</div>
+                    <div class="spec-label">Ground Elevation Factor</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">q</div>
+                    <div class="spec-value">73.2</div>
+                    <div class="spec-label">Velocity Pressure (psf)</div>
+                </div>
+                <div class="spec-card">
+                    <div class="spec-icon">I</div>
+                    <div class="spec-value">1.0</div>
+                    <div class="spec-label">Importance Factor (Risk II)</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Expert answers to Florida Keys wind load engineering questions</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">What is the design wind speed for the Florida Keys?</div>
+                    <div class="faq-answer">
+                        The Florida Keys fall within ASCE 7-22 Risk Category II design wind speeds ranging from 180 to 195 MPH, depending on specific location. Key West and surrounding areas require 180 MPH ultimate design wind speed, while portions of the Upper Keys may require up to 195 MPH for critical facilities. These are 3-second gust speeds at 33 feet above ground in Exposure C conditions.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">Why are Florida Keys wind requirements higher than mainland Florida?</div>
+                    <div class="faq-answer">
+                        The Florida Keys experience higher wind requirements due to three factors: 1) Geographic exposure with minimal terrain roughness over open water, 2) Exposure Category D conditions for most structures near the coastline, and 3) Historical hurricane intensity data showing the Keys sustain more direct hurricane impacts. The narrow island chain provides virtually no natural wind protection.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What exposure category applies to Florida Keys structures?</div>
+                    <div class="faq-answer">
+                        Most Florida Keys structures fall under Exposure Category D per ASCE 7-22, which applies to flat, unobstructed areas exposed to wind flowing over open water for a distance of at least 1 mile. This results in significantly higher wind pressure coefficients than inland locations. Unlike mainland structures that may qualify for Exposure B or C, Keys buildings rarely have sufficient surrounding development to reduce the exposure category.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How do wind loads in the Keys compare to Miami-Dade?</div>
+                    <div class="faq-answer">
+                        While Miami-Dade requires 175-180 MPH design wind speeds, the Florida Keys face similar or higher requirements but with crucial differences: Exposure Category D vs. C for many Keys locations increases effective pressure by 15-25%, and the narrow island geography provides zero wind shadow protection. A 180 MPH design speed in the Keys produces higher actual pressures than the same speed in Miami-Dade due to the exposure coefficient differences.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What special considerations exist for Keys stilt homes?</div>
+                    <div class="faq-answer">
+                        Florida Keys elevated structures face compound loading: extreme wind speeds combined with flood zone requirements mandate minimum elevation heights often exceeding 12-15 feet. Wind loads on exposed pilings and lateral bracing must account for wave action, debris impact, and the full exposure of the elevated structure to unobstructed wind flow. The open area beneath elevated structures creates negative pressure differentials that must be addressed in the foundation design.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal">
+            <div class="cta-box">
+                <h2>Get Accurate Wind Load Calculations</h2>
+                <p>Professional ASCE 7-22 compliant wind load analysis for Florida Keys structures. Input your location and building parameters for instant results.</p>
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                    Calculate Your Wind Loads
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+                <a href="https://windload.solutions/state-requirements">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-engineers.html">Engineers</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 WindLoad.co - Professional Wind Load Engineering Solutions</p>
+        </footer>
+    </div>
+
+    <script>
+        // Wind Particle System
+        const canvas = document.getElementById('windCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class WindParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = -50;
+                this.y = Math.random() * canvas.height;
+                this.speed = Math.random() * 15 + 10;
+                this.length = Math.random() * 60 + 40;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.wave = Math.random() * Math.PI * 2;
+                this.waveSpeed = Math.random() * 0.02 + 0.01;
+                this.waveAmplitude = Math.random() * 30 + 10;
+            }
+
+            update() {
+                this.x += this.speed;
+                this.wave += this.waveSpeed;
+
+                if (this.x > canvas.width + 100) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                const yOffset = Math.sin(this.wave) * this.waveAmplitude;
+                const gradient = ctx.createLinearGradient(
+                    this.x - this.length, this.y + yOffset,
+                    this.x, this.y + yOffset
+                );
+                gradient.addColorStop(0, `rgba(0, 229, 255, 0)`);
+                gradient.addColorStop(0.5, `rgba(0, 229, 255, ${this.opacity})`);
+                gradient.addColorStop(1, `rgba(0, 229, 255, 0)`);
+
+                ctx.beginPath();
+                ctx.strokeStyle = gradient;
+                ctx.lineWidth = 2;
+                ctx.moveTo(this.x - this.length, this.y + yOffset);
+
+                // Wavy line
+                for (let i = 0; i <= this.length; i += 10) {
+                    const wavyY = yOffset + Math.sin((this.x - this.length + i) * 0.05 + this.wave) * 5;
+                    ctx.lineTo(this.x - this.length + i, this.y + wavyY);
+                }
+
+                ctx.stroke();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 50; i++) {
+            const p = new WindParticle();
+            p.x = Math.random() * canvas.width;
+            particles.push(p);
+        }
+
+        // Vortex effect
+        class Vortex {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.radius = 0;
+                this.maxRadius = 100;
+                this.rotation = 0;
+                this.opacity = 0.5;
+            }
+
+            update() {
+                this.radius += 2;
+                this.rotation += 0.1;
+                this.opacity -= 0.005;
+                return this.opacity > 0;
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+
+                ctx.beginPath();
+                ctx.arc(0, 0, this.radius, 0, Math.PI * 1.5);
+                ctx.strokeStyle = `rgba(0, 229, 255, ${this.opacity})`;
+                ctx.lineWidth = 3;
+                ctx.stroke();
+
+                ctx.restore();
+            }
+        }
+
+        const vortices = [];
+
+        // Spawn vortex occasionally
+        setInterval(() => {
+            if (vortices.length < 3 && Math.random() > 0.7) {
+                vortices.push(new Vortex(
+                    Math.random() * canvas.width,
+                    Math.random() * canvas.height
+                ));
+            }
+        }, 2000);
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Update and draw particles
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            // Update and draw vortices
+            for (let i = vortices.length - 1; i >= 0; i--) {
+                if (!vortices[i].update()) {
+                    vortices.splice(i, 1);
+                } else {
+                    vortices[i].draw();
+                }
+            }
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Wind speed fluctuation
+        const windSpeedEl = document.getElementById('windSpeedValue');
+        let baseSpeed = 180;
+        setInterval(() => {
+            const fluctuation = Math.floor(Math.random() * 15);
+            windSpeedEl.textContent = baseSpeed + fluctuation;
+        }, 500);
+
+        // Animate wind bars on scroll
+        const windBars = document.querySelectorAll('.wind-bar-visual');
+        const chartObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    // Animate all bars when chart section is visible
+                    windBars.forEach(bar => {
+                        const height = bar.dataset.height;
+                        setTimeout(() => {
+                            bar.style.height = (height * 3) + 'px'; // Convert percentage to pixels for visible height
+                        }, 100);
+                    });
+                }
+            });
+        }, { threshold: 0.2 });
+
+        // Observe the chart container, not individual bars
+        const chartContainer = document.querySelector('.wind-chart-container');
+        if (chartContainer) chartObserver.observe(chartContainer);
+
+        // Also trigger immediately if already visible
+        setTimeout(() => {
+            windBars.forEach(bar => {
+                const height = bar.dataset.height;
+                bar.style.height = (height * 3) + 'px';
+            });
+        }, 500);
+
+        // Reveal animations
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                // Close all
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                // Open clicked if wasn't active
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Create streamlines
+        const streamlinesContainer = document.getElementById('streamlines');
+        for (let i = 0; i < 10; i++) {
+            const streamline = document.createElement('div');
+            streamline.className = 'streamline';
+            streamline.style.top = (10 + Math.random() * 80) + '%';
+            streamline.style.width = (100 + Math.random() * 200) + 'px';
+            streamline.style.animationDelay = (Math.random() * 2) + 's';
+            streamline.style.animationDuration = (1.5 + Math.random()) + 's';
+            streamlinesContainer.appendChild(streamline);
+        }
+    </script>
+</body>
+</html>

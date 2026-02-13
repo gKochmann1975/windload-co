@@ -1,0 +1,1693 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Salt Air Corrosion and Wind Connections | Florida Keys Durability Engineering</title>
+    <meta name="description" content="Understanding how salt air corrosion affects wind-resistant connections in the Florida Keys. Material selection, coating systems, and inspection protocols for coastal structures.">
+    <meta name="keywords" content="salt air corrosion, wind connections, coastal construction, stainless steel fasteners, galvanic corrosion, Florida Keys building">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <link rel="canonical" href="https://windload.co/florida/monroe/corrosion-wind-interaction.html">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Salt Air Corrosion and Wind Connections | Florida Keys">
+    <meta property="og:description" content="Engineering guide for corrosion-resistant wind connections in severe marine environments. Critical for Florida Keys hurricane durability.">
+    <meta property="og:type" content="article">
+    <meta property="og:url" content="https://windload.co/florida/monroe/corrosion-wind-interaction.html">
+
+    <!-- Schema.org FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How does salt air corrosion affect hurricane clips and straps?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Standard galvanized hurricane clips can lose 50% of their rated capacity within 10-15 years in Florida Keys conditions. Salt air accelerates zinc coating loss, leading to base metal corrosion at fastener points. The HVHZ requires stainless steel or heavily galvanized connectors with G185 minimum coating for coastal applications."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What fastener materials are required for Florida Keys coastal construction?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Florida Building Code Section 2304.10.5.1 requires stainless steel (Type 304 or 316) or hot-dip galvanized (G185/G235) fasteners within 3,000 feet of saltwater. Type 316 stainless is preferred for structures within 300 feet of the ocean. Electroplated zinc fasteners are prohibited in coastal applications."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How often should wind connections be inspected for corrosion?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Florida Keys wind connections should be inspected annually for visible corrosion, with detailed inspection every 5 years by a licensed engineer. After any hurricane event, immediate inspection is required. Signs of concern include rust staining, white powdery deposits on aluminum, and loose fasteners from wood deterioration around corroded connectors."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is galvanic corrosion and why does it matter for wind connections?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Galvanic corrosion occurs when dissimilar metals contact each other in the presence of saltwater electrolyte. In wind connections, this commonly happens when stainless steel straps contact galvanized framing anchors, or aluminum flashing contacts steel connectors. The galvanic series determines which metal will corrode sacrificially."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does corrosion reduce wind load capacity of connections?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Corrosion reduces capacity through three mechanisms: 1) Cross-sectional area loss of steel plates and straps reduces tensile/shear capacity proportionally, 2) Fastener corrosion reduces embedment pull-out values as the effective diameter decreases, 3) Wood deterioration around corroded fasteners creates enlarged holes that reduce withdrawal resistance. A 20% reduction in connector thickness results in approximately 20% capacity loss."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0e17;
+            --bg-card: rgba(255, 255, 255, 0.03);
+            --cyan: #00e5ff;
+            --cyan-dark: #00b4d8;
+            --rust: #b45309;
+            --rust-light: #d97706;
+            --orange: #f59e0b;
+            --green: #00ff88;
+            --red: #ff4757;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Corrosion Particle Canvas */
+        #corrosionCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Corrosion Meter */
+        .corrosion-meter {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: rgba(10, 14, 23, 0.95);
+            border: 1px solid var(--rust-light);
+            border-radius: 15px;
+            padding: 20px;
+            z-index: 100;
+            width: 180px;
+            box-shadow: 0 0 30px rgba(180, 83, 9, 0.2);
+        }
+
+        .meter-title {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--rust-light);
+            margin-bottom: 15px;
+            text-align: center;
+        }
+
+        .meter-gauge {
+            height: 10px;
+            background: linear-gradient(90deg, var(--green), var(--orange), var(--red));
+            border-radius: 5px;
+            position: relative;
+            margin-bottom: 10px;
+        }
+
+        .meter-needle {
+            position: absolute;
+            top: -5px;
+            width: 4px;
+            height: 20px;
+            background: white;
+            border-radius: 2px;
+            transition: left 0.5s ease;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+        }
+
+        .meter-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--text-secondary);
+        }
+
+        .meter-value {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--rust-light);
+        }
+
+        .meter-value span {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 1rem 2rem;
+            background: rgba(10, 14, 23, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 229, 255, 0.3);
+        }
+
+        /* Content */
+        .content {
+            position: relative;
+            z-index: 10;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 1rem 2rem;
+            margin-top: 70px;
+        }
+
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .breadcrumb a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .breadcrumb a:hover {
+            color: var(--cyan);
+        }
+
+        .breadcrumb span {
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb-current {
+            color: var(--cyan);
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            padding: 4rem 2rem;
+        }
+
+        .hero-content {
+            max-width: 700px;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(180, 83, 9, 0.2);
+            border: 1px solid rgba(217, 119, 6, 0.5);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            color: var(--rust-light);
+            margin-bottom: 1.5rem;
+            animation: pulse-badge 3s ease-in-out infinite;
+        }
+
+        @keyframes pulse-badge {
+            0%, 100% { border-color: rgba(217, 119, 6, 0.5); }
+            50% { border-color: rgba(217, 119, 6, 1); }
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 .highlight {
+            background: linear-gradient(135deg, var(--rust-light), var(--orange));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .hero-cta-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            color: var(--bg-dark);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(0, 229, 255, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--rust-light);
+            color: var(--rust-light);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(180, 83, 9, 0.1);
+        }
+
+        /* Corrosion Visualization */
+        .corrosion-viz-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, transparent, rgba(180, 83, 9, 0.03));
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .corrosion-timeline {
+            max-width: 900px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        #timelineCanvas {
+            width: 100%;
+            height: 400px;
+            display: block;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        /* Timeline slider */
+        .timeline-control {
+            margin-top: 2rem;
+            text-align: center;
+        }
+
+        .timeline-slider {
+            width: 80%;
+            max-width: 500px;
+            height: 8px;
+            -webkit-appearance: none;
+            background: linear-gradient(90deg, var(--green), var(--orange), var(--red));
+            border-radius: 4px;
+            outline: none;
+        }
+
+        .timeline-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 24px;
+            height: 24px;
+            background: white;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 0 10px rgba(0,0,0,0.3);
+        }
+
+        .timeline-labels {
+            display: flex;
+            justify-content: space-between;
+            max-width: 500px;
+            margin: 1rem auto 0;
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Material Comparison */
+        .materials-section {
+            padding: 6rem 2rem;
+        }
+
+        .materials-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .material-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .material-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--cyan);
+        }
+
+        .material-card.recommended {
+            border-color: var(--green);
+        }
+
+        .material-card.recommended::before {
+            content: 'RECOMMENDED';
+            position: absolute;
+            top: 1rem;
+            right: -30px;
+            background: var(--green);
+            color: var(--bg-dark);
+            padding: 0.25rem 2rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+
+        .material-card.warning {
+            border-color: var(--red);
+        }
+
+        .material-card.warning::before {
+            content: 'NOT FOR COASTAL';
+            position: absolute;
+            top: 1rem;
+            right: -35px;
+            background: var(--red);
+            color: white;
+            padding: 0.25rem 2rem;
+            font-size: 0.65rem;
+            font-weight: 700;
+            transform: rotate(45deg);
+        }
+
+        .material-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .material-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+        }
+
+        .material-card h3 {
+            font-size: 1.25rem;
+        }
+
+        .material-card p {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .material-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .stat-item {
+            background: rgba(0, 0, 0, 0.2);
+            padding: 0.75rem;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--cyan);
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .stat-item.danger .stat-value {
+            color: var(--red);
+        }
+
+        .stat-item.warning .stat-value {
+            color: var(--orange);
+        }
+
+        .stat-item.success .stat-value {
+            color: var(--green);
+        }
+
+        /* Galvanic Series */
+        .galvanic-section {
+            padding: 6rem 2rem;
+            background: linear-gradient(180deg, rgba(180, 83, 9, 0.03), transparent);
+        }
+
+        .galvanic-chart {
+            max-width: 800px;
+            margin: 0 auto;
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+        }
+
+        .galvanic-bar {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1rem;
+            position: relative;
+        }
+
+        .galvanic-label {
+            width: 150px;
+            font-size: 0.9rem;
+            padding-right: 1rem;
+        }
+
+        .galvanic-indicator {
+            flex: 1;
+            height: 30px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .galvanic-fill {
+            height: 100%;
+            border-radius: 5px;
+            transition: width 1s ease;
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            padding-right: 10px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .galvanic-fill.noble {
+            background: linear-gradient(90deg, var(--green), #10b981);
+        }
+
+        .galvanic-fill.neutral {
+            background: linear-gradient(90deg, var(--cyan), var(--cyan-dark));
+        }
+
+        .galvanic-fill.active {
+            background: linear-gradient(90deg, var(--orange), var(--red));
+        }
+
+        .galvanic-legend {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .legend-dot.noble { background: var(--green); }
+        .legend-dot.neutral { background: var(--cyan); }
+        .legend-dot.active { background: var(--red); }
+
+        /* Inspection Checklist */
+        .inspection-section {
+            padding: 6rem 2rem;
+        }
+
+        .checklist-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .checklist-category {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+        }
+
+        .category-header {
+            padding: 1.5rem;
+            background: rgba(0, 229, 255, 0.05);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+        }
+
+        .category-header h3 {
+            flex: 1;
+        }
+
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, var(--cyan), var(--cyan-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .category-toggle {
+            font-size: 1.5rem;
+            color: var(--cyan);
+            transition: transform 0.3s ease;
+        }
+
+        .checklist-category.active .category-toggle {
+            transform: rotate(45deg);
+        }
+
+        .checklist-items {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+        }
+
+        .checklist-category.active .checklist-items {
+            max-height: 500px;
+        }
+
+        .check-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .check-box {
+            width: 24px;
+            height: 24px;
+            border: 2px solid var(--cyan);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .check-box.checked {
+            background: var(--cyan);
+        }
+
+        .check-box.checked::after {
+            content: '\2713';
+            color: var(--bg-dark);
+            font-weight: bold;
+        }
+
+        .check-text {
+            flex: 1;
+            color: var(--text-secondary);
+        }
+
+        .check-severity {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .check-severity.critical {
+            background: rgba(255, 71, 87, 0.2);
+            color: var(--red);
+        }
+
+        .check-severity.major {
+            background: rgba(245, 158, 11, 0.2);
+            color: var(--orange);
+        }
+
+        .check-severity.minor {
+            background: rgba(0, 229, 255, 0.2);
+            color: var(--cyan);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 6rem 2rem;
+        }
+
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: border-color 0.3s ease;
+        }
+
+        .faq-item:hover {
+            border-color: rgba(217, 119, 6, 0.3);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--rust-light);
+            transition: transform 0.3s ease;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+        }
+
+        .cta-box {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, rgba(180, 83, 9, 0.1), rgba(0, 229, 255, 0.1));
+            border: 1px solid rgba(217, 119, 6, 0.3);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .cta-box h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-box p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            text-align: center;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+        }
+
+        .footer-links a:hover {
+            color: var(--cyan);
+        }
+
+        .footer-copyright {
+            color: var(--text-secondary);
+            font-size: 0.85rem;
+        }
+
+        /* Reveal animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .materials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .corrosion-meter {
+                display: none;
+            }
+
+            .galvanic-label {
+                width: 100px;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Corrosion Canvas -->
+    <canvas id="corrosionCanvas"></canvas>
+
+    <!-- Corrosion Meter -->
+    <div class="corrosion-meter">
+        <div class="meter-title">Corrosion Risk</div>
+        <div class="meter-gauge">
+            <div class="meter-needle" id="corrosionNeedle" style="left: 70%;"></div>
+        </div>
+        <div class="meter-labels">
+            <span>Low</span>
+            <span>Med</span>
+            <span>High</span>
+        </div>
+        <div class="meter-value">
+            <span id="corrosionValue">75</span>%
+            <span>exposure</span>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <div class="content">
+        <!-- Breadcrumb -->
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/cities/key-west-wind-load-requirements">Monroe</a> /
+                <span class="breadcrumb-current">Corrosion and Wind Connections</span>
+            </div>
+        </div>
+
+        <!-- Hero -->
+        <section class="hero">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+                    </svg>
+                    DURABILITY ENGINEERING
+                </div>
+                <h1>Salt Air <span class="highlight">Corrosion</span> and Wind Connections</h1>
+                <p class="hero-description">
+                    In the Florida Keys, salt air doesn't just rust metal - it systematically destroys the connections that keep your structure standing during hurricanes. Understanding corrosion's impact on wind resistance is critical for long-term durability.
+                </p>
+                <div class="hero-cta-group">
+                    <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                        Calculate Wind Loads
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M5 12h14M12 5l7 7-7 7"/>
+                        </svg>
+                    </a>
+                    <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">All Calculators</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Corrosion Timeline -->
+        <section class="corrosion-viz-section reveal">
+            <div class="section-header">
+                <h2>Connector Degradation Over Time</h2>
+                <p>See how salt air corrosion reduces hurricane strap capacity</p>
+            </div>
+            <div class="corrosion-timeline">
+                <canvas id="timelineCanvas"></canvas>
+                <div class="timeline-control">
+                    <input type="range" class="timeline-slider" id="timelineSlider" min="0" max="25" value="0">
+                    <div class="timeline-labels">
+                        <span>New</span>
+                        <span>5 yrs</span>
+                        <span>10 yrs</span>
+                        <span>15 yrs</span>
+                        <span>20+ yrs</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Material Comparison -->
+        <section class="materials-section reveal">
+            <div class="section-header">
+                <h2>Connector Material Comparison</h2>
+                <p>Selecting the right materials for Florida Keys conditions</p>
+            </div>
+            <div class="materials-grid">
+                <div class="material-card recommended">
+                    <div class="material-header">
+                        <div class="material-icon" style="background: linear-gradient(135deg, #64748b, #475569);">316</div>
+                        <h3>Stainless Steel 316</h3>
+                    </div>
+                    <p>Marine-grade stainless with molybdenum content. Highest corrosion resistance for coastal applications. Required within 300 feet of saltwater.</p>
+                    <div class="material-stats">
+                        <div class="stat-item success">
+                            <div class="stat-value">50+</div>
+                            <div class="stat-label">Year lifespan</div>
+                        </div>
+                        <div class="stat-item success">
+                            <div class="stat-value">100%</div>
+                            <div class="stat-label">Capacity retained</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">3x</div>
+                            <div class="stat-label">Cost vs galv</div>
+                        </div>
+                        <div class="stat-item success">
+                            <div class="stat-value">BEST</div>
+                            <div class="stat-label">For coastal</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-card">
+                    <div class="material-header">
+                        <div class="material-icon" style="background: linear-gradient(135deg, #94a3b8, #64748b);">304</div>
+                        <h3>Stainless Steel 304</h3>
+                    </div>
+                    <p>Standard stainless steel grade. Good corrosion resistance but susceptible to pitting in marine environments. Acceptable 300-3000 feet from water.</p>
+                    <div class="material-stats">
+                        <div class="stat-item">
+                            <div class="stat-value">30+</div>
+                            <div class="stat-label">Year lifespan</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">95%</div>
+                            <div class="stat-label">Capacity @ 20yr</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">2x</div>
+                            <div class="stat-label">Cost vs galv</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">GOOD</div>
+                            <div class="stat-label">For coastal</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-card">
+                    <div class="material-header">
+                        <div class="material-icon" style="background: linear-gradient(135deg, #a3a3a3, #737373);">G185</div>
+                        <h3>Hot-Dip Galvanized G185</h3>
+                    </div>
+                    <p>Heavy zinc coating (1.85 oz/sf). Minimum requirement for Florida coastal construction. Zinc sacrificially protects steel underneath.</p>
+                    <div class="material-stats">
+                        <div class="stat-item warning">
+                            <div class="stat-value">15-20</div>
+                            <div class="stat-label">Year lifespan</div>
+                        </div>
+                        <div class="stat-item warning">
+                            <div class="stat-value">70%</div>
+                            <div class="stat-label">Capacity @ 15yr</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">1x</div>
+                            <div class="stat-label">Base cost</div>
+                        </div>
+                        <div class="stat-item warning">
+                            <div class="stat-value">MIN</div>
+                            <div class="stat-label">Requirement</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="material-card warning">
+                    <div class="material-header">
+                        <div class="material-icon" style="background: linear-gradient(135deg, #b45309, #92400e);">EG</div>
+                        <h3>Electroplated Zinc</h3>
+                    </div>
+                    <p>Thin zinc coating applied electrically. PROHIBITED within 3000 feet of saltwater per FBC. Fails rapidly in marine environments.</p>
+                    <div class="material-stats">
+                        <div class="stat-item danger">
+                            <div class="stat-value">3-5</div>
+                            <div class="stat-label">Year lifespan</div>
+                        </div>
+                        <div class="stat-item danger">
+                            <div class="stat-value">50%</div>
+                            <div class="stat-label">Capacity @ 5yr</div>
+                        </div>
+                        <div class="stat-item">
+                            <div class="stat-value">0.5x</div>
+                            <div class="stat-label">Cost (cheap)</div>
+                        </div>
+                        <div class="stat-item danger">
+                            <div class="stat-value">FAIL</div>
+                            <div class="stat-label">Not allowed</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Galvanic Series -->
+        <section class="galvanic-section reveal">
+            <div class="section-header">
+                <h2>Galvanic Corrosion Risk</h2>
+                <p>Understanding metal compatibility in marine environments</p>
+            </div>
+            <div class="galvanic-chart">
+                <div class="galvanic-bar">
+                    <div class="galvanic-label">Titanium</div>
+                    <div class="galvanic-indicator">
+                        <div class="galvanic-fill noble" style="width: 95%;">Most Noble</div>
+                    </div>
+                </div>
+                <div class="galvanic-bar">
+                    <div class="galvanic-label">316 Stainless</div>
+                    <div class="galvanic-indicator">
+                        <div class="galvanic-fill noble" style="width: 85%;"></div>
+                    </div>
+                </div>
+                <div class="galvanic-bar">
+                    <div class="galvanic-label">304 Stainless</div>
+                    <div class="galvanic-indicator">
+                        <div class="galvanic-fill noble" style="width: 78%;"></div>
+                    </div>
+                </div>
+                <div class="galvanic-bar">
+                    <div class="galvanic-label">Bronze/Copper</div>
+                    <div class="galvanic-indicator">
+                        <div class="galvanic-fill neutral" style="width: 65%;"></div>
+                    </div>
+                </div>
+                <div class="galvanic-bar">
+                    <div class="galvanic-label">Carbon Steel</div>
+                    <div class="galvanic-indicator">
+                        <div class="galvanic-fill active" style="width: 40%;"></div>
+                    </div>
+                </div>
+                <div class="galvanic-bar">
+                    <div class="galvanic-label">Aluminum</div>
+                    <div class="galvanic-indicator">
+                        <div class="galvanic-fill active" style="width: 30%;"></div>
+                    </div>
+                </div>
+                <div class="galvanic-bar">
+                    <div class="galvanic-label">Zinc/Galvanized</div>
+                    <div class="galvanic-indicator">
+                        <div class="galvanic-fill active" style="width: 15%;">Most Active</div>
+                    </div>
+                </div>
+
+                <div class="galvanic-legend">
+                    <div class="legend-item">
+                        <div class="legend-dot noble"></div>
+                        <span>Noble (Protected)</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot neutral"></div>
+                        <span>Intermediate</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-dot active"></div>
+                        <span>Active (Corrodes)</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Inspection Checklist -->
+        <section class="inspection-section reveal">
+            <div class="section-header">
+                <h2>Corrosion Inspection Checklist</h2>
+                <p>Annual inspection points for wind-resistant connections</p>
+            </div>
+            <div class="checklist-container">
+                <div class="checklist-category active">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                            </svg>
+                        </div>
+                        <h3>Roof-to-Wall Connections</h3>
+                        <span class="category-toggle">+</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Hurricane straps show rust staining on wood</span>
+                            <span class="check-severity critical">Critical</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Visible coating loss on connector surfaces</span>
+                            <span class="check-severity major">Major</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Fastener heads show pitting or degradation</span>
+                            <span class="check-severity major">Major</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Wood darkening around nail penetrations</span>
+                            <span class="check-severity minor">Minor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="checklist-category">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                            </svg>
+                        </div>
+                        <h3>Wall-to-Foundation Connections</h3>
+                        <span class="category-toggle">+</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Hold-down bolts show oxidation</span>
+                            <span class="check-severity critical">Critical</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Anchor bolts have reduced visible diameter</span>
+                            <span class="check-severity critical">Critical</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">White powder deposits on aluminum flashings</span>
+                            <span class="check-severity minor">Minor</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="checklist-category">
+                    <div class="category-header">
+                        <div class="category-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <line x1="18" y1="6" x2="6" y2="18"/>
+                                <line x1="6" y1="6" x2="18" y2="18"/>
+                            </svg>
+                        </div>
+                        <h3>Diagonal Bracing</h3>
+                        <span class="category-toggle">+</span>
+                    </div>
+                    <div class="checklist-items">
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Steel rod braces show surface rust</span>
+                            <span class="check-severity major">Major</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Turnbuckles corroded or seized</span>
+                            <span class="check-severity major">Major</span>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-box"></div>
+                            <span class="check-text">Connection plates delaminating</span>
+                            <span class="check-severity critical">Critical</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FAQ Section -->
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+                <p>Expert answers on corrosion and wind connections</p>
+            </div>
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">How does salt air corrosion affect hurricane clips and straps?</div>
+                    <div class="faq-answer">
+                        Standard galvanized hurricane clips can lose 50% of their rated capacity within 10-15 years in Florida Keys conditions. Salt air accelerates zinc coating loss, leading to base metal corrosion at fastener points. The HVHZ requires stainless steel or heavily galvanized connectors with G185 minimum coating for coastal applications. Once the protective coating fails, corrosion accelerates exponentially.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What fastener materials are required for Florida Keys coastal construction?</div>
+                    <div class="faq-answer">
+                        Florida Building Code Section 2304.10.5.1 requires stainless steel (Type 304 or 316) or hot-dip galvanized (G185/G235) fasteners within 3,000 feet of saltwater. Type 316 stainless is preferred for structures within 300 feet of the ocean. Electroplated zinc fasteners are prohibited in coastal applications due to rapid coating failure.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How often should wind connections be inspected for corrosion?</div>
+                    <div class="faq-answer">
+                        Florida Keys wind connections should be inspected annually for visible corrosion, with detailed inspection every 5 years by a licensed engineer. After any hurricane event, immediate inspection is required. Signs of concern include rust staining, white powdery deposits on aluminum, and loose fasteners from wood deterioration around corroded connectors.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">What is galvanic corrosion and why does it matter for wind connections?</div>
+                    <div class="faq-answer">
+                        Galvanic corrosion occurs when dissimilar metals contact each other in the presence of saltwater electrolyte. In wind connections, this commonly happens when stainless steel straps contact galvanized framing anchors, or aluminum flashing contacts steel connectors. The galvanic series determines which metal will corrode sacrificially - the more "active" metal corrodes to protect the more "noble" metal.
+                    </div>
+                </div>
+                <div class="faq-item">
+                    <div class="faq-question">How does corrosion reduce wind load capacity of connections?</div>
+                    <div class="faq-answer">
+                        Corrosion reduces capacity through three mechanisms: 1) Cross-sectional area loss of steel plates and straps reduces tensile/shear capacity proportionally, 2) Fastener corrosion reduces embedment pull-out values as the effective diameter decreases, 3) Wood deterioration around corroded fasteners creates enlarged holes that reduce withdrawal resistance. A 20% reduction in connector thickness results in approximately 20% capacity loss.
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="cta-section reveal">
+            <div class="cta-box">
+                <h2>Calculate Wind Loads for Your Connection Design</h2>
+                <p>Get accurate ASCE 7-22 wind load analysis to properly size your corrosion-resistant connections. Input your location and structure for instant results.</p>
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">
+                    Start Wind Load Analysis
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+                <a href="https://windload.solutions/state-requirements">All States</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-for-engineers.html">Engineers</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </div>
+            <p class="footer-copyright">&copy; 2026 WindLoad.co - Professional Wind Load Engineering Solutions</p>
+        </footer>
+    </div>
+
+    <script>
+        // Corrosion particle canvas
+        const canvas = document.getElementById('corrosionCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        // Salt particles
+        class SaltParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -10;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedY = Math.random() * 1 + 0.5;
+                this.speedX = Math.random() * 2 - 1;
+                this.opacity = Math.random() * 0.3 + 0.1;
+                this.wobble = Math.random() * Math.PI * 2;
+                this.wobbleSpeed = Math.random() * 0.02 + 0.01;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.wobble += this.wobbleSpeed;
+                this.x += Math.sin(this.wobble) * 0.5 + this.speedX;
+
+                if (this.y > canvas.height) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(255, 255, 255, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        // Rust particles (rising)
+        class RustParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 10;
+                this.size = Math.random() * 3 + 1;
+                this.speedY = Math.random() * -0.5 - 0.2;
+                this.opacity = Math.random() * 0.2 + 0.05;
+                this.life = Math.random() * 200 + 100;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.life--;
+                this.opacity -= 0.001;
+
+                if (this.life <= 0 || this.y < 0) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(180, 83, 9, ${this.opacity})`;
+                ctx.fill();
+            }
+        }
+
+        const saltParticles = [];
+        const rustParticles = [];
+
+        for (let i = 0; i < 50; i++) {
+            const salt = new SaltParticle();
+            salt.y = Math.random() * canvas.height;
+            saltParticles.push(salt);
+        }
+
+        for (let i = 0; i < 20; i++) {
+            const rust = new RustParticle();
+            rust.y = Math.random() * canvas.height;
+            rustParticles.push(rust);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            saltParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            rustParticles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Timeline canvas
+        const timelineCanvas = document.getElementById('timelineCanvas');
+        const timelineCtx = timelineCanvas.getContext('2d');
+        const timelineSlider = document.getElementById('timelineSlider');
+
+        function resizeTimelineCanvas() {
+            const container = timelineCanvas.parentElement;
+            const rect = container.getBoundingClientRect();
+            timelineCanvas.width = Math.max(rect.width - 64, 400);
+            timelineCanvas.height = 400;
+            // Redraw after resize
+            drawTimeline(parseInt(timelineSlider.value));
+        }
+
+        // Wait for DOM to be ready
+        setTimeout(() => {
+            resizeTimelineCanvas();
+        }, 100);
+        window.addEventListener('resize', resizeTimelineCanvas);
+
+        function drawConnector(ctx, x, y, years) {
+            const w = 80;
+            const h = 120;
+
+            // Calculate degradation
+            const degradation = Math.min(years / 25, 1);
+            const coatingLoss = degradation * 0.8;
+            const rustProgress = Math.max(0, (degradation - 0.3) * 1.4);
+
+            // Base color transitions from silver to rust
+            const baseR = Math.floor(192 - (192 - 139) * rustProgress);
+            const baseG = Math.floor(192 - (192 - 69) * rustProgress);
+            const baseB = Math.floor(192 - (192 - 19) * rustProgress);
+
+            // Draw connector body
+            ctx.fillStyle = `rgb(${baseR}, ${baseG}, ${baseB})`;
+            ctx.fillRect(x - w/2, y - h/2, w, h);
+
+            // Zinc coating (decreasing)
+            if (coatingLoss < 1) {
+                ctx.fillStyle = `rgba(200, 200, 210, ${1 - coatingLoss})`;
+                ctx.fillRect(x - w/2, y - h/2, w, h);
+            }
+
+            // Rust spots
+            if (rustProgress > 0) {
+                ctx.fillStyle = `rgba(139, 69, 19, ${rustProgress * 0.8})`;
+                for (let i = 0; i < 8 * rustProgress; i++) {
+                    const spotX = x - w/2 + Math.random() * w;
+                    const spotY = y - h/2 + Math.random() * h;
+                    const spotR = Math.random() * 10 + 5;
+                    ctx.beginPath();
+                    ctx.arc(spotX, spotY, spotR * rustProgress, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Pitting (advanced corrosion)
+            if (rustProgress > 0.5) {
+                ctx.fillStyle = 'rgba(50, 30, 10, 0.6)';
+                for (let i = 0; i < 5 * (rustProgress - 0.5); i++) {
+                    const pitX = x - w/2 + Math.random() * w;
+                    const pitY = y - h/2 + Math.random() * h;
+                    ctx.beginPath();
+                    ctx.arc(pitX, pitY, 3, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+
+            // Fastener holes
+            ctx.fillStyle = '#333';
+            ctx.beginPath();
+            ctx.arc(x - 20, y - 35, 8, 0, Math.PI * 2);
+            ctx.arc(x + 20, y - 35, 8, 0, Math.PI * 2);
+            ctx.arc(x - 20, y + 35, 8, 0, Math.PI * 2);
+            ctx.arc(x + 20, y + 35, 8, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Nail heads with corrosion
+            const nailColor = rustProgress > 0.3 ? `rgba(139, 69, 19, ${0.5 + rustProgress * 0.5})` : '#555';
+            ctx.fillStyle = nailColor;
+            ctx.beginPath();
+            ctx.arc(x - 20, y - 35, 5, 0, Math.PI * 2);
+            ctx.arc(x + 20, y - 35, 5, 0, Math.PI * 2);
+            ctx.arc(x - 20, y + 35, 5, 0, Math.PI * 2);
+            ctx.arc(x + 20, y + 35, 5, 0, Math.PI * 2);
+            ctx.fill();
+
+            // Border
+            ctx.strokeStyle = rustProgress > 0.5 ? '#8B4513' : '#666';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(x - w/2, y - h/2, w, h);
+        }
+
+        function drawTimeline(years) {
+            const w = timelineCanvas.width;
+            const h = timelineCanvas.height;
+            timelineCtx.clearRect(0, 0, w, h);
+
+            // Background gradient
+            const bgGradient = timelineCtx.createLinearGradient(0, 0, w, 0);
+            bgGradient.addColorStop(0, 'rgba(0, 255, 136, 0.05)');
+            bgGradient.addColorStop(0.5, 'rgba(245, 158, 11, 0.05)');
+            bgGradient.addColorStop(1, 'rgba(255, 71, 87, 0.05)');
+            timelineCtx.fillStyle = bgGradient;
+            timelineCtx.fillRect(0, 0, w, h);
+
+            // Draw connector
+            drawConnector(timelineCtx, w/2, h/2 - 30, years);
+
+            // Capacity indicator
+            const capacity = Math.max(0, 100 - years * 4);
+            const capacityColor = capacity > 70 ? '#00ff88' : capacity > 40 ? '#f59e0b' : '#ff4757';
+
+            timelineCtx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+            timelineCtx.fillRect(w/2 - 150, h - 80, 300, 30);
+
+            timelineCtx.fillStyle = capacityColor;
+            timelineCtx.fillRect(w/2 - 150, h - 80, 300 * (capacity / 100), 30);
+
+            timelineCtx.strokeStyle = 'rgba(255, 255, 255, 0.3)';
+            timelineCtx.strokeRect(w/2 - 150, h - 80, 300, 30);
+
+            // Labels
+            timelineCtx.font = 'bold 16px sans-serif';
+            timelineCtx.fillStyle = '#fff';
+            timelineCtx.textAlign = 'center';
+            timelineCtx.fillText(`Year ${years}`, w/2, 40);
+
+            timelineCtx.font = '14px sans-serif';
+            timelineCtx.fillStyle = capacityColor;
+            timelineCtx.fillText(`${Math.round(capacity)}% Rated Capacity`, w/2, h - 90);
+
+            // Status text
+            let status = 'New - Full Capacity';
+            if (years > 5) status = 'Early Coating Loss';
+            if (years > 10) status = 'Active Corrosion';
+            if (years > 15) status = 'Significant Degradation';
+            if (years > 20) status = 'REPLACEMENT NEEDED';
+
+            timelineCtx.font = 'bold 18px sans-serif';
+            timelineCtx.fillStyle = years > 15 ? '#ff4757' : '#00e5ff';
+            timelineCtx.fillText(status, w/2, h - 30);
+        }
+
+        timelineSlider.addEventListener('input', (e) => {
+            drawTimeline(parseInt(e.target.value));
+        });
+
+        // Initial draw after canvas is sized
+        setTimeout(() => {
+            drawTimeline(0);
+        }, 150);
+
+        // Corrosion meter animation
+        const corrosionNeedle = document.getElementById('corrosionNeedle');
+        const corrosionValue = document.getElementById('corrosionValue');
+
+        setInterval(() => {
+            const value = 65 + Math.random() * 20;
+            corrosionNeedle.style.left = value + '%';
+            corrosionValue.textContent = Math.round(value);
+        }, 2000);
+
+        // Reveal animations
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+
+        // FAQ accordion
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const item = question.parentElement;
+                const wasActive = item.classList.contains('active');
+
+                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('active'));
+
+                if (!wasActive) {
+                    item.classList.add('active');
+                }
+            });
+        });
+
+        // Checklist accordion
+        document.querySelectorAll('.category-header').forEach(header => {
+            header.addEventListener('click', () => {
+                const category = header.parentElement;
+                category.classList.toggle('active');
+            });
+        });
+
+        // Checkbox functionality
+        document.querySelectorAll('.check-box').forEach(box => {
+            box.addEventListener('click', () => {
+                box.classList.toggle('checked');
+            });
+        });
+
+        // Animate galvanic bars on scroll
+        const galvanicBars = document.querySelectorAll('.galvanic-fill');
+        const galvanicObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const width = entry.target.style.width;
+                    entry.target.style.width = '0';
+                    setTimeout(() => {
+                        entry.target.style.width = width;
+                    }, 100);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        galvanicBars.forEach(bar => galvanicObserver.observe(bar));
+    </script>
+</body>
+</html>

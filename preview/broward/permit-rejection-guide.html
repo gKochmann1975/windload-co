@@ -1,0 +1,1437 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Common Permit Rejection Reasons | Broward County FL | WindLoad.co</title>
+    <meta name="description" content="Avoid permit rejections in Broward County. Interactive guide showing the top 12 reasons wind load permits get rejected with animated status indicators and solutions.">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <meta name="robots" content="noindex, nofollow">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Permit Rejection Guide | Broward County">
+    <meta property="og:description" content="Learn why wind load permits get rejected in Broward County and how to avoid common mistakes.">
+    <meta property="og:type" content="article">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-dark: #0a0f1a;
+            --bg-card: rgba(15, 25, 45, 0.8);
+            --success: #10b981;
+            --success-light: #34d399;
+            --error: #ef4444;
+            --error-light: #f87171;
+            --warning: #f59e0b;
+            --cyan: #00e5ff;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Canvas Background */
+        #checkCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(10, 15, 26, 0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(239, 68, 68, 0.1);
+        }
+
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: var(--cyan);
+        }
+
+        .nav-cta {
+            background: linear-gradient(135deg, var(--success), var(--success-light));
+            color: white;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);
+        }
+
+        /* Main Content */
+        main {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 6rem 2rem 1rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .breadcrumb-container {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+        }
+
+        .breadcrumb a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 2rem 2rem 4rem;
+            max-width: 1400px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.3);
+            padding: 0.5rem 1rem;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            color: var(--error-light);
+            margin-bottom: 1.5rem;
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 800;
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .hero h1 .error-text {
+            color: var(--error-light);
+        }
+
+        .hero h1 .success-text {
+            color: var(--success-light);
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            color: var(--text-secondary);
+            max-width: 800px;
+            margin: 0 auto 2rem;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--success), var(--success-light));
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 40px rgba(16, 185, 129, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            border: 2px solid var(--error-light);
+            color: var(--error-light);
+            padding: 1rem 2rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-secondary:hover {
+            background: rgba(239, 68, 68, 0.1);
+        }
+
+        /* Stats Banner */
+        .stats-banner {
+            display: flex;
+            justify-content: center;
+            gap: 4rem;
+            padding: 2rem;
+            margin-top: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 3rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--error), var(--warning));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            margin-top: 0.25rem;
+        }
+
+        /* Rejection Cards */
+        .rejection-section {
+            padding: 4rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .rejection-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .rejection-card {
+            background: var(--bg-card);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 15px;
+            overflow: hidden;
+            transition: all 0.5s;
+            cursor: pointer;
+        }
+
+        .rejection-card:hover {
+            transform: translateY(-5px);
+            border-color: rgba(239, 68, 68, 0.5);
+            box-shadow: 0 20px 40px rgba(239, 68, 68, 0.15);
+        }
+
+        .rejection-card.resolved {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .rejection-card.resolved:hover {
+            border-color: rgba(16, 185, 129, 0.5);
+            box-shadow: 0 20px 40px rgba(16, 185, 129, 0.15);
+        }
+
+        .card-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1.5rem;
+            background: rgba(239, 68, 68, 0.1);
+            transition: background 0.5s;
+        }
+
+        .rejection-card.resolved .card-header {
+            background: rgba(16, 185, 129, 0.1);
+        }
+
+        .status-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .status-icon .x-mark {
+            width: 24px;
+            height: 24px;
+            position: relative;
+        }
+
+        .status-icon .x-mark::before,
+        .status-icon .x-mark::after {
+            content: '';
+            position: absolute;
+            width: 24px;
+            height: 4px;
+            background: var(--error);
+            top: 50%;
+            left: 50%;
+            border-radius: 2px;
+            transition: all 0.5s;
+        }
+
+        .status-icon .x-mark::before {
+            transform: translate(-50%, -50%) rotate(45deg);
+        }
+
+        .status-icon .x-mark::after {
+            transform: translate(-50%, -50%) rotate(-45deg);
+        }
+
+        .rejection-card.resolved .status-icon .x-mark::before {
+            transform: translate(-50%, -50%) rotate(45deg) scaleX(0.5);
+            transform-origin: left;
+        }
+
+        .rejection-card.resolved .status-icon .x-mark::after {
+            transform: translate(-85%, 20%) rotate(-45deg);
+            width: 14px;
+            background: var(--success);
+        }
+
+        /* Checkmark animation */
+        .status-icon .checkmark {
+            width: 24px;
+            height: 24px;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.5s;
+        }
+
+        .rejection-card.resolved .status-icon .checkmark {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .status-icon .checkmark path {
+            stroke: var(--success);
+            stroke-width: 3;
+            stroke-linecap: round;
+            stroke-linejoin: round;
+            fill: none;
+            stroke-dasharray: 30;
+            stroke-dashoffset: 30;
+            transition: stroke-dashoffset 0.5s 0.2s;
+        }
+
+        .rejection-card.resolved .status-icon .checkmark path {
+            stroke-dashoffset: 0;
+        }
+
+        .card-header h3 {
+            font-size: 1.1rem;
+            flex: 1;
+            transition: color 0.5s;
+        }
+
+        .rejection-card.resolved .card-header h3 {
+            color: var(--success-light);
+        }
+
+        .rejection-number {
+            font-size: 0.875rem;
+            color: var(--text-secondary);
+            opacity: 0.5;
+        }
+
+        .card-body {
+            padding: 1.5rem;
+        }
+
+        .problem-section, .solution-section {
+            margin-bottom: 1rem;
+        }
+
+        .problem-section:last-child, .solution-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .section-label {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .section-label.problem {
+            color: var(--error-light);
+        }
+
+        .section-label.solution {
+            color: var(--success-light);
+        }
+
+        .problem-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .solution-text {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            background: rgba(16, 185, 129, 0.1);
+            padding: 0.75rem 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--success);
+        }
+
+        /* Interactive Checklist */
+        .checklist-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .checklist-container {
+            background: var(--bg-card);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 20px;
+            padding: 3rem;
+        }
+
+        .checklist-progress {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .progress-text {
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--error), var(--warning), var(--success));
+            width: 0%;
+            transition: width 0.5s;
+            border-radius: 5px;
+        }
+
+        .checklist-items {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s;
+            border: 1px solid transparent;
+        }
+
+        .checklist-item:hover {
+            background: rgba(0, 0, 0, 0.3);
+            border-color: rgba(0, 229, 255, 0.2);
+        }
+
+        .checklist-item.checked {
+            border-color: rgba(16, 185, 129, 0.3);
+        }
+
+        .check-box {
+            width: 28px;
+            height: 28px;
+            border: 2px solid var(--text-secondary);
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+            flex-shrink: 0;
+        }
+
+        .checklist-item.checked .check-box {
+            background: var(--success);
+            border-color: var(--success);
+        }
+
+        .check-box svg {
+            width: 16px;
+            height: 16px;
+            stroke: white;
+            stroke-width: 3;
+            fill: none;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.3s;
+        }
+
+        .checklist-item.checked .check-box svg {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        .check-label {
+            flex: 1;
+            color: var(--text-primary);
+            transition: color 0.3s;
+        }
+
+        .checklist-item.checked .check-label {
+            color: var(--text-secondary);
+            text-decoration: line-through;
+        }
+
+        .check-category {
+            font-size: 0.75rem;
+            padding: 0.25rem 0.75rem;
+            border-radius: 50px;
+            background: rgba(0, 229, 255, 0.1);
+            color: var(--cyan);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            padding: 4rem 2rem;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .faq-item:hover {
+            border-color: var(--warning);
+        }
+
+        .faq-question {
+            padding: 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--warning);
+            transition: transform 0.3s;
+        }
+
+        .faq-item.active .faq-question::after {
+            transform: rotate(45deg);
+        }
+
+        .faq-answer {
+            padding: 0 1.5rem;
+            max-height: 0;
+            overflow: hidden;
+            transition: all 0.3s;
+            color: var(--text-secondary);
+        }
+
+        .faq-item.active .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            max-height: 500px;
+        }
+
+        /* Warning Alert */
+        .warning-alert {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.1), rgba(239, 68, 68, 0.1));
+            border: 1px solid var(--warning);
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 3rem auto;
+            max-width: 900px;
+            display: flex;
+            gap: 1.5rem;
+            align-items: flex-start;
+        }
+
+        .warning-icon {
+            font-size: 2rem;
+            color: var(--warning);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .warning-content h3 {
+            color: var(--warning);
+            margin-bottom: 0.5rem;
+        }
+
+        .warning-content p {
+            color: var(--text-secondary);
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 6rem 2rem;
+            text-align: center;
+            background: linear-gradient(180deg, transparent, rgba(16, 185, 129, 0.05));
+        }
+
+        .cta-section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .cta-section p {
+            color: var(--text-secondary);
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        footer {
+            padding: 3rem 2rem;
+            border-top: 1px solid rgba(16, 185, 129, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        footer a {
+            color: var(--cyan);
+            text-decoration: none;
+        }
+
+        /* Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .stats-banner {
+                gap: 2rem;
+            }
+
+            .rejection-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .checklist-progress {
+                flex-direction: column;
+                gap: 1rem;
+                text-align: center;
+            }
+
+            .warning-alert {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="checkCanvas"></canvas>
+
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.solutions/state-requirements">All States</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Architects</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-for-architects.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <main>
+        <div class="breadcrumb">
+            <div class="breadcrumb-container">
+                <a href="https://windload.co">Home</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements.html">Florida</a> /
+                <a href="https://windload.solutions/florida-wind-load-requirements">Broward</a>
+                <span>/</span>
+                <span class="breadcrumb-current">Permit Rejection Guide</span>
+            </div>
+        </div>
+
+        <section class="hero">
+            <div class="hero-badge">
+                <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>
+                Broward County Building Department
+            </div>
+            <h1>Why <span class="error-text">Permits Get Rejected</span> and How to <span class="success-text">Get Approved</span></h1>
+            <p>Based on analysis of 500+ permit applications, we've identified the top reasons Broward County wind load permits get rejected. Click each card to see the solution.</p>
+            <div class="hero-cta">
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">
+                    <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                    Get Compliant Calculations
+                </a>
+                <a href="#rejections" class="btn-secondary">See Rejection Reasons</a>
+            </div>
+
+            <div class="stats-banner">
+                <div class="stat-item">
+                    <div class="stat-number" data-target="34">0</div>
+                    <div class="stat-label">Average Rejection Rate %</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="12">0</div>
+                    <div class="stat-label">Days Lost Per Rejection</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" data-target="2400">0</div>
+                    <div class="stat-label">Avg. Cost Per Delay $</div>
+                </div>
+            </div>
+        </section>
+
+        <section id="rejections" class="rejection-section reveal">
+            <div class="section-header">
+                <h2>Top 12 Rejection Reasons</h2>
+                <p style="color: var(--text-secondary);">Click each card to toggle between problem and solution view</p>
+            </div>
+
+            <div class="rejection-grid">
+                <div class="rejection-card" data-id="1">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Missing or Incorrect Wind Speed</h3>
+                        <span class="rejection-number">#1</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Using outdated wind speed (150 MPH) or wrong Risk Category. Broward County HVHZ requires 170-180 MPH per ASCE 7-22.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Verify wind speed using ASCE 7 Hazard Tool with exact project coordinates. Document Risk Category II (or applicable) in calculations.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="2">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Wrong Exposure Category</h3>
+                        <span class="rejection-number">#2</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Defaulting to Exposure C when site is within 1 mile of coast (requires Exposure D) or using B in open terrain.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Include satellite image showing upwind fetch. Document surface roughness in 8 cardinal directions per ASCE 7-22 Section 26.7.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="3">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Product Approval Mismatch</h3>
+                        <span class="rejection-number">#3</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Product DP rating lower than calculated design pressure, or NOA/FBC approval doesn't match specified installation method.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Include NOA/FBC approval letter with submittal. Verify product DP rating exceeds max calculated pressure in ALL zones.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="4">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Missing GCp or GCpi Values</h3>
+                        <span class="rejection-number">#4</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Calculations don't show external pressure coefficients (GCp) or internal pressure coefficients (GCpi) used.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Show GCp from ASCE 7-22 Figure 30.3-1 and GCpi from Table 26.13-1. Enclosed building GCpi = +/- 0.18.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="5">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Incorrect Effective Wind Area</h3>
+                        <span class="rejection-number">#5</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Using product area instead of effective wind area, or not accounting for span2/3 rule for cladding.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Calculate effective wind area as greater of: tributary area, or (span)^2/3 per ASCE 7-22 Section 26.2 definition.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="6">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Missing Zone Delineation</h3>
+                        <span class="rejection-number">#6</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">No elevation drawing showing Zones 4, 5, 4' and 5' (corners and edges) with 'a' dimension labeled.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Include elevations showing pressure zones. Calculate 'a' = 10% of least horizontal or 0.4h, min 3 ft, max 0.04 x least dim.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="7">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>No PE Seal or Signature</h3>
+                        <span class="rejection-number">#7</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Wind load calculations submitted without Florida-licensed PE seal, signature, and date for commercial projects.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">All commercial wind load calcs require FL PE seal. For residential, prescriptive calcs may be accepted - verify with building dept.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="8">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Height Measurement Error</h3>
+                        <span class="rejection-number">#8</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Using roof peak height when mean roof height required, or measuring from wrong datum (grade vs base flood elevation).</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Use mean roof height h = (eave + ridge)/2 for gabled roofs. Measure from ground or BFE in flood zones per ASCE 7-22 26.3.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="9">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Incomplete Fastener Schedule</h3>
+                        <span class="rejection-number">#9</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">No fastener type, spacing, or embedment depth specified. Or fastener pattern doesn't match product approval.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Include complete fastener schedule matching NOA/FBC approval. Specify type, size, spacing, edge distance, and min embedment.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="10">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Debris Impact Not Addressed</h3>
+                        <span class="rejection-number">#10</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Glazing calculations don't include wind-borne debris protection requirements for HVHZ (all of Broward County).</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Specify impact-rated glazing or approved shutters per FBC 1626.1. Include missile level (D for Broward) in product selection.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="11">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Overhang Pressures Missing</h3>
+                        <span class="rejection-number">#11</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Roof overhang, soffit, or fascia pressures not calculated. These areas experience different (often higher) pressures.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">Calculate overhang pressures using ASCE 7-22 Figure 30.3-2A. Add both top and bottom surface pressures for net load.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="rejection-card" data-id="12">
+                    <div class="card-header">
+                        <div class="status-icon">
+                            <div class="x-mark"></div>
+                            <svg class="checkmark" viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                        </div>
+                        <h3>Code Edition Not Specified</h3>
+                        <span class="rejection-number">#12</span>
+                    </div>
+                    <div class="card-body">
+                        <div class="problem-section">
+                            <div class="section-label problem">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+                                Problem
+                            </div>
+                            <p class="problem-text">Calculations don't specify which code edition (FBC 8th Edition 2023, ASCE 7-22) was used, or use outdated editions.</p>
+                        </div>
+                        <div class="solution-section">
+                            <div class="section-label solution">
+                                <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/></svg>
+                                Solution
+                            </div>
+                            <p class="solution-text">State applicable codes on cover sheet: "Per FBC 8th Edition (2023), ASCE 7-22". Verify current code adoption with Broward County.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="warning-alert reveal">
+            <div class="warning-icon">&#9888;</div>
+            <div class="warning-content">
+                <h3>Multiple Rejections = Project Delay</h3>
+                <p>Each permit rejection in Broward County adds 7-14 days to your project timeline. With the average contractor facing 2.3 rejections per complex project, getting it right the first time saves $5,000+ in carrying costs and lost productivity.</p>
+            </div>
+        </div>
+
+        <section class="checklist-section reveal">
+            <div class="section-header">
+                <h2>Pre-Submission Checklist</h2>
+                <p style="color: var(--text-secondary);">Check off each item before submitting to Broward County</p>
+            </div>
+
+            <div class="checklist-container">
+                <div class="checklist-progress">
+                    <span class="progress-text">Progress: <span id="progressCount">0</span>/10 Complete</span>
+                    <div class="progress-bar">
+                        <div class="progress-fill" id="progressFill"></div>
+                    </div>
+                </div>
+
+                <div class="checklist-items">
+                    <div class="checklist-item" data-index="0">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Wind speed matches ASCE 7 Hazard Tool for exact coordinates</span>
+                        <span class="check-category">Speed</span>
+                    </div>
+                    <div class="checklist-item" data-index="1">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Exposure category documented with aerial imagery</span>
+                        <span class="check-category">Exposure</span>
+                    </div>
+                    <div class="checklist-item" data-index="2">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Product DP rating exceeds all calculated pressures</span>
+                        <span class="check-category">Products</span>
+                    </div>
+                    <div class="checklist-item" data-index="3">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">NOA or FBC approval letter included in submittal</span>
+                        <span class="check-category">Products</span>
+                    </div>
+                    <div class="checklist-item" data-index="4">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">GCp and GCpi values shown with ASCE 7-22 references</span>
+                        <span class="check-category">Coefficients</span>
+                    </div>
+                    <div class="checklist-item" data-index="5">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Effective wind area calculated per ASCE 7-22 definition</span>
+                        <span class="check-category">Geometry</span>
+                    </div>
+                    <div class="checklist-item" data-index="6">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Elevation drawings show Zone 4, 5, 4', 5' with 'a' dimension</span>
+                        <span class="check-category">Drawings</span>
+                    </div>
+                    <div class="checklist-item" data-index="7">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Complete fastener schedule matches product approval</span>
+                        <span class="check-category">Fasteners</span>
+                    </div>
+                    <div class="checklist-item" data-index="8">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Impact protection specified for all glazing (HVHZ requirement)</span>
+                        <span class="check-category">Glazing</span>
+                    </div>
+                    <div class="checklist-item" data-index="9">
+                        <div class="check-box">
+                            <svg viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        </div>
+                        <span class="check-label">Code editions specified (FBC 8th Edition, ASCE 7-22)</span>
+                        <span class="check-category">Codes</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="faq-section reveal">
+            <div class="section-header">
+                <h2>Frequently Asked Questions</h2>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">How long does it take to resubmit after a rejection?</div>
+                <div class="faq-answer">Once you receive rejection comments from Broward County, you can typically resubmit corrections within 1-3 business days if you have accurate calculations ready. The review queue then adds another 5-10 business days. Using compliant calculations from the start eliminates this delay entirely.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Can I appeal a permit rejection?</div>
+                <div class="faq-answer">Yes, you can request a meeting with the plans examiner to discuss the rejection. However, most rejections are due to legitimate code compliance issues, not interpretation differences. It's almost always faster and cheaper to correct the calculations than to appeal. Save appeals for cases where you genuinely believe the reviewer misinterpreted the code.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Do all Broward County municipalities use the same standards?</div>
+                <div class="faq-answer">All municipalities within Broward County follow the Florida Building Code, but some have additional local amendments. For example, Fort Lauderdale, Hollywood, and Pompano Beach may have specific submittal requirements beyond the base FBC. Always verify local requirements with the specific municipality's building department.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">What's the difference between a correction and a rejection?</div>
+                <div class="faq-answer">A correction (or "revision required") means the permit application is held while you address specific issues - your place in the review queue is typically preserved. A full rejection means the application is returned and you must resubmit from scratch, going back to the end of the review queue. Multiple corrections on the same issue may result in rejection.</div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">Are pre-engineered calculations accepted in Broward County?</div>
+                <div class="faq-answer">Yes, many product manufacturers provide pre-engineered calculations or load tables that are accepted for residential projects when the product has current NOA or FBC approval. For commercial projects or non-standard applications, site-specific calculations by a Florida-licensed PE are typically required.</div>
+            </div>
+        </section>
+
+        <section class="cta-section">
+            <h2>Get Permit-Ready Calculations</h2>
+            <p>Our ASCE 7-22 compliant calculator generates professional wind load reports that address all common rejection reasons automatically.</p>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-primary">
+                Start Your Calculation
+                <svg width="20" height="20" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+            </a>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2026 WindLoad.co - Broward County Permit Compliance Guide</p>
+        <p style="margin-top: 0.5rem;"><a href="https://windload.solutions/florida-wind-load-requirements">Florida</a> | <a href="https://windload.solutions/state-requirements">All States</a> | <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Get Started</a></p>
+    </footer>
+
+    <script>
+        // Canvas Animation - Floating checkmarks and X marks
+        const canvas = document.getElementById('checkCanvas');
+        const ctx = canvas.getContext('2d');
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        resizeCanvas();
+        window.addEventListener('resize', resizeCanvas);
+
+        class CheckParticle {
+            constructor() {
+                this.reset();
+            }
+
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = canvas.height + 20;
+                this.speedY = -(Math.random() * 0.5 + 0.2);
+                this.speedX = Math.random() * 0.4 - 0.2;
+                this.size = Math.random() * 15 + 10;
+                this.rotation = Math.random() * Math.PI * 2;
+                this.rotationSpeed = (Math.random() - 0.5) * 0.02;
+                this.isCheck = Math.random() > 0.6;
+                this.opacity = Math.random() * 0.3 + 0.1;
+            }
+
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.rotation += this.rotationSpeed;
+
+                if (this.y < -30) {
+                    this.reset();
+                }
+            }
+
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.rotation);
+                ctx.globalAlpha = this.opacity;
+                ctx.lineWidth = 2;
+                ctx.lineCap = 'round';
+
+                if (this.isCheck) {
+                    // Draw checkmark
+                    ctx.strokeStyle = '#10b981';
+                    ctx.beginPath();
+                    ctx.moveTo(-this.size/2, 0);
+                    ctx.lineTo(-this.size/6, this.size/3);
+                    ctx.lineTo(this.size/2, -this.size/3);
+                    ctx.stroke();
+                } else {
+                    // Draw X
+                    ctx.strokeStyle = '#ef4444';
+                    ctx.beginPath();
+                    ctx.moveTo(-this.size/3, -this.size/3);
+                    ctx.lineTo(this.size/3, this.size/3);
+                    ctx.moveTo(this.size/3, -this.size/3);
+                    ctx.lineTo(-this.size/3, this.size/3);
+                    ctx.stroke();
+                }
+
+                ctx.restore();
+            }
+        }
+
+        const particles = [];
+        for (let i = 0; i < 25; i++) {
+            const p = new CheckParticle();
+            p.y = Math.random() * canvas.height;
+            particles.push(p);
+        }
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+
+        // Rejection Card Toggle
+        document.querySelectorAll('.rejection-card').forEach(card => {
+            card.addEventListener('click', () => {
+                card.classList.toggle('resolved');
+            });
+        });
+
+        // Checklist functionality
+        const checklistItems = document.querySelectorAll('.checklist-item');
+        const progressCount = document.getElementById('progressCount');
+        const progressFill = document.getElementById('progressFill');
+        let checked = 0;
+
+        checklistItems.forEach(item => {
+            item.addEventListener('click', () => {
+                item.classList.toggle('checked');
+                checked = document.querySelectorAll('.checklist-item.checked').length;
+                progressCount.textContent = checked;
+                progressFill.style.width = (checked / 10 * 100) + '%';
+            });
+        });
+
+        // Animated counters
+        const statNumbers = document.querySelectorAll('.stat-number');
+        const counterObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const target = parseInt(entry.target.dataset.target);
+                    let current = 0;
+                    const increment = target / 50;
+                    const timer = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            entry.target.textContent = target;
+                            clearInterval(timer);
+                        } else {
+                            entry.target.textContent = Math.floor(current);
+                        }
+                    }, 30);
+                    counterObserver.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+
+        statNumbers.forEach(num => counterObserver.observe(num));
+
+        // FAQ Accordion
+        document.querySelectorAll('.faq-question').forEach(q => {
+            q.addEventListener('click', () => {
+                const item = q.parentElement;
+                item.classList.toggle('active');
+            });
+        });
+
+        // Scroll Reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const revealObserver = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        reveals.forEach(el => revealObserver.observe(el));
+    </script>
+</body>
+</html>
