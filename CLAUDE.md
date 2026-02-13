@@ -60,6 +60,26 @@ Update `deployment-log.json` to track:
 - Pages waiting in staging (`staged` array)
 - Total counts and progress toward goal
 
+### Reference Data for Campaign Pages
+
+Product and topic reference data is stored in:
+```
+c:\Dev\windload-co\data\
+  └── miami-dade-noa\
+      ├── windows.md      # Window/window wall NOA products
+      ├── doors.md        # Entry, garage, sectional doors
+      ├── shutters.md     # Accordion, rollup, panel shutters
+      ├── roofing.md      # Roofing systems and materials
+      ├── other-products.md  # Railings, vents, louvers, cladding
+      ├── summary.md      # Analysis with manufacturers & design pressures
+      └── README.md       # Data structure documentation
+```
+
+Use this data when:
+- Generating new campaign page topics
+- Looking up manufacturers, NOA numbers, design pressures
+- Finding product-specific technical details for content
+
 ---
 
 ## CRITICAL: Logo, Header, and Navigation Structure
@@ -535,6 +555,14 @@ class Particle {
 
 **ALL CTAs must link to windloadcalc.com - NEVER use relative URLs or windload.co links.**
 
+### CRITICAL: Allowed Domains Only
+
+**Campaign pages may ONLY contain links to these two domains:**
+- `https://windload.co/` — Navigation, logo, breadcrumbs, internal pages
+- `https://windloadcalc.com/` — CTAs, pricing, calculator, shop pages
+
+**NO links to any other external domains.** No Wikipedia, no government sites, no manufacturer sites, no social media. All authority and trust signals come from our own content. This prevents link equity leakage and keeps users within our ecosystem.
+
 ### FORBIDDEN URLs (NEVER USE):
 - ❌ `/pricing.html` - WRONG
 - ❌ `/pricing` - WRONG
@@ -542,6 +570,7 @@ class Particle {
 - ❌ `#calculator` - WRONG
 - ❌ `https://windload.co/pricing.html` - WRONG
 - ❌ Any relative URL - WRONG
+- ❌ Any third-party domain link - WRONG
 
 ### WindLoadCalc.com CTA Destinations
 

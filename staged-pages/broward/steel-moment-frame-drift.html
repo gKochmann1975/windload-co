@@ -1,0 +1,2096 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Steel Moment Frame Drift Limits | Broward County Commercial Wind Design</title>
+    <meta name="description" content="Inter-story drift analysis for steel moment frames in Broward County at 170 MPH. H/400 limits, WUF vs RBS connections, P-Delta effects, and drift-governed vs strength-governed design per ASCE 7-22.">
+    <link rel="canonical" href="https://windload.co/florida/broward/steel-moment-frame-drift">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County, Florida">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Steel Moment Frame Inter-Story Drift | Broward County FL">
+    <meta property="og:description" content="Engineering guide to drift limits and lateral resistance design for steel moment frames in Broward County commercial buildings. Covers H/400 limits, connection types, and P-Delta analysis.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/broward/steel-moment-frame-drift">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the allowable inter-story drift for steel moment frames in Broward County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Broward County follows ASCE 7-22 Table 12.12-1 for drift limits. For Risk Category II commercial buildings with steel moment frames, the allowable inter-story drift is H/400 (0.25% of story height) under serviceability wind loads and H/50 under strength-level seismic. For a standard 14-ft story, H/400 means a maximum lateral displacement of 0.42 inches per floor. At 170 MPH design wind speed with Exposure C, moment frames in Broward often see drift demand of 0.30 to 0.50 inches per story, making drift the governing design criterion rather than strength."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are WUF, RBS, and BFP moment connections and how do they affect drift?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "WUF (Welded Unreinforced Flange) connections use complete joint penetration welds between beam flanges and column flanges. RBS (Reduced Beam Section, or 'dogbone') cuts material from beam flanges near the column to force plastic hinging away from the weld. BFP (Bolted Flange Plate) uses bolted plates instead of direct flange welds. For drift control in Broward County's wind environment, WUF connections provide the stiffest response with the least drift. RBS connections reduce stiffness by approximately 5-8% due to the flange reduction, requiring slightly larger beam sections. BFP connections fall between the two. For drift-governed designs at 170 MPH, the connection type directly impacts member sizing and steel tonnage."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does P-Delta effect impact steel moment frame design in high-wind zones?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "P-Delta (second-order) effects amplify both lateral drift and internal forces when gravity loads act through the displaced frame geometry. In Broward County's 170 MPH wind zone, typical P-Delta amplification factors range from 1.05 to 1.25 for mid-rise commercial buildings. AISC 360 Section C1 requires second-order analysis (Direct Analysis Method) for all steel structures. The stability coefficient theta must be checked per ASCE 7-22 Section 12.8.7: theta = (P * Delta) / (V * h * Cd). When theta exceeds 0.10, P-Delta effects significantly increase drift demands and member forces. For a 6-story office building in Fort Lauderdale, P-Delta typically adds 8-15% to first-order drift, often pushing borderline designs over the H/400 limit."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "When does drift govern over strength in Broward County moment frame design?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Drift typically governs steel moment frame design in Broward County for buildings over 3 stories with open floor plans and high floor-to-floor heights. The threshold depends on bay spacing, frame configuration, and story height. For typical 30-ft bays with 14-ft stories, drift begins governing around 4-5 stories when columns sized for gravity and strength alone produce excessive lateral displacement. At 170 MPH, the factored wind base shear for a 6-story, 180-ft wide commercial building can exceed 200 kips, and beams need W24-W33 sections specifically to control drift even though W18-W21 would satisfy strength. Drift governance increases steel tonnage by 15-30% compared to strength-only design."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What beam-column proportioning rules apply to moment frames in Broward County?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "AISC 341 Section E3.4a requires the strong column-weak beam ratio: the sum of column plastic moments at each joint must exceed 1.0 times the sum of beam plastic moments (for ordinary moment frames). For special moment frames this ratio increases to 1.0 with additional requirements. In Broward County practice, engineers typically target column-to-beam moment ratios of 1.2 to 1.5 for adequate performance. Beam depth-to-column depth ratios of 0.65-0.85 provide good drift control. For a W14x176 column, appropriate beams range from W24x76 to W30x116 depending on bay width and drift demands. Panel zone flexibility should be included in drift analysis as it can contribute 15-25% of total story drift."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Broward County require a PE-sealed drift analysis for commercial steel buildings?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Broward County Building Division requires a Florida PE-sealed structural package that includes inter-story drift calculations for all commercial buildings using moment frame lateral systems. The submittal must demonstrate compliance with ASCE 7-22 drift limits at each story level, include P-Delta analysis per AISC 360 Direct Analysis Method, show connection details and prequalification per AISC 358, and verify strong column-weak beam ratios. For buildings in the HVHZ portions of Broward County, additional review by a threshold inspector may apply for structures over 3 stories or 50 feet. The building department routinely flags drift calculations as a comment item during plan review."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.co/florida-pro.html"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.co/florida/broward/"},
+            {"@type": "ListItem", "position": 4, "name": "Steel Moment Frame Drift", "item": "https://windload.co/florida/broward/steel-moment-frame-drift"}
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - HowTo -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "HowTo",
+        "name": "How to Check Steel Moment Frame Drift in Broward County",
+        "description": "Step-by-step process for evaluating inter-story drift in steel moment frames under 170 MPH wind loads per ASCE 7-22 and AISC 360.",
+        "step": [
+            {
+                "@type": "HowToStep",
+                "position": 1,
+                "name": "Establish Wind Load Demand",
+                "text": "Calculate lateral wind forces per ASCE 7-22 Chapter 26-31 for Broward County at 170 MPH basic wind speed, applying appropriate Kz, Kd, Kzt, and Ke factors at each floor level."
+            },
+            {
+                "@type": "HowToStep",
+                "position": 2,
+                "name": "Perform First-Order Analysis",
+                "text": "Run elastic analysis of the moment frame under factored wind loads. Extract story displacements and inter-story drifts at each level."
+            },
+            {
+                "@type": "HowToStep",
+                "position": 3,
+                "name": "Apply P-Delta Amplification",
+                "text": "Run second-order analysis or apply B2 amplification factors per AISC 360 Chapter C. Calculate stability coefficient theta at each story."
+            },
+            {
+                "@type": "HowToStep",
+                "position": 4,
+                "name": "Check Drift Limits",
+                "text": "Compare amplified inter-story drifts to ASCE 7-22 Table 12.12-1 limits. For serviceability, limit is typically H/400; for strength, H/50 under seismic."
+            },
+            {
+                "@type": "HowToStep",
+                "position": 5,
+                "name": "Resize Members if Needed",
+                "text": "If drift exceeds limits, increase beam depth and weight or column size. Verify strong column-weak beam ratios after resizing."
+            },
+            {
+                "@type": "HowToStep",
+                "position": 6,
+                "name": "Detail Connections",
+                "text": "Select prequalified connection type (WUF, RBS, or BFP) per AISC 358 and include panel zone flexibility in final drift check."
+            }
+        ]
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0c1220;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           BUILDING SWAY ANIMATION SYSTEM
+           Steel Frame Drift Visualization
+           ======================================== */
+
+        /* Animated Background Canvas */
+        #drift-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        /* Structural Grid Overlay */
+        .struct-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.025;
+            background-image:
+                linear-gradient(rgba(0, 229, 255, 0.6) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 229, 255, 0.6) 1px, transparent 1px);
+            background-size: 60px 60px;
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.85);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.active { opacity: 1; transform: scale(1); }
+
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+
+        /* Keyframe Animations */
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(0, 229, 255, 0.3), 0 0 40px rgba(0, 229, 255, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(0, 229, 255, 0.5), 0 0 80px rgba(0, 229, 255, 0.2); }
+        }
+        @keyframes warning-flash {
+            0%, 100% { border-left-color: #ff4757; }
+            50% { border-left-color: #ff6b7a; box-shadow: inset 0 0 30px rgba(255, 71, 87, 0.1); }
+        }
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+        @keyframes sway-indicator {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(6px); }
+            75% { transform: translateX(-6px); }
+        }
+        @keyframes needle-sweep {
+            0% { transform: rotate(-90deg); }
+            100% { transform: rotate(var(--needle-angle, 0deg)); }
+        }
+        @keyframes stress-pulse {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 1; }
+        }
+
+        .shimmer-text {
+            background: linear-gradient(120deg, #00e5ff 0%, #00ff88 25%, #00e5ff 50%, #00b4d8 75%, #00e5ff 100%);
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 3s linear infinite;
+        }
+
+        /* ========================================
+           DRIFT GAUGE WIDGET (Fixed Position)
+           ======================================== */
+        .drift-widget {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(12, 18, 32, 0.95);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 16px;
+            padding: 16px;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateX(120px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            width: 150px;
+            text-align: center;
+        }
+        .drift-widget.visible {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        .drift-widget-title {
+            font-size: 0.6rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+        .drift-widget svg {
+            width: 110px;
+            height: 70px;
+        }
+        .drift-widget-value {
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #00e5ff;
+            margin-top: 4px;
+        }
+        .drift-widget-label {
+            font-size: 0.6rem;
+            color: #94a3b8;
+        }
+
+        /* ========================================
+           NAVIGATION
+           ======================================== */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.75rem 2rem;
+            background: rgba(12, 18, 32, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            z-index: 1000;
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #00e5ff; }
+        .nav-cta {
+            background: linear-gradient(135deg, #00e5ff, #00b4d8);
+            color: #0c1220;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: all 0.3s;
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(0, 229, 255, 0.4);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            padding: 0.75rem 2rem;
+            margin-top: 60px;
+            position: relative;
+            z-index: 2;
+        }
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            flex-wrap: wrap;
+        }
+        .breadcrumb-container a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .breadcrumb-container a:hover { color: #00e5ff; }
+        .breadcrumb-container span { color: #475569; }
+        .breadcrumb-current { color: #00e5ff; }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* ========================================
+           HERO SECTION
+           ======================================== */
+        .hero {
+            padding: 3rem 0 2rem;
+            text-align: center;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            color: #00e5ff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1.5rem;
+            animation: sway-indicator 3s ease-in-out infinite;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.2rem);
+            font-weight: 900;
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+        }
+        .hero h1 .shimmer-text {
+            display: block;
+        }
+        .hero-intro {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            max-width: 720px;
+            margin: 0 auto 2rem;
+            line-height: 1.7;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: linear-gradient(135deg, #00e5ff, #00b4d8);
+            color: #0c1220;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(0, 229, 255, 0.4);
+        }
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #ffffff;
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: #00e5ff;
+            color: #00e5ff;
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            background: rgba(255, 71, 87, 0.08);
+            border-left: 4px solid #ff4757;
+            padding: 1rem 1.5rem;
+            border-radius: 0 12px 12px 0;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: left;
+            animation: warning-flash 3s ease-in-out infinite;
+        }
+        .warning-banner strong { color: #ff4757; }
+        .warning-banner p { color: #94a3b8; font-size: 0.9rem; margin-top: 0.25rem; }
+
+        /* ========================================
+           TRUST STATS BAR
+           ======================================== */
+        .trust-bar {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            padding: 2.5rem 0;
+        }
+        .trust-stat {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .trust-stat:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+            background: rgba(0, 229, 255, 0.05);
+        }
+        .trust-stat .counter {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #00e5ff;
+            display: block;
+        }
+        .trust-stat .label {
+            font-size: 0.8rem;
+            color: #64748b;
+            margin-top: 0.25rem;
+        }
+
+        /* ========================================
+           PRIMARY VISUALIZATION: BUILDING SWAY
+           ======================================== */
+        .viz-section {
+            padding: 3rem 0;
+        }
+        .viz-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 0.5rem;
+        }
+        .viz-section .section-sub {
+            text-align: center;
+            color: #64748b;
+            margin-bottom: 2rem;
+            font-size: 0.95rem;
+        }
+        #building-sway-canvas {
+            width: 100%;
+            height: 500px;
+            background: rgba(12, 18, 32, 0.95);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 16px;
+            display: block;
+        }
+        .viz-controls {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .viz-btn {
+            background: rgba(255, 255, 255, 0.06);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            color: #94a3b8;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-family: inherit;
+        }
+        .viz-btn:hover, .viz-btn.active {
+            background: rgba(0, 229, 255, 0.15);
+            border-color: #00e5ff;
+            color: #00e5ff;
+        }
+
+        /* ========================================
+           CONTENT SECTIONS
+           ======================================== */
+        .content-section {
+            padding: 3rem 0;
+        }
+        .content-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .content-section h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin: 1.5rem 0 0.75rem;
+            color: #00e5ff;
+        }
+        .content-section p {
+            color: #94a3b8;
+            line-height: 1.8;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+
+        /* Connection Type Cards */
+        .connection-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        .conn-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .conn-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--card-accent, #00e5ff), transparent);
+        }
+        .conn-card:hover {
+            border-color: rgba(0, 229, 255, 0.3);
+            transform: translateY(-6px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3);
+        }
+        .conn-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #ffffff;
+        }
+        .conn-card .conn-tag {
+            display: inline-block;
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            background: rgba(0, 229, 255, 0.12);
+            color: #00e5ff;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+        }
+        .conn-card p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+        .conn-card .conn-stat {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .conn-card .conn-stat div {
+            text-align: center;
+        }
+        .conn-card .conn-stat .val {
+            display: block;
+            font-size: 1.1rem;
+            font-weight: 800;
+            color: #00e5ff;
+        }
+        .conn-card .conn-stat .desc {
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+        }
+
+        /* Drift Comparison Table */
+        .drift-table-wrap {
+            overflow-x: auto;
+            margin: 2rem 0;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+        .drift-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .drift-table th {
+            background: rgba(0, 229, 255, 0.08);
+            padding: 1rem 1.25rem;
+            text-align: left;
+            font-weight: 700;
+            color: #00e5ff;
+            white-space: nowrap;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+        }
+        .drift-table td {
+            padding: 0.875rem 1.25rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            color: #94a3b8;
+        }
+        .drift-table tr:hover td {
+            background: rgba(0, 229, 255, 0.03);
+        }
+        .drift-table .status-pass {
+            color: #00ff88;
+            font-weight: 700;
+        }
+        .drift-table .status-fail {
+            color: #ff4757;
+            font-weight: 700;
+        }
+        .drift-table .status-warn {
+            color: #f59e0b;
+            font-weight: 700;
+        }
+
+        /* P-Delta Visualization */
+        .pdelta-visual {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .pdelta-visual h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        #pdelta-canvas {
+            width: 100%;
+            height: 300px;
+            display: block;
+        }
+
+        /* Checklist */
+        .design-checklist {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+        .design-checklist h3 {
+            margin-top: 0;
+        }
+        .check-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 0.75rem;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+        }
+        .check-item:last-child { border-bottom: none; }
+        .check-icon {
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(0, 255, 136, 0.15);
+            border: 2px solid #00ff88;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            margin-top: 2px;
+            font-size: 0.7rem;
+            color: #00ff88;
+        }
+        .check-item p {
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        /* ========================================
+           FAQ SECTION
+           ======================================== */
+        .faq-section {
+            padding: 3rem 0;
+        }
+        .faq-section h2 {
+            font-size: 1.8rem;
+            font-weight: 800;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        .faq-item {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+        .faq-item:hover {
+            border-color: rgba(0, 229, 255, 0.2);
+        }
+        .faq-q {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            font-size: 1rem;
+            color: #ffffff;
+            user-select: none;
+        }
+        .faq-q::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: #00e5ff;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+        .faq-item.open .faq-q::after {
+            transform: rotate(45deg);
+        }
+        .faq-a {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s;
+        }
+        .faq-item.open .faq-a {
+            max-height: 600px;
+            padding: 0 1.5rem 1.25rem;
+        }
+        .faq-a p {
+            color: #94a3b8;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* ========================================
+           FINAL CTA
+           ======================================== */
+        .final-cta {
+            text-align: center;
+            padding: 4rem 0 3rem;
+        }
+        .final-cta h2 {
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 1rem;
+        }
+        .final-cta p {
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto 2rem;
+            font-size: 1.05rem;
+        }
+
+        /* ========================================
+           FOOTER
+           ======================================== */
+        .footer {
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding: 2.5rem 0;
+            text-align: center;
+        }
+        .footer p {
+            color: #475569;
+            font-size: 0.8rem;
+        }
+        .footer a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .footer a:hover { color: #00e5ff; }
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 1rem;
+            flex-wrap: wrap;
+        }
+
+        /* ========================================
+           RESPONSIVE
+           ======================================== */
+        @media (max-width: 1024px) {
+            .two-col { grid-template-columns: 1fr; }
+            .connection-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 768px) {
+            .nav { padding: 0.75rem 1rem; }
+            .nav-links { display: none; }
+            .container { padding: 0 1rem; }
+            .trust-bar { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .connection-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 1.8rem; }
+            #building-sway-canvas { height: 350px; }
+            .drift-widget { display: none; }
+            .breadcrumb { padding: 0.75rem 1rem; }
+        }
+        @media (max-width: 480px) {
+            .trust-bar { grid-template-columns: 1fr; }
+            .hero-ctas { flex-direction: column; align-items: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Canvas -->
+    <canvas id="drift-bg"></canvas>
+    <div class="struct-grid"></div>
+
+    <!-- Drift Ratio Widget -->
+    <div class="drift-widget" id="driftWidget">
+        <div class="drift-widget-title">Drift Ratio</div>
+        <svg viewBox="0 0 120 70" id="gaugeWidget">
+            <defs>
+                <linearGradient id="gaugeGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%" stop-color="#00ff88"/>
+                    <stop offset="50%" stop-color="#f59e0b"/>
+                    <stop offset="100%" stop-color="#ff4757"/>
+                </linearGradient>
+            </defs>
+            <!-- Gauge arc background -->
+            <path d="M 15 60 A 45 45 0 0 1 105 60" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8" stroke-linecap="round"/>
+            <!-- Gauge arc fill -->
+            <path d="M 15 60 A 45 45 0 0 1 105 60" fill="none" stroke="url(#gaugeGrad)" stroke-width="8" stroke-linecap="round" stroke-dasharray="141" stroke-dashoffset="50"/>
+            <!-- Limit markers -->
+            <line x1="30" y1="24" x2="30" y2="18" stroke="#00ff88" stroke-width="2"/>
+            <text x="30" y="15" fill="#00ff88" font-size="6" text-anchor="middle">H/400</text>
+            <line x1="60" y1="15" x2="60" y2="9" stroke="#f59e0b" stroke-width="2"/>
+            <text x="60" y="7" fill="#f59e0b" font-size="6" text-anchor="middle">H/300</text>
+            <line x1="90" y1="24" x2="90" y2="18" stroke="#ff4757" stroke-width="2"/>
+            <text x="90" y="15" fill="#ff4757" font-size="6" text-anchor="middle">H/200</text>
+            <!-- Needle -->
+            <line id="gaugeNeedle" x1="60" y1="60" x2="35" y2="30" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="60" cy="60" r="3" fill="#00e5ff"/>
+        </svg>
+        <div class="drift-widget-value" id="widgetDriftVal">H/380</div>
+        <div class="drift-widget-label">Current Story Drift</div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.co/florida-pro.html">Florida</a>
+            <a href="https://windload.co/states.html">All States</a>
+            <a href="https://windload.co/architects.html">Architects</a>
+            <a href="https://windload.co/contractors.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <!-- Breadcrumbs -->
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="https://windload.co/">Home</a>
+            <span>/</span>
+            <a href="https://windload.co/florida-pro.html">Florida</a>
+            <span>/</span>
+            <a href="https://windload.co/florida/broward/">Broward</a>
+            <span>/</span>
+            <span class="breadcrumb-current">Steel Moment Frame Drift</span>
+        </div>
+    </div>
+
+    <div class="container">
+
+        <!-- ========== HERO ========== -->
+        <section class="hero reveal">
+            <div class="hero-badge">ASCE 7-22 / AISC 360 &mdash; Broward County</div>
+            <h1>
+                Steel Moment Frame<br>
+                <span class="shimmer-text">Inter-Story Drift Analysis</span>
+            </h1>
+            <p class="hero-intro">
+                Inter-story drift is the horizontal displacement between consecutive floors of a building under lateral loads. In Broward County's 170 MPH wind zone, steel moment frames must satisfy the H/400 serviceability drift limit defined by ASCE 7-22 Table 12.12-1, and drift frequently governs member sizing over pure strength requirements. This guide covers drift mechanics, connection stiffness effects, P-Delta amplification, and the practical engineering decisions that separate compliant from non-compliant commercial steel designs across Fort Lauderdale, Coral Springs, Pembroke Pines, and surrounding municipalities.
+            </p>
+            <div class="hero-ctas">
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+                <a href="https://windloadcalc.com/building-intelligence-platform.html" class="btn-secondary">Start Free Trial</a>
+            </div>
+            <div class="warning-banner">
+                <strong>Drift-Governed Design Alert</strong>
+                <p>At 170 MPH, most Broward County steel moment frames above 3 stories are drift-controlled. Undersized beams that pass strength checks will fail drift limits, triggering plan review rejections and costly redesigns.</p>
+            </div>
+        </section>
+
+        <!-- ========== TRUST STATS ========== -->
+        <section class="trust-bar stagger-children">
+            <div class="trust-stat">
+                <span class="counter" data-target="170" data-suffix=" MPH">0</span>
+                <span class="label">Broward Design Wind Speed</span>
+            </div>
+            <div class="trust-stat">
+                <span class="counter" data-target="400" data-prefix="H/">0</span>
+                <span class="label">Serviceability Drift Limit</span>
+            </div>
+            <div class="trust-stat">
+                <span class="counter" data-target="25" data-suffix="%">0</span>
+                <span class="label">Typical P-Delta Amplification</span>
+            </div>
+            <div class="trust-stat">
+                <span class="counter" data-target="30" data-suffix="%+">0</span>
+                <span class="label">Steel Increase for Drift Control</span>
+            </div>
+        </section>
+
+        <!-- ========== PRIMARY VISUALIZATION ========== -->
+        <section class="viz-section reveal">
+            <h2>Building Sway Under <span class="shimmer-text">170 MPH Wind</span></h2>
+            <p class="section-sub">Observe how wind-induced drift varies with wind speed category. Connection stress concentrations illuminate at beam-column joints.</p>
+            <canvas id="building-sway-canvas"></canvas>
+            <div class="viz-controls">
+                <button class="viz-btn active" data-speed="service">Serviceability (70 MPH)</button>
+                <button class="viz-btn" data-speed="design">Design Level (120 MPH)</button>
+                <button class="viz-btn" data-speed="ultimate">Ultimate (170 MPH)</button>
+            </div>
+        </section>
+
+        <!-- ========== DRIFT LIMITS EXPLAINED ========== -->
+        <section class="content-section">
+            <div class="two-col">
+                <div class="reveal-left">
+                    <h2>Drift Limits for Broward County Commercial Buildings</h2>
+                    <p>
+                        Inter-story drift ratio is the lateral displacement of one floor relative to the floor below, divided by the story height. ASCE 7-22 Table 12.12-1 establishes allowable drift limits based on structural system type and risk category. For steel moment frames in Broward County, the critical limits are:
+                    </p>
+                    <h3>Serviceability Drift (Wind): H/400</h3>
+                    <p>
+                        The H/400 limit (0.25% of story height) applies under service-level wind loads, typically calculated at a 10-year or 25-year mean recurrence interval depending on the engineer's judgment and owner's requirements. For a standard 14-foot commercial story, H/400 equals 0.42 inches of allowable lateral movement. In practice, this is the limit that most Broward County plan reviewers enforce for wind-induced drift. IBC Appendix CC Table CC-1 provides the service wind speed: for Broward County Risk Category II, approximately 108 MPH. The resulting pressures produce story shears that push typical moment frames to their drift capacity.
+                    </p>
+                    <h3>Strength-Level Drift (Seismic): H/50</h3>
+                    <p>
+                        While South Florida has low seismic demands, ASCE 7-22 Section 12.12.1 still requires checking drift under design earthquake forces. The H/50 limit (2.0% story height) rarely governs for steel moment frames in Broward, but must be documented in the structural calculations package submitted for permit review.
+                    </p>
+                </div>
+                <div class="reveal-right">
+                    <div class="drift-table-wrap">
+                        <table class="drift-table">
+                            <thead>
+                                <tr>
+                                    <th>Story</th>
+                                    <th>Height</th>
+                                    <th>Drift (in)</th>
+                                    <th>Ratio</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>6th Floor</td>
+                                    <td>14 ft</td>
+                                    <td>0.28</td>
+                                    <td>H/600</td>
+                                    <td class="status-pass">PASS</td>
+                                </tr>
+                                <tr>
+                                    <td>5th Floor</td>
+                                    <td>14 ft</td>
+                                    <td>0.35</td>
+                                    <td>H/480</td>
+                                    <td class="status-pass">PASS</td>
+                                </tr>
+                                <tr>
+                                    <td>4th Floor</td>
+                                    <td>14 ft</td>
+                                    <td>0.39</td>
+                                    <td>H/431</td>
+                                    <td class="status-pass">PASS</td>
+                                </tr>
+                                <tr>
+                                    <td>3rd Floor</td>
+                                    <td>14 ft</td>
+                                    <td>0.41</td>
+                                    <td>H/410</td>
+                                    <td class="status-warn">MARGINAL</td>
+                                </tr>
+                                <tr>
+                                    <td>2nd Floor</td>
+                                    <td>14 ft</td>
+                                    <td>0.44</td>
+                                    <td>H/382</td>
+                                    <td class="status-fail">OVER</td>
+                                </tr>
+                                <tr>
+                                    <td>1st Floor</td>
+                                    <td>16 ft</td>
+                                    <td>0.52</td>
+                                    <td>H/369</td>
+                                    <td class="status-fail">OVER</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <p style="font-size: 0.8rem; color: #64748b; text-align: center; margin-top: 0.5rem;">
+                        Example: 6-story office, 30-ft bays, W24 beams, W14 columns. Lower floors exceed H/400 before P-Delta amplification.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== CONNECTION TYPES ========== -->
+        <section class="content-section">
+            <h2 class="reveal">Moment Frame Connections &amp; <span class="shimmer-text">Drift Performance</span></h2>
+            <p class="reveal" style="max-width: 800px;">
+                The connection type at each beam-column joint directly influences frame stiffness, drift response, and steel tonnage. AISC 358 prequalifies several connection types, each with distinct behavioral characteristics under the high lateral demands of Broward County's wind environment.
+            </p>
+
+            <div class="connection-grid stagger-children">
+                <div class="conn-card" style="--card-accent: #00e5ff;">
+                    <span class="conn-tag">Welded</span>
+                    <h4>WUF-W (Welded Unreinforced Flange - Welded Web)</h4>
+                    <p>Complete joint penetration (CJP) groove welds connect beam flanges directly to the column flange. Provides the stiffest connection with minimal rotational deformation. Maximizes drift control efficiency but requires stringent weld quality and ultrasonic testing (UT) per AWS D1.8. Best suited for drift-governed Broward designs where minimizing beam depth is critical.</p>
+                    <div class="conn-stat">
+                        <div>
+                            <span class="val">100%</span>
+                            <span class="desc">Stiffness</span>
+                        </div>
+                        <div>
+                            <span class="val">High</span>
+                            <span class="desc">Weld QC</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conn-card" style="--card-accent: #00ff88;">
+                    <span class="conn-tag">Reduced Section</span>
+                    <h4>RBS (Reduced Beam Section / Dogbone)</h4>
+                    <p>Circular arc cuts in the beam flanges near the column face force plastic hinging away from the critical weld zone. The flange reduction lowers the beam moment of inertia locally, reducing effective stiffness by 5-8%. For Broward drift analysis, RBS requires approximately one beam size larger than WUF to achieve the same drift performance. However, RBS improves ductility and is required for SMF (Special Moment Frame) seismic detailing.</p>
+                    <div class="conn-stat">
+                        <div>
+                            <span class="val">92-95%</span>
+                            <span class="desc">Stiffness</span>
+                        </div>
+                        <div>
+                            <span class="val">Medium</span>
+                            <span class="desc">Fabrication</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="conn-card" style="--card-accent: #f59e0b;">
+                    <span class="conn-tag">Bolted</span>
+                    <h4>BFP (Bolted Flange Plate)</h4>
+                    <p>Steel plates are shop-welded to the column and field-bolted to the beam flanges. Eliminates field CJP welding, which is advantageous in Broward's humid climate where moisture can compromise weld quality. Stiffness falls between WUF and RBS. Bolt slip at service loads can add 0.02-0.05 inches to story drift. Best for projects where field welding access is restricted or rapid erection is prioritized.</p>
+                    <div class="conn-stat">
+                        <div>
+                            <span class="val">95-98%</span>
+                            <span class="desc">Stiffness</span>
+                        </div>
+                        <div>
+                            <span class="val">Fast</span>
+                            <span class="desc">Erection</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== BEAM-COLUMN PROPORTIONING ========== -->
+        <section class="content-section">
+            <div class="two-col">
+                <div class="reveal-left">
+                    <h2>Beam-Column Proportioning for Drift Control</h2>
+                    <p>
+                        Selecting the right beam and column sizes is the most impactful decision in moment frame drift design. Unlike strength-governed frames where the lightest passing section wins, drift-governed frames require engineers to prioritize moment of inertia (I) and section depth over section modulus (S) and weight efficiency.
+                    </p>
+                    <h3>Beam Selection Strategy</h3>
+                    <p>
+                        Deeper beams provide exponentially better drift control because the moment of inertia scales with the cube of depth. Upgrading from a W21x62 (I = 1,330 in4) to a W27x84 (I = 2,850 in4) doubles the stiffness with only 35% more steel weight. For a 30-ft bay in Broward County with 170 MPH wind loads, typical drift-controlled beam sizes range from W24x76 for upper floors to W33x130 for lower floors of mid-rise buildings. Engineers should plot beam I vs. drift demand for each floor to find the optimal gradient.
+                    </p>
+                    <h3>Column Sizing and Panel Zones</h3>
+                    <p>
+                        Columns contribute to drift through both flexural deformation and panel zone shear deformation. Panel zone deformation (the shear distortion of the column web between beam flanges) accounts for 15-25% of total story drift in typical configurations. AISC 360 Section J10 defines panel zone strength requirements, but engineers designing for Broward wind loads should also evaluate panel zone stiffness. A W14x176 column with 1.31-inch flanges provides a panel zone stiffness approximately 40% greater than a W14x132 with 1.03-inch flanges. For building corners and high-shear locations, upgrading column weight by one or two sizes often resolves drift violations more efficiently than increasing beam size.
+                    </p>
+                </div>
+                <div class="reveal-right">
+                    <div class="design-checklist">
+                        <h3>Drift Design Checklist: Broward County</h3>
+                        <div class="check-item">
+                            <div class="check-icon">1</div>
+                            <p><strong>Establish wind loads</strong> per ASCE 7-22 Ch 26-31 using Broward 170 MPH basic wind speed, Kd = 0.85, Ke = 1.0, and appropriate Exposure Category (B or C).</p>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">2</div>
+                            <p><strong>Calculate service wind pressures</strong> using 0.6W or the IBC Appendix CC service wind speed (approximately 108 MPH for Risk Cat II).</p>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">3</div>
+                            <p><strong>Preliminary member sizing</strong> based on strength requirements (LRFD combinations 1.2D + 1.0W + L). Start with W24 beams, W14 columns.</p>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">4</div>
+                            <p><strong>Run first-order elastic analysis</strong> and extract inter-story drifts. Compare to H/400 at service wind level.</p>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">5</div>
+                            <p><strong>Apply P-Delta effects</strong> using Direct Analysis Method per AISC 360 Ch C. Compute B2 amplifier or run geometric nonlinear analysis.</p>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">6</div>
+                            <p><strong>Verify strong column-weak beam</strong> ratio per AISC 341 E3.4a. Sum of column plastic moments must exceed sum of beam plastic moments at every joint.</p>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">7</div>
+                            <p><strong>Check panel zone adequacy</strong> per AISC 360 J10. Include panel zone flexibility in drift model. Add doubler plates where needed.</p>
+                        </div>
+                        <div class="check-item">
+                            <div class="check-icon">8</div>
+                            <p><strong>Select and detail connections</strong> per AISC 358. Provide prequalification limits, weld details, and inspection requirements in the structural drawings.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== P-DELTA SECTION ========== -->
+        <section class="content-section reveal">
+            <h2>P-Delta Effects in <span class="shimmer-text">Broward's Wind Environment</span></h2>
+            <p style="max-width: 800px;">
+                P-Delta effects represent the additional overturning moment and lateral displacement caused by gravity loads acting through the displaced geometry of the structure. In Broward County's 170 MPH wind zone, these second-order effects are not negligible and must be explicitly accounted for in the structural analysis.
+            </p>
+            <div class="pdelta-visual reveal-scale">
+                <h3>P-Delta Amplification by Story</h3>
+                <canvas id="pdelta-canvas"></canvas>
+            </div>
+            <div class="two-col" style="margin-top: 2rem;">
+                <div class="reveal-left">
+                    <h3>Understanding the Stability Coefficient</h3>
+                    <p>
+                        ASCE 7-22 Section 12.8.7 defines the stability coefficient theta as: <strong>theta = (P_x * Delta * I_e) / (V_x * h_sx * C_d)</strong>, where P_x is the total vertical load above the story, Delta is the design story drift, V_x is the seismic or wind shear, and h_sx is the story height. While this equation is formally seismic, the concept applies to wind analysis. When theta exceeds 0.10, second-order effects become structurally significant. For a typical 6-story Broward commercial building with 150 psf total floor load, theta values of 0.08-0.15 are common at lower stories, indicating that P-Delta adds 8-15% to first-order drift demands.
+                    </p>
+                </div>
+                <div class="reveal-right">
+                    <h3>Direct Analysis Method (AISC 360 Ch C)</h3>
+                    <p>
+                        AISC 360 requires the Direct Analysis Method for all steel structures. This method applies notional loads (0.002Yi at each level), uses reduced stiffness (0.8 * EI for second-order analysis), and requires geometric nonlinear (P-Delta) analysis. For Broward County moment frames, the reduced stiffness provision effectively increases drift demands by 25% compared to traditional effective length approaches. The B2 amplifier method provides an alternative: B2 = 1 / (1 - alpha * P_story / P_e), where P_e = RM * HL / Delta_H. Typical B2 values for Broward mid-rise frames range from 1.05 to 1.20, with critical lower stories approaching 1.25 when columns are marginally sized.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== DRIFT vs STRENGTH ========== -->
+        <section class="content-section">
+            <h2 class="reveal">Drift-Governed vs. Strength-Governed <span class="shimmer-text">Design Cases</span></h2>
+            <p class="reveal" style="max-width: 800px;">
+                Every steel moment frame falls into one of two regimes: drift-governed (where lateral stiffness controls member sizes) or strength-governed (where internal forces under factored loads control). Understanding which regime applies to a given Broward County project determines the engineering approach and cost expectations.
+            </p>
+            <div class="drift-table-wrap reveal">
+                <table class="drift-table">
+                    <thead>
+                        <tr>
+                            <th>Building Parameter</th>
+                            <th>Strength Governed</th>
+                            <th>Drift Governed</th>
+                            <th>Broward Typical</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Stories</td>
+                            <td>1-3</td>
+                            <td>4+</td>
+                            <td class="status-fail">Most commercial &gt; 3 stories</td>
+                        </tr>
+                        <tr>
+                            <td>Bay Spacing</td>
+                            <td>20-25 ft</td>
+                            <td>30-40 ft</td>
+                            <td class="status-warn">Typically 28-35 ft</td>
+                        </tr>
+                        <tr>
+                            <td>Story Height</td>
+                            <td>10-12 ft</td>
+                            <td>14-18 ft</td>
+                            <td class="status-fail">14 ft standard, 16-18 ft ground floor</td>
+                        </tr>
+                        <tr>
+                            <td>Steel Premium</td>
+                            <td>Baseline</td>
+                            <td>+15% to +30%</td>
+                            <td class="status-warn">+18% to +25% typical</td>
+                        </tr>
+                        <tr>
+                            <td>Beam Sizing Driver</td>
+                            <td>Section Modulus (S)</td>
+                            <td>Moment of Inertia (I)</td>
+                            <td class="status-fail">Ix governs most frames</td>
+                        </tr>
+                        <tr>
+                            <td>Column Sizing Driver</td>
+                            <td>Axial + Bending (Pu/Mu)</td>
+                            <td>Panel Zone Stiffness</td>
+                            <td class="status-warn">Combined effect</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="reveal" style="max-width: 800px; margin-top: 1.5rem;">
+                Broward County's combination of 170 MPH wind speeds, typical Exposure C coastal conditions, and modern commercial floor plans with 14+ foot stories and 30+ foot bays places the vast majority of mid-rise steel moment frames firmly in drift-governed territory. Engineers who begin design with a strength-only approach will almost certainly discover during the first drift check that members need significant upsizing. Starting the design process with drift as the primary constraint saves iterations and prevents schedule-damaging redesigns.
+            </p>
+        </section>
+
+        <!-- ========== BROWARD-SPECIFIC CONSIDERATIONS ========== -->
+        <section class="content-section reveal">
+            <h2>Broward County-Specific Engineering Considerations</h2>
+            <div class="two-col" style="margin-top: 1.5rem;">
+                <div class="reveal-left">
+                    <h3>Exposure Category Impacts</h3>
+                    <p>
+                        Broward County encompasses diverse terrain from dense inland development (Exposure B) to open coastal areas along the Atlantic (Exposure C). The exposure category significantly impacts wind pressures and drift demands. At 60 feet above ground, the velocity pressure exposure coefficient Kz equals 0.85 for Exposure B and 1.14 for Exposure C, a 34% increase in wind pressure. A moment frame designed for an inland Coral Springs site may use W24x84 beams, while the same building on Fort Lauderdale Beach requires W30x108 beams to meet identical drift limits.
+                    </p>
+                    <h3>HVHZ Overlay Requirements</h3>
+                    <p>
+                        Portions of Broward County fall within the High Velocity Hurricane Zone (HVHZ), where the Florida Building Code imposes additional structural requirements beyond ASCE 7-22. For steel moment frames in the HVHZ, the building department may require enhanced inspection protocols for CJP welds, additional documentation of connection prequalification per AISC 358, and verification that the structural engineer of record has reviewed the steel fabrication shop drawings.
+                    </p>
+                </div>
+                <div class="reveal-right">
+                    <h3>Permit Submittal Requirements</h3>
+                    <p>
+                        The Broward County Building Division requires a PE-sealed structural calculation package that explicitly addresses inter-story drift. Common plan review comments for moment frame designs include: "Provide drift calculations at each story level," "Show P-Delta analysis per AISC 360 Chapter C," "Demonstrate strong column-weak beam compliance per AISC 341," and "Identify connection type and prequalification reference per AISC 358." Responding to these comments after the fact delays the permit process by 2-4 weeks. Including comprehensive drift documentation in the initial submittal eliminates the most common structural review round.
+                    </p>
+                    <h3>Threshold Building Considerations</h3>
+                    <p>
+                        Commercial steel buildings exceeding 3 stories or 50 feet in height trigger threshold building requirements per FBC Section 110.12. These require a threshold inspector who performs structural observations during construction, including welded moment connection inspection. For BFP connections, the threshold inspector verifies bolt torquing. For WUF connections, UT inspection results are reviewed. The threshold inspection program adds approximately 0.5-1.0% to the structural construction cost but provides critical quality assurance for the lateral system.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== FAQ SECTION ========== -->
+        <section class="faq-section">
+            <h2 class="reveal">Frequently Asked Questions</h2>
+
+            <div class="faq-item reveal">
+                <div class="faq-q">What is the allowable inter-story drift for steel moment frames in Broward County?</div>
+                <div class="faq-a">
+                    <p>Broward County follows ASCE 7-22 Table 12.12-1 for drift limits. For Risk Category II commercial buildings with steel moment frames, the allowable inter-story drift is H/400 (0.25% of story height) under serviceability wind loads. For a standard 14-ft story, this means a maximum lateral displacement of 0.42 inches per floor. Under strength-level seismic loads (rarely governing in South Florida), the limit relaxes to H/50. At 170 MPH design wind speed with Exposure C conditions common in coastal Broward, moment frames typically see drift demands of 0.30 to 0.50 inches per story, making drift the governing design criterion for buildings above 3 stories.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-q">How do WUF, RBS, and BFP connections affect drift performance?</div>
+                <div class="faq-a">
+                    <p>WUF (Welded Unreinforced Flange) connections provide the maximum stiffness because the beam flanges are directly welded to the column with CJP groove welds, creating a near-rigid joint. RBS (Reduced Beam Section, or "dogbone") connections intentionally remove beam flange material near the column, reducing local stiffness by 5-8%. This means an RBS frame requires approximately one beam size larger than a WUF frame for equivalent drift control. BFP (Bolted Flange Plate) connections use bolted plates and have intermediate stiffness, though bolt slip under service loads can add 0.02-0.05 inches to story drift. In Broward County's drift-sensitive environment, the connection choice directly impacts steel tonnage and project cost.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-q">What is P-Delta and why is it critical for Broward County steel frames?</div>
+                <div class="faq-a">
+                    <p>P-Delta (second-order) effects are the additional forces and displacements caused by gravity loads (P) acting through the laterally displaced structure (Delta). When a building sways under 170 MPH winds, the weight of every floor creates an overturning moment that amplifies both drift and internal forces. AISC 360 Chapter C requires this be captured through the Direct Analysis Method, which uses reduced member stiffness (0.8*EI) and notional loads (0.002Yi). For a typical 6-story Broward commercial building, P-Delta amplification increases first-order drift by 8-15%. Buildings with heavier floor loads (such as parking structures or libraries) see amplification up to 20-25%, often pushing marginally compliant designs past the H/400 limit.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-q">When does drift govern over member strength in moment frame design?</div>
+                <div class="faq-a">
+                    <p>Drift governance depends on the interaction of story height, bay width, number of stories, and wind speed. In Broward County (170 MPH), drift typically begins governing at 4-5 stories for standard commercial buildings with 30-ft bays and 14-ft stories. The crossover occurs when beams sized purely for strength (to resist factored moments from wind combinations) produce inter-story drifts exceeding H/400 at service wind levels. Below 3 stories, strength usually governs and drift is satisfied with margin. Above 5 stories, drift almost always controls, and engineers may need beams 2-3 sizes larger than strength alone requires. Drift governance increases structural steel tonnage by 15-30%, adding $3-$8 per square foot to the steel package cost.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-q">What beam-column proportioning rules apply to Broward moment frames?</div>
+                <div class="faq-a">
+                    <p>AISC 341 Section E3.4a mandates the strong column-weak beam (SCWB) requirement: the sum of column plastic moments must exceed the sum of beam plastic moments at each beam-column joint. For ordinary moment frames (OMF) the ratio is 1.0; for special moment frames (SMF) the ratio must also account for strain hardening and axial load effects. In Broward practice, engineers target column-to-beam moment ratios of 1.2 to 1.5 for reliable performance. Beam depth should range from 0.65 to 0.85 of the column depth for efficient panel zone behavior. Panel zone deformation contributes 15-25% of total story drift and should be explicitly modeled. Column web doubler plates are commonly required at interior joints where two beams frame into the column flanges.</p>
+                </div>
+            </div>
+
+            <div class="faq-item reveal">
+                <div class="faq-q">Does Broward County require a PE-sealed drift analysis for commercial steel buildings?</div>
+                <div class="faq-a">
+                    <p>Yes. The Broward County Building Division requires structural calculations sealed by a Florida-licensed Professional Engineer (PE) for all commercial buildings using moment frame lateral systems. The submittal must include: ASCE 7-22 wind load calculations specific to the site, inter-story drift analysis at every story level under service wind loads, P-Delta analysis per AISC 360 Direct Analysis Method, connection type identification with AISC 358 prequalification references, strong column-weak beam verification per AISC 341, and structural drawings showing member sizes, connection details, and panel zone reinforcement. For threshold buildings (over 3 stories or 50 ft), a threshold inspector must observe all lateral system connections during construction.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ========== FINAL CTA ========== -->
+        <section class="final-cta reveal">
+            <h2>Get Accurate MWFRS Wind Loads for <span class="shimmer-text">Broward County</span></h2>
+            <p>Calculate precise lateral wind forces for your steel moment frame design. Story shears, overturning moments, and drift demand at every floor level, specific to your Broward County building geometry and exposure.</p>
+            <div class="hero-ctas">
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer-links">
+                <a href="https://windload.co/florida-pro.html">Florida</a>
+                <a href="https://windload.co/states.html">All States</a>
+                <a href="https://windload.co/architects.html">Architects</a>
+                <a href="https://windload.co/contractors.html">Contractors</a>
+                <a href="https://windload.co/engineers.html">Engineers</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+            </div>
+            <p>&copy; 2026 <a href="https://windload.co/">WindLoad.co</a>. All rights reserved. Wind load calculations for Broward County commercial buildings.</p>
+        </footer>
+
+    </div><!-- .container -->
+
+    <!-- ========================================
+         SCRIPTS
+         ======================================== -->
+    <script>
+    // ========================
+    // BACKGROUND PARTICLE SYSTEM
+    // ========================
+    (function() {
+        const canvas = document.getElementById('drift-bg');
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        let animId;
+
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = (Math.random() - 0.3) * 1.8;
+                this.speedY = (Math.random() - 0.5) * 0.6;
+                this.opacity = Math.random() * 0.6 + 0.2;
+                this.color = Math.random() > 0.7 ? '#00ff88' : '#00e5ff';
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x > canvas.width + 10 || this.x < -10) this.reset();
+                if (this.y > canvas.height + 10 || this.y < -10) this.reset();
+            }
+            draw() {
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.opacity;
+                ctx.shadowBlur = 12;
+                ctx.shadowColor = this.color;
+                ctx.fill();
+                ctx.shadowBlur = 0;
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        for (let i = 0; i < 60; i++) particles.push(new Particle());
+
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+
+            // Draw radar pulse rings
+            const cx = canvas.width * 0.15;
+            const cy = canvas.height * 0.2;
+            const time = Date.now() * 0.001;
+            for (let r = 0; r < 3; r++) {
+                const radius = ((time * 40 + r * 60) % 180);
+                const alpha = 1 - radius / 180;
+                ctx.beginPath();
+                ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(0, 229, 255, ${alpha * 0.15})`;
+                ctx.lineWidth = 1;
+                ctx.stroke();
+            }
+            // Sweep line
+            const angle = time * 1.5;
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(cx + Math.cos(angle) * 120, cy + Math.sin(angle) * 120);
+            ctx.strokeStyle = 'rgba(0, 229, 255, 0.08)';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            animId = requestAnimationFrame(animate);
+        }
+        animate();
+    })();
+
+    // ========================
+    // BUILDING SWAY VISUALIZATION
+    // ========================
+    (function() {
+        const canvas = document.getElementById('building-sway-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let swayLevel = 0.3; // 0 to 1 for sway amount
+        let currentMode = 'service';
+        let time = 0;
+        let animId;
+
+        function resize() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * (window.devicePixelRatio || 1);
+            canvas.height = rect.height * (window.devicePixelRatio || 1);
+            ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const swayLevels = { service: 0.25, design: 0.55, ultimate: 1.0 };
+        const swayColors = { service: '#00ff88', design: '#f59e0b', ultimate: '#ff4757' };
+        const driftLabels = { service: 'H/520', design: 'H/380', ultimate: 'H/210' };
+
+        // Listen for button clicks
+        document.querySelectorAll('.viz-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.viz-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentMode = this.dataset.speed;
+                swayLevel = swayLevels[currentMode];
+                // Update widget
+                const widgetVal = document.getElementById('widgetDriftVal');
+                if (widgetVal) widgetVal.textContent = driftLabels[currentMode];
+            });
+        });
+
+        function drawBuilding() {
+            const W = canvas.getBoundingClientRect().width;
+            const H = canvas.getBoundingClientRect().height;
+            ctx.clearRect(0, 0, W, H);
+
+            const floors = 6;
+            const bays = 3;
+            const buildingW = Math.min(280, W * 0.35);
+            const buildingH = H * 0.72;
+            const baseX = W * 0.35;
+            const baseY = H * 0.88;
+            const storyH = buildingH / floors;
+            const bayW = buildingW / bays;
+
+            const swayAmplitude = swayLevel * 20;
+            const swayFreq = 0.8;
+            const currentSway = Math.sin(time * swayFreq) * swayAmplitude;
+            const swayColor = swayColors[currentMode];
+
+            // Ground line
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(baseX - 60, baseY);
+            ctx.lineTo(baseX + buildingW + 60, baseY);
+            ctx.stroke();
+
+            // Foundation triangles
+            for (let i = 0; i <= bays; i++) {
+                const fx = baseX + i * bayW;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.1)';
+                ctx.beginPath();
+                ctx.moveTo(fx - 8, baseY);
+                ctx.lineTo(fx + 8, baseY);
+                ctx.lineTo(fx, baseY + 12);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            // Draw frame members floor by floor
+            for (let f = 0; f <= floors; f++) {
+                const floorDrift = (f / floors) * currentSway;
+                const floorDriftPrev = ((f - 1) / floors) * currentSway;
+                const y = baseY - f * storyH;
+                const yPrev = baseY - (f - 1) * storyH;
+
+                // Beams (horizontal members)
+                if (f > 0) {
+                    ctx.strokeStyle = 'rgba(0, 229, 255, 0.7)';
+                    ctx.lineWidth = f === floors ? 3 : 2.5;
+                    ctx.beginPath();
+                    for (let b = 0; b <= bays; b++) {
+                        const x = baseX + b * bayW + floorDrift;
+                        if (b === 0) ctx.moveTo(x, y);
+                        else ctx.lineTo(x, y);
+                    }
+                    ctx.stroke();
+                }
+
+                // Columns (vertical members from this floor to next)
+                if (f < floors) {
+                    const nextDrift = ((f + 1) / floors) * currentSway;
+                    const nextY = baseY - (f + 1) * storyH;
+                    for (let b = 0; b <= bays; b++) {
+                        const x1 = baseX + b * bayW + floorDrift;
+                        const x2 = baseX + b * bayW + nextDrift;
+                        ctx.strokeStyle = 'rgba(0, 180, 216, 0.7)';
+                        ctx.lineWidth = 2.5;
+                        ctx.beginPath();
+                        ctx.moveTo(x1, y);
+                        ctx.lineTo(x2, nextY);
+                        ctx.stroke();
+                    }
+                }
+
+                // Connection nodes (beam-column joints)
+                if (f > 0) {
+                    for (let b = 0; b <= bays; b++) {
+                        const x = baseX + b * bayW + floorDrift;
+                        const stressFactor = Math.abs(floorDrift - floorDriftPrev) / (swayAmplitude * 0.4 + 0.01);
+                        const stressColor = stressFactor > 0.6 ? '#ff4757' : (stressFactor > 0.3 ? '#f59e0b' : '#00ff88');
+                        const stressAlpha = 0.4 + stressFactor * 0.6;
+                        const pulseSize = 4 + Math.sin(time * 3 + f + b) * 1.5 * stressFactor;
+
+                        ctx.beginPath();
+                        ctx.arc(x, y, pulseSize, 0, Math.PI * 2);
+                        ctx.fillStyle = stressColor;
+                        ctx.globalAlpha = stressAlpha;
+                        ctx.shadowBlur = 10;
+                        ctx.shadowColor = stressColor;
+                        ctx.fill();
+                        ctx.shadowBlur = 0;
+                        ctx.globalAlpha = 1;
+
+                        // Outer stress ring on high-stress nodes
+                        if (stressFactor > 0.4) {
+                            const ringSize = pulseSize + 4 + Math.sin(time * 5) * 2;
+                            ctx.beginPath();
+                            ctx.arc(x, y, ringSize, 0, Math.PI * 2);
+                            ctx.strokeStyle = stressColor;
+                            ctx.globalAlpha = 0.3;
+                            ctx.lineWidth = 1;
+                            ctx.stroke();
+                            ctx.globalAlpha = 1;
+                        }
+                    }
+                }
+            }
+
+            // Draw drift dimension lines on the right
+            const dimX = baseX + buildingW + 50;
+            for (let f = 1; f <= floors; f++) {
+                const floorDrift = (f / floors) * currentSway;
+                const floorDriftPrev = ((f - 1) / floors) * currentSway;
+                const y1 = baseY - f * storyH;
+                const y2 = baseY - (f - 1) * storyH;
+                const interDrift = Math.abs(floorDrift - floorDriftPrev);
+
+                ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+                ctx.lineWidth = 1;
+                ctx.setLineDash([3, 3]);
+                ctx.beginPath();
+                ctx.moveTo(baseX + buildingW + floorDrift + 15, y1);
+                ctx.lineTo(dimX - 10, y1);
+                ctx.stroke();
+                ctx.setLineDash([]);
+
+                // Drift value
+                const driftRatio = storyH * 12 / (interDrift + 0.01);
+                const driftOk = driftRatio >= 400;
+                ctx.fillStyle = driftOk ? '#00ff88' : '#ff4757';
+                ctx.font = '11px -apple-system, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(`H/${Math.round(driftRatio)}`, dimX, y1 + (storyH / 2) + 4);
+            }
+
+            // Drift gauge (bottom right)
+            drawGauge(W * 0.78, H * 0.25, swayLevel, swayColor, driftLabels[currentMode]);
+
+            // Wind arrow
+            const arrowX = baseX - 45;
+            const arrowY = baseY - buildingH * 0.5;
+            ctx.save();
+            ctx.translate(arrowX, arrowY);
+            ctx.strokeStyle = swayColor;
+            ctx.lineWidth = 2;
+            ctx.globalAlpha = 0.6 + Math.sin(time * 2) * 0.3;
+            // Arrow shaft
+            ctx.beginPath();
+            ctx.moveTo(-30, 0);
+            ctx.lineTo(15, 0);
+            ctx.stroke();
+            // Arrow head
+            ctx.beginPath();
+            ctx.moveTo(15, 0);
+            ctx.lineTo(5, -6);
+            ctx.moveTo(15, 0);
+            ctx.lineTo(5, 6);
+            ctx.stroke();
+            ctx.globalAlpha = 1;
+            // Wind label
+            ctx.fillStyle = swayColor;
+            ctx.font = 'bold 11px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('WIND', -8, -14);
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.fillText(currentMode === 'service' ? '70 MPH' : currentMode === 'design' ? '120 MPH' : '170 MPH', -8, 18);
+            ctx.restore();
+
+            // Floor labels on left
+            for (let f = 1; f <= floors; f++) {
+                const floorDrift = (f / floors) * currentSway;
+                const y = baseY - f * storyH;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+                ctx.font = '10px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(f === floors ? 'Roof' : `Floor ${f}`, baseX + floorDrift - 15, y + 4);
+            }
+
+            time += 0.016;
+            animId = requestAnimationFrame(drawBuilding);
+        }
+
+        function drawGauge(cx, cy, level, color, label) {
+            const radius = 55;
+            const startAngle = Math.PI * 0.8;
+            const endAngle = Math.PI * 2.2;
+            const sweepAngle = endAngle - startAngle;
+
+            // Background arc
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, startAngle, endAngle);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.08)';
+            ctx.lineWidth = 10;
+            ctx.stroke();
+
+            // Colored arc
+            const fillEnd = startAngle + sweepAngle * level;
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, startAngle, fillEnd);
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 10;
+            ctx.lineCap = 'round';
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = color;
+            ctx.stroke();
+            ctx.shadowBlur = 0;
+            ctx.lineCap = 'butt';
+
+            // Limit markers
+            const limits = [
+                { pos: 0.25, label: 'H/400', color: '#00ff88' },
+                { pos: 0.5, label: 'H/300', color: '#f59e0b' },
+                { pos: 0.75, label: 'H/200', color: '#ff4757' }
+            ];
+            limits.forEach(lim => {
+                const angle = startAngle + sweepAngle * lim.pos;
+                const mx1 = cx + Math.cos(angle) * (radius - 8);
+                const my1 = cy + Math.sin(angle) * (radius - 8);
+                const mx2 = cx + Math.cos(angle) * (radius + 12);
+                const my2 = cy + Math.sin(angle) * (radius + 12);
+                ctx.beginPath();
+                ctx.moveTo(mx1, my1);
+                ctx.lineTo(mx2, my2);
+                ctx.strokeStyle = lim.color;
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                const tx = cx + Math.cos(angle) * (radius + 22);
+                const ty = cy + Math.sin(angle) * (radius + 22);
+                ctx.fillStyle = lim.color;
+                ctx.font = '9px -apple-system, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(lim.label, tx, ty + 3);
+            });
+
+            // Needle
+            const needleAngle = startAngle + sweepAngle * level;
+            const nx = cx + Math.cos(needleAngle) * (radius - 20);
+            const ny = cy + Math.sin(needleAngle) * (radius - 20);
+            ctx.beginPath();
+            ctx.moveTo(cx, cy);
+            ctx.lineTo(nx, ny);
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#00e5ff';
+            ctx.fill();
+
+            // Center label
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 14px -apple-system, sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(label, cx, cy + 30);
+            ctx.fillStyle = '#64748b';
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.fillText('Drift Ratio', cx, cy + 44);
+        }
+
+        drawBuilding();
+    })();
+
+    // ========================
+    // P-DELTA CANVAS
+    // ========================
+    (function() {
+        const canvas = document.getElementById('pdelta-canvas');
+        if (!canvas) return;
+        const ctx = canvas.getContext('2d');
+        let animated = false;
+
+        function resize() {
+            const rect = canvas.getBoundingClientRect();
+            canvas.width = rect.width * (window.devicePixelRatio || 1);
+            canvas.height = rect.height * (window.devicePixelRatio || 1);
+            ctx.scale(window.devicePixelRatio || 1, window.devicePixelRatio || 1);
+        }
+        resize();
+        window.addEventListener('resize', resize);
+
+        const data = [
+            { floor: 'Floor 1', firstOrder: 0.38, pdelta: 0.52, theta: 0.14 },
+            { floor: 'Floor 2', firstOrder: 0.35, pdelta: 0.44, theta: 0.11 },
+            { floor: 'Floor 3', firstOrder: 0.32, pdelta: 0.39, theta: 0.09 },
+            { floor: 'Floor 4', firstOrder: 0.28, pdelta: 0.33, theta: 0.07 },
+            { floor: 'Floor 5', firstOrder: 0.22, pdelta: 0.26, theta: 0.06 },
+            { floor: 'Floor 6', firstOrder: 0.16, pdelta: 0.18, theta: 0.04 }
+        ];
+
+        function draw(progress) {
+            const W = canvas.getBoundingClientRect().width;
+            const H = canvas.getBoundingClientRect().height;
+            ctx.clearRect(0, 0, W, H);
+
+            const marginL = 70;
+            const marginR = 30;
+            const marginT = 30;
+            const marginB = 50;
+            const chartW = W - marginL - marginR;
+            const chartH = H - marginT - marginB;
+            const barGroupW = chartW / data.length;
+            const barW = barGroupW * 0.3;
+            const maxVal = 0.6;
+
+            // Axes
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(marginL, marginT);
+            ctx.lineTo(marginL, H - marginB);
+            ctx.lineTo(W - marginR, H - marginB);
+            ctx.stroke();
+
+            // H/400 limit line
+            const limitY = H - marginB - (0.42 / maxVal) * chartH;
+            ctx.setLineDash([6, 4]);
+            ctx.strokeStyle = '#ff4757';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(marginL, limitY);
+            ctx.lineTo(W - marginR, limitY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#ff4757';
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText('H/400 = 0.42"', marginL - 8, limitY + 4);
+
+            // Y axis labels
+            for (let v = 0; v <= maxVal; v += 0.1) {
+                const y = H - marginB - (v / maxVal) * chartH;
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.3)';
+                ctx.font = '10px -apple-system, sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(v.toFixed(1) + '"', marginL - 8, y + 4);
+                if (v > 0) {
+                    ctx.strokeStyle = 'rgba(255, 255, 255, 0.04)';
+                    ctx.beginPath();
+                    ctx.moveTo(marginL, y);
+                    ctx.lineTo(W - marginR, y);
+                    ctx.stroke();
+                }
+            }
+
+            // Bars
+            data.forEach((d, i) => {
+                const groupX = marginL + i * barGroupW + barGroupW * 0.15;
+                const h1 = (d.firstOrder / maxVal) * chartH * progress;
+                const h2 = (d.pdelta / maxVal) * chartH * progress;
+                const y1 = H - marginB - h1;
+                const y2 = H - marginB - h2;
+
+                // First-order bar
+                ctx.fillStyle = 'rgba(0, 229, 255, 0.7)';
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = 'rgba(0, 229, 255, 0.3)';
+                ctx.fillRect(groupX, y1, barW, h1);
+                ctx.shadowBlur = 0;
+
+                // P-Delta bar
+                ctx.fillStyle = d.pdelta > 0.42 ? 'rgba(255, 71, 87, 0.7)' : 'rgba(245, 158, 11, 0.7)';
+                ctx.shadowBlur = 6;
+                ctx.shadowColor = d.pdelta > 0.42 ? 'rgba(255, 71, 87, 0.3)' : 'rgba(245, 158, 11, 0.3)';
+                ctx.fillRect(groupX + barW + 4, y2, barW, h2);
+                ctx.shadowBlur = 0;
+
+                // Theta label
+                if (progress > 0.8) {
+                    ctx.fillStyle = '#94a3b8';
+                    ctx.font = '9px -apple-system, sans-serif';
+                    ctx.textAlign = 'center';
+                    ctx.fillText('theta=' + d.theta.toFixed(2), groupX + barW + 2, y2 - 8);
+                }
+
+                // Floor label
+                ctx.fillStyle = '#64748b';
+                ctx.font = '10px -apple-system, sans-serif';
+                ctx.textAlign = 'center';
+                ctx.fillText(d.floor, groupX + barW + 2, H - marginB + 16);
+            });
+
+            // Legend
+            if (progress > 0.5) {
+                ctx.globalAlpha = Math.min(1, (progress - 0.5) * 2);
+                ctx.fillStyle = 'rgba(0, 229, 255, 0.7)';
+                ctx.fillRect(W - 200, marginT, 12, 12);
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '11px -apple-system, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText('1st Order Drift', W - 182, marginT + 10);
+
+                ctx.fillStyle = 'rgba(245, 158, 11, 0.7)';
+                ctx.fillRect(W - 200, marginT + 20, 12, 12);
+                ctx.fillStyle = '#94a3b8';
+                ctx.fillText('With P-Delta', W - 182, marginT + 30);
+                ctx.globalAlpha = 1;
+            }
+        }
+
+        // Animate on scroll
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting && !animated) {
+                    animated = true;
+                    let start = null;
+                    function step(ts) {
+                        if (!start) start = ts;
+                        const elapsed = ts - start;
+                        const progress = Math.min(elapsed / 1200, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        draw(eased);
+                        if (progress < 1) requestAnimationFrame(step);
+                    }
+                    requestAnimationFrame(step);
+                }
+            });
+        }, { threshold: 0.3 });
+        observer.observe(canvas);
+        draw(0);
+    })();
+
+    // ========================
+    // SCROLL REVEAL
+    // ========================
+    (function() {
+        const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                }
+            });
+        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        reveals.forEach(el => observer.observe(el));
+    })();
+
+    // ========================
+    // COUNTER ANIMATION
+    // ========================
+    (function() {
+        const counters = document.querySelectorAll('.counter');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const el = entry.target;
+                    if (el.dataset.counted) return;
+                    el.dataset.counted = 'true';
+                    const target = parseInt(el.dataset.target);
+                    const prefix = el.dataset.prefix || '';
+                    const suffix = el.dataset.suffix || '';
+                    const duration = 1500;
+                    const start = performance.now();
+                    function tick(now) {
+                        const elapsed = now - start;
+                        const progress = Math.min(elapsed / duration, 1);
+                        const eased = 1 - Math.pow(1 - progress, 3);
+                        const current = Math.round(eased * target);
+                        el.textContent = prefix + current + suffix;
+                        if (progress < 1) requestAnimationFrame(tick);
+                        else el.style.transform = 'scale(1.05)';
+                    }
+                    requestAnimationFrame(tick);
+                }
+            });
+        }, { threshold: 0.5 });
+        counters.forEach(c => observer.observe(c));
+    })();
+
+    // ========================
+    // FAQ ACCORDION
+    // ========================
+    document.querySelectorAll('.faq-q').forEach(q => {
+        q.addEventListener('click', () => {
+            const item = q.parentElement;
+            const wasOpen = item.classList.contains('open');
+            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            if (!wasOpen) item.classList.add('open');
+        });
+    });
+
+    // ========================
+    // DRIFT WIDGET VISIBILITY
+    // ========================
+    (function() {
+        const widget = document.getElementById('driftWidget');
+        if (!widget) return;
+        let shown = false;
+        window.addEventListener('scroll', function() {
+            if (window.scrollY > 400 && !shown) {
+                widget.classList.add('visible');
+                shown = true;
+            } else if (window.scrollY <= 400 && shown) {
+                widget.classList.remove('visible');
+                shown = false;
+            }
+        }, { passive: true });
+    })();
+
+    // ========================
+    // MAGNETIC CARD HOVER
+    // ========================
+    document.querySelectorAll('.conn-card').forEach(card => {
+        card.addEventListener('mousemove', function(e) {
+            const rect = this.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            const rotateX = (y - centerY) / 15;
+            const rotateY = (centerX - x) / 15;
+            this.style.transform = `perspective(800px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+        });
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = '';
+        });
+    });
+
+    // ========================
+    // BUTTON RIPPLE EFFECT
+    // ========================
+    document.querySelectorAll('.btn-primary').forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            const ripple = document.createElement('span');
+            const rect = this.getBoundingClientRect();
+            ripple.style.cssText = `position:absolute;border-radius:50%;background:rgba(255,255,255,0.4);width:0;height:0;left:${e.clientX-rect.left}px;top:${e.clientY-rect.top}px;transform:translate(-50%,-50%);animation:ripple-out 0.6s ease-out;pointer-events:none;`;
+            this.appendChild(ripple);
+            setTimeout(() => ripple.remove(), 600);
+        });
+    });
+
+    // Ripple keyframe
+    const rippleStyle = document.createElement('style');
+    rippleStyle.textContent = '@keyframes ripple-out{to{width:300px;height:300px;opacity:0;}}';
+    document.head.appendChild(rippleStyle);
+    </script>
+</body>
+</html>
