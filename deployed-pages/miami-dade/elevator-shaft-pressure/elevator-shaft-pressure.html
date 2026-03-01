@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="https://windload.co/assets/windload.co_0018ff.svg">
+    <title>Elevator Shaft Wind Pressure Design | Miami-Dade HVHZ Stack Effect</title>
+    <meta name="description" content="Elevator shaft wind pressure design for Miami-Dade HVHZ. Stack effect combined with 180 MPH wind, shaft pressurization, elevator door DP ratings, and machine room wind loading requirements.">
+    <link rel="canonical" href="https://windload.co/florida/miami-dade/elevator-shaft-pressure">
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Miami-Dade County, Florida">
+    <meta name="geo.position" content="25.7617;-80.1918">
+    <meta name="ICBM" content="25.7617, -80.1918">
+    <meta property="og:title" content="Elevator Shaft Wind Pressure Design | Miami-Dade HVHZ">
+    <meta property="og:description" content="Stack effect + wind pressure analysis for elevator shafts in Miami-Dade. Shaft pressurization, door ratings, and machine room loading at 180 MPH.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/miami-dade/elevator-shaft-pressure">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How does stack effect combine with wind pressure in elevator shafts?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Stack effect creates a natural pressure differential in elevator shafts due to indoor-outdoor temperature differences. In Miami-Dade's climate, a 30-story building can generate 0.15-0.25 psf stack effect pressure per floor. When 180 MPH hurricane winds create +40 to +65 psf external pressure on the windward face, this combines with stack effect to create cumulative pressures that can blow open elevator doors, overwhelm shaft pressurization systems, and drive rain into the shaft. The combined loading must be analyzed per ASCE 7-22 Chapter 29 internal pressure provisions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What wind pressure rating do elevator doors need in Miami-Dade HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Elevator lobby doors in Miami-Dade HVHZ must resist internal pressure differentials created by wind infiltration. While elevator car doors are not directly rated for wind pressure, the lobby-side elevator doors and shaft enclosure must maintain integrity under the building's internal pressure coefficient (GCpi = ±0.55 for enclosed buildings). For buildings with large openings, GCpi can reach ±0.18 to ±0.55. Combined with stack effect, elevator doors in high-rises may need to resist 3-8 psf differential pressure without opening or deforming."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the piston effect affect elevator shaft wind pressure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "When an elevator car moves through the shaft, it creates a piston effect that generates transient pressure waves of 0.5-2.0 psf depending on car speed, shaft cross-section, and clearance gap. In high-speed elevators (700+ fpm), the piston effect combined with stack effect and wind-induced pressure can create momentary pressure spikes of 5-10 psf at lobby doors. This is why shaft venting and pressure relief are critical design elements, particularly in Miami-Dade where hurricane winds can seal or pressurize one side of the building."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are elevator shaft vent requirements for wind resistance?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Florida Building Code requires elevator shaft venting for smoke control, typically 3.5% of shaft cross-sectional area. However, these vents create wind vulnerability points. In HVHZ, shaft vents must have hurricane-rated louvers or dampers that can withstand 180 MPH wind speed and large missile impact. Motorized dampers that close during hurricane conditions are preferred, but must maintain fire/smoke venting capability. The vent design must balance FBC Section 3004 smoke control requirements with HVHZ wind resistance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How should elevator machine rooms be designed for wind loads in HVHZ?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Rooftop elevator machine rooms experience the highest wind pressures on any building due to their elevated position. In Miami-Dade HVHZ at 180 MPH, machine room walls can see -60 to -90 psf (suction) and roofs -80 to -120 psf (uplift) depending on height and exposure. Machine room enclosures must be designed as C&C elements with proper anchorage to the building structure. Equipment inside (motors, controllers, governors) must be anchored to resist overturning from wind-induced vibration transmitted through the enclosure."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Should elevators be recalled during a hurricane in Miami-Dade?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. ASME A17.1 requires Phase I Emergency Recall when building systems detect conditions threatening elevator safety. During hurricanes, elevators should be recalled to the designated landing (typically ground floor or above flood level) before winds exceed 75 MPH. Miami-Dade buildings in flood zones must designate recall floors above the design flood elevation. The recall sequence must be coordinated with the building's emergency power system, as elevator operation on generator power is limited to essential personnel evacuation only."
+                }
+            }
+        ]
+    }
+    </script>
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.solutions/florida-wind-load-requirements"},
+            {"@type": "ListItem", "position": 3, "name": "Miami-Dade County", "item": "https://windload.solutions/cities/miami-wind-load-requirements"},
+            {"@type": "ListItem", "position": 4, "name": "Elevator Shaft Pressure", "item": "https://windload.co/florida/miami-dade/elevator-shaft-pressure"}
+        ]
+    }
+    </script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0c1220;color:#fff;line-height:1.6;overflow-x:hidden}
+        #shaft-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.4}
+        .grid-overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 30% 20%,rgba(82,82,91,.06) 0%,transparent 50%),radial-gradient(circle at 70% 80%,rgba(245,158,11,.04) 0%,transparent 50%)}
+        .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal.active{opacity:1;transform:translateY(0)}
+        .reveal-left{opacity:0;transform:translateX(-40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-left.active{opacity:1;transform:translateX(0)}
+        .reveal-right{opacity:0;transform:translateX(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-right.active{opacity:1;transform:translateX(0)}
+        .reveal-scale{opacity:0;transform:scale(.9);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-scale.active{opacity:1;transform:scale(1)}
+        .stagger-children .reveal{transition-delay:calc(var(--i,0) * .12s)}
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(12,18,32,.9);backdrop-filter:blur(20px);border-bottom:1px solid rgba(82,82,91,.2)}
+        .nav-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
+        .nav-logo .logo-img{height:28px;width:auto}
+        .nav-logo .logo-text{font-size:1.25rem;font-weight:800;color:#fff;-webkit-text-fill-color:#fff}
+        .nav-logo .logo-text span{color:#00b4d8;-webkit-text-fill-color:#00b4d8}
+        .nav-links{display:flex;gap:1.5rem}
+        .nav-links a{color:#94a3b8;text-decoration:none;font-size:.9rem;transition:color .3s}
+        .nav-links a:hover{color:#00e5ff}
+        .nav-cta{background:linear-gradient(135deg,#52525b,#3f3f46);color:#fff;padding:.5rem 1.25rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.85rem;transition:all .3s;border:1px solid rgba(245,158,11,.3)}
+        .nav-cta:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(245,158,11,.3)}
+        .breadcrumb{margin-top:60px;padding:.75rem 2rem;background:rgba(12,18,32,.6);border-bottom:1px solid rgba(82,82,91,.15)}
+        .breadcrumb-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
+        .breadcrumb-container a{color:#64748b;text-decoration:none;transition:color .3s}
+        .breadcrumb-container a:hover{color:#f59e0b}
+        .breadcrumb-container span{color:#475569}
+        .breadcrumb-current{color:#f59e0b}
+        .hero{position:relative;padding:4rem 2rem 3rem;text-align:center;max-width:900px;margin:0 auto}
+        .hero-badge{display:inline-block;padding:.4rem 1rem;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.3);border-radius:50px;font-size:.8rem;color:#f59e0b;margin-bottom:1.5rem;letter-spacing:.5px}
+        .hero h1{font-size:2.8rem;font-weight:800;line-height:1.15;margin-bottom:1.5rem}
+        .shimmer{background:linear-gradient(120deg,#52525b 0%,#f59e0b 25%,#00e5ff 50%,#f59e0b 75%,#52525b 100%);background-size:400% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .hero p{font-size:1.15rem;color:#94a3b8;max-width:700px;margin:0 auto 2rem;line-height:1.8}
+        .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:linear-gradient(135deg,#52525b,#3f3f46);color:#fff;text-decoration:none;border-radius:12px;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(245,158,11,.3);position:relative;overflow:hidden}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(245,158,11,.3)}
+        .btn-secondary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:transparent;color:#f59e0b;text-decoration:none;border-radius:12px;font-weight:600;font-size:1rem;border:2px solid rgba(245,158,11,.4);transition:all .3s}
+        .btn-secondary:hover{background:rgba(245,158,11,.1);transform:translateY(-2px)}
+        .warning-banner{max-width:700px;margin:0 auto;padding:1rem 1.5rem;background:rgba(245,158,11,.08);border-left:4px solid #f59e0b;border-radius:0 12px 12px 0;color:#fbbf24;font-size:.9rem;animation:warning-flash 3s ease-in-out infinite}
+        @keyframes warning-flash{0%,100%{border-left-color:#f59e0b}50%{border-left-color:#f59e0b;box-shadow:inset 0 0 30px rgba(245,158,11,.08)}}
+        .trust-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:900px;margin:2rem auto;padding:0 2rem}
+        .trust-item{text-align:center;padding:1.5rem 1rem;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(82,82,91,.2)}
+        .trust-number{font-size:2rem;font-weight:800;color:#f59e0b}
+        .trust-label{font-size:.75rem;color:#64748b;margin-top:.25rem;text-transform:uppercase;letter-spacing:1px}
+        .section{max-width:1100px;margin:0 auto;padding:3rem 2rem}
+        .section-header{text-align:center;margin-bottom:2.5rem}
+        .section-header h2{font-size:2rem;font-weight:700;margin-bottom:.75rem;color:#fff}
+        .section-header h2 em{font-style:normal;color:#f59e0b}
+        .section-header p{color:#94a3b8;max-width:600px;margin:0 auto;font-size:1rem}
+        .shaft-canvas-wrap{max-width:800px;margin:0 auto 3rem;background:rgba(255,255,255,.02);border-radius:16px;border:1px solid rgba(82,82,91,.2);overflow:hidden;padding:1.5rem}
+        #shaftDiagram{width:100%;height:500px;display:block}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
+        .content-card{background:rgba(255,255,255,.03);border-radius:16px;border:1px solid rgba(82,82,91,.2);padding:2rem;transition:all .4s}
+        .content-card:hover{border-color:rgba(245,158,11,.3);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+        .content-card h3{font-size:1.3rem;margin-bottom:1rem;color:#fff}
+        .content-card p{color:#94a3b8;font-size:.95rem;line-height:1.7}
+        .stat-row{display:flex;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid rgba(82,82,91,.15)}
+        .stat-row:last-child{border-bottom:none}
+        .stat-label{color:#94a3b8;font-size:.9rem}
+        .stat-value{color:#f59e0b;font-weight:700;font-size:.9rem}
+        .data-table{width:100%;border-collapse:collapse;margin:1.5rem 0}
+        .data-table th{background:rgba(245,158,11,.1);color:#f59e0b;padding:.75rem 1rem;text-align:left;font-size:.8rem;text-transform:uppercase;letter-spacing:.5px;border-bottom:2px solid rgba(245,158,11,.3)}
+        .data-table td{padding:.75rem 1rem;border-bottom:1px solid rgba(82,82,91,.15);color:#94a3b8;font-size:.9rem}
+        .data-table tr:hover td{background:rgba(245,158,11,.03);color:#fff}
+        .highlight-val{color:#f59e0b;font-weight:700}
+        .caution-val{color:#ff4757;font-weight:700}
+        .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
+        .info-card{background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(82,82,91,.2);padding:1.5rem;transition:all .4s}
+        .info-card:hover{border-color:rgba(245,158,11,.3);transform:translateY(-4px)}
+        .info-card .card-icon{font-size:2rem;margin-bottom:.75rem}
+        .info-card h4{color:#fff;margin-bottom:.5rem;font-size:1.05rem}
+        .info-card p{color:#94a3b8;font-size:.85rem;line-height:1.6}
+        .pressure-bars{display:flex;flex-direction:column;gap:1rem;margin:1.5rem 0}
+        .p-bar-wrap{background:rgba(255,255,255,.03);border-radius:8px;padding:1rem 1.25rem}
+        .p-bar-label{display:flex;justify-content:space-between;margin-bottom:.5rem;font-size:.85rem}
+        .p-bar-label span:first-child{color:#94a3b8}
+        .p-bar-label span:last-child{color:#f59e0b;font-weight:700}
+        .p-bar{height:8px;background:rgba(82,82,91,.3);border-radius:4px;overflow:hidden}
+        .p-bar-fill{height:100%;border-radius:4px;width:0;transition:width 1.5s cubic-bezier(.16,1,.3,1)}
+        .p-bar-fill.amber{background:linear-gradient(90deg,#f59e0b,#fbbf24)}
+        .p-bar-fill.red{background:linear-gradient(90deg,#ff4757,#ff6b7a)}
+        .p-bar-fill.cyan{background:linear-gradient(90deg,#00e5ff,#00b4d8)}
+        .p-bar-fill.steel{background:linear-gradient(90deg,#52525b,#71717a)}
+        .timeline{max-width:700px;margin:2rem auto;position:relative;padding-left:3rem}
+        .timeline::before{content:'';position:absolute;left:14px;top:0;bottom:0;width:2px;background:linear-gradient(to bottom,#52525b,#f59e0b,#00e5ff)}
+        .timeline-item{position:relative;margin-bottom:2rem;padding-left:2rem}
+        .timeline-item::before{content:'';position:absolute;left:-2.35rem;top:.5rem;width:14px;height:14px;border-radius:50%;background:#f59e0b;border:3px solid #0c1220;box-shadow:0 0 12px rgba(245,158,11,.5)}
+        .timeline-item h4{color:#fff;font-size:1rem;margin-bottom:.25rem}
+        .timeline-item p{color:#94a3b8;font-size:.85rem;line-height:1.6}
+        .timeline-badge{display:inline-block;padding:.15rem .6rem;background:rgba(245,158,11,.15);border-radius:4px;font-size:.7rem;color:#f59e0b;margin-bottom:.25rem}
+        .equation-block{background:rgba(82,82,91,.1);border:1px solid rgba(82,82,91,.3);border-radius:12px;padding:1.5rem;margin:1.5rem 0;font-family:'Courier New',monospace;text-align:center}
+        .equation-block .eq{font-size:1.2rem;color:#f59e0b;margin-bottom:.5rem}
+        .equation-block .eq-desc{font-size:.8rem;color:#64748b}
+        .faq-section{max-width:800px;margin:0 auto;padding:3rem 2rem}
+        .faq-item{background:rgba(255,255,255,.03);border:1px solid rgba(82,82,91,.2);border-radius:12px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
+        .faq-item:hover{border-color:rgba(245,158,11,.3)}
+        .faq-item.active{border-color:rgba(245,158,11,.4);box-shadow:0 4px 20px rgba(0,0,0,.2)}
+        .faq-q{padding:1.25rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:#fff;font-size:1rem}
+        .faq-q:hover{color:#f59e0b}
+        .faq-icon{font-size:1.2rem;transition:transform .3s;color:#f59e0b}
+        .faq-item.active .faq-icon{transform:rotate(45deg)}
+        .faq-a{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1);padding:0 1.5rem}
+        .faq-item.active .faq-a{max-height:500px;padding:0 1.5rem 1.25rem}
+        .faq-a p{color:#94a3b8;font-size:.9rem;line-height:1.7}
+        .cta-box{max-width:800px;margin:2rem auto;padding:3rem;background:linear-gradient(135deg,rgba(82,82,91,.15),rgba(245,158,11,.08));border:1px solid rgba(245,158,11,.2);border-radius:20px;text-align:center}
+        .cta-box h2{font-size:2rem;margin-bottom:1rem}
+        .cta-box p{color:#94a3b8;margin-bottom:2rem;font-size:1.05rem}
+        footer{padding:3rem 2rem;border-top:1px solid rgba(82,82,91,.2);text-align:center}
+        .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
+        .footer-links a{color:#64748b;text-decoration:none;font-size:.85rem;transition:color .3s}
+        .footer-links a:hover{color:#f59e0b}
+        .footer-copy{color:#475569;font-size:.75rem}
+        .fixed-widget{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:900;background:rgba(12,18,32,.95);border:1px solid rgba(82,82,91,.3);border-radius:12px;padding:1rem;width:160px;opacity:0;transition:all .5s;pointer-events:none}
+        .fixed-widget.visible{opacity:1;pointer-events:auto}
+        .widget-title{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:#64748b;margin-bottom:.5rem}
+        .widget-value{font-size:1.5rem;font-weight:800;color:#f59e0b;margin-bottom:.25rem}
+        .widget-sub{font-size:.7rem;color:#52525b}
+        .widget-bar{height:4px;background:rgba(82,82,91,.3);border-radius:2px;margin-top:.5rem;overflow:hidden}
+        .widget-bar-fill{height:100%;background:linear-gradient(90deg,#52525b,#f59e0b);border-radius:2px;transition:width 1s}
+        .ripple{position:absolute;border-radius:50%;background:rgba(245,158,11,.3);transform:scale(0);animation:ripple-anim .6s linear}
+        @keyframes ripple-anim{to{transform:scale(4);opacity:0}}
+        @media(max-width:768px){
+            .nav-links{display:none}
+            .hero h1{font-size:1.8rem}
+            .trust-bar{grid-template-columns:repeat(2,1fr)}
+            .two-col,.three-col{grid-template-columns:1fr}
+            .fixed-widget{display:none}
+        }
+    </style>
+</head>
+<body>
+    <canvas id="shaft-bg"></canvas>
+    <div class="grid-overlay"></div>
+
+    <div class="fixed-widget" id="pressureWidget">
+        <div class="widget-title">Shaft Pressure</div>
+        <div class="widget-value" id="widgetPressure">+0.0</div>
+        <div class="widget-sub" id="widgetFloor">Floor 1 of 30</div>
+        <div class="widget-bar"><div class="widget-bar-fill" id="widgetBar" style="width:5%"></div></div>
+    </div>
+
+    <nav class="nav">
+        <a href="https://windload.co/" class="nav-logo">
+            <img src="https://windload.co/assets/windload.co_00b4d8.svg" alt="" class="logo-img">
+            <span class="logo-text">Wind<span>Load</span>.co</span>
+        </a>
+        <div class="nav-links">
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.co/states.html">All States</a>
+            <a href="https://windload.co/architects.html">Architects</a>
+            <a href="https://windload.co/contractors.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="nav-cta">Get Wind Loads</a>
+    </nav>
+
+    <div class="breadcrumb">
+        <div class="breadcrumb-container">
+            <a href="https://windload.co/">Home</a><span>/</span>
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a><span>/</span>
+            <a href="https://windload.solutions/cities/miami-wind-load-requirements">Miami-Dade</a><span>/</span>
+            <span class="breadcrumb-current">Elevator Shaft Pressure</span>
+        </div>
+    </div>
+
+    <section class="hero">
+        <div class="hero-badge">ASCE 7-22 Internal Pressure + Stack Effect</div>
+        <h1><span class="shimmer">Elevator Shaft Wind Pressure Design in Miami-Dade HVHZ</span></h1>
+        <p>Elevator shafts in tall buildings act as vertical pressure conduits during hurricanes. When 180 MPH winds pressurize one face of a building, the shaft becomes a chimney channeling air through every floor. Stack effect, piston dynamics, and wind-driven internal pressure combine to create forces that blow open elevator doors, overwhelm pressurization systems, and drive rain deep into building cores. Proper shaft pressure engineering is essential for any structure over 4 stories in the High Velocity Hurricane Zone.</p>
+        <div class="hero-buttons">
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+            <a href="https://windloadcalc.com/demo.html" class="btn-secondary">Try Free Demo</a>
+        </div>
+        <div class="warning-banner">
+            <strong>Critical:</strong> A single breached elevator lobby door in a high-rise can increase internal pressure on the entire leeward facade by 300%, potentially triggering progressive envelope failure across multiple floors.
+        </div>
+    </section>
+
+    <div class="trust-bar stagger-children">
+        <div class="trust-item reveal" style="--i:0">
+            <div class="trust-number" data-target="180" data-suffix=" MPH">0</div>
+            <div class="trust-label">HVHZ Wind Speed</div>
+        </div>
+        <div class="trust-item reveal" style="--i:1">
+            <div class="trust-number" data-target="30" data-suffix=" Floors">0</div>
+            <div class="trust-label">Stack Effect Range</div>
+        </div>
+        <div class="trust-item reveal" style="--i:2">
+            <div class="trust-number" data-target="8" data-suffix=" psf">0</div>
+            <div class="trust-label">Peak Door Pressure</div>
+        </div>
+        <div class="trust-item reveal" style="--i:3">
+            <div class="trust-number" data-target="300" data-suffix="%">0</div>
+            <div class="trust-label">Pressure Amplification</div>
+        </div>
+    </div>
+
+    <!-- Animated Shaft Diagram -->
+    <div class="section">
+        <div class="shaft-canvas-wrap reveal-scale">
+            <canvas id="shaftDiagram"></canvas>
+        </div>
+    </div>
+
+    <!-- Stack Effect + Wind Combined -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Stack Effect Meets <em>Hurricane Wind</em></h2>
+            <p>Understanding how temperature-driven shaft pressure combines with 180 MPH external forces</p>
+        </div>
+        <div class="two-col">
+            <div class="content-card reveal-left">
+                <h3>Stack Effect Mechanics</h3>
+                <p>Stack effect creates a natural pressure differential inside elevator shafts caused by the temperature difference between conditioned interior air and outdoor air. In Miami-Dade's subtropical climate, winter stack effect is minimal (indoor-outdoor temperature difference of 5-10°F), but summer reverse stack effect during air conditioning creates 10-20°F differentials that drive air downward through shafts.</p>
+                <p style="margin-top:1rem;color:#94a3b8">The pressure differential per floor follows the relationship: ΔP = 0.00598 × h × (1/T_o - 1/T_i), where h is height in feet and T is absolute temperature. For a 30-story building (360 ft) with 20°F differential, this generates approximately 0.15 psf per floor, accumulating to 4.5 psf total across the full shaft height.</p>
+                <div class="equation-block">
+                    <div class="eq">ΔP<sub>stack</sub> = 0.00598 × h × (1/T<sub>o</sub> - 1/T<sub>i</sub>)</div>
+                    <div class="eq-desc">Stack pressure differential per floor height</div>
+                </div>
+            </div>
+            <div class="content-card reveal-right">
+                <h3>Hurricane Wind Amplification</h3>
+                <p>When hurricane winds pressurize the windward face of a building, air infiltrates through any openings — including elevator lobby doors, shaft vents, and machine room louvers. This external pressure combines additively with stack effect to create shaft pressures far exceeding either force alone.</p>
+                <div class="stat-row">
+                    <span class="stat-label">Stack effect alone (30 floors)</span>
+                    <span class="stat-value">4.5 psf</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Wind internal pressure (GCpi = 0.55)</span>
+                    <span class="stat-value">+35.8 psf</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Combined shaft pressure</span>
+                    <span class="stat-value highlight-val">+40.3 psf</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">With breached windward opening</span>
+                    <span class="stat-value caution-val">+65.1 psf</span>
+                </div>
+                <p style="margin-top:1rem;color:#64748b;font-size:.85rem">A single broken window on the windward face reclassifies the building as "partially enclosed," increasing GCpi from ±0.18 to ±0.55 and tripling internal pressures throughout the elevator shaft.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pressure by Floor Height -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Shaft Pressure <em>By Floor Level</em></h2>
+            <p>Combined stack effect + wind pressure at different building heights during 180 MPH hurricane conditions</p>
+        </div>
+        <div class="content-card reveal">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Floor Level</th>
+                        <th>Height (ft)</th>
+                        <th>Kz Factor</th>
+                        <th>Stack ΔP (psf)</th>
+                        <th>Wind ΔP (psf)</th>
+                        <th>Combined (psf)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Ground / Lobby</td><td>0</td><td>0.85</td><td>0.0</td><td>+28.4</td><td class="highlight-val">+28.4</td></tr>
+                    <tr><td>Floor 5</td><td>60</td><td>0.99</td><td>+0.9</td><td>+33.1</td><td class="highlight-val">+34.0</td></tr>
+                    <tr><td>Floor 10</td><td>120</td><td>1.10</td><td>+1.8</td><td>+36.8</td><td class="highlight-val">+38.6</td></tr>
+                    <tr><td>Floor 15</td><td>180</td><td>1.18</td><td>+2.7</td><td>+39.5</td><td class="highlight-val">+42.2</td></tr>
+                    <tr><td>Floor 20</td><td>240</td><td>1.24</td><td>+3.6</td><td>+41.5</td><td class="highlight-val">+45.1</td></tr>
+                    <tr><td>Floor 25</td><td>300</td><td>1.29</td><td>+4.1</td><td>+43.2</td><td class="caution-val">+47.3</td></tr>
+                    <tr><td>Floor 30 / Roof</td><td>360</td><td>1.34</td><td>+4.5</td><td>+44.8</td><td class="caution-val">+49.3</td></tr>
+                </tbody>
+            </table>
+            <p style="color:#64748b;font-size:.8rem;margin-top:.75rem">Values based on ASCE 7-22, Exposure C, V = 180 MPH, enclosed building (GCpi = +0.18). Partially enclosed conditions increase wind ΔP by 200-300%.</p>
+        </div>
+    </div>
+
+    <!-- Elevator Door Wind Ratings -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Elevator Door <em>Pressure Ratings</em></h2>
+            <p>Door types and their capacity to resist wind-induced shaft pressure differentials</p>
+        </div>
+        <div class="pressure-bars reveal">
+            <div class="p-bar-wrap">
+                <div class="p-bar-label"><span>Standard passenger door (center opening)</span><span>2.5 psf capacity</span></div>
+                <div class="p-bar"><div class="p-bar-fill red" data-width="20"></div></div>
+            </div>
+            <div class="p-bar-wrap">
+                <div class="p-bar-label"><span>Heavy-duty freight door (bi-parting)</span><span>5.0 psf capacity</span></div>
+                <div class="p-bar"><div class="p-bar-fill amber" data-width="40"></div></div>
+            </div>
+            <div class="p-bar-wrap">
+                <div class="p-bar-label"><span>Fire-rated lobby vestibule door</span><span>8.0 psf capacity</span></div>
+                <div class="p-bar"><div class="p-bar-fill cyan" data-width="65"></div></div>
+            </div>
+            <div class="p-bar-wrap">
+                <div class="p-bar-label"><span>Required for 30-story HVHZ building</span><span>12.5 psf demand</span></div>
+                <div class="p-bar"><div class="p-bar-fill steel" data-width="100"></div></div>
+            </div>
+        </div>
+        <div class="content-card reveal" style="margin-top:1.5rem">
+            <h3>Why Standard Elevator Doors Fail</h3>
+            <p>Standard center-opening elevator car doors are designed for approximately 2.5 psf lateral load — enough for normal piston effect and everyday pressure fluctuations. During a Category 5 hurricane, combined shaft pressures of 8-12+ psf at upper floors exceed door capacity by 300-500%. Doors bow, tracks deform, and the seal breaks, turning every elevator lobby into a wind entry point. The solution requires either vestibule doors rated for the full design pressure or shaft pressurization systems that actively counteract wind-induced differentials.</p>
+        </div>
+    </div>
+
+    <!-- Piston Effect Analysis -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Piston Effect <em>Dynamics</em></h2>
+            <p>Elevator car movement creates transient pressure waves that compound hurricane loading</p>
+        </div>
+        <div class="three-col stagger-children">
+            <div class="info-card reveal" style="--i:0">
+                <div class="card-icon">🔄</div>
+                <h4>Low-Speed Elevators</h4>
+                <p>Elevators under 350 fpm generate 0.3-0.5 psf piston pressure. Minimal contribution to combined shaft loading during hurricanes. Typical in buildings under 10 stories. Standard shaft sizing provides adequate bypass area.</p>
+                <div class="stat-row"><span class="stat-label">Piston pressure</span><span class="stat-value">0.3-0.5 psf</span></div>
+            </div>
+            <div class="info-card reveal" style="--i:1">
+                <div class="card-icon">⚡</div>
+                <h4>High-Speed Elevators</h4>
+                <p>Elevators at 500-700 fpm generate 1.0-2.0 psf piston pressure. Combined with stack effect and hurricane wind, peak transient pressures reach 5-8 psf at lobby doors. Common in 15-25 story buildings. Requires pressure relief ports in shaft walls.</p>
+                <div class="stat-row"><span class="stat-label">Piston pressure</span><span class="stat-value">1.0-2.0 psf</span></div>
+            </div>
+            <div class="info-card reveal" style="--i:2">
+                <div class="card-icon">🚀</div>
+                <h4>Express Elevators</h4>
+                <p>Express elevators exceeding 1,000 fpm generate 2.5-4.0 psf piston pressure. In tall buildings during hurricanes, combined pressures can reach 10-15 psf — exceeding most lobby door capacities. Dedicated express shafts require aerodynamic shaft design and active pressure management.</p>
+                <div class="stat-row"><span class="stat-label">Piston pressure</span><span class="stat-value caution-val">2.5-4.0 psf</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shaft Pressurization Systems -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Shaft <em>Pressurization</em> Engineering</h2>
+            <p>Balancing fire/smoke control with hurricane wind resistance</p>
+        </div>
+        <div class="two-col">
+            <div class="content-card reveal-left">
+                <h3>Fire/Smoke Pressurization</h3>
+                <p>FBC Section 3004 and NFPA 92 require elevator shafts in buildings over 75 feet to maintain positive pressure relative to adjacent floors during a fire. The system delivers 0.10-0.25 inches water gauge (w.g.) pressure to prevent smoke migration into the shaft. This requires supply fans, pressure sensors, and barometric dampers at each floor.</p>
+                <div class="stat-row"><span class="stat-label">Design pressure</span><span class="stat-value">0.10-0.25 in. w.g.</span></div>
+                <div class="stat-row"><span class="stat-label">Typical fan capacity</span><span class="stat-value">5,000-15,000 CFM</span></div>
+                <div class="stat-row"><span class="stat-label">Door leakage assumed</span><span class="stat-value">300 CFM per door</span></div>
+            </div>
+            <div class="content-card reveal-right">
+                <h3>Hurricane Wind Override</h3>
+                <p>During a hurricane, the fire pressurization system faces wind-induced pressure differentials 50-200 times greater than its design capacity. A 180 MPH hurricane creating +40 psf windward pressure equals approximately 80 inches w.g. — far exceeding any fan system's output. The pressurization system must either shut down during hurricane conditions or switch to a hurricane-specific control sequence that closes all shaft vents and dampers to isolate the shaft from wind infiltration.</p>
+                <div class="stat-row"><span class="stat-label">Hurricane ΔP equivalent</span><span class="stat-value caution-val">80+ in. w.g.</span></div>
+                <div class="stat-row"><span class="stat-label">Fan system max output</span><span class="stat-value">0.25 in. w.g.</span></div>
+                <div class="stat-row"><span class="stat-label">Ratio (wind:fan)</span><span class="stat-value caution-val">320:1</span></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Machine Room Wind Loading -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Rooftop Machine Room <em>Wind Loading</em></h2>
+            <p>The most vulnerable elevator component sits at the highest wind pressure zone</p>
+        </div>
+        <div class="content-card reveal">
+            <p style="margin-bottom:1.5rem">Elevator machine rooms sit atop the building where velocity pressures are highest. In Miami-Dade HVHZ, a machine room on a 30-story building experiences C&C pressures from ASCE 7-22 Figure 30.3-1 (rooftop equipment). The enclosure must resist both positive pressure (windward wall) and negative pressure (suction on roof and leeward walls), with corner zones experiencing the most severe loading.</p>
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>Machine Room Surface</th>
+                        <th>Zone</th>
+                        <th>GCp Range</th>
+                        <th>Design Pressure (psf)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>Windward wall</td><td>Field</td><td>+0.9</td><td class="highlight-val">+60.1</td></tr>
+                    <tr><td>Leeward wall</td><td>Field</td><td>-1.1</td><td class="caution-val">-73.5</td></tr>
+                    <tr><td>Side walls</td><td>Field</td><td>-1.3</td><td class="caution-val">-86.9</td></tr>
+                    <tr><td>Roof</td><td>Interior</td><td>-1.4</td><td class="caution-val">-93.6</td></tr>
+                    <tr><td>Roof</td><td>Corner</td><td>-1.8</td><td class="caution-val">-120.3</td></tr>
+                    <tr><td>Wall corner</td><td>Edge</td><td>-1.6</td><td class="caution-val">-106.9</td></tr>
+                </tbody>
+            </table>
+            <p style="color:#64748b;font-size:.8rem;margin-top:.75rem">Based on ASCE 7-22, 30-story building (360 ft), Exposure C, V = 180 MPH. Machine room treated as rooftop structure per Section 29.4.</p>
+        </div>
+    </div>
+
+    <!-- Emergency Recall Protocol -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Hurricane <em>Recall Protocol</em></h2>
+            <p>ASME A17.1 Phase I emergency recall sequence for hurricane events</p>
+        </div>
+        <div class="timeline reveal">
+            <div class="timeline-item">
+                <div class="timeline-badge">48 Hours Before</div>
+                <h4>Hurricane Watch Issued</h4>
+                <p>Building management activates hurricane preparedness plan. Verify emergency generator fuel levels, test elevator recall sequence, inspect shaft vent dampers for proper operation. Pre-position elevator cars at designated recall floors.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-badge">24 Hours Before</div>
+                <h4>Hurricane Warning Issued</h4>
+                <p>Begin building evacuation procedures. Run elevators continuously to expedite evacuation. Verify recall floor designation — must be above design flood elevation in flood zone buildings. Test emergency communication systems.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-badge">12 Hours Before</div>
+                <h4>Pre-Landfall Preparation</h4>
+                <p>Reduce elevator service to essential personnel only. Close and secure all shaft vent dampers via BAS command. Activate machine room flood protection barriers. Ensure emergency generator auto-transfer switches are armed.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-badge">Wind > 75 MPH</div>
+                <h4>Phase I Recall Activated</h4>
+                <p>All elevators recalled to designated landing with doors open. Elevator power disconnected via shunt trip after recall complete. Machine room ventilation fans shut down. Shaft pressurization system switched to hurricane isolation mode with all dampers closed.</p>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-badge">Post-Storm</div>
+                <h4>Restoration Sequence</h4>
+                <p>Inspect shaft for water infiltration before re-energizing. Check all doors for deformation or track damage. Test pressurization system before returning to normal mode. Inspect machine room equipment for vibration damage. Full load test on each car before returning to public service.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shaft as Lateral System -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Elevator Core as <em>Lateral Resistance</em></h2>
+            <p>The structural role of elevator shaft walls in the building's wind force resisting system</p>
+        </div>
+        <div class="two-col">
+            <div class="content-card reveal-left">
+                <h3>Reinforced Concrete Shaft Walls</h3>
+                <p>In most mid-rise and high-rise buildings, the elevator core serves as a primary element of the Main Wind Force Resisting System (MWFRS). Reinforced concrete shaft walls act as shear walls, transferring lateral wind loads from the diaphragm to the foundation. In Miami-Dade HVHZ at 180 MPH, a 30-story building's elevator core might resist 40-60% of the total base shear.</p>
+                <div class="stat-row"><span class="stat-label">Typical wall thickness</span><span class="stat-value">12-18 inches</span></div>
+                <div class="stat-row"><span class="stat-label">Rebar pattern</span><span class="stat-value">#5 @ 12" EW, EF</span></div>
+                <div class="stat-row"><span class="stat-label">Concrete strength</span><span class="stat-value">6,000-8,000 psi</span></div>
+                <div class="stat-row"><span class="stat-label">Base shear contribution</span><span class="stat-value">40-60%</span></div>
+            </div>
+            <div class="content-card reveal-right">
+                <h3>Shaft Penetration Concerns</h3>
+                <p>Every elevator door opening is a structural weak point in the shear wall. Door headers must transfer shear around the opening without creating stress concentrations. In HVHZ, where wind loads are 40-60% higher than the rest of Florida, these headers require careful reinforcement design with diagonal bars and confined boundary elements.</p>
+                <p style="margin-top:1rem">Additional shaft penetrations for electrical conduit, vent ducts, and sprinkler piping must be reinforced and grouted. Any unsealed penetration creates both a structural weak point and a wind pressure infiltration path. The structural engineer and MEP coordinator must work together to minimize and properly reinforce every shaft wall penetration.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Glass Elevator Wind Loading -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Glass Elevator Cab <em>Wind Loading</em></h2>
+            <p>Exposed and exterior-mounted glass elevator systems face direct wind pressure</p>
+        </div>
+        <div class="content-card reveal">
+            <h3>Exterior Glass Elevator Design Challenges</h3>
+            <p>Glass-walled elevator cabs mounted on building exteriors — common in luxury high-rise condominiums and hotels along Biscayne Bay and Miami Beach — face direct wind exposure during hurricanes. Unlike interior shafts protected by the building envelope, exterior elevator enclosures must resist the full design wind pressure as C&C elements. At 180 MPH in HVHZ, this means the glass panels must withstand -70 to -110 psf suction loads while also meeting large missile impact requirements (9 lb 2×4 at 50 fps).</p>
+            <div class="pressure-bars" style="margin-top:1.5rem">
+                <div class="p-bar-wrap">
+                    <div class="p-bar-label"><span>Interior shaft glass (decorative only)</span><span>No wind rating needed</span></div>
+                    <div class="p-bar"><div class="p-bar-fill steel" data-width="5"></div></div>
+                </div>
+                <div class="p-bar-wrap">
+                    <div class="p-bar-label"><span>Atrium-facing glass cab (semi-protected)</span><span>±35 psf</span></div>
+                    <div class="p-bar"><div class="p-bar-fill cyan" data-width="35"></div></div>
+                </div>
+                <div class="p-bar-wrap">
+                    <div class="p-bar-label"><span>Exterior glass cab (windward, field)</span><span>-75 psf</span></div>
+                    <div class="p-bar"><div class="p-bar-fill amber" data-width="65"></div></div>
+                </div>
+                <div class="p-bar-wrap">
+                    <div class="p-bar-label"><span>Exterior glass cab (corner zone, upper floors)</span><span>-110 psf</span></div>
+                    <div class="p-bar"><div class="p-bar-fill red" data-width="100"></div></div>
+                </div>
+            </div>
+            <p style="margin-top:1rem;color:#94a3b8;font-size:.9rem">Exterior glass elevator systems in HVHZ require laminated impact-rated glass with minimum 0.090" PVB interlayer, structural silicone glazing rated for the design pressure, and stainless steel framing to resist corrosion from coastal salt exposure. The elevator hoistway enclosure must meet FBC Section 3002 while simultaneously meeting HVHZ wind and impact requirements — a dual-code challenge that limits product options significantly.</p>
+        </div>
+    </div>
+
+    <!-- Pit Flooding -->
+    <div class="section">
+        <div class="section-header reveal">
+            <h2>Elevator Pit <em>Flood Protection</em></h2>
+            <p>Wind-driven rain infiltration and storm surge threaten subgrade elevator equipment</p>
+        </div>
+        <div class="three-col stagger-children">
+            <div class="info-card reveal" style="--i:0">
+                <div class="card-icon">💧</div>
+                <h4>Wind-Driven Rain Entry</h4>
+                <p>Hurricane-force winds drive rain horizontally at 60-100+ MPH. Water enters shafts through lobby door gaps, vent openings, and machine room louvers, collecting in elevator pits. A single inch of water in the pit triggers the elevator safety system and disables the car until the pit is dried and inspected.</p>
+            </div>
+            <div class="info-card reveal" style="--i:1">
+                <div class="card-icon">🌊</div>
+                <h4>Storm Surge Risk</h4>
+                <p>Coastal Miami-Dade buildings face storm surge inundation of 6-12+ feet during Category 4-5 hurricanes. Elevator pits below grade flood first. The FEMA-recommended solution is a sealed pit design with watertight sump and sump pump rated for the design flood volume, plus check valves to prevent backflow through drain lines.</p>
+            </div>
+            <div class="info-card reveal" style="--i:2">
+                <div class="card-icon">⚙️</div>
+                <h4>Equipment Protection</h4>
+                <p>Elevator pit equipment — buffers, governor tension sheaves, limit switches, and compensating rope guides — is critical safety equipment. Saltwater exposure from storm surge causes severe corrosion damage requiring full replacement. Pit equipment should be elevated on stainless steel pedestals minimum 12 inches above pit floor in flood zones.</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section">
+        <div class="section-header reveal">
+            <h2>Frequently Asked <em>Questions</em></h2>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-q">How does stack effect combine with wind pressure in elevator shafts?<span class="faq-icon">+</span></div>
+            <div class="faq-a"><p>Stack effect creates a natural pressure differential in elevator shafts due to indoor-outdoor temperature differences. In Miami-Dade's climate, a 30-story building generates approximately 0.15 psf per floor from stack effect alone, accumulating to 4.5 psf across the full shaft height. When 180 MPH hurricane winds create +40 to +65 psf external pressure on the windward face, this combines with stack effect to create cumulative pressures that blow open elevator doors, overwhelm shaft pressurization systems, and drive rain into the shaft. The combined loading must be analyzed per ASCE 7-22 internal pressure provisions.</p></div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-q">What wind pressure rating do elevator doors need in Miami-Dade HVHZ?<span class="faq-icon">+</span></div>
+            <div class="faq-a"><p>Elevator lobby doors must resist internal pressure differentials from wind infiltration. While car doors are not directly wind-rated, the lobby-side doors and shaft enclosure must maintain integrity under the building's internal pressure coefficient (GCpi = ±0.55 for enclosed buildings). Combined with stack effect, elevator doors in high-rises may need to resist 3-8 psf differential pressure without opening or deforming — yet standard center-opening car doors only handle about 2.5 psf.</p></div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-q">How does the piston effect affect elevator shaft wind pressure?<span class="faq-icon">+</span></div>
+            <div class="faq-a"><p>Moving elevator cars generate transient pressure waves of 0.5-4.0 psf depending on speed and shaft clearance. High-speed elevators at 700+ fpm combined with stack effect and hurricane wind create momentary pressure spikes of 5-10 psf at lobby doors. Express elevators exceeding 1,000 fpm can generate 2.5-4.0 psf from piston effect alone. Shaft venting and pressure relief ports are critical design elements to manage these transient loads.</p></div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-q">What are elevator shaft vent requirements for wind resistance?<span class="faq-icon">+</span></div>
+            <div class="faq-a"><p>Florida Building Code requires shaft venting of 3.5% of cross-sectional area for smoke control. In HVHZ, these vents must have hurricane-rated louvers or motorized dampers that withstand 180 MPH wind speed and large missile impact. Motorized dampers that close during hurricane conditions are preferred, but must maintain fire/smoke venting capability. The design must balance FBC Section 3004 smoke control with HVHZ wind resistance — a critical dual-code compliance challenge.</p></div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-q">How should elevator machine rooms be designed for HVHZ wind loads?<span class="faq-icon">+</span></div>
+            <div class="faq-a"><p>Rooftop machine rooms experience the highest wind pressures on the building. At 180 MPH HVHZ, walls see -60 to -90 psf suction and roofs -80 to -120 psf uplift depending on height and exposure. The enclosure must be designed as C&C elements per ASCE 7-22 with proper anchorage. Equipment inside (motors, controllers, governors) must be anchored to resist overturning from wind-induced vibration. Louver openings for ventilation must have hurricane-rated dampers.</p></div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-q">Should elevators be recalled during a hurricane in Miami-Dade?<span class="faq-icon">+</span></div>
+            <div class="faq-a"><p>Yes. ASME A17.1 requires Phase I Emergency Recall when conditions threaten elevator safety. Elevators should be recalled to the designated landing before winds exceed 75 MPH. In flood zone buildings, the recall floor must be above design flood elevation. After recall, elevator power is disconnected via shunt trip, machine room fans shut down, and shaft pressurization switches to hurricane isolation mode with all dampers closed. Full inspection is required before restoring service post-storm.</p></div>
+        </div>
+    </div>
+
+    <!-- Final CTA -->
+    <div class="section">
+        <div class="cta-box reveal-scale">
+            <h2>Analyze Your Building's <span class="shimmer">Shaft Pressure Profile</span></h2>
+            <p>Get precise MWFRS calculations that account for stack effect, internal pressure coefficients, and height-amplified velocity pressures for your Miami-Dade high-rise elevator system.</p>
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+        </div>
+    </div>
+
+    <footer>
+        <div class="footer-links">
+            <a href="https://windload.co/">Home</a>
+            <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+            <a href="https://windload.co/states.html">All States</a>
+            <a href="https://windload.co/architects.html">Architects</a>
+            <a href="https://windload.co/contractors.html">Contractors</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+        </div>
+        <div class="footer-copy">&copy; 2026 WindLoad.co — Elevator Shaft Wind Pressure Engineering for Miami-Dade HVHZ</div>
+    </footer>
+
+    <script>
+    // Canvas particle system
+    const canvas = document.getElementById('shaft-bg');
+    const ctx = canvas.getContext('2d');
+    function resizeCanvas(){canvas.width=window.innerWidth;canvas.height=window.innerHeight}
+    resizeCanvas();
+    window.addEventListener('resize',resizeCanvas);
+    const particles=[];
+    class Particle{
+        constructor(){this.reset()}
+        reset(){
+            this.x=Math.random()*canvas.width;
+            this.y=Math.random()*canvas.height;
+            this.size=Math.random()*2.5+.5;
+            this.speedX=Math.random()*1.5+.5;
+            this.speedY=(Math.random()-.5)*2;
+            const colors=['#52525b','#3f3f46','#f59e0b','#00e5ff','#71717a'];
+            this.color=colors[Math.floor(Math.random()*colors.length)];
+            this.opacity=Math.random()*.6+.2;
+        }
+        update(){
+            this.x+=this.speedX;
+            this.y+=this.speedY+Math.sin(this.x*.01)*.3;
+            if(this.x>canvas.width+10||this.y<-10||this.y>canvas.height+10){this.x=-10;this.y=Math.random()*canvas.height}
+        }
+        draw(){
+            ctx.beginPath();
+            ctx.arc(this.x,this.y,this.size,0,Math.PI*2);
+            ctx.fillStyle=this.color;
+            ctx.globalAlpha=this.opacity;
+            ctx.shadowBlur=10;
+            ctx.shadowColor=this.color;
+            ctx.fill();
+            ctx.globalAlpha=1;
+            ctx.shadowBlur=0;
+        }
+    }
+    for(let i=0;i<40;i++)particles.push(new Particle());
+    function animateParticles(){
+        ctx.clearRect(0,0,canvas.width,canvas.height);
+        particles.forEach(p=>{p.update();p.draw()});
+        requestAnimationFrame(animateParticles);
+    }
+    animateParticles();
+
+    // Shaft diagram animation
+    const shaftCanvas=document.getElementById('shaftDiagram');
+    const sCtx=shaftCanvas.getContext('2d');
+    function resizeShaft(){
+        const wrap=shaftCanvas.parentElement;
+        shaftCanvas.width=wrap.clientWidth-48;
+        shaftCanvas.height=500;
+    }
+    resizeShaft();
+    window.addEventListener('resize',resizeShaft);
+    let elevatorY=0.7,elevatorDir=-1,windPhase=0;
+    function drawShaft(){
+        const w=shaftCanvas.width,h=shaftCanvas.height;
+        sCtx.clearRect(0,0,w,h);
+        // Building outline
+        const bx=w*.3,bw=w*.4,by=30,bh=h-60;
+        sCtx.strokeStyle='rgba(82,82,91,.6)';
+        sCtx.lineWidth=2;
+        sCtx.strokeRect(bx,by,bw,bh);
+        // Floors
+        const floors=10;
+        for(let i=1;i<floors;i++){
+            const fy=by+bh*(i/floors);
+            sCtx.strokeStyle='rgba(82,82,91,.25)';
+            sCtx.lineWidth=1;
+            sCtx.beginPath();sCtx.moveTo(bx,fy);sCtx.lineTo(bx+bw,fy);sCtx.stroke();
+            // Floor label
+            sCtx.fillStyle='#64748b';
+            sCtx.font='10px sans-serif';
+            sCtx.fillText('F'+(floors-i),bx+bw+8,fy+4);
+        }
+        sCtx.fillStyle='#64748b';sCtx.fillText('Roof',bx+bw+8,by+10);
+        sCtx.fillText('Ground',bx+bw+8,by+bh-2);
+        // Shaft (inner rectangle)
+        const sx=bx+bw*.35,sw=bw*.3,sy=by+5,sh=bh-10;
+        sCtx.fillStyle='rgba(82,82,91,.08)';
+        sCtx.fillRect(sx,sy,sw,sh);
+        sCtx.strokeStyle='rgba(245,158,11,.4)';
+        sCtx.lineWidth=1.5;
+        sCtx.strokeRect(sx,sy,sw,sh);
+        sCtx.fillStyle='#f59e0b';
+        sCtx.font='bold 11px sans-serif';
+        sCtx.textAlign='center';
+        sCtx.fillText('ELEVATOR SHAFT',sx+sw/2,sy-5);
+        sCtx.textAlign='start';
+        // Elevator car
+        const carH=sh/floors*.8;
+        const carY=sy+sh*elevatorY-carH/2;
+        sCtx.fillStyle='rgba(245,158,11,.2)';
+        sCtx.fillRect(sx+4,carY,sw-8,carH);
+        sCtx.strokeStyle='#f59e0b';
+        sCtx.lineWidth=2;
+        sCtx.strokeRect(sx+4,carY,sw-8,carH);
+        sCtx.fillStyle='#f59e0b';
+        sCtx.font='bold 10px sans-serif';
+        sCtx.textAlign='center';
+        sCtx.fillText('CAR',sx+sw/2,carY+carH/2+4);
+        sCtx.textAlign='start';
+        // Piston effect arrows
+        const pistonStr=Math.abs(elevatorDir)*1.5;
+        if(elevatorDir<0){
+            // Moving up, pressure below
+            for(let i=0;i<3;i++){
+                const ay=carY+carH+15+i*15;
+                if(ay<sy+sh){
+                    sCtx.strokeStyle=`rgba(0,229,255,${.5-i*.12})`;
+                    sCtx.lineWidth=1.5;
+                    sCtx.beginPath();
+                    sCtx.moveTo(sx+sw/2-8,ay);sCtx.lineTo(sx+sw/2+8,ay);
+                    sCtx.moveTo(sx+sw/2,ay-5);sCtx.lineTo(sx+sw/2+8,ay);sCtx.lineTo(sx+sw/2,ay+5);
+                    sCtx.stroke();
+                }
+            }
+        } else {
+            for(let i=0;i<3;i++){
+                const ay=carY-15-i*15;
+                if(ay>sy){
+                    sCtx.strokeStyle=`rgba(0,229,255,${.5-i*.12})`;
+                    sCtx.lineWidth=1.5;
+                    sCtx.beginPath();
+                    sCtx.moveTo(sx+sw/2-8,ay);sCtx.lineTo(sx+sw/2+8,ay);
+                    sCtx.moveTo(sx+sw/2,ay-5);sCtx.lineTo(sx+sw/2-8,ay);sCtx.lineTo(sx+sw/2,ay+5);
+                    sCtx.stroke();
+                }
+            }
+        }
+        // Stack effect arrows (vertical through shaft)
+        windPhase+=.02;
+        const stackAlpha=.3+Math.sin(windPhase)*.1;
+        for(let i=0;i<5;i++){
+            const arrowX=sx+sw*.2+i*(sw*.15);
+            const arrowY=sy+sh*.1+Math.sin(windPhase+i)*.5*20;
+            sCtx.strokeStyle=`rgba(245,158,11,${stackAlpha})`;
+            sCtx.lineWidth=1;
+            sCtx.beginPath();
+            sCtx.moveTo(arrowX,arrowY+30);sCtx.lineTo(arrowX,arrowY);
+            sCtx.moveTo(arrowX-3,arrowY+6);sCtx.lineTo(arrowX,arrowY);sCtx.lineTo(arrowX+3,arrowY+6);
+            sCtx.stroke();
+        }
+        // Wind arrows from left
+        for(let i=0;i<6;i++){
+            const wy=by+bh*.1+i*(bh*.15);
+            const wLen=30+Math.sin(windPhase+i*.5)*10;
+            sCtx.strokeStyle=`rgba(255,71,87,${.4+Math.sin(windPhase+i)*.15})`;
+            sCtx.lineWidth=2;
+            sCtx.beginPath();
+            sCtx.moveTo(bx-50,wy);sCtx.lineTo(bx-50+wLen,wy);
+            sCtx.moveTo(bx-50+wLen-6,wy-4);sCtx.lineTo(bx-50+wLen,wy);sCtx.lineTo(bx-50+wLen-6,wy+4);
+            sCtx.stroke();
+        }
+        sCtx.fillStyle='#ff4757';
+        sCtx.font='bold 11px sans-serif';
+        sCtx.fillText('180 MPH WIND',bx-80,by-5);
+        // Pressure labels
+        sCtx.fillStyle='#f59e0b';
+        sCtx.font='9px sans-serif';
+        sCtx.fillText('Stack ΔP: +4.5 psf ↑',sx+sw+15,sy+sh*.3);
+        sCtx.fillStyle='#ff4757';
+        sCtx.fillText('Wind ΔP: +40.3 psf →',sx+sw+15,sy+sh*.5);
+        sCtx.fillStyle='#00e5ff';
+        sCtx.fillText('Piston: ±2.0 psf',sx+sw+15,sy+sh*.7);
+        // Machine room
+        sCtx.fillStyle='rgba(82,82,91,.15)';
+        sCtx.fillRect(sx-10,by-20,sw+20,22);
+        sCtx.strokeStyle='rgba(245,158,11,.5)';
+        sCtx.strokeRect(sx-10,by-20,sw+20,22);
+        sCtx.fillStyle='#94a3b8';
+        sCtx.font='8px sans-serif';
+        sCtx.textAlign='center';
+        sCtx.fillText('MACHINE ROOM',sx+sw/2,by-7);
+        sCtx.textAlign='start';
+        // Move elevator
+        elevatorY+=elevatorDir*.003;
+        if(elevatorY<.1){elevatorDir=1}
+        if(elevatorY>.85){elevatorDir=-1}
+        requestAnimationFrame(drawShaft);
+    }
+    drawShaft();
+
+    // Scroll reveals
+    const observer=new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('active')}});
+    },{threshold:.15});
+    document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale').forEach(el=>observer.observe(el));
+
+    // Counter animation
+    const counterObserver=new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting&&!e.target.dataset.counted){
+                e.target.dataset.counted='true';
+                const target=parseInt(e.target.dataset.target);
+                const suffix=e.target.dataset.suffix||'';
+                const prefix=e.target.dataset.prefix||'';
+                let current=0;
+                const step=Math.ceil(target/60);
+                const timer=setInterval(()=>{
+                    current+=step;
+                    if(current>=target){current=target;clearInterval(timer)}
+                    e.target.textContent=prefix+current+suffix;
+                },25);
+            }
+        });
+    },{threshold:.5});
+    document.querySelectorAll('[data-target]').forEach(el=>counterObserver.observe(el));
+
+    // Fixed widget
+    const widget=document.getElementById('pressureWidget');
+    const wPressure=document.getElementById('widgetPressure');
+    const wFloor=document.getElementById('widgetFloor');
+    const wBar=document.getElementById('widgetBar');
+    let currentFloor=1,floorDir=1;
+    window.addEventListener('scroll',()=>{
+        widget.classList.toggle('visible',window.scrollY>400);
+    });
+    setInterval(()=>{
+        currentFloor+=floorDir;
+        if(currentFloor>=30)floorDir=-1;
+        if(currentFloor<=1)floorDir=1;
+        const pressure=(28.4+(currentFloor-1)*.7).toFixed(1);
+        wPressure.textContent='+'+pressure;
+        wFloor.textContent='Floor '+currentFloor+' of 30';
+        wBar.style.width=(currentFloor/30*100)+'%';
+    },200);
+
+    // FAQ accordion
+    document.querySelectorAll('.faq-q').forEach(q=>{
+        q.addEventListener('click',()=>{
+            const item=q.parentElement;
+            const wasActive=item.classList.contains('active');
+            document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('active'));
+            if(!wasActive)item.classList.add('active');
+        });
+    });
+
+    // Magnetic card hover
+    document.querySelectorAll('.content-card,.info-card').forEach(card=>{
+        card.addEventListener('mousemove',e=>{
+            const rect=card.getBoundingClientRect();
+            const x=(e.clientX-rect.left)/rect.width-.5;
+            const y=(e.clientY-rect.top)/rect.height-.5;
+            card.style.transform=`perspective(600px) rotateY(${x*8}deg) rotateX(${-y*8}deg) translateY(-4px)`;
+        });
+        card.addEventListener('mouseleave',()=>{
+            card.style.transform='perspective(600px) rotateY(0) rotateX(0) translateY(0)';
+        });
+    });
+
+    // Pressure bar animation
+    const barObserver=new IntersectionObserver((entries)=>{
+        entries.forEach(e=>{
+            if(e.isIntersecting){
+                e.target.querySelectorAll('.p-bar-fill').forEach(bar=>{
+                    bar.style.width=bar.dataset.width+'%';
+                });
+            }
+        });
+    },{threshold:.3});
+    document.querySelectorAll('.pressure-bars').forEach(el=>barObserver.observe(el));
+
+    // Button ripple
+    document.querySelectorAll('.btn-primary').forEach(btn=>{
+        btn.addEventListener('click',function(e){
+            const ripple=document.createElement('span');
+            ripple.classList.add('ripple');
+            const rect=this.getBoundingClientRect();
+            ripple.style.left=(e.clientX-rect.left)+'px';
+            ripple.style.top=(e.clientY-rect.top)+'px';
+            this.appendChild(ripple);
+            setTimeout(()=>ripple.remove(),600);
+        });
+    });
+    </script>
+</body>
+</html>
