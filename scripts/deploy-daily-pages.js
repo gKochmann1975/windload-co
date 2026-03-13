@@ -221,7 +221,23 @@ function main() {
         // Git operations
         try {
             console.log('\nCommitting changes...');
-            execSync('git add -A', { cwd: ROOT_DIR, stdio: 'inherit' });
+
+            // Add only the specific files that changed — NEVER use git add -A
+            // which would stage untracked files (nul, other staged-pages, etc.)
+            execSync('git add florida/ deployed-pages/ deployment-log.json', { cwd: ROOT_DIR, stdio: 'inherit' });
+
+            // Also stage the removals from staged-pages/
+            for (const page of pagesToDeploy) {
+                const stagedRel = path.relative(ROOT_DIR, page.sourcePath).replace(/\\/g, '/');
+                try {
+                    execSync(`git add "${stagedRel}"`, { cwd: ROOT_DIR, stdio: 'inherit' });
+                } catch (e) {
+                    // File already deleted, stage the deletion
+                    try {
+                        execSync(`git rm --cached "${stagedRel}" 2>/dev/null || true`, { cwd: ROOT_DIR, stdio: 'inherit' });
+                    } catch (_) {}
+                }
+            }
 
             const commitMsg = `Deploy: ${deployedCount} campaign page(s)
 
