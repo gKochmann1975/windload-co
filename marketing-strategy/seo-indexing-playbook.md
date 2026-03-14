@@ -23,9 +23,33 @@ Sitemap: https://yourdomain.com/sitemap.xml
 
 ## Google Search Console Setup
 
+### Account & Verification
+
+You do NOT need a Gmail matching the domain. Any Google account can verify any domain — you just need to prove ownership.
+
+**Our accounts:**
+| Domain | Verified With | Notes |
+|--------|--------------|-------|
+| windload.co | windload.solutions Gmail | No windload.co Gmail exists — use windload.solutions account |
+| windloadcalc.com | windloadcalc.com Gmail | Has its own Google account |
+| windload.solutions | windload.solutions Gmail | Same account as windload.co |
+
+### Verification Methods (pick one)
+
+| Method | How | Best For |
+|--------|-----|----------|
+| **HTML file** | Google gives you a file like `google1234abc.html` — add to repo root, deploy | Vercel sites (easiest) |
+| **DNS TXT record** | Add a TXT record via domain registrar | Domain-level property (covers subdomains) |
+| **HTML meta tag** | Add `<meta name="google-site-verification" content="...">` to homepage `<head>` | Quick one-time setup |
+
+**Recommended for windload.co:** HTML file method — just commit the verification file to the repo root and Vercel deploys it automatically.
+
+### After Verification
+
 1. Add the domain as a **domain property** (covers all subdomains + http/https)
 2. Submit the sitemap: Indexing → Sitemaps → enter full URL (e.g. `https://yourdomain.com/sitemap.xml`)
 3. Check Pages → "Why pages aren't indexed" for issues
+4. Use **URL Inspection → Request Indexing** to push individual pages (limit ~10-20/day)
 
 ### Common Issues (and what to ignore)
 | Issue | Action |
