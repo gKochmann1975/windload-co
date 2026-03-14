@@ -10,6 +10,7 @@ This folder contains documentation for the Florida General Contractor programmat
 - [seo-vs-geo.md](seo-vs-geo.md) - SEO vs GEO optimization guide
 - [page-templates.md](page-templates.md) - Template specifications for programmatic pages
 - [data-requirements.md](data-requirements.md) - Wind speed data and location data specs
+- [seo-indexing-playbook.md](seo-indexing-playbook.md) - SEO indexing setup, sitemaps, and Google Search Console guide
 
 ## Quick Links
 
