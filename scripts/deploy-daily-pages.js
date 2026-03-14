@@ -161,6 +161,69 @@ function deployPage(page) {
     }
 }
 
+// Regenerate sitemap.xml with all live pages
+function regenerateSitemap() {
+    const SITEMAP_FILE = path.join(ROOT_DIR, 'sitemap.xml');
+    const today = new Date().toISOString().split('T')[0];
+
+    // Static main pages (non-florida)
+    const mainPages = [
+        { loc: '/', priority: '1.0', changefreq: 'weekly' },
+        { loc: '/engineers', priority: '0.8', changefreq: 'monthly' },
+        { loc: '/architects', priority: '0.8', changefreq: 'monthly' },
+        { loc: '/contractors', priority: '0.8', changefreq: 'monthly' },
+        { loc: '/florida-pro', priority: '0.8', changefreq: 'monthly' },
+        { loc: '/hurricane', priority: '0.8', changefreq: 'monthly' },
+        { loc: '/compare', priority: '0.7', changefreq: 'monthly' },
+        { loc: '/vs-buildingsguide', priority: '0.7', changefreq: 'monthly' },
+        { loc: '/vs-omni', priority: '0.7', changefreq: 'monthly' },
+    ];
+
+    // Scan florida/ for all deployed campaign pages
+    const floridaPages = [];
+    function scanFlorida(dir) {
+        if (!fs.existsSync(dir)) return;
+        const items = fs.readdirSync(dir, { withFileTypes: true });
+        for (const item of items) {
+            const fullPath = path.join(dir, item.name);
+            if (item.isDirectory()) {
+                scanFlorida(fullPath);
+            } else if (item.name.endsWith('.html') && item.name !== 'index.html') {
+                const rel = path.relative(ROOT_DIR, fullPath).replace(/\\/g, '/').replace('.html', '');
+                floridaPages.push(rel);
+            }
+        }
+    }
+    scanFlorida(LIVE_DIR);
+
+    // Build sitemap XML
+    let xml = '<?xml version="1.0" encoding="UTF-8"?>\n';
+    xml += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
+
+    for (const page of mainPages) {
+        xml += `  <url>\n`;
+        xml += `    <loc>https://windload.co${page.loc}</loc>\n`;
+        xml += `    <lastmod>${today}</lastmod>\n`;
+        xml += `    <changefreq>${page.changefreq}</changefreq>\n`;
+        xml += `    <priority>${page.priority}</priority>\n`;
+        xml += `  </url>\n`;
+    }
+
+    for (const page of floridaPages) {
+        xml += `  <url>\n`;
+        xml += `    <loc>https://windload.co/${page}</loc>\n`;
+        xml += `    <lastmod>${today}</lastmod>\n`;
+        xml += `    <changefreq>monthly</changefreq>\n`;
+        xml += `    <priority>0.6</priority>\n`;
+        xml += `  </url>\n`;
+    }
+
+    xml += '</urlset>\n';
+
+    fs.writeFileSync(SITEMAP_FILE, xml);
+    console.log(`\n✓ Sitemap regenerated: ${mainPages.length + floridaPages.length} URLs (${mainPages.length} main + ${floridaPages.length} campaign)`);
+}
+
 // Main deployment process
 function main() {
     const log = loadDeploymentLog();
@@ -218,6 +281,9 @@ function main() {
         saveDeploymentLog(log);
         console.log(`\n✓ Deployment log updated`);
 
+        // Regenerate sitemap with all live florida pages
+        regenerateSitemap();
+
         // Git operations
         try {
             console.log('\nCommitting changes...');
@@ -229,7 +295,7 @@ function main() {
             //   deployment-log.json — updated counts
             // NEVER use "git add -A" — that would pull in untracked files
             // from the local working tree (nul, .claude/, etc.)
-            execSync('git add florida/ deployed-pages/ staged-pages/ deployment-log.json', { cwd: ROOT_DIR, stdio: 'inherit' });
+            execSync('git add florida/ deployed-pages/ staged-pages/ deployment-log.json sitemap.xml', { cwd: ROOT_DIR, stdio: 'inherit' });
 
             const commitMsg = `Deploy: ${deployedCount} campaign page(s)
 
