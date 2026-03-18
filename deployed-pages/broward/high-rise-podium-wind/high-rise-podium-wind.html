@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-MBFRKVFWGC"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-MBFRKVFWGC');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/svg+xml" href="/assets/windload.co_0018ff.svg">
+
+    <title>Broward High-Rise Podium Wind Design | Tower-Podium Transition Loads</title>
+    <meta name="description" content="Wind load analysis for high-rise podium levels in Broward County. Accelerated wind speeds at setback edges, MWFRS loads for podium vs tower, and HVHZ boundary considerations for mixed-use developments.">
+    <link rel="canonical" href="https://windload.co/florida/broward/high-rise-podium-wind">
+
+    <!-- Geo Meta Tags -->
+    <meta name="geo.region" content="US-FL">
+    <meta name="geo.placename" content="Broward County, Florida">
+    <meta name="geo.position" content="26.1224;-80.1373">
+    <meta name="ICBM" content="26.1224, -80.1373">
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Broward High-Rise Podium Wind Design | Tower-Podium Transition">
+    <meta property="og:description" content="Engineering guide for wind loads at the podium-tower transition zone in Broward County high-rises. Setback amplification, amenity deck loads, and HVHZ boundary design.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://windload.co/florida/broward/high-rise-podium-wind">
+    <meta property="og:locale" content="en_US">
+    <meta property="og:site_name" content="WindLoad.co">
+
+    <!-- Schema.org - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "Why do wind speeds accelerate at the podium-tower setback in Broward County high-rises?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "When wind flows horizontally at upper elevations and encounters the tower face rising above the podium, it deflects downward along the tower wall and accelerates as it spills over the podium setback edge. This venturi-like channeling effect can amplify local wind speeds by 20-40% compared to free-stream conditions. In Broward County, where base design wind speeds already reach 170-180 MPH in HVHZ zones, this amplification pushes effective pressures on podium roof edges and corner zones to levels that demand careful component and cladding (C&C) design beyond standard ASCE 7-22 envelope values."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How are MWFRS loads calculated differently for the podium versus the tower portion?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Main Wind Force Resisting System analysis must treat the podium and tower as coupled but distinct structural elements. The tower portion uses the directional procedure of ASCE 7-22 Chapter 27 with the full building height for velocity pressure exposure. The podium is analyzed separately using its own mean roof height, but must account for shielding interaction — wind loads on the leeward podium face decrease when the tower blocks flow, while windward podium surfaces near setback corners experience amplified pressures. The lateral system must transfer tower overturning forces through the podium diaphragm to the podium's wider foundation footprint, creating critical shear demands at the transition level."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What wind load considerations apply to partially enclosed podium parking levels?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Partially enclosed podium parking levels — those with open facades on two or more sides for natural ventilation — must be classified per ASCE 7-22 Section 26.2 enclosure definitions. If the total area of openings on a windward wall exceeds 1.10 times the sum of openings on all other surfaces, the level is classified as partially enclosed, triggering internal pressure coefficients of GCpi = +/-0.55 instead of +/-0.18 for enclosed buildings. This nearly triples the internal pressure contribution. In Broward, many parking podiums have 40-60% open facades, making partially enclosed classification almost unavoidable and significantly increasing design pressures on the podium roof slab, perimeter beams, and any interior partitions."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Does Broward's HVHZ boundary affect podium wind design for projects near the line?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Broward County's HVHZ boundary runs through several municipalities, creating situations where a single development's podium footprint may straddle the line. Projects within the HVHZ must comply with FBC Section 2003 through 2024 High Velocity Hurricane Zone requirements, including product approvals via Miami-Dade NOA or Florida Product Approval with HVHZ designation. Projects outside the HVHZ follow standard FBC wind provisions. When a site is near the boundary, engineers typically design to the more stringent HVHZ standard for the entire podium to avoid split-standard complications during permitting. The Broward County Building Code Compliance Office requires clear documentation of which standard governs."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What are the wind load requirements for occupied amenity decks on podium roofs?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Podium roofs used as occupied amenity decks — pools, lounges, fitness areas — carry dual wind load obligations. The structural roof slab must resist C&C uplift pressures per ASCE 7-22 Chapter 30, typically ranging from -40 to -90 psf in corner zones at Broward wind speeds. Simultaneously, all amenity deck equipment, furniture anchors, railing systems, planters, shade structures, and pool enclosures must be designed as rooftop structures or equipment per Chapter 29. Railings at podium roof perimeters are particularly critical: they must resist the lateral wind load at the setback edge elevation while also meeting the 200 lb concentrated load and 50 plf live load requirements of FBC Chapter 16 for guards."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does wind tunnel testing change the podium design compared to code analytical methods?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Wind tunnel testing per ASCE 7-22 Chapter 31 often reveals that code analytical methods overestimate MWFRS loads on the combined podium-tower system by 10-25% for typical wind directions, but underestimate C&C loads at specific setback corner locations by 15-35%. The podium setback corner — where the tower wall meets the podium roof edge — frequently shows peak negative pressures 30-50% higher than Chapter 30 zone 3 coefficients predict. For Broward County high-rises over 400 feet, wind tunnel testing is strongly recommended and may be required by the peer reviewer. The investment typically ranges from $40,000 to $80,000 but yields structural material savings of $200,000 to $500,000 on the podium alone through optimized C&C design in non-critical zones."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Schema.org - BreadcrumbList -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+            {"@type": "ListItem", "position": 1, "name": "Home", "item": "https://windload.co"},
+            {"@type": "ListItem", "position": 2, "name": "Florida", "item": "https://windload.solutions/florida-wind-load-requirements"},
+            {"@type": "ListItem", "position": 3, "name": "Broward County", "item": "https://windload.solutions/florida-wind-load-requirements"},
+            {"@type": "ListItem", "position": 4, "name": "High-Rise Podium Wind Design", "item": "https://windload.co/florida/broward/high-rise-podium-wind"}
+        ]
+    }
+    </script>
+
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0c1220;
+            color: #ffffff;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* ========================================
+           TEMPLATE A: DATA STORY
+           Trend Line Charts + Threshold Markers
+           Podium Wind Amplification Theme
+           ======================================== */
+
+        /* Animated Background Canvas */
+        #hurricane-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
+        .grid-pattern {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+            background-image:
+                radial-gradient(circle at 20% 30%, rgba(59, 130, 246, 0.04) 0%, transparent 50%),
+                radial-gradient(circle at 80% 70%, rgba(217, 119, 6, 0.04) 0%, transparent 50%);
+        }
+
+        /* Scroll Reveal Animations */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal.active { opacity: 1; transform: translateY(0); }
+
+        .reveal-left {
+            opacity: 0;
+            transform: translateX(-60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-left.active { opacity: 1; transform: translateX(0); }
+
+        .reveal-right {
+            opacity: 0;
+            transform: translateX(60px);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-right.active { opacity: 1; transform: translateX(0); }
+
+        .reveal-scale {
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .reveal-scale.active { opacity: 1; transform: scale(1); }
+
+        .stagger-children > * {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(4) { transition-delay: 0.4s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(5) { transition-delay: 0.5s; opacity: 1; transform: translateY(0); }
+        .stagger-children.active > *:nth-child(6) { transition-delay: 0.6s; opacity: 1; transform: translateY(0); }
+
+        /* Animations */
+        @keyframes glow-pulse {
+            0%, 100% { box-shadow: 0 0 20px rgba(59, 130, 246, 0.3), 0 0 40px rgba(59, 130, 246, 0.1); }
+            50% { box-shadow: 0 0 40px rgba(59, 130, 246, 0.5), 0 0 80px rgba(59, 130, 246, 0.2); }
+        }
+
+        @keyframes shimmer {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        @keyframes warning-flash {
+            0%, 100% { border-left-color: #d97706; }
+            50% { border-left-color: #f59e0b; box-shadow: inset 0 0 30px rgba(217, 119, 6, 0.1); }
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        @keyframes trend-draw {
+            from { stroke-dashoffset: 1000; }
+            to { stroke-dashoffset: 0; }
+        }
+
+        @keyframes threshold-pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        @keyframes float-up {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .shimmer {
+            background: linear-gradient(
+                120deg,
+                #3b82f6 0%,
+                #d97706 25%,
+                #3b82f6 50%,
+                #475569 75%,
+                #3b82f6 100%
+            );
+            background-size: 200% 100%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: shimmer 4s linear infinite;
+        }
+
+        /* Wind Amplification Widget */
+        .amp-widget {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(12, 18, 32, 0.95);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            border-radius: 16px;
+            padding: 16px 20px;
+            z-index: 99;
+            backdrop-filter: blur(10px);
+            opacity: 0;
+            transform: translateX(120px);
+            transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+            min-width: 170px;
+        }
+        .amp-widget.visible { opacity: 1; transform: translateX(0); }
+        .amp-widget-label {
+            font-size: 0.65rem;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+        .amp-widget-value {
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: #d97706;
+            line-height: 1;
+        }
+        .amp-widget-bar {
+            height: 4px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        .amp-widget-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6, #d97706);
+            border-radius: 2px;
+            width: 0%;
+            transition: width 1s ease;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            padding: 0.75rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background: rgba(12, 18, 32, 0.9);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(59, 130, 246, 0.15);
+        }
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+        }
+        .nav-logo .logo-img {
+            height: 28px;
+            width: auto;
+        }
+        .nav-logo .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #ffffff;
+        }
+        .nav-logo .logo-text span {
+            color: #00b4d8;
+        }
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #ffffff; }
+        .nav-cta {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff !important;
+            padding: 0.5rem 1.25rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 15px rgba(59, 130, 246, 0.3);
+        }
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(59, 130, 246, 0.5);
+        }
+
+        /* Breadcrumb */
+        .breadcrumb {
+            position: relative;
+            z-index: 2;
+            padding: 5rem 2rem 0;
+        }
+        .breadcrumb-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.85rem;
+        }
+        .breadcrumb a {
+            color: #64748b;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        .breadcrumb a:hover { color: #3b82f6; }
+        .breadcrumb span { color: #475569; }
+        .breadcrumb-current { color: #d97706; }
+
+        /* Hero */
+        .hero {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 2rem 4rem;
+            text-align: center;
+        }
+        .hero-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(59, 130, 246, 0.1);
+            border: 1px solid rgba(59, 130, 246, 0.3);
+            padding: 0.5rem 1.25rem;
+            border-radius: 50px;
+            font-size: 0.8rem;
+            color: #3b82f6;
+            margin-bottom: 1.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+        .hero h1 {
+            font-size: clamp(2rem, 5vw, 3.25rem);
+            font-weight: 800;
+            line-height: 1.15;
+            margin-bottom: 1.25rem;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin: 0 auto 2rem;
+        }
+        .hero-ctas {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 2rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            color: #fff;
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+            box-shadow: 0 4px 20px rgba(59, 130, 246, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(59, 130, 246, 0.5);
+        }
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(217, 119, 6, 0.4);
+            color: #d97706;
+            padding: 0.9rem 2rem;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        .btn-secondary:hover {
+            background: rgba(217, 119, 6, 0.1);
+            transform: translateY(-3px);
+        }
+
+        /* Warning Banner */
+        .warning-banner {
+            max-width: 750px;
+            margin: 0 auto;
+            background: rgba(217, 119, 6, 0.08);
+            border-left: 4px solid #d97706;
+            padding: 1rem 1.5rem;
+            border-radius: 0 12px 12px 0;
+            text-align: left;
+            font-size: 0.9rem;
+            color: #f59e0b;
+            animation: warning-flash 3s ease-in-out infinite;
+        }
+
+        /* Trust Badges */
+        .trust-section {
+            position: relative;
+            z-index: 2;
+            padding: 2rem 2rem 3rem;
+        }
+        .trust-grid {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+        .trust-card {
+            text-align: center;
+            padding: 1.5rem 1rem;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            transition: all 0.4s;
+        }
+        .trust-card:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            transform: translateY(-4px);
+        }
+        .trust-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #3b82f6;
+            margin-bottom: 0.25rem;
+        }
+        .trust-label {
+            font-size: 0.8rem;
+            color: #64748b;
+        }
+
+        /* Content Sections */
+        .content-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+        }
+        .content-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .section-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(217, 119, 6, 0.1);
+            border: 1px solid rgba(217, 119, 6, 0.3);
+            padding: 0.4rem 1rem;
+            border-radius: 50px;
+            font-size: 0.75rem;
+            color: #d97706;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 1rem;
+        }
+        .section-title {
+            font-size: clamp(1.5rem, 3vw, 2.25rem);
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .section-subtitle {
+            font-size: 1.05rem;
+            color: #94a3b8;
+            max-width: 700px;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Trend Chart Canvas */
+        .chart-container {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(59, 130, 246, 0.15);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(59, 130, 246, 0.5), transparent);
+        }
+        .chart-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+        }
+        .chart-desc {
+            font-size: 0.85rem;
+            color: #64748b;
+            margin-bottom: 1.5rem;
+        }
+        .trend-chart {
+            width: 100%;
+            height: 320px;
+        }
+        .chart-legend {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-top: 1rem;
+            flex-wrap: wrap;
+        }
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.8rem;
+            color: #94a3b8;
+        }
+        .legend-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 3px;
+        }
+
+        /* Two Column Layout */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+            align-items: start;
+        }
+        .col-text h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: #e2e8f0;
+        }
+        .col-text p {
+            color: #94a3b8;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        /* Info Cards */
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .info-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 16px;
+            padding: 1.75rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: default;
+        }
+        .info-card:hover {
+            border-color: rgba(59, 130, 246, 0.4);
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        .info-card-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .info-card h4 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+        }
+        .info-card p {
+            font-size: 0.85rem;
+            color: #64748b;
+            line-height: 1.5;
+        }
+        .info-card .card-stat {
+            display: inline-block;
+            margin-top: 0.75rem;
+            padding: 0.3rem 0.75rem;
+            background: rgba(59, 130, 246, 0.1);
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #3b82f6;
+        }
+
+        /* Pressure Table */
+        .pressure-table-wrap {
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+        .pressure-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+        .pressure-table th {
+            background: rgba(59, 130, 246, 0.1);
+            padding: 0.9rem 1rem;
+            text-align: left;
+            font-weight: 700;
+            color: #3b82f6;
+            border-bottom: 2px solid rgba(59, 130, 246, 0.3);
+            white-space: nowrap;
+        }
+        .pressure-table td {
+            padding: 0.8rem 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: #cbd5e1;
+        }
+        .pressure-table tr:hover td {
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .table-highlight {
+            color: #d97706 !important;
+            font-weight: 700;
+        }
+
+        /* Podium Diagram */
+        .podium-diagram {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(71, 85, 105, 0.3);
+            border-radius: 20px;
+            padding: 2rem;
+            position: relative;
+            min-height: 350px;
+        }
+        .diagram-building {
+            position: relative;
+            width: 280px;
+            margin: 0 auto;
+        }
+        .diagram-tower {
+            width: 120px;
+            height: 180px;
+            background: linear-gradient(180deg, rgba(59, 130, 246, 0.2), rgba(59, 130, 246, 0.08));
+            border: 2px solid rgba(59, 130, 246, 0.5);
+            border-radius: 4px 4px 0 0;
+            margin: 0 auto;
+            position: relative;
+        }
+        .diagram-tower::after {
+            content: 'TOWER';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+            color: #3b82f6;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+        .diagram-podium {
+            width: 280px;
+            height: 80px;
+            background: linear-gradient(180deg, rgba(217, 119, 6, 0.2), rgba(217, 119, 6, 0.08));
+            border: 2px solid rgba(217, 119, 6, 0.5);
+            border-radius: 0 0 4px 4px;
+            position: relative;
+        }
+        .diagram-podium::after {
+            content: 'PODIUM';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 0.75rem;
+            color: #d97706;
+            font-weight: 700;
+            letter-spacing: 0.1em;
+        }
+        .diagram-wind-arrow {
+            position: absolute;
+            right: -80px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            font-size: 0.7rem;
+            color: #94a3b8;
+            white-space: nowrap;
+        }
+        .diagram-zone {
+            position: absolute;
+            left: -110px;
+            font-size: 0.7rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-weight: 600;
+            white-space: nowrap;
+        }
+        .zone-critical {
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
+            border: 1px solid rgba(239, 68, 68, 0.4);
+        }
+        .zone-elevated {
+            background: rgba(217, 119, 6, 0.2);
+            color: #d97706;
+            border: 1px solid rgba(217, 119, 6, 0.4);
+        }
+        .zone-standard {
+            background: rgba(59, 130, 246, 0.2);
+            color: #3b82f6;
+            border: 1px solid rgba(59, 130, 246, 0.4);
+        }
+
+        /* Steps / Process */
+        .process-list {
+            list-style: none;
+            counter-reset: process-step;
+        }
+        .process-list li {
+            counter-increment: process-step;
+            position: relative;
+            padding: 1.25rem 1.25rem 1.25rem 4rem;
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            color: #cbd5e1;
+            font-size: 0.95rem;
+            transition: all 0.3s;
+        }
+        .process-list li:hover {
+            border-color: rgba(59, 130, 246, 0.3);
+            background: rgba(59, 130, 246, 0.05);
+        }
+        .process-list li::before {
+            content: counter(process-step);
+            position: absolute;
+            left: 1.25rem;
+            top: 1.25rem;
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: #fff;
+        }
+        .process-list li strong {
+            color: #e2e8f0;
+        }
+
+        /* FAQ */
+        .faq-section {
+            position: relative;
+            z-index: 2;
+            padding: 4rem 2rem;
+        }
+        .faq-container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .faq-item {
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.3s;
+        }
+        .faq-item:hover { border-color: rgba(59, 130, 246, 0.3); }
+        .faq-question {
+            padding: 1.25rem 1.5rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 600;
+            color: #e2e8f0;
+            font-size: 0.95rem;
+            user-select: none;
+        }
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: #3b82f6;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+            margin-left: 1rem;
+        }
+        .faq-item.open .faq-question::after {
+            transform: rotate(45deg);
+        }
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease, padding 0.3s ease;
+        }
+        .faq-item.open .faq-answer {
+            max-height: 600px;
+            padding: 0 1.5rem 1.25rem;
+        }
+        .faq-answer p {
+            color: #94a3b8;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            position: relative;
+            z-index: 2;
+            padding: 5rem 2rem;
+            text-align: center;
+        }
+        .cta-box {
+            max-width: 700px;
+            margin: 0 auto;
+            background: rgba(59, 130, 246, 0.06);
+            border: 1px solid rgba(59, 130, 246, 0.25);
+            border-radius: 24px;
+            padding: 3rem 2.5rem;
+            animation: glow-pulse 4s ease-in-out infinite;
+        }
+        .cta-box h2 {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+        }
+        .cta-box p {
+            color: #94a3b8;
+            margin-bottom: 2rem;
+            font-size: 1.05rem;
+        }
+
+        /* Footer */
+        footer {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            padding: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: #475569;
+            font-size: 0.8rem;
+        }
+        footer a {
+            color: #64748b;
+            text-decoration: none;
+        }
+        footer a:hover { color: #3b82f6; }
+
+        /* Ripple */
+        .ripple {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: scale(0);
+            animation: ripple-anim 0.6s linear;
+            pointer-events: none;
+        }
+        @keyframes ripple-anim {
+            to { transform: scale(4); opacity: 0; }
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .info-grid { grid-template-columns: 1fr; }
+            .two-col { grid-template-columns: 1fr; }
+            .nav-links { display: none; }
+            .amp-widget { display: none; }
+        }
+        @media (max-width: 600px) {
+            .hero h1 { font-size: 1.75rem; }
+            .hero-ctas { flex-direction: column; align-items: center; }
+            .trust-grid { grid-template-columns: 1fr 1fr; }
+            .chart-container { padding: 1rem; }
+            .trend-chart { height: 220px; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Animated Background Canvas -->
+<canvas id="hurricane-bg"></canvas>
+<div class="grid-pattern"></div>
+
+<!-- Wind Amplification Widget -->
+<div class="amp-widget" id="ampWidget">
+    <div class="amp-widget-label">Setback Amplification</div>
+    <div class="amp-widget-value" id="ampValue">1.0x</div>
+    <div class="amp-widget-bar">
+        <div class="amp-widget-fill" id="ampFill"></div>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="nav">
+    <a href="https://windload.co/" class="nav-logo">
+        <img src="/assets/windload.co_00b4d8.svg" alt="WindLoad.co" class="logo-img">
+        <span class="logo-text">Wind<span>Load</span>.co</span>
+    </a>
+    <div class="nav-links">
+        <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+        <a href="https://windload.co/states.html">All States</a>
+        <a href="https://windload.co/architects.html">Architects</a>
+        <a href="https://windload.co/contractors.html">Contractors</a>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+    </div>
+    <a href="https://windloadcalc.com/shop/mwfrs.html" class="nav-cta">Get Wind Loads</a>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+    <div class="breadcrumb-container">
+        <a href="https://windload.co/">Home</a>
+        <span>/</span>
+        <a href="https://windload.solutions/florida-wind-load-requirements">Florida</a>
+        <span>/</span>
+        <a href="https://windload.solutions/florida-wind-load-requirements">Broward</a>
+        <span>/</span>
+        <span class="breadcrumb-current">High-Rise Podium Wind Design</span>
+    </div>
+</div>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-container reveal">
+        <div class="hero-badge">Broward County MWFRS Engineering</div>
+        <h1>High-Rise Podium Wind Design:<br><span class="shimmer">Where the Tower Meets the Storm</span></h1>
+        <p>The podium-tower transition zone is the most aerodynamically volatile region on a Broward County high-rise. Wind speeds amplify by 20-40% at setback edges, partially enclosed parking levels triple internal pressure demands, and amenity decks face punishing uplift. This is the engineering that keeps the building standing.</p>
+        <div class="hero-ctas">
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+            <a href="https://windloadcalc.com/building-intelligence-platform.html" class="btn-secondary">Building Intelligence Platform</a>
+        </div>
+        <div class="warning-banner">
+            Broward County projects within the HVHZ boundary must comply with FBC High Velocity Hurricane Zone provisions (Sections 2003-2024). Podium designs near the boundary line require verification of which standard governs the entire structure.
+        </div>
+    </div>
+</section>
+
+<!-- Trust Badges -->
+<section class="trust-section">
+    <div class="trust-grid stagger-children">
+        <div class="trust-card">
+            <div class="trust-number counter" data-target="170" data-suffix=" MPH">0</div>
+            <div class="trust-label">Broward HVHZ Wind Speed</div>
+        </div>
+        <div class="trust-card">
+            <div class="trust-number counter" data-target="40" data-suffix="%" data-prefix="+">0</div>
+            <div class="trust-label">Setback Speed Amplification</div>
+        </div>
+        <div class="trust-card">
+            <div class="trust-number counter" data-target="90" data-prefix="-" data-suffix=" psf">0</div>
+            <div class="trust-label">Peak Corner Zone Uplift</div>
+        </div>
+        <div class="trust-card">
+            <div class="trust-number counter" data-target="3" data-suffix="x">0</div>
+            <div class="trust-label">Partially Enclosed Pressure Increase</div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 1: Wind Amplification at Setback -->
+<section class="content-section">
+    <div class="content-container">
+        <div class="section-badge reveal">Aerodynamic Analysis</div>
+        <h2 class="section-title reveal">Wind Speed Amplification at the Podium Setback</h2>
+        <p class="section-subtitle reveal">When airflow hits a tower face and deflects downward, the podium setback edge becomes a pressure accelerator. Understanding this phenomenon is essential for every Broward high-rise project.</p>
+
+        <!-- Trend Line Chart -->
+        <div class="chart-container reveal-scale">
+            <div class="chart-title">Wind Pressure Distribution: Ground to Rooftop</div>
+            <div class="chart-desc">Comparison of code-predicted pressures vs. wind tunnel measurements at podium setback zones in Broward County 170 MPH design wind speed</div>
+            <canvas class="trend-chart" id="trendChart1"></canvas>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #3b82f6;"></div>
+                    ASCE 7-22 Analytical (C&C)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #d97706;"></div>
+                    Wind Tunnel Measured
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #ef4444;"></div>
+                    Setback Amplification Zone
+                </div>
+            </div>
+        </div>
+
+        <div class="two-col">
+            <div class="col-text reveal-left">
+                <h3>The Venturi Effect at Podium Edges</h3>
+                <p>High-rise buildings in Broward County create their own microclimate. Wind approaching a tower face at upper elevations has nowhere to go but down and around. As it descends along the tower wall and reaches the podium setback, the flow compresses and accelerates, much like water through a narrowing channel.</p>
+                <p>At a typical 6-to-8-story podium with a 30-story tower above, wind tunnel studies consistently show velocity amplification of 1.2x to 1.4x at the setback edge. For Broward's 170 MPH design speed, that translates to effective speeds of 204-238 MPH at the critical transition zone. These are pressures that no standard C&C coefficient anticipates without modification.</p>
+                <p>The effect is most severe when wind approaches at 30-60 degrees from the tower's broad face. Oblique angles create asymmetric vortex shedding that concentrates peak negative pressures at podium roof corners adjacent to the tower, generating suction that can strip roofing membranes, peel edge flashings, and tear amenity deck pavers from their pedestals.</p>
+            </div>
+            <div class="col-text reveal-right">
+                <h3>Why ASCE 7-22 Chapter 30 Falls Short</h3>
+                <p>ASCE 7-22 Component and Cladding provisions (Chapter 30) define pressure zones based on a building's own geometry: corner zones (Zone 3), edge zones (Zone 2), and interior zones (Zone 1). For a rectangular podium roof, these zones follow standard tributary-area-dependent coefficients.</p>
+                <p>However, the standard coefficients were developed for isolated buildings without adjacent taller structures. The ASCE 7-22 commentary acknowledges that unusual building shapes and configurations may require wind tunnel testing. A podium-tower configuration is exactly this type of unusual geometry. The code's Zone 3 coefficients for a podium roof typically predict peak negative pressures of -55 to -65 psf, while wind tunnel testing reveals actual peaks of -75 to -95 psf at the setback corner nearest the tower.</p>
+                <p>This 30-50% underestimation is not conservative. It is a gap that has led to membrane failures, edge metal blow-offs, and amenity deck damage in South Florida high-rises during major storm events. Broward County peer reviewers increasingly require wind tunnel validation for any podium roof within 1.5x the tower width of the tower face.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 2: Partially Enclosed Podium Parking -->
+<section class="content-section" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="content-container">
+        <div class="section-badge reveal">Internal Pressure Analysis</div>
+        <h2 class="section-title reveal">Partially Enclosed Podium Parking: The Triple-Pressure Problem</h2>
+        <p class="section-subtitle reveal">Open-air parking structures at podium levels trigger ASCE 7-22's partially enclosed classification, which nearly triples the internal pressure coefficient and reshapes every load combination.</p>
+
+        <div class="info-grid stagger-children">
+            <div class="info-card magnetic-card">
+                <div class="info-card-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">&#9632;</div>
+                <h4>Enclosed Building</h4>
+                <p>Standard enclosed classification per ASCE 7-22 Section 26.2. Internal pressure coefficient GCpi = +/- 0.18. Applies when openings are distributed evenly and no single wall exceeds the 1.10 ratio threshold.</p>
+                <div class="card-stat">GCpi = +/- 0.18</div>
+            </div>
+            <div class="info-card magnetic-card">
+                <div class="info-card-icon" style="background: rgba(217, 119, 6, 0.15); color: #d97706;">&#9650;</div>
+                <h4>Partially Enclosed</h4>
+                <p>Triggered when windward wall openings exceed 1.10x the sum of all other openings and exceed 4 sq ft or 1% of wall area. Typical for podium parking with 40-60% open facades on ventilation sides.</p>
+                <div class="card-stat" style="background: rgba(217, 119, 6, 0.1); color: #d97706;">GCpi = +/- 0.55</div>
+            </div>
+            <div class="info-card magnetic-card">
+                <div class="info-card-icon" style="background: rgba(239, 68, 68, 0.15); color: #ef4444;">&#9679;</div>
+                <h4>Partially Open</h4>
+                <p>When openings exceed 80% of a wall, the structure may qualify as partially open per ASCE 7-22 Figure 27.3-4. Some podium garages approach this threshold, requiring careful opening percentage documentation for each wall face.</p>
+                <div class="card-stat" style="background: rgba(239, 68, 68, 0.1); color: #ef4444;">GCpi = +/- 0.55 to 1.0</div>
+            </div>
+        </div>
+
+        <div class="chart-container reveal" style="margin-top: 2.5rem;">
+            <div class="chart-title">Internal Pressure Impact on Podium Roof Slab Design</div>
+            <div class="chart-desc">Net uplift pressure comparison: enclosed vs. partially enclosed classification at 170 MPH, Exposure C, podium height = 65 ft</div>
+            <canvas class="trend-chart" id="trendChart2"></canvas>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #3b82f6;"></div>
+                    Enclosed (GCpi = 0.18)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #d97706;"></div>
+                    Partially Enclosed (GCpi = 0.55)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: rgba(255,255,255,0.3); border: 1px dashed #ef4444;"></div>
+                    Code Minimum Threshold
+                </div>
+            </div>
+        </div>
+
+        <p class="reveal" style="color: #94a3b8; max-width: 800px; font-size: 0.95rem; margin-top: 1rem;">The practical consequence of partially enclosed classification is severe: the net uplift on the podium roof slab in Zone 3 (corner) increases from approximately -62 psf to -85 psf. That 37% jump demands heavier post-tensioning in the roof slab, additional anchorage for the waterproofing and paver assembly above, and reinforced edge connections at every perimeter beam. For a 20,000 sq ft podium roof, this classification change alone can add $150,000 to $250,000 in structural costs. Engineers who fail to correctly classify the parking level enclosure expose the project to both structural risk and permitting delays when Broward plan reviewers flag the error.</p>
+    </div>
+</section>
+
+<!-- Section 3: MWFRS Podium vs Tower -->
+<section class="content-section" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="content-container">
+        <div class="section-badge reveal">Structural Engineering</div>
+        <h2 class="section-title reveal">MWFRS Load Path: Podium vs. Tower</h2>
+        <p class="section-subtitle reveal">The main wind force resisting system must resolve two fundamentally different structural behaviors at the transition level, where tower overturning forces transfer through the podium diaphragm.</p>
+
+        <div class="two-col">
+            <div class="reveal-left">
+                <div class="pressure-table-wrap">
+                    <table class="pressure-table">
+                        <thead>
+                            <tr>
+                                <th>Parameter</th>
+                                <th>Tower</th>
+                                <th>Podium</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Typical Height</td>
+                                <td>250-450 ft</td>
+                                <td>55-85 ft</td>
+                            </tr>
+                            <tr>
+                                <td>Footprint Width</td>
+                                <td>80-120 ft</td>
+                                <td>200-350 ft</td>
+                            </tr>
+                            <tr>
+                                <td>Aspect Ratio (H/B)</td>
+                                <td>3:1 to 5:1</td>
+                                <td>0.2:1 to 0.4:1</td>
+                            </tr>
+                            <tr>
+                                <td>MWFRS Method</td>
+                                <td>Ch. 27 Directional</td>
+                                <td>Ch. 27 or Ch. 28</td>
+                            </tr>
+                            <tr>
+                                <td class="table-highlight">Base Shear at 170 MPH</td>
+                                <td class="table-highlight">800-1,400 kips</td>
+                                <td class="table-highlight">300-600 kips</td>
+                            </tr>
+                            <tr>
+                                <td class="table-highlight">Overturning Moment</td>
+                                <td class="table-highlight">180,000-350,000 ft-kips</td>
+                                <td class="table-highlight">12,000-30,000 ft-kips</td>
+                            </tr>
+                            <tr>
+                                <td>Lateral System</td>
+                                <td>Shear Walls / Core</td>
+                                <td>Shear Walls + Frame</td>
+                            </tr>
+                            <tr>
+                                <td>Drift Limit (H/400)</td>
+                                <td>7.5-13.5 in</td>
+                                <td>1.7-2.6 in</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="col-text reveal-right">
+                <h3>The Transition Diaphragm Challenge</h3>
+                <p>Where the tower's shear walls terminate at the podium roof level, the entire tower overturning couple must transfer horizontally through the podium diaphragm to the podium's shear walls and columns. This creates enormous in-plane shear demands in the podium roof slab — often 2-4x the shear capacity of a standard 8-inch post-tensioned slab.</p>
+                <p>Broward County structural engineers typically resolve this with thickened diaphragm zones (12-16 inch slabs) directly beneath the tower footprint, drag struts (collector beams) extending from tower wall ends to podium perimeter shear walls, and pour strip detailing that maintains diaphragm continuity through construction joints.</p>
+                <p>The velocity pressure profile adds complexity: the tower portion uses the full building height (podium + tower) for Kz determination, while the podium's own MWFRS analysis uses only the podium height. However, the windward velocity pressure on the podium face directly below the tower is influenced by the tower's presence — a shielding and acceleration interaction that analytical methods approximate but wind tunnel testing captures precisely.</p>
+                <p>For Broward projects, the structural peer reviewer will scrutinize the transition diaphragm design more than almost any other element. Inadequate collector reinforcement or discontinuous drag struts at this level represent a progressive collapse risk under extreme wind events.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 4: Amenity Deck Wind Design -->
+<section class="content-section" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="content-container">
+        <div class="section-badge reveal">Rooftop Components</div>
+        <h2 class="section-title reveal">Amenity Deck Design at the Podium Roof Level</h2>
+        <p class="section-subtitle reveal">The podium roof is where residents relax. It is also where wind pressures are most unpredictable. Every pool deck paver, shade sail anchor, and glass railing must be engineered for the amplified conditions at this elevation.</p>
+
+        <div class="info-grid stagger-children">
+            <div class="info-card magnetic-card">
+                <div class="info-card-icon" style="background: rgba(59, 130, 246, 0.15); color: #3b82f6;">&#127754;</div>
+                <h4>Pool Deck Pavers</h4>
+                <p>Concrete or porcelain pavers on pedestals must resist uplift from wind entering at the roof edge and pressurizing the air gap beneath. ASCE 7-22 Chapter 30 Zone 3 corner uplift at 170 MPH can reach -85 psf. Ballast calculations must account for pedestal height, gap ratio, and parapet shielding.</p>
+                <div class="card-stat">-85 psf corner uplift</div>
+            </div>
+            <div class="info-card magnetic-card">
+                <div class="info-card-icon" style="background: rgba(217, 119, 6, 0.15); color: #d97706;">&#9730;</div>
+                <h4>Shade Structures</h4>
+                <p>Fabric canopies, aluminum pergolas, and tensile shade sails on podium decks are classified as rooftop structures per ASCE 7-22 Chapter 29. Design wind pressures must use the elevation of the podium roof plus the structure height, with amplification for setback proximity. Anchor bolt embedment into the podium slab is critical.</p>
+                <div class="card-stat" style="background: rgba(217, 119, 6, 0.1); color: #d97706;">Ch. 29 rooftop structure</div>
+            </div>
+            <div class="info-card magnetic-card">
+                <div class="info-card-icon" style="background: rgba(71, 85, 105, 0.2); color: #94a3b8;">&#9632;</div>
+                <h4>Glass Railing Systems</h4>
+                <p>Perimeter railings on podium amenity decks serve as guards (FBC Ch. 16 live loads) and wind-exposed components simultaneously. At setback edges near the tower, lateral wind pressures of 45-65 psf combine with 200 lb concentrated load and 50 plf uniform requirements. Post base plates require 4-bolt minimum with embedment plates cast into the slab edge.</p>
+                <div class="card-stat" style="background: rgba(71, 85, 105, 0.15); color: #94a3b8;">Dual code compliance</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 5: HVHZ Boundary Considerations -->
+<section class="content-section" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="content-container">
+        <div class="section-badge reveal">Code Compliance</div>
+        <h2 class="section-title reveal">Broward's HVHZ Boundary: Where Two Codes Collide</h2>
+        <p class="section-subtitle reveal">Broward County's High Velocity Hurricane Zone boundary cuts through several municipalities, creating split-jurisdiction challenges for podium developments that straddle the line.</p>
+
+        <div class="two-col">
+            <div class="col-text reveal-left">
+                <h3>Understanding the HVHZ Line in Broward</h3>
+                <p>The HVHZ in Broward County encompasses the eastern coastal municipalities including Fort Lauderdale, Hollywood, Pompano Beach, Hallandale Beach, and Deerfield Beach. The boundary roughly follows the Florida Turnpike corridor but includes specific municipal inclusions and exclusions defined in FBC Section 202.</p>
+                <p>For a podium development near the boundary, the entire project must comply with a single standard. The Broward County Building Code Compliance Office does not permit split-standard designs where the podium follows standard FBC and the tower follows HVHZ provisions, or vice versa. The governing standard is determined by the project's legal address and parcel boundaries.</p>
+                <p>Projects within the HVHZ face additional product approval requirements: all exterior cladding, glazing, doors, and roofing on the podium must have Miami-Dade NOA or Florida Product Approval with HVHZ designation. For podium parking facades with architectural screening (perforated metal, terracotta, cable mesh), each system must carry its own HVHZ-compliant approval — a requirement that narrows manufacturer options and can extend procurement timelines by 4-8 weeks.</p>
+            </div>
+            <div class="reveal-right">
+                <ol class="process-list">
+                    <li><strong>Verify HVHZ status</strong> — Confirm parcel location relative to the HVHZ boundary through the Broward County Property Appraiser's GIS system. Do not rely on zip code or city name alone.</li>
+                    <li><strong>Determine design wind speed</strong> — Broward HVHZ zones use the FBC wind speed map (ultimate/strength-level). Eastern Broward typically falls at 170-180 MPH depending on proximity to the coast. Use ASCE 7-22 Figure 26.5-1B for Risk Category II.</li>
+                    <li><strong>Classify enclosure condition</strong> — Document opening percentages for each podium parking level wall face. Calculate the 1.10 ratio per ASCE 7-22 Section 26.2 to determine enclosed vs. partially enclosed classification.</li>
+                    <li><strong>Analyze MWFRS separately</strong> — Run the tower and podium lateral analyses independently, then combine through the transition diaphragm. Verify that the podium's wider footprint provides adequate overturning resistance for combined tower + podium base moments.</li>
+                    <li><strong>Address C&C amplification</strong> — For podium roof zones within 1.5x tower width of the tower face, apply amplified C&C pressures from wind tunnel data or conservative analytical adjustments (1.3x minimum on Zone 3 coefficients).</li>
+                    <li><strong>Submit for peer review</strong> — Broward County requires structural peer review for buildings over 5 stories or 50 feet. The peer reviewer will focus on the transition diaphragm, podium enclosure classification, and C&C design at setback zones. Prepare detailed calculations and wind tunnel reports for efficient review cycles.</li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section 6: Cost of Getting It Wrong -->
+<section class="content-section" style="border-top: 1px solid rgba(255,255,255,0.03);">
+    <div class="content-container">
+        <div class="section-badge reveal">Risk Assessment</div>
+        <h2 class="section-title reveal">The Cost of Underestimating Podium Wind Loads</h2>
+        <p class="section-subtitle reveal">Wind engineering errors at the podium level compound through every trade. A 20% underestimation in design pressure can cascade into millions in remediation costs after the first major storm.</p>
+
+        <div class="chart-container reveal-scale">
+            <div class="chart-title">Cumulative Cost Impact: Design Error vs. Correct Analysis</div>
+            <div class="chart-desc">Projected cost trajectory over 5-year lifecycle for a 300-unit Broward mixed-use podium tower</div>
+            <canvas class="trend-chart" id="trendChart3"></canvas>
+            <div class="chart-legend">
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #3b82f6;"></div>
+                    Correct Wind Engineering (upfront investment)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: #ef4444;"></div>
+                    Underestimated Design (escalating remediation)
+                </div>
+                <div class="legend-item">
+                    <div class="legend-dot" style="background: rgba(255,255,255,0.2); border: 1px dashed #d97706;"></div>
+                    Break-Even Point
+                </div>
+            </div>
+        </div>
+
+        <div class="two-col" style="margin-top: 2rem;">
+            <div class="col-text reveal-left">
+                <h3>Structural Remediation Costs</h3>
+                <p>When podium roof membranes fail during a storm due to underestimated uplift pressures, the water infiltration damages not just the roofing — it floods the amenity deck, penetrates into the parking level below, corrodes post-tensioning tendons, and triggers mold remediation throughout the upper parking levels. A $200,000 roofing repair becomes a $2.5 million structural and environmental remediation project.</p>
+                <p>Edge metal failures at the podium setback are particularly destructive because the accelerated wind at that location turns a detached flashing section into a high-velocity projectile aimed at the tower's curtain wall above. A single edge metal panel failure can shatter 8-12 tower windows, leading to internal pressurization of residential units and cascading water damage to finishes, MEP systems, and personal property on multiple floors.</p>
+            </div>
+            <div class="col-text reveal-right">
+                <h3>Insurance and Liability Exposure</h3>
+                <p>Broward County property insurers increasingly require wind engineering documentation as a condition of coverage for high-rise podium developments. Projects that cannot demonstrate adequate C&C design at the podium level face premium surcharges of 15-30% or coverage exclusions for wind damage to the podium roof and amenity areas.</p>
+                <p>Professional liability exposure for the structural engineer of record is amplified at the podium transition. If post-storm investigation reveals that the engineer used standard analytical methods without wind tunnel validation and the resulting design pressures were 30% below actual conditions, the E&O claim is straightforward. Wind tunnel testing at $50,000-$80,000 is professional liability insurance that also happens to optimize the structural design.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="faq-container">
+        <div class="section-badge reveal" style="text-align: center; display: block;">Frequently Asked Questions</div>
+        <h2 class="section-title reveal" style="text-align: center;">Podium Wind Engineering FAQ</h2>
+        <p class="section-subtitle reveal" style="text-align: center; margin-left: auto; margin-right: auto;">Answers to the most common questions about high-rise podium wind design in Broward County.</p>
+
+        <div class="faq-item reveal">
+            <div class="faq-question">Why do wind speeds accelerate at the podium-tower setback in Broward County high-rises?</div>
+            <div class="faq-answer">
+                <p>When wind flows horizontally at upper elevations and encounters the tower face rising above the podium, it deflects downward along the tower wall and accelerates as it spills over the podium setback edge. This venturi-like channeling effect can amplify local wind speeds by 20-40% compared to free-stream conditions. In Broward County, where base design wind speeds already reach 170-180 MPH in HVHZ zones, this amplification pushes effective pressures on podium roof edges and corner zones to levels that demand careful component and cladding (C&C) design beyond standard ASCE 7-22 envelope values.</p>
+            </div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-question">How are MWFRS loads calculated differently for the podium versus the tower portion?</div>
+            <div class="faq-answer">
+                <p>The Main Wind Force Resisting System analysis must treat the podium and tower as coupled but distinct structural elements. The tower portion uses the directional procedure of ASCE 7-22 Chapter 27 with the full building height for velocity pressure exposure. The podium is analyzed separately using its own mean roof height, but must account for shielding interaction — wind loads on the leeward podium face decrease when the tower blocks flow, while windward podium surfaces near setback corners experience amplified pressures. The lateral system must transfer tower overturning forces through the podium diaphragm to the podium's wider foundation footprint, creating critical shear demands at the transition level.</p>
+            </div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-question">What wind load considerations apply to partially enclosed podium parking levels?</div>
+            <div class="faq-answer">
+                <p>Partially enclosed podium parking levels — those with open facades on two or more sides for natural ventilation — must be classified per ASCE 7-22 Section 26.2 enclosure definitions. If the total area of openings on a windward wall exceeds 1.10 times the sum of openings on all other surfaces, the level is classified as partially enclosed, triggering internal pressure coefficients of GCpi = +/-0.55 instead of +/-0.18 for enclosed buildings. This nearly triples the internal pressure contribution. In Broward, many parking podiums have 40-60% open facades, making partially enclosed classification almost unavoidable and significantly increasing design pressures on the podium roof slab, perimeter beams, and any interior partitions.</p>
+            </div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-question">Does Broward's HVHZ boundary affect podium wind design for projects near the line?</div>
+            <div class="faq-answer">
+                <p>Broward County's HVHZ boundary runs through several municipalities, creating situations where a single development's podium footprint may straddle the line. Projects within the HVHZ must comply with FBC High Velocity Hurricane Zone requirements, including product approvals via Miami-Dade NOA or Florida Product Approval with HVHZ designation. Projects outside follow standard FBC wind provisions. When a site is near the boundary, engineers typically design to the more stringent HVHZ standard for the entire podium to avoid split-standard complications. The Broward County Building Code Compliance Office requires clear documentation of which standard governs.</p>
+            </div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-question">What are the wind load requirements for occupied amenity decks on podium roofs?</div>
+            <div class="faq-answer">
+                <p>Podium roofs used as occupied amenity decks — pools, lounges, fitness areas — carry dual wind load obligations. The structural roof slab must resist C&C uplift pressures per ASCE 7-22 Chapter 30, typically ranging from -40 to -90 psf in corner zones at Broward wind speeds. Simultaneously, all amenity deck equipment, furniture anchors, railing systems, planters, shade structures, and pool enclosures must be designed as rooftop structures or equipment per Chapter 29. Railings at podium roof perimeters are particularly critical: they must resist the lateral wind load at the setback edge elevation while meeting the 200 lb concentrated and 50 plf live load requirements of FBC Chapter 16 for guards.</p>
+            </div>
+        </div>
+        <div class="faq-item reveal">
+            <div class="faq-question">How does wind tunnel testing change the podium design compared to code analytical methods?</div>
+            <div class="faq-answer">
+                <p>Wind tunnel testing per ASCE 7-22 Chapter 31 often reveals that code analytical methods overestimate MWFRS loads on the combined podium-tower system by 10-25% for typical wind directions, but underestimate C&C loads at specific setback corner locations by 15-35%. The podium setback corner — where the tower wall meets the podium roof edge — frequently shows peak negative pressures 30-50% higher than Chapter 30 Zone 3 coefficients predict. For Broward County high-rises over 400 feet, wind tunnel testing is strongly recommended and may be required by the peer reviewer. The investment typically ranges from $40,000 to $80,000 but yields structural savings of $200,000 to $500,000 through optimized design.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final CTA -->
+<section class="final-cta">
+    <div class="cta-box reveal-scale">
+        <h2>Calculate Your Podium <span class="shimmer">MWFRS Loads</span></h2>
+        <p>Get precise wind load calculations for your Broward County high-rise podium design. Tower and podium portions analyzed with correct velocity pressure profiles, enclosure classifications, and C&C zone pressures.</p>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>&copy; 2026 <a href="https://windload.co/">WindLoad.co</a> &mdash; Broward County High-Rise Podium Wind Engineering</p>
+    <p style="margin-top: 0.5rem;">
+        <a href="https://windload.co/architects.html">Architects</a> &middot;
+        <a href="https://windload.co/contractors.html">Contractors</a> &middot;
+        <a href="https://windload.co/states.html">All States</a> &middot;
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html">Pricing</a>
+    </p>
+</footer>
+
+<!-- ========================================
+     ANIMATION SCRIPTS
+     ======================================== -->
+<script>
+// Canvas Particle System
+const canvas = document.getElementById('hurricane-bg');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+class Particle {
+    constructor() { this.reset(); }
+    reset() {
+        this.x = Math.random() * canvas.width;
+        this.y = Math.random() * canvas.height;
+        this.size = Math.random() * 2.5 + 0.5;
+        this.speedX = Math.random() * 2.5 + 1.5;
+        this.speedY = (Math.random() - 0.5) * 0.8;
+        this.opacity = Math.random() * 0.5 + 0.2;
+        // Podium theme colors
+        const colors = ['#3b82f6', '#d97706', '#475569', '#60a5fa', '#fbbf24'];
+        this.color = colors[Math.floor(Math.random() * colors.length)];
+    }
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+        if (this.x > canvas.width + 10) this.reset(), this.x = -10;
+        if (this.y < -10 || this.y > canvas.height + 10) this.reset();
+    }
+    draw() {
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.globalAlpha = this.opacity;
+        ctx.shadowBlur = 12;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
+    }
+}
+
+for (let i = 0; i < 80; i++) particles.push(new Particle());
+
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach(p => { p.update(); p.draw(); });
+    requestAnimationFrame(animateParticles);
+}
+animateParticles();
+
+// Scroll Reveal
+function handleReveal() {
+    const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children');
+    reveals.forEach(el => {
+        const top = el.getBoundingClientRect().top;
+        if (top < window.innerHeight * 0.88) el.classList.add('active');
+    });
+}
+window.addEventListener('scroll', handleReveal);
+handleReveal();
+
+// Counter Animation
+const counters = document.querySelectorAll('.counter');
+const counterObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting && !entry.target.dataset.counted) {
+            entry.target.dataset.counted = 'true';
+            const target = parseInt(entry.target.dataset.target);
+            const prefix = entry.target.dataset.prefix || '';
+            const suffix = entry.target.dataset.suffix || '';
+            let current = 0;
+            const step = target / 60;
+            const timer = setInterval(() => {
+                current += step;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                    entry.target.style.transform = 'scale(1.1)';
+                    setTimeout(() => entry.target.style.transform = 'scale(1)', 200);
+                }
+                entry.target.textContent = prefix + Math.round(current) + suffix;
+            }, 25);
+        }
+    });
+}, { threshold: 0.5 });
+counters.forEach(c => counterObserver.observe(c));
+
+// Wind Amplification Widget
+const ampWidget = document.getElementById('ampWidget');
+const ampValue = document.getElementById('ampValue');
+const ampFill = document.getElementById('ampFill');
+let lastScrollY = 0;
+
+window.addEventListener('scroll', () => {
+    const scrollY = window.scrollY;
+    const docHeight = document.documentElement.scrollHeight - window.innerHeight;
+    const progress = Math.min(scrollY / docHeight, 1);
+
+    if (scrollY > 300) {
+        ampWidget.classList.add('visible');
+        const amp = 1.0 + progress * 0.4;
+        ampValue.textContent = amp.toFixed(1) + 'x';
+        ampFill.style.width = (progress * 100) + '%';
+    } else {
+        ampWidget.classList.remove('visible');
+    }
+    lastScrollY = scrollY;
+});
+
+// Magnetic Card Hover
+document.querySelectorAll('.magnetic-card').forEach(card => {
+    card.addEventListener('mousemove', (e) => {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left - rect.width / 2;
+        const y = e.clientY - rect.top - rect.height / 2;
+        const rotateX = -(y / rect.height) * 8;
+        const rotateY = (x / rect.width) * 8;
+        card.style.transform = `perspective(600px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+        card.style.transform = 'perspective(600px) rotateX(0deg) rotateY(0deg) translateY(0px)';
+    });
+});
+
+// FAQ Accordion
+document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+        const item = q.parentElement;
+        const wasOpen = item.classList.contains('open');
+        document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+        if (!wasOpen) item.classList.add('open');
+    });
+});
+
+// Button Ripple Effect
+document.querySelectorAll('.btn-primary').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+        const ripple = document.createElement('span');
+        ripple.classList.add('ripple');
+        const rect = this.getBoundingClientRect();
+        ripple.style.left = (e.clientX - rect.left) + 'px';
+        ripple.style.top = (e.clientY - rect.top) + 'px';
+        this.appendChild(ripple);
+        setTimeout(() => ripple.remove(), 600);
+    });
+});
+
+// ========================================
+// TREND LINE CHART 1: Wind Pressure Distribution
+// ========================================
+function drawTrendChart1() {
+    const canvas = document.getElementById('trendChart1');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width - 64;
+    canvas.height = canvas.classList.contains('trend-chart') ? (window.innerWidth < 600 ? 220 : 320) : 320;
+
+    const w = canvas.width, h = canvas.height;
+    const pad = { top: 30, right: 30, bottom: 45, left: 65 };
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
+
+    // Clear
+    ctx.clearRect(0, 0, w, h);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+        const y = pad.top + (plotH / 5) * i;
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+    }
+
+    // Y-axis labels (Pressure psf)
+    ctx.fillStyle = '#64748b';
+    ctx.font = '11px system-ui';
+    ctx.textAlign = 'right';
+    const pressures = [100, 80, 60, 40, 20, 0];
+    for (let i = 0; i < pressures.length; i++) {
+        const y = pad.top + (plotH / 5) * i;
+        ctx.fillText('-' + pressures[i] + ' psf', pad.left - 8, y + 4);
+    }
+
+    // X-axis labels (Building Zones)
+    const zones = ['Ground', 'Parking L1', 'Parking L4', 'Podium Roof\n(Interior)', 'Podium Roof\n(Edge)', 'Podium Roof\n(Setback Corner)', 'Tower Mid', 'Tower Top'];
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#64748b';
+    ctx.font = '10px system-ui';
+    for (let i = 0; i < zones.length; i++) {
+        const x = pad.left + (plotW / (zones.length - 1)) * i;
+        const lines = zones[i].split('\n');
+        lines.forEach((line, li) => {
+            ctx.fillText(line, x, h - pad.bottom + 15 + li * 12);
+        });
+    }
+
+    // Data - ASCE 7-22 Analytical (C&C pressures, negative = uplift)
+    const analyticalData = [10, 18, 25, 38, 55, 65, 52, 72];
+    // Wind Tunnel Measured
+    const tunnelData = [12, 20, 28, 35, 62, 92, 48, 68];
+
+    function toXY(index, value) {
+        return {
+            x: pad.left + (plotW / (zones.length - 1)) * index,
+            y: pad.top + plotH - (value / 100) * plotH
+        };
+    }
+
+    // Draw ASCE line
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    analyticalData.forEach((val, i) => {
+        const p = toXY(i, val);
+        if (i === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+    });
+    ctx.stroke();
+
+    // Draw dots for ASCE
+    analyticalData.forEach((val, i) => {
+        const p = toXY(i, val);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#3b82f6';
+        ctx.fill();
+    });
+
+    // Draw Tunnel line
+    ctx.strokeStyle = '#d97706';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    tunnelData.forEach((val, i) => {
+        const p = toXY(i, val);
+        if (i === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+    });
+    ctx.stroke();
+
+    // Draw dots for Tunnel
+    tunnelData.forEach((val, i) => {
+        const p = toXY(i, val);
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#d97706';
+        ctx.fill();
+    });
+
+    // Highlight the setback amplification zone (indices 4-5)
+    const zone4 = toXY(4, 0);
+    const zone5 = toXY(5, 0);
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.08)';
+    ctx.fillRect(zone4.x - 15, pad.top, zone5.x - zone4.x + 30, plotH);
+
+    // Threshold marker
+    const threshY = pad.top + plotH - (65 / 100) * plotH;
+    ctx.setLineDash([6, 4]);
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(pad.left, threshY);
+    ctx.lineTo(w - pad.right, threshY);
+    ctx.stroke();
+    ctx.setLineDash([]);
+
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 10px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('ASCE 7-22 Zone 3 Limit', pad.left + 5, threshY - 6);
+
+    // Annotation for the gap
+    const gapX = toXY(5, 0).x;
+    const gapTop = toXY(5, 92).y;
+    const gapBot = toXY(5, 65).y;
+    ctx.strokeStyle = '#d97706';
+    ctx.lineWidth = 1;
+    ctx.setLineDash([3, 3]);
+    ctx.beginPath(); ctx.moveTo(gapX + 20, gapTop); ctx.lineTo(gapX + 20, gapBot); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#d97706';
+    ctx.font = 'bold 10px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('+42%', gapX + 26, (gapTop + gapBot) / 2 + 4);
+}
+
+// ========================================
+// TREND LINE CHART 2: Internal Pressure Comparison
+// ========================================
+function drawTrendChart2() {
+    const canvas = document.getElementById('trendChart2');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width - 64;
+    canvas.height = window.innerWidth < 600 ? 220 : 320;
+
+    const w = canvas.width, h = canvas.height;
+    const pad = { top: 30, right: 30, bottom: 45, left: 65 };
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 5; i++) {
+        const y = pad.top + (plotH / 5) * i;
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+    }
+
+    // Y labels
+    ctx.fillStyle = '#64748b';
+    ctx.font = '11px system-ui';
+    ctx.textAlign = 'right';
+    const vals = [100, 80, 60, 40, 20, 0];
+    for (let i = 0; i < vals.length; i++) {
+        const y = pad.top + (plotH / 5) * i;
+        ctx.fillText('-' + vals[i] + ' psf', pad.left - 8, y + 4);
+    }
+
+    // X labels - Roof Zones
+    const xLabels = ['Zone 1\n(Interior)', 'Zone 2\n(Edge)', 'Zone 3\n(Corner)', 'Zone 2\n(Setback Edge)', 'Zone 3\n(Setback Corner)'];
+    ctx.textAlign = 'center';
+    ctx.fillStyle = '#64748b';
+    ctx.font = '10px system-ui';
+    for (let i = 0; i < xLabels.length; i++) {
+        const x = pad.left + (plotW / (xLabels.length - 1)) * i;
+        const lines = xLabels[i].split('\n');
+        lines.forEach((line, li) => {
+            ctx.fillText(line, x, h - pad.bottom + 15 + li * 12);
+        });
+    }
+
+    // Data
+    const enclosed = [32, 45, 62, 52, 65];
+    const partiallyEnclosed = [46, 62, 85, 72, 92];
+
+    function toXY(index, value) {
+        return {
+            x: pad.left + (plotW / (xLabels.length - 1)) * index,
+            y: pad.top + plotH - (value / 100) * plotH
+        };
+    }
+
+    // Area fill - enclosed
+    ctx.fillStyle = 'rgba(59, 130, 246, 0.08)';
+    ctx.beginPath();
+    ctx.moveTo(toXY(0, 0).x, toXY(0, 0).y);
+    enclosed.forEach((v, i) => ctx.lineTo(toXY(i, v).x, toXY(i, v).y));
+    ctx.lineTo(toXY(4, 0).x, toXY(4, 0).y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Area fill - partially enclosed (delta area)
+    ctx.fillStyle = 'rgba(217, 119, 6, 0.1)';
+    ctx.beginPath();
+    enclosed.forEach((v, i) => {
+        const p = toXY(i, v);
+        if (i === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+    });
+    for (let i = partiallyEnclosed.length - 1; i >= 0; i--) {
+        ctx.lineTo(toXY(i, partiallyEnclosed[i]).x, toXY(i, partiallyEnclosed[i]).y);
+    }
+    ctx.closePath();
+    ctx.fill();
+
+    // Lines
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    enclosed.forEach((v, i) => { const p = toXY(i, v); i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+    ctx.stroke();
+
+    ctx.strokeStyle = '#d97706';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    partiallyEnclosed.forEach((v, i) => { const p = toXY(i, v); i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+    ctx.stroke();
+
+    // Dots
+    enclosed.forEach((v, i) => { const p = toXY(i, v); ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fillStyle = '#3b82f6'; ctx.fill(); });
+    partiallyEnclosed.forEach((v, i) => { const p = toXY(i, v); ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fillStyle = '#d97706'; ctx.fill(); });
+
+    // Threshold
+    const threshY = pad.top + plotH - (75 / 100) * plotH;
+    ctx.setLineDash([6, 4]);
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(pad.left, threshY); ctx.lineTo(w - pad.right, threshY); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 10px system-ui';
+    ctx.textAlign = 'right';
+    ctx.fillText('Critical Design Threshold', w - pad.right - 5, threshY - 6);
+
+    // Delta labels
+    for (let i = 0; i < 5; i++) {
+        const delta = partiallyEnclosed[i] - enclosed[i];
+        const midY = (toXY(i, enclosed[i]).y + toXY(i, partiallyEnclosed[i]).y) / 2;
+        ctx.fillStyle = '#d97706';
+        ctx.font = 'bold 9px system-ui';
+        ctx.textAlign = 'center';
+        ctx.fillText('+' + delta, toXY(i, 0).x + 18, midY + 3);
+    }
+}
+
+// ========================================
+// TREND LINE CHART 3: Cost Impact
+// ========================================
+function drawTrendChart3() {
+    const canvas = document.getElementById('trendChart3');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    const rect = canvas.parentElement.getBoundingClientRect();
+    canvas.width = rect.width - 64;
+    canvas.height = window.innerWidth < 600 ? 220 : 320;
+
+    const w = canvas.width, h = canvas.height;
+    const pad = { top: 30, right: 30, bottom: 40, left: 70 };
+    const plotW = w - pad.left - pad.right;
+    const plotH = h - pad.top - pad.bottom;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Grid
+    ctx.strokeStyle = 'rgba(255,255,255,0.05)';
+    for (let i = 0; i <= 5; i++) {
+        const y = pad.top + (plotH / 5) * i;
+        ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(w - pad.right, y); ctx.stroke();
+    }
+
+    // Y labels ($)
+    ctx.fillStyle = '#64748b';
+    ctx.font = '11px system-ui';
+    ctx.textAlign = 'right';
+    const dollarVals = ['$3.0M', '$2.4M', '$1.8M', '$1.2M', '$600K', '$0'];
+    for (let i = 0; i < dollarVals.length; i++) {
+        ctx.fillText(dollarVals[i], pad.left - 8, pad.top + (plotH / 5) * i + 4);
+    }
+
+    // X labels
+    const years = ['Year 0\n(Construction)', 'Year 1', 'Year 2', 'Year 3\n(Storm Event)', 'Year 4', 'Year 5'];
+    ctx.textAlign = 'center';
+    ctx.font = '10px system-ui';
+    for (let i = 0; i < years.length; i++) {
+        const x = pad.left + (plotW / (years.length - 1)) * i;
+        const lines = years[i].split('\n');
+        lines.forEach((line, li) => {
+            ctx.fillText(line, x, h - pad.bottom + 15 + li * 12);
+        });
+    }
+
+    // Data (in thousands)
+    const maxVal = 3000;
+    const correctCost = [350, 380, 400, 420, 440, 460];     // Correct design: higher upfront, stable
+    const errorCost = [250, 270, 290, 1800, 2400, 2900];    // Underestimated: low upfront, catastrophic after storm
+
+    function toXY(i, val) {
+        return {
+            x: pad.left + (plotW / (years.length - 1)) * i,
+            y: pad.top + plotH - (val / maxVal) * plotH
+        };
+    }
+
+    // Area under error line
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.06)';
+    ctx.beginPath();
+    ctx.moveTo(toXY(0, 0).x, toXY(0, 0).y);
+    errorCost.forEach((v, i) => ctx.lineTo(toXY(i, v).x, toXY(i, v).y));
+    ctx.lineTo(toXY(5, 0).x, toXY(5, 0).y);
+    ctx.closePath();
+    ctx.fill();
+
+    // Correct design line
+    ctx.strokeStyle = '#3b82f6';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    correctCost.forEach((v, i) => { const p = toXY(i, v); i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+    ctx.stroke();
+    correctCost.forEach((v, i) => { const p = toXY(i, v); ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fillStyle = '#3b82f6'; ctx.fill(); });
+
+    // Error design line
+    ctx.strokeStyle = '#ef4444';
+    ctx.lineWidth = 2.5;
+    ctx.beginPath();
+    errorCost.forEach((v, i) => { const p = toXY(i, v); i === 0 ? ctx.moveTo(p.x, p.y) : ctx.lineTo(p.x, p.y); });
+    ctx.stroke();
+    errorCost.forEach((v, i) => { const p = toXY(i, v); ctx.beginPath(); ctx.arc(p.x, p.y, 4, 0, Math.PI*2); ctx.fillStyle = '#ef4444'; ctx.fill(); });
+
+    // Break-even dashed vertical at Year ~2.5
+    const beX = pad.left + (plotW / (years.length - 1)) * 2.3;
+    ctx.setLineDash([6, 4]);
+    ctx.strokeStyle = '#d97706';
+    ctx.lineWidth = 1.5;
+    ctx.beginPath(); ctx.moveTo(beX, pad.top); ctx.lineTo(beX, pad.top + plotH); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#d97706';
+    ctx.font = 'bold 10px system-ui';
+    ctx.textAlign = 'left';
+    ctx.fillText('Break-Even', beX + 5, pad.top + 15);
+
+    // Storm event annotation
+    const stormX = toXY(3, 0).x;
+    ctx.fillStyle = 'rgba(239, 68, 68, 0.1)';
+    ctx.fillRect(stormX - 20, pad.top, 40, plotH);
+    ctx.fillStyle = '#ef4444';
+    ctx.font = 'bold 10px system-ui';
+    ctx.textAlign = 'center';
+    ctx.fillText('STORM', stormX, pad.top + 15);
+}
+
+// Draw charts when visible
+const chartObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            const id = entry.target.id;
+            if (id === 'trendChart1') drawTrendChart1();
+            if (id === 'trendChart2') drawTrendChart2();
+            if (id === 'trendChart3') drawTrendChart3();
+        }
+    });
+}, { threshold: 0.3 });
+
+document.querySelectorAll('.trend-chart').forEach(c => chartObserver.observe(c));
+
+// Redraw on resize
+let resizeTimer;
+window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+        drawTrendChart1();
+        drawTrendChart2();
+        drawTrendChart3();
+    }, 200);
+});
+</script>
+
+</body>
+</html>
