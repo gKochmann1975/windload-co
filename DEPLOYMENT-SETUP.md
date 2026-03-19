@@ -5,9 +5,9 @@ This document outlines how to set up the automated campaign page deployment pipe
 ## Overview
 
 The system deploys campaign pages from `staged-pages/` to `florida/` (live) automatically:
-- **Frequency:** 14 times per day (every 1.5 hours)
+- **Frequency:** 10 times per day
 - **Pages per deploy:** 1 page
-- **Daily total:** 14 pages/day
+- **Daily total:** 10 pages/day
 - **Goal:** 500 pages
 
 ## Required Secrets

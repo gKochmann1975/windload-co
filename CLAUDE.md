@@ -37,7 +37,7 @@ c:\Dev\windload-co\staged-pages\
 ### Auto-Deploy System
 
 GitHub Actions automatically deploys pages from `staged-pages/` to `florida/`:
-- **Schedule:** Every 2 hours (1 page per run)
+- **Schedule:** 10 times per day (1 page per run)
 - **Workflow:** `.github/workflows/daily-deploy.yml`
 - **Script:** `scripts/deploy-daily-pages.js`
 
