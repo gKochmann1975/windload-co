@@ -98,6 +98,7 @@
     </script>
 
     <style>
+/* uid:2682a54e */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -112,15 +113,15 @@
         .drift-bg-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 20% 25%, rgba(124, 58, 237, 0.08) 0%, transparent 50%), radial-gradient(circle at 80% 75%, rgba(168, 85, 247, 0.05) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.03) 0%, transparent 60%); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.45s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.7s ease; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.4s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(35px); transition: all 0.7s ease-in-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -141,32 +142,32 @@
         .hero-shimmer { background: linear-gradient(120deg, #7c3aed 0%, #a855f7 20%, #00e5ff 40%, #7c3aed 60%, #c084fc 80%, #00e5ff 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Drift Monitor Widget (Fixed) */
-        .drift-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 210px; }
+        .drift-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 18px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(24px); opacity: 0; transform: translateX(120px); transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1); min-width: 210px; }
         .drift-widget.visible { opacity: 1; transform: translateX(0); }
-        .drift-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
-        .drift-widget-value { font-size: 1.4rem; font-weight: 800; color: #a855f7; margin-bottom: 4px; }
+        .drift-bubble-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+        .drift-bubble-stat { font-size: 1.4rem; font-weight: 800; color: #a855f7; margin-bottom: 4px; }
         .drift-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .drift-widget-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #a855f7, #00e5ff); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .drift-widget-status { font-size: 0.75rem; font-weight: 600; color: #c084fc; }
         .drift-widget-building { display: flex; align-items: flex-end; gap: 2px; margin-top: 10px; height: 40px; }
-        .drift-widget-floor { width: 16px; background: rgba(124, 58, 237, 0.4); border-radius: 2px; transition: all 0.5s ease; }
+        .drift-widget-floor { width: 16px; background: rgba(124, 58, 237, 0.4); border-radius: 2px; transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .drift-widget-floor.active { background: linear-gradient(180deg, #a855f7, #7c3aed); }
 
         /* Navigation */
-        .nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(12, 18, 32, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); }
+        .nav { display: flex; align-items: center; justify-content: space-between; padding: 3rem 2rem; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(12, 18, 32, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(124, 58, 237, 0.15); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; -webkit-text-fill-color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.52rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
         .nav-links a:hover { color: #a855f7; }
         .nav-cta { background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; transition: all 0.3s; }
-        .nav-cta:hover { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); transform: translateY(-1px); }
+        .nav-cta:hover { box-shadow: 0 0 20px rgba(124, 58, 237, 0.4); transform: translateY(-5px) scale(1.01); }
 
         /* Breadcrumb */
         .breadcrumb { padding: 0.8rem 2rem; padding-top: 5rem; position: relative; z-index: 2; }
-        .breadcrumb-container { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+        .breadcrumb-container { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; max-width: 1400px; margin: 0 auto; flex-wrap: wrap; }
         .breadcrumb-container a { color: #7c3aed; text-decoration: none; transition: color 0.3s; }
         .breadcrumb-container a:hover { color: #a855f7; }
         .breadcrumb-container span { color: #64748b; }
@@ -178,69 +179,69 @@
         .hero-badge-dot { width: 8px; height: 8px; background: #a855f7; border-radius: 50%; animation: glow-pulse 2s ease-in-out infinite; }
         .hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.15; margin-bottom: 1.5rem; }
         .hero p { font-size: 1.15rem; color: #94a3b8; max-width: 740px; margin: 0 auto 2rem; line-height: 1.7; }
-        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s; position: relative; overflow: hidden; }
-        .btn-primary:hover { box-shadow: 0 0 30px rgba(124, 58, 237, 0.5); transform: translateY(-2px); }
-        .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(124, 58, 237, 0.3); color: #c084fc; padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s; }
-        .btn-secondary:hover { background: rgba(124, 58, 237, 0.1); border-color: #a855f7; }
+        .hero-buttons { display: flex; gap: 0.76rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-start { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #7c3aed, #a855f7); color: #fff; padding: 0.9rem 2rem; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s; position: relative; overflow: hidden; }
+        .btn-start:hover { box-shadow: 0 0 30px rgba(124, 58, 237, 0.5); transform: translateY(-4px); }
+        .btn-other { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(124, 58, 237, 0.3); color: #c084fc; padding: 0.9rem 2rem; border-radius: 13px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s; }
+        .btn-other:hover { background: rgba(124, 58, 237, 0.1); border-color: #a855f7; }
 
         .hero-warning { background: rgba(124, 58, 237, 0.08); border-left: 4px solid #7c3aed; padding: 1rem 1.5rem; border-radius: 0 12px 12px 0; max-width: 700px; margin: 0 auto; text-align: left; animation: warning-flash 3s ease-in-out infinite; }
         .hero-warning strong { color: #c084fc; }
         .hero-warning p { font-size: 0.9rem; color: #94a3b8; margin: 0; }
 
         /* Trust Badges / Counters */
-        .trust-badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1000px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
-        .trust-badge { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
+        .trust-badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.51rem; max-width: 1000px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
+        .trust-badge { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 19px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
         .trust-badge:hover { border-color: rgba(124, 58, 237, 0.4); background: rgba(124, 58, 237, 0.05); }
         .trust-badge .counter { font-size: 2rem; font-weight: 900; color: #a855f7; display: block; margin-bottom: 0.3rem; }
         .trust-badge .label { font-size: 0.8rem; color: #64748b; }
 
         /* Content Sections */
-        .content-section { padding: 4rem 2rem; position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
-        .section-header h2 .accent { color: #a855f7; }
-        .section-header p { color: #94a3b8; max-width: 650px; margin: 0 auto; font-size: 1.05rem; }
+        .content-section { padding: 4rem 2rem; position: relative; z-index: 2; max-width: 1150px; margin: 0 auto; }
+        .section-lead { text-align: center; margin-bottom: 3rem; }
+        .section-lead h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
+        .section-lead h2 .accent { color: #a855f7; }
+        .section-lead p { color: #94a3b8; max-width: 650px; margin: 0 auto; font-size: 1.05rem; }
 
         /* Building Sway Visualization */
-        .sway-viz-container { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 3rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
+        .sway-viz-container { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 17px; padding: 3rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
         .sway-viz-container::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #7c3aed, #a855f7, #00e5ff, transparent); }
         .sway-canvas-wrap { display: flex; justify-content: center; align-items: flex-end; gap: 4rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        #building-sway-canvas { border-radius: 12px; background: rgba(0,0,0,0.3); }
+        #building-sway-canvas { border-radius: 9px; background: rgba(0,0,0,0.3); }
 
-        .sway-legend { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+        .sway-legend { display: flex; gap: 1.96rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
         .sway-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #94a3b8; }
         .sway-legend-dot { width: 12px; height: 12px; border-radius: 3px; }
 
         /* Diverging Chart Section */
-        .diverging-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-bottom: 4rem; }
-        .diverging-chart-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 2rem; }
+        .diverging-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2.95rem; align-items: start; margin-bottom: 4rem; }
+        .diverging-chart-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 19px; padding: 2rem; }
         .diverging-chart-wrap h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; color: #fff; }
         #diverging-chart { width: 100%; }
 
-        .diverging-info { display: flex; flex-direction: column; gap: 1.5rem; }
-        .diverging-info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 16px; padding: 1.5rem; transition: all 0.4s; }
-        .diverging-info-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1); }
+        .diverging-info { display: flex; flex-direction: column; gap: 1.60rem; }
+        .diverging-info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 19px; padding: 1.5rem; transition: all 0.4s; }
+        .diverging-info-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: translateY(-5px) scale(1.01); box-shadow: 0 10px 30px rgba(124, 58, 237, 0.1); }
         .diverging-info-card h4 { font-size: 1.05rem; font-weight: 700; color: #c084fc; margin-bottom: 0.5rem; }
         .diverging-info-card p { color: #94a3b8; font-size: 0.92rem; line-height: 1.6; }
         .diverging-info-card .stat { font-size: 1.8rem; font-weight: 900; color: #a855f7; display: block; margin-top: 0.3rem; }
 
         /* Drift Limits Comparison Grid */
-        .drift-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-        .drift-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s; position: relative; overflow: hidden; }
+        .drift-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.77rem; margin-bottom: 3rem; }
+        .drift-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 14px; padding: 2rem; transition: all 0.4s; position: relative; overflow: hidden; }
         .drift-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #7c3aed, #a855f7); transform: scaleX(0); transition: transform 0.4s; }
         .drift-card:hover::after { transform: scaleX(1); }
-        .drift-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: translateY(-4px); box-shadow: 0 15px 40px rgba(124, 58, 237, 0.12); }
-        .drift-card-icon { width: 48px; height: 48px; background: rgba(124, 58, 237, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.3rem; }
+        .drift-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: translateY(-3px) scale(1.01); box-shadow: 0 15px 40px rgba(124, 58, 237, 0.12); }
+        .drift-card-icon { width: 48px; height: 48px; background: rgba(124, 58, 237, 0.15); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.3rem; }
         .drift-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; }
         .drift-card .drift-ratio { font-size: 2rem; font-weight: 900; color: #a855f7; margin-bottom: 0.3rem; }
         .drift-card p { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; }
 
         /* Material Comparison Table */
-        .material-table-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; overflow-x: auto; }
+        .material-table-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 23px; padding: 2.5rem; margin-bottom: 3rem; overflow-x: auto; }
         .material-table { width: 100%; border-collapse: separate; border-spacing: 0; }
         .material-table thead th { background: rgba(124, 58, 237, 0.15); color: #c084fc; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 1rem; text-align: left; }
-        .material-table thead th:first-child { border-radius: 10px 0 0 10px; }
+        .material-table thead th:first-child { border-radius: 7px 0 0 10px; }
         .material-table thead th:last-child { border-radius: 0 10px 10px 0; }
         .material-table tbody td { padding: 1rem; border-bottom: 1px solid rgba(124, 58, 237, 0.08); color: #94a3b8; font-size: 0.9rem; }
         .material-table tbody tr:last-child td { border-bottom: none; }
@@ -248,18 +249,18 @@
         .material-table .highlight { color: #a855f7; font-weight: 700; }
 
         /* Damping Systems Cards */
-        .damping-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-        .damping-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s; position: relative; }
-        .damping-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(124, 58, 237, 0.1); }
+        .damping-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.48rem; margin-bottom: 3rem; }
+        .damping-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 14px; padding: 2rem; transition: all 0.4s; position: relative; }
+        .damping-card:hover { border-color: rgba(168, 85, 247, 0.4); transform: scale(1.02); box-shadow: 0 12px 35px rgba(124, 58, 237, 0.1); }
         .damping-card h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
-        .damping-card .effectiveness { display: inline-block; background: rgba(124, 58, 237, 0.15); color: #c084fc; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.8rem; }
+        .damping-card .effectiveness { display: inline-block; background: rgba(124, 58, 237, 0.15); color: #c084fc; padding: 0.2rem 0.8rem; border-radius: 17px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.8rem; }
         .damping-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.6rem; }
         .damping-card .metric { display: flex; justify-content: space-between; align-items: center; padding-top: 0.8rem; border-top: 1px solid rgba(124, 58, 237, 0.1); margin-top: 0.8rem; }
         .damping-card .metric-label { font-size: 0.78rem; color: #64748b; }
         .damping-card .metric-value { font-size: 1.1rem; font-weight: 800; color: #a855f7; }
 
         /* Accelerometer Gauge Section */
-        .gauge-section { display: grid; grid-template-columns: 300px 1fr; gap: 3rem; align-items: center; margin-bottom: 4rem; }
+        .gauge-section { display: grid; grid-template-columns: 300px 1fr; gap: 2.72rem; align-items: center; margin-bottom: 4rem; }
         .gauge-wrap { position: relative; }
         #accel-gauge { display: block; margin: 0 auto; }
         .gauge-reading { text-align: center; margin-top: 1rem; }
@@ -268,7 +269,7 @@
         .gauge-info h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .gauge-info p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
         .gauge-thresholds { display: flex; flex-direction: column; gap: 0.8rem; }
-        .gauge-threshold { display: flex; align-items: center; gap: 1rem; padding: 0.7rem 1rem; background: rgba(255,255,255,0.03); border-radius: 10px; border-left: 3px solid; }
+        .gauge-threshold { display: flex; align-items: center; gap: 0.72rem; padding: 0.7rem 1rem; background: rgba(255,255,255,0.03); border-radius: 13px; border-left: 3px solid; }
         .gauge-threshold.green { border-left-color: #059669; }
         .gauge-threshold.amber { border-left-color: #f59e0b; }
         .gauge-threshold.red { border-left-color: #ff4757; }
@@ -276,40 +277,40 @@
         .gauge-threshold .thresh-desc { font-size: 0.82rem; color: #94a3b8; }
 
         /* P-Delta Section */
-        .pdelta-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-bottom: 4rem; }
-        .pdelta-viz { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 2rem; text-align: center; }
+        .pdelta-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3.25rem; align-items: start; margin-bottom: 4rem; }
+        .pdelta-viz { background: rgba(255,255,255,0.02); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 18px; padding: 2rem; text-align: center; }
         .pdelta-viz h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; }
-        #pdelta-canvas { border-radius: 12px; background: rgba(0,0,0,0.2); }
+        #pdelta-canvas { border-radius: 11px; background: rgba(0,0,0,0.2); }
         .pdelta-content h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .pdelta-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
-        .pdelta-formula { background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1rem 0; font-family: 'Courier New', monospace; text-align: center; }
+        .pdelta-formula { background: rgba(124, 58, 237, 0.08); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 11px; padding: 1.2rem 1.5rem; margin: 1rem 0; font-family: 'Courier New', monospace; text-align: center; }
         .pdelta-formula .formula { font-size: 1.1rem; color: #c084fc; font-weight: 700; }
         .pdelta-formula .formula-desc { font-size: 0.8rem; color: #64748b; margin-top: 0.3rem; }
 
         /* Insurance / Liability Callout */
-        .callout-section { background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(168, 85, 247, 0.04)); border: 1px solid rgba(124, 58, 237, 0.25); border-radius: 20px; padding: 3rem; margin-bottom: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .callout-section { background: linear-gradient(135deg, rgba(124, 58, 237, 0.08), rgba(168, 85, 247, 0.04)); border: 1px solid rgba(124, 58, 237, 0.25); border-radius: 20px; padding: 3rem; margin-bottom: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2.39rem; }
         .callout-left h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .callout-left p { color: #94a3b8; line-height: 1.7; font-size: 0.95rem; margin-bottom: 1rem; }
-        .callout-right { display: flex; flex-direction: column; gap: 1rem; }
-        .callout-stat { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px; }
+        .callout-right { display: flex; flex-direction: column; gap: 1.10rem; }
+        .callout-stat { display: flex; align-items: center; gap: 0.89rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 15px; }
         .callout-stat-number { font-size: 1.6rem; font-weight: 900; color: #a855f7; min-width: 80px; }
         .callout-stat-text { font-size: 0.88rem; color: #94a3b8; }
 
         /* FAQ Section */
-        .faq-section { max-width: 850px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
-        .faq-section .section-header { margin-bottom: 2.5rem; }
-        .faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s; }
-        .faq-item:hover { border-color: rgba(124, 58, 237, 0.35); }
-        .faq-question { padding: 1.3rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; color: #fff; flex: 1; }
+        .info-section { max-width: 850px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
+        .info-section .section-lead { margin-bottom: 2.5rem; }
+        .info-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 11px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s; }
+        .info-item:hover { border-color: rgba(124, 58, 237, 0.35); }
+        .question-trigger { padding: 1.3rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.72rem; }
+        .question-trigger h3 { font-size: 1rem; font-weight: 600; color: #fff; flex: 1; }
         .faq-toggle { width: 28px; height: 28px; background: rgba(124, 58, 237, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; color: #a855f7; font-size: 1.1rem; font-weight: 700; }
-        .faq-item.open .faq-toggle { background: #7c3aed; color: #fff; transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.3rem; color: #94a3b8; line-height: 1.7; font-size: 0.92rem; }
+        .info-item.open .faq-toggle { background: #7c3aed; color: #fff; transform: rotate(45deg); }
+        .reveal-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-body-inner { padding: 0 1.5rem 1.3rem; color: #94a3b8; line-height: 1.7; font-size: 0.92rem; }
 
         /* Final CTA */
-        .final-cta { text-align: center; padding: 5rem 2rem; position: relative; z-index: 2; }
-        .final-cta-inner { background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(168, 85, 247, 0.06)); border: 1px solid rgba(124, 58, 237, 0.25); border-radius: 24px; padding: 4rem 3rem; max-width: 800px; margin: 0 auto; }
+        .final-cta { text-align: center; padding: 6rem 2rem; position: relative; z-index: 2; }
+        .final-cta-inner { background: linear-gradient(135deg, rgba(124, 58, 237, 0.12), rgba(168, 85, 247, 0.06)); border: 1px solid rgba(124, 58, 237, 0.25); border-radius: 27px; padding: 5rem 3rem; max-width: 800px; margin: 0 auto; }
         .final-cta h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 1rem; }
         .final-cta p { color: #94a3b8; max-width: 550px; margin: 0 auto 2rem; font-size: 1.05rem; }
 
@@ -324,7 +325,7 @@
             .nav { padding: 0.8rem 1rem; }
             .nav-links { display: none; }
             .nav-cta { font-size: 0.75rem; padding: 0.5rem 0.8rem; }
-            .trust-badges { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .trust-badges { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.18rem; }
             .drift-grid { grid-template-columns: 1fr; }
             .damping-grid { grid-template-columns: 1fr; }
             .diverging-section { grid-template-columns: 1fr; }
@@ -350,8 +351,8 @@
 
 <!-- Drift Monitor Widget -->
 <div class="drift-widget" id="driftWidget">
-    <div class="drift-widget-label">Lateral Drift Index</div>
-    <div class="drift-widget-value" id="driftWidgetValue">H/500</div>
+    <div class="drift-bubble-label">Lateral Drift Index</div>
+    <div class="drift-bubble-stat" id="driftWidgetValue">H/500</div>
     <div class="drift-widget-bar"><div class="drift-widget-fill" id="driftWidgetFill"></div></div>
     <div class="drift-widget-status" id="driftWidgetStatus">Monitoring...</div>
     <div class="drift-widget-building" id="driftWidgetBuilding"></div>
@@ -395,8 +396,8 @@
     <h1>Wind Drift &amp; <span class="hero-shimmer">Serviceability Limits</span> in Miami-Dade HVHZ</h1>
     <p>Building sway under 180 MPH design wind speeds can crack cladding, shatter curtain walls, and trigger occupant discomfort. Wind drift serviceability analysis determines how much lateral displacement your structure can tolerate before non-structural elements fail and insurance claims begin.</p>
     <div class="hero-buttons">
-        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads</a>
-        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-secondary">Drift Analysis Tools</a>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-start">Calculate MWFRS Loads</a>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-other">Drift Analysis Tools</a>
     </div>
     <div class="hero-warning">
         <strong>Critical for Tall Buildings:</strong>
@@ -426,7 +427,7 @@
 
 <!-- Section 1: Building Sway Visualization -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Visualizing Building <span class="accent">Lateral Sway</span> Under Wind</h2>
         <p>Wind drift is the lateral displacement a building experiences under sustained and gusting wind loads. The animated diagram below shows how different drift ratios affect a 360-foot tower in Miami-Dade's 180 MPH wind zone.</p>
     </div>
@@ -450,7 +451,7 @@
 
 <!-- Section 2: Drift Limits by Cladding Type -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Inter-Story Drift Limits by <span class="accent">Cladding System</span></h2>
         <p>Different facade systems tolerate different amounts of rack before sustaining damage. Choosing the wrong drift limit for your cladding leads to premature failure during service-level wind events.</p>
     </div>
@@ -497,7 +498,7 @@
 
 <!-- Section 3: Concrete vs Steel Drift Characteristics (Diverging Analysis) -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Concrete vs Steel: <span class="accent">Drift Behavior Divergence</span></h2>
         <p>Structural material choice fundamentally alters a building's drift profile. In Miami-Dade's HVHZ, the divergence between concrete and steel frame performance grows dramatically with building height.</p>
     </div>
@@ -529,7 +530,7 @@
 
 <!-- Section 4: Damping Systems -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Damping Systems for <span class="accent">Drift &amp; Comfort Control</span></h2>
         <p>When structural stiffening alone cannot achieve acceptable drift limits and occupant comfort, supplemental damping systems provide the additional energy dissipation needed for Miami-Dade's extreme wind environment.</p>
     </div>
@@ -612,7 +613,7 @@
 
 <!-- Section 6: P-Delta Effects -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>P-Delta Effects in <span class="accent">180 MPH Wind Zone</span></h2>
         <p>Gravity loads acting on the displaced structure amplify lateral drift beyond first-order analysis predictions. In Miami-Dade's extreme wind environment, ignoring P-Delta effects leads to unconservative designs.</p>
     </div>
@@ -637,7 +638,7 @@
 
 <!-- Section 7: Wind Tunnel vs Code Analysis -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Wind Tunnel Testing vs <span class="accent">Code-Based Drift Analysis</span></h2>
         <p>The decision between analytical code methods and physical wind tunnel modeling shapes drift predictions, structural member sizing, and ultimately construction cost for every tall building in Miami-Dade.</p>
     </div>
@@ -733,7 +734,7 @@
 
 <!-- Section 9: Non-Structural Element Protection -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Protecting Non-Structural Elements from <span class="accent">Wind Drift Damage</span></h2>
         <p>The majority of wind-related building damage in Miami-Dade involves non-structural components. Design strategies that accommodate expected drift prevent cascading failures during both service-level and ultimate wind events.</p>
     </div>
@@ -758,79 +759,79 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
-    <div class="section-header reveal">
+<section class="info-section">
+    <div class="section-lead reveal">
         <h2>Wind Drift Serviceability <span class="accent">FAQ</span></h2>
         <p>Technical answers to the most critical questions about wind drift analysis and serviceability design in Miami-Dade's High Velocity Hurricane Zone.</p>
     </div>
 
-    <div class="faq-item reveal">
-        <div class="faq-question" onclick="toggleFaq(this)">
+    <div class="info-item reveal">
+        <div class="question-trigger" onclick="toggleFaq(this)">
             <h3>What are the standard wind drift limits for buildings in Miami-Dade County?</h3>
             <div class="faq-toggle">+</div>
         </div>
-        <div class="faq-answer">
-            <div class="faq-answer-inner">
+        <div class="reveal-body">
+            <div class="reveal-body-inner">
                 Miami-Dade County follows ASCE 7-22 Appendix CC serviceability guidelines, which recommend total building drift of H/400 to H/600 (where H is total building height) and inter-story drift of h/300 to h/600 (where h is story height) depending on the cladding system. For a 400-foot tall building at H/400, the maximum allowable lateral displacement at the roof is 12 inches. Most structural engineers in the HVHZ design to H/500 or stricter for buildings over 200 feet due to the 180 MPH ultimate design wind speed. Glass curtain wall buildings typically require h/500 inter-story drift limits to prevent glass breakage, while precast concrete panel facades may tolerate h/300 if joint sealants are designed for the expected movement.
             </div>
         </div>
     </div>
 
-    <div class="faq-item reveal">
-        <div class="faq-question" onclick="toggleFaq(this)">
+    <div class="info-item reveal">
+        <div class="question-trigger" onclick="toggleFaq(this)">
             <h3>How do P-Delta effects influence wind drift analysis in Miami-Dade high-rises?</h3>
             <div class="faq-toggle">+</div>
         </div>
-        <div class="faq-answer">
-            <div class="faq-answer-inner">
+        <div class="reveal-body">
+            <div class="reveal-body-inner">
                 P-Delta effects amplify lateral drift when gravity loads act on the displaced structure. In Miami-Dade's 180 MPH wind zone, the amplification factor can increase lateral displacements by 10-25% in flexible structures. ASCE 7-22 Section 26.11.4 requires P-Delta effects to be included when the stability coefficient theta exceeds 0.10. For a typical 30-story concrete tower in Miami with 200 psf floor gravity load and 15 psf wind base shear, first-order drift of 8 inches can amplify to 9.5-10 inches after P-Delta iteration. Ignoring P-Delta effects in drift-sensitive designs leads to under-designed lateral systems that may experience progressive amplification during sustained hurricane winds.
             </div>
         </div>
     </div>
 
-    <div class="faq-item reveal">
-        <div class="faq-question" onclick="toggleFaq(this)">
+    <div class="info-item reveal">
+        <div class="question-trigger" onclick="toggleFaq(this)">
             <h3>What damping systems are used in Miami-Dade tall buildings to control wind drift?</h3>
             <div class="faq-toggle">+</div>
         </div>
-        <div class="faq-answer">
-            <div class="faq-answer-inner">
+        <div class="reveal-body">
+            <div class="reveal-body-inner">
                 Miami-Dade tall buildings employ several damping strategies including Tuned Mass Dampers (TMDs) at 1-3% of building generalized mass reducing peak accelerations by 30-50%, viscous fluid dampers that reduce inter-story drifts by 20-40%, Tuned Liquid Column Dampers (TLCDs) that use water movement for energy dissipation, and friction dampers at beam-column connections. For Miami-Dade's 180 MPH wind loads, damping augmentation from 1% inherent to 3-4% effective damping can reduce peak drift demands by approximately 25-35%. TMDs require dedicated mechanical floor space of 400-2,000 square feet, while viscous dampers integrate within the existing structural frame at diagonal bracing or outrigger locations.
             </div>
         </div>
     </div>
 
-    <div class="faq-item reveal">
-        <div class="faq-question" onclick="toggleFaq(this)">
+    <div class="info-item reveal">
+        <div class="question-trigger" onclick="toggleFaq(this)">
             <h3>How much drift can glass curtain walls accommodate without failure?</h3>
             <div class="faq-toggle">+</div>
         </div>
-        <div class="faq-answer">
-            <div class="faq-answer-inner">
+        <div class="reveal-body">
+            <div class="reveal-body-inner">
                 Standard 4-sided structurally glazed curtain walls can typically accommodate h/360 to h/500 inter-story drift depending on glass-to-frame clearance. Unitized curtain wall systems with stack joints designed for movement can handle h/240 to h/300. The critical failure mode is glass-to-frame contact: when the frame racks beyond the clearance gap, the glass corner contacts the frame and shatters. For a 12-foot story height at h/500, the allowable drift is 0.288 inches. At h/300, it increases to 0.48 inches. Miami-Dade NOA-approved curtain wall systems must be tested to their stated drift capacity while simultaneously resisting the design wind pressure and large missile impact per ASTM E1886/E1996.
             </div>
         </div>
     </div>
 
-    <div class="faq-item reveal">
-        <div class="faq-question" onclick="toggleFaq(this)">
+    <div class="info-item reveal">
+        <div class="question-trigger" onclick="toggleFaq(this)">
             <h3>What is the difference between wind tunnel testing and code-based drift analysis?</h3>
             <div class="faq-toggle">+</div>
         </div>
-        <div class="faq-answer">
-            <div class="faq-answer-inner">
+        <div class="reveal-body">
+            <div class="reveal-body-inner">
                 Code-based drift analysis using ASCE 7-22 applies generic pressure coefficients and gust effect factors assuming the building is isolated with regular geometry, producing conservative results. Wind tunnel testing physically models the building and its surroundings at 1:300 to 1:500 scale, capturing shielding from adjacent buildings, channeling effects between towers, vortex shedding, and crosswind response. In Miami-Dade's dense urban environment, wind tunnel testing typically reduces calculated drift demands by 15-40% compared to code methods. However, it can also reveal increased loads at certain angles due to channeling. For buildings over 400 feet in Miami-Dade, wind tunnel testing is standard practice and can save millions in structural material by reducing drift-driven member sizes.
             </div>
         </div>
     </div>
 
-    <div class="faq-item reveal">
-        <div class="faq-question" onclick="toggleFaq(this)">
+    <div class="info-item reveal">
+        <div class="question-trigger" onclick="toggleFaq(this)">
             <h3>How does occupant comfort relate to wind drift and serviceability in Miami-Dade buildings?</h3>
             <div class="faq-toggle">+</div>
         </div>
-        <div class="faq-answer">
-            <div class="faq-answer-inner">
+        <div class="reveal-body">
+            <div class="reveal-body-inner">
                 Occupant comfort is governed by peak floor acceleration, not drift alone. ASCE 7-22 Appendix CC suggests acceleration limits of 10-15 milli-g for residential buildings and 20-25 milli-g for office buildings at a 10-year return period wind. In Miami-Dade, high sustained wind speeds during hurricane season create service-level winds of 50-70 MPH that occur several times per year, making occupant comfort a recurring concern. A 50-story residential tower with a 5-second fundamental period and 1% damping can experience 20+ milli-g accelerations in a 50 MPH storm. Supplemental damping through TMDs or viscous dampers is often the most cost-effective solution, reducing acceleration to acceptable levels without increasing stiffness. Accelerometer monitoring systems are increasingly installed in Miami towers to verify predicted performance and trigger occupant notification protocols.
             </div>
         </div>
@@ -842,7 +843,7 @@
     <div class="final-cta-inner reveal-scale">
         <h2>Calculate Your Building's <span class="hero-shimmer">Wind Drift Demands</span></h2>
         <p>Get MWFRS wind load calculations for your Miami-Dade HVHZ project. Accurate lateral force distribution is the foundation of every drift and serviceability analysis.</p>
-        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary">Calculate MWFRS Loads Now</a>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-start">Calculate MWFRS Loads Now</a>
     </div>
 </section>
 
@@ -873,10 +874,10 @@
         reset() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.5 + 0.8;
-            this.speedX = Math.random() * 2 + 1;
+            this.size = Math.random() * 2.1 + 0.9;
+            this.speedX = Math.random() * 2.1 + 1.0;
             this.speedY = (Math.random() - 0.5) * 0.5;
-            this.opacity = Math.random() * 0.5 + 0.2;
+            this.opacity = Math.random() * 0.49 + 0.20;
             this.color = Math.random() > 0.6 ? '#a855f7' : (Math.random() > 0.5 ? '#7c3aed' : '#00e5ff');
         }
         update() {
@@ -1565,7 +1566,7 @@
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
     revealElements.forEach(el => observer.observe(el));
 })();
 
@@ -1596,7 +1597,7 @@
                 counterObserver.unobserve(el);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.2 });
     counters.forEach(c => counterObserver.observe(c));
 })();
 
@@ -1604,15 +1605,15 @@
 // FAQ ACCORDION
 // ========================================
 function toggleFaq(el) {
-    const item = el.closest('.faq-item');
-    const answer = item.querySelector('.faq-answer');
-    const inner = answer.querySelector('.faq-answer-inner');
+    const item = el.closest('.info-item');
+    const answer = item.querySelector('.reveal-body');
+    const inner = answer.querySelector('.reveal-body-inner');
     const isOpen = item.classList.contains('open');
 
     // Close all
-    document.querySelectorAll('.faq-item.open').forEach(openItem => {
+    document.querySelectorAll('.info-item.open').forEach(openItem => {
         openItem.classList.remove('open');
-        openItem.querySelector('.faq-answer').style.maxHeight = '0';
+        openItem.querySelector('.reveal-body').style.maxHeight = '0';
     });
 
     if (!isOpen) {
@@ -1649,7 +1650,7 @@ function toggleFaq(el) {
 // ========================================
 // BUTTON RIPPLE EFFECT
 // ========================================
-document.querySelectorAll('.btn-primary').forEach(btn => {
+document.querySelectorAll('.btn-start').forEach(btn => {
     btn.addEventListener('click', function(e) {
         const ripple = document.createElement('span');
         const rect = this.getBoundingClientRect();

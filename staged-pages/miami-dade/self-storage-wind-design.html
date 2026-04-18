@@ -96,6 +96,7 @@
     </script>
 
     <style>
+/* uid:7ac06622 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -111,15 +112,15 @@
         #storage-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; opacity: 0.12; }
 
         /* Scroll Reveal */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.55s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -138,9 +139,9 @@
         .shimmer { background: linear-gradient(120deg, #f59e0b 0%, #fbbf24 25%, #f59e0b 50%, #78350f 75%, #f59e0b 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Units At Risk Widget */
-        .risk-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
+        .risk-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(24px); opacity: 0; transform: translateX(120px); transition: all 0.65s cubic-bezier(0.4, 0, 0.2, 1); min-width: 190px; }
         .risk-widget.visible { opacity: 1; transform: translateX(0); }
-        .risk-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+        .risk-quick-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
         .risk-widget-count { font-size: 2rem; font-weight: 800; color: #f59e0b; margin-bottom: 4px; font-variant-numeric: tabular-nums; }
         .risk-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 6px; }
         .risk-widget-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #ef4444); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -148,20 +149,20 @@
         .risk-widget-speed strong { color: #fbbf24; }
 
         /* Nav */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(245, 158, 11, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(245, 158, 11, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.70rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #f59e0b; }
-        .nav-cta { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.4s ease-out; }
+        .nav-cta:hover { transform: translateY(-6px); box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1150px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #f59e0b; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -174,12 +175,12 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 750px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #f59e0b; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s ease; position: relative; overflow: hidden; cursor: pointer; }
-        .btn-primary { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0c1220; box-shadow: 0 4px 25px rgba(245, 158, 11, 0.4); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(245, 158, 11, 0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.08); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+        .hero-cta { display: flex; gap: 1.07rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 14px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.8s ease-in-out; position: relative; overflow: hidden; cursor: pointer; }
+        .btn-action { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); color: #0c1220; box-shadow: 0 4px 25px rgba(245, 158, 11, 0.4); }
+        .btn-action:hover { transform: translateY(-6px); box-shadow: 0 8px 40px rgba(245, 158, 11, 0.5); }
+        .btn-explore { background: rgba(255,255,255,0.08); color: #ffffff; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-explore:hover { background: rgba(255,255,255,0.12); transform: translateY(-4px); }
         .btn .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: ripple-effect 0.6s linear; pointer-events: none; }
         @keyframes ripple-effect { to { transform: scale(4); opacity: 0; } }
 
@@ -188,7 +189,7 @@
         .alert-banner p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
 
         /* Trust Bar */
-        .trust-bar { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; padding: 3rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(245, 158, 11, 0.1); }
+        .trust-bar { display: flex; justify-content: center; gap: 2.95rem; flex-wrap: wrap; padding: 4rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(245, 158, 11, 0.1); }
         .trust-item { text-align: center; }
         .trust-value { font-size: 2rem; font-weight: 800; color: #f59e0b; }
         .trust-label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; }
@@ -196,41 +197,41 @@
         /* Sections */
         .section { padding: 4rem 2rem; position: relative; z-index: 2; }
         .section-alt { background: linear-gradient(180deg, rgba(120, 53, 15, 0.04) 0%, rgba(12, 18, 32, 1) 100%); }
-        .section-container { max-width: 1100px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; }
-        .section-header p { color: #94a3b8; max-width: 700px; margin: 0 auto; }
-        .section-header .accent { color: #f59e0b; }
+        .section-container { max-width: 1400px; margin: 0 auto; }
+        .area-header { text-align: center; margin-bottom: 3rem; }
+        .area-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .area-header p { color: #94a3b8; max-width: 700px; margin: 0 auto; }
+        .area-header .accent { color: #f59e0b; }
 
         /* Cascade Diagram */
-        .cascade-visual { width: 100%; max-width: 900px; margin: 0 auto 3rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 20px; padding: 2rem; overflow: hidden; }
+        .cascade-visual { width: 100%; max-width: 900px; margin: 0 auto 3rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 19px; padding: 2rem; overflow: hidden; }
         .cascade-row { display: flex; gap: 4px; justify-content: center; align-items: flex-end; height: 140px; margin-bottom: 1rem; }
-        .cascade-door { width: 60px; height: 100px; background: linear-gradient(180deg, #6b7280 0%, #4b5563 100%); border: 2px solid #9ca3af; border-radius: 4px 4px 0 0; position: relative; transition: all 0.5s ease; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
+        .cascade-door { width: 60px; height: 100px; background: linear-gradient(180deg, #6b7280 0%, #4b5563 100%); border: 2px solid #9ca3af; border-radius: 4px 4px 0 0; position: relative; transition: all 0.55s ease; display: flex; flex-direction: column; justify-content: flex-end; align-items: center; }
         .cascade-door.breached { background: linear-gradient(180deg, #ef4444 0%, #991b1b 100%); border-color: #ef4444; animation: door-buckle 2s ease-in-out infinite; transform-origin: bottom; }
         .cascade-door.pressured { background: linear-gradient(180deg, #f59e0b 0%, #92400e 100%); border-color: #f59e0b; }
         .cascade-door.safe { background: linear-gradient(180deg, #059669 0%, #065f46 100%); border-color: #10b981; }
         .cascade-door .door-number { font-size: 0.6rem; color: rgba(255,255,255,0.7); margin-bottom: 4px; font-weight: 700; }
         .cascade-door .door-pressure { font-size: 0.55rem; color: rgba(255,255,255,0.9); font-weight: 600; position: absolute; top: -18px; white-space: nowrap; }
-        .cascade-legend { display: flex; justify-content: center; gap: 2rem; flex-wrap: wrap; }
+        .cascade-legend { display: flex; justify-content: center; gap: 1.89rem; flex-wrap: wrap; }
         .cascade-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #94a3b8; }
         .cascade-legend-swatch { width: 16px; height: 16px; border-radius: 4px; }
 
         /* Type Comparison */
-        .type-compare { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .type-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .type-card:hover { border-color: rgba(245, 158, 11, 0.3); transform: translateY(-6px); }
-        .type-card.featured { border-color: rgba(245, 158, 11, 0.4); }
-        .type-card.featured::before { content: 'HIGHER RISK'; position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.25rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
-        .type-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
-        .type-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .type-compare { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.91rem; margin-top: 2rem; }
+        .product-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1); position: relative; overflow: hidden; }
+        .product-card:hover { border-color: rgba(245, 158, 11, 0.3); transform: translateY(-8px); }
+        .product-card.featured { border-color: rgba(245, 158, 11, 0.4); }
+        .product-card.featured::before { content: 'HIGHER RISK'; position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.25rem 0.5rem; border-radius: 4px; letter-spacing: 0.05em; }
+        .type-icon { width: 52px; height: 52px; border-radius: 11px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
+        .product-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
         .type-rating { font-size: 1.4rem; font-weight: 800; color: #f59e0b; margin-bottom: 0.75rem; }
-        .type-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
+        .product-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; margin-bottom: 1rem; }
         .type-features { list-style: none; }
         .type-features li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; color: #94a3b8; font-size: 0.9rem; }
         .type-features li::before { content: '>'; position: absolute; left: 0; color: #f59e0b; font-weight: bold; }
 
         /* Door Rating Table */
-        .rating-table-wrap { overflow-x: auto; margin-top: 2rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+        .rating-table-wrap { overflow-x: auto; margin-top: 2rem; border-radius: 15px; border: 1px solid rgba(255,255,255,0.1); }
         .rating-table { width: 100%; border-collapse: collapse; }
         .rating-table thead { background: rgba(245, 158, 11, 0.1); }
         .rating-table th { padding: 1rem 1.25rem; text-align: left; font-size: 0.85rem; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(245, 158, 11, 0.2); }
@@ -245,28 +246,28 @@
         .zone-interior { background: rgba(107, 128, 128, 0.2); color: #94a3b8; }
 
         /* MBS Section */
-        .mbs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .mbs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.91rem; align-items: start; margin-top: 2rem; }
         .mbs-content h3 { font-size: 1.4rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .mbs-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
-        .mbs-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
-        .mbs-spec { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 12px; padding: 1rem; text-align: center; }
+        .mbs-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 1.11rem; margin-top: 1.5rem; }
+        .mbs-spec { background: rgba(245, 158, 11, 0.08); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 14px; padding: 1rem; text-align: center; }
         .mbs-spec-value { font-size: 1.3rem; font-weight: 800; color: #f59e0b; }
         .mbs-spec-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-top: 0.25rem; }
-        .mbs-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .mbs-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 2rem; }
         .mbs-diagram svg { width: 100%; height: auto; }
 
         /* Pressure Path Cards */
-        .pressure-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .pressure-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.75rem; transition: all 0.3s ease; }
-        .pressure-card:hover { border-color: rgba(245, 158, 11, 0.3); transform: translateY(-5px); }
-        .pressure-card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; background: rgba(245, 158, 11, 0.1); font-size: 1.4rem; }
+        .pressure-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.64rem; margin-top: 2rem; }
+        .pressure-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 15px; padding: 1.75rem; transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        .pressure-card:hover { border-color: rgba(245, 158, 11, 0.3); transform: translateY(-3px) scale(1.01); }
+        .pressure-card-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; background: rgba(245, 158, 11, 0.1); font-size: 1.4rem; }
         .pressure-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .pressure-card-value { font-size: 1.3rem; font-weight: 800; color: #fbbf24; margin-bottom: 0.5rem; }
         .pressure-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.5; }
 
         /* Insurance Section */
-        .insurance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-        .insurance-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .insurance-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.85rem; margin-top: 2rem; }
+        .insurance-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 2rem; }
         .insurance-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
         .insurance-cost { font-size: 1.6rem; font-weight: 800; margin-bottom: 0.75rem; }
         .insurance-cost.good { color: #10b981; }
@@ -277,27 +278,27 @@
         .insurance-items li::before { content: '>'; position: absolute; left: 0; color: #f59e0b; font-weight: bold; }
 
         /* Partition Section */
-        .partition-split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .partition-split { display: grid; grid-template-columns: 1fr 1fr; gap: 3.00rem; align-items: start; margin-top: 2rem; }
         .partition-list { list-style: none; }
-        .partition-list li { padding: 1rem; padding-left: 1.75rem; position: relative; color: #e2e8f0; font-size: 0.95rem; margin-bottom: 0.75rem; background: rgba(255,255,255,0.02); border-radius: 12px; border-left: 3px solid rgba(245, 158, 11, 0.3); }
+        .partition-list li { padding: 1rem; padding-left: 1.75rem; position: relative; color: #e2e8f0; font-size: 0.95rem; margin-bottom: 0.75rem; background: rgba(255,255,255,0.02); border-radius: 11px; border-left: 3px solid rgba(245, 158, 11, 0.3); }
         .partition-list li strong { color: #f59e0b; display: block; margin-bottom: 0.25rem; }
-        .partition-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .partition-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 23px; padding: 2rem; }
 
         /* FAQ */
-        .faq-section { padding: 4rem 2rem; background: #0c1220; position: relative; z-index: 2; }
+        .learn-section { padding: 3rem 2rem; background: #0c1220; position: relative; z-index: 2; }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: border-color 0.3s ease; }
-        .faq-item:hover { border-color: rgba(245, 158, 11, 0.3); }
-        .faq-question { width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: none; border: none; color: #ffffff; font-size: 1.05rem; font-weight: 600; cursor: pointer; text-align: left; }
-        .faq-question:hover { color: #f59e0b; }
-        .faq-toggle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(245, 158, 11, 0.4); display: flex; align-items: center; justify-content: center; color: #f59e0b; font-size: 1.2rem; transition: all 0.3s ease; flex-shrink: 0; margin-left: 1rem; }
-        .faq-item.open .faq-toggle { transform: rotate(45deg); background: rgba(245, 158, 11, 0.2); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
-        .faq-item.open .faq-answer { max-height: 500px; }
-        .faq-answer-inner { padding: 0 2rem 1.5rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
+        .help-item { border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: border-color 0.3s ease; }
+        .help-item:hover { border-color: rgba(245, 158, 11, 0.3); }
+        .expand-trigger { width: 100%; padding: 1.5rem 2rem; display: flex; justify-content: space-between; align-items: center; background: none; border: none; color: #ffffff; font-size: 1.05rem; font-weight: 600; cursor: pointer; text-align: left; }
+        .expand-trigger:hover { color: #f59e0b; }
+        .faq-toggle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid rgba(245, 158, 11, 0.4); display: flex; align-items: center; justify-content: center; color: #f59e0b; font-size: 1.2rem; transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1); flex-shrink: 0; margin-left: 1rem; }
+        .help-item.open .faq-toggle { transform: rotate(45deg); background: rgba(245, 158, 11, 0.2); }
+        .reveal-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+        .help-item.open .reveal-body { max-height: 500px; }
+        .reveal-body-inner { padding: 0 2rem 1.5rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
 
         /* Final CTA */
-        .final-cta { padding: 5rem 2rem; text-align: center; position: relative; z-index: 2; background: linear-gradient(180deg, #0c1220 0%, rgba(120, 53, 15, 0.08) 50%, #0c1220 100%); }
+        .final-cta { padding: 4rem 2rem; text-align: center; position: relative; z-index: 2; background: linear-gradient(180deg, #0c1220 0%, rgba(120, 53, 15, 0.08) 50%, #0c1220 100%); }
         .final-cta h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 1rem; }
         .final-cta p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
 
@@ -313,7 +314,7 @@
             .type-compare, .mbs-grid, .insurance-grid, .partition-split { grid-template-columns: 1fr; }
             .pressure-cards { grid-template-columns: 1fr; }
             .mbs-specs { grid-template-columns: 1fr; }
-            .trust-bar { gap: 1.5rem; }
+            .trust-bar { gap: 1.56rem; }
             .cascade-door { width: 40px; height: 70px; }
             .risk-widget { right: 10px; min-width: 160px; padding: 12px 16px; }
         }
@@ -328,7 +329,7 @@
 
 <!-- Units At Risk Widget -->
 <div class="risk-widget" id="riskWidget">
-    <div class="risk-widget-label">Units at Risk</div>
+    <div class="risk-quick-label">Units at Risk</div>
     <div class="risk-widget-count" id="riskCount">0</div>
     <div class="risk-widget-bar"><div class="risk-widget-fill" id="riskFill"></div></div>
     <div class="risk-widget-speed">Wind: <strong id="riskSpeed">0 MPH</strong></div>
@@ -370,8 +371,8 @@
         <h1>Self-Storage Facility <span class="shimmer">Wind Load Design</span> in Miami-Dade HVHZ</h1>
         <p class="hero-intro">Self-storage facilities in the Miami-Dade High Velocity Hurricane Zone present a unique wind engineering challenge: <strong>hundreds of individual roll-up doors</strong> create an interconnected pressure network where a single failure triggers cascade collapse across entire corridors. Standard 20-30 psf rated doors fail catastrophically at 180 MPH design wind speeds, and the resulting internal pressurization destroys units in domino-like sequence.</p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-primary">Calculate Storage Facility Loads</a>
-            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn btn-secondary">Browse All Calculators</a>
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-action">Calculate Storage Facility Loads</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn btn-explore">Browse All Calculators</a>
         </div>
         <div class="alert-banner reveal">
             <h3>Cascade Failure Warning</h3>
@@ -403,7 +404,7 @@
 <!-- Cascade Failure Section -->
 <section class="section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>The Domino Effect: <span class="accent">Corridor Pressurization Cascade</span></h2>
             <p>When a single exterior roll-up door fails during hurricane-force winds, the entire corridor becomes a pressure cannon. Internal pressures spike from near-zero to 25-40 psf in milliseconds, pushing outward on every remaining door simultaneously.</p>
         </div>
@@ -429,7 +430,7 @@
         </div>
 
         <div class="type-compare stagger-children">
-            <div class="type-card featured">
+            <div class="product-card featured">
                 <div class="type-icon" style="background: rgba(245, 158, 11, 0.15);">&#127959;</div>
                 <h3>Single-Story Drive-Up Facility</h3>
                 <div class="type-rating">Direct Exposure — Every Door Faces Wind</div>
@@ -442,7 +443,7 @@
                     <li>Corridor can pressurize through any failed door opening</li>
                 </ul>
             </div>
-            <div class="type-card">
+            <div class="product-card">
                 <div class="type-icon" style="background: rgba(107, 128, 128, 0.15);">&#127970;</div>
                 <h3>Multi-Story Climate-Controlled Facility</h3>
                 <div class="type-rating">Envelope Protection — Interior Units Shielded</div>
@@ -462,7 +463,7 @@
 <!-- Roll-Up Door Ratings Section -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Roll-Up Door <span class="accent">Wind Load Ratings</span> for HVHZ</h2>
             <p>Standard self-storage roll-up doors rated at 20-30 psf are engineered for non-hurricane regions. Miami-Dade HVHZ demands 50-100% higher DP ratings plus large missile impact certification on every exterior opening.</p>
         </div>
@@ -539,7 +540,7 @@
 <!-- MBS Framing Section -->
 <section class="section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Metal Building System <span class="accent">Framing for Self-Storage</span></h2>
             <p>Self-storage facilities are among the most structurally repetitive building types in construction. The MBS rigid frame system must handle not just direct wind loads but the unique load path created by dozens of partition walls sharing lateral bracing responsibility.</p>
         </div>
@@ -638,7 +639,7 @@
 <!-- Corridor Pressurization Paths Section -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Internal <span class="accent">Pressure Distribution Paths</span></h2>
             <p>Understanding how wind pressure propagates through a self-storage facility reveals why single-point failures become building-wide catastrophes. Each path represents a distinct engineering challenge.</p>
         </div>
@@ -669,7 +670,7 @@
 <!-- Partition Wall Bracing Section -->
 <section class="section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Unit Partition Wall <span class="accent">Bracing and Load Transfer</span></h2>
             <p>Partition walls in self-storage buildings serve a dual structural purpose that is frequently underestimated in design. They are not simply tenant dividers — they are critical elements in the building's lateral force resisting system.</p>
         </div>
@@ -769,7 +770,7 @@
 <!-- Multi-Story Specific Issues -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Multi-Story Facility <span class="accent">Wind Design Challenges</span></h2>
             <p>Climate-controlled multi-story self-storage brings vertical pressure paths, elevator mechanics, and interior corridor wind ratings that single-story drive-up facilities never encounter.</p>
         </div>
@@ -804,7 +805,7 @@
 <!-- Insurance & Liability Section -->
 <section class="section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Insurance Requirements and <span class="accent">Tenant Liability Exposure</span></h2>
             <p>Self-storage insurance in Miami-Dade HVHZ is not optional — it is a prerequisite for financing, occupancy, and operational viability. Wind design quality directly determines whether coverage is available and at what cost.</p>
         </div>
@@ -844,7 +845,7 @@
 <!-- Roof-to-Wall Connection Section -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Roof-to-Wall Connection <span class="accent">at Unit Partitions</span></h2>
             <p>The repetitive partition wall layout in self-storage buildings creates dozens of concentrated load points along the roof-to-wall interface. Each partition represents a unique connection engineering problem.</p>
         </div>
@@ -862,20 +863,20 @@
                     <div style="font-size: 3rem; font-weight: 800; color: #f59e0b; margin-bottom: 0.5rem;">49</div>
                     <div style="color: #94a3b8; font-size: 0.85rem; margin-bottom: 2rem;">Partition-to-Roof Connections in 50-Unit Building</div>
 
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 12px; padding: 1rem;">
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.89rem;">
+                        <div style="background: rgba(239,68,68,0.1); border: 1px solid rgba(239,68,68,0.2); border-radius: 10px; padding: 1rem;">
                             <div style="font-size: 1.4rem; font-weight: 800; color: #ef4444;">1,400 lbs</div>
                             <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase;">Peak Uplift / Connection</div>
                         </div>
-                        <div style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 12px; padding: 1rem;">
+                        <div style="background: rgba(245,158,11,0.1); border: 1px solid rgba(245,158,11,0.2); border-radius: 9px; padding: 1rem;">
                             <div style="font-size: 1.4rem; font-weight: 800; color: #f59e0b;">500 lbs</div>
                             <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase;">Diaphragm Shear / Connection</div>
                         </div>
-                        <div style="background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2); border-radius: 12px; padding: 1rem;">
+                        <div style="background: rgba(251,191,36,0.1); border: 1px solid rgba(251,191,36,0.2); border-radius: 11px; padding: 1rem;">
                             <div style="font-size: 1.4rem; font-weight: 800; color: #fbbf24;">3-4x</div>
                             <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase;">Uplift Exceeds Gravity</div>
                         </div>
-                        <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 12px; padding: 1rem;">
+                        <div style="background: rgba(16,185,129,0.1); border: 1px solid rgba(16,185,129,0.2); border-radius: 11px; padding: 1rem;">
                             <div style="font-size: 1.4rem; font-weight: 800; color: #10b981;">2-3x</div>
                             <div style="font-size: 0.75rem; color: #6b7280; text-transform: uppercase;">Corner vs Interior Demand</div>
                         </div>
@@ -887,70 +888,70 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
+<section class="learn-section">
     <div class="faq-container">
-        <div class="section-header reveal">
+        <div class="area-header reveal">
             <h2>Frequently Asked <span class="accent">Questions</span></h2>
             <p>Detailed answers to the most common self-storage wind design questions for Miami-Dade County HVHZ projects.</p>
         </div>
 
-        <div class="faq-item reveal">
-            <button class="faq-question">
+        <div class="help-item reveal">
+            <button class="expand-trigger">
                 What wind load rating do self-storage roll-up doors need in Miami-Dade HVHZ?
                 <span class="faq-toggle">+</span>
             </button>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Self-storage roll-up doors in Miami-Dade HVHZ require DP ratings calculated per ASCE 7-22 for the specific opening size and building exposure. A typical 4 ft x 7 ft drive-up unit door requires DP +40 to +55 psf positive pressure and DP -35 to -50 psf negative pressure depending on wall zone location. Standard commercial roll-up doors rated at 20-30 psf — common outside Florida — fail to meet HVHZ requirements by 50-100%. Every door must carry a Miami-Dade NOA with large missile impact certification and the complete assembly including guides, brackets, and header must be approved as a system.</div>
+            <div class="reveal-body">
+                <div class="reveal-body-inner">Self-storage roll-up doors in Miami-Dade HVHZ require DP ratings calculated per ASCE 7-22 for the specific opening size and building exposure. A typical 4 ft x 7 ft drive-up unit door requires DP +40 to +55 psf positive pressure and DP -35 to -50 psf negative pressure depending on wall zone location. Standard commercial roll-up doors rated at 20-30 psf — common outside Florida — fail to meet HVHZ requirements by 50-100%. Every door must carry a Miami-Dade NOA with large missile impact certification and the complete assembly including guides, brackets, and header must be approved as a system.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <button class="faq-question">
+        <div class="help-item reveal">
+            <button class="expand-trigger">
                 How does corridor pressurization cause cascade failure in self-storage buildings?
                 <span class="faq-toggle">+</span>
             </button>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">When a single exterior roll-up door fails during a hurricane, wind enters the corridor and instantly pressurizes the entire hallway system. This internal pressure — which can reach 25-40 psf in a 180 MPH event — pushes outward on every remaining door simultaneously. Doors not designed for this reversed loading direction blow outward in sequence, typically propagating from the breached door toward the corridor's dead ends within seconds. Engineers call this progressive collapse or domino failure. ASCE 7-22 requires designers to analyze the partially enclosed condition (GCpi = +/-0.55) which accounts for this breach scenario, but many standard self-storage designs only calculate for the enclosed condition (GCpi = +/-0.18).</div>
+            <div class="reveal-body">
+                <div class="reveal-body-inner">When a single exterior roll-up door fails during a hurricane, wind enters the corridor and instantly pressurizes the entire hallway system. This internal pressure — which can reach 25-40 psf in a 180 MPH event — pushes outward on every remaining door simultaneously. Doors not designed for this reversed loading direction blow outward in sequence, typically propagating from the breached door toward the corridor's dead ends within seconds. Engineers call this progressive collapse or domino failure. ASCE 7-22 requires designers to analyze the partially enclosed condition (GCpi = +/-0.55) which accounts for this breach scenario, but many standard self-storage designs only calculate for the enclosed condition (GCpi = +/-0.18).</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <button class="faq-question">
+        <div class="help-item reveal">
+            <button class="expand-trigger">
                 What are the structural differences between single-story and multi-story self-storage?
                 <span class="faq-toggle">+</span>
             </button>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Single-story drive-up facilities use metal building system (MBS) rigid frames with each unit's roll-up door acting as a component/cladding element exposed directly to wind. The primary structural concern is roof-to-wall connection at each partition wall and the cumulative lateral load path through unit dividers. Multi-story climate-controlled facilities are fully enclosed buildings where the exterior envelope — typically CMU or tilt-up concrete — resists all wind loads. Interior partition walls carry no direct wind load. However, multi-story facilities face elevator shaft pressurization, stairwell stack effect amplification, and hallway door wind ratings for units accessed from interior corridors.</div>
+            <div class="reveal-body">
+                <div class="reveal-body-inner">Single-story drive-up facilities use metal building system (MBS) rigid frames with each unit's roll-up door acting as a component/cladding element exposed directly to wind. The primary structural concern is roof-to-wall connection at each partition wall and the cumulative lateral load path through unit dividers. Multi-story climate-controlled facilities are fully enclosed buildings where the exterior envelope — typically CMU or tilt-up concrete — resists all wind loads. Interior partition walls carry no direct wind load. However, multi-story facilities face elevator shaft pressurization, stairwell stack effect amplification, and hallway door wind ratings for units accessed from interior corridors.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <button class="faq-question">
+        <div class="help-item reveal">
+            <button class="expand-trigger">
                 What metal building system framing is required for self-storage in Miami-Dade?
                 <span class="faq-toggle">+</span>
             </button>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Self-storage MBS framing in Miami-Dade HVHZ must be engineered for 180 MPH basic wind speed with Exposure C minimum. Primary rigid frames typically require clear-span or multi-span configurations using tapered I-beam columns (12-16 inch depth) and rafters (14-24 inch depth) at 20-25 ft bay spacing. End wall columns carry the highest wind shear and often require W10x33 or heavier sections. Girt spacing is typically 4-5 ft to limit panel span. All connections — column base plates, rafter-to-column moment joints, and purlin-to-rafter clips — must have Miami-Dade product approval. The partition walls between units, while not primary structural members, must brace the exterior wall girts and transfer diaphragm forces to the foundation.</div>
+            <div class="reveal-body">
+                <div class="reveal-body-inner">Self-storage MBS framing in Miami-Dade HVHZ must be engineered for 180 MPH basic wind speed with Exposure C minimum. Primary rigid frames typically require clear-span or multi-span configurations using tapered I-beam columns (12-16 inch depth) and rafters (14-24 inch depth) at 20-25 ft bay spacing. End wall columns carry the highest wind shear and often require W10x33 or heavier sections. Girt spacing is typically 4-5 ft to limit panel span. All connections — column base plates, rafter-to-column moment joints, and purlin-to-rafter clips — must have Miami-Dade product approval. The partition walls between units, while not primary structural members, must brace the exterior wall girts and transfer diaphragm forces to the foundation.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <button class="faq-question">
+        <div class="help-item reveal">
+            <button class="expand-trigger">
                 How does elevator shaft pressurization affect multi-story self-storage?
                 <span class="faq-toggle">+</span>
             </button>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Elevator shafts in multi-story self-storage buildings act as vertical pressure conduits. When wind breaches the ground-level entrance or loading area, pressure enters the shaft and distributes to every floor through shaft openings, hoistway vents, and door gaps. A shaft breach can pressurize upper floors to 15-25 psf above ambient, stressing corridor doors, partition walls, and ceiling systems from inside. ASCE 7-22 requires analysis of internal pressure paths including shaft effects per Section 26.13. The elevator machine room at the roof level is particularly vulnerable because shaft pressure combines with roof zone negative pressure, creating net uplift that can exceed 60 psf on lightweight machine room enclosures.</div>
+            <div class="reveal-body">
+                <div class="reveal-body-inner">Elevator shafts in multi-story self-storage buildings act as vertical pressure conduits. When wind breaches the ground-level entrance or loading area, pressure enters the shaft and distributes to every floor through shaft openings, hoistway vents, and door gaps. A shaft breach can pressurize upper floors to 15-25 psf above ambient, stressing corridor doors, partition walls, and ceiling systems from inside. ASCE 7-22 requires analysis of internal pressure paths including shaft effects per Section 26.13. The elevator machine room at the roof level is particularly vulnerable because shaft pressure combines with roof zone negative pressure, creating net uplift that can exceed 60 psf on lightweight machine room enclosures.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <button class="faq-question">
+        <div class="help-item reveal">
+            <button class="expand-trigger">
                 What insurance requirements apply to self-storage facilities in Miami-Dade HVHZ?
                 <span class="faq-toggle">+</span>
             </button>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Self-storage facilities in Miami-Dade HVHZ face stringent insurance requirements tied directly to wind load design adequacy. Insurers require a Wind Mitigation Inspection (Form OIR-B1-1802) documenting roof-to-wall connections, opening protection ratings, and roof deck attachment methods. Facilities without NOA-approved roll-up doors face premium surcharges of 40-60% or coverage denial. Most carriers require all exterior openings to meet the HVHZ large missile impact standard. Additionally, facility operators carry liability exposure for tenant property loss — Florida Statute 83.806 limits operator liability but does not eliminate it when the building envelope fails due to inadequate wind design. Annual premiums for a 50,000 SF HVHZ facility typically range from $75,000 to $150,000 depending on construction quality and opening protection level.</div>
+            <div class="reveal-body">
+                <div class="reveal-body-inner">Self-storage facilities in Miami-Dade HVHZ face stringent insurance requirements tied directly to wind load design adequacy. Insurers require a Wind Mitigation Inspection (Form OIR-B1-1802) documenting roof-to-wall connections, opening protection ratings, and roof deck attachment methods. Facilities without NOA-approved roll-up doors face premium surcharges of 40-60% or coverage denial. Most carriers require all exterior openings to meet the HVHZ large missile impact standard. Additionally, facility operators carry liability exposure for tenant property loss — Florida Statute 83.806 limits operator liability but does not eliminate it when the building envelope fails due to inadequate wind design. Annual premiums for a 50,000 SF HVHZ facility typically range from $75,000 to $150,000 depending on construction quality and opening protection level.</div>
             </div>
         </div>
     </div>
@@ -960,7 +961,7 @@
 <section class="final-cta">
     <h2 class="reveal">Engineer Your <span class="shimmer">Self-Storage Facility</span> for 180 MPH</h2>
     <p class="reveal">Get ASCE 7-22 compliant wind load calculations for every roll-up door, partition wall, and structural frame in your self-storage project. MWFRS and C&C analysis with Miami-Dade HVHZ parameters.</p>
-    <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-primary reveal">Calculate MWFRS Loads Now</a>
+    <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-action reveal">Calculate MWFRS Loads Now</a>
 </section>
 
 <!-- Footer -->
@@ -988,11 +989,11 @@
         reset() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.5 + 0.5;
-            this.speedX = Math.random() * 2.5 + 1.5;
+            this.size = Math.random() * 2.3 + 0.3;
+            this.speedX = Math.random() * 2.8 + 1.4;
             this.speedY = (Math.random() - 0.5) * 0.8;
             this.color = Math.random() > 0.6 ? '#f59e0b' : (Math.random() > 0.5 ? '#fbbf24' : '#6b7280');
-            this.opacity = Math.random() * 0.6 + 0.2;
+            this.opacity = Math.random() * 0.60 + 0.16;
         }
         update() {
             this.x += this.speedX;
@@ -1252,7 +1253,7 @@
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
     reveals.forEach(el => observer.observe(el));
 })();
 
@@ -1291,7 +1292,7 @@
                 requestAnimationFrame(update);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.2 });
     counters.forEach(c => counterObserver.observe(c));
 })();
 
@@ -1299,7 +1300,7 @@
 // MAGNETIC CARD HOVER EFFECT
 // ============================================
 (function() {
-    const cards = document.querySelectorAll('.type-card, .pressure-card, .insurance-card');
+    const cards = document.querySelectorAll('.product-card, .pressure-card, .insurance-card');
     cards.forEach(card => {
         card.addEventListener('mousemove', (e) => {
             const rect = card.getBoundingClientRect();
@@ -1321,11 +1322,11 @@
 // FAQ ACCORDION
 // ============================================
 (function() {
-    document.querySelectorAll('.faq-question').forEach(btn => {
+    document.querySelectorAll('.expand-trigger').forEach(btn => {
         btn.addEventListener('click', () => {
             const item = btn.parentElement;
             const wasOpen = item.classList.contains('open');
-            document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+            document.querySelectorAll('.help-item').forEach(i => i.classList.remove('open'));
             if (!wasOpen) item.classList.add('open');
         });
     });
@@ -1377,7 +1378,7 @@
                 }, 400);
             }
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
     cascadeObserver.observe(cascadeRow);
 })();
 </script>

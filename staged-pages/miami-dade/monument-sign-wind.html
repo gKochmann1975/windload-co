@@ -97,6 +97,7 @@
     </script>
 
     <style>
+/* uid:ae880177 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -110,15 +111,15 @@
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 15% 25%, rgba(220, 38, 38, 0.05) 0%, transparent 50%), radial-gradient(circle at 85% 75%, rgba(217, 119, 6, 0.04) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.75s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.75s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.65s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.33, 1, 0.68, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -140,30 +141,30 @@
         .hero-shimmer { background: linear-gradient(120deg, #dc2626 0%, #d97706 25%, #dc2626 50%, #00e5ff 75%, #dc2626 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Monument Sign Overturning Widget */
-        .sign-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
+        .sign-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 14px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(24px); opacity: 0; transform: translateX(120px); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); min-width: 190px; }
         .sign-widget.visible { opacity: 1; transform: translateX(0); }
-        .sign-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .sign-widget-value { font-size: 1.5rem; font-weight: 800; color: #dc2626; margin-bottom: 4px; }
+        .sign-mini-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .sign-badge-number { font-size: 1.5rem; font-weight: 800; color: #dc2626; margin-bottom: 4px; }
         .sign-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .sign-widget-fill { height: 100%; background: linear-gradient(90deg, #dc2626, #d97706); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .sign-widget-sub { font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px; }
         .sign-widget-status { font-size: 0.8rem; font-weight: 600; color: #d97706; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.68rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #dc2626; }
-        .nav-cta { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.65s cubic-bezier(0.33, 1, 0.68, 1); }
+        .nav-cta:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1400px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #dc2626; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -176,19 +177,19 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #dc2626; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4); }
-        .btn-secondary { border: 2px solid rgba(217, 119, 6, 0.5); color: #d97706; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(217, 119, 6, 0.1); border-color: #d97706; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.08rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-start { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.45s cubic-bezier(0.33, 1, 0.68, 1); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-start:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4); }
+        .btn-more { border: 2px solid rgba(217, 119, 6, 0.5); color: #d97706; padding: 0.9rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.75s cubic-bezier(0.33, 1, 0.68, 1); background: transparent; }
+        .btn-more:hover { background: rgba(217, 119, 6, 0.1); border-color: #d97706; transform: translateY(-5px); }
         .warning-banner { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); border-left: 4px solid #dc2626; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 700px; margin: 0 auto; animation: warning-flash 3s ease-in-out infinite; }
         .warning-banner strong { color: #dc2626; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
 
         /* Gauge Meters Section */
-        .gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2.5rem; }
-        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 16px; padding: 2rem 1.5rem; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .gauge-card:hover { transform: translateY(-5px); border-color: rgba(220, 38, 38, 0.5); box-shadow: 0 8px 40px rgba(220, 38, 38, 0.12); }
+        .gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.79rem; margin-top: 2.5rem; }
+        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 14px; padding: 2rem 1.5rem; text-align: center; transition: all 0.75s cubic-bezier(0.25, 0.8, 0.25, 1); position: relative; overflow: hidden; }
+        .gauge-card:hover { transform: scale(1.02); border-color: rgba(220, 38, 38, 0.5); box-shadow: 0 8px 40px rgba(220, 38, 38, 0.12); }
         .gauge-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #dc2626, #d97706); opacity: 0; transition: opacity 0.3s ease; }
         .gauge-card:hover::before { opacity: 1; }
         .gauge-svg { width: 140px; height: 80px; margin: 0 auto 1rem; }
@@ -211,16 +212,16 @@
         .bolt-line:nth-child(2) { animation-delay: 0.3s; }
 
         /* Trust Badges */
-        .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(220, 38, 38, 0.03); border-top: 1px solid rgba(220, 38, 38, 0.1); border-bottom: 1px solid rgba(220, 38, 38, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-bar { padding: 4rem 2rem; position: relative; z-index: 2; background: rgba(220, 38, 38, 0.03); border-top: 1px solid rgba(220, 38, 38, 0.1); border-bottom: 1px solid rgba(220, 38, 38, 0.1); }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.72rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #dc2626; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
         .counter-pop { animation: glow-pulse-red 1s ease-out; }
 
         /* Sections */
-        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
+        .section { padding: 6rem 2rem; position: relative; z-index: 2; }
         .section-alt { background: rgba(55, 65, 81, 0.08); }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-container { max-width: 1300px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.25); color: #dc2626; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-label-gold { background: rgba(217, 119, 6, 0.1); border-color: rgba(217, 119, 6, 0.25); color: #d97706; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
@@ -230,7 +231,7 @@
         .section-subtitle { font-size: 1.05rem; color: #94a3b8; max-width: 700px; margin-bottom: 2.5rem; }
 
         /* Two-Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3.22rem; align-items: start; }
         .col-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .col-content p { color: #cbd5e1; margin-bottom: 1rem; line-height: 1.7; }
         .col-content ul { list-style: none; padding: 0; }
@@ -239,8 +240,8 @@
         .col-content ul li strong { color: #e2e8f0; }
 
         /* Magnetic Cards */
-        .mag-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .mag-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(55, 65, 81, 0.4); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; will-change: transform; }
+        .mag-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.41rem; margin-top: 2rem; }
+        .mag-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(55, 65, 81, 0.4); border-radius: 16px; padding: 2rem; transition: all 0.7s ease; position: relative; overflow: hidden; will-change: transform; }
         .mag-card:hover { border-color: rgba(220, 38, 38, 0.5); }
         .mag-card::after { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #dc2626, #d97706); opacity: 0; transition: opacity 0.3s; }
         .mag-card:hover::after { opacity: 1; }
@@ -250,8 +251,8 @@
         .mag-card .card-stat { display: inline-block; margin-top: 0.75rem; padding: 0.3rem 0.75rem; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.2); border-radius: 6px; font-size: 0.8rem; font-weight: 700; color: #dc2626; }
 
         /* Overturning Analysis Bars */
-        .otm-chart { background: rgba(255,255,255,0.02); border: 1px solid rgba(217, 119, 6, 0.15); border-radius: 16px; padding: 2rem; margin-top: 2rem; }
-        .otm-chart-title { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; text-align: center; }
+        .otm-chart { background: rgba(255,255,255,0.02); border: 1px solid rgba(217, 119, 6, 0.15); border-radius: 17px; padding: 2rem; margin-top: 2rem; }
+        .otm-metric-title { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; text-align: center; }
         .otm-bar-group { margin-bottom: 1.25rem; }
         .otm-bar-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
         .otm-bar-label .otm-name { font-size: 0.9rem; color: #e2e8f0; font-weight: 600; }
@@ -266,14 +267,14 @@
         .otm-bar-inner { font-size: 0.75rem; font-weight: 700; color: #fff; white-space: nowrap; }
 
         /* Sign Type Comparison Cards */
-        .sign-type-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .sign-type-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(55, 65, 81, 0.4); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; text-align: center; }
-        .sign-type-card:hover { transform: translateY(-5px); border-color: rgba(217, 119, 6, 0.5); box-shadow: 0 8px 40px rgba(217, 119, 6, 0.12); }
+        .sign-type-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.72rem; margin-top: 2rem; }
+        .sign-spec-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(55, 65, 81, 0.4); border-radius: 19px; padding: 2rem; transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); text-align: center; }
+        .sign-spec-card:hover { transform: scale(1.03); border-color: rgba(217, 119, 6, 0.5); box-shadow: 0 8px 40px rgba(217, 119, 6, 0.12); }
         .sign-type-icon { font-size: 2.5rem; margin-bottom: 1rem; }
-        .sign-type-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; }
-        .sign-type-card p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.6; }
-        .sign-type-specs { text-align: left; }
-        .sign-type-specs .spec-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
+        .sign-spec-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .sign-spec-card p { color: #94a3b8; font-size: 0.9rem; margin-bottom: 1rem; line-height: 1.6; }
+        .sign-param-list { text-align: left; }
+        .sign-param-list .spec-row { display: flex; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid rgba(255,255,255,0.04); font-size: 0.85rem; }
         .spec-row .spec-key { color: #64748b; }
         .spec-row .spec-val { color: #e2e8f0; font-weight: 600; }
         .spec-row .spec-val.highlight-red { color: #dc2626; }
@@ -287,7 +288,7 @@
         .callout-gold h4 { color: #d97706; }
 
         /* Footing Design Table */
-        .footing-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 2rem; border-radius: 12px; overflow: hidden; border: 1px solid rgba(55, 65, 81, 0.4); }
+        .footing-table { width: 100%; border-collapse: separate; border-spacing: 0; margin-top: 2rem; border-radius: 11px; overflow: hidden; border: 1px solid rgba(55, 65, 81, 0.4); }
         .footing-table thead th { background: rgba(55, 65, 81, 0.4); color: #e2e8f0; font-weight: 700; padding: 1rem; text-align: left; font-size: 0.9rem; border-bottom: 2px solid rgba(220, 38, 38, 0.3); }
         .footing-table tbody td { padding: 0.85rem 1rem; color: #cbd5e1; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.04); }
         .footing-table tbody tr:hover { background: rgba(220, 38, 38, 0.05); }
@@ -295,8 +296,8 @@
         .footing-table .td-gold { color: #d97706; font-weight: 700; }
 
         /* Anchor Bolt Detail */
-        .bolt-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-top: 2rem; }
-        .bolt-viz { background: rgba(255,255,255,0.02); border: 1px solid rgba(55, 65, 81, 0.3); border-radius: 16px; padding: 1.5rem; display: flex; align-items: center; justify-content: center; }
+        .bolt-detail { display: grid; grid-template-columns: 1fr 1fr; gap: 1.98rem; margin-top: 2rem; }
+        .bolt-viz { background: rgba(255,255,255,0.02); border: 1px solid rgba(55, 65, 81, 0.3); border-radius: 17px; padding: 1.5rem; display: flex; align-items: center; justify-content: center; }
         .bolt-info h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1rem; }
         .bolt-info p { color: #cbd5e1; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
         .bolt-spec { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
@@ -305,21 +306,21 @@
         .bolt-spec-item .bsl { font-size: 0.75rem; color: #64748b; margin-top: 0.25rem; }
 
         /* FAQ Section */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(55, 65, 81, 0.06); }
+        .info-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(55, 65, 81, 0.06); }
         .faq-container { max-width: 850px; margin: 0 auto; }
-        .faq-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(55, 65, 81, 0.3); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(220, 38, 38, 0.4); }
-        .faq-item.active { border-color: rgba(220, 38, 38, 0.5); background: rgba(220, 38, 38, 0.05); }
-        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; gap: 1rem; }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; flex: 1; }
-        .faq-toggle { width: 28px; height: 28px; min-width: 28px; background: rgba(220, 38, 38, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; }
+        .knowledge-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(55, 65, 81, 0.3); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: all 0.65s cubic-bezier(0.33, 1, 0.68, 1); }
+        .knowledge-item:hover { border-color: rgba(220, 38, 38, 0.4); }
+        .knowledge-item.active { border-color: rgba(220, 38, 38, 0.5); background: rgba(220, 38, 38, 0.05); }
+        .help-trigger { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; gap: 0.93rem; }
+        .help-trigger h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; flex: 1; }
+        .faq-toggle { width: 28px; height: 28px; min-width: 28px; background: rgba(220, 38, 38, 0.15); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1); }
         .faq-toggle svg { width: 16px; height: 16px; stroke: #dc2626; transition: transform 0.3s ease; }
-        .faq-item.active .faq-toggle { background: rgba(220, 38, 38, 0.3); transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
+        .knowledge-item.active .faq-toggle { background: rgba(220, 38, 38, 0.3); transform: rotate(45deg); }
+        .question-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .question-content-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
 
         /* CTA Section */
-        .cta-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; background: linear-gradient(180deg, rgba(220, 38, 38, 0.05) 0%, rgba(12, 18, 32, 1) 100%); }
+        .finale-section { padding: 4rem 2rem; position: relative; z-index: 2; text-align: center; background: linear-gradient(180deg, rgba(220, 38, 38, 0.05) 0%, rgba(12, 18, 32, 1) 100%); }
         .cta-container { max-width: 700px; margin: 0 auto; }
         .cta-container h2 { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; font-size: 1.05rem; margin-bottom: 2rem; line-height: 1.7; }
@@ -333,7 +334,7 @@
         /* Responsive */
         @media (max-width: 900px) {
             .nav-links { display: none; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
             .gauge-grid { grid-template-columns: 1fr; max-width: 320px; margin-left: auto; margin-right: auto; }
             .two-col { grid-template-columns: 1fr; }
             .mag-grid { grid-template-columns: 1fr; }
@@ -346,7 +347,7 @@
         @media (max-width: 600px) {
             .hero { padding: 3rem 1rem 2rem; }
             .section { padding: 3rem 1rem; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 0.81rem; }
             .bolt-spec { grid-template-columns: 1fr; }
         }
     </style>
@@ -358,8 +359,8 @@
 
     <!-- Overturning Moment Widget -->
     <div class="sign-widget" id="signWidget">
-        <div class="sign-widget-label">Overturning Moment</div>
-        <div class="sign-widget-value">14,150 ft-lbs</div>
+        <div class="sign-mini-label">Overturning Moment</div>
+        <div class="sign-badge-number">14,150 ft-lbs</div>
         <div class="sign-widget-bar"><div class="sign-widget-fill" id="widgetFill"></div></div>
         <div class="sign-widget-sub">6x10 ft sign at 180 MPH</div>
         <div class="sign-widget-status">Foundation Required</div>
@@ -389,8 +390,8 @@
             <p class="hero-intro reveal">Monument signs in the High-Velocity Hurricane Zone must resist <strong>180 MPH ultimate wind speeds</strong> per ASCE 7-22 Chapter 29 sign provisions. The critical design challenge is overturning: wind pressure on the sign face creates a moment at the base that demands robust concrete footings, properly sized anchor bolts, and engineered moment connections capable of surviving direct hurricane impact without structural failure.</p>
 
             <div class="hero-cta reveal">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Sign Wind Loads</a>
-                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-start">Calculate Sign Wind Loads</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-more">Browse All Calculators</a>
             </div>
 
             <div class="warning-banner reveal">
@@ -574,7 +575,7 @@
 
             <!-- Overturning Bar Chart -->
             <div class="otm-chart reveal" id="otmChart">
-                <div class="otm-chart-title">Monument Sign Overturning Moment by Size &mdash; Miami-Dade HVHZ 180 MPH</div>
+                <div class="otm-metric-title">Monument Sign Overturning Moment by Size &mdash; Miami-Dade HVHZ 180 MPH</div>
                 <div class="otm-bar-group">
                     <div class="otm-bar-label"><span class="otm-name">4 ft &times; 6 ft (24 sq ft)</span><span class="otm-value">4,780 ft-lbs</span></div>
                     <div class="otm-bar-track"><div class="otm-bar-fill gold" style="width: 22%;"><span class="otm-bar-inner">Small</span></div></div>
@@ -608,33 +609,33 @@
             <p class="section-subtitle reveal">Different sign construction types respond to wind forces through distinct load paths, demanding tailored engineering approaches</p>
 
             <div class="sign-type-grid stagger-children">
-                <div class="sign-type-card">
+                <div class="sign-spec-card">
                     <div class="sign-type-icon">&#9632;</div>
                     <h3>Solid Panel Sign</h3>
                     <p>Aluminum or steel panels on steel frame mounted to masonry base wall. The most common monument sign type in commercial developments.</p>
-                    <div class="sign-type-specs">
+                    <div class="sign-param-list">
                         <div class="spec-row"><span class="spec-key">Cf Range</span><span class="spec-val highlight-red">1.2 - 1.5</span></div>
                         <div class="spec-row"><span class="spec-key">Dead Load</span><span class="spec-val">3-6 psf</span></div>
                         <div class="spec-row"><span class="spec-key">Base Type</span><span class="spec-val">Spread footing</span></div>
                         <div class="spec-row"><span class="spec-key">Failure Mode</span><span class="spec-val highlight-red">Overturning</span></div>
                     </div>
                 </div>
-                <div class="sign-type-card">
+                <div class="sign-spec-card">
                     <div class="sign-type-icon">&#9670;</div>
                     <h3>Channel Letter Sign</h3>
                     <p>Individual illuminated channel letters mounted to raceway or directly through sign face. Creates complex wind loading with projecting elements.</p>
-                    <div class="sign-type-specs">
+                    <div class="sign-param-list">
                         <div class="spec-row"><span class="spec-key">Letter Cf</span><span class="spec-val highlight-gold">1.2 - 1.4</span></div>
                         <div class="spec-row"><span class="spec-key">Added Force</span><span class="spec-val">150-250 lbs</span></div>
                         <div class="spec-row"><span class="spec-key">Mount Type</span><span class="spec-val">Stud/through-bolt</span></div>
                         <div class="spec-row"><span class="spec-key">Critical Check</span><span class="spec-val highlight-gold">Pull-out</span></div>
                     </div>
                 </div>
-                <div class="sign-type-card">
+                <div class="sign-spec-card">
                     <div class="sign-type-icon">&#9724;</div>
                     <h3>Digital LED Sign</h3>
                     <p>LED display cabinet replacing traditional panel face. Heavier dead loads and electrical requirements change the structural design profile significantly.</p>
-                    <div class="sign-type-specs">
+                    <div class="sign-param-list">
                         <div class="spec-row"><span class="spec-key">Cabinet Depth</span><span class="spec-val">4-8 inches</span></div>
                         <div class="spec-row"><span class="spec-key">Dead Load</span><span class="spec-val highlight-red">8-15 psf</span></div>
                         <div class="spec-row"><span class="spec-key">Added Mass</span><span class="spec-val">200-500 lbs</span></div>
@@ -909,80 +910,80 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section class="info-section">
         <div class="faq-container">
             <div class="section-label reveal" style="text-align:center; display:block;">Frequently Asked Questions</div>
             <h2 class="section-title reveal" style="text-align:center;">Monument Sign Wind Load <span class="accent">FAQ</span></h2>
             <p class="section-subtitle reveal" style="text-align:center; margin-left:auto; margin-right:auto;">Answers to common engineering questions about monument sign design in the Miami-Dade HVHZ</p>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="knowledge-item">
+                <div class="help-trigger" onclick="toggleFaq(this)">
                     <h3>What ASCE 7-22 provisions apply to monument sign wind loads in Miami-Dade?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Monument signs in Miami-Dade are governed by ASCE 7-22 Chapter 29, Section 29.3 for solid freestanding signs and Section 29.4 for open or lattice-type sign structures. The wind force equation is F = qz &times; G &times; Cf &times; As, where qz is the velocity pressure at the centroid of the sign face. For a typical 6 ft tall by 10 ft wide monument sign with centroid at 5 ft above ground in the HVHZ, qz reaches approximately 52 psf using the 180 MPH ultimate wind speed, Exposure C, Kz of 0.85, Kd of 0.85 for signs, and Ke of 1.0. The force coefficient Cf for a solid freestanding sign with aspect ratio B/s of 1.67 and clearance ratio s/h of 0.33 is approximately 1.35, producing a total horizontal wind force of around 2,830 lbs on the sign face.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Monument signs in Miami-Dade are governed by ASCE 7-22 Chapter 29, Section 29.3 for solid freestanding signs and Section 29.4 for open or lattice-type sign structures. The wind force equation is F = qz &times; G &times; Cf &times; As, where qz is the velocity pressure at the centroid of the sign face. For a typical 6 ft tall by 10 ft wide monument sign with centroid at 5 ft above ground in the HVHZ, qz reaches approximately 52 psf using the 180 MPH ultimate wind speed, Exposure C, Kz of 0.85, Kd of 0.85 for signs, and Ke of 1.0. The force coefficient Cf for a solid freestanding sign with aspect ratio B/s of 1.67 and clearance ratio s/h of 0.33 is approximately 1.35, producing a total horizontal wind force of around 2,830 lbs on the sign face.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="knowledge-item">
+                <div class="help-trigger" onclick="toggleFaq(this)">
                     <h3>How is overturning moment calculated for monument signs in the HVHZ?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Overturning moment is the product of horizontal wind force multiplied by the height from the base to the centroid of wind pressure on the sign face. For a 6x10 ft monument sign on a 2 ft base wall with the sign face centroid at approximately 5 ft above grade, and a calculated wind force of 2,830 lbs, the overturning moment at the foundation base equals 2,830 &times; 5 = 14,150 ft-lbs. This moment must be resisted by the foundation weight, soil bearing capacity, and anchor bolt tension. In Miami-Dade HVHZ, you must apply a load factor of 1.0W for strength design per ASCE 7-22 load combinations, and the foundation must also resist sliding friction equal to the horizontal wind force with an adequate factor of safety, typically 1.5 against overturning.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Overturning moment is the product of horizontal wind force multiplied by the height from the base to the centroid of wind pressure on the sign face. For a 6x10 ft monument sign on a 2 ft base wall with the sign face centroid at approximately 5 ft above grade, and a calculated wind force of 2,830 lbs, the overturning moment at the foundation base equals 2,830 &times; 5 = 14,150 ft-lbs. This moment must be resisted by the foundation weight, soil bearing capacity, and anchor bolt tension. In Miami-Dade HVHZ, you must apply a load factor of 1.0W for strength design per ASCE 7-22 load combinations, and the foundation must also resist sliding friction equal to the horizontal wind force with an adequate factor of safety, typically 1.5 against overturning.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="knowledge-item">
+                <div class="help-trigger" onclick="toggleFaq(this)">
                     <h3>What foundation size is required for a monument sign in Miami-Dade HVHZ?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Foundation sizing for monument signs in Miami-Dade depends on overturning moment, soil bearing capacity, and sign geometry. A typical 6x10 ft monument sign with 14,150 ft-lbs overturning moment requires a continuous spread footing of approximately 4 ft wide by 12 ft long by 2.5 ft deep, using 3,000 psi concrete with #5 rebar at 12 inches on center each way. The footing weight of approximately 9,000 lbs provides passive resistance against overturning. For taller or wider signs, drilled pier foundations (18-24 inch diameter, 8-12 ft deep into Miami oolitic limestone) may be required. All foundation designs in the HVHZ must be sealed by a Florida PE and include soil bearing verification from a geotechnical report.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Foundation sizing for monument signs in Miami-Dade depends on overturning moment, soil bearing capacity, and sign geometry. A typical 6x10 ft monument sign with 14,150 ft-lbs overturning moment requires a continuous spread footing of approximately 4 ft wide by 12 ft long by 2.5 ft deep, using 3,000 psi concrete with #5 rebar at 12 inches on center each way. The footing weight of approximately 9,000 lbs provides passive resistance against overturning. For taller or wider signs, drilled pier foundations (18-24 inch diameter, 8-12 ft deep into Miami oolitic limestone) may be required. All foundation designs in the HVHZ must be sealed by a Florida PE and include soil bearing verification from a geotechnical report.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="knowledge-item">
+                <div class="help-trigger" onclick="toggleFaq(this)">
                     <h3>How do channel letters affect monument sign wind loading?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Channel letters mounted on monument signs create additional wind loading beyond the flat sign face. Each letter acts as a small solid object projecting 3 to 8 inches from the sign surface, with its own force coefficient. ASCE 7-22 does not provide explicit Cf values for individual letters, so engineers typically calculate channel letter wind loads using Cf of 1.2 to 1.4 for the projected area of each letter, treating them as solid obstructions. A set of 12-inch tall channel letters spelling a business name across a 10 ft sign face adds approximately 150-250 lbs of horizontal wind force at 180 MPH, increasing the overturning moment by 750-1,250 ft-lbs. The letter mounting hardware (studs, raceways, through-bolts) must also resist direct pull-out forces from suction on the leeward face.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Channel letters mounted on monument signs create additional wind loading beyond the flat sign face. Each letter acts as a small solid object projecting 3 to 8 inches from the sign surface, with its own force coefficient. ASCE 7-22 does not provide explicit Cf values for individual letters, so engineers typically calculate channel letter wind loads using Cf of 1.2 to 1.4 for the projected area of each letter, treating them as solid obstructions. A set of 12-inch tall channel letters spelling a business name across a 10 ft sign face adds approximately 150-250 lbs of horizontal wind force at 180 MPH, increasing the overturning moment by 750-1,250 ft-lbs. The letter mounting hardware (studs, raceways, through-bolts) must also resist direct pull-out forces from suction on the leeward face.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="knowledge-item">
+                <div class="help-trigger" onclick="toggleFaq(this)">
                     <h3>What are the anchor bolt requirements for monument sign moment connections?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Anchor bolt design for monument sign base connections must resist combined shear from horizontal wind force and tension from overturning moment. For a 6x10 ft monument sign in Miami-Dade HVHZ, a typical connection uses four to six 3/4-inch diameter F1554 Grade 55 anchor bolts with 12-inch minimum embedment into the concrete footing. The bolt group must resist approximately 2,830 lbs of shear and tension forces ranging from 3,500 to 7,000 lbs per bolt depending on the moment arm. Anchor bolt design follows ACI 318-19 Chapter 17 for concrete anchorage, including checks for steel strength, concrete breakout, pullout, and side-face blowout. In the HVHZ, all anchor bolts must be hot-dip galvanized or stainless steel to resist the corrosive coastal environment.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Anchor bolt design for monument sign base connections must resist combined shear from horizontal wind force and tension from overturning moment. For a 6x10 ft monument sign in Miami-Dade HVHZ, a typical connection uses four to six 3/4-inch diameter F1554 Grade 55 anchor bolts with 12-inch minimum embedment into the concrete footing. The bolt group must resist approximately 2,830 lbs of shear and tension forces ranging from 3,500 to 7,000 lbs per bolt depending on the moment arm. Anchor bolt design follows ACI 318-19 Chapter 17 for concrete anchorage, including checks for steel strength, concrete breakout, pullout, and side-face blowout. In the HVHZ, all anchor bolts must be hot-dip galvanized or stainless steel to resist the corrosive coastal environment.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="knowledge-item">
+                <div class="help-trigger" onclick="toggleFaq(this)">
                     <h3>Do digital monument signs have different wind load requirements than static signs?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Digital monument signs require modified wind load analysis compared to static signs due to several factors. LED display cabinets add 8 to 15 psf of dead load to the sign face compared to 2-4 psf for aluminum panel signs, significantly increasing gravity loads and seismic demands. The cabinet depth (typically 4-8 inches) increases the effective frontal area exposed to wind, particularly for oblique wind angles where the cabinet sides catch additional pressure. Electrical components (power supplies, ventilation fans, data controllers) add 200-500 lbs of concentrated mass at the sign face level. In Miami-Dade HVHZ, digital monument signs also require separate electrical permits, compliance with FBC Chapter 33 for sign structures, and brightness controls limiting luminance to 5,000 nits daytime and 500 nits nighttime to meet local ordinances.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Digital monument signs require modified wind load analysis compared to static signs due to several factors. LED display cabinets add 8 to 15 psf of dead load to the sign face compared to 2-4 psf for aluminum panel signs, significantly increasing gravity loads and seismic demands. The cabinet depth (typically 4-8 inches) increases the effective frontal area exposed to wind, particularly for oblique wind angles where the cabinet sides catch additional pressure. Electrical components (power supplies, ventilation fans, data controllers) add 200-500 lbs of concentrated mass at the sign face level. In Miami-Dade HVHZ, digital monument signs also require separate electrical permits, compliance with FBC Chapter 33 for sign structures, and brightness controls limiting luminance to 5,000 nits daytime and 500 nits nighttime to meet local ordinances.</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Final CTA -->
-    <section class="cta-section">
+    <section class="finale-section">
         <div class="cta-container reveal">
             <h2>Get Monument Sign <span class="accent">Wind Load Calculations</span></h2>
             <p>Accurate ASCE 7-22 Chapter 29 wind force analysis for monument signs, channel letter installations, and digital display structures across Miami-Dade County's High-Velocity Hurricane Zone. PE-ready output with overturning moment, foundation sizing, and anchor bolt design data.</p>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Sign Structure Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-start">Calculate Sign Structure Loads</a>
             <br>
             <div class="cta-badge">ASCE 7-22 Compliant &middot; 180 MPH HVHZ &middot; PE-Ready Output</div>
         </div>
@@ -1013,10 +1014,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.8;
-                this.speedX = Math.random() * 3 + 1.2;
+                this.size = Math.random() * 2.1 + 0.8;
+                this.speedX = Math.random() * 2.9 + 1.2;
                 this.speedY = (Math.random() - 0.5) * 1;
-                this.opacity = Math.random() * 0.5 + 0.15;
+                this.opacity = Math.random() * 0.43 + 0.10;
                 this.color = Math.random() > 0.6 ? '#dc2626' : (Math.random() > 0.5 ? '#d97706' : '#00e5ff');
             }
             update() {
@@ -1065,7 +1066,7 @@
                     observer.unobserve(section);
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.15 });
         observer.observe(section);
     })();
 
@@ -1096,7 +1097,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.3, rootMargin: '0px 0px -40px 0px' });
         reveals.forEach(el => observer.observe(el));
     })();
 
@@ -1130,7 +1131,7 @@
                     requestAnimationFrame(tick);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.1 });
         counters.forEach(c => counterObserver.observe(c));
     })();
 
@@ -1175,13 +1176,13 @@
     // FAQ Accordion
     function toggleFaq(el) {
         const item = el.parentElement;
-        const answer = item.querySelector('.faq-answer');
+        const answer = item.querySelector('.question-content');
         const isActive = item.classList.contains('active');
 
-        document.querySelectorAll('.faq-item.active').forEach(other => {
+        document.querySelectorAll('.knowledge-item.active').forEach(other => {
             if (other !== item) {
                 other.classList.remove('active');
-                other.querySelector('.faq-answer').style.maxHeight = '0';
+                other.querySelector('.question-content').style.maxHeight = '0';
             }
         });
 

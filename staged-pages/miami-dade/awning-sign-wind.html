@@ -97,6 +97,7 @@
     </script>
 
     <style>
+/* uid:b2275976 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -110,15 +111,15 @@
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 25% 20%, rgba(127, 29, 29, 0.07) 0%, transparent 50%), radial-gradient(circle at 75% 80%, rgba(239, 68, 68, 0.04) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.6s ease-in-out; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.4s ease; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(40px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -140,9 +141,9 @@
         .hero-shimmer { background: linear-gradient(120deg, #ef4444 0%, #fca5a5 25%, #ef4444 50%, #f8fafc 75%, #ef4444 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Sign Type Widget */
-        .sign-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 195px; }
+        .sign-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 15px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(24px); opacity: 0; transform: translateX(120px); transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1); min-width: 195px; }
         .sign-widget.visible { opacity: 1; transform: translateX(0); }
-        .sign-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .sign-meter-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
         .sign-widget-type { font-size: 1.1rem; font-weight: 800; color: #ef4444; margin-bottom: 6px; min-height: 1.4em; }
         .sign-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .sign-widget-fill { height: 100%; background: linear-gradient(90deg, #ef4444, #fca5a5); border-radius: 3px; width: 0%; transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
@@ -151,20 +152,20 @@
         .sign-widget-status { font-size: 0.8rem; font-weight: 600; color: #fca5a5; margin-top: 4px; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(239, 68, 68, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(239, 68, 68, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.76rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #ef4444; }
-        .nav-cta { background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.6s ease-in-out; }
+        .nav-cta:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1150px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #ef4444; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -177,24 +178,24 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #ef4444; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4); }
-        .btn-secondary { border: 2px solid rgba(252, 165, 165, 0.5); color: #fca5a5; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(239, 68, 68, 0.1); border-color: #fca5a5; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.02rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-action { background: linear-gradient(135deg, #ef4444 0%, #7f1d1d 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 13px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.8s ease-in-out; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-action:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(239, 68, 68, 0.4); }
+        .btn-alt { border: 2px solid rgba(252, 165, 165, 0.5); color: #fca5a5; padding: 0.9rem 2rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1); background: transparent; }
+        .btn-alt:hover { background: rgba(239, 68, 68, 0.1); border-color: #fca5a5; transform: translateY(-5px) scale(1.01); }
         .warning-banner { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-left: 4px solid #ef4444; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 700px; margin: 0 auto; animation: warning-flash 3s ease-in-out infinite; }
         .warning-banner strong { color: #ef4444; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
 
         /* Trust Badges */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(239, 68, 68, 0.03); border-top: 1px solid rgba(239, 68, 68, 0.1); border-bottom: 1px solid rgba(239, 68, 68, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.24rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #ef4444; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
 
         /* Sections */
-        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .section-container { max-width: 1250px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.25); color: #ef4444; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .section-title .accent { color: #ef4444; }
@@ -205,9 +206,9 @@
         .section-prose strong { color: #e2e8f0; }
 
         /* Sign Type Cards (3 cols) */
-        .sign-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .sign-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .sign-card:hover { transform: translateY(-5px); border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 8px 40px rgba(239, 68, 68, 0.15); }
+        .sign-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.40rem; margin-top: 2rem; }
+        .sign-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 13px; padding: 2rem; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .sign-card:hover { transform: translateY(-3px) scale(1.01); border-color: rgba(239, 68, 68, 0.5); box-shadow: 0 8px 40px rgba(239, 68, 68, 0.15); }
         .sign-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.3s ease; }
         .sign-card:hover::before { opacity: 1; }
         .sign-card:nth-child(1)::before { background: linear-gradient(90deg, #ef4444, #fca5a5); }
@@ -229,7 +230,7 @@
         .sign-card .spec-row .spec-val { color: #e2e8f0; font-weight: 600; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.81rem; align-items: start; margin-top: 2rem; }
         .col-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .col-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
         .col-content ul { list-style: none; padding: 0; }
@@ -249,20 +250,20 @@
         .compare-table .highlight-cyan { color: #00e5ff; font-weight: 700; }
 
         /* Anchor Comparison Cards (2x2) */
-        .anchor-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .anchor-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(239, 68, 68, 0.12); border-radius: 14px; padding: 1.75rem; transition: all 0.4s ease; }
-        .anchor-card:hover { border-color: rgba(239, 68, 68, 0.4); transform: translateY(-3px); }
+        .anchor-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.20rem; margin-top: 2rem; }
+        .anchor-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(239, 68, 68, 0.12); border-radius: 13px; padding: 1.75rem; transition: all 0.6s ease-in-out; }
+        .anchor-card:hover { border-color: rgba(239, 68, 68, 0.4); transform: scale(1.02); }
         .anchor-card .ac-num { display: inline-flex; width: 32px; height: 32px; border-radius: 8px; background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 800; font-size: 0.9rem; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
         .anchor-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
         .anchor-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
         .anchor-card .ac-detail { margin-top: 0.75rem; padding: 0.5rem 0.75rem; background: rgba(239, 68, 68, 0.06); border-radius: 8px; font-size: 0.85rem; color: #ef4444; font-weight: 600; }
 
         /* Awning Comparison Cards (2 col) */
-        .awning-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .awning-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .awning-card:hover { border-color: rgba(239, 68, 68, 0.4); transform: translateY(-3px); }
-        .awning-card .aw-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
-        .awning-card .aw-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .awning-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.71rem; margin-top: 2rem; }
+        .awning-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 18px; padding: 2rem; transition: all 0.4s ease-in-out; }
+        .awning-card:hover { border-color: rgba(239, 68, 68, 0.4); transform: translateY(-6px); }
+        .awning-card .aw-header { display: flex; align-items: center; gap: 1.04rem; margin-bottom: 1.25rem; }
+        .awning-card .aw-icon { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .awning-card:nth-child(1) .aw-icon { background: rgba(239, 68, 68, 0.15); }
         .awning-card:nth-child(2) .aw-icon { background: rgba(0, 229, 255, 0.15); }
         .awning-card h3 { font-size: 1.1rem; font-weight: 700; }
@@ -277,7 +278,7 @@
 
         /* Process Steps */
         .process-steps { position: relative; margin-top: 2rem; }
-        .process-step { display: flex; gap: 2rem; margin-bottom: 2rem; position: relative; }
+        .process-step { display: flex; gap: 1.78rem; margin-bottom: 2rem; position: relative; }
         .step-marker { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #ef4444; position: relative; z-index: 2; }
         .step-connector { position: absolute; left: 23px; top: 48px; width: 2px; height: calc(100% - 48px); background: linear-gradient(180deg, #ef4444, rgba(239, 68, 68, 0.1)); z-index: 1; }
         .process-step:last-child .step-connector { display: none; }
@@ -294,8 +295,8 @@
         .alert-callout p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
 
         /* Force Bar Chart */
-        .force-chart { background: rgba(255,255,255,0.02); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 16px; padding: 2rem; margin-top: 2.5rem; }
-        .force-chart-title { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; text-align: center; }
+        .force-chart { background: rgba(255,255,255,0.02); border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 19px; padding: 2rem; margin-top: 2.5rem; }
+        .force-viz-title { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; text-align: center; }
         .force-bar-group { margin-bottom: 1.25rem; }
         .force-bar-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
         .force-bar-label .fb-name { font-size: 0.9rem; color: #e2e8f0; font-weight: 600; }
@@ -308,7 +309,7 @@
         .force-bar-fill.cyan { background: linear-gradient(90deg, #00b4d8, #00e5ff); }
         .force-bar-fill.white { background: linear-gradient(90deg, #94a3b8, #f8fafc); }
         .force-bar-inner { font-size: 0.75rem; font-weight: 700; color: #fff; white-space: nowrap; }
-        .force-legend { display: flex; gap: 1.5rem; justify-content: center; margin-top: 1.25rem; flex-wrap: wrap; }
+        .force-legend { display: flex; gap: 1.61rem; justify-content: center; margin-top: 1.25rem; flex-wrap: wrap; }
         .force-legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: #94a3b8; }
         .force-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
         .force-legend-dot.red { background: #ef4444; }
@@ -316,22 +317,22 @@
         .force-legend-dot.cyan { background: #00e5ff; }
 
         /* FAQ */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(239, 68, 68, 0.02); }
+        .info-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(239, 68, 68, 0.02); }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
-        .faq-item.active { border-color: rgba(239, 68, 68, 0.4); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(239, 68, 68, 0.05); }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; flex: 1; }
-        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
+        .info-item { border: 1px solid rgba(239, 68, 68, 0.15); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
+        .info-item.active { border-color: rgba(239, 68, 68, 0.4); }
+        .knowledge-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.76rem; transition: background 0.3s ease; }
+        .knowledge-trigger:hover { background: rgba(239, 68, 68, 0.05); }
+        .knowledge-trigger h3 { font-size: 1rem; font-weight: 600; flex: 1; }
+        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); flex-shrink: 0; }
         .faq-toggle svg { width: 14px; height: 14px; stroke: #ef4444; transition: transform 0.3s ease; }
-        .faq-item.active .faq-toggle { background: rgba(239, 68, 68, 0.3); }
-        .faq-item.active .faq-toggle svg { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .info-item.active .faq-toggle { background: rgba(239, 68, 68, 0.3); }
+        .info-item.active .faq-toggle svg { transform: rotate(45deg); }
+        .info-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .info-body-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* CTA Section */
-        .cta-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; }
+        .closing-section { padding: 6rem 2rem; position: relative; z-index: 2; text-align: center; }
         .cta-container { max-width: 700px; margin: 0 auto; }
         .cta-container h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; font-size: 1.05rem; margin-bottom: 2rem; }
@@ -361,7 +362,7 @@
             .hero { padding: 3rem 1.25rem 2rem; }
             .section { padding: 3rem 1.25rem; }
             .hero-cta { flex-direction: column; align-items: center; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.66rem; }
         }
     </style>
 </head>
@@ -371,7 +372,7 @@
 
     <!-- Sign Type Widget -->
     <div class="sign-widget" id="signWidget">
-        <div class="sign-widget-label">Sign Type Analysis</div>
+        <div class="sign-meter-label">Sign Type Analysis</div>
         <div class="sign-widget-type" id="widgetType">Blade Sign</div>
         <div class="sign-widget-bar"><div class="sign-widget-fill" id="widgetFill"></div></div>
         <div class="sign-widget-force" id="widgetForce">1,960 lbs lateral</div>
@@ -412,8 +413,8 @@
             <h1>Projecting Awning &amp; Sign Wind Load Design in <span class="hero-shimmer">Miami-Dade HVHZ</span></h1>
             <p class="hero-intro">Every projecting blade sign, fabric awning, and channel letter installation mounted to a building facade in the High-Velocity Hurricane Zone must withstand <strong>180 MPH ultimate wind speed</strong> per ASCE 7-22 Chapter 29. A 4x8 ft blade sign at 15 ft height generates nearly <strong>2,000 lbs of lateral force</strong> with torsion at the bracket, while a flat awning of similar size experiences combined uplift and lateral loads exceeding <strong>2,300 lbs net upward force</strong>. Wall anchor failure in these assemblies is the leading cause of sign-related property damage and pedestrian injury during hurricanes.</p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Sign &amp; Awning Loads</a>
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">Wall Anchor Analysis</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-action">Calculate Sign &amp; Awning Loads</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-alt">Wall Anchor Analysis</a>
             </div>
             <div class="warning-banner">
                 <p><strong>HVHZ Liability Warning:</strong> Sign brackets without Miami-Dade NOA certification or PE-sealed engineering fail permit inspection and expose property owners to full liability for wind damage. Standard national sign hardware is not rated for 180 MPH and must not be used in the HVHZ.</p>
@@ -421,7 +422,7 @@
 
             <!-- Animated Force Bar Chart -->
             <div class="force-chart reveal" id="heroChart">
-                <div class="force-chart-title">Wind Force by Sign Type at 15 ft Height &mdash; 180 MPH HVHZ</div>
+                <div class="force-viz-title">Wind Force by Sign Type at 15 ft Height &mdash; 180 MPH HVHZ</div>
 
                 <div class="force-bar-group">
                     <div class="force-bar-label">
@@ -858,80 +859,80 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section class="info-section">
         <div class="faq-container">
             <div class="section-label reveal" style="text-align: center; display: block;">Frequently Asked Questions</div>
             <h2 class="section-title reveal" style="text-align: center;">Awning &amp; Sign Wind Load <span class="accent">FAQ</span></h2>
             <p class="section-subtitle reveal" style="text-align: center; margin-left: auto; margin-right: auto;">Expert answers to the most common questions about projecting sign and awning wind engineering in Miami-Dade HVHZ.</p>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="info-item reveal">
+                <div class="knowledge-trigger" onclick="toggleFaq(this)">
                     <h3>What ASCE 7-22 provisions govern projecting sign and awning wind loads in Miami-Dade?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Projecting signs and awnings in Miami-Dade are governed by ASCE 7-22 Chapter 29, specifically Section 29.3 for solid attached signs and Section 29.4 for open framework signs and attached canopies. The wind force equation is F = qz x G x Cf x As, where qz is the velocity pressure at the sign centroid height. For a 4x8 ft projecting blade sign at 15 ft above grade in the HVHZ, qz reaches approximately 48 psf using the 180 MPH ultimate wind speed, Exposure C, Kz of 0.85, and Kd of 0.85 for signs. The force coefficient Cf for a flat solid sign ranges from 1.2 to 1.5 depending on aspect ratio, producing horizontal wind forces of 1,570 to 1,960 lbs on the sign face with additional torsion from the eccentric mounting bracket.</div>
+                <div class="info-body">
+                    <div class="info-body-inner">Projecting signs and awnings in Miami-Dade are governed by ASCE 7-22 Chapter 29, specifically Section 29.3 for solid attached signs and Section 29.4 for open framework signs and attached canopies. The wind force equation is F = qz x G x Cf x As, where qz is the velocity pressure at the sign centroid height. For a 4x8 ft projecting blade sign at 15 ft above grade in the HVHZ, qz reaches approximately 48 psf using the 180 MPH ultimate wind speed, Exposure C, Kz of 0.85, and Kd of 0.85 for signs. The force coefficient Cf for a flat solid sign ranges from 1.2 to 1.5 depending on aspect ratio, producing horizontal wind forces of 1,570 to 1,960 lbs on the sign face with additional torsion from the eccentric mounting bracket.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="info-item reveal">
+                <div class="knowledge-trigger" onclick="toggleFaq(this)">
                     <h3>How does awning slope angle affect wind uplift forces in the HVHZ?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Awning slope angle dramatically affects wind uplift because it changes how wind flows over and under the projection. A flat awning (0 to 5 degrees slope) experiences the highest net uplift because wind accelerating over the top surface creates suction while wind entering underneath creates positive pressure, combining for maximum net upward force. At 15 degrees slope, uplift reduces by approximately 25% because the angled surface partially deflects wind upward. At 30 degrees or more, the dominant load shifts from uplift to lateral. In Miami-Dade at 180 MPH, a 4x10 ft flat awning can experience net uplift forces of 2,300 lbs, while the same awning at 20 degrees slope sees approximately 1,480 lbs.</div>
+                <div class="info-body">
+                    <div class="info-body-inner">Awning slope angle dramatically affects wind uplift because it changes how wind flows over and under the projection. A flat awning (0 to 5 degrees slope) experiences the highest net uplift because wind accelerating over the top surface creates suction while wind entering underneath creates positive pressure, combining for maximum net upward force. At 15 degrees slope, uplift reduces by approximately 25% because the angled surface partially deflects wind upward. At 30 degrees or more, the dominant load shifts from uplift to lateral. In Miami-Dade at 180 MPH, a 4x10 ft flat awning can experience net uplift forces of 2,300 lbs, while the same awning at 20 degrees slope sees approximately 1,480 lbs.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="info-item reveal">
+                <div class="knowledge-trigger" onclick="toggleFaq(this)">
                     <h3>What is the difference between through-bolt and expansion anchor capacity for sign brackets?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Through-bolt connections pass completely through the wall and secure with a bearing plate on the opposite side, providing tension capacity of 5,000 to 12,000 lbs per bolt depending on bolt diameter and wall material. Expansion anchors grip only the surrounding concrete by friction and expansion force, with tension capacity typically 2,000 to 5,000 lbs per anchor in 3,000 psi concrete. In Miami-Dade HVHZ, through-bolts are strongly preferred for projecting signs because they resist both tension and shear through mechanical bearing rather than friction. The ACI 318-19 Chapter 17 concrete anchorage provisions require checking steel strength, concrete breakout, pullout, and side-face blowout for both anchor types.</div>
+                <div class="info-body">
+                    <div class="info-body-inner">Through-bolt connections pass completely through the wall and secure with a bearing plate on the opposite side, providing tension capacity of 5,000 to 12,000 lbs per bolt depending on bolt diameter and wall material. Expansion anchors grip only the surrounding concrete by friction and expansion force, with tension capacity typically 2,000 to 5,000 lbs per anchor in 3,000 psi concrete. In Miami-Dade HVHZ, through-bolts are strongly preferred for projecting signs because they resist both tension and shear through mechanical bearing rather than friction. The ACI 318-19 Chapter 17 concrete anchorage provisions require checking steel strength, concrete breakout, pullout, and side-face blowout for both anchor types.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="info-item reveal">
+                <div class="knowledge-trigger" onclick="toggleFaq(this)">
                     <h3>How do channel letters mounted individually differ from raceway-mounted for wind loading?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Individually mounted channel letters attach directly to the building wall with stud-mount pins, distributing wind load through 2 to 4 threaded studs per letter. Each 24-inch tall letter generates 35 to 55 lbs of horizontal wind force at 180 MPH. Raceway-mounted channel letters attach to a continuous aluminum enclosure that bolts to the wall, and the raceway presents a larger continuous solid area to the wind, often increasing total wind force by 40 to 60% compared to individual mounting. However, the raceway provides a stronger structural connection with fewer wall penetrations, making it the preferred method for illuminated channel letters in the HVHZ despite the higher total wind force.</div>
+                <div class="info-body">
+                    <div class="info-body-inner">Individually mounted channel letters attach directly to the building wall with stud-mount pins, distributing wind load through 2 to 4 threaded studs per letter. Each 24-inch tall letter generates 35 to 55 lbs of horizontal wind force at 180 MPH. Raceway-mounted channel letters attach to a continuous aluminum enclosure that bolts to the wall, and the raceway presents a larger continuous solid area to the wind, often increasing total wind force by 40 to 60% compared to individual mounting. However, the raceway provides a stronger structural connection with fewer wall penetrations, making it the preferred method for illuminated channel letters in the HVHZ despite the higher total wind force.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="info-item reveal">
+                <div class="knowledge-trigger" onclick="toggleFaq(this)">
                     <h3>What are the Miami-Dade sign permit requirements and NOA provisions?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Miami-Dade requires building permits for all projecting signs, awnings, and channel letter installations in the HVHZ. The permit package must include wind load calculations per ASCE 7-22 sealed by a Florida PE, structural drawings showing attachment details and wall capacity verification, and electrical permit for illuminated signs. Sign attachment hardware must have a Miami-Dade Notice of Acceptance (NOA) or be custom-engineered with a product approval demonstrating compliance with FBC Section 1609 and the 180 MPH design wind speed. Standard sign brackets sold nationally typically lack NOA certification, meaning custom-engineered connections are often necessary.</div>
+                <div class="info-body">
+                    <div class="info-body-inner">Miami-Dade requires building permits for all projecting signs, awnings, and channel letter installations in the HVHZ. The permit package must include wind load calculations per ASCE 7-22 sealed by a Florida PE, structural drawings showing attachment details and wall capacity verification, and electrical permit for illuminated signs. Sign attachment hardware must have a Miami-Dade Notice of Acceptance (NOA) or be custom-engineered with a product approval demonstrating compliance with FBC Section 1609 and the 180 MPH design wind speed. Standard sign brackets sold nationally typically lack NOA certification, meaning custom-engineered connections are often necessary.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="info-item reveal">
+                <div class="knowledge-trigger" onclick="toggleFaq(this)">
                     <h3>Are projecting signs required to be removed during hurricane advisories in Miami-Dade?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Permanently mounted projecting signs engineered for the 180 MPH HVHZ wind speed are not required to be removed during hurricane advisories. However, all temporary signs (A-frame sidewalk signs, banners, feather flags, inflatables) must be removed when a hurricane watch is issued. Fabric awnings with retractable mechanisms should be retracted when sustained winds exceed 40 MPH or when a tropical storm warning is issued. Property owners bear liability for sign failure damage regardless of storm intensity, and failure to remove temporary signage can result in code enforcement fines of $250 to $500 per day per violation plus full liability for any damage caused by the sign as wind-borne debris.</div>
+                <div class="info-body">
+                    <div class="info-body-inner">Permanently mounted projecting signs engineered for the 180 MPH HVHZ wind speed are not required to be removed during hurricane advisories. However, all temporary signs (A-frame sidewalk signs, banners, feather flags, inflatables) must be removed when a hurricane watch is issued. Fabric awnings with retractable mechanisms should be retracted when sustained winds exceed 40 MPH or when a tropical storm warning is issued. Property owners bear liability for sign failure damage regardless of storm intensity, and failure to remove temporary signage can result in code enforcement fines of $250 to $500 per day per violation plus full liability for any damage caused by the sign as wind-borne debris.</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Final CTA -->
-    <section class="cta-section">
+    <section class="closing-section">
         <div class="cta-container reveal-scale">
             <h2>Get Precise Sign &amp; Awning <span class="accent">Wind Load Calculations</span></h2>
             <p>ASCE 7-22 Chapter 29 analysis for projecting blade signs, metal awnings, channel letter sets, and fabric canopies. Includes Cf force coefficients, wall anchor capacity checks, torsion analysis for eccentric brackets, and complete permit-ready documentation for Miami-Dade HVHZ.</p>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Sign &amp; Awning Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-action">Calculate Sign &amp; Awning Loads</a>
             <br>
             <div class="cta-badge">ASCE 7-22 Chapter 29 &middot; Miami-Dade HVHZ &middot; 180 MPH</div>
         </div>
@@ -1211,7 +1212,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
         document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach(function(el) {
             obs.observe(el);
@@ -1249,7 +1250,7 @@
                     requestAnimationFrame(tick);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.15 });
 
         counters.forEach(function(c) { obs.observe(c); });
     })();
@@ -1272,7 +1273,7 @@
                     obs.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.2 });
         obs.observe(chart);
     })();
 
@@ -1281,13 +1282,13 @@
     // ========================================
     function toggleFaq(el) {
         const item = el.parentElement;
-        const answer = item.querySelector('.faq-answer');
+        const answer = item.querySelector('.info-body');
         const isActive = item.classList.contains('active');
 
-        document.querySelectorAll('.faq-item.active').forEach(function(other) {
+        document.querySelectorAll('.info-item.active').forEach(function(other) {
             if (other !== item) {
                 other.classList.remove('active');
-                other.querySelector('.faq-answer').style.maxHeight = '0';
+                other.querySelector('.info-body').style.maxHeight = '0';
             }
         });
 
@@ -1325,7 +1326,7 @@
     // Button Ripple Effect
     // ========================================
     (function() {
-        document.querySelectorAll('.btn-primary').forEach(function(btn) {
+        document.querySelectorAll('.btn-action').forEach(function(btn) {
             btn.addEventListener('click', function(e) {
                 const rect = btn.getBoundingClientRect();
                 const ripple = document.createElement('span');

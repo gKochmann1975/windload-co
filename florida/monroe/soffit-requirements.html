@@ -26,6 +26,7 @@
     </script>
 
     <style>
+/* uid:479b1cdb */
         :root {
             --primary-dark: #1a0a2e;
             --accent-magenta: #e91e8c;
@@ -49,23 +50,23 @@
 
         #particleCanvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: 0; pointer-events: none; }
 
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(13, 0, 21, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(233, 30, 140, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(13, 0, 21, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(233, 30, 140, 0.2); }
         .nav-logo { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
         .nav-logo img { height: 28px; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.23rem; }
         .nav-links a { color: var(--text-secondary); text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s; }
         .nav-links a:hover { color: var(--accent-cyan); }
 
-        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding: 6rem 2rem; }
+        .hero { min-height: 100vh; display: flex; align-items: center; justify-content: center; position: relative; padding: 5rem 2rem; }
 
-        .hero-content { max-width: 1400px; width: 100%; display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
+        .hero-block { max-width: 1250px; width: 100%; display: grid; grid-template-columns: 1fr 1.3fr; gap: 4rem; align-items: center; position: relative; z-index: 1; }
 
-        .hero-text h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
-        .hero-text h1 span { background: linear-gradient(135deg, var(--warning-red), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
-        .hero-subtitle { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 500px; }
+        .hero-copy h1 { font-size: clamp(2.5rem, 5vw, 4rem); font-weight: 900; line-height: 1.1; margin-bottom: 1.5rem; }
+        .hero-copy h1 span { background: linear-gradient(135deg, var(--warning-red), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .hero-detail { font-size: 1.25rem; color: var(--text-secondary); margin-bottom: 2rem; max-width: 500px; }
         .hero-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255, 71, 87, 0.15); border: 1px solid rgba(255, 71, 87, 0.3); color: var(--warning-red); padding: 0.5rem 1rem; border-radius: 100px; font-size: 0.875rem; font-weight: 600; margin-bottom: 1.5rem; }
 
-        .soffit-container { position: relative; width: 100%; height: 500px; background: linear-gradient(180deg, rgba(255, 71, 87, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%); border-radius: 24px; border: 1px solid rgba(255, 255, 255, 0.1); overflow: hidden; }
+        .soffit-container { position: relative; width: 100%; height: 500px; background: linear-gradient(180deg, rgba(255, 71, 87, 0.1) 0%, rgba(0, 212, 255, 0.1) 100%); border-radius: 21px; border: 1px solid rgba(255, 255, 255, 0.1); overflow: hidden; }
         #soffitCanvas { width: 100%; height: 100%; }
 
         .pressure-display { position: absolute; top: 1rem; right: 1rem; background: rgba(13, 0, 21, 0.95); padding: 1rem 1.5rem; border-radius: 12px; border: 1px solid var(--warning-red); text-align: center; }
@@ -73,7 +74,7 @@
         .pressure-value { font-size: 2rem; font-weight: 900; color: var(--warning-red); }
         .pressure-note { font-size: 0.75rem; color: var(--text-secondary); margin-top: 0.25rem; }
 
-        .status-indicator { position: absolute; bottom: 1rem; left: 1rem; background: rgba(13, 0, 21, 0.95); padding: 1rem; border-radius: 12px; display: flex; align-items: center; gap: 0.75rem; }
+        .status-indicator { position: absolute; bottom: 1rem; left: 1rem; background: rgba(13, 0, 21, 0.95); padding: 1rem; border-radius: 13px; display: flex; align-items: center; gap: 0.75rem; }
         .status-dot { width: 12px; height: 12px; border-radius: 50%; animation: pulse 1.5s infinite; }
         .status-dot.fail { background: var(--warning-red); }
         .status-dot.ok { background: var(--success-green); }
@@ -81,58 +82,58 @@
         .status-text { font-size: 0.9rem; font-weight: 600; }
 
         .section { padding: 6rem 2rem; position: relative; z-index: 1; }
-        .section-container { max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 4rem; }
-        .section-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
-        .section-header p { color: var(--text-secondary); font-size: 1.125rem; max-width: 600px; margin: 0 auto; }
+        .section-container { max-width: 1300px; margin: 0 auto; }
+        .zone-header { text-align: center; margin-bottom: 4rem; }
+        .zone-header h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .zone-header p { color: var(--text-secondary); font-size: 1.125rem; max-width: 600px; margin: 0 auto; }
 
-        .failure-modes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .failure-modes { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.27rem; }
 
-        .failure-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 71, 87, 0.3); border-radius: 20px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.4s; }
-        .failure-card:hover { transform: translateY(-5px); border-color: var(--warning-red); box-shadow: 0 20px 60px rgba(255, 71, 87, 0.2); }
-        .failure-card-icon { width: 60px; height: 60px; background: rgba(255, 71, 87, 0.2); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 1.5rem; }
+        .failure-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 71, 87, 0.3); border-radius: 19px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.4s; }
+        .failure-card:hover { transform: translateY(-5px) scale(1.01); border-color: var(--warning-red); box-shadow: 0 20px 60px rgba(255, 71, 87, 0.2); }
+        .failure-card-icon { width: 60px; height: 60px; background: rgba(255, 71, 87, 0.2); border-radius: 18px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.5rem; font-size: 1.5rem; }
         .failure-card-title { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.75rem; }
         .failure-card-desc { color: var(--text-secondary); font-size: 0.95rem; }
 
-        .solution-section { background: linear-gradient(135deg, rgba(26, 10, 46, 0.5) 0%, rgba(13, 0, 21, 0.5) 100%); border-radius: 24px; padding: 3rem; border: 1px solid rgba(46, 213, 115, 0.3); }
+        .solution-section { background: linear-gradient(135deg, rgba(26, 10, 46, 0.5) 0%, rgba(13, 0, 21, 0.5) 100%); border-radius: 23px; padding: 3rem; border: 1px solid rgba(46, 213, 115, 0.3); }
 
-        .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; }
+        .solution-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3.05rem; }
 
-        .solution-visual { height: 300px; background: rgba(0, 0, 0, 0.3); border-radius: 16px; overflow: hidden; }
+        .solution-visual { height: 300px; background: rgba(0, 0, 0, 0.3); border-radius: 15px; overflow: hidden; }
         #solutionCanvas { width: 100%; height: 100%; }
 
-        .solution-list { display: flex; flex-direction: column; gap: 1rem; }
-        .solution-item { background: rgba(46, 213, 115, 0.1); padding: 1rem 1.5rem; border-radius: 12px; border-left: 4px solid var(--success-green); }
+        .solution-list { display: flex; flex-direction: column; gap: 0.93rem; }
+        .solution-item { background: rgba(46, 213, 115, 0.1); padding: 1rem 1.5rem; border-radius: 13px; border-left: 4px solid var(--success-green); }
         .solution-item h4 { font-weight: 700; margin-bottom: 0.25rem; color: var(--success-green); }
         .solution-item p { font-size: 0.9rem; color: var(--text-secondary); }
 
         .faq-list { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 16px; margin-bottom: 1rem; overflow: hidden; background: rgba(255, 255, 255, 0.02); }
-        .faq-question { width: 100%; padding: 1.5rem; background: none; border: none; color: white; font-size: 1.1rem; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question:hover { background: rgba(255, 255, 255, 0.03); }
+        .info-item { border: 1px solid rgba(255, 255, 255, 0.1); border-radius: 15px; margin-bottom: 1rem; overflow: hidden; background: rgba(255, 255, 255, 0.02); }
+        .reveal-trigger { width: 100%; padding: 1.5rem; background: none; border: none; color: white; font-size: 1.1rem; font-weight: 600; text-align: left; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .reveal-trigger:hover { background: rgba(255, 255, 255, 0.03); }
         .faq-icon { width: 24px; height: 24px; border-radius: 50%; background: linear-gradient(135deg, var(--warning-red), var(--success-green)); display: flex; align-items: center; justify-content: center; transition: transform 0.3s; }
-        .faq-item.active .faq-icon { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s; }
-        .faq-item.active .faq-answer { max-height: 500px; }
-        .faq-answer-content { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); line-height: 1.8; }
+        .info-item.active .faq-icon { transform: rotate(45deg); }
+        .answer-body { max-height: 0; overflow: hidden; transition: max-height 0.4s; }
+        .info-item.active .answer-body { max-height: 500px; }
+        .answer-body-content { padding: 0 1.5rem 1.5rem; color: var(--text-secondary); line-height: 1.8; }
 
-        .floating-widget { position: fixed; bottom: 2rem; right: 2rem; background: linear-gradient(135deg, var(--primary-dark), rgba(26, 10, 46, 0.95)); border: 1px solid var(--warning-red); border-radius: 20px; padding: 1.5rem; z-index: 90; box-shadow: 0 10px 40px rgba(255, 71, 87, 0.2); min-width: 180px; }
+        .side-indicator { position: fixed; bottom: 2rem; right: 2rem; background: linear-gradient(135deg, var(--primary-dark), rgba(26, 10, 46, 0.95)); border: 1px solid var(--warning-red); border-radius: 21px; padding: 1.5rem; z-index: 90; box-shadow: 0 10px 40px rgba(255, 71, 87, 0.2); min-width: 180px; }
         .widget-title { font-size: 0.75rem; color: var(--text-secondary); text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; }
         .widget-stat { display: flex; justify-content: space-between; margin-bottom: 0.75rem; }
         .widget-stat:last-child { margin-bottom: 0; }
-        .widget-stat-label { font-size: 0.85rem; color: var(--text-secondary); }
-        .widget-stat-value { font-weight: 700; color: var(--accent-cyan); }
+        .widget-number-label { font-size: 0.85rem; color: var(--text-secondary); }
+        .widget-measure-value { font-weight: 700; color: var(--accent-cyan); }
 
-        .cta-section { padding: 6rem 2rem; background: linear-gradient(135deg, var(--warning-red) 0%, var(--success-green) 100%); text-align: center; }
-        .cta-section h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
-        .cta-section p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
-        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2.5rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s; }
+        .launch-section { padding: 6rem 2rem; background: linear-gradient(135deg, var(--warning-red) 0%, var(--success-green) 100%); text-align: center; }
+        .launch-section h2 { font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .launch-section p { font-size: 1.25rem; opacity: 0.9; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; }
+        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2.5rem; border-radius: 10px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s; }
         .btn-white { background: white; color: var(--primary-dark); }
-        .btn-white:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
+        .btn-white:hover { transform: translateY(-4px); box-shadow: 0 10px 30px rgba(0,0,0,0.3); }
 
         footer { padding: 3rem 2rem; background: var(--bg-deep); border-top: 1px solid rgba(255,255,255,0.1); }
-        .footer-content { max-width: 1200px; margin: 0 auto; }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-bottom: 2rem; }
+        .footer-content { max-width: 1300px; margin: 0 auto; }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.77rem; margin-bottom: 2rem; }
         .footer-column h4 { font-size: 0.9rem; font-weight: 700; margin-bottom: 1rem; color: var(--accent-cyan); }
         .footer-column a { display: block; color: var(--text-secondary); text-decoration: none; font-size: 0.875rem; margin-bottom: 0.5rem; }
         .footer-column a:hover { color: var(--accent-magenta); }
@@ -140,12 +141,12 @@
         .footer-bottom a { color: var(--accent-cyan); text-decoration: none; }
 
         @media (max-width: 968px) {
-            .hero-content { grid-template-columns: 1fr; text-align: center; }
-            .hero-subtitle { margin: 0 auto 2rem; }
+            .hero-block { grid-template-columns: 1fr; text-align: center; }
+            .hero-detail { margin: 0 auto 2rem; }
             .soffit-container { height: 400px; }
             .failure-modes { grid-template-columns: 1fr; }
             .solution-grid { grid-template-columns: 1fr; }
-            .floating-widget { bottom: 1rem; right: 1rem; left: 1rem; min-width: unset; }
+            .side-indicator { bottom: 1rem; right: 1rem; left: 1rem; min-width: unset; }
             .nav-links { display: none; }
         }
     </style>
@@ -165,11 +166,11 @@
     </nav>
 
     <section class="hero">
-        <div class="hero-content">
-            <div class="hero-text">
+        <div class="hero-block">
+            <div class="hero-copy">
                 <div class="hero-badge">Critical Vulnerability</div>
                 <h1>Protect the <span>Underside</span></h1>
-                <p class="hero-subtitle">
+                <p class="hero-detail">
                     Soffits look like decoration, but they are the first line of defense. When wind gets under your overhang, it tries to rip the roof off from below. Watch what happens when soffits fail.
                 </p>
                 <a href="https://windloadcalc.com" class="btn btn-white" style="background: linear-gradient(135deg, var(--warning-red), var(--success-green)); color: white;">
@@ -194,7 +195,7 @@
 
     <section class="section">
         <div class="section-container">
-            <div class="section-header">
+            <div class="zone-header">
                 <h2>How Soffits Fail</h2>
                 <p>Understanding failure modes helps you prevent them. Here are the three most common ways soffits fail in hurricanes.</p>
             </div>
@@ -226,7 +227,7 @@
 
     <section class="section">
         <div class="section-container">
-            <div class="section-header">
+            <div class="zone-header">
                 <h2>Proper Soffit Installation</h2>
                 <p>Follow these requirements to prevent soffit failure in Florida Keys construction.</p>
             </div>
@@ -260,42 +261,42 @@
 
     <section class="section" style="background: rgba(26,10,46,0.3);">
         <div class="section-container">
-            <div class="section-header">
+            <div class="zone-header">
                 <h2>Soffit Questions</h2>
                 <p>Common questions about soffit requirements in the Florida Keys.</p>
             </div>
             <div class="faq-list">
-                <div class="faq-item">
-                    <button class="faq-question">Why do soffits fail in hurricanes?<span class="faq-icon">+</span></button>
-                    <div class="faq-answer"><div class="faq-answer-content">Soffits fail because wind creates high suction pressures under roof overhangs. When wind flows around the building edge, it creates a low-pressure zone that pulls soffits down. If fasteners are inadequate or the soffit material is weak, it gets sucked out, allowing wind and rain into the attic. Once the attic is pressurized, the entire roof can blow off from the inside.</div></div>
+                <div class="info-item">
+                    <button class="reveal-trigger">Why do soffits fail in hurricanes?<span class="faq-icon">+</span></button>
+                    <div class="answer-body"><div class="answer-body-content">Soffits fail because wind creates high suction pressures under roof overhangs. When wind flows around the building edge, it creates a low-pressure zone that pulls soffits down. If fasteners are inadequate or the soffit material is weak, it gets sucked out, allowing wind and rain into the attic. Once the attic is pressurized, the entire roof can blow off from the inside.</div></div>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question">What is the wind pressure on soffits?<span class="faq-icon">+</span></button>
-                    <div class="faq-answer"><div class="faq-answer-content">Soffit areas experience some of the highest suction pressures on a building. In the Florida Keys at 180 mph design speed, soffit pressures can exceed -80 psf (suction). Corner soffits are even worse, often seeing pressures 1.5 to 2 times higher than mid-span areas. This is why corner fastening is so critical.</div></div>
+                <div class="info-item">
+                    <button class="reveal-trigger">What is the wind pressure on soffits?<span class="faq-icon">+</span></button>
+                    <div class="answer-body"><div class="answer-body-content">Soffit areas experience some of the highest suction pressures on a building. In the Florida Keys at 180 mph design speed, soffit pressures can exceed -80 psf (suction). Corner soffits are even worse, often seeing pressures 1.5 to 2 times higher than mid-span areas. This is why corner fastening is so critical.</div></div>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question">How should soffits be attached in the Florida Keys?<span class="faq-icon">+</span></button>
-                    <div class="faq-answer"><div class="faq-answer-content">Soffits in high-wind areas need mechanical fastening, not just friction fit. Code requires fasteners at specific spacing (typically 6-12 inches) with adequate pull-through resistance. Aluminum and vinyl soffits need rated wind resistance matched to your location. Many failures occur because soffits were installed to non-hurricane standards with inadequate fastening.</div></div>
+                <div class="info-item">
+                    <button class="reveal-trigger">How should soffits be attached in the Florida Keys?<span class="faq-icon">+</span></button>
+                    <div class="answer-body"><div class="answer-body-content">Soffits in high-wind areas need mechanical fastening, not just friction fit. Code requires fasteners at specific spacing (typically 6-12 inches) with adequate pull-through resistance. Aluminum and vinyl soffits need rated wind resistance matched to your location. Many failures occur because soffits were installed to non-hurricane standards with inadequate fastening.</div></div>
                 </div>
-                <div class="faq-item">
-                    <button class="faq-question">Do vented soffits weaken hurricane resistance?<span class="faq-icon">+</span></button>
-                    <div class="faq-answer"><div class="faq-answer-content">Vented soffits do not inherently weaken hurricane resistance if properly designed. The vents should be small enough to resist wind-driven rain while allowing attic ventilation. Some codes require specific perforation ratios. The key is that vents should not create a path for significant water intrusion during a storm. Products specifically designed for high-wind areas balance ventilation with weather protection.</div></div>
+                <div class="info-item">
+                    <button class="reveal-trigger">Do vented soffits weaken hurricane resistance?<span class="faq-icon">+</span></button>
+                    <div class="answer-body"><div class="answer-body-content">Vented soffits do not inherently weaken hurricane resistance if properly designed. The vents should be small enough to resist wind-driven rain while allowing attic ventilation. Some codes require specific perforation ratios. The key is that vents should not create a path for significant water intrusion during a storm. Products specifically designed for high-wind areas balance ventilation with weather protection.</div></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta-section">
+    <section class="launch-section">
         <h2>Calculate Your Soffit Requirements</h2>
         <p>Get exact pressure values for your soffit design.</p>
         <a href="https://windloadcalc.com" class="btn btn-white">Start Calculating<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </section>
 
-    <div class="floating-widget">
+    <div class="side-indicator">
         <div class="widget-title">Soffit Facts</div>
-        <div class="widget-stat"><span class="widget-stat-label">Max Pressure</span><span class="widget-stat-value">-82 psf</span></div>
-        <div class="widget-stat"><span class="widget-stat-label">Fastener Max</span><span class="widget-stat-value">6" o.c.</span></div>
-        <div class="widget-stat"><span class="widget-stat-label">Framing Max</span><span class="widget-stat-value">24" o.c.</span></div>
+        <div class="widget-stat"><span class="widget-number-label">Max Pressure</span><span class="widget-measure-value">-82 psf</span></div>
+        <div class="widget-stat"><span class="widget-number-label">Fastener Max</span><span class="widget-measure-value">6" o.c.</span></div>
+        <div class="widget-stat"><span class="widget-number-label">Framing Max</span><span class="widget-measure-value">24" o.c.</span></div>
     </div>
 
     <footer>
@@ -557,11 +558,11 @@
         window.addEventListener('resize', () => { resizeSolutionCanvas(); drawSolution(); });
 
         // FAQ
-        document.querySelectorAll('.faq-question').forEach(btn => {
+        document.querySelectorAll('.reveal-trigger').forEach(btn => {
             btn.addEventListener('click', () => {
                 const item = btn.parentElement;
                 const wasActive = item.classList.contains('active');
-                document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+                document.querySelectorAll('.info-item').forEach(f => f.classList.remove('active'));
                 if (!wasActive) item.classList.add('active');
             });
         });

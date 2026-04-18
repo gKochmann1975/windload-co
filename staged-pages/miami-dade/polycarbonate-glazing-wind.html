@@ -137,6 +137,7 @@
     </script>
 
     <style>
+/* uid:d09bbc8e */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -150,15 +151,15 @@
         .ice-bg-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 15% 20%, rgba(125, 211, 252, 0.07) 0%, transparent 50%), radial-gradient(circle at 85% 75%, rgba(56, 189, 248, 0.05) 0%, transparent 50%), radial-gradient(circle at 50% 50%, rgba(0, 229, 255, 0.03) 0%, transparent 60%); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.65s ease-in-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.75s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(35px); transition: all 0.55s ease; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -172,15 +173,15 @@
         @keyframes warning-flash { 0%, 100% { border-left-color: #38bdf8; } 50% { border-left-color: #7dd3fc; box-shadow: inset 0 0 30px rgba(56, 189, 248, 0.06); } }
         @keyframes panel-flex { 0%, 100% { transform: scaleY(1) translateY(0); } 50% { transform: scaleY(0.97) translateY(3px); } }
         @keyframes ice-float { 0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.6; } 50% { transform: translateY(-8px) rotate(2deg); opacity: 1; } }
-        @keyframes deflect-pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+        @keyframes deflect-pulse { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(25px); } }
 
         .hero-shimmer { background: linear-gradient(120deg, #7dd3fc 0%, #38bdf8 20%, #00e5ff 40%, #7dd3fc 60%, #bae6fd 80%, #00e5ff 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Deflection Monitor Widget (Fixed) */
-        .deflection-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(125, 211, 252, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 210px; }
+        .deflection-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(125, 211, 252, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(16px); opacity: 0; transform: translateX(120px); transition: all 0.4s ease; min-width: 210px; }
         .deflection-widget.visible { opacity: 1; transform: translateX(0); }
-        .deflection-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
-        .deflection-widget-value { font-size: 1.4rem; font-weight: 800; color: #38bdf8; margin-bottom: 4px; }
+        .deflection-chip-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+        .deflection-indicator-val { font-size: 1.4rem; font-weight: 800; color: #38bdf8; margin-bottom: 4px; }
         .deflection-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .deflection-widget-fill { height: 100%; background: linear-gradient(90deg, #7dd3fc, #38bdf8, #00e5ff); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .deflection-widget-status { font-size: 0.75rem; font-weight: 600; color: #7dd3fc; }
@@ -190,20 +191,20 @@
         .deflection-widget-panel-supports span { width: 3px; height: 100%; background: rgba(125,211,252,0.3); border-radius: 1px; }
 
         /* Navigation */
-        .nav { display: flex; align-items: center; justify-content: space-between; padding: 1rem 2rem; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(12, 18, 32, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 252, 0.12); }
+        .nav { display: flex; align-items: center; justify-content: space-between; padding: 3rem 2rem; position: fixed; top: 0; left: 0; right: 0; z-index: 1000; background: rgba(12, 18, 32, 0.9); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(125, 211, 252, 0.12); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; -webkit-text-fill-color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.78rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
         .nav-links a:hover { color: #38bdf8; }
         .nav-cta { background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff; padding: 0.6rem 1.2rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.85rem; transition: all 0.3s; }
-        .nav-cta:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); transform: translateY(-1px); }
+        .nav-cta:hover { box-shadow: 0 0 20px rgba(56, 189, 248, 0.4); transform: translateY(-5px); }
 
         /* Breadcrumb */
         .breadcrumb { padding: 0.8rem 2rem; padding-top: 5rem; position: relative; z-index: 2; }
-        .breadcrumb-container { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; max-width: 1200px; margin: 0 auto; flex-wrap: wrap; }
+        .breadcrumb-container { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; max-width: 1300px; margin: 0 auto; flex-wrap: wrap; }
         .breadcrumb-container a { color: #38bdf8; text-decoration: none; transition: color 0.3s; }
         .breadcrumb-container a:hover { color: #7dd3fc; }
         .breadcrumb-container span { color: #64748b; }
@@ -215,66 +216,66 @@
         .hero-badge-dot { width: 8px; height: 8px; background: #38bdf8; border-radius: 50%; animation: glow-pulse 2s ease-in-out infinite; }
         .hero h1 { font-size: clamp(2.2rem, 5vw, 3.5rem); font-weight: 900; line-height: 1.15; margin-bottom: 1.5rem; }
         .hero p { font-size: 1.15rem; color: #94a3b8; max-width: 740px; margin: 0 auto 2rem; line-height: 1.7; }
-        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff; padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s; position: relative; overflow: hidden; }
-        .btn-primary:hover { box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); transform: translateY(-2px); }
-        .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(56, 189, 248, 0.3); color: #7dd3fc; padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s; }
-        .btn-secondary:hover { background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
+        .hero-buttons { display: flex; gap: 0.72rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-activate { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #0ea5e9, #38bdf8); color: #fff; padding: 0.9rem 2rem; border-radius: 15px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s; position: relative; overflow: hidden; }
+        .btn-activate:hover { box-shadow: 0 0 30px rgba(56, 189, 248, 0.5); transform: translateY(-5px); }
+        .btn-explore { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(255,255,255,0.05); border: 1px solid rgba(56, 189, 248, 0.3); color: #7dd3fc; padding: 0.9rem 2rem; border-radius: 11px; text-decoration: none; font-weight: 600; font-size: 1rem; transition: all 0.3s; }
+        .btn-explore:hover { background: rgba(56, 189, 248, 0.1); border-color: #38bdf8; }
         .hero-warning { background: rgba(56, 189, 248, 0.06); border-left: 4px solid #38bdf8; padding: 1rem 1.5rem; border-radius: 0 12px 12px 0; max-width: 700px; margin: 0 auto; text-align: left; animation: warning-flash 3s ease-in-out infinite; }
         .hero-warning strong { color: #7dd3fc; }
         .hero-warning p { font-size: 0.9rem; color: #94a3b8; margin: 0; }
 
         /* Trust Badges / Counters */
-        .trust-badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1000px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
-        .trust-badge { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
+        .trust-badges { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.78rem; max-width: 1000px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
+        .trust-badge { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 13px; padding: 1.5rem; text-align: center; transition: all 0.3s; }
         .trust-badge:hover { border-color: rgba(56, 189, 248, 0.4); background: rgba(56, 189, 248, 0.05); }
         .trust-badge .counter { font-size: 2rem; font-weight: 900; color: #38bdf8; display: block; margin-bottom: 0.3rem; }
         .trust-badge .label { font-size: 0.8rem; color: #64748b; }
 
         /* Content Sections */
-        .content-section { padding: 4rem 2rem; position: relative; z-index: 2; max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
-        .section-header h2 .accent { color: #38bdf8; }
-        .section-header p { color: #94a3b8; max-width: 650px; margin: 0 auto; font-size: 1.05rem; }
+        .content-section { padding: 3rem 2rem; position: relative; z-index: 2; max-width: 1350px; margin: 0 auto; }
+        .segment-header { text-align: center; margin-bottom: 3rem; }
+        .segment-header h2 { font-size: clamp(1.8rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
+        .segment-header h2 .accent { color: #38bdf8; }
+        .segment-header p { color: #94a3b8; max-width: 650px; margin: 0 auto; font-size: 1.05rem; }
 
         /* Panel Flex Visualization */
-        .flex-viz-container { background: rgba(255,255,255,0.02); border: 1px solid rgba(125, 211, 252, 0.2); border-radius: 20px; padding: 3rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
+        .flex-viz-container { background: rgba(255,255,255,0.02); border: 1px solid rgba(125, 211, 252, 0.2); border-radius: 19px; padding: 3rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
         .flex-viz-container::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #7dd3fc, #38bdf8, #00e5ff, transparent); }
-        #panel-flex-canvas { display: block; margin: 0 auto; border-radius: 12px; background: rgba(0,0,0,0.3); }
-        .flex-legend { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
+        #panel-flex-canvas { display: block; margin: 0 auto; border-radius: 13px; background: rgba(0,0,0,0.3); }
+        .flex-legend { display: flex; gap: 2.13rem; justify-content: center; flex-wrap: wrap; margin-top: 1.5rem; }
         .flex-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #94a3b8; }
         .flex-legend-dot { width: 12px; height: 12px; border-radius: 3px; }
 
         /* Comparison Radar Section */
-        .radar-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-bottom: 4rem; }
-        .radar-chart-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(125, 211, 252, 0.2); border-radius: 20px; padding: 2rem; text-align: center; }
+        .radar-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3.08rem; align-items: start; margin-bottom: 4rem; }
+        .radar-chart-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(125, 211, 252, 0.2); border-radius: 22px; padding: 2rem; text-align: center; }
         .radar-chart-wrap h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; color: #fff; }
         #radar-canvas { display: block; margin: 0 auto; }
-        .radar-info { display: flex; flex-direction: column; gap: 1.5rem; }
-        .radar-info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 16px; padding: 1.5rem; transition: all 0.4s; }
-        .radar-info-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-3px); box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
+        .radar-info { display: flex; flex-direction: column; gap: 1.35rem; }
+        .radar-info-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 13px; padding: 1.5rem; transition: all 0.4s; }
+        .radar-info-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: scale(1.03); box-shadow: 0 10px 30px rgba(56, 189, 248, 0.1); }
         .radar-info-card h4 { font-size: 1.05rem; font-weight: 700; color: #7dd3fc; margin-bottom: 0.5rem; }
         .radar-info-card p { color: #94a3b8; font-size: 0.92rem; line-height: 1.6; }
         .radar-info-card .stat { font-size: 1.8rem; font-weight: 900; color: #38bdf8; display: block; margin-top: 0.3rem; }
 
         /* Thickness DP Grid */
-        .thickness-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-        .thickness-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s; position: relative; overflow: hidden; }
+        .thickness-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.39rem; margin-bottom: 3rem; }
+        .thickness-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 15px; padding: 2rem; transition: all 0.4s; position: relative; overflow: hidden; }
         .thickness-card::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #7dd3fc, #38bdf8); transform: scaleX(0); transition: transform 0.4s; }
         .thickness-card:hover::after { transform: scaleX(1); }
-        .thickness-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-4px); box-shadow: 0 15px 40px rgba(56, 189, 248, 0.12); }
-        .thickness-card-icon { width: 48px; height: 48px; background: rgba(56, 189, 248, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.3rem; }
+        .thickness-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: scale(1.02); box-shadow: 0 15px 40px rgba(56, 189, 248, 0.12); }
+        .thickness-card-icon { width: 48px; height: 48px; background: rgba(56, 189, 248, 0.15); border-radius: 13px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.3rem; }
         .thickness-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff; }
         .thickness-card .dp-value { font-size: 2rem; font-weight: 900; color: #38bdf8; margin-bottom: 0.3rem; }
         .thickness-card p { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; }
-        .thickness-card .type-badge { display: inline-block; background: rgba(125, 211, 252, 0.12); color: #7dd3fc; padding: 0.15rem 0.6rem; border-radius: 20px; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.8rem; }
+        .thickness-card .type-badge { display: inline-block; background: rgba(125, 211, 252, 0.12); color: #7dd3fc; padding: 0.15rem 0.6rem; border-radius: 19px; font-size: 0.7rem; font-weight: 600; margin-bottom: 0.8rem; }
 
         /* Material Comparison Table */
-        .material-table-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(125, 211, 252, 0.2); border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; overflow-x: auto; }
+        .material-table-wrap { background: rgba(255,255,255,0.02); border: 1px solid rgba(125, 211, 252, 0.2); border-radius: 17px; padding: 2.5rem; margin-bottom: 3rem; overflow-x: auto; }
         .material-table { width: 100%; border-collapse: separate; border-spacing: 0; }
         .material-table thead th { background: rgba(56, 189, 248, 0.12); color: #7dd3fc; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 1rem; text-align: left; }
-        .material-table thead th:first-child { border-radius: 10px 0 0 10px; }
+        .material-table thead th:first-child { border-radius: 12px 0 0 10px; }
         .material-table thead th:last-child { border-radius: 0 10px 10px 0; }
         .material-table tbody td { padding: 1rem; border-bottom: 1px solid rgba(125, 211, 252, 0.08); color: #94a3b8; font-size: 0.9rem; }
         .material-table tbody tr:last-child td { border-bottom: none; }
@@ -282,24 +283,24 @@
         .material-table .highlight { color: #38bdf8; font-weight: 700; }
 
         /* Application Cards */
-        .application-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-bottom: 3rem; }
-        .app-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s; position: relative; }
-        .app-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-3px); box-shadow: 0 12px 35px rgba(56, 189, 248, 0.1); }
+        .application-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.74rem; margin-bottom: 3rem; }
+        .app-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 18px; padding: 2rem; transition: all 0.4s; position: relative; }
+        .app-card:hover { border-color: rgba(56, 189, 248, 0.4); transform: translateY(-5px) scale(1.01); box-shadow: 0 12px 35px rgba(56, 189, 248, 0.1); }
         .app-card h3 { font-size: 1.15rem; font-weight: 700; color: #fff; margin-bottom: 0.6rem; }
-        .app-card .app-deflection { display: inline-block; background: rgba(56, 189, 248, 0.15); color: #7dd3fc; padding: 0.2rem 0.8rem; border-radius: 20px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.8rem; }
+        .app-card .app-deflection { display: inline-block; background: rgba(56, 189, 248, 0.15); color: #7dd3fc; padding: 0.2rem 0.8rem; border-radius: 23px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.8rem; }
         .app-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 0.6rem; }
         .app-card .metric { display: flex; justify-content: space-between; align-items: center; padding-top: 0.8rem; border-top: 1px solid rgba(125, 211, 252, 0.1); margin-top: 0.8rem; }
         .app-card .metric-label { font-size: 0.78rem; color: #64748b; }
         .app-card .metric-value { font-size: 1.1rem; font-weight: 800; color: #38bdf8; }
 
         /* Thermal Expansion Section */
-        .thermal-section { display: grid; grid-template-columns: 300px 1fr; gap: 3rem; align-items: center; margin-bottom: 4rem; }
+        .thermal-section { display: grid; grid-template-columns: 300px 1fr; gap: 2.92rem; align-items: center; margin-bottom: 4rem; }
         .thermal-viz { position: relative; }
-        #thermal-canvas { display: block; margin: 0 auto; border-radius: 12px; background: rgba(0,0,0,0.2); }
+        #thermal-canvas { display: block; margin: 0 auto; border-radius: 14px; background: rgba(0,0,0,0.2); }
         .thermal-info h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .thermal-info p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
         .thermal-comparisons { display: flex; flex-direction: column; gap: 0.8rem; }
-        .thermal-bar { padding: 0.7rem 1rem; background: rgba(255,255,255,0.03); border-radius: 10px; border-left: 3px solid; }
+        .thermal-bar { padding: 0.7rem 1rem; background: rgba(255,255,255,0.03); border-radius: 12px; border-left: 3px solid; }
         .thermal-bar.high { border-left-color: #f43f5e; }
         .thermal-bar.medium { border-left-color: #f59e0b; }
         .thermal-bar.low { border-left-color: #059669; }
@@ -312,47 +313,47 @@
         .thermal-bar .bar-value { font-size: 0.78rem; color: #64748b; margin-top: 2px; }
 
         /* Manufacturer Callout */
-        .callout-section { background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(125, 211, 252, 0.04)); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 20px; padding: 3rem; margin-bottom: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; }
+        .callout-section { background: linear-gradient(135deg, rgba(56, 189, 248, 0.08), rgba(125, 211, 252, 0.04)); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 22px; padding: 3rem; margin-bottom: 4rem; display: grid; grid-template-columns: 1fr 1fr; gap: 2.57rem; }
         .callout-left h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .callout-left p { color: #94a3b8; line-height: 1.7; font-size: 0.95rem; margin-bottom: 1rem; }
-        .callout-right { display: flex; flex-direction: column; gap: 1rem; }
-        .callout-stat { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 12px; }
+        .callout-right { display: flex; flex-direction: column; gap: 0.78rem; }
+        .callout-stat { display: flex; align-items: center; gap: 1.25rem; padding: 1rem; background: rgba(255,255,255,0.03); border-radius: 11px; }
         .callout-stat-number { font-size: 1.6rem; font-weight: 900; color: #38bdf8; min-width: 80px; }
         .callout-stat-text { font-size: 0.88rem; color: #94a3b8; }
 
         /* Water Infiltration Section */
-        .water-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-bottom: 4rem; }
+        .water-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2.87rem; align-items: start; margin-bottom: 4rem; }
         .water-content h3 { font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .water-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
-        .water-formula { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 12px; padding: 1.2rem 1.5rem; margin: 1rem 0; font-family: 'Courier New', monospace; text-align: center; }
+        .water-formula { background: rgba(56, 189, 248, 0.08); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 15px; padding: 1.2rem 1.5rem; margin: 1rem 0; font-family: 'Courier New', monospace; text-align: center; }
         .water-formula .formula { font-size: 1.05rem; color: #7dd3fc; font-weight: 700; }
         .water-formula .formula-desc { font-size: 0.8rem; color: #64748b; margin-top: 0.3rem; }
-        .water-tips { display: flex; flex-direction: column; gap: 1rem; }
-        .water-tip { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 14px; padding: 1.5rem; transition: all 0.3s; }
+        .water-tips { display: flex; flex-direction: column; gap: 0.93rem; }
+        .water-tip { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 15px; padding: 1.5rem; transition: all 0.3s; }
         .water-tip:hover { border-color: rgba(56, 189, 248, 0.35); }
         .water-tip h4 { font-size: 1rem; font-weight: 700; color: #7dd3fc; margin-bottom: 0.4rem; }
         .water-tip p { color: #94a3b8; font-size: 0.88rem; line-height: 1.5; }
 
         /* FAQ Section */
-        .faq-section { max-width: 850px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
-        .faq-section .section-header { margin-bottom: 2.5rem; }
-        .faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s; }
-        .faq-item:hover { border-color: rgba(56, 189, 248, 0.35); }
-        .faq-question { padding: 1.3rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; color: #fff; flex: 1; }
+        .info-section { max-width: 850px; margin: 0 auto 4rem; padding: 0 2rem; position: relative; z-index: 2; }
+        .info-section .segment-header { margin-bottom: 2.5rem; }
+        .knowledge-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(125, 211, 252, 0.15); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s; }
+        .knowledge-item:hover { border-color: rgba(56, 189, 248, 0.35); }
+        .reveal-trigger { padding: 1.3rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1.01rem; }
+        .reveal-trigger h3 { font-size: 1rem; font-weight: 600; color: #fff; flex: 1; }
         .faq-toggle { width: 28px; height: 28px; background: rgba(56, 189, 248, 0.2); border-radius: 8px; display: flex; align-items: center; justify-content: center; transition: all 0.3s; flex-shrink: 0; color: #38bdf8; font-size: 1.1rem; font-weight: 700; }
-        .faq-item.open .faq-toggle { background: #0ea5e9; color: #fff; transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.3rem; color: #94a3b8; line-height: 1.7; font-size: 0.92rem; }
+        .knowledge-item.open .faq-toggle { background: #0ea5e9; color: #fff; transform: rotate(45deg); }
+        .knowledge-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .knowledge-body-inner { padding: 0 1.5rem 1.3rem; color: #94a3b8; line-height: 1.7; font-size: 0.92rem; }
 
         /* Final CTA */
-        .final-cta { text-align: center; padding: 5rem 2rem; position: relative; z-index: 2; }
-        .final-cta-inner { background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(125, 211, 252, 0.06)); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 24px; padding: 4rem 3rem; max-width: 800px; margin: 0 auto; }
+        .final-cta { text-align: center; padding: 6rem 2rem; position: relative; z-index: 2; }
+        .final-cta-inner { background: linear-gradient(135deg, rgba(56, 189, 248, 0.12), rgba(125, 211, 252, 0.06)); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: 26px; padding: 4rem 3rem; max-width: 800px; margin: 0 auto; }
         .final-cta h2 { font-size: clamp(1.8rem, 3vw, 2.4rem); font-weight: 800; margin-bottom: 1rem; }
         .final-cta p { color: #94a3b8; max-width: 550px; margin: 0 auto 2rem; font-size: 1.05rem; }
 
         /* Footer */
-        .footer { padding: 3rem 2rem; border-top: 1px solid rgba(125, 211, 252, 0.1); text-align: center; position: relative; z-index: 2; }
+        .footer { padding: 4rem 2rem; border-top: 1px solid rgba(125, 211, 252, 0.1); text-align: center; position: relative; z-index: 2; }
         .footer p { color: #64748b; font-size: 0.85rem; }
         .footer a { color: #38bdf8; text-decoration: none; }
         .footer a:hover { color: #7dd3fc; }
@@ -366,7 +367,7 @@
             .nav { padding: 0.8rem 1rem; }
             .nav-links { display: none; }
             .nav-cta { font-size: 0.75rem; padding: 0.5rem 0.8rem; }
-            .trust-badges { grid-template-columns: repeat(2, 1fr); gap: 1rem; }
+            .trust-badges { grid-template-columns: 1fr 1fr; gap: 1.16rem; }
             .thickness-grid { grid-template-columns: 1fr; }
             .application-grid { grid-template-columns: 1fr; }
             .radar-section { grid-template-columns: 1fr; }
@@ -390,8 +391,8 @@
 
 <!-- Deflection Monitor Widget -->
 <div class="deflection-widget" id="deflectionWidget">
-    <div class="deflection-widget-label">Panel Deflection Index</div>
-    <div class="deflection-widget-value" id="deflectionWidgetValue">L/90</div>
+    <div class="deflection-chip-label">Panel Deflection Index</div>
+    <div class="deflection-indicator-val" id="deflectionWidgetValue">L/90</div>
     <div class="deflection-widget-bar"><div class="deflection-widget-fill" id="deflectionWidgetFill"></div></div>
     <div class="deflection-widget-status" id="deflectionWidgetStatus">Monitoring...</div>
     <div class="deflection-widget-panel">
@@ -438,8 +439,8 @@
     <h1>Polycarbonate Glazing <span class="hero-shimmer">Wind Load Design</span> in Miami-Dade HVHZ</h1>
     <p>Polycarbonate panels flex where glass shatters. With an elastic modulus 30 times lower than glass and impact resistance 250 times higher, polycarbonate is the dominant translucent glazing material for skylights, canopy covers, and walkway enclosures in Miami-Dade's 180 MPH High Velocity Hurricane Zone. But that flexibility makes deflection, not stress, the controlling design criterion.</p>
     <div class="hero-buttons">
-        <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-primary">Calculate Glazing Loads</a>
-        <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-secondary">Panel DP Ratings</a>
+        <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-activate">Calculate Glazing Loads</a>
+        <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-explore">Panel DP Ratings</a>
     </div>
     <div class="hero-warning">
         <p><strong>Thermal expansion alert:</strong> Polycarbonate expands at 7x the rate of glass. A 4-foot panel in Miami sun can grow 0.17 inches, enough to buckle out of improperly gasketed frames and create catastrophic wind infiltration paths during a hurricane.</p>
@@ -468,7 +469,7 @@
 
 <!-- Section 1: Panel Flex Visualization -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>Polycarbonate <span class="accent">Deflection Behavior</span> Under Wind</h2>
         <p>Unlike glass, which fails catastrophically at its stress limit, polycarbonate panels undergo large visible deflections while maintaining structural integrity. This animated cross-section shows how panels bow under wind pressure loading.</p>
     </div>
@@ -488,7 +489,7 @@
 
 <!-- Section 2: Solid vs Multi-Wall Comparison -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>Solid vs <span class="accent">Multi-Wall Performance</span></h2>
         <p>The two primary polycarbonate panel types serve fundamentally different roles in wind-resistant construction. Choosing between them changes every downstream engineering decision.</p>
     </div>
@@ -520,7 +521,7 @@
 
 <!-- Section 3: DP Ratings by Thickness -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>Design Pressure Capacity <span class="accent">by Thickness</span></h2>
         <p>These DP values represent typical four-sided-supported configurations on 48-inch spans. Actual capacity depends on span, support conditions, and the specific NOA-approved system assembly.</p>
     </div>
@@ -559,7 +560,7 @@
 
 <!-- Section 4: Applications & Deflection Limits -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>Application-Specific <span class="accent">Deflection Criteria</span></h2>
         <p>Miami-Dade applies different deflection standards based on occupancy below the glazing, orientation, and consequence of water entry. The wrong deflection limit can disqualify an otherwise adequate panel.</p>
     </div>
@@ -594,7 +595,7 @@
         </div>
     </div>
 
-    <div class="application-grid stagger-children reveal" style="grid-template-columns: repeat(3, 1fr);">
+    <div class="application-grid stagger-children reveal" style="grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));">
         <div class="app-card">
             <h3>Greenhouse Structures</h3>
             <span class="app-deflection">Deflection Limit: L/60</span>
@@ -627,7 +628,7 @@
 
 <!-- Section 5: Thermal Expansion -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>Thermal Expansion: <span class="accent">The Hidden Failure Mode</span></h2>
         <p>More polycarbonate glazing systems fail from thermal movement than from wind overload. Miami's extreme solar gain demands engineering-grade expansion accommodation in every connection.</p>
     </div>
@@ -663,7 +664,7 @@
 
 <!-- Section 6: Impact Resistance Comparison -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>Impact Resistance: <span class="accent">Polycarbonate vs Laminated Glass</span></h2>
         <p>In the HVHZ large missile impact test, polycarbonate's molecular chain structure absorbs projectile energy through deformation rather than fracture. This fundamental difference makes it the preferred material for overhead impact glazing.</p>
     </div>
@@ -745,7 +746,7 @@
 
 <!-- Section 7: Framing Systems -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>Framing System <span class="accent">Requirements</span></h2>
         <p>The polycarbonate panel is only as strong as the framing that holds it. Miami-Dade NOA certification covers the complete assembly: panel, gaskets, glazing bars, and attachment hardware as a tested unit.</p>
     </div>
@@ -814,7 +815,7 @@
 
 <!-- Section 9: UV Degradation -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="segment-header reveal">
         <h2>UV Degradation &amp; <span class="accent">Long-Term Capacity</span></h2>
         <p>Polycarbonate's Achilles heel is ultraviolet radiation. Without protective coatings, Miami's intense solar exposure progressively destroys the material's impact resistance and flexural capacity, directly reducing its wind load rating over time.</p>
     </div>
@@ -852,65 +853,65 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
-    <div class="section-header reveal">
+<section class="info-section">
+    <div class="segment-header reveal">
         <h2>Polycarbonate Glazing <span class="accent">Wind Load FAQ</span></h2>
         <p>Frequently asked questions about polycarbonate panel wind resistance, product approvals, and installation requirements in Miami-Dade's High Velocity Hurricane Zone.</p>
     </div>
 
     <div class="reveal">
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="knowledge-item">
+            <div class="reveal-trigger" onclick="toggleFaq(this)">
                 <h3>What design pressure can polycarbonate panels achieve in Miami-Dade HVHZ?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Polycarbonate panel design pressure capacity depends on thickness, structure type, span length, and support conditions. A 16mm multi-wall panel spanning 48 inches on four-sided support typically achieves +40 to +55 psf. Solid polycarbonate performs significantly better: a 6mm solid sheet on a 36-inch span can reach +65 psf, while a 10mm solid sheet on the same span may achieve +110 psf. All products used in the HVHZ must hold a current Miami-Dade NOA certifying the panel-and-framing assembly as a complete system.</div>
+            <div class="knowledge-body">
+                <div class="knowledge-body-inner">Polycarbonate panel design pressure capacity depends on thickness, structure type, span length, and support conditions. A 16mm multi-wall panel spanning 48 inches on four-sided support typically achieves +40 to +55 psf. Solid polycarbonate performs significantly better: a 6mm solid sheet on a 36-inch span can reach +65 psf, while a 10mm solid sheet on the same span may achieve +110 psf. All products used in the HVHZ must hold a current Miami-Dade NOA certifying the panel-and-framing assembly as a complete system.</div>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="knowledge-item">
+            <div class="reveal-trigger" onclick="toggleFaq(this)">
                 <h3>Does polycarbonate pass large missile impact testing for HVHZ?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Solid polycarbonate sheets 6mm and thicker routinely pass large missile impact testing per TAS 201, 202, and 203, withstanding a 9-pound 2x4 fired at 50 fps. This is a major advantage over laminated glass, which requires thicker and heavier assemblies. Multi-wall panels generally do not pass large missile impact because the thin cell walls fracture, though some 25mm+ profiles with enhanced wall geometry have achieved certification. Check the specific NOA for impact rating details.</div>
+            <div class="knowledge-body">
+                <div class="knowledge-body-inner">Solid polycarbonate sheets 6mm and thicker routinely pass large missile impact testing per TAS 201, 202, and 203, withstanding a 9-pound 2x4 fired at 50 fps. This is a major advantage over laminated glass, which requires thicker and heavier assemblies. Multi-wall panels generally do not pass large missile impact because the thin cell walls fracture, though some 25mm+ profiles with enhanced wall geometry have achieved certification. Check the specific NOA for impact rating details.</div>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="knowledge-item">
+            <div class="reveal-trigger" onclick="toggleFaq(this)">
                 <h3>How does thermal expansion affect polycarbonate in Miami-Dade?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Polycarbonate's CTE of 3.75 x 10<sup>-5</sup> in/in/&deg;F is 7 times greater than glass. In Miami-Dade, surface temperatures can swing 95&deg;F between night and direct sun, causing a 48-inch panel to expand 0.171 inches. Framing must provide 1/4-inch expansion gaps per linear foot and use EPDM or silicone gaskets rather than rigid sealants. Thermal movement mismanagement is the leading cause of polycarbonate glazing failures in South Florida.</div>
+            <div class="knowledge-body">
+                <div class="knowledge-body-inner">Polycarbonate's CTE of 3.75 x 10<sup>-5</sup> in/in/&deg;F is 7 times greater than glass. In Miami-Dade, surface temperatures can swing 95&deg;F between night and direct sun, causing a 48-inch panel to expand 0.171 inches. Framing must provide 1/4-inch expansion gaps per linear foot and use EPDM or silicone gaskets rather than rigid sealants. Thermal movement mismanagement is the leading cause of polycarbonate glazing failures in South Florida.</div>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="knowledge-item">
+            <div class="reveal-trigger" onclick="toggleFaq(this)">
                 <h3>What are the deflection limits for polycarbonate under wind?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Deflection limits vary by application. Skylights require L/60 to L/90, canopy glazing L/90 to L/120, and vertical curtain glazing L/120. Polycarbonate's elastic modulus of ~340,000 psi makes it deflect 30 times more than glass of equal thickness under the same load. This flexibility means deflection governs polycarbonate design rather than material stress, which rarely approaches the 9,500 psi ultimate flexural strength.</div>
+            <div class="knowledge-body">
+                <div class="knowledge-body-inner">Deflection limits vary by application. Skylights require L/60 to L/90, canopy glazing L/90 to L/120, and vertical curtain glazing L/120. Polycarbonate's elastic modulus of ~340,000 psi makes it deflect 30 times more than glass of equal thickness under the same load. This flexibility means deflection governs polycarbonate design rather than material stress, which rarely approaches the 9,500 psi ultimate flexural strength.</div>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="knowledge-item">
+            <div class="reveal-trigger" onclick="toggleFaq(this)">
                 <h3>How does UV exposure reduce wind load capacity over time?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">UV degrades polycarbonate through photo-oxidation, causing yellowing, micro-cracking, and progressive loss of impact strength. Unprotected polycarbonate loses 30-40% impact strength within 5-7 years. Co-extruded UV layers on products from Palram, Sabic, and Polygal maintain 90%+ properties for 10-15 years. Engineers should apply a 0.85 degradation factor for systems beyond 10 years of service when evaluating existing installations for continued wind resistance.</div>
+            <div class="knowledge-body">
+                <div class="knowledge-body-inner">UV degrades polycarbonate through photo-oxidation, causing yellowing, micro-cracking, and progressive loss of impact strength. Unprotected polycarbonate loses 30-40% impact strength within 5-7 years. Co-extruded UV layers on products from Palram, Sabic, and Polygal maintain 90%+ properties for 10-15 years. Engineers should apply a 0.85 degradation factor for systems beyond 10 years of service when evaluating existing installations for continued wind resistance.</div>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="knowledge-item">
+            <div class="reveal-trigger" onclick="toggleFaq(this)">
                 <h3>What framing systems are approved for polycarbonate in HVHZ?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Miami-Dade requires framing systems tested as part of the complete assembly under the NOA. Approved types include extruded aluminum glazing bars (most common), thermally broken aluminum for conditioned spaces, and steel tube frames with aluminum pressure caps for high-load applications. Framing must accommodate thermal expansion through slotted connections, provide continuous gasket seals tested per ASTM E331, and use EPDM gaskets at 50-60 Shore A durometer. Generic greenhouse framing without NOA approval cannot be used in the HVHZ.</div>
+            <div class="knowledge-body">
+                <div class="knowledge-body-inner">Miami-Dade requires framing systems tested as part of the complete assembly under the NOA. Approved types include extruded aluminum glazing bars (most common), thermally broken aluminum for conditioned spaces, and steel tube frames with aluminum pressure caps for high-load applications. Framing must accommodate thermal expansion through slotted connections, provide continuous gasket seals tested per ASTM E331, and use EPDM gaskets at 50-60 Shore A durometer. Generic greenhouse framing without NOA approval cannot be used in the HVHZ.</div>
             </div>
         </div>
     </div>
@@ -921,7 +922,7 @@
     <div class="final-cta-inner">
         <h2>Calculate Polycarbonate <span class="accent">Glazing Wind Loads</span></h2>
         <p>Get precise design pressures for your polycarbonate skylight, canopy, or walkway cover project in Miami-Dade HVHZ. Input your panel span, thickness, and building geometry for code-compliant wind load calculations.</p>
-        <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-primary">Calculate Glazing Loads Now</a>
+        <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn-activate">Calculate Glazing Loads Now</a>
     </div>
 </section>
 
@@ -937,11 +938,11 @@
 // ========== FAQ Accordion ==========
 function toggleFaq(el) {
     const item = el.parentElement;
-    const answer = item.querySelector('.faq-answer');
+    const answer = item.querySelector('.knowledge-body');
     const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => {
+    document.querySelectorAll('.knowledge-item.open').forEach(i => {
         i.classList.remove('open');
-        i.querySelector('.faq-answer').style.maxHeight = null;
+        i.querySelector('.knowledge-body').style.maxHeight = null;
     });
     if (!isOpen) {
         item.classList.add('open');
@@ -1021,7 +1022,7 @@ document.querySelectorAll('[data-magnetic]').forEach(card => {
 });
 
 // ========== Button Ripple ==========
-document.querySelectorAll('.btn-primary').forEach(btn => {
+document.querySelectorAll('.btn-activate').forEach(btn => {
     btn.addEventListener('click', function(e) {
         const ripple = document.createElement('span');
         ripple.classList.add('btn-ripple');
@@ -1067,10 +1068,10 @@ animateThermalBars();
         reset() {
             this.x = Math.random() * W;
             this.y = Math.random() * H;
-            this.size = Math.random() * 2.5 + 0.5;
+            this.size = Math.random() * 2.9 + 0.7;
             this.speedX = (Math.random() - 0.5) * 1.2;
             this.speedY = Math.random() * 0.8 + 0.3;
-            this.opacity = Math.random() * 0.6 + 0.2;
+            this.opacity = Math.random() * 0.63 + 0.15;
             this.color = ['#7dd3fc', '#38bdf8', '#00e5ff', '#bae6fd'][Math.floor(Math.random() * 4)];
             this.angle = Math.random() * Math.PI * 2;
             this.spin = (Math.random() - 0.5) * 0.02;
@@ -1362,7 +1363,7 @@ animateThermalBars();
     // Start when visible
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) { drawRadar(); observer.disconnect(); }
-    }, { threshold: 0.3 });
+    }, { threshold: 0.1 });
     observer.observe(canvas);
 })();
 
@@ -1456,7 +1457,7 @@ animateThermalBars();
 
     const observer = new IntersectionObserver(entries => {
         if (entries[0].isIntersecting) { render(); observer.disconnect(); }
-    }, { threshold: 0.2 });
+    }, { threshold: 0.15 });
     observer.observe(canvas);
 })();
 </script>

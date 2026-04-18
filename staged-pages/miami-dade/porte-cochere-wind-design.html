@@ -97,6 +97,7 @@
     </script>
 
     <style>
+/* uid:3cb3cb79 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -105,15 +106,15 @@
         .marble-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(ellipse at 30% 20%, rgba(120, 53, 15, 0.06) 0%, transparent 55%), radial-gradient(ellipse at 70% 80%, rgba(212, 165, 116, 0.04) 0%, transparent 50%), radial-gradient(ellipse at 50% 50%, rgba(251, 191, 36, 0.02) 0%, transparent 60%); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.45s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-50px); transition: all 0.75s ease-in-out; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(50px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(50px); transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.85); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.85); transition: all 0.65s cubic-bezier(0.65, 0, 0.35, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.4s ease; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -129,12 +130,12 @@
         @keyframes uplift-pulse { 0% { transform: translateY(0); opacity: 0.6; } 100% { transform: translateY(-25px); opacity: 0; } }
         @keyframes compass-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         @keyframes marble-vein { 0% { stroke-dashoffset: 200; } 100% { stroke-dashoffset: 0; } }
-        @keyframes canopy-sway { 0%, 100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-2px) rotate(0.3deg); } 75% { transform: translateY(1px) rotate(-0.2deg); } }
+        @keyframes canopy-sway { 0%, 100% { transform: translateY(0) rotate(0deg); } 25% { transform: translateY(-2px) rotate(0.3deg); } 75% { transform: translateY(30px) rotate(-0.2deg); } }
 
         .hero-shimmer { background: linear-gradient(120deg, #d4a574 0%, #fbbf24 20%, #f5f5dc 40%, #d4a574 60%, #fbbf24 80%, #d4a574 100%); background-size: 300% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 4s linear infinite; }
 
         /* Wind Direction Widget */
-        .wind-dir-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(212, 165, 116, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(12px); opacity: 0; transform: translateX(130px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
+        .wind-dir-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(212, 165, 116, 0.3); border-radius: 19px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(20px); opacity: 0; transform: translateX(130px); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); min-width: 190px; }
         .wind-dir-widget.visible { opacity: 1; transform: translateX(0); }
         .widget-title { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; }
         .widget-compass { width: 80px; height: 80px; margin: 0 auto 10px; position: relative; }
@@ -157,15 +158,15 @@
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.48rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #d4a574; }
-        .nav-cta { background: linear-gradient(135deg, #d4a574 0%, #78350f 100%); color: #ffffff; padding: 0.55rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #d4a574 0%, #78350f 100%); color: #ffffff; padding: 0.55rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1); }
+        .nav-cta:hover { transform: translateY(-6px); box-shadow: 0 4px 20px rgba(212, 165, 116, 0.4); }
 
         /* Breadcrumb */
         .breadcrumb { padding: 0.75rem 2rem; background: rgba(255,255,255,0.02); margin-top: 56px; position: relative; z-index: 2; border-bottom: 1px solid rgba(212, 165, 116, 0.08); }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
+        .breadcrumb-container { max-width: 1350px; margin: 0 auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; }
         .breadcrumb a { color: #64748b; text-decoration: none; transition: color 0.3s; }
         .breadcrumb a:hover { color: #d4a574; }
         .breadcrumb span { color: #475569; }
@@ -178,28 +179,28 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.15; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.1rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 740px; margin-left: auto; margin-right: auto; line-height: 1.75; }
         .hero-intro strong { color: #d4a574; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #d4a574 0%, #78350f 100%); color: #ffffff; padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(212, 165, 116, 0.4); }
-        .btn-secondary { border: 2px solid rgba(212, 165, 116, 0.5); color: #d4a574; padding: 0.85rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(212, 165, 116, 0.1); border-color: #d4a574; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 0.72rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-submit { background: linear-gradient(135deg, #d4a574 0%, #78350f 100%); color: #ffffff; padding: 0.85rem 2rem; border-radius: 11px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.8s ease-in-out; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-submit:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(212, 165, 116, 0.4); }
+        .btn-view { border: 2px solid rgba(212, 165, 116, 0.5); color: #d4a574; padding: 0.85rem 2rem; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.55s cubic-bezier(0.25, 0.8, 0.25, 1); background: transparent; }
+        .btn-view:hover { background: rgba(212, 165, 116, 0.1); border-color: #d4a574; transform: translateY(-8px); }
         .warning-banner { background: rgba(255, 71, 87, 0.08); border: 1px solid rgba(255, 71, 87, 0.25); border-left: 4px solid #ff4757; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 720px; margin: 0 auto; }
         .warning-banner strong { color: #ff4757; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
 
         /* Porte-Cochere Canvas Visualization */
-        .elevation-viz { max-width: 900px; margin: 3rem auto 0; background: rgba(255,255,255,0.02); border-radius: 16px; border: 1px solid rgba(212, 165, 116, 0.2); overflow: hidden; padding: 1rem; }
+        .elevation-viz { max-width: 900px; margin: 3rem auto 0; background: rgba(255,255,255,0.02); border-radius: 13px; border: 1px solid rgba(212, 165, 116, 0.2); overflow: hidden; padding: 1rem; }
         #porteCanvas { width: 100%; height: 420px; display: block; }
 
         /* Trust Bar */
-        .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(212, 165, 116, 0.03); border-top: 1px solid rgba(212, 165, 116, 0.1); border-bottom: 1px solid rgba(212, 165, 116, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-bar { padding: 4rem 2rem; position: relative; z-index: 2; background: rgba(212, 165, 116, 0.03); border-top: 1px solid rgba(212, 165, 116, 0.1); border-bottom: 1px solid rgba(212, 165, 116, 0.1); }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.28rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #d4a574; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.8rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.08em; }
 
         /* Sections */
         .section { padding: 4.5rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-container { max-width: 1150px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(212, 165, 116, 0.1); border: 1px solid rgba(212, 165, 116, 0.25); color: #d4a574; padding: 0.35rem 1rem; border-radius: 100px; font-size: 0.78rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .section-title .gold { color: #d4a574; }
@@ -207,11 +208,11 @@
         .section-subtitle { font-size: 1.05rem; color: #94a3b8; max-width: 700px; margin-bottom: 2.5rem; line-height: 1.7; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: start; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.70rem; align-items: start; }
 
         /* Cards */
-        .lux-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .lux-card:hover { transform: translateY(-5px); border-color: rgba(212, 165, 116, 0.45); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(212, 165, 116, 0.08); }
+        .lux-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 17px; padding: 2rem; transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1); position: relative; overflow: hidden; }
+        .lux-card:hover { transform: translateY(-8px); border-color: rgba(212, 165, 116, 0.45); box-shadow: 0 12px 40px rgba(0, 0, 0, 0.3), 0 0 20px rgba(212, 165, 116, 0.08); }
         .lux-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, #d4a574, transparent); opacity: 0; transition: opacity 0.3s ease; }
         .lux-card:hover::before { opacity: 1; }
         .lux-card h3 { font-size: 1.2rem; color: #f5f5dc; margin-bottom: 0.75rem; }
@@ -220,10 +221,10 @@
         .lux-card .card-stat { display: block; margin-top: 0.75rem; font-size: 1.4rem; font-weight: 800; color: #d4a574; }
 
         /* Three Column Grid */
-        .three-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+        .three-col { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.76rem; }
 
         /* Pressure Zone Table */
-        .data-table-wrap { overflow-x: auto; margin: 2rem 0; border-radius: 12px; border: 1px solid rgba(212, 165, 116, 0.15); }
+        .data-table-wrap { overflow-x: auto; margin: 2rem 0; border-radius: 9px; border: 1px solid rgba(212, 165, 116, 0.15); }
         .data-table { width: 100%; border-collapse: collapse; }
         .data-table th { background: rgba(120, 53, 15, 0.2); color: #d4a574; padding: 0.75rem 1rem; text-align: left; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; border-bottom: 2px solid rgba(212, 165, 116, 0.3); }
         .data-table td { padding: 0.75rem 1rem; border-bottom: 1px solid rgba(212, 165, 116, 0.08); color: #94a3b8; font-size: 0.9rem; }
@@ -235,8 +236,8 @@
         /* Stat Row */
         .stat-row { display: flex; justify-content: space-between; align-items: center; padding: 0.65rem 0; border-bottom: 1px solid rgba(212, 165, 116, 0.1); }
         .stat-row:last-child { border-bottom: none; }
-        .stat-label { color: #94a3b8; font-size: 0.9rem; }
-        .stat-value { color: #d4a574; font-weight: 700; font-size: 0.9rem; }
+        .indicator-label { color: #94a3b8; font-size: 0.9rem; }
+        .data-value { color: #d4a574; font-weight: 700; font-size: 0.9rem; }
 
         /* Process Timeline (Vertical) */
         .timeline { position: relative; padding-left: 3rem; margin: 2rem 0; }
@@ -247,24 +248,24 @@
         .timeline-item p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
 
         /* Comparison Cards (2x2) */
-        .comparison-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.38rem; }
 
         /* FAQ */
-        .faq-section { max-width: 850px; margin: 0 auto; }
-        .faq-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(212, 165, 116, 0.35); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #f5f5dc; font-size: 1rem; user-select: none; }
-        .faq-question:hover { color: #d4a574; }
+        .knowledge-section { max-width: 850px; margin: 0 auto; }
+        .answer-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+        .answer-item:hover { border-color: rgba(212, 165, 116, 0.35); }
+        .reveal-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; color: #f5f5dc; font-size: 1rem; user-select: none; }
+        .reveal-trigger:hover { color: #d4a574; }
         .faq-toggle { font-size: 1.5rem; color: #d4a574; transition: transform 0.3s ease; line-height: 1; }
-        .faq-item.open .faq-toggle { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.75; }
+        .answer-item.open .faq-toggle { transform: rotate(45deg); }
+        .guide-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+        .guide-content-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.75; }
 
         /* CTA Section */
-        .cta-section { text-align: center; padding: 5rem 2rem; position: relative; z-index: 2; }
-        .cta-section h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; }
-        .cta-section p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
-        .cta-glow { display: inline-flex; animation: gold-pulse 3s ease-in-out infinite; border-radius: 12px; }
+        .launch-section { text-align: center; padding: 5rem 2rem; position: relative; z-index: 2; }
+        .launch-section h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; }
+        .launch-section p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
+        .cta-glow { display: inline-flex; animation: gold-pulse 3s ease-in-out infinite; border-radius: 9px; }
 
         /* Footer */
         .footer { padding: 2rem; text-align: center; border-top: 1px solid rgba(212, 165, 116, 0.1); position: relative; z-index: 2; }
@@ -279,14 +280,14 @@
             .nav-links { display: none; }
             .two-col, .comparison-grid { grid-template-columns: 1fr; }
             .three-col { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
             .wind-dir-widget { display: none; }
             #porteCanvas { height: 300px; }
         }
         @media (max-width: 600px) {
             .hero h1 { font-size: 1.8rem; }
             .hero-cta { flex-direction: column; align-items: center; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 0.86rem; }
         }
     </style>
 </head>
@@ -349,8 +350,8 @@
         <h1><span class="hero-shimmer">Porte-Cochere Wind Load Design</span><br>Miami-Dade County HVHZ</h1>
         <p class="hero-intro">A porte-cochere is among the most aerodynamically demanding structures in hospitality and residential design. In Miami-Dade's High Velocity Hurricane Zone, the cantilevered canopy roof over an open driveway faces <strong>net uplift pressures exceeding -86 psf</strong> in corner zones, venturi acceleration between the building facade and canopy soffit, and column base moments that govern foundation size. Design pressure (DP) is the minimum resistance a porte-cochere must achieve per ASCE 7-22, measured in pounds per square foot (psf). Every column connection, soffit panel, decorative cladding element, and lighting fixture must be engineered for the <strong>180 MPH ultimate design wind speed</strong> mandated across all of Miami-Dade County.</p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary" onclick="createRipple(event)">Calculate Porte-Cochere Loads</a>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">View Canopy Calculator</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-submit" onclick="createRipple(event)">Calculate Porte-Cochere Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-view">View Canopy Calculator</a>
         </div>
         <div class="warning-banner">
             <strong>Engineering Alert:</strong>
@@ -398,17 +399,17 @@
                 <span class="card-icon">&#9670;</span>
                 <h3>Freestanding Porte-Cochere</h3>
                 <p>A freestanding porte-cochere with no attachment to any building wall is classified as an open building under ASCE 7-22 Chapter 27, Section 27.4.3. Net pressure coefficients (CN) from Figures 27.3-4 through 27.3-7 govern the design. These CN values combine the simultaneous effect of wind pressing down on the top surface and wind pressing up on the bottom surface into a single net coefficient. For a flat or monoslope canopy with a roof angle less than or equal to 7.5 degrees, the maximum CN for clear wind flow is -1.2 in the corner zone and +0.8 for the obstructed downward case. At the Miami-Dade HVHZ velocity pressure of approximately 72 psf at 16 ft mean roof height, corner zone net uplift reaches -86 psf and net downward pressure reaches +58 psf.</p>
-                <div class="stat-row"><span class="stat-label">ASCE 7-22 Section</span><span class="stat-value">27.4.3 Open Buildings</span></div>
-                <div class="stat-row"><span class="stat-label">Max CN (Uplift)</span><span class="stat-value">-1.2 (Corner Zone)</span></div>
-                <div class="stat-row"><span class="stat-label">Max CN (Downward)</span><span class="stat-value">+0.8 (Obstructed)</span></div>
+                <div class="stat-row"><span class="indicator-label">ASCE 7-22 Section</span><span class="data-value">27.4.3 Open Buildings</span></div>
+                <div class="stat-row"><span class="indicator-label">Max CN (Uplift)</span><span class="data-value">-1.2 (Corner Zone)</span></div>
+                <div class="stat-row"><span class="indicator-label">Max CN (Downward)</span><span class="data-value">+0.8 (Obstructed)</span></div>
             </div>
             <div class="lux-card reveal-right">
                 <span class="card-icon">&#9674;</span>
                 <h3>Attached Porte-Cochere (Connected Canopy)</h3>
                 <p>When the porte-cochere canopy roof connects to the main building wall or shares structural framing with the building, ASCE 7-22 Section 30.9 applies. This provision treats the canopy as a connected component subject to both external pressures and internal pressures from the building envelope. The internal pressure coefficient GCpi of plus or minus 0.55 for partially enclosed conditions adds substantially to the net uplift. For a 30 ft span attached canopy at 16 ft height in Miami-Dade HVHZ, the combined external plus internal uplift can reach -95 to -110 psf in corner zones, which is 10 to 28 percent higher than the freestanding case. The attachment detail itself must transfer both the vertical uplift reaction and horizontal thrust into the building structure without compromising the building envelope.</p>
-                <div class="stat-row"><span class="stat-label">ASCE 7-22 Section</span><span class="stat-value">30.9 Connected Canopies</span></div>
-                <div class="stat-row"><span class="stat-label">GCpi (Partial Encl.)</span><span class="stat-value">&plusmn; 0.55</span></div>
-                <div class="stat-row"><span class="stat-label">Corner Uplift Range</span><span class="stat-value">-95 to -110 psf</span></div>
+                <div class="stat-row"><span class="indicator-label">ASCE 7-22 Section</span><span class="data-value">30.9 Connected Canopies</span></div>
+                <div class="stat-row"><span class="indicator-label">GCpi (Partial Encl.)</span><span class="data-value">&plusmn; 0.55</span></div>
+                <div class="stat-row"><span class="indicator-label">Corner Uplift Range</span><span class="data-value">-95 to -110 psf</span></div>
             </div>
         </div>
     </div>
@@ -530,11 +531,11 @@
             <div class="reveal-right">
                 <div class="lux-card">
                     <h3>Pressure Amplification by Gap Width</h3>
-                    <div class="stat-row"><span class="stat-label">3 ft gap (tight)</span><span class="stat-value critical-val">2.25x pressure</span></div>
-                    <div class="stat-row"><span class="stat-label">6 ft gap (typical)</span><span class="stat-value amber-val">1.69x pressure</span></div>
-                    <div class="stat-row"><span class="stat-label">10 ft gap (wide)</span><span class="stat-value highlight-val">1.44x pressure</span></div>
-                    <div class="stat-row"><span class="stat-label">15 ft gap (generous)</span><span class="stat-value">1.21x pressure</span></div>
-                    <div class="stat-row"><span class="stat-label">20+ ft gap (minimal effect)</span><span class="stat-value">1.05x pressure</span></div>
+                    <div class="stat-row"><span class="indicator-label">3 ft gap (tight)</span><span class="data-value critical-val">2.25x pressure</span></div>
+                    <div class="stat-row"><span class="indicator-label">6 ft gap (typical)</span><span class="data-value amber-val">1.69x pressure</span></div>
+                    <div class="stat-row"><span class="indicator-label">10 ft gap (wide)</span><span class="data-value highlight-val">1.44x pressure</span></div>
+                    <div class="stat-row"><span class="indicator-label">15 ft gap (generous)</span><span class="data-value">1.21x pressure</span></div>
+                    <div class="stat-row"><span class="indicator-label">20+ ft gap (minimal effect)</span><span class="data-value">1.05x pressure</span></div>
                 </div>
                 <div class="lux-card" style="margin-top: 1.5rem;">
                     <h3>Height Above Ground Factor</h3>
@@ -653,11 +654,11 @@
         <div class="two-col">
             <div class="lux-card reveal-left">
                 <h3>Wind Speed Operational Thresholds</h3>
-                <div class="stat-row"><span class="stat-label">0-30 MPH (Normal)</span><span class="stat-value" style="color: #22c55e;">Full valet operations</span></div>
-                <div class="stat-row"><span class="stat-label">31-45 MPH (Advisory)</span><span class="stat-value amber-val">Secure loose items, limit carts</span></div>
-                <div class="stat-row"><span class="stat-label">46-57 MPH (Warning)</span><span class="stat-value amber-val">Move vehicles to covered garage</span></div>
-                <div class="stat-row"><span class="stat-label">58-73 MPH (Tropical Storm)</span><span class="stat-value critical-val">Cease outdoor operations</span></div>
-                <div class="stat-row"><span class="stat-label">74+ MPH (Hurricane)</span><span class="stat-value critical-val">Full evacuation from porte-cochere</span></div>
+                <div class="stat-row"><span class="indicator-label">0-30 MPH (Normal)</span><span class="data-value" style="color: #22c55e;">Full valet operations</span></div>
+                <div class="stat-row"><span class="indicator-label">31-45 MPH (Advisory)</span><span class="data-value amber-val">Secure loose items, limit carts</span></div>
+                <div class="stat-row"><span class="indicator-label">46-57 MPH (Warning)</span><span class="data-value amber-val">Move vehicles to covered garage</span></div>
+                <div class="stat-row"><span class="indicator-label">58-73 MPH (Tropical Storm)</span><span class="data-value critical-val">Cease outdoor operations</span></div>
+                <div class="stat-row"><span class="indicator-label">74+ MPH (Hurricane)</span><span class="data-value critical-val">Full evacuation from porte-cochere</span></div>
                 <p style="margin-top: 1rem; color: #94a3b8; font-size: 0.9rem;">The Beaufort Scale thresholds above align with Miami-Dade Emergency Management guidelines. Property managers must have a written hurricane action plan that includes porte-cochere shutdown procedures, posted at the valet station and reviewed annually before June 1.</p>
             </div>
             <div class="lux-card reveal-right">
@@ -675,59 +676,59 @@
         <h2 class="section-title reveal" style="text-align: center;">Frequently Asked Questions: <span class="gold">Porte-Cochere Wind Design</span></h2>
         <p class="section-subtitle reveal" style="text-align: center; margin-left: auto; margin-right: auto;">Detailed engineering answers to the most common questions about porte-cochere wind load design in Miami-Dade County's High Velocity Hurricane Zone.</p>
 
-        <div class="faq-section">
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="knowledge-section">
+            <div class="answer-item reveal">
+                <div class="reveal-trigger" onclick="toggleFaq(this)">
                     How are porte-cochere wind loads calculated under ASCE 7-22 in Miami-Dade HVHZ?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Porte-cochere wind loads in Miami-Dade HVHZ depend on whether the structure is freestanding or attached to a building. A freestanding porte-cochere is classified as an open building under ASCE 7-22 Chapter 27, Section 27.4.3, using net pressure coefficients (CN) from Figures 27.3-4 through 27.3-7 that combine wind action on both top and bottom roof surfaces simultaneously. An attached porte-cochere uses the canopy provisions of Section 30.9. At 180 MPH ultimate design wind speed with Exposure C, the velocity pressure qh at a typical 16 ft mean roof height is approximately 72 psf. Applying CN values of -1.2 to +0.8 produces net uplift pressures of -86 psf in corner zones and net downward pressures of +58 psf, both of which must be checked for load combinations per ASCE 7-22 Chapter 2.</div>
+                <div class="guide-content">
+                    <div class="guide-content-inner">Porte-cochere wind loads in Miami-Dade HVHZ depend on whether the structure is freestanding or attached to a building. A freestanding porte-cochere is classified as an open building under ASCE 7-22 Chapter 27, Section 27.4.3, using net pressure coefficients (CN) from Figures 27.3-4 through 27.3-7 that combine wind action on both top and bottom roof surfaces simultaneously. An attached porte-cochere uses the canopy provisions of Section 30.9. At 180 MPH ultimate design wind speed with Exposure C, the velocity pressure qh at a typical 16 ft mean roof height is approximately 72 psf. Applying CN values of -1.2 to +0.8 produces net uplift pressures of -86 psf in corner zones and net downward pressures of +58 psf, both of which must be checked for load combinations per ASCE 7-22 Chapter 2.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="answer-item reveal">
+                <div class="reveal-trigger" onclick="toggleFaq(this)">
                     What column base connection is required for a porte-cochere in 180 MPH wind?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Porte-cochere columns in Miami-Dade HVHZ typically require fixed-base moment connections to resist the combined uplift, lateral shear, and overturning moment produced by 180 MPH wind. A standard 30 ft span porte-cochere at 16 ft height generates per-column uplift of 18,000 to 35,000 lbs, lateral base shear of 6,000 to 12,000 lbs, and overturning moment of 80,000 to 160,000 ft-lbs. Fixed base connections use welded base plates 20x20 inches minimum with 1.25 to 1.5 inch anchor bolts embedded 18 to 24 inches into reinforced concrete piers or drilled shafts. Pinned base connections are possible only when the canopy framing provides sufficient lateral bracing through moment connections at the beam-to-column joint.</div>
+                <div class="guide-content">
+                    <div class="guide-content-inner">Porte-cochere columns in Miami-Dade HVHZ typically require fixed-base moment connections to resist the combined uplift, lateral shear, and overturning moment produced by 180 MPH wind. A standard 30 ft span porte-cochere at 16 ft height generates per-column uplift of 18,000 to 35,000 lbs, lateral base shear of 6,000 to 12,000 lbs, and overturning moment of 80,000 to 160,000 ft-lbs. Fixed base connections use welded base plates 20x20 inches minimum with 1.25 to 1.5 inch anchor bolts embedded 18 to 24 inches into reinforced concrete piers or drilled shafts. Pinned base connections are possible only when the canopy framing provides sufficient lateral bracing through moment connections at the beam-to-column joint.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="answer-item reveal">
+                <div class="reveal-trigger" onclick="toggleFaq(this)">
                     How does the venturi effect between a building and porte-cochere affect wind loads?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">When a porte-cochere is positioned adjacent to a building facade, the gap between the canopy roof and the building wall creates a venturi channel that accelerates wind speed by 20 to 50 percent depending on the gap width and canopy height relative to the building. In Miami-Dade HVHZ at 180 MPH design wind speed, this acceleration can increase local pressures on the canopy soffit, ceiling panels, and column cladding by 40 to 125 percent compared to freestanding conditions. ASCE 7-22 does not explicitly quantify venturi amplification for attached canopies, so engineers must either use the connected canopy provisions of Section 30.9 (which implicitly account for building adjacency) or perform wind tunnel testing per Chapter 31 for complex geometries.</div>
+                <div class="guide-content">
+                    <div class="guide-content-inner">When a porte-cochere is positioned adjacent to a building facade, the gap between the canopy roof and the building wall creates a venturi channel that accelerates wind speed by 20 to 50 percent depending on the gap width and canopy height relative to the building. In Miami-Dade HVHZ at 180 MPH design wind speed, this acceleration can increase local pressures on the canopy soffit, ceiling panels, and column cladding by 40 to 125 percent compared to freestanding conditions. ASCE 7-22 does not explicitly quantify venturi amplification for attached canopies, so engineers must either use the connected canopy provisions of Section 30.9 (which implicitly account for building adjacency) or perform wind tunnel testing per Chapter 31 for complex geometries.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="answer-item reveal">
+                <div class="reveal-trigger" onclick="toggleFaq(this)">
                     What decorative column cladding requirements apply to porte-cocheres in HVHZ?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Decorative column cladding on porte-cocheres in Miami-Dade HVHZ must resist component and cladding (C&C) wind pressures calculated per ASCE 7-22 Chapter 30 using the wall element provisions. At 180 MPH with a 10 sq ft effective wind area, C&C pressures on column wraps range from -52 to +34 psf for interior zones and -78 to +34 psf for corner zones. The cladding attachment must have a Miami-Dade NOA or Florida Product Approval with HVHZ designation showing the tested design pressure equals or exceeds these values. Common cladding materials include GFRC (glass fiber reinforced concrete), cast stone, aluminum composite panels, and natural stone veneer, each requiring specific clip or anchor systems tested to Miami-Dade Protocol TAS 202.</div>
+                <div class="guide-content">
+                    <div class="guide-content-inner">Decorative column cladding on porte-cocheres in Miami-Dade HVHZ must resist component and cladding (C&C) wind pressures calculated per ASCE 7-22 Chapter 30 using the wall element provisions. At 180 MPH with a 10 sq ft effective wind area, C&C pressures on column wraps range from -52 to +34 psf for interior zones and -78 to +34 psf for corner zones. The cladding attachment must have a Miami-Dade NOA or Florida Product Approval with HVHZ designation showing the tested design pressure equals or exceeds these values. Common cladding materials include GFRC (glass fiber reinforced concrete), cast stone, aluminum composite panels, and natural stone veneer, each requiring specific clip or anchor systems tested to Miami-Dade Protocol TAS 202.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="answer-item reveal">
+                <div class="reveal-trigger" onclick="toggleFaq(this)">
                     Do ceiling soffit panels under a porte-cochere need wind load ratings in Miami-Dade?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Yes, ceiling soffit panels beneath a porte-cochere in Miami-Dade HVHZ must resist wind pressures because the canopy underside is exposed to direct wind forces. The soffit experiences both positive and negative pressures as wind channels through the open structure, with design pressures typically ranging from -35 to -55 psf in uplift and +15 to +25 psf downward. Soffit attachment systems require Miami-Dade NOA certification showing compliance at the calculated design pressure. Lightweight panels such as aluminum planks, fiber cement boards, and perforated metal soffits must be secured with concealed clips or screws at spacing engineered for the wind load. Panel loss during a hurricane creates dangerous airborne debris and exposes the roof structure to additional uplift forces.</div>
+                <div class="guide-content">
+                    <div class="guide-content-inner">Yes, ceiling soffit panels beneath a porte-cochere in Miami-Dade HVHZ must resist wind pressures because the canopy underside is exposed to direct wind forces. The soffit experiences both positive and negative pressures as wind channels through the open structure, with design pressures typically ranging from -35 to -55 psf in uplift and +15 to +25 psf downward. Soffit attachment systems require Miami-Dade NOA certification showing compliance at the calculated design pressure. Lightweight panels such as aluminum planks, fiber cement boards, and perforated metal soffits must be secured with concealed clips or screws at spacing engineered for the wind load. Panel loss during a hurricane creates dangerous airborne debris and exposes the roof structure to additional uplift forces.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="answer-item reveal">
+                <div class="reveal-trigger" onclick="toggleFaq(this)">
                     What historical hurricane damage has occurred to porte-cocheres in Miami-Dade?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Hurricane Andrew in 1992 destroyed or severely damaged hundreds of porte-cochere structures across Miami-Dade County, particularly at hotels, hospitals, and condominium entrances along the coastal corridor from Homestead to Coral Gables. Post-storm investigations by FEMA and the University of Miami documented three primary failure modes: column base connection pullout where anchor bolts were undersized or insufficiently embedded, canopy roof membrane and soffit panel loss that then subjected framing to unbalanced uplift, and progressive collapse where loss of one column overloaded adjacent columns. Hurricane Irma in 2017 caused additional damage, with structures built after the 2002 HVHZ code adoption showing a failure rate of approximately 3 percent versus 35 percent for pre-code structures.</div>
+                <div class="guide-content">
+                    <div class="guide-content-inner">Hurricane Andrew in 1992 destroyed or severely damaged hundreds of porte-cochere structures across Miami-Dade County, particularly at hotels, hospitals, and condominium entrances along the coastal corridor from Homestead to Coral Gables. Post-storm investigations by FEMA and the University of Miami documented three primary failure modes: column base connection pullout where anchor bolts were undersized or insufficiently embedded, canopy roof membrane and soffit panel loss that then subjected framing to unbalanced uplift, and progressive collapse where loss of one column overloaded adjacent columns. Hurricane Irma in 2017 caused additional damage, with structures built after the 2002 HVHZ code adoption showing a failure rate of approximately 3 percent versus 35 percent for pre-code structures.</div>
                 </div>
             </div>
         </div>
@@ -735,13 +736,13 @@
 </section>
 
 <!-- Final CTA -->
-<section class="cta-section">
+<section class="launch-section">
     <div class="reveal">
         <div class="section-label" style="margin-left: auto; margin-right: auto; display: table;">Start Your Analysis</div>
         <h2>Get Precise Porte-Cochere <span style="color: #d4a574;">Wind Loads</span></h2>
         <p>Calculate net pressure coefficients, column reactions, and base moments for your porte-cochere design in Miami-Dade HVHZ. Instant results per ASCE 7-22.</p>
         <div class="cta-glow">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary" onclick="createRipple(event)" style="font-size: 1.15rem; padding: 1rem 2.5rem;">Calculate Porte-Cochere Loads Now</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-submit" onclick="createRipple(event)" style="font-size: 1.15rem; padding: 1rem 2.5rem;">Calculate Porte-Cochere Loads Now</a>
         </div>
     </div>
 </section>
@@ -770,8 +771,8 @@
         reset() {
             this.x = Math.random() * w;
             this.y = Math.random() * h;
-            this.size = Math.random() * 2.5 + 0.5;
-            this.speedX = Math.random() * 2.5 + 1;
+            this.size = Math.random() * 2.9 + 0.7;
+            this.speedX = Math.random() * 2.5 + 1.0;
             this.speedY = (Math.random() - 0.5) * 0.8;
             this.color = Math.random() > 0.6 ? '#d4a574' : (Math.random() > 0.5 ? '#fbbf24' : '#f5f5dc');
             this.alpha = Math.random() * 0.5 + 0.2;
@@ -1194,7 +1195,7 @@
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(function(el) { observer.observe(el); });
 })();
 
@@ -1222,7 +1223,7 @@
                 }, 25);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
     counters.forEach(function(el) { counterObserver.observe(el); });
 })();
 
@@ -1248,11 +1249,11 @@
 // ─── FAQ Accordion ───
 function toggleFaq(el) {
     const item = el.parentElement;
-    const answer = item.querySelector('.faq-answer');
+    const answer = item.querySelector('.guide-content');
     const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(function(openItem) {
+    document.querySelectorAll('.answer-item.open').forEach(function(openItem) {
         openItem.classList.remove('open');
-        openItem.querySelector('.faq-answer').style.maxHeight = '0';
+        openItem.querySelector('.guide-content').style.maxHeight = '0';
     });
     if (!isOpen) {
         item.classList.add('open');

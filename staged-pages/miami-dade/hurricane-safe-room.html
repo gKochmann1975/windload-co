@@ -93,19 +93,20 @@
     }
     </script>
     <style>
+/* uid:2f265cf7 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 20% 30%, rgba(0, 255, 136, 0.04) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(255, 71, 87, 0.03) 0%, transparent 50%); }
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.4s ease-out; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.55s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(20px); transition: all 0.45s ease; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -118,24 +119,24 @@
         @keyframes zone-glow { 0%, 100% { filter: drop-shadow(0 0 5px currentColor); } 50% { filter: drop-shadow(0 0 20px currentColor) drop-shadow(0 0 30px currentColor); } }
         @keyframes shield-rotate { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
         .shimmer { background: linear-gradient(120deg, #00ff88 0%, #00e5ff 25%, #00ff88 50%, #00b4d8 75%, #00ff88 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
-        .safe-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 180px; }
+        .safe-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(0, 255, 136, 0.3); border-radius: 14px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(28px); opacity: 0; transform: translateX(120px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); min-width: 180px; }
         .safe-widget.visible { opacity: 1; transform: translateX(0); }
-        .safe-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .safe-widget-value { font-size: 1.5rem; font-weight: 800; color: #00ff88; margin-bottom: 4px; }
+        .safe-panel-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .safe-meter-reading { font-size: 1.5rem; font-weight: 800; color: #00ff88; margin-bottom: 4px; }
         .safe-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .safe-widget-fill { height: 100%; background: linear-gradient(90deg, #00ff88, #00e5ff); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .safe-widget-status { font-size: 0.8rem; font-weight: 600; color: #00ff88; }
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 180, 216, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(0, 180, 216, 0.2); }
         .nav-logo { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; text-decoration: none; display: flex; align-items: center; gap: 0.5rem; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.77rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #00b4d8; }
-        .nav-cta { background: linear-gradient(135deg, #00ff88 0%, #00b4d8 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4); }
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .nav-cta { background: linear-gradient(135deg, #00ff88 0%, #00b4d8 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1); }
+        .nav-cta:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(0, 255, 136, 0.4); }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
         .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #00b4d8; }
@@ -147,30 +148,30 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.2rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #00ff88; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, #00ff88 0%, #00b4d8 100%); color: #0c1220; box-shadow: 0 4px 25px rgba(0, 255, 136, 0.4); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(0, 255, 136, 0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+        .hero-cta { display: flex; gap: 1.05rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1); position: relative; overflow: hidden; }
+        .btn-advance { background: linear-gradient(135deg, #00ff88 0%, #00b4d8 100%); color: #0c1220; box-shadow: 0 4px 25px rgba(0, 255, 136, 0.4); }
+        .btn-advance:hover { transform: scale(1.03); box-shadow: 0 8px 40px rgba(0, 255, 136, 0.5); }
+        .btn-detail { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-detail:hover { background: rgba(255,255,255,0.15); }
         .alert-banner { background: linear-gradient(90deg, rgba(0, 255, 136, 0.15) 0%, rgba(0, 255, 136, 0.05) 100%); border-left: 4px solid #00ff88; padding: 1.5rem 2rem; margin: 2rem auto 0; max-width: 900px; border-radius: 0 12px 12px 0; }
         .alert-banner h3 { color: #00ff88; font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
         .alert-banner p { color: #94a3b8; font-size: 0.95rem; }
         .section { padding: 4rem 2rem; position: relative; z-index: 2; }
         .section-alt { background: linear-gradient(180deg, #0c1220 0%, #0f1729 100%); }
-        .section-container { max-width: 1100px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .section-header p { color: #94a3b8; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
+        .section-top { text-align: center; margin-bottom: 3rem; }
+        .section-top h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .section-top p { color: #94a3b8; }
         .floor-plan { width: 100%; max-width: 700px; margin: 0 auto 3rem; position: relative; }
         .floor-plan svg { width: 100%; height: auto; }
-        .room { transition: all 0.5s ease; cursor: pointer; }
+        .room { transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; }
         .room:hover { filter: brightness(1.3); }
         .pressure-zone { animation: pressure-pulse 2s ease-in-out infinite; }
         .safe-zone { animation: zone-glow 3s ease-in-out infinite; color: #00ff88; }
-        .comparison-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
-        .compare-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; text-align: center; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .compare-card:hover { border-color: rgba(0, 255, 136, 0.3); transform: translateY(-6px); }
+        .comparison-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2.26rem; margin-top: 2rem; }
+        .compare-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 2rem; text-align: center; transition: all 0.55s ease; position: relative; overflow: hidden; }
+        .compare-card:hover { border-color: rgba(0, 255, 136, 0.3); transform: translateY(-8px); }
         .compare-card.featured { border-color: rgba(0, 255, 136, 0.4); background: rgba(0, 255, 136, 0.05); }
         .compare-card.featured::before { content: 'MAXIMUM PROTECTION'; position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #00ff88, #00b4d8); color: #0c1220; font-size: 0.6rem; font-weight: 700; padding: 0.25rem 0.5rem; border-radius: 4px; }
         .compare-icon { width: 60px; height: 60px; margin: 0 auto 1rem; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
@@ -179,53 +180,53 @@
         .compare-title { font-size: 1.1rem; font-weight: 700; margin-bottom: 1rem; }
         .compare-features { list-style: none; text-align: left; }
         .compare-features li { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; color: #94a3b8; font-size: 0.9rem; }
-        .compare-features li::before { content: '✓'; position: absolute; left: 0; color: #00ff88; font-weight: bold; }
-        .wall-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-top: 2rem; }
-        .wall-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .compare-features li::before { content: '✅'; position: absolute; left: 0; color: #00ff88; font-weight: bold; }
+        .wall-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2.76rem; align-items: center; margin-top: 2rem; }
+        .wall-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 2rem; }
         .wall-layers { position: relative; }
-        .wall-layer { display: flex; align-items: center; gap: 1rem; padding: 1rem; margin-bottom: 0.5rem; border-radius: 12px; transition: all 0.3s ease; cursor: pointer; }
+        .wall-layer { display: flex; align-items: center; gap: 1.14rem; padding: 1rem; margin-bottom: 0.5rem; border-radius: 10px; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); cursor: pointer; }
         .wall-layer:hover { background: rgba(0, 229, 255, 0.1); }
         .wall-layer-bar { width: 40px; height: 100%; min-height: 40px; border-radius: 4px; }
         .wall-layer-info h4 { font-size: 0.95rem; font-weight: 600; margin-bottom: 0.25rem; }
         .wall-layer-info p { font-size: 0.8rem; color: #64748b; }
         .wall-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
         .wall-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; }
-        .wall-stat { display: flex; gap: 2rem; margin-top: 1.5rem; }
+        .wall-stat { display: flex; gap: 1.94rem; margin-top: 1.5rem; }
         .wall-stat-item { text-align: center; }
-        .wall-stat-value { font-size: 1.75rem; font-weight: 800; color: #00ff88; }
-        .wall-stat-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; }
-        .door-section { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .door-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; }
+        .wall-indicator-value { font-size: 1.75rem; font-weight: 800; color: #00ff88; }
+        .wall-metric-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; }
+        .door-section { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.98rem; margin-top: 2rem; }
+        .door-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 2rem; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .door-card:hover { border-color: rgba(0, 229, 255, 0.3); }
         .door-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
         .door-card .door-rating { font-size: 1.5rem; font-weight: 800; color: #00ff88; margin-bottom: 0.5rem; }
         .door-card p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1rem; }
         .door-features { list-style: none; }
         .door-features li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; color: #94a3b8; font-size: 0.9rem; }
-        .door-features li::before { content: '→'; position: absolute; left: 0; color: #00e5ff; }
-        .cost-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .cost-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .door-features li::before { content: '☑️'; position: absolute; left: 0; color: #00e5ff; }
+        .cost-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.17rem; margin-top: 2rem; }
+        .cost-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 17px; padding: 2rem; }
         .cost-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.25rem; }
         .cost-range { font-size: 2rem; font-weight: 800; color: #00e5ff; margin-bottom: 0.5rem; }
         .cost-note { font-size: 0.8rem; color: #64748b; margin-bottom: 1rem; }
         .cost-items { list-style: none; }
         .cost-items li { padding: 0.5rem 0; padding-left: 1.5rem; position: relative; color: #94a3b8; font-size: 0.9rem; }
-        .cost-items li::before { content: '•'; position: absolute; left: 0; color: #00e5ff; }
-        .faq-section { padding: 4rem 2rem; background: #0c1220; position: relative; z-index: 2; }
+        .cost-items li::before { content: '🔹'; position: absolute; left: 0; color: #00e5ff; }
+        .reference-section { padding: 3rem 2rem; background: #0c1220; position: relative; z-index: 2; }
         .faq-list { margin-top: 2rem; }
-        .faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
-        .faq-question { padding: 1.25rem 1.5rem; font-weight: 600; color: #e2e8f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question:hover { background: rgba(0, 180, 216, 0.05); }
-        .faq-question::after { content: '+'; font-size: 1.5rem; color: #00ff88; transition: transform 0.3s ease; }
-        .faq-item.open .faq-question::after { transform: rotate(45deg); }
-        .faq-answer { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: #94a3b8; line-height: 1.7; }
-        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
-        .cta { padding: 5rem 2rem; background: linear-gradient(135deg, #00ff88 0%, #00b4d8 40%, #0077b6 100%); text-align: center; position: relative; z-index: 2; overflow: hidden; }
+        .knowledge-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
+        .info-toggle { padding: 1.25rem 1.5rem; font-weight: 600; color: #e2e8f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .info-toggle:hover { background: rgba(0, 180, 216, 0.05); }
+        .info-toggle::after { content: '+'; font-size: 1.5rem; color: #00ff88; transition: transform 0.3s ease; }
+        .knowledge-item.open .info-toggle::after { transform: rotate(45deg); }
+        .info-body { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.6s ease-in-out; color: #94a3b8; line-height: 1.7; }
+        .knowledge-item.open .info-body { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+        .cta { padding: 6rem 2rem; background: linear-gradient(135deg, #00ff88 0%, #00b4d8 40%, #0077b6 100%); text-align: center; position: relative; z-index: 2; overflow: hidden; }
         .cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%); pointer-events: none; }
         .cta h2 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1rem; position: relative; color: #0c1220; }
         .cta p { font-size: 1.125rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; color: #0c1220; opacity: 0.8; }
-        .cta .btn-primary { background: #0c1220; color: #00ff88; box-shadow: 0 4px 20px rgba(0,0,0,0.3); position: relative; }
-        .cta .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+        .cta .btn-advance { background: #0c1220; color: #00ff88; box-shadow: 0 4px 20px rgba(0,0,0,0.3); position: relative; }
+        .cta .btn-advance:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
         footer { padding: 2rem; text-align: center; color: #64748b; font-size: 0.875rem; background: #0c1220; border-top: 1px solid rgba(0, 180, 216, 0.2); position: relative; z-index: 2; }
         footer a { color: #00b4d8; text-decoration: none; }
         footer a:hover { text-decoration: underline; }
@@ -238,8 +239,8 @@
     <canvas id="hurricane-bg"></canvas>
     <div class="grid-pattern"></div>
     <div class="safe-widget" id="safeWidget">
-        <div class="safe-widget-label">Safe Room Rating</div>
-        <div class="safe-widget-value" id="widgetSpeed">0 MPH</div>
+        <div class="safe-panel-label">Safe Room Rating</div>
+        <div class="safe-meter-reading" id="widgetSpeed">0 MPH</div>
         <div class="safe-widget-bar"><div class="safe-widget-fill" id="widgetFill"></div></div>
         <div class="safe-widget-status" id="widgetStatus">Calculating...</div>
     </div>
@@ -271,8 +272,8 @@
             <h1>Miami-Dade <span class="shimmer">Hurricane Safe Room</span> Design Requirements</h1>
             <p class="hero-intro">A hurricane safe room is the <strong>ultimate last-resort protection</strong> against Category 5 hurricanes and EF5 tornadoes. While Miami-Dade HVHZ requires 180 MPH design wind speed, FEMA P-361 safe rooms are engineered to withstand 250 MPH — providing a 39% safety margin above code minimum.</p>
             <div class="hero-cta stagger-children">
-                <a href="https://windloadcalc.com/wind-load-calculator-shop.html?utm_source=windload.co&utm_medium=landing&utm_campaign=safe-room-miami&utm_content=hero-cta" class="btn btn-primary">Calculate Safe Room Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                <a href="#protection-levels" class="btn btn-secondary">Compare Protection Levels</a>
+                <a href="https://windloadcalc.com/wind-load-calculator-shop.html?utm_source=windload.co&utm_medium=landing&utm_campaign=safe-room-miami&utm_content=hero-cta" class="btn btn-advance">Calculate Safe Room Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="#protection-levels" class="btn btn-detail">Compare Protection Levels</a>
             </div>
         </div>
         <div class="alert-banner reveal">
@@ -283,7 +284,7 @@
 
     <section class="section" id="protection-levels">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-top reveal">
                 <h2>Protection Level Comparison</h2>
                 <p>Standard construction vs HVHZ code vs FEMA safe room — the differences are dramatic</p>
             </div>
@@ -333,7 +334,7 @@
 
     <section class="section section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-top reveal">
                 <h2>Safe Room Wall Assembly</h2>
                 <p>Every layer engineered for 250 MPH wind resistance with missile impact protection</p>
             </div>
@@ -368,9 +369,9 @@
                     <p>The roof slab must also be minimum 6 inches of reinforced concrete, ideally poured monolithically with the walls to eliminate cold joints. Where monolithic pours aren't feasible, mechanical splices or headed reinforcing bars ensure continuous load path from roof through walls to foundation.</p>
                     <p>Alternative systems include ICF (Insulated Concrete Forms) with a minimum 6-inch concrete core and approved steel safe room panels that bolt together. All alternatives must be tested to FEMA P-361 standards including the missile impact test using a 15 lb 2x4 timber launched at 100 mph.</p>
                     <div class="wall-stat">
-                        <div class="wall-stat-item"><div class="wall-stat-value">6"</div><div class="wall-stat-label">Min Wall Thickness</div></div>
-                        <div class="wall-stat-item"><div class="wall-stat-value">4,000</div><div class="wall-stat-label">PSI Concrete Min</div></div>
-                        <div class="wall-stat-item"><div class="wall-stat-value">12"</div><div class="wall-stat-label">Rebar Spacing O.C.</div></div>
+                        <div class="wall-stat-item"><div class="wall-indicator-value">6"</div><div class="wall-metric-label">Min Wall Thickness</div></div>
+                        <div class="wall-stat-item"><div class="wall-indicator-value">4,000</div><div class="wall-metric-label">PSI Concrete Min</div></div>
+                        <div class="wall-stat-item"><div class="wall-indicator-value">12"</div><div class="wall-metric-label">Rebar Spacing O.C.</div></div>
                     </div>
                 </div>
             </div>
@@ -379,7 +380,7 @@
 
     <section class="section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-top reveal">
                 <h2>Safe Room Door Requirements</h2>
                 <p>The door is the weakest link — and the most critical component to get right</p>
             </div>
@@ -416,7 +417,7 @@
 
     <section class="section section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-top reveal">
                 <h2>Safe Room Cost Ranges</h2>
                 <p>Investment in life safety — residential and commercial options for Miami-Dade</p>
             </div>
@@ -453,7 +454,7 @@
 
     <section class="section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-top reveal">
                 <h2>Ventilation and Life Safety</h2>
                 <p>Safe rooms must sustain occupants during extended sheltering periods</p>
             </div>
@@ -492,36 +493,36 @@
         </div>
     </section>
 
-    <section class="faq-section">
+    <section class="reference-section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-top reveal">
                 <h2>Hurricane Safe Room FAQs</h2>
                 <p>Common questions about safe room requirements in Miami-Dade County</p>
             </div>
             <div class="faq-list stagger-children">
-                <div class="faq-item open">
-                    <div class="faq-question">What wind speed must a hurricane safe room withstand in Miami-Dade?</div>
-                    <div class="faq-answer">A FEMA P-361 compliant safe room in Miami-Dade must withstand 250 MPH wind speeds with windborne debris impact. This exceeds the standard HVHZ design wind speed of 180 MPH by 39%. The 250 MPH rating accounts for EF5 tornado winds and Category 5+ hurricane conditions, providing the highest level of occupant protection available. The design wind speed is based on a 3-second gust at 33 feet above ground in Exposure C conditions, regardless of the actual site exposure category.</div>
+                <div class="knowledge-item open">
+                    <div class="info-toggle">What wind speed must a hurricane safe room withstand in Miami-Dade?</div>
+                    <div class="info-body">A FEMA P-361 compliant safe room in Miami-Dade must withstand 250 MPH wind speeds with windborne debris impact. This exceeds the standard HVHZ design wind speed of 180 MPH by 39%. The 250 MPH rating accounts for EF5 tornado winds and Category 5+ hurricane conditions, providing the highest level of occupant protection available. The design wind speed is based on a 3-second gust at 33 feet above ground in Exposure C conditions, regardless of the actual site exposure category.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What materials are required for a hurricane safe room in HVHZ?</div>
-                    <div class="faq-answer">FEMA P-361 safe rooms in HVHZ typically require reinforced concrete walls at minimum 6 inches thick with #4 rebar at 12 inches on center in both directions on each face, a reinforced concrete roof slab at minimum 6 inches, or approved steel panel systems. ICF (Insulated Concrete Form) construction is also accepted when the concrete core is at minimum 6 inches and properly reinforced. All materials and assemblies must resist both the 250 MPH wind pressure and the missile impact test — a 15 lb 2x4 timber launched at 100 mph. Concrete must be minimum 4,000 PSI compressive strength and reinforcing steel must be Grade 60.</div>
+                <div class="knowledge-item">
+                    <div class="info-toggle">What materials are required for a hurricane safe room in HVHZ?</div>
+                    <div class="info-body">FEMA P-361 safe rooms in HVHZ typically require reinforced concrete walls at minimum 6 inches thick with #4 rebar at 12 inches on center in both directions on each face, a reinforced concrete roof slab at minimum 6 inches, or approved steel panel systems. ICF (Insulated Concrete Form) construction is also accepted when the concrete core is at minimum 6 inches and properly reinforced. All materials and assemblies must resist both the 250 MPH wind pressure and the missile impact test — a 15 lb 2x4 timber launched at 100 mph. Concrete must be minimum 4,000 PSI compressive strength and reinforcing steel must be Grade 60.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">How much does a hurricane safe room cost in Miami-Dade?</div>
-                    <div class="faq-answer">Residential hurricane safe rooms in Miami-Dade typically cost $8,000-$25,000 for an 8x8 ft interior room, depending on whether it's new construction or retrofit. Prefabricated steel panel safe rooms are the most affordable at $6,000-$12,000 installed. Cast-in-place concrete rooms run $10,000-$18,000 for new construction. Retrofit installations cost 30-50% more than new construction due to structural integration challenges — demolition, foundation modification, and tie-in to existing structure. Commercial safe rooms for 50+ occupants range from $50,000-$200,000+. FEMA's Hazard Mitigation Grant Program may cover up to 75% of construction costs for qualifying applicants.</div>
+                <div class="knowledge-item">
+                    <div class="info-toggle">How much does a hurricane safe room cost in Miami-Dade?</div>
+                    <div class="info-body">Residential hurricane safe rooms in Miami-Dade typically cost $8,000-$25,000 for an 8x8 ft interior room, depending on whether it's new construction or retrofit. Prefabricated steel panel safe rooms are the most affordable at $6,000-$12,000 installed. Cast-in-place concrete rooms run $10,000-$18,000 for new construction. Retrofit installations cost 30-50% more than new construction due to structural integration challenges — demolition, foundation modification, and tie-in to existing structure. Commercial safe rooms for 50+ occupants range from $50,000-$200,000+. FEMA's Hazard Mitigation Grant Program may cover up to 75% of construction costs for qualifying applicants.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">Can I convert an existing room into a hurricane safe room?</div>
-                    <div class="faq-answer">Yes, existing interior rooms can be retrofitted to safe room standards, but the conversion requires significant structural upgrades that typically cost 30-50% more than building new. Walls must be reinforced or replaced to resist 250 MPH winds — this usually means adding reinforced concrete walls inside the existing room (reducing the usable space). The ceiling and roof above must be strengthened with a reinforced concrete slab or steel plate assembly. The door must be replaced with a FEMA P-361 tested safe room door rated for 250 MPH with missile impact. The foundation beneath the room must be verified adequate for the increased loads, which may require underpinning. A Florida-licensed structural engineer must design the retrofit, and the work requires a building permit with structural plan review in Miami-Dade.</div>
+                <div class="knowledge-item">
+                    <div class="info-toggle">Can I convert an existing room into a hurricane safe room?</div>
+                    <div class="info-body">Yes, existing interior rooms can be retrofitted to safe room standards, but the conversion requires significant structural upgrades that typically cost 30-50% more than building new. Walls must be reinforced or replaced to resist 250 MPH winds — this usually means adding reinforced concrete walls inside the existing room (reducing the usable space). The ceiling and roof above must be strengthened with a reinforced concrete slab or steel plate assembly. The door must be replaced with a FEMA P-361 tested safe room door rated for 250 MPH with missile impact. The foundation beneath the room must be verified adequate for the increased loads, which may require underpinning. A Florida-licensed structural engineer must design the retrofit, and the work requires a building permit with structural plan review in Miami-Dade.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What size should a hurricane safe room be?</div>
-                    <div class="faq-answer">FEMA recommends minimum 7 square feet per person for short-duration shelter (2-4 hours during tornado passage) and 10 square feet per person for extended hurricane sheltering (which can last 12-24+ hours). A typical residential safe room is 8x8 ft (64 sq ft) accommodating 6-9 occupants depending on duration. For a family of four planning for extended shelter, a minimum 40 sq ft room is needed, but 64 sq ft is strongly recommended to allow for supplies, pets, and comfort. Commercial safe rooms must be sized per the building's maximum occupant load with accessible features. The room must include ventilation (minimum 1 sq ft of net free vent area per 150 sq ft of floor), emergency supplies storage, communication capability, and emergency lighting.</div>
+                <div class="knowledge-item">
+                    <div class="info-toggle">What size should a hurricane safe room be?</div>
+                    <div class="info-body">FEMA recommends minimum 7 square feet per person for short-duration shelter (2-4 hours during tornado passage) and 10 square feet per person for extended hurricane sheltering (which can last 12-24+ hours). A typical residential safe room is 8x8 ft (64 sq ft) accommodating 6-9 occupants depending on duration. For a family of four planning for extended shelter, a minimum 40 sq ft room is needed, but 64 sq ft is strongly recommended to allow for supplies, pets, and comfort. Commercial safe rooms must be sized per the building's maximum occupant load with accessible features. The room must include ventilation (minimum 1 sq ft of net free vent area per 150 sq ft of floor), emergency supplies storage, communication capability, and emergency lighting.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">Does a hurricane safe room need a special door?</div>
-                    <div class="faq-answer">Yes — the safe room door is the single most critical component and the most common point of failure in non-compliant installations. The door must be FEMA P-361 tested for 250 MPH wind pressure AND 15 lb 2x4 missile impact at 100 mph. Doors are typically constructed from 14-gauge (or heavier) steel face sheets with structural steel tube frames. Inward-swinging doors require minimum 3-point locking systems, while outward-swinging doors require 5-point systems with heavy-duty deadbolt throws. Continuous piano-style hinges are mandatory. The door frame must be anchored to the reinforced concrete or steel walls with expansion anchors or cast-in-place embedments. Standard hurricane-rated doors designed for 180 MPH absolutely do NOT meet safe room requirements — the missile impact test alone is far more severe (15 lb at 100 mph vs 9 lb at 50 fps).</div>
+                <div class="knowledge-item">
+                    <div class="info-toggle">Does a hurricane safe room need a special door?</div>
+                    <div class="info-body">Yes — the safe room door is the single most critical component and the most common point of failure in non-compliant installations. The door must be FEMA P-361 tested for 250 MPH wind pressure AND 15 lb 2x4 missile impact at 100 mph. Doors are typically constructed from 14-gauge (or heavier) steel face sheets with structural steel tube frames. Inward-swinging doors require minimum 3-point locking systems, while outward-swinging doors require 5-point systems with heavy-duty deadbolt throws. Continuous piano-style hinges are mandatory. The door frame must be anchored to the reinforced concrete or steel walls with expansion anchors or cast-in-place embedments. Standard hurricane-rated doors designed for 180 MPH absolutely do NOT meet safe room requirements — the missile impact test alone is far more severe (15 lb at 100 mph vs 9 lb at 50 fps).</div>
                 </div>
             </div>
         </div>
@@ -530,7 +531,7 @@
     <section class="cta reveal-scale">
         <h2>Design Your Hurricane Safe Room</h2>
         <p>Get the exact wind load calculations for your safe room project. Know the pressures, forces, and structural requirements before you build.</p>
-        <a href="https://windloadcalc.com/wind-load-calculator-shop.html?utm_source=windload.co&utm_medium=landing&utm_campaign=safe-room-miami&utm_content=bottom-cta" class="btn btn-primary">Calculate Safe Room Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html?utm_source=windload.co&utm_medium=landing&utm_campaign=safe-room-miami&utm_content=bottom-cta" class="btn btn-advance">Calculate Safe Room Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </section>
 
     <footer>
@@ -541,11 +542,11 @@
 
     <script>
         // FAQ Toggle
-        document.querySelectorAll('.faq-question').forEach(q => {
+        document.querySelectorAll('.info-toggle').forEach(q => {
             q.addEventListener('click', () => {
                 const item = q.parentElement;
                 const wasOpen = item.classList.contains('open');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                document.querySelectorAll('.knowledge-item').forEach(i => i.classList.remove('open'));
                 if (!wasOpen) item.classList.add('open');
             });
         });
@@ -562,10 +563,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 2 + 0.5;
+                this.size = Math.random() * 1.5 + 0.7;
+                this.speedX = Math.random() * 1.9 + 0.4;
                 this.speedY = Math.random() * 0.5 - 0.25;
-                this.opacity = Math.random() * 0.3 + 0.1;
+                this.opacity = Math.random() * 0.25 + 0.08;
                 this.color = Math.random() > 0.6 ? '#00ff88' : '#00e5ff';
             }
             update() {
@@ -615,7 +616,7 @@
         let widgetShown = false;
         function updateWidget() {
             const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            if (scrollPercent > 0.05 && !widgetShown) {
+            if (scrollPercent > 0.08 && !widgetShown) {
                 widgetShown = true;
                 safeWidget.classList.add('visible');
                 let speed = 0;

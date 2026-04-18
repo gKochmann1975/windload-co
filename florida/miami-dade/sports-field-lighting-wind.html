@@ -97,6 +97,7 @@
     </script>
 
     <style>
+/* uid:0600b74f */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -109,15 +110,15 @@
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 25% 35%, rgba(34, 197, 94, 0.06) 0%, transparent 50%), radial-gradient(circle at 75% 65%, rgba(251, 191, 36, 0.04) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.6s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.75s ease-in-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(40px); transition: all 0.8s ease; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -138,9 +139,9 @@
         .hero-shimmer { background: linear-gradient(120deg, #22c55e 0%, #fbbf24 25%, #22c55e 50%, #86efac 75%, #22c55e 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Wind Speed Widget */
-        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 200px; }
+        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 19px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(28px); opacity: 0; transform: translateX(120px); transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1); min-width: 200px; }
         .wind-widget.visible { opacity: 1; transform: translateX(0); }
-        .wind-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+        .wind-quick-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
         .wind-widget-speed { font-size: 1.8rem; font-weight: 800; color: #22c55e; margin-bottom: 2px; font-variant-numeric: tabular-nums; }
         .wind-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin: 8px 0; }
         .wind-widget-fill { height: 100%; background: linear-gradient(90deg, #22c55e, #fbbf24, #ef4444); border-radius: 3px; width: 0%; transition: width 0.3s ease; }
@@ -149,20 +150,20 @@
         .wind-widget-category { font-size: 0.8rem; font-weight: 700; color: #22c55e; margin-top: 4px; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.28rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #22c55e; }
-        .nav-cta { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-cta:hover { transform: scale(1.02); box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1400px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #22c55e; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -175,43 +176,43 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #22c55e; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4); }
-        .btn-secondary { border: 2px solid rgba(34, 197, 94, 0.5); color: #22c55e; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.16rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-engage { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 12px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.65s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-engage:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4); }
+        .btn-detail { border: 2px solid rgba(34, 197, 94, 0.5); color: #22c55e; padding: 0.9rem 2rem; border-radius: 11px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.65s cubic-bezier(0.65, 0, 0.35, 1); background: transparent; }
+        .btn-detail:hover { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; transform: translateY(-3px) scale(1.01); }
         .warning-banner { background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.3); border-left: 4px solid #22c55e; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 700px; margin: 0 auto; animation: warning-flash 3s ease-in-out infinite; }
         .warning-banner strong { color: #22c55e; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
 
         /* Light Pole Canvas Visualization */
         .pole-viz { max-width: 1000px; margin: 3rem auto 0; position: relative; }
-        .pole-canvas-wrap { width: 100%; background: rgba(6, 78, 59, 0.08); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 16px; padding: 1.5rem; position: relative; overflow: hidden; }
+        .pole-canvas-wrap { width: 100%; background: rgba(6, 78, 59, 0.08); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 15px; padding: 1.5rem; position: relative; overflow: hidden; }
         .pole-canvas-title { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; text-align: center; }
         #poleCanvas { width: 100%; display: block; border-radius: 8px; }
 
         /* Trust Badges */
         .trust-section { padding: 3rem 2rem; position: relative; z-index: 2; }
-        .trust-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; }
-        .trust-badge { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 12px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; }
-        .trust-badge:hover { border-color: rgba(34, 197, 94, 0.4); transform: translateY(-4px); }
+        .trust-grid { max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.70rem; }
+        .trust-badge { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 11px; padding: 1.5rem; text-align: center; transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .trust-badge:hover { border-color: rgba(34, 197, 94, 0.4); transform: translateY(-5px); }
         .trust-number { font-size: 2rem; font-weight: 800; color: #22c55e; margin-bottom: 0.25rem; }
         .trust-label { font-size: 0.85rem; color: #94a3b8; }
 
         /* Content Sections */
         .content-section { padding: 4rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
-        .section-header h2 .accent { color: #22c55e; }
-        .section-header h2 .gold { color: #fbbf24; }
-        .section-header p { color: #94a3b8; font-size: 1.05rem; max-width: 700px; margin: 0 auto; }
+        .section-container { max-width: 1150px; margin: 0 auto; }
+        .segment-header { text-align: center; margin-bottom: 3rem; }
+        .segment-header h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
+        .segment-header h2 .accent { color: #22c55e; }
+        .segment-header h2 .gold { color: #fbbf24; }
+        .segment-header p { color: #94a3b8; font-size: 1.05rem; max-width: 700px; margin: 0 auto; }
 
         /* Pole Comparison Cards - 2x2 */
-        .pole-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-        .pole-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 16px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); cursor: default; }
-        .pole-card:hover { border-color: rgba(34, 197, 94, 0.5); transform: translateY(-6px); box-shadow: 0 12px 40px rgba(34, 197, 94, 0.15); }
-        .pole-card-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+        .pole-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.60rem; }
+        .pole-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 13px; padding: 2rem; transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); cursor: default; }
+        .pole-card:hover { border-color: rgba(34, 197, 94, 0.5); transform: scale(1.03); box-shadow: 0 12px 40px rgba(34, 197, 94, 0.15); }
+        .pole-card-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
         .pole-card-icon.green { background: rgba(34, 197, 94, 0.15); }
         .pole-card-icon.gold { background: rgba(251, 191, 36, 0.15); }
         .pole-card-icon.teal { background: rgba(6, 78, 59, 0.3); }
@@ -236,7 +237,7 @@
         .epa-bar-inner { font-size: 0.75rem; font-weight: 700; color: #fff; white-space: nowrap; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3.01rem; align-items: start; }
         .col-text h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; }
         .col-text h3 .accent { color: #22c55e; }
         .col-text p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
@@ -253,8 +254,8 @@
         .spec-table .warn { color: #fbbf24; font-weight: 600; }
 
         /* Gauge Meters */
-        .gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 900px; margin: 0 auto; }
-        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 16px; padding: 2rem; text-align: center; }
+        .gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.91rem; max-width: 900px; margin: 0 auto; }
+        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 13px; padding: 2rem; text-align: center; }
         .gauge-svg { width: 140px; height: 80px; margin: 0 auto 1rem; }
         .gauge-label { font-size: 0.85rem; color: #94a3b8; margin-bottom: 0.25rem; }
         .gauge-value { font-size: 1.4rem; font-weight: 800; color: #22c55e; }
@@ -263,40 +264,40 @@
         /* Process Steps */
         .process-timeline { max-width: 800px; margin: 0 auto; position: relative; }
         .process-timeline::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #22c55e 0%, #064e3b 100%); }
-        .process-step { display: flex; gap: 1.5rem; margin-bottom: 2rem; position: relative; }
+        .process-step { display: flex; gap: 1.39rem; margin-bottom: 2rem; position: relative; }
         .step-marker { width: 50px; height: 50px; border-radius: 50%; background: rgba(34, 197, 94, 0.15); border: 2px solid #22c55e; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #22c55e; font-size: 1.1rem; flex-shrink: 0; z-index: 1; }
-        .step-content { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.1); border-radius: 12px; padding: 1.5rem; flex: 1; }
+        .step-content { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.1); border-radius: 10px; padding: 1.5rem; flex: 1; }
         .step-content h4 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; color: #e2e8f0; }
         .step-content p { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; }
 
         /* Bolt Pattern Visual */
-        .bolt-viz { max-width: 800px; margin: 2rem auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
-        .bolt-pattern-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 16px; padding: 2rem; text-align: center; }
+        .bolt-viz { max-width: 800px; margin: 2rem auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2.26rem; }
+        .bolt-pattern-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 19px; padding: 2rem; text-align: center; }
         .bolt-pattern-card h4 { color: #e2e8f0; font-size: 1.1rem; margin-bottom: 1rem; }
         .bolt-pattern-card .bolt-desc { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; text-align: left; }
-        .bolt-pattern-card .bolt-rating { display: inline-block; margin-top: 0.75rem; padding: 0.4rem 1rem; border-radius: 20px; font-size: 0.85rem; font-weight: 700; }
+        .bolt-pattern-card .bolt-rating { display: inline-block; margin-top: 0.75rem; padding: 0.4rem 1rem; border-radius: 17px; font-size: 0.85rem; font-weight: 700; }
         .bolt-rating.adequate { background: rgba(34, 197, 94, 0.15); color: #22c55e; border: 1px solid rgba(34, 197, 94, 0.3); }
         .bolt-rating.required { background: rgba(251, 191, 36, 0.15); color: #fbbf24; border: 1px solid rgba(251, 191, 36, 0.3); }
         #boltCanvas4, #boltCanvas8 { width: 160px; height: 160px; margin: 0 auto 1rem; display: block; }
 
         /* FAQ */
-        .faq-section { background: rgba(6, 78, 59, 0.06); }
+        .support-section { background: rgba(6, 78, 59, 0.06); }
         .faq-list { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(34, 197, 94, 0.3); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; color: #e2e8f0; transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(34, 197, 94, 0.05); }
+        .help-item { border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .help-item:hover { border-color: rgba(34, 197, 94, 0.3); }
+        .expand-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; color: #e2e8f0; transition: background 0.3s ease; }
+        .expand-trigger:hover { background: rgba(34, 197, 94, 0.05); }
         .faq-toggle { width: 24px; height: 24px; border-radius: 50%; border: 2px solid #22c55e; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.2rem; transition: transform 0.3s ease; flex-shrink: 0; }
-        .faq-item.open .faq-toggle { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .help-item.open .faq-toggle { transform: rotate(45deg); }
+        .question-content { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .question-content-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* Final CTA */
         .final-cta { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; background: linear-gradient(180deg, transparent 0%, rgba(6, 78, 59, 0.12) 50%, transparent 100%); }
         .final-cta h2 { font-size: clamp(1.8rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; }
         .final-cta h2 .accent { color: #22c55e; }
         .final-cta p { color: #94a3b8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 2rem; }
-        .final-cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .final-cta-buttons { display: flex; gap: 1.26rem; justify-content: center; flex-wrap: wrap; }
 
         /* Footer */
         .footer { padding: 2rem; text-align: center; border-top: 1px solid rgba(34, 197, 94, 0.1); position: relative; z-index: 2; }
@@ -308,10 +309,10 @@
 
         /* Responsive */
         @media (max-width: 900px) {
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: 1fr 1fr; }
             .pole-grid { grid-template-columns: 1fr; }
             .two-col { grid-template-columns: 1fr; }
-            .gauge-grid { grid-template-columns: repeat(2, 1fr); }
+            .gauge-grid { grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); }
             .bolt-viz { grid-template-columns: 1fr; }
             .wind-widget { display: none; }
         }
@@ -333,7 +334,7 @@
 
 <!-- Wind Speed Widget -->
 <div class="wind-widget" id="windWidget">
-    <div class="wind-widget-label">Wind Speed</div>
+    <div class="wind-quick-label">Wind Speed</div>
     <div class="wind-widget-speed" id="widgetSpeed">0 MPH</div>
     <div class="wind-widget-bar"><div class="wind-widget-fill" id="widgetFill"></div></div>
     <div class="wind-widget-deflection" id="widgetDeflection">Tip Deflection: 0.0 in</div>
@@ -379,8 +380,8 @@
             Sports field lighting poles are among the tallest freestanding structures on any athletic complex, rising <strong>80 to 100 feet</strong> above grade with concentrated luminaire arrays at the top. In Miami-Dade's High Velocity Hurricane Zone, these slender tapered poles must withstand <strong>180 MPH ultimate wind speeds</strong> while resisting vortex-induced vibration, fatigue cracking at the base weld, and corrosion from salt-laden coastal air. Engineering these structures demands precise integration of ASCE 7-22 Chapter 29 wind provisions, AASHTO LTS-6 fatigue requirements, and Miami-Dade permitting standards for public assembly facilities.
         </p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Pole Loads</a>
-            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage">Calculate Pole Loads</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-detail">Browse All Calculators</a>
         </div>
         <div class="warning-banner">
             <strong>HVHZ Requirement:</strong>
@@ -422,7 +423,7 @@
 <!-- Section: ASCE 7-22 Design Framework -->
 <section class="content-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>ASCE 7-22 Chapter 29: <span class="accent">Wind Loads on Light Poles</span></h2>
             <p>Sports field light poles fall under "Other Structures" in ASCE 7-22, requiring segmented wind pressure analysis along the full height of the tapered shaft plus concentrated loads at the luminaire array.</p>
         </div>
@@ -447,7 +448,7 @@
 <!-- Section: Luminaire EPA Comparison -->
 <section class="content-section epa-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Luminaire <span class="gold">Effective Projected Area</span> Comparison</h2>
             <p>The EPA of the luminaire array dominates the overturning moment because it acts at the maximum lever arm. Switching from HID to LED can reduce total base moment by 15-25%.</p>
         </div>
@@ -514,7 +515,7 @@
 <!-- Section: Pole Height Comparison Cards -->
 <section class="content-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Pole Height Classes: <span class="accent">Engineering Parameters</span></h2>
             <p>Sports field poles range from 60 ft for recreational fields to 100 ft for professional stadiums. Each height class presents fundamentally different wind engineering challenges in the HVHZ.</p>
         </div>
@@ -547,7 +548,7 @@
 <!-- Section: Vortex Shedding & Fatigue -->
 <section class="content-section epa-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Vortex Shedding & <span class="accent">Fatigue: The Silent Killers</span></h2>
             <p>More sports field light poles fail from fatigue cracking induced by vortex shedding at moderate wind speeds than from direct hurricane force. AASHTO LTS-6 mandates fatigue design for all poles over 49 ft.</p>
         </div>
@@ -619,7 +620,7 @@
 <!-- Section: Anchor Bolt Patterns -->
 <section class="content-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Anchor Bolt Design: <span class="accent">4-Bolt vs 8-Bolt</span> Patterns</h2>
             <p>The transition from 4-bolt to 8-bolt anchor patterns marks the engineering threshold where moderate-height poles give way to tall structures requiring extreme moment resistance in the HVHZ.</p>
         </div>
@@ -644,7 +645,7 @@
 <!-- Section: Drilled Shaft Foundation -->
 <section class="content-section epa-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Drilled Shaft <span class="gold">Foundation Design</span></h2>
             <p>Miami-Dade's oolitic limestone formation provides excellent lateral resistance for drilled shaft foundations, but variable rock depth from 3 to 15 ft below grade requires site-specific geotechnical investigation for every pole location.</p>
         </div>
@@ -730,7 +731,7 @@
 <!-- Section: Hurricane Preparation Process -->
 <section class="content-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Hurricane Preparation <span class="accent">Protocol for Field Lighting</span></h2>
             <p>Miami-Dade Parks and Recreation requires documented hurricane preparation procedures for all sports field lighting systems. Poles with lowering systems must be secured before tropical storm force winds arrive.</p>
         </div>
@@ -771,7 +772,7 @@
 <!-- Section: Additional Engineering Considerations -->
 <section class="content-section epa-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Additional <span class="accent">Engineering Considerations</span></h2>
             <p>Beyond the primary wind load analysis, sports field lighting in Miami-Dade HVHZ demands attention to vibration damping, lightning protection, spectator proximity, and Miami-Dade Parks and Recreation standards.</p>
         </div>
@@ -804,7 +805,7 @@
 <!-- Section: LED vs HID Wind Engineering Impact -->
 <section class="content-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>LED vs HID: <span class="gold">Wind Engineering Impact</span></h2>
             <p>The transition from high-intensity discharge (HID) to LED sports luminaires is not just an energy efficiency upgrade. It fundamentally changes the wind engineering of the entire pole structure.</p>
         </div>
@@ -825,66 +826,66 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="content-section faq-section">
+<section class="content-section support-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="segment-header reveal">
             <h2>Frequently Asked <span class="accent">Questions</span></h2>
             <p>Detailed answers to critical questions about sports field light pole wind load design in Miami-Dade's High Velocity Hurricane Zone.</p>
         </div>
 
         <div class="faq-list">
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="help-item reveal">
+                <div class="expand-trigger">
                     What ASCE 7-22 provisions govern sports field light pole wind loads in Miami-Dade?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Sports field light poles in Miami-Dade are designed under ASCE 7-22 Chapter 29 (Other Structures and Building Appurtenances), specifically Section 29.4 for round chimneys, tanks, and similar structures which covers tapered poles. The velocity pressure qz is calculated at each height segment using the 180 MPH ultimate wind speed for Risk Category III (public assembly), Exposure C, with Kz values ranging from 0.85 at ground level to 1.43 at 100 ft. The drag coefficient Cf for a round tapered pole ranges from 0.7 for smooth surfaces with Reynolds number above 5x10^5 to 1.2 for rough or segmented poles. A typical 90 ft pole with a 6-luminaire array in the HVHZ experiences total horizontal shear forces between 8,000 and 14,000 lbs and base overturning moments of 450,000 to 750,000 ft-lbs.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Sports field light poles in Miami-Dade are designed under ASCE 7-22 Chapter 29 (Other Structures and Building Appurtenances), specifically Section 29.4 for round chimneys, tanks, and similar structures which covers tapered poles. The velocity pressure qz is calculated at each height segment using the 180 MPH ultimate wind speed for Risk Category III (public assembly), Exposure C, with Kz values ranging from 0.85 at ground level to 1.43 at 100 ft. The drag coefficient Cf for a round tapered pole ranges from 0.7 for smooth surfaces with Reynolds number above 5x10^5 to 1.2 for rough or segmented poles. A typical 90 ft pole with a 6-luminaire array in the HVHZ experiences total horizontal shear forces between 8,000 and 14,000 lbs and base overturning moments of 450,000 to 750,000 ft-lbs.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="help-item reveal">
+                <div class="expand-trigger">
                     How does luminaire effective projected area (EPA) affect pole wind loading?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Luminaire EPA is the product of the fixture's frontal area and its drag coefficient, and it dominates the overturning moment because fixtures mount at the pole top. A single LED sports luminaire has an EPA of 1.1 to 2.8 sq ft depending on fixture size and housing shape, compared to 3.5 to 6.0 sq ft for equivalent HID fixtures. A 6-fixture cross-arm assembly at 90 ft with combined EPA of 12 sq ft at 180 MPH produces approximately 5,400 lbs of horizontal force just from the luminaires, generating 486,000 ft-lbs of overturning moment. The cross-arm itself adds another 2 to 4 sq ft of EPA depending on length. Reducing luminaire EPA by switching from HID to LED can decrease total pole base moment by 15 to 25%, potentially allowing a lighter pole section.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Luminaire EPA is the product of the fixture's frontal area and its drag coefficient, and it dominates the overturning moment because fixtures mount at the pole top. A single LED sports luminaire has an EPA of 1.1 to 2.8 sq ft depending on fixture size and housing shape, compared to 3.5 to 6.0 sq ft for equivalent HID fixtures. A 6-fixture cross-arm assembly at 90 ft with combined EPA of 12 sq ft at 180 MPH produces approximately 5,400 lbs of horizontal force just from the luminaires, generating 486,000 ft-lbs of overturning moment. The cross-arm itself adds another 2 to 4 sq ft of EPA depending on length. Reducing luminaire EPA by switching from HID to LED can decrease total pole base moment by 15 to 25%, potentially allowing a lighter pole section.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="help-item reveal">
+                <div class="expand-trigger">
                     What anchor bolt pattern is required for a 90 ft sports field light pole in Miami-Dade?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">A 90 ft sports field light pole in Miami-Dade HVHZ at 180 MPH typically requires an 8-bolt circular pattern with 1.75 to 2-inch diameter ASTM F1554 Grade 105 anchor bolts on a 28 to 36-inch bolt circle. The 8-bolt pattern distributes the extreme overturning moment (600,000+ ft-lbs) more uniformly than a 4-bolt pattern, which would require impractically large bolt diameters. Each bolt must resist combined tension of 40,000 to 65,000 lbs and shear of 8,000 to 12,000 lbs. Bolt embedment into the drilled shaft typically requires 30 to 40 bolt diameters (52 to 80 inches for 2-inch bolts) with a hooked or headed termination. The base plate thickness ranges from 2 to 3 inches of ASTM A572 Grade 50 steel to prevent prying action.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">A 90 ft sports field light pole in Miami-Dade HVHZ at 180 MPH typically requires an 8-bolt circular pattern with 1.75 to 2-inch diameter ASTM F1554 Grade 105 anchor bolts on a 28 to 36-inch bolt circle. The 8-bolt pattern distributes the extreme overturning moment (600,000+ ft-lbs) more uniformly than a 4-bolt pattern, which would require impractically large bolt diameters. Each bolt must resist combined tension of 40,000 to 65,000 lbs and shear of 8,000 to 12,000 lbs. Bolt embedment into the drilled shaft typically requires 30 to 40 bolt diameters (52 to 80 inches for 2-inch bolts) with a hooked or headed termination. The base plate thickness ranges from 2 to 3 inches of ASTM A572 Grade 50 steel to prevent prying action.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="help-item reveal">
+                <div class="expand-trigger">
                     How is vortex shedding addressed for slender sports field light poles?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Vortex shedding occurs when wind flows past a cylindrical pole and creates alternating low-pressure vortices that induce cross-wind oscillation. The critical parameter is the Strouhal number (St approximately 0.18 for circular sections), which determines the vortex shedding frequency: f = St x V / D, where V is wind speed and D is pole diameter. For a 90 ft pole with 12-inch tip diameter, lock-in occurs when wind speed produces a shedding frequency matching the pole's natural frequency (typically 0.4 to 0.8 Hz). This corresponds to wind speeds of 15 to 35 MPH, which are common sustained speeds in Miami-Dade. Countermeasures include Stockbridge-type vibration dampers clamped near the pole top, helical strakes welded to the upper third of the pole, or increasing the pole's structural damping ratio above 1% of critical. AASHTO LTS-6 requires fatigue design for all poles over 49 ft.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Vortex shedding occurs when wind flows past a cylindrical pole and creates alternating low-pressure vortices that induce cross-wind oscillation. The critical parameter is the Strouhal number (St approximately 0.18 for circular sections), which determines the vortex shedding frequency: f = St x V / D, where V is wind speed and D is pole diameter. For a 90 ft pole with 12-inch tip diameter, lock-in occurs when wind speed produces a shedding frequency matching the pole's natural frequency (typically 0.4 to 0.8 Hz). This corresponds to wind speeds of 15 to 35 MPH, which are common sustained speeds in Miami-Dade. Countermeasures include Stockbridge-type vibration dampers clamped near the pole top, helical strakes welded to the upper third of the pole, or increasing the pole's structural damping ratio above 1% of critical. AASHTO LTS-6 requires fatigue design for all poles over 49 ft.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="help-item reveal">
+                <div class="expand-trigger">
                     What drilled shaft foundation is needed for sports field light poles in Miami-Dade?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Drilled shaft (caisson) foundations for sports field light poles in Miami-Dade must resist overturning moments of 500,000 to 800,000 ft-lbs depending on pole height and luminaire count. A typical design requires a 36 to 48-inch diameter shaft extending 20 to 30 ft into the Miami oolitic limestone formation. Reinforcement includes 8 to 12 vertical #9 or #11 bars with #4 spiral ties at 6-inch pitch in the upper zone and 12-inch pitch below. The shaft must also resist lateral loads of 8,000 to 14,000 lbs at the ground line. Miami-Dade's variable limestone depth (3 to 15 ft below grade depending on location) requires site-specific geotechnical investigation. In areas with shallow rock, socket length into competent limestone of at least 1.5 shaft diameters is needed for adequate lateral resistance.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Drilled shaft (caisson) foundations for sports field light poles in Miami-Dade must resist overturning moments of 500,000 to 800,000 ft-lbs depending on pole height and luminaire count. A typical design requires a 36 to 48-inch diameter shaft extending 20 to 30 ft into the Miami oolitic limestone formation. Reinforcement includes 8 to 12 vertical #9 or #11 bars with #4 spiral ties at 6-inch pitch in the upper zone and 12-inch pitch below. The shaft must also resist lateral loads of 8,000 to 14,000 lbs at the ground line. Miami-Dade's variable limestone depth (3 to 15 ft below grade depending on location) requires site-specific geotechnical investigation. In areas with shallow rock, socket length into competent limestone of at least 1.5 shaft diameters is needed for adequate lateral resistance.</div>
                 </div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="help-item reveal">
+                <div class="expand-trigger">
                     What are the fatigue design requirements for sports field light poles per AASHTO LTS-6?
                     <span class="faq-toggle">+</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">AASHTO LTS-6 (Standard Specifications for Structural Supports for Highway Signs, Luminaires, and Traffic Signals) governs fatigue design for sports field light poles through Section 11 (Fatigue Design). Poles over 49 ft tall fall into Fatigue Category I, requiring design for natural wind gust, vortex shedding, and galloping load cases. The critical fatigue detail is the base plate-to-pole weld, typically classified as Stress Category E' (constant amplitude fatigue threshold of 2.6 ksi). For a 90 ft pole in Miami-Dade's sustained wind environment, the design must consider an infinite-life approach because the pole accumulates millions of stress cycles over its 50-year service life. Full-penetration groove welds at the base plate improve fatigue resistance by two categories compared to fillet welds, and external stiffeners can further reduce stress concentration factors at the base connection.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">AASHTO LTS-6 (Standard Specifications for Structural Supports for Highway Signs, Luminaires, and Traffic Signals) governs fatigue design for sports field light poles through Section 11 (Fatigue Design). Poles over 49 ft tall fall into Fatigue Category I, requiring design for natural wind gust, vortex shedding, and galloping load cases. The critical fatigue detail is the base plate-to-pole weld, typically classified as Stress Category E' (constant amplitude fatigue threshold of 2.6 ksi). For a 90 ft pole in Miami-Dade's sustained wind environment, the design must consider an infinite-life approach because the pole accumulates millions of stress cycles over its 50-year service life. Full-penetration groove welds at the base plate improve fatigue resistance by two categories compared to fillet welds, and external stiffeners can further reduce stress concentration factors at the base connection.</div>
                 </div>
             </div>
         </div>
@@ -897,8 +898,8 @@
         <h2>Engineer Your Sports Field <span class="accent">Light Poles</span> for 180 MPH</h2>
         <p>Get precise wind load calculations for tapered light pole structures in Miami-Dade's High Velocity Hurricane Zone. ASCE 7-22 compliant analysis with velocity pressure profiles, drag coefficients, and overturning moment calculations.</p>
         <div class="final-cta-buttons">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Pole Wind Loads</a>
-            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage">Calculate Pole Wind Loads</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-detail">Browse All Calculators</a>
         </div>
     </div>
 </section>
@@ -930,11 +931,11 @@
         reset() {
             this.x = Math.random() * w;
             this.y = Math.random() * h;
-            this.size = Math.random() * 2.5 + 0.5;
-            this.speedX = Math.random() * 2.5 + 1.5;
+            this.size = Math.random() * 3.0 + 0.4;
+            this.speedX = Math.random() * 2.2 + 1.5;
             this.speedY = (Math.random() - 0.5) * 0.8;
             this.color = Math.random() > 0.6 ? '#22c55e' : (Math.random() > 0.5 ? '#fbbf24' : '#86efac');
-            this.opacity = Math.random() * 0.5 + 0.3;
+            this.opacity = Math.random() * 0.44 + 0.30;
         }
         update() {
             this.x += this.speedX;
@@ -1425,7 +1426,7 @@
                 }, 25);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.15 });
 
     document.querySelectorAll('.counter').forEach(el => counterObserver.observe(el));
 })();
@@ -1448,16 +1449,16 @@
 // FAQ Accordion
 // ============================================
 (function() {
-    document.querySelectorAll('.faq-question').forEach(q => {
+    document.querySelectorAll('.expand-trigger').forEach(q => {
         q.addEventListener('click', () => {
             let item = q.parentElement;
-            let answer = item.querySelector('.faq-answer');
+            let answer = item.querySelector('.question-content');
             let isOpen = item.classList.contains('open');
 
             // Close all
-            document.querySelectorAll('.faq-item').forEach(fi => {
+            document.querySelectorAll('.help-item').forEach(fi => {
                 fi.classList.remove('open');
-                fi.querySelector('.faq-answer').style.maxHeight = '0';
+                fi.querySelector('.question-content').style.maxHeight = '0';
             });
 
             if (!isOpen) {
@@ -1497,7 +1498,7 @@
 // Button Ripple Effect
 // ============================================
 (function() {
-    document.querySelectorAll('.btn-primary, .btn-secondary').forEach(btn => {
+    document.querySelectorAll('.btn-engage, .btn-secondary').forEach(btn => {
         btn.addEventListener('click', function(e) {
             let rect = this.getBoundingClientRect();
             let ripple = document.createElement('span');

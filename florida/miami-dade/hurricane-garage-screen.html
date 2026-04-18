@@ -93,6 +93,7 @@
     }
     </script>
     <style>
+/* uid:98c5481f */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -107,15 +108,15 @@
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 25% 30%, rgba(79, 70, 229, 0.06) 0%, transparent 50%), radial-gradient(circle at 75% 70%, rgba(30, 58, 95, 0.05) 0%, transparent 50%); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.55s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.7s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.75s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -131,34 +132,34 @@
         @keyframes fabric-ripple { 0%, 100% { transform: translateX(0) scaleY(1); } 25% { transform: translateX(2px) scaleY(1.02); } 50% { transform: translateX(-1px) scaleY(0.98); } 75% { transform: translateX(1px) scaleY(1.01); } }
         @keyframes arrow-flow { 0% { transform: translateX(-30px); opacity: 0; } 20% { opacity: 1; } 80% { opacity: 1; } 100% { transform: translateX(30px); opacity: 0; } }
         @keyframes cable-vibrate { 0%, 100% { transform: translateX(0); } 25% { transform: translateX(1px); } 75% { transform: translateX(-1px); } }
-        @keyframes pressure-expand { 0% { transform: scale(0.95); opacity: 0.6; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.6; } }
+        @keyframes pressure-expand { 0% { transform: scale(0.93); opacity: 0.6; } 50% { transform: scale(1.05); opacity: 1; } 100% { transform: scale(0.95); opacity: 0.6; } }
 
         .hero-shimmer { background: linear-gradient(120deg, #4f46e5 0%, #6366f1 20%, #00e5ff 40%, #4f46e5 60%, #818cf8 80%, #00e5ff 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Tension Widget (Fixed) */
-        .tension-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(79, 70, 229, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 200px; }
+        .tension-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(79, 70, 229, 0.3); border-radius: 14px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(12px); opacity: 0; transform: translateX(120px); transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); min-width: 200px; }
         .tension-widget.visible { opacity: 1; transform: translateX(0); }
-        .tension-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .tension-widget-value { font-size: 1.5rem; font-weight: 800; color: #818cf8; margin-bottom: 4px; }
+        .tension-meter-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .tension-bubble-stat { font-size: 1.5rem; font-weight: 800; color: #818cf8; margin-bottom: 4px; }
         .tension-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .tension-widget-fill { height: 100%; background: linear-gradient(90deg, #1e3a5f, #4f46e5, #00e5ff); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .tension-widget-status { font-size: 0.8rem; font-weight: 600; color: #a5b4fc; }
 
         /* Nav */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(79, 70, 229, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(79, 70, 229, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.73rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #818cf8; }
-        .nav-cta { background: linear-gradient(135deg, #4f46e5 0%, #00b4d8 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #4f46e5 0%, #00b4d8 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .nav-cta:hover { transform: translateY(-8px); box-shadow: 0 4px 20px rgba(79, 70, 229, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1150px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #818cf8; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -171,41 +172,41 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.2rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #a5b4fc; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: #ffffff; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4); }
-        .btn-secondary { background: rgba(79, 70, 229, 0.1); border: 1px solid rgba(79, 70, 229, 0.3); color: #a5b4fc; }
-        .btn-secondary:hover { background: rgba(79, 70, 229, 0.2); transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 0.89rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 3rem 2rem; border-radius: 11px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.65s cubic-bezier(0.33, 1, 0.68, 1); cursor: pointer; border: none; position: relative; overflow: hidden; }
+        .btn-action { background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%); color: #ffffff; }
+        .btn-action:hover { transform: translateY(-4px); box-shadow: 0 8px 30px rgba(79, 70, 229, 0.4); }
+        .btn-view { background: rgba(79, 70, 229, 0.1); border: 1px solid rgba(79, 70, 229, 0.3); color: #a5b4fc; }
+        .btn-view:hover { background: rgba(79, 70, 229, 0.2); transform: scale(1.03); }
         .warning-banner { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-left: 4px solid #f59e0b; padding: 1rem 1.5rem; border-radius: 0 12px 12px 0; margin-top: 1rem; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto; animation: warning-flash 3s ease-in-out infinite; }
         .warning-banner strong { color: #f59e0b; }
         .warning-banner p { font-size: 0.95rem; color: #e2e8f0; }
 
         /* Trust Bar */
-        .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(79, 70, 229, 0.1); }
-        .trust-bar-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        .trust-bar { padding: 4rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(79, 70, 229, 0.1); }
+        .trust-bar-container { max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.85rem; text-align: center; }
         .trust-item .counter { font-size: 2.5rem; font-weight: 800; color: #818cf8; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #64748b; }
 
         /* Sections */
         section { position: relative; z-index: 2; }
         .section-dark { padding: 5rem 2rem; }
-        .section-alt { padding: 5rem 2rem; background: rgba(79, 70, 229, 0.02); }
-        .section-indigo { padding: 5rem 2rem; background: linear-gradient(180deg, rgba(15, 26, 48, 0.5) 0%, rgba(12, 18, 32, 1) 100%); }
-        .section-container { max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
-        .section-header h2 .accent { color: #818cf8; }
-        .section-header h2 .accent-cyan { color: #00e5ff; }
-        .section-header p { font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 0 auto; }
+        .section-alt { padding: 6rem 2rem; background: rgba(79, 70, 229, 0.02); }
+        .section-indigo { padding: 4rem 2rem; background: linear-gradient(180deg, rgba(15, 26, 48, 0.5) 0%, rgba(12, 18, 32, 1) 100%); }
+        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-top { text-align: center; margin-bottom: 3rem; }
+        .section-top h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
+        .section-top h2 .accent { color: #818cf8; }
+        .section-top h2 .accent-cyan { color: #00e5ff; }
+        .section-top p { font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 0 auto; }
 
         /* Fabric Tension Diagram */
-        .tension-diagram { background: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.2); border-radius: 20px; padding: 2.5rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
+        .tension-diagram { background: rgba(79, 70, 229, 0.05); border: 1px solid rgba(79, 70, 229, 0.2); border-radius: 22px; padding: 2.5rem; margin-bottom: 3rem; position: relative; overflow: hidden; }
         .tension-diagram-title { font-size: 1rem; font-weight: 700; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 1.5rem; text-align: center; }
-        .tension-canvas { width: 100%; height: 300px; border-radius: 12px; background: rgba(12, 18, 32, 0.8); border: 1px solid rgba(79, 70, 229, 0.15); }
+        .tension-canvas { width: 100%; height: 300px; border-radius: 14px; background: rgba(12, 18, 32, 0.8); border: 1px solid rgba(79, 70, 229, 0.15); }
 
         /* Comparison Matrix */
-        .comparison-matrix { display: grid; grid-template-columns: 1fr; gap: 0; border-radius: 16px; overflow: hidden; border: 1px solid rgba(79, 70, 229, 0.2); }
+        .comparison-matrix { display: grid; grid-template-columns: 1fr; gap: 0; border-radius: 14px; overflow: hidden; border: 1px solid rgba(79, 70, 229, 0.2); }
         .matrix-header { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; background: rgba(79, 70, 229, 0.15); padding: 1rem 1.5rem; font-weight: 700; font-size: 0.85rem; color: #a5b4fc; text-transform: uppercase; letter-spacing: 0.05em; }
         .matrix-row { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; padding: 1rem 1.5rem; border-top: 1px solid rgba(79, 70, 229, 0.08); transition: background 0.3s ease; }
         .matrix-row:hover { background: rgba(79, 70, 229, 0.06); }
@@ -216,10 +217,10 @@
         .matrix-row .metric-val.low { color: #f87171; }
 
         /* Cards */
-        .card-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; }
-        .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(79, 70, 229, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .card:hover { border-color: rgba(79, 70, 229, 0.4); background: rgba(79, 70, 229, 0.06); transform: translateY(-4px); }
+        .card-grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.45rem; }
+        .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.39rem; }
+        .card { background: rgba(255,255,255,0.03); border: 1px solid rgba(79, 70, 229, 0.15); border-radius: 19px; padding: 2rem; transition: all 0.6s ease-out; }
+        .card:hover { border-color: rgba(79, 70, 229, 0.4); background: rgba(79, 70, 229, 0.06); transform: translateY(-8px); }
         .card-icon { font-size: 2rem; margin-bottom: 1rem; display: block; }
         .card h3 { font-size: 1.15rem; font-weight: 700; color: #ffffff; margin-bottom: 0.75rem; }
         .card p { font-size: 0.95rem; color: #94a3b8; line-height: 1.7; }
@@ -232,14 +233,14 @@
         /* Process Steps */
         .process-steps { display: flex; flex-direction: column; gap: 0; position: relative; }
         .process-steps::before { content: ''; position: absolute; left: 30px; top: 30px; bottom: 30px; width: 2px; background: linear-gradient(180deg, #4f46e5, #00e5ff, #00ff88); }
-        .process-step { display: flex; gap: 2rem; align-items: flex-start; padding: 1.5rem 0; }
+        .process-step { display: flex; gap: 1.97rem; align-items: flex-start; padding: 1.5rem 0; }
         .step-number { width: 60px; height: 60px; min-width: 60px; border-radius: 50%; background: rgba(79, 70, 229, 0.15); border: 2px solid rgba(79, 70, 229, 0.4); display: flex; align-items: center; justify-content: center; font-size: 1.25rem; font-weight: 800; color: #818cf8; position: relative; z-index: 2; }
         .step-content h3 { font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; }
         .step-content p { font-size: 0.95rem; color: #94a3b8; line-height: 1.7; }
         .step-content .step-detail { font-size: 0.85rem; color: #64748b; margin-top: 0.5rem; font-style: italic; }
 
         /* DP Rating Bars */
-        .dp-bars { display: flex; flex-direction: column; gap: 1.5rem; }
+        .dp-bars { display: flex; flex-direction: column; gap: 1.54rem; }
         .dp-bar-item { position: relative; }
         .dp-bar-label { display: flex; justify-content: space-between; margin-bottom: 0.5rem; }
         .dp-bar-label .label-text { font-weight: 600; color: #e2e8f0; font-size: 0.95rem; }
@@ -252,44 +253,44 @@
         .dp-bar-size { font-size: 0.75rem; font-weight: 700; color: rgba(255,255,255,0.9); white-space: nowrap; }
 
         /* Testing Badges */
-        .test-badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .test-badge { text-align: center; padding: 2rem 1.5rem; background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.15); border-radius: 16px; transition: all 0.3s ease; }
-        .test-badge:hover { border-color: rgba(79, 70, 229, 0.4); transform: translateY(-4px); }
+        .test-badges { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.29rem; }
+        .test-badge { text-align: center; padding: 2rem 1.5rem; background: rgba(79, 70, 229, 0.06); border: 1px solid rgba(79, 70, 229, 0.15); border-radius: 19px; transition: all 0.65s ease-in-out; }
+        .test-badge:hover { border-color: rgba(79, 70, 229, 0.4); transform: translateY(-3px) scale(1.01); }
         .test-badge .badge-code { font-size: 1.5rem; font-weight: 800; color: #818cf8; margin-bottom: 0.5rem; }
         .test-badge .badge-name { font-size: 1rem; font-weight: 700; color: #e2e8f0; margin-bottom: 0.5rem; }
         .test-badge .badge-desc { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
 
         /* FAQ */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; }
+        .info-section { padding: 6rem 2rem; position: relative; z-index: 2; }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(79, 70, 229, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(79, 70, 229, 0.3); }
-        .faq-item.active { border-color: rgba(79, 70, 229, 0.5); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; }
+        .support-item { border: 1px solid rgba(79, 70, 229, 0.15); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; transition: all 0.5s ease-in-out; }
+        .support-item:hover { border-color: rgba(79, 70, 229, 0.3); }
+        .support-item.active { border-color: rgba(79, 70, 229, 0.5); }
+        .guide-toggle { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.77rem; }
+        .guide-toggle h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; }
         .faq-toggle { font-size: 1.5rem; color: #818cf8; transition: transform 0.3s ease; flex-shrink: 0; }
-        .faq-item.active .faq-toggle { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; }
-        .faq-answer-inner p { color: #94a3b8; font-size: 0.95rem; line-height: 1.8; }
+        .support-item.active .faq-toggle { transform: rotate(45deg); }
+        .qa-body { max-height: 0; overflow: hidden; transition: max-height 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .qa-body-inner { padding: 0 1.5rem 1.25rem; }
+        .qa-body-inner p { color: #94a3b8; font-size: 0.95rem; line-height: 1.8; }
 
         /* CTA */
-        .final-cta { padding: 5rem 2rem; text-align: center; background: linear-gradient(180deg, rgba(79, 70, 229, 0.06) 0%, rgba(12, 18, 32, 1) 100%); position: relative; z-index: 2; }
+        .final-cta { padding: 6rem 2rem; text-align: center; background: linear-gradient(180deg, rgba(79, 70, 229, 0.06) 0%, rgba(12, 18, 32, 1) 100%); position: relative; z-index: 2; }
         .cta-container { max-width: 700px; margin: 0 auto; }
         .cta-container h2 { font-size: clamp(1.75rem, 4vw, 2.5rem); font-weight: 800; margin-bottom: 1.5rem; }
         .cta-container p { font-size: 1.15rem; color: #94a3b8; margin-bottom: 2rem; line-height: 1.7; }
 
         /* Footer */
         footer { padding: 3rem 2rem; border-top: 1px solid rgba(79, 70, 229, 0.1); position: relative; z-index: 2; }
-        .footer-container { max-width: 1200px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem; }
+        .footer-container { max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.12rem; }
         .footer-left { color: #64748b; font-size: 0.85rem; }
         .footer-left a { color: #818cf8; text-decoration: none; }
-        .footer-right { display: flex; gap: 1.5rem; }
+        .footer-right { display: flex; gap: 1.72rem; }
         .footer-right a { color: #64748b; text-decoration: none; font-size: 0.85rem; }
         .footer-right a:hover { color: #818cf8; }
 
         /* Cost Stack Visualization */
-        .cost-stack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; }
+        .cost-stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 2.03rem; }
         .cost-column { text-align: center; position: relative; }
         .cost-tower { display: flex; flex-direction: column-reverse; align-items: center; height: 240px; justify-content: flex-start; margin-bottom: 1rem; position: relative; }
         .cost-bar { width: 80px; border-radius: 8px 8px 0 0; transition: height 1.5s cubic-bezier(0.16, 1, 0.3, 1); height: 0; position: relative; }
@@ -307,7 +308,7 @@
         .hl-amber { color: #fbbf24; font-weight: 600; }
 
         /* Split layout */
-        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; }
+        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3.17rem; align-items: center; }
         .split-text h3 { font-size: 1.35rem; font-weight: 700; color: #fff; margin-bottom: 1rem; }
         .split-text p { font-size: 1rem; color: #94a3b8; line-height: 1.8; margin-bottom: 1rem; }
         .split-text ul { list-style: none; padding: 0; }
@@ -318,7 +319,7 @@
         @media (max-width: 768px) {
             .nav { padding: 0.75rem 1rem; }
             .nav-links { display: none; }
-            .trust-bar-container { grid-template-columns: repeat(2, 1fr); }
+            .trust-bar-container { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
             .card-grid-2, .card-grid-3 { grid-template-columns: 1fr; }
             .split-section { grid-template-columns: 1fr; }
             .matrix-header, .matrix-row { grid-template-columns: 1.5fr 1fr 1fr 1fr; font-size: 0.75rem; padding: 0.75rem 1rem; }
@@ -339,8 +340,8 @@
 
 <!-- Tension Widget -->
 <div class="tension-widget" id="tensionWidget">
-    <div class="tension-widget-label">Fabric Tension Force</div>
-    <div class="tension-widget-value" id="tensionValue">0 lbs/ft</div>
+    <div class="tension-meter-label">Fabric Tension Force</div>
+    <div class="tension-bubble-stat" id="tensionValue">0 lbs/ft</div>
     <div class="tension-widget-bar">
         <div class="tension-widget-fill" id="tensionFill"></div>
     </div>
@@ -383,8 +384,8 @@
         <h1>Hurricane Garage Screen Systems in <span class="hero-shimmer">Miami-Dade HVHZ</span></h1>
         <p class="hero-intro">Hurricane garage screens are engineered fabric barriers that protect garage openings using <strong>tension-based membrane physics</strong> instead of rigid metal panels. These systems absorb wind energy across a woven surface, passing TAS 201/202/203 impact testing while weighing <strong>85% less than aluminum shutters</strong> and requiring a fraction of the storage space.</p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-primary">Calculate Screen DP Ratings</a>
-            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-secondary">Compare Protection Methods</a>
+            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-action">Calculate Screen DP Ratings</a>
+            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-view">Compare Protection Methods</a>
         </div>
         <div class="warning-banner">
             <p><strong>NOA Required:</strong> Every hurricane screen installed in the Miami-Dade High Velocity Hurricane Zone must carry an active Notice of Acceptance. Screens without valid NOA documentation cannot be permitted, inspected, or legally used as hurricane protection regardless of manufacturer claims.</p>
@@ -417,7 +418,7 @@
 <!-- Animated Tension Diagram -->
 <section class="section-dark">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>How Fabric <span class="accent">Tension Screens</span> Resist Hurricane Winds</h2>
             <p>Unlike rigid shutters that resist wind through structural stiffness, fabric hurricane screens work by distributing wind forces as tension across the membrane surface. This animated diagram shows the force mechanics in real time.</p>
         </div>
@@ -443,7 +444,7 @@
 <!-- DP Rating Comparison by Opening Size -->
 <section class="section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Design Pressure Ratings by <span class="accent-cyan">Garage Opening Width</span></h2>
             <p>Design pressure ratings decrease as opening width increases because the unsupported fabric span grows. These ratings represent typical NOA-approved screen products compared against traditional shutter alternatives for the same opening dimensions.</p>
         </div>
@@ -507,7 +508,7 @@
 <!-- TAS Testing Requirements -->
 <section class="section-indigo">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Impact Testing: <span class="accent">TAS 201, 202, 203</span></h2>
             <p>Miami-Dade HVHZ requires every hurricane protection product to pass all three Testing Application Standards. Fabric screens face unique challenges in each test phase that rigid aluminum shutters do not encounter.</p>
         </div>
@@ -535,7 +536,7 @@
 <!-- Track-Guided vs Cable-Guided Deep Dive -->
 <section class="section-dark">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Deployment Systems: <span class="accent-cyan">Track vs Cable</span></h2>
             <p>The guide system anchors the screen edges to the building structure and determines both maximum design pressure and deployment complexity. Each approach involves engineering tradeoffs that impact cost, performance, and installation requirements.</p>
         </div>
@@ -602,7 +603,7 @@
 <!-- Motorized vs Manual Deployment -->
 <section class="section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Motorized vs Manual <span class="accent">Deployment Mechanisms</span></h2>
             <p>Deployment speed matters when hurricane warnings compress preparation timelines. Understanding the engineering behind each mechanism helps homeowners choose the right balance of convenience, reliability, and cost.</p>
         </div>
@@ -627,7 +628,7 @@
 <!-- Cost Comparison Visual -->
 <section class="section-indigo">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Installed Cost: <span class="accent">16 ft Double Garage</span></h2>
             <p>Total installed cost for a standard 16 x 7 ft double-car garage opening in Miami-Dade HVHZ, including materials, labor, permit fees, and required NOA documentation.</p>
         </div>
@@ -680,7 +681,7 @@
 <!-- Installation Process -->
 <section class="section-dark">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Installation &amp; <span class="accent-cyan">Permit Process</span></h2>
             <p>Installing a hurricane garage screen in Miami-Dade HVHZ follows a specific sequence of engineering, permitting, and inspection steps that differ from traditional shutter installations.</p>
         </div>
@@ -733,7 +734,7 @@
 <!-- Storage & Deployment Readiness -->
 <section class="section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Storage &amp; <span class="accent">Deployment Readiness</span></h2>
             <p>One of the primary advantages of fabric hurricane screens over traditional shutters is minimal storage intrusion. Understanding the space requirements helps homeowners evaluate whether screens fit their garage configuration.</p>
         </div>
@@ -764,7 +765,7 @@
 <!-- Full Comparison Table -->
 <section class="section-indigo">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Complete Comparison: <span class="accent">Screens vs Shutters</span> for Garages</h2>
             <p>A comprehensive side-by-side evaluation across every metric that matters for garage opening protection in the Miami-Dade High Velocity Hurricane Zone.</p>
         </div>
@@ -827,86 +828,86 @@
         </div>
 
         <div style="text-align: center; margin-top: 2rem;" class="reveal">
-            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-primary">Calculate Your Garage DP Requirements</a>
+            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-action">Calculate Your Garage DP Requirements</a>
         </div>
     </div>
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
+<section class="info-section">
     <div class="faq-container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <h2>Frequently Asked <span class="accent">Questions</span></h2>
             <p>Detailed answers to the most common engineering and code compliance questions about hurricane garage screen systems in Miami-Dade County.</p>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question">
+        <div class="support-item reveal">
+            <div class="guide-toggle">
                 <h3>What is a hurricane garage screen and how does it differ from traditional shutters?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">
+            <div class="qa-body">
+                <div class="qa-body-inner">
                     <p>A hurricane garage screen is a high-strength woven fabric or engineered mesh panel that deploys across a garage opening to resist wind-borne debris and design wind pressures during hurricanes. Unlike rigid aluminum accordion or rollup shutters that deflect wind through structural stiffness, fabric screens absorb and redistribute wind energy through tension forces across the membrane surface. The screen mounts inside a track or cable guide system at the jambs and header, and when tensioned, creates a taut barrier that flexes under load without permanent deformation. For Miami-Dade HVHZ approval, these screens must pass TAS 201, 202, and 203 impact testing — the same large missile test (9 lb 2x4 at 50 fps) required of all hurricane protection products in the 180 MPH zone.</p>
                 </div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question">
+        <div class="support-item reveal">
+            <div class="guide-toggle">
                 <h3>What design pressure ratings do hurricane screens achieve for garage-sized openings?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">
+            <div class="qa-body">
+                <div class="qa-body-inner">
                     <p>Hurricane screen systems approved for Miami-Dade HVHZ achieve design pressure ratings that vary significantly with opening width. For a standard single-car garage opening (8-9 ft wide by 7 ft tall), fabric screens typically achieve DP ratings between +45/-55 psf. Double-car garage openings (16 ft wide) see reduced ratings of approximately +25/-35 psf due to the increased unsupported span. Triple-wide or commercial openings (18+ ft) require intermediate support posts or cable reinforcement to maintain adequate DP ratings. The critical factor is fabric pre-tension — screens must maintain minimum tension of 15-25 lbs per linear foot along the track to prevent flutter and achieve their rated design pressures under cyclic loading.</p>
                 </div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question">
+        <div class="support-item reveal">
+            <div class="guide-toggle">
                 <h3>What are the differences between track-guided and cable-guided hurricane screen systems?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">
+            <div class="qa-body">
+                <div class="qa-body-inner">
                     <p>Track-guided systems use extruded aluminum channels bolted to the garage jambs and header, with the screen fabric edges captured in a continuous slot or zipper mechanism. This provides rigid edge restraint and higher design pressures — typically 15-25% higher DP ratings than cable-guided alternatives for the same opening size. Cable-guided systems use stainless steel cables (typically 3/16 inch diameter) tensioned vertically at the jambs, with fabric grommets or sleeve pockets riding along the cables. Cable systems are lighter, less expensive, and faster to install, but the screen can deflect inward 6-12 inches at center span under peak wind loads. For Miami-Dade HVHZ garage openings exceeding 12 ft wide, track-guided systems are strongly recommended because the cable deflection at wider spans can allow debris penetration at the edges.</p>
                 </div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question">
+        <div class="support-item reveal">
+            <div class="guide-toggle">
                 <h3>How does TAS 201/202/203 impact testing work for hurricane screens?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">
+            <div class="qa-body">
+                <div class="qa-body-inner">
                     <p>TAS 201 (Impact Test) fires a 9 lb 2x4 lumber missile at the screen surface at 50 feet per second for large missile compliance. The screen must stop the projectile without creating any tear exceeding 1/16 inch diameter. Fabric screens absorb the projectile by stretching inward up to 8 inches at impact point. TAS 202 (Uniform Static Air Pressure Test) applies sustained positive and negative air pressure equal to the rated design pressure to verify structural integrity of the screen, tracks, fasteners, and anchoring. TAS 203 (Cyclic Wind Pressure Test) subjects the assembly to 9,000 pressure cycles alternating between positive and negative loads, simulating sustained hurricane buffeting. A screen that passes TAS 201 may still fail TAS 203 if the fabric weave loosens or fastener holes elongate under repeated loading.</p>
                 </div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question">
+        <div class="support-item reveal">
+            <div class="guide-toggle">
                 <h3>Can hurricane garage screens be motorized for automatic deployment?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">
+            <div class="qa-body">
+                <div class="qa-body-inner">
                     <p>Yes, several NOA-approved hurricane screen systems offer motorized deployment for garage openings. Motorized versions use tubular motors mounted in the header housing that roll or tension the screen fabric from a stored position. Deployment time ranges from 45-120 seconds for a standard 16 ft wide double garage opening. Key considerations for motorized systems in Miami-Dade: the motor and control electronics must be rated for the same design pressure as the screen, battery backup is required since power typically fails before or during hurricane landfall, and the motor's torque rating must provide sufficient fabric tension. Manual override capability is mandated by Florida Building Code in case of motor failure during a storm event.</p>
                 </div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question">
+        <div class="support-item reveal">
+            <div class="guide-toggle">
                 <h3>How do hurricane garage screens compare to rollup and accordion shutters on cost and performance?</h3>
                 <span class="faq-toggle">+</span>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">
+            <div class="qa-body">
+                <div class="qa-body-inner">
                     <p>For a standard 16x7 ft double-car garage opening in Miami-Dade HVHZ, installed costs and performance differ substantially. Hurricane fabric screens cost approximately $1,800-$3,200 installed with DP ratings of +25/-35 psf, weigh 15-30 lbs, and store in a compact header housing taking 4-8 inches of headroom. Accordion shutters for the same opening cost $2,800-$4,500 installed with DP ratings up to +65/-80 psf and require 12-18 inches of stacking space at each jamb. Rollup shutters cost $4,500-$7,500 installed with DP ratings up to +110/-140 psf and need a 10-14 inch deep header housing box. Screens win on weight, storage footprint, and cost but lose on raw design pressure capacity. For locations where calculated wind loads fall below +35 psf, screens deliver code-compliant protection at 40-60% lower cost.</p>
                 </div>
             </div>
@@ -920,8 +921,8 @@
         <h2>Know Your Garage Opening's <span class="hero-shimmer">Required Design Pressure</span></h2>
         <p>Whether you choose fabric screens, accordion shutters, or rollup systems, the first step is always the same: calculate the exact design pressure your garage opening must resist in the Miami-Dade High Velocity Hurricane Zone. Get your DP requirements in minutes.</p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-primary">Calculate Garage Wind Loads</a>
-            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn btn-secondary">View All Calculators</a>
+            <a href="https://windloadcalc.com/shop/windows-doors-shutters.html" class="btn btn-action">Calculate Garage Wind Loads</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn btn-view">View All Calculators</a>
         </div>
     </div>
 </section>
@@ -962,10 +963,10 @@
         reset() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.5 + 0.5;
-            this.speedX = Math.random() * 2.5 + 1.5;
+            this.size = Math.random() * 2.3 + 0.6;
+            this.speedX = Math.random() * 2.7 + 1.6;
             this.speedY = (Math.random() - 0.5) * 0.8;
-            this.opacity = Math.random() * 0.5 + 0.2;
+            this.opacity = Math.random() * 0.57 + 0.25;
             const r = Math.random();
             this.color = r > 0.7 ? '#00ff88' : r > 0.3 ? '#00e5ff' : '#818cf8';
         }
@@ -1214,7 +1215,7 @@
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+    }, { threshold: 0.2, rootMargin: '0px 0px -50px 0px' });
 
     document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach(el => {
         observer.observe(el);
@@ -1245,7 +1246,7 @@
                 requestAnimationFrame(update);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.2 });
 
     counters.forEach(c => observer.observe(c));
 })();
@@ -1261,7 +1262,7 @@
                 setTimeout(() => { entry.target.style.width = width + '%'; }, 200);
             }
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.1 });
     bars.forEach(b => observer.observe(b));
 })();
 
@@ -1279,7 +1280,7 @@
                 });
             }
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.25 });
     observer.observe(costStack);
 })();
 
@@ -1326,15 +1327,15 @@
 
 // FAQ Accordion
 (function() {
-    document.querySelectorAll('.faq-question').forEach(btn => {
+    document.querySelectorAll('.guide-toggle').forEach(btn => {
         btn.addEventListener('click', () => {
             const item = btn.parentElement;
-            const answer = item.querySelector('.faq-answer');
+            const answer = item.querySelector('.qa-body');
             const isActive = item.classList.contains('active');
 
-            document.querySelectorAll('.faq-item.active').forEach(openItem => {
+            document.querySelectorAll('.support-item.active').forEach(openItem => {
                 openItem.classList.remove('active');
-                openItem.querySelector('.faq-answer').style.maxHeight = '0';
+                openItem.querySelector('.qa-body').style.maxHeight = '0';
             });
 
             if (!isActive) {

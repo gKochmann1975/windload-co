@@ -97,21 +97,22 @@
     </script>
 
     <style>
+/* uid:91fa9647 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
         #boardwalk-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 15% 50%, rgba(14, 116, 144, 0.06) 0%, transparent 50%), radial-gradient(circle at 85% 30%, rgba(6, 182, 212, 0.04) 0%, transparent 50%), radial-gradient(circle at 50% 80%, rgba(212, 165, 116, 0.03) 0%, transparent 40%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.65s ease-in-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.6s ease-in-out; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.75s ease-in-out; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(35px); transition: all 0.4s ease-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -131,10 +132,10 @@
         .hero-shimmer { background: linear-gradient(120deg, #0e7490 0%, #06b6d4 25%, #67e8f9 50%, #d4a574 75%, #0e7490 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3.5s linear infinite; }
 
         /* Storm Surge Widget */
-        .surge-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(14, 116, 144, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 200px; }
+        .surge-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(14, 116, 144, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(20px); opacity: 0; transform: translateX(120px); transition: all 0.8s cubic-bezier(0.65, 0, 0.35, 1); min-width: 200px; }
         .surge-widget.visible { opacity: 1; transform: translateX(0); }
-        .surge-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
-        .surge-widget-value { font-size: 1.4rem; font-weight: 800; color: #06b6d4; margin-bottom: 4px; }
+        .surge-badge-desc { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+        .surge-bubble-stat { font-size: 1.4rem; font-weight: 800; color: #06b6d4; margin-bottom: 4px; }
         .surge-widget-gauge { width: 100%; height: 80px; position: relative; background: linear-gradient(0deg, rgba(14, 116, 144, 0.1) 0%, transparent 100%); border-radius: 8px; overflow: hidden; margin-bottom: 8px; border: 1px solid rgba(14, 116, 144, 0.15); }
         .surge-widget-water { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(0deg, rgba(6, 182, 212, 0.6) 0%, rgba(103, 232, 249, 0.3) 100%); border-radius: 0 0 7px 7px; animation: surge-rise 8s ease-in-out infinite; }
         .surge-widget-line { position: absolute; left: 0; right: 0; height: 1px; background: #ff4757; }
@@ -144,20 +145,20 @@
         .surge-widget-status { font-size: 0.8rem; font-weight: 600; color: #67e8f9; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(14, 116, 144, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(28px); border-bottom: 1px solid rgba(14, 116, 144, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.68rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #06b6d4; }
-        .nav-cta { background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .nav-cta:hover { transform: translateY(-8px); box-shadow: 0 4px 20px rgba(6, 182, 212, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1250px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #06b6d4; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -170,11 +171,11 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 740px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #06b6d4; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(14, 116, 144, 0.4); }
-        .btn-secondary { border: 2px solid rgba(14, 116, 144, 0.5); color: #06b6d4; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(14, 116, 144, 0.1); border-color: #06b6d4; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.21rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-action { background: linear-gradient(135deg, #0e7490 0%, #06b6d4 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.55s cubic-bezier(0.25, 0.8, 0.25, 1); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-action:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(14, 116, 144, 0.4); }
+        .btn-explore { border: 2px solid rgba(14, 116, 144, 0.5); color: #06b6d4; padding: 0.9rem 2rem; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1); background: transparent; }
+        .btn-explore:hover { background: rgba(14, 116, 144, 0.1); border-color: #06b6d4; transform: translateY(-4px); }
         .warning-banner { background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.3); border-left: 4px solid #ff4757; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 720px; margin: 0 auto; animation: warning-flash 3s ease-in-out infinite; }
         .warning-banner strong { color: #ff4757; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
@@ -185,13 +186,13 @@
         #boardwalkCanvas { width: 100%; height: 100%; }
 
         /* Trust Badges */
-        .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(14, 116, 144, 0.03); border-top: 1px solid rgba(14, 116, 144, 0.1); border-bottom: 1px solid rgba(14, 116, 144, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-bar { padding: 4rem 2rem; position: relative; z-index: 2; background: rgba(14, 116, 144, 0.03); border-top: 1px solid rgba(14, 116, 144, 0.1); border-bottom: 1px solid rgba(14, 116, 144, 0.1); }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.81rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #06b6d4; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
 
         /* Sections */
-        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
+        .section { padding: 6rem 2rem; position: relative; z-index: 2; }
         .section-alt { background: rgba(14, 116, 144, 0.02); }
         .section-container { max-width: 1100px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(14, 116, 144, 0.1); border: 1px solid rgba(14, 116, 144, 0.25); color: #06b6d4; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
@@ -201,15 +202,15 @@
         .section-subtitle { font-size: 1.05rem; color: #94a3b8; max-width: 700px; margin-bottom: 2.5rem; }
 
         /* Exposure Grid */
-        .exposure-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .exposure-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .exposure-card:hover { transform: translateY(-5px); border-color: rgba(14, 116, 144, 0.5); box-shadow: 0 8px 40px rgba(14, 116, 144, 0.15); }
+        .exposure-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.22rem; margin-top: 2rem; }
+        .exposure-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 14px; padding: 2rem; transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1); position: relative; overflow: hidden; }
+        .exposure-card:hover { transform: translateY(-5px) scale(1.01); border-color: rgba(14, 116, 144, 0.5); box-shadow: 0 8px 40px rgba(14, 116, 144, 0.15); }
         .exposure-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.3s ease; }
         .exposure-card:hover::before { opacity: 1; }
         .exposure-card.wind-card::before { background: linear-gradient(90deg, #0e7490, #06b6d4); }
         .exposure-card.wave-card::before { background: linear-gradient(90deg, #06b6d4, #67e8f9); }
         .exposure-card.surge-card::before { background: linear-gradient(90deg, #d4a574, #f59e0b); }
-        .exp-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
+        .exp-icon { width: 48px; height: 48px; border-radius: 13px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 1rem; }
         .wind-card .exp-icon { background: rgba(14, 116, 144, 0.15); color: #0e7490; }
         .wave-card .exp-icon { background: rgba(103, 232, 249, 0.15); color: #67e8f9; }
         .surge-card .exp-icon { background: rgba(212, 165, 116, 0.15); color: #d4a574; }
@@ -222,7 +223,7 @@
         .surge-card { border-color: rgba(212, 165, 116, 0.3); background: rgba(212, 165, 116, 0.04); }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.84rem; align-items: start; margin-top: 2rem; }
         .col-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .col-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
         .col-content ul { list-style: none; padding: 0; }
@@ -230,7 +231,7 @@
         .col-content ul li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: #06b6d4; }
 
         /* Spec Table */
-        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 12px; border: 1px solid rgba(14, 116, 144, 0.15); }
+        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 9px; border: 1px solid rgba(14, 116, 144, 0.15); }
         .spec-table { width: 100%; border-collapse: collapse; }
         .spec-table thead { background: rgba(14, 116, 144, 0.1); }
         .spec-table th { padding: 0.9rem 1.25rem; text-align: left; font-size: 0.85rem; font-weight: 700; color: #06b6d4; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(14, 116, 144, 0.2); }
@@ -241,18 +242,18 @@
         .spec-table .sand-hl { color: #d4a574; font-weight: 700; }
 
         /* Component Cards */
-        .component-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .component-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .component-card:hover { border-color: rgba(14, 116, 144, 0.4); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(14, 116, 144, 0.12); }
+        .component-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.77rem; margin-top: 2rem; }
+        .component-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 14px; padding: 2rem; transition: all 0.65s cubic-bezier(0.22, 1, 0.36, 1); }
+        .component-card:hover { border-color: rgba(14, 116, 144, 0.4); transform: translateY(-4px); box-shadow: 0 8px 30px rgba(14, 116, 144, 0.12); }
         .component-card .card-icon { font-size: 2rem; margin-bottom: 1rem; }
         .component-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
         .component-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
         .component-card .card-stat { font-size: 1.6rem; font-weight: 800; color: #06b6d4; margin: 0.75rem 0; }
 
         /* Decking Comparison */
-        .deck-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .deck-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; }
-        .deck-card:hover { border-color: rgba(14, 116, 144, 0.4); transform: translateY(-3px); }
+        .deck-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 2.09rem; margin-top: 2rem; }
+        .deck-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 19px; padding: 2rem; transition: all 0.4s ease-in-out; position: relative; }
+        .deck-card:hover { border-color: rgba(14, 116, 144, 0.4); transform: scale(1.03); }
         .deck-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.5rem; }
         .deck-card .deck-rating { display: flex; align-items: baseline; gap: 0.5rem; margin: 0.75rem 0; }
         .deck-card .deck-rating .val { font-size: 1.8rem; font-weight: 800; color: #06b6d4; }
@@ -269,29 +270,29 @@
         /* Process Steps */
         .process-steps { display: grid; grid-template-columns: 1fr; gap: 0; margin-top: 2rem; position: relative; }
         .process-steps::before { content: ''; position: absolute; left: 28px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #0e7490, #06b6d4, #d4a574); }
-        .process-step { display: grid; grid-template-columns: 56px 1fr; gap: 1.5rem; padding: 1.5rem 0; position: relative; }
+        .process-step { display: grid; grid-template-columns: 56px 1fr; gap: 1.39rem; padding: 1.5rem 0; position: relative; }
         .step-marker { width: 56px; height: 56px; border-radius: 50%; background: rgba(14, 116, 144, 0.15); border: 2px solid #0e7490; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: #06b6d4; z-index: 1; }
         .step-content h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .step-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
         .step-content .step-detail { color: #d4a574; font-size: 0.85rem; font-weight: 600; margin-top: 0.5rem; }
 
         /* Corrosion Zone */
-        .corrosion-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .corrosion-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 16px; padding: 2rem; text-align: center; transition: all 0.4s ease; }
-        .corrosion-card:hover { border-color: rgba(212, 165, 116, 0.4); transform: translateY(-3px); }
+        .corrosion-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.56rem; margin-top: 2rem; }
+        .corrosion-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 18px; padding: 2rem; text-align: center; transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); }
+        .corrosion-card:hover { border-color: rgba(212, 165, 116, 0.4); transform: translateY(-3px) scale(1.01); }
         .corrosion-card .zone-name { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.1em; color: #d4a574; margin-bottom: 0.5rem; }
         .corrosion-card .zone-dist { font-size: 1.8rem; font-weight: 800; color: #ffffff; margin-bottom: 0.5rem; }
         .corrosion-card .zone-req { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
 
         /* FAQ */
-        .faq-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(14, 116, 144, 0.35); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1.05rem; color: #e2e8f0; transition: color 0.3s ease; }
-        .faq-question:hover { color: #06b6d4; }
+        .learn-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 116, 144, 0.15); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .learn-item:hover { border-color: rgba(14, 116, 144, 0.35); }
+        .question-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1.05rem; color: #e2e8f0; transition: color 0.3s ease; }
+        .question-trigger:hover { color: #06b6d4; }
         .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(14, 116, 144, 0.15); display: flex; align-items: center; justify-content: center; color: #06b6d4; font-size: 1.2rem; transition: transform 0.3s ease; flex-shrink: 0; }
-        .faq-item.open .faq-toggle { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .learn-item.open .faq-toggle { transform: rotate(45deg); }
+        .expand-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.4s ease; }
+        .expand-body-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* Final CTA */
         .final-cta { padding: 5rem 2rem; text-align: center; position: relative; z-index: 2; background: linear-gradient(180deg, transparent, rgba(14, 116, 144, 0.05)); }
@@ -331,8 +332,8 @@
 
     <!-- Storm Surge Widget -->
     <div class="surge-widget" id="surgeWidget">
-        <div class="surge-widget-label">Storm Surge Level</div>
-        <div class="surge-widget-value" id="surgeLevel">0.0 ft</div>
+        <div class="surge-badge-desc">Storm Surge Level</div>
+        <div class="surge-bubble-stat" id="surgeLevel">0.0 ft</div>
         <div class="surge-widget-gauge">
             <div class="surge-widget-water" id="surgeWater"></div>
             <div class="surge-widget-line" style="bottom: 65%;">
@@ -382,8 +383,8 @@
             <h1>Waterfront Boardwalk <span class="hero-shimmer">Wind Load Design</span> in Miami-Dade HVHZ</h1>
             <p class="hero-intro">Waterfront boardwalk structures in Miami-Dade face a triple threat that no inland structure encounters: <strong>180 MPH hurricane winds from Exposure Category D</strong>, breaking wave forces that slam piles with 6,000+ pounds of lateral impact, and storm surge that can submerge entire walkway sections. Every component from pile tip to railing cap must be engineered for these <strong>combined wind, wave, and surge forces</strong> acting simultaneously under the most severe coastal loading conditions in the continental United States.</p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Boardwalk Loads</a>
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">View Specialty Structures</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-action">Calculate Boardwalk Loads</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-explore">View Specialty Structures</a>
             </div>
             <div class="warning-banner">
                 <p><strong>Coastal Construction Control Line Alert:</strong> All boardwalk construction seaward of the CCCL requires FDEP permits under Florida Statute 161.053 plus DERM coastal permits. Structures must use breakaway construction below the base flood elevation and pile foundations designed for the 100-year scour event. Permit timelines average 4-8 months.</p>
@@ -778,58 +779,58 @@
             <h2 class="section-title reveal">Waterfront Boardwalk <span class="accent">Wind Load</span> FAQ</h2>
 
             <div class="faq-list reveal">
-                <div class="faq-item">
-                    <div class="faq-question">
+                <div class="learn-item">
+                    <div class="question-trigger">
                         <span>What wind exposure category applies to waterfront boardwalks in Miami-Dade County?</span>
                         <div class="faq-toggle">+</div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">Waterfront boardwalks in Miami-Dade County are classified as Exposure Category D under ASCE 7-22 Section 26.7 when situated along open water shorelines such as Biscayne Bay, the Intracoastal Waterway, or the Atlantic coastline. Exposure D applies when the upwind surface consists of flat, unobstructed water extending at least 5,000 feet or 20 times the structure height, whichever is greater. For a typical boardwalk at 8 to 12 ft elevation, this means any waterfront location with more than 240 ft of open water fetch qualifies. The Kz velocity pressure exposure coefficient at 15 ft height under Exposure D is 1.03, compared to 0.85 for suburban Exposure B, yielding approximately 21% higher design pressures across all boardwalk components.</div>
+                    <div class="expand-body">
+                        <div class="expand-body-inner">Waterfront boardwalks in Miami-Dade County are classified as Exposure Category D under ASCE 7-22 Section 26.7 when situated along open water shorelines such as Biscayne Bay, the Intracoastal Waterway, or the Atlantic coastline. Exposure D applies when the upwind surface consists of flat, unobstructed water extending at least 5,000 feet or 20 times the structure height, whichever is greater. For a typical boardwalk at 8 to 12 ft elevation, this means any waterfront location with more than 240 ft of open water fetch qualifies. The Kz velocity pressure exposure coefficient at 15 ft height under Exposure D is 1.03, compared to 0.85 for suburban Exposure B, yielding approximately 21% higher design pressures across all boardwalk components.</div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
+                <div class="learn-item">
+                    <div class="question-trigger">
                         <span>How do you calculate combined wind and wave loads on an elevated boardwalk structure?</span>
                         <div class="faq-toggle">+</div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">Combined wind and wave loading on elevated boardwalks uses the ASCE 7-22 load combination 1.2D + 1.0W + 1.0Fa per Section 2.3.6, where W represents wind loads and Fa represents flood and wave loads per ASCE 7-22 Chapter 5 and ASCE 24. Wind loads on the open deck structure are calculated using Chapter 29 open building provisions with net pressure coefficients CN. Wave loads are calculated per ASCE 7-22 Section 5.4 as breaking wave forces Fbrkw = 1.1 x Cp x gamma_w x ds^2, where Cp is the dynamic pressure coefficient (typically 2.8 for vertical piles), gamma_w is the unit weight of seawater at 64 pcf, and ds is the design stillwater depth. For a Miami-Dade boardwalk with 6 ft storm surge, breaking wave forces on individual piles can reach 6,800 to 9,200 lbs laterally, combined with wind lateral shear of 2,000 to 5,000 lbs per pile.</div>
+                    <div class="expand-body">
+                        <div class="expand-body-inner">Combined wind and wave loading on elevated boardwalks uses the ASCE 7-22 load combination 1.2D + 1.0W + 1.0Fa per Section 2.3.6, where W represents wind loads and Fa represents flood and wave loads per ASCE 7-22 Chapter 5 and ASCE 24. Wind loads on the open deck structure are calculated using Chapter 29 open building provisions with net pressure coefficients CN. Wave loads are calculated per ASCE 7-22 Section 5.4 as breaking wave forces Fbrkw = 1.1 x Cp x gamma_w x ds^2, where Cp is the dynamic pressure coefficient (typically 2.8 for vertical piles), gamma_w is the unit weight of seawater at 64 pcf, and ds is the design stillwater depth. For a Miami-Dade boardwalk with 6 ft storm surge, breaking wave forces on individual piles can reach 6,800 to 9,200 lbs laterally, combined with wind lateral shear of 2,000 to 5,000 lbs per pile.</div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
+                <div class="learn-item">
+                    <div class="question-trigger">
                         <span>What are the railing wind load requirements for Miami-Dade waterfront boardwalks?</span>
                         <div class="faq-toggle">+</div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">Boardwalk railings in Miami-Dade must satisfy two simultaneous load criteria. First, the Florida Building Code Section 1607.8 requires a minimum 50 pounds per linear foot (plf) applied horizontally at the top of the railing for pedestrian guardrails. Second, ASCE 7-22 wind loads on open framework railings are calculated using Section 29.4 with force coefficients Cf ranging from 1.0 to 2.0 depending on the solidity ratio. For a typical 42-inch boardwalk railing with 40% solidity at Exposure D and 180 MPH, wind-induced lateral force reaches 35 to 55 plf. The controlling load case is the larger of the code minimum 50 plf or the calculated wind load. At corner zones and elevated sections, wind loads can exceed the 50 plf minimum, making wind the governing criterion. Railing posts must be anchored to resist combined moment from wind plus a 200-lb concentrated load at the top rail per FBC Section 1607.8.1.</div>
+                    <div class="expand-body">
+                        <div class="expand-body-inner">Boardwalk railings in Miami-Dade must satisfy two simultaneous load criteria. First, the Florida Building Code Section 1607.8 requires a minimum 50 pounds per linear foot (plf) applied horizontally at the top of the railing for pedestrian guardrails. Second, ASCE 7-22 wind loads on open framework railings are calculated using Section 29.4 with force coefficients Cf ranging from 1.0 to 2.0 depending on the solidity ratio. For a typical 42-inch boardwalk railing with 40% solidity at Exposure D and 180 MPH, wind-induced lateral force reaches 35 to 55 plf. The controlling load case is the larger of the code minimum 50 plf or the calculated wind load. At corner zones and elevated sections, wind loads can exceed the 50 plf minimum, making wind the governing criterion. Railing posts must be anchored to resist combined moment from wind plus a 200-lb concentrated load at the top rail per FBC Section 1607.8.1.</div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
+                <div class="learn-item">
+                    <div class="question-trigger">
                         <span>What pile foundation design is required for boardwalks in Miami-Dade's coastal zone?</span>
                         <div class="faq-toggle">+</div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">Boardwalk pile foundations in Miami-Dade's coastal zone must resist simultaneous wind uplift, lateral wind shear, wave-induced forces, and current drag. Typical boardwalk piling uses 10-inch to 14-inch diameter prestressed concrete piles or 10-inch round timber piles (CCA-treated for marine exposure) driven 20 to 35 feet into the substrate. Lateral pile capacity is analyzed using the p-y method modeling soil-pile interaction through marine sediment, coral limestone, and Miami Oolite formations. Each pile must resist combined lateral shear of 4,000 to 12,000 lbs from wind plus wave action, with required moment capacity of 25,000 to 65,000 ft-lbs at the mudline. Scour depth must be included per ASCE 7-22 Section 5.3, typically adding 3 to 6 feet to the required pile length. FBC Section 1810.3.3.1 requires minimum 10-foot pile embedment below the lowest anticipated scour elevation.</div>
+                    <div class="expand-body">
+                        <div class="expand-body-inner">Boardwalk pile foundations in Miami-Dade's coastal zone must resist simultaneous wind uplift, lateral wind shear, wave-induced forces, and current drag. Typical boardwalk piling uses 10-inch to 14-inch diameter prestressed concrete piles or 10-inch round timber piles (CCA-treated for marine exposure) driven 20 to 35 feet into the substrate. Lateral pile capacity is analyzed using the p-y method modeling soil-pile interaction through marine sediment, coral limestone, and Miami Oolite formations. Each pile must resist combined lateral shear of 4,000 to 12,000 lbs from wind plus wave action, with required moment capacity of 25,000 to 65,000 ft-lbs at the mudline. Scour depth must be included per ASCE 7-22 Section 5.3, typically adding 3 to 6 feet to the required pile length. FBC Section 1810.3.3.1 requires minimum 10-foot pile embedment below the lowest anticipated scour elevation.</div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
+                <div class="learn-item">
+                    <div class="question-trigger">
                         <span>How does the Miami-Dade Coastal Construction Control Line affect boardwalk design?</span>
                         <div class="faq-toggle">+</div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">The Miami-Dade Coastal Construction Control Line (CCCL) established under Florida Statute 161.053 defines a setback line along the Atlantic coastline beyond which all construction requires FDEP permits in addition to standard building permits. Boardwalks seaward of the CCCL must comply with Rule 62B-33 of the Florida Administrative Code, which mandates pile foundations designed for a 100-year storm event including scour, elevated deck structures above the 100-year storm surge plus wave crest elevation, breakaway construction for non-structural components below the base flood elevation, and environmental impact mitigation for dune and beach disturbance. Structures within the CCCL zone also require enhanced corrosion protection with minimum 50-year service life hardware, and all below-BFE enclosures must use breakaway walls or open pile construction. DERM permitting for coastal boardwalks typically requires 3 to 6 months beyond the standard building permit timeline.</div>
+                    <div class="expand-body">
+                        <div class="expand-body-inner">The Miami-Dade Coastal Construction Control Line (CCCL) established under Florida Statute 161.053 defines a setback line along the Atlantic coastline beyond which all construction requires FDEP permits in addition to standard building permits. Boardwalks seaward of the CCCL must comply with Rule 62B-33 of the Florida Administrative Code, which mandates pile foundations designed for a 100-year storm event including scour, elevated deck structures above the 100-year storm surge plus wave crest elevation, breakaway construction for non-structural components below the base flood elevation, and environmental impact mitigation for dune and beach disturbance. Structures within the CCCL zone also require enhanced corrosion protection with minimum 50-year service life hardware, and all below-BFE enclosures must use breakaway walls or open pile construction. DERM permitting for coastal boardwalks typically requires 3 to 6 months beyond the standard building permit timeline.</div>
                     </div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">
+                <div class="learn-item">
+                    <div class="question-trigger">
                         <span>What decking materials perform best for wind uplift resistance on Miami-Dade boardwalks?</span>
                         <div class="faq-toggle">+</div>
                     </div>
-                    <div class="faq-answer">
-                        <div class="faq-answer-inner">FRP grating offers the highest wind uplift resistance at 80 to 120 psf due to continuous panel structure and through-bolt connections, with 50+ year marine service life. Ipe hardwood achieves 40 to 60 psf with stainless steel clip fasteners and naturally resists marine decay. PVC-capped composite decking reaches 30 to 50 psf but requires 12-inch joist spacing versus 16-inch for wood in Exposure D. Pressure-treated SYP provides only 25 to 40 psf and requires replacement every 8-12 years in the salt spray zone. For breakaway panel design below the base flood elevation, FRP panels with calibrated shear pins rated to release at 10 to 20 psf are preferred per ASCE 24 Section 4.6. Material selection must balance initial cost, lifecycle maintenance, and rapid post-storm replacement capability.</div>
+                    <div class="expand-body">
+                        <div class="expand-body-inner">FRP grating offers the highest wind uplift resistance at 80 to 120 psf due to continuous panel structure and through-bolt connections, with 50+ year marine service life. Ipe hardwood achieves 40 to 60 psf with stainless steel clip fasteners and naturally resists marine decay. PVC-capped composite decking reaches 30 to 50 psf but requires 12-inch joist spacing versus 16-inch for wood in Exposure D. Pressure-treated SYP provides only 25 to 40 psf and requires replacement every 8-12 years in the salt spray zone. For breakaway panel design below the base flood elevation, FRP panels with calibrated shear pins rated to release at 10 to 20 psf are preferred per ASCE 24 Section 4.6. Material selection must balance initial cost, lifecycle maintenance, and rapid post-storm replacement capability.</div>
                     </div>
                 </div>
             </div>
@@ -841,7 +842,7 @@
         <h2 class="reveal">Engineer Your Boardwalk for <span class="hero-shimmer">Miami-Dade's Coast</span></h2>
         <p class="reveal">Get precise wind, wave, and combined loading calculations for waterfront boardwalk structures in the High Velocity Hurricane Zone.</p>
         <div class="reveal">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary" style="font-size: 1.15rem; padding: 1rem 2.5rem;">Calculate Boardwalk Wind Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-action" style="font-size: 1.15rem; padding: 1rem 2.5rem;">Calculate Boardwalk Wind Loads</a>
         </div>
     </section>
 
@@ -1221,8 +1222,8 @@
             reset() {
                 this.x = Math.random() * W;
                 this.y = Math.random() * H;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = Math.random() * 2 + 1;
+                this.size = Math.random() * 2.0 + 0.3;
+                this.speedX = Math.random() * 2.0 + 0.9;
                 this.speedY = (Math.random() - 0.5) * 0.5;
                 this.color = Math.random() > 0.6 ? '#67e8f9' : Math.random() > 0.3 ? '#06b6d4' : '#d4a574';
                 this.alpha = Math.random() * 0.5 + 0.2;
@@ -1297,7 +1298,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.3, rootMargin: '0px 0px -40px 0px' });
 
         document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale, .stagger-children').forEach(function(el) {
             observer.observe(el);
@@ -1332,7 +1333,7 @@
                     tick();
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.15 });
 
         counters.forEach(function(c) { observer.observe(c); });
     })();
@@ -1372,7 +1373,7 @@
                     });
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.1 });
 
         document.querySelectorAll('.deck-grid').forEach(function(g) { observer.observe(g); });
     })();
@@ -1381,19 +1382,19 @@
     // FAQ Accordion
     // ============================================
     (function() {
-        document.querySelectorAll('.faq-question').forEach(function(q) {
+        document.querySelectorAll('.question-trigger').forEach(function(q) {
             q.addEventListener('click', function() {
                 const item = q.parentElement;
-                const answer = item.querySelector('.faq-answer');
-                const inner = answer.querySelector('.faq-answer-inner');
+                const answer = item.querySelector('.expand-body');
+                const inner = answer.querySelector('.expand-body-inner');
 
                 if (item.classList.contains('open')) {
                     item.classList.remove('open');
                     answer.style.maxHeight = '0';
                 } else {
-                    document.querySelectorAll('.faq-item.open').forEach(function(openItem) {
+                    document.querySelectorAll('.learn-item.open').forEach(function(openItem) {
                         openItem.classList.remove('open');
-                        openItem.querySelector('.faq-answer').style.maxHeight = '0';
+                        openItem.querySelector('.expand-body').style.maxHeight = '0';
                     });
                     item.classList.add('open');
                     answer.style.maxHeight = inner.scrollHeight + 'px';
@@ -1406,7 +1407,7 @@
     // Button Ripple Effect
     // ============================================
     (function() {
-        document.querySelectorAll('.btn-primary').forEach(function(btn) {
+        document.querySelectorAll('.btn-action').forEach(function(btn) {
             btn.addEventListener('click', function(e) {
                 const ripple = document.createElement('span');
                 ripple.classList.add('btn-ripple');

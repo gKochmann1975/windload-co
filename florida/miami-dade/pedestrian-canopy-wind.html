@@ -95,31 +95,32 @@
     }
     </script>
     <style>
+/* uid:1a764675 */
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0c1220;color:#fff;line-height:1.6;overflow-x:hidden}
         #canopy-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.35}
         .ambient-overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 25% 35%,rgba(13,148,136,.06) 0%,transparent 50%),radial-gradient(circle at 75% 65%,rgba(120,113,108,.04) 0%,transparent 50%)}
-        .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal.active{opacity:1;transform:translateY(0)}
-        .reveal-left{opacity:0;transform:translateX(-40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal-left.active{opacity:1;transform:translateX(0)}
-        .reveal-right{opacity:0;transform:translateX(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal-right.active{opacity:1;transform:translateX(0)}
-        .reveal-scale{opacity:0;transform:scale(.9);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal-scale.active{opacity:1;transform:scale(1)}
+        .reveal{opacity:0;transform: translateY(20px);transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1)}.reveal.active{opacity:1;transform:translateY(0)}
+        .reveal-left{opacity:0;transform:translateX(-40px);transition: all 0.5s ease-out}.reveal-left.active{opacity:1;transform:translateX(0)}
+        .reveal-right{opacity:0;transform:translateX(40px);transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1)}.reveal-right.active{opacity:1;transform:translateX(0)}
+        .reveal-scale{opacity:0;transform:scale(.9);transition: all 0.7s ease-in-out}.reveal-scale.active{opacity:1;transform:scale(1)}
         .stagger-children .reveal{transition-delay:calc(var(--i,0) * .12s)}
 
         /* Navigation */
-        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(12,18,32,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(13,148,136,.2)}
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(12,18,32,.92);backdrop-filter: blur(24px);border-bottom:1px solid rgba(13,148,136,.2)}
         .nav-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
         .nav-logo .logo-img{height:28px;width:auto}
         .nav-logo .logo-text{font-size:1.25rem;font-weight:800;color:#fff;-webkit-text-fill-color:#fff}
         .nav-logo .logo-text span{color:#00b4d8;-webkit-text-fill-color:#00b4d8}
-        .nav-links{display:flex;gap:1.5rem}
+        .nav-links{display:flex;gap: 1.26rem}
         .nav-links a{color:#94a3b8;text-decoration:none;font-size:.9rem;transition:color .3s}
         .nav-links a:hover{color:#00e5ff}
         .nav-cta{background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;padding:.5rem 1.25rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.85rem;transition:all .3s;border:1px solid rgba(13,148,136,.4)}
-        .nav-cta:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(13,148,136,.4)}
+        .nav-cta:hover{transform: scale(1.02);box-shadow:0 4px 20px rgba(13,148,136,.4)}
 
         /* Breadcrumb */
         .breadcrumb{margin-top:60px;padding:.75rem 2rem;background:rgba(12,18,32,.6);border-bottom:1px solid rgba(13,148,136,.15)}
-        .breadcrumb-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
+        .breadcrumb-container{max-width: 1250px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
         .breadcrumb-container a{color:#64748b;text-decoration:none;transition:color .3s}
         .breadcrumb-container a:hover{color:#0d9488}
         .breadcrumb-container span{color:#475569}
@@ -132,45 +133,45 @@
         .shimmer{background:linear-gradient(120deg,#78716c 0%,#0d9488 25%,#00e5ff 50%,#0d9488 75%,#78716c 100%);background-size:400% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
         @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
         .hero p{font-size:1.15rem;color:#a8a29e;max-width:720px;margin:0 auto 2rem;line-height:1.8}
-        .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
-        .btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;text-decoration:none;border-radius:12px;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(13,148,136,.4);position:relative;overflow:hidden}
-        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(13,148,136,.4)}
-        .btn-secondary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:transparent;color:#5eead4;text-decoration:none;border-radius:12px;font-weight:600;font-size:1rem;border:2px solid rgba(13,148,136,.4);transition:all .3s}
-        .btn-secondary:hover{background:rgba(13,148,136,.1);transform:translateY(-2px)}
+        .hero-buttons{display:flex;gap: 1.18rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .btn-engage{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;text-decoration:none;border-radius: 12px;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(13,148,136,.4);position:relative;overflow:hidden}
+        .btn-engage:hover{transform: translateY(-8px);box-shadow:0 8px 30px rgba(13,148,136,.4)}
+        .btn-info{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:transparent;color:#5eead4;text-decoration:none;border-radius: 10px;font-weight:600;font-size:1rem;border:2px solid rgba(13,148,136,.4);transition:all .3s}
+        .btn-info:hover{background:rgba(13,148,136,.1);transform: translateY(-8px)}
         .warning-banner{max-width:720px;margin:0 auto;padding:1rem 1.5rem;background:rgba(13,148,136,.08);border-left:4px solid #0d9488;border-radius:0 12px 12px 0;color:#99f6e4;font-size:.9rem}
 
         /* Trust Bar */
-        .trust-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:900px;margin:2rem auto;padding:0 2rem}
-        .trust-item{text-align:center;padding:1.5rem 1rem;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(13,148,136,.15)}
+        .trust-bar{display:grid;grid-template-columns:repeat(4,1fr);gap: 1.76rem;max-width:900px;margin:2rem auto;padding:0 2rem}
+        .trust-item{text-align:center;padding:1.5rem 1rem;background:rgba(255,255,255,.03);border-radius: 11px;border:1px solid rgba(13,148,136,.15)}
         .trust-number{font-size:2rem;font-weight:800;color:#5eead4}
         .trust-label{font-size:.75rem;color:#78716c;margin-top:.25rem;text-transform:uppercase;letter-spacing:1px}
 
         /* Sections */
-        .section{max-width:1100px;margin:0 auto;padding:3rem 2rem}
-        .section-header{text-align:center;margin-bottom:2.5rem}
-        .section-header h2{font-size:2rem;font-weight:700;margin-bottom:.75rem}
-        .section-header h2 em{font-style:normal;color:#5eead4}
-        .section-header p{color:#a8a29e;max-width:600px;margin:0 auto}
+        .section{max-width: 1150px;margin:0 auto;padding:3rem 2rem}
+        .section-title-area{text-align:center;margin-bottom:2.5rem}
+        .section-title-area h2{font-size:2rem;font-weight:700;margin-bottom:.75rem}
+        .section-title-area h2 em{font-style:normal;color:#5eead4}
+        .section-title-area p{color:#a8a29e;max-width:600px;margin:0 auto}
 
         /* Canopy Diagram Canvas */
-        .canopy-diagram-wrap{max-width:880px;margin:0 auto 3rem;background:rgba(255,255,255,.02);border-radius:16px;border:1px solid rgba(13,148,136,.2);overflow:hidden;padding:1.5rem}
+        .canopy-diagram-wrap{max-width:880px;margin:0 auto 3rem;background:rgba(255,255,255,.02);border-radius: 15px;border:1px solid rgba(13,148,136,.2);overflow:hidden;padding:1.5rem}
         #canopyDiagram{width:100%;height:420px;display:block}
 
         /* Two Column */
-        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
-        .content-card{background:rgba(255,255,255,.03);border-radius:16px;border:1px solid rgba(13,148,136,.15);padding:2rem;transition:all .4s}
-        .content-card:hover{border-color:rgba(13,148,136,.35);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap: 1.99rem;align-items:start}
+        .content-card{background:rgba(255,255,255,.03);border-radius: 13px;border:1px solid rgba(13,148,136,.15);padding:2rem;transition:all .4s}
+        .content-card:hover{border-color:rgba(13,148,136,.35);transform: translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
         .content-card h3{font-size:1.3rem;margin-bottom:1rem;color:#fff}
         .content-card p{color:#a8a29e;font-size:.95rem;line-height:1.7}
         .stat-row{display:flex;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid rgba(13,148,136,.1)}
         .stat-row:last-child{border-bottom:none}
-        .stat-label{color:#a8a29e;font-size:.9rem}
-        .stat-value{color:#5eead4;font-weight:700;font-size:.9rem}
+        .indicator-label{color:#a8a29e;font-size:.9rem}
+        .measure-value{color:#5eead4;font-weight:700;font-size:.9rem}
 
         /* Three Column */
-        .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-        .info-card{background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(13,148,136,.15);padding:1.5rem;transition:all .4s;cursor:default}
-        .info-card:hover{border-color:rgba(13,148,136,.35);transform:translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+        .three-col{display:grid;grid-template-columns: 1fr 1fr 1fr;gap: 1.56rem}
+        .info-card{background:rgba(255,255,255,.03);border-radius: 11px;border:1px solid rgba(13,148,136,.15);padding:1.5rem;transition:all .4s;cursor:default}
+        .info-card:hover{border-color:rgba(13,148,136,.35);transform: translateY(-6px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
         .info-card .card-icon{font-size:2rem;margin-bottom:.75rem}
         .info-card h4{color:#fff;margin-bottom:.5rem;font-size:1.05rem}
         .info-card p{color:#a8a29e;font-size:.85rem;line-height:1.6}
@@ -186,23 +187,23 @@
         .amber-val{color:#f59e0b;font-weight:700}
 
         /* Pressure Gauge Cluster */
-        .gauge-cluster{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;max-width:750px;margin:2rem auto}
+        .gauge-cluster{display:grid;grid-template-columns: repeat(3, 1fr);gap: 2.11rem;max-width:750px;margin:2rem auto}
         .gauge-wrap{text-align:center}
         .gauge-svg{width:140px;height:100px;display:block;margin:0 auto}
         .gauge-label{font-size:.75rem;color:#78716c;text-transform:uppercase;letter-spacing:1px;margin-top:.5rem}
         .gauge-reading{font-size:1.6rem;font-weight:800;color:#5eead4;margin-top:.25rem}
 
         /* Process Steps */
-        .process-steps{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;margin-top:2rem}
-        .step-card{background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(13,148,136,.15);padding:1.5rem;position:relative;padding-left:4rem;transition:all .4s}
-        .step-card:hover{border-color:rgba(13,148,136,.35);transform:translateY(-3px)}
+        .process-steps{display:grid;grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));gap: 1.28rem;margin-top:2rem}
+        .step-card{background:rgba(255,255,255,.03);border-radius: 11px;border:1px solid rgba(13,148,136,.15);padding:1.5rem;position:relative;padding-left:4rem;transition:all .4s}
+        .step-card:hover{border-color:rgba(13,148,136,.35);transform: translateY(-5px) scale(1.01)}
         .step-num{position:absolute;left:1rem;top:1.5rem;width:2.2rem;height:2.2rem;background:linear-gradient(135deg,#0d9488,#0f766e);border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:.9rem;color:#fff}
         .step-card h4{color:#fff;margin-bottom:.5rem;font-size:1rem}
         .step-card p{color:#a8a29e;font-size:.85rem;line-height:1.6}
 
         /* Comfort Wind Map (unique viz) */
         .comfort-map{max-width:800px;margin:2rem auto;position:relative}
-        .comfort-bar{display:flex;height:50px;border-radius:12px;overflow:hidden;margin-bottom:.5rem}
+        .comfort-bar{display:flex;height:50px;border-radius: 13px;overflow:hidden;margin-bottom:.5rem}
         .comfort-zone{display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:700;color:#fff;transition:all .4s;position:relative}
         .comfort-zone.pleasant{background:linear-gradient(135deg,#059669,#047857);flex:3}
         .comfort-zone.tolerable{background:linear-gradient(135deg,#0d9488,#0f766e);flex:2}
@@ -210,45 +211,45 @@
         .comfort-zone.dangerous{background:linear-gradient(135deg,#ef4444,#dc2626);flex:1.5}
         .comfort-labels{display:flex;justify-content:space-between;font-size:.7rem;color:#78716c}
         .comfort-indicator{position:absolute;top:-8px;width:3px;height:66px;background:#00e5ff;border-radius:2px;transition:left .8s cubic-bezier(.16,1,.3,1);box-shadow:0 0 12px rgba(0,229,255,.6)}
-        .comfort-legend{display:flex;gap:1.5rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
+        .comfort-legend{display:flex;gap: 1.22rem;justify-content:center;margin-top:1rem;flex-wrap:wrap}
         .legend-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:#a8a29e}
         .legend-dot{width:10px;height:10px;border-radius:50%}
 
         /* Equation */
-        .equation-block{background:rgba(13,148,136,.08);border:1px solid rgba(13,148,136,.25);border-radius:12px;padding:1.5rem;margin:1.5rem 0;font-family:'Courier New',monospace;text-align:center}
+        .equation-block{background:rgba(13,148,136,.08);border:1px solid rgba(13,148,136,.25);border-radius: 15px;padding:1.5rem;margin:1.5rem 0;font-family:'Courier New',monospace;text-align:center}
         .equation-block .eq{font-size:1.15rem;color:#5eead4;margin-bottom:.5rem}
         .equation-block .eq-desc{font-size:.8rem;color:#78716c}
 
         /* FAQ */
-        .faq-section{max-width:800px;margin:0 auto;padding:3rem 2rem}
-        .faq-item{background:rgba(255,255,255,.03);border:1px solid rgba(13,148,136,.15);border-radius:12px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
-        .faq-item:hover{border-color:rgba(13,148,136,.3)}
-        .faq-item.active{border-color:rgba(13,148,136,.45);box-shadow:0 4px 20px rgba(0,0,0,.2)}
+        .reference-section{max-width:800px;margin:0 auto;padding:3rem 2rem}
+        .resource-item{background:rgba(255,255,255,.03);border:1px solid rgba(13,148,136,.15);border-radius: 10px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
+        .resource-item:hover{border-color:rgba(13,148,136,.3)}
+        .resource-item.active{border-color:rgba(13,148,136,.45);box-shadow:0 4px 20px rgba(0,0,0,.2)}
         .faq-q{padding:1.25rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;color:#fff;font-size:1rem}
         .faq-q:hover{color:#5eead4}
         .faq-icon{font-size:1.2rem;transition:transform .3s;color:#5eead4}
-        .faq-item.active .faq-icon{transform:rotate(45deg)}
+        .resource-item.active .faq-icon{transform:rotate(45deg)}
         .faq-a{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1);padding:0 1.5rem}
-        .faq-item.active .faq-a{max-height:600px;padding:0 1.5rem 1.25rem}
+        .resource-item.active .faq-a{max-height:600px;padding:0 1.5rem 1.25rem}
         .faq-a p{color:#a8a29e;font-size:.9rem;line-height:1.7}
 
         /* CTA Box */
-        .cta-box{max-width:800px;margin:2rem auto;padding:3rem;background:linear-gradient(135deg,rgba(13,148,136,.12),rgba(120,113,108,.06));border:1px solid rgba(13,148,136,.25);border-radius:20px;text-align:center}
+        .cta-box{max-width:800px;margin:2rem auto;padding:3rem;background:linear-gradient(135deg,rgba(13,148,136,.12),rgba(120,113,108,.06));border:1px solid rgba(13,148,136,.25);border-radius: 19px;text-align:center}
         .cta-box h2{font-size:2rem;margin-bottom:1rem}
         .cta-box p{color:#a8a29e;margin-bottom:2rem;font-size:1.05rem}
 
         /* Footer */
-        footer{padding:3rem 2rem;border-top:1px solid rgba(13,148,136,.15);text-align:center}
-        .footer-links{display:flex;justify-content:center;gap:2rem;margin-bottom:1rem;flex-wrap:wrap}
+        footer{padding: 3rem 2rem;border-top:1px solid rgba(13,148,136,.15);text-align:center}
+        .footer-links{display:flex;justify-content:center;gap: 1.79rem;margin-bottom:1rem;flex-wrap:wrap}
         .footer-links a{color:#64748b;text-decoration:none;font-size:.85rem;transition:color .3s}
         .footer-links a:hover{color:#5eead4}
         .footer-copy{color:#475569;font-size:.75rem}
 
         /* Fixed Widget */
-        .fixed-widget{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:900;background:rgba(12,18,32,.95);border:1px solid rgba(13,148,136,.3);border-radius:12px;padding:1rem;width:170px;opacity:0;transition:all .5s;pointer-events:none}
+        .fixed-widget{position:fixed;right:20px;top:50%;transform:translateY(-50%);z-index:900;background:rgba(12,18,32,.95);border:1px solid rgba(13,148,136,.3);border-radius: 14px;padding:1rem;width:170px;opacity:0;transition:all .5s;pointer-events:none}
         .fixed-widget.visible{opacity:1;pointer-events:auto}
         .widget-title{font-size:.65rem;text-transform:uppercase;letter-spacing:1px;color:#78716c;margin-bottom:.5rem}
-        .widget-value{font-size:1.4rem;font-weight:800;color:#5eead4;margin-bottom:.25rem}
+        .badge-figure{font-size:1.4rem;font-weight:800;color:#5eead4;margin-bottom:.25rem}
         .widget-sub{font-size:.7rem;color:#78716c}
         .widget-bar{height:4px;background:rgba(13,148,136,.2);border-radius:2px;margin-top:.5rem;overflow:hidden}
         .widget-bar-fill{height:100%;background:linear-gradient(90deg,#0d9488,#5eead4);border-radius:2px;transition:width .8s}
@@ -268,7 +269,7 @@
         @media(max-width:768px){
             .nav-links{display:none}
             .hero h1{font-size:1.8rem}
-            .trust-bar{grid-template-columns:repeat(2,1fr)}
+            .trust-bar{grid-template-columns: repeat(auto-fit, minmax(380px, 1fr))}
             .two-col,.three-col,.process-steps{grid-template-columns:1fr}
             .gauge-cluster{grid-template-columns:1fr}
             .fixed-widget{display:none}
@@ -283,7 +284,7 @@
     <!-- Fixed Wind Speed Widget -->
     <div class="fixed-widget" id="upliftWidget">
         <div class="widget-title">Canopy Uplift</div>
-        <div class="widget-value" id="upliftVal">0 psf</div>
+        <div class="badge-figure" id="upliftVal">0 psf</div>
         <div class="widget-sub" id="upliftLabel">Net Pressure</div>
         <div class="widget-bar"><div class="widget-bar-fill" id="upliftBar" style="width:5%"></div></div>
         <div class="wind-arrow">
@@ -323,8 +324,8 @@
         <h1><span class="shimmer">Pedestrian Canopy Wind Load Design in Miami-Dade HVHZ</span></h1>
         <p>Pedestrian canopies shield people from sun and rain, but in Miami-Dade's 180 MPH High Velocity Hurricane Zone they become aerodynamic surfaces that must resist extreme uplift while channeling wind at ground level. From hotel porte-cocheres and building entrance canopies to transit shelters and covered walkways, every overhead structure protecting pedestrians faces a dual engineering mandate: survive Category 5 hurricanes and maintain walking comfort during everyday tropical storms.</p>
         <div class="hero-buttons">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Canopy Loads</a>
-            <a href="https://windloadcalc.com/demo.html" class="btn-secondary">Try Free Demo</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage">Calculate Canopy Loads</a>
+            <a href="https://windloadcalc.com/demo.html" class="btn-info">Try Free Demo</a>
         </div>
         <div class="warning-banner">
             <strong>Design Alert:</strong> Pedestrian canopies classified as open buildings under ASCE 7-22 experience net uplift pressures 40-60% higher than enclosed building roofs at the same height because wind flows freely beneath the structure, creating simultaneous pressure on both surfaces.
@@ -360,7 +361,7 @@
 
     <!-- Wind Comfort Section -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Pedestrian <em>Walking Comfort</em> Under Canopies</h2>
             <p>How canopy geometry accelerates wind and affects ground-level conditions</p>
         </div>
@@ -395,25 +396,25 @@
             <div class="content-card reveal-left magnetic-card">
                 <h3>The Venturi Channeling Problem</h3>
                 <p>When wind approaches a pedestrian canopy, it must accelerate to pass through the restricted space between the canopy soffit and the ground. This Venturi effect increases local wind speed by 15 to 40 percent depending on the canopy height-to-width ratio. A canopy at 10 ft clear height over a 20 ft wide walkway can accelerate a 15 MPH ambient breeze to 21 MPH at pedestrian level, pushing conditions from comfortable to uncomfortable.</p>
-                <div class="stat-row"><span class="stat-label">10 ft canopy height</span><span class="stat-value">+35-40% speed increase</span></div>
-                <div class="stat-row"><span class="stat-label">14 ft canopy height</span><span class="stat-value">+15-22% speed increase</span></div>
-                <div class="stat-row"><span class="stat-label">18 ft canopy height</span><span class="stat-value">+8-12% speed increase</span></div>
-                <div class="stat-row"><span class="stat-label">Tapered fascia mitigation</span><span class="stat-value">-20-30% reduction</span></div>
+                <div class="stat-row"><span class="indicator-label">10 ft canopy height</span><span class="measure-value">+35-40% speed increase</span></div>
+                <div class="stat-row"><span class="indicator-label">14 ft canopy height</span><span class="measure-value">+15-22% speed increase</span></div>
+                <div class="stat-row"><span class="indicator-label">18 ft canopy height</span><span class="measure-value">+8-12% speed increase</span></div>
+                <div class="stat-row"><span class="indicator-label">Tapered fascia mitigation</span><span class="measure-value">-20-30% reduction</span></div>
             </div>
             <div class="content-card reveal-right magnetic-card">
                 <h3>Miami-Dade Wind Climate Context</h3>
                 <p>Miami-Dade County experiences an annual mean wind speed of 9.5 MPH with prevailing easterly trade winds. During typical afternoon thunderstorms from May through October, wind gusts of 35 to 55 MPH occur roughly 40 to 60 times per year. These everyday conditions govern pedestrian comfort design, not the 180 MPH ultimate wind speed used for structural survival. A canopy that meets structural code but creates a daily wind tunnel fails the human factors test.</p>
-                <div class="stat-row"><span class="stat-label">Annual mean wind</span><span class="stat-value">9.5 MPH</span></div>
-                <div class="stat-row"><span class="stat-label">Afternoon gust events</span><span class="stat-value">40-60 per year</span></div>
-                <div class="stat-row"><span class="stat-label">Prevailing direction</span><span class="stat-value">East-Southeast</span></div>
-                <div class="stat-row"><span class="stat-label">Comfort design speed</span><span class="stat-value">20 MPH threshold</span></div>
+                <div class="stat-row"><span class="indicator-label">Annual mean wind</span><span class="measure-value">9.5 MPH</span></div>
+                <div class="stat-row"><span class="indicator-label">Afternoon gust events</span><span class="measure-value">40-60 per year</span></div>
+                <div class="stat-row"><span class="indicator-label">Prevailing direction</span><span class="measure-value">East-Southeast</span></div>
+                <div class="stat-row"><span class="indicator-label">Comfort design speed</span><span class="measure-value">20 MPH threshold</span></div>
             </div>
         </div>
     </div>
 
     <!-- ASCE 7-22 Open Building Canopy Provisions -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>ASCE 7-22 <em>Open Building</em> Canopy Provisions</h2>
             <p>Net pressure coefficients for free-standing pedestrian canopies at 180 MPH</p>
         </div>
@@ -462,7 +463,7 @@
 
     <!-- Canopy Types Comparison -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Pedestrian Canopy <em>Types and Design Pressures</em></h2>
             <p>Engineering parameters for common canopy configurations in the HVHZ</p>
         </div>
@@ -535,7 +536,7 @@
 
     <!-- Hotel Porte-Cochere Deep Dive -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Hotel Porte-Cochere <em>Engineering</em></h2>
             <p>The most demanding pedestrian canopy type in Miami-Dade hospitality construction</p>
         </div>
@@ -550,16 +551,16 @@
                 <h3>Foundation and Anchorage</h3>
                 <p>Porte-cochere columns in the HVHZ experience severe uplift and overturning forces because the wide canopy acts as an inverted wing. A single column supporting a 30 ft by 25 ft tributary area at 180 MPH can see uplift of 25,000 to 32,000 lbs and lateral shear of 8,000 to 14,000 lbs. The column base moment from cantilever loads reaches 80,000 to 150,000 ft-lbs depending on cantilever length.</p>
                 <p style="margin-top:1rem">Drilled shaft foundations 24 to 36 inches in diameter extending 12 to 18 ft into Miami-Dade's oolitic limestone are standard. The base plate connection requires 4 to 8 anchor bolts of 1-inch to 1.5-inch diameter A325 steel with embedment of 18 to 24 diameters into the concrete shaft. Moment-resisting connections at the column base are mandatory because the canopy structure has no bracing or shear walls to provide lateral stability independently.</p>
-                <div class="stat-row"><span class="stat-label">Column uplift reaction</span><span class="stat-value">25,000-32,000 lbs</span></div>
-                <div class="stat-row"><span class="stat-label">Drilled shaft diameter</span><span class="stat-value">24-36 inches</span></div>
-                <div class="stat-row"><span class="stat-label">Shaft depth (into rock)</span><span class="stat-value">12-18 ft</span></div>
+                <div class="stat-row"><span class="indicator-label">Column uplift reaction</span><span class="measure-value">25,000-32,000 lbs</span></div>
+                <div class="stat-row"><span class="indicator-label">Drilled shaft diameter</span><span class="measure-value">24-36 inches</span></div>
+                <div class="stat-row"><span class="indicator-label">Shaft depth (into rock)</span><span class="measure-value">12-18 ft</span></div>
             </div>
         </div>
     </div>
 
     <!-- Glass Canopy + Fabric Canopy Section -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Material-Specific <em>Canopy Challenges</em></h2>
             <p>Glass, fabric, and metal canopies each face unique wind engineering problems</p>
         </div>
@@ -588,7 +589,7 @@
 
     <!-- Column Spacing and Cantilever Analysis -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Column Spacing and <em>Cantilever Limits</em></h2>
             <p>Structural framing economics versus wind load demands in the HVHZ</p>
         </div>
@@ -628,7 +629,7 @@
 
     <!-- Transit Shelter + Drop-off Canopy -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Transit Shelters and <em>Drop-off Canopies</em></h2>
             <p>Special considerations for public infrastructure canopies in the HVHZ</p>
         </div>
@@ -643,15 +644,15 @@
                 <h3>Airport and Hospital Drop-off Canopies</h3>
                 <p>Drop-off canopies at Miami International Airport, Baptist Hospital, Jackson Memorial, and other critical facilities face enhanced requirements because they serve Risk Category III or IV buildings under ASCE 7-22. The importance factor Iw increases from 1.0 (standard) to 1.15 for Risk Category III, effectively increasing all design pressures by 15% and pushing the equivalent design wind speed from 180 MPH to approximately 194 MPH.</p>
                 <p style="margin-top:1rem">These canopies typically span 20 to 30 ft over two-lane vehicle approaches and must maintain 14 ft minimum clearance for emergency vehicles. The combination of wider spans and amplified wind loads produces column uplift reactions of 18,000 to 28,000 lbs per column. Redundant structural systems with moment connections at every column base are required because progressive collapse of a drop-off canopy during a hurricane would block emergency vehicle access when it is most needed.</p>
-                <div class="stat-row"><span class="stat-label">Risk Category III uplift increase</span><span class="stat-value">+15% over standard</span></div>
-                <div class="stat-row"><span class="stat-label">Emergency vehicle clearance</span><span class="stat-value">14 ft minimum</span></div>
+                <div class="stat-row"><span class="indicator-label">Risk Category III uplift increase</span><span class="measure-value">+15% over standard</span></div>
+                <div class="stat-row"><span class="indicator-label">Emergency vehicle clearance</span><span class="measure-value">14 ft minimum</span></div>
             </div>
         </div>
     </div>
 
     <!-- Entrance Canopy Attachment -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Building Entrance <em>Canopy Attachment</em></h2>
             <p>Connected vs. freestanding entrance canopies and their code implications</p>
         </div>
@@ -683,7 +684,7 @@
 
     <!-- Permit and NOA Section -->
     <div class="section">
-        <div class="section-header reveal">
+        <div class="section-title-area reveal">
             <h2>Miami-Dade <em>Permitting Requirements</em></h2>
             <p>NOA, product approvals, and permit documentation for pedestrian canopies</p>
         </div>
@@ -692,20 +693,20 @@
             <h3>What Requires NOA vs. Sealed Engineering</h3>
             <p>Prefabricated canopy systems installed in Miami-Dade HVHZ require either a Notice of Acceptance (NOA) from Miami-Dade County Product Control or a Florida Product Approval with HVHZ designation. This applies to manufactured transit shelters, modular porte-cochere systems, and proprietary glass canopy assemblies. Custom-engineered canopies designed by a Florida-licensed PE do not require an NOA but must have sealed structural drawings demonstrating compliance with ASCE 7-22 at 180 MPH, Florida Building Code 2023, and all Miami-Dade local amendments.</p>
             <p style="margin-top:1rem">The permit package for a custom pedestrian canopy in the HVHZ includes: complete wind load calculations with all applicable ASCE 7-22 coefficients and load combinations, structural analysis showing member capacities exceed demands with required safety factors, foundation plans with geotechnical report confirming bearing and uplift capacity in the local soil and rock conditions, connection details for every joint including base plates, ledger connections, and beam-to-column joints, and drainage plans showing the canopy does not create ponding conditions. Review timelines for canopy permits in Miami-Dade average 4 to 8 weeks, with expedited review available for 150% of the standard fee.</p>
-            <div class="stat-row"><span class="stat-label">Standard permit review</span><span class="stat-value">4-8 weeks</span></div>
-            <div class="stat-row"><span class="stat-label">Expedited review surcharge</span><span class="stat-value">150% of fee</span></div>
-            <div class="stat-row"><span class="stat-label">Threshold inspection required</span><span class="stat-value">Over 200 sq ft</span></div>
+            <div class="stat-row"><span class="indicator-label">Standard permit review</span><span class="measure-value">4-8 weeks</span></div>
+            <div class="stat-row"><span class="indicator-label">Expedited review surcharge</span><span class="measure-value">150% of fee</span></div>
+            <div class="stat-row"><span class="indicator-label">Threshold inspection required</span><span class="measure-value">Over 200 sq ft</span></div>
         </div>
     </div>
 
     <!-- FAQ Section -->
-    <div class="faq-section">
-        <div class="section-header reveal">
+    <div class="reference-section">
+        <div class="section-title-area reveal">
             <h2>Frequently Asked <em>Questions</em></h2>
             <p>Expert answers to pedestrian canopy wind engineering in Miami-Dade</p>
         </div>
 
-        <div class="faq-item reveal">
+        <div class="resource-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">
                 <span>What ASCE 7-22 provisions govern pedestrian canopy wind loads in Miami-Dade HVHZ?</span>
                 <span class="faq-icon">+</span>
@@ -714,7 +715,7 @@
                 <p>Pedestrian canopies are classified as open buildings under ASCE 7-22 Chapter 27 when the roof is supported by columns with no enclosing walls. Section 27.4.3 covers open buildings with monoslope, pitched, or flat free roofs, using net pressure coefficients (CN) from Figures 27.3-4 through 27.3-7. These CN values combine wind action on both top and bottom surfaces simultaneously. For a typical flat pedestrian canopy at 12 ft mean roof height in Miami-Dade's 180 MPH zone with Exposure C, the velocity pressure qh equals approximately 42 psf. Corner zone net uplift pressures can reach -55 to -65 psf. Canopies attached to enclosed buildings use the connected canopy provisions of ASCE 7-22 Section 30.9, which produce different pressure distributions depending on the connection geometry.</p>
             </div>
         </div>
-        <div class="faq-item reveal">
+        <div class="resource-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">
                 <span>How does walking comfort wind criteria affect pedestrian canopy design?</span>
                 <span class="faq-icon">+</span>
@@ -723,7 +724,7 @@
                 <p>Walking comfort beneath pedestrian canopies is governed by wind acceleration through the constricted space between the canopy soffit and ground level. The Venturi effect increases wind speed by 15 to 40 percent as air channels beneath a low canopy. For pedestrian comfort, the Lawson LDDC criterion requires mean wind speeds below 5 m/s (11 MPH) at pedestrian level during typical conditions, with gust speeds below 15 m/s (34 MPH). In Miami-Dade, the annual mean wind speed of 9.5 MPH combined with canopy acceleration can produce uncomfortable conditions under canopies narrower than 12 ft or lower than 10 ft clear height. Mitigation includes increasing canopy height to 14 ft minimum and adding perforated wind screens at exposed edges.</p>
             </div>
         </div>
-        <div class="faq-item reveal">
+        <div class="resource-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">
                 <span>What are the design pressures for hotel porte-cochere canopies at 180 MPH?</span>
                 <span class="faq-icon">+</span>
@@ -732,7 +733,7 @@
                 <p>Hotel porte-cochere canopies in Miami-Dade HVHZ typically span 24 to 40 ft and experience net uplift pressures of -40 to -70 psf depending on roof zone and attachment condition. A freestanding porte-cochere at 14 ft mean roof height with Exposure C produces approximately 44 psf velocity pressure. With CN values of -1.2 in corner zones and -0.8 in interior zones, net uplift ranges from -35 to -53 psf. Column uplift reactions for a 30 ft span porte-cochere exceed 25,000 lbs per column, requiring drilled shaft foundations 24 to 36 inches in diameter extending 12 to 18 ft into Miami-Dade limestone bedrock.</p>
             </div>
         </div>
-        <div class="faq-item reveal">
+        <div class="resource-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">
                 <span>Can glass be used for pedestrian canopy roofing in the HVHZ?</span>
                 <span class="faq-icon">+</span>
@@ -741,7 +742,7 @@
                 <p>Yes, but glass pedestrian canopies in the HVHZ face stringent requirements. The glass must be laminated safety glass meeting ASTM E1300 for wind load capacity and ASTM E1996 for large missile impact. Typical overhead glazing uses minimum 11/16-inch laminated glass with a 0.090-inch SGP (SentryGlas Plus) interlayer, which provides post-breakage retention critical for overhead applications where falling glass endangers pedestrians. The glass system requires a Miami-Dade NOA showing both the design pressure rating and impact resistance. Point-supported glass systems using spider fittings require specific NOA approval for the connection hardware in addition to the glass assembly.</p>
             </div>
         </div>
-        <div class="faq-item reveal">
+        <div class="resource-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">
                 <span>How are transit shelter canopies engineered for 180 MPH wind?</span>
                 <span class="faq-icon">+</span>
@@ -750,7 +751,7 @@
                 <p>Transit shelter canopies are typically classified as partially enclosed structures because they have a roof and one or more walls but remain open on at least one face. This triggers the partially enclosed internal pressure coefficient of GCpi plus or minus 0.55, which significantly increases roof uplift. A standard 12 ft by 6 ft bus shelter at 10 ft height in 180 MPH wind generates net roof uplift of -50 to -75 psf, column uplift of 3,500 to 5,400 lbs, and lateral base shear of 1,200 to 2,200 lbs. Foundations are typically reinforced concrete piers 18 to 24 inches in diameter, and all glazed panels must be impact-rated with a valid Miami-Dade NOA.</p>
             </div>
         </div>
-        <div class="faq-item reveal">
+        <div class="resource-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">
                 <span>What column spacing and cantilever limits apply to walkway canopies?</span>
                 <span class="faq-icon">+</span>
@@ -766,7 +767,7 @@
         <div class="cta-box reveal-scale">
             <h2>Engineering a Pedestrian Canopy in <span style="color:#5eead4">Miami-Dade HVHZ</span>?</h2>
             <p>Get accurate wind load calculations for entrance canopies, porte-cocheres, walkway covers, transit shelters, and specialty canopy structures rated to 180 MPH.</p>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary" style="font-size:1.1rem;padding:1rem 2.5rem">Calculate Canopy Wind Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage" style="font-size:1.1rem;padding:1rem 2.5rem">Calculate Canopy Wind Loads</a>
         </div>
     </div>
 
@@ -796,11 +797,11 @@
         reset(){
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.5 + 0.8;
-            this.speedX = Math.random() * 2.5 + 1.2;
+            this.size = Math.random() * 2.5 + 0.9;
+            this.speedX = Math.random() * 2.4 + 1.1;
             this.speedY = (Math.random() - 0.5) * 0.6;
             this.color = Math.random() > 0.65 ? '#5eead4' : (Math.random() > 0.5 ? '#00e5ff' : '#78716c');
-            this.opacity = Math.random() * 0.5 + 0.3;
+            this.opacity = Math.random() * 0.53 + 0.27;
         }
         constructor(){ this.reset(); this.x = Math.random() * canvas.width; }
         update(){
@@ -1002,7 +1003,7 @@
     const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
     const revealObs = new IntersectionObserver((entries) => {
         entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active'); });
-    }, {threshold: 0.15});
+    }, {threshold: 0.1});
     revealEls.forEach(el => revealObs.observe(el));
 
     // === Counter Animation ===
@@ -1023,7 +1024,7 @@
                 }, 30);
             }
         });
-    }, {threshold: 0.5});
+    }, {threshold: 0.3});
     counters.forEach(c => counterObs.observe(c));
 
     // === Gauge Arc Animation ===
@@ -1039,7 +1040,7 @@
                 setTimeout(() => { entry.target.style.strokeDashoffset = finalOffset; }, 100);
             }
         });
-    }, {threshold: 0.5});
+    }, {threshold: 0.15});
     gaugeArcs.forEach(a => gaugeObs.observe(a));
 
     // === Fixed Widget ===
@@ -1081,7 +1082,7 @@
     function toggleFaq(el){
         const item = el.parentElement;
         const wasActive = item.classList.contains('active');
-        document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+        document.querySelectorAll('.resource-item').forEach(f => f.classList.remove('active'));
         if(!wasActive) item.classList.add('active');
     }
 
@@ -1103,7 +1104,7 @@
     });
 
     // === Button Ripple ===
-    document.querySelectorAll('.btn-primary').forEach(btn => {
+    document.querySelectorAll('.btn-engage').forEach(btn => {
         btn.addEventListener('click', function(e){
             const ripple = document.createElement('span');
             ripple.classList.add('ripple');

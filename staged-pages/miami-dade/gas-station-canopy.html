@@ -97,21 +97,22 @@
     </script>
 
     <style>
+/* uid:e3e06d0e */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 25% 35%, rgba(245, 158, 11, 0.05) 0%, transparent 50%), radial-gradient(circle at 75% 65%, rgba(255, 140, 0, 0.04) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(35px); transition: all 0.5s ease-in-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -130,28 +131,28 @@
         .hero-shimmer { background: linear-gradient(120deg, #f59e0b 0%, #ff8c00 25%, #f59e0b 50%, #00e5ff 75%, #f59e0b 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Wind Speed Widget */
-        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 180px; }
+        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(245, 158, 11, 0.3); border-radius: 19px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(20px); opacity: 0; transform: translateX(120px); transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1); min-width: 180px; }
         .wind-widget.visible { opacity: 1; transform: translateX(0); }
-        .wind-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .wind-widget-value { font-size: 1.5rem; font-weight: 800; color: #f59e0b; margin-bottom: 4px; }
+        .wind-snap-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .wind-snap-value { font-size: 1.5rem; font-weight: 800; color: #f59e0b; margin-bottom: 4px; }
         .wind-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .wind-widget-fill { height: 100%; background: linear-gradient(90deg, #f59e0b, #ff8c00); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .wind-widget-status { font-size: 0.8rem; font-weight: 600; color: #ff8c00; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(245, 158, 11, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(245, 158, 11, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.55rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #f59e0b; }
-        .nav-cta { background: linear-gradient(135deg, #f59e0b 0%, #ff8c00 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #f59e0b 0%, #ff8c00 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.5s ease-out; }
+        .nav-cta:hover { transform: translateY(-4px); box-shadow: 0 4px 20px rgba(245, 158, 11, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
         .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #f59e0b; }
@@ -165,11 +166,11 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #f59e0b; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #f59e0b 0%, #ff8c00 100%); color: #0c1220; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4); }
-        .btn-secondary { border: 2px solid rgba(245, 158, 11, 0.5); color: #f59e0b; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.12rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-main { background: linear-gradient(135deg, #f59e0b 0%, #ff8c00 100%); color: #0c1220; padding: 0.9rem 2rem; border-radius: 11px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.65s cubic-bezier(0.22, 1, 0.36, 1); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-main:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 8px 30px rgba(245, 158, 11, 0.4); }
+        .btn-detail { border: 2px solid rgba(245, 158, 11, 0.5); color: #f59e0b; padding: 0.9rem 2rem; border-radius: 7px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.5s ease; background: transparent; }
+        .btn-detail:hover { background: rgba(245, 158, 11, 0.1); border-color: #f59e0b; transform: scale(1.02); }
         .warning-banner { background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.3); border-left: 4px solid #ff4757; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 700px; margin: 0 auto; }
         .warning-banner strong { color: #ff4757; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
@@ -181,25 +182,25 @@
 
         /* Trust Badges */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(245, 158, 11, 0.03); border-top: 1px solid rgba(245, 158, 11, 0.1); border-bottom: 1px solid rgba(245, 158, 11, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.80rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #f59e0b; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
 
         /* Sections */
-        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .section-container { max-width: 1250px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.25); color: #f59e0b; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .section-title .accent { color: #f59e0b; }
         .section-subtitle { font-size: 1.05rem; color: #94a3b8; max-width: 700px; margin-bottom: 2.5rem; }
 
         /* Pressure Zone Cards */
-        .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .zone-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.56rem; margin-top: 2rem; }
+        .zone-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 19px; padding: 2rem; transition: all 0.8s ease; position: relative; overflow: hidden; }
         .zone-card:hover { transform: translateY(-5px); border-color: rgba(245, 158, 11, 0.5); box-shadow: 0 8px 40px rgba(245, 158, 11, 0.15); }
         .zone-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #f59e0b, #ff8c00); opacity: 0; transition: opacity 0.3s ease; }
         .zone-card:hover::before { opacity: 1; }
-        .zone-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .zone-icon { width: 48px; height: 48px; border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .zone-1 .zone-icon { background: rgba(0, 229, 255, 0.15); color: #00e5ff; }
         .zone-2 .zone-icon { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
         .zone-3 .zone-icon { background: rgba(255, 71, 87, 0.15); color: #ff4757; }
@@ -211,7 +212,7 @@
         .zone-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.87rem; align-items: start; margin-top: 2rem; }
         .col-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .col-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
         .col-content ul { list-style: none; padding: 0; }
@@ -219,7 +220,7 @@
         .col-content ul li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: #f59e0b; }
 
         /* Spec Table */
-        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 12px; border: 1px solid rgba(245, 158, 11, 0.15); }
+        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 10px; border: 1px solid rgba(245, 158, 11, 0.15); }
         .spec-table { width: 100%; border-collapse: collapse; }
         .spec-table thead { background: rgba(245, 158, 11, 0.1); }
         .spec-table th { padding: 0.9rem 1.25rem; text-align: left; font-size: 0.85rem; font-weight: 700; color: #f59e0b; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(245, 158, 11, 0.2); }
@@ -229,11 +230,11 @@
         .spec-table .highlight { color: #f59e0b; font-weight: 700; }
 
         /* Foundation Comparison */
-        .foundation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .foundation-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .foundation-card:hover { border-color: rgba(245, 158, 11, 0.4); transform: translateY(-3px); }
-        .foundation-card .fc-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
-        .foundation-card .fc-icon { width: 44px; height: 44px; border-radius: 10px; background: rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: center; }
+        .foundation-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 2.02rem; margin-top: 2rem; }
+        .foundation-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 19px; padding: 2rem; transition: all 0.65s ease-out; }
+        .foundation-card:hover { border-color: rgba(245, 158, 11, 0.4); transform: translateY(-5px); }
+        .foundation-card .fc-header { display: flex; align-items: center; gap: 0.94rem; margin-bottom: 1.25rem; }
+        .foundation-card .fc-icon { width: 44px; height: 44px; border-radius: 9px; background: rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: center; }
         .foundation-card .fc-icon svg { width: 24px; height: 24px; }
         .foundation-card h3 { font-size: 1.1rem; font-weight: 700; }
         .foundation-card .fc-specs { margin-top: 1rem; }
@@ -244,7 +245,7 @@
 
         /* Process Steps */
         .process-steps { position: relative; margin-top: 2rem; }
-        .process-step { display: flex; gap: 2rem; margin-bottom: 2rem; position: relative; }
+        .process-step { display: flex; gap: 2.26rem; margin-bottom: 2rem; position: relative; }
         .step-marker { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); border: 2px solid #f59e0b; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #f59e0b; position: relative; z-index: 2; }
         .step-connector { position: absolute; left: 23px; top: 48px; width: 2px; height: calc(100% - 48px); background: linear-gradient(180deg, #f59e0b, rgba(245, 158, 11, 0.1)); z-index: 1; }
         .process-step:last-child .step-connector { display: none; }
@@ -253,29 +254,29 @@
         .step-content p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
 
         /* FAQ */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(245, 158, 11, 0.02); }
+        .support-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(245, 158, 11, 0.02); }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
-        .faq-item.active { border-color: rgba(245, 158, 11, 0.4); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(245, 158, 11, 0.05); }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; flex: 1; }
-        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
+        .question-item { border: 1px solid rgba(245, 158, 11, 0.15); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
+        .question-item.active { border-color: rgba(245, 158, 11, 0.4); }
+        .question-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.97rem; transition: background 0.3s ease; }
+        .question-trigger:hover { background: rgba(245, 158, 11, 0.05); }
+        .question-trigger h3 { font-size: 1rem; font-weight: 600; flex: 1; }
+        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(245, 158, 11, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1); flex-shrink: 0; }
         .faq-toggle svg { width: 14px; height: 14px; stroke: #f59e0b; transition: transform 0.3s ease; }
-        .faq-item.active .faq-toggle { background: rgba(245, 158, 11, 0.3); }
-        .faq-item.active .faq-toggle svg { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .question-item.active .faq-toggle { background: rgba(245, 158, 11, 0.3); }
+        .question-item.active .faq-toggle svg { transform: rotate(45deg); }
+        .question-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .question-content-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* CTA Section */
-        .cta-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; }
+        .launch-section { padding: 4rem 2rem; position: relative; z-index: 2; text-align: center; }
         .cta-container { max-width: 700px; margin: 0 auto; }
         .cta-container h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; font-size: 1.05rem; margin-bottom: 2rem; }
         .cta-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.2); color: #f59e0b; padding: 0.5rem 1.25rem; border-radius: 100px; font-size: 0.85rem; font-weight: 600; margin-top: 1.5rem; }
 
         /* Footer */
-        .footer { padding: 3rem 2rem; border-top: 1px solid rgba(245, 158, 11, 0.1); text-align: center; position: relative; z-index: 2; }
+        .footer { padding: 4rem 2rem; border-top: 1px solid rgba(245, 158, 11, 0.1); text-align: center; position: relative; z-index: 2; }
         .footer p { color: #64748b; font-size: 0.85rem; }
         .footer a { color: #94a3b8; text-decoration: none; }
         .footer a:hover { color: #f59e0b; }
@@ -301,7 +302,7 @@
             .hero { padding: 3rem 1.25rem 2rem; }
             .section { padding: 3rem 1.25rem; }
             .hero-cta { flex-direction: column; align-items: center; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.60rem; }
         }
     </style>
 </head>
@@ -311,8 +312,8 @@
 
     <!-- Wind Speed Widget -->
     <div class="wind-widget" id="windWidget">
-        <div class="wind-widget-label">Design Wind Speed</div>
-        <div class="wind-widget-value">180 MPH</div>
+        <div class="wind-snap-label">Design Wind Speed</div>
+        <div class="wind-snap-value">180 MPH</div>
         <div class="wind-widget-bar"><div class="wind-widget-fill" id="windFill"></div></div>
         <div class="wind-widget-status">HVHZ Active</div>
     </div>
@@ -352,8 +353,8 @@
                 A fuel station canopy is one of the most wind-vulnerable commercial structures in Miami-Dade County. With <strong>180 MPH design wind speed</strong>, open-roof geometry, and massive tributary areas generating net uplift pressures from <strong>-45 to -75 psf</strong>, every column, base plate, and drilled shaft must be engineered to prevent catastrophic failure during a hurricane.
             </p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Canopy Loads</a>
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">Get Engineering Report</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-main">Calculate Canopy Loads</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-detail">Get Engineering Report</a>
             </div>
             <div class="warning-banner">
                 <p><strong>Engineering Alert:</strong> Gas station canopies account for a disproportionate share of commercial wind damage in hurricanes. During Hurricane Andrew (1992), over 65% of fuel station canopies in southern Miami-Dade suffered partial or complete collapse. Current ASCE 7-22 provisions with Miami-Dade's 180 MPH wind speed demand rigorous structural design that many older stations do not meet.</p>
@@ -774,79 +775,79 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section class="support-section">
         <div class="faq-container">
             <div class="section-label reveal" style="text-align: center;">Common Questions</div>
             <h2 class="section-title reveal" style="text-align: center;">Frequently Asked Questions About <span class="accent">Gas Station Canopy Wind Loads</span></h2>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="question-item reveal">
+                <div class="question-trigger" onclick="toggleFaq(this)">
                     <h3>What ASCE 7-22 chapter governs gas station canopy wind loads?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Gas station canopies are classified as open buildings under ASCE 7-22 Chapter 29. Specifically, Section 29.4 covers the Main Wind Force Resisting System (MWFRS) for open buildings with monoslope, pitched, or troughed free roofs. Net pressure coefficients (CN) from Figures 29.4-1 through 29.4-7 combine the effects of wind pressure on both top and bottom roof surfaces simultaneously. Because wind flows both over and under the canopy, the resulting net uplift pressures are substantially higher than what an enclosed roof of the same dimensions would experience. In Miami-Dade's 180 MPH design wind speed zone, corner zone net uplift can reach approximately 75 psf for a standard flat-roof gas station canopy.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Gas station canopies are classified as open buildings under ASCE 7-22 Chapter 29. Specifically, Section 29.4 covers the Main Wind Force Resisting System (MWFRS) for open buildings with monoslope, pitched, or troughed free roofs. Net pressure coefficients (CN) from Figures 29.4-1 through 29.4-7 combine the effects of wind pressure on both top and bottom roof surfaces simultaneously. Because wind flows both over and under the canopy, the resulting net uplift pressures are substantially higher than what an enclosed roof of the same dimensions would experience. In Miami-Dade's 180 MPH design wind speed zone, corner zone net uplift can reach approximately 75 psf for a standard flat-roof gas station canopy.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="question-item reveal">
+                <div class="question-trigger" onclick="toggleFaq(this)">
                     <h3>What are typical design pressures for gas station canopies in Miami-Dade HVHZ?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Design pressures vary by roof zone. For a standard 60x90 ft flat-roof canopy at 16 ft mean roof height in Exposure C with 180 MPH wind speed: Zone 1 (interior) ranges from -45 to -55 psf net uplift, Zone 2 (edge) from -55 to -65 psf, and Zone 3 (corner) from -65 to -75 psf. Positive (downward) pressures can reach +30 to +40 psf in certain wind directions. These pressures apply to the MWFRS design. Components and Cladding (C&C) pressures for individual roof deck panels and fascia elements can be 20-30% higher due to localized tributary area effects governed by ASCE 7-22 Chapter 30.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Design pressures vary by roof zone. For a standard 60x90 ft flat-roof canopy at 16 ft mean roof height in Exposure C with 180 MPH wind speed: Zone 1 (interior) ranges from -45 to -55 psf net uplift, Zone 2 (edge) from -55 to -65 psf, and Zone 3 (corner) from -65 to -75 psf. Positive (downward) pressures can reach +30 to +40 psf in certain wind directions. These pressures apply to the MWFRS design. Components and Cladding (C&C) pressures for individual roof deck panels and fascia elements can be 20-30% higher due to localized tributary area effects governed by ASCE 7-22 Chapter 30.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="question-item reveal">
+                <div class="question-trigger" onclick="toggleFaq(this)">
                     <h3>How are gas station canopy columns designed for 180 MPH wind uplift?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Canopy columns must resist three simultaneous force components: vertical uplift (25,000-45,000 lbs per column), horizontal base shear (8,000-15,000 lbs), and overturning moment (100,000-200,000 ft-lbs). Typical column sections are W12x58 to W14x82 wide-flange or HSS 10x10 to 12x12 square tube. Base plates range from 24x24x1.5 inches to 28x28x2 inches with 6-8 anchor bolts of 1.25 to 1.5 inch diameter. The moment connection at the base requires complete joint penetration welds, triangular gusset stiffeners, and non-shrink grout bearing. All connections must develop the full plastic moment capacity of the column section per AISC 360-22.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Canopy columns must resist three simultaneous force components: vertical uplift (25,000-45,000 lbs per column), horizontal base shear (8,000-15,000 lbs), and overturning moment (100,000-200,000 ft-lbs). Typical column sections are W12x58 to W14x82 wide-flange or HSS 10x10 to 12x12 square tube. Base plates range from 24x24x1.5 inches to 28x28x2 inches with 6-8 anchor bolts of 1.25 to 1.5 inch diameter. The moment connection at the base requires complete joint penetration welds, triangular gusset stiffeners, and non-shrink grout bearing. All connections must develop the full plastic moment capacity of the column section per AISC 360-22.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="question-item reveal">
+                <div class="question-trigger" onclick="toggleFaq(this)">
                     <h3>What foundation types work for gas station canopies in Miami-Dade HVHZ?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Drilled shaft (caisson) foundations are the standard choice for Miami-Dade gas station canopies. Typical specifications include 30 to 48 inch diameter shafts extending 15 to 25 feet deep, socketed into the Miami Limestone formation. Reinforcement consists of 8-12 vertical #8 or #9 bars with #4 spiral ties at 6-inch pitch. Rock socket design relies on skin friction values of 5-15 psi verified by site-specific geotechnical borings. Spread footings are used for smaller single-island canopies but require massive concrete volumes (8x8x4 ft minimum, 9-14 cubic yards per footing) because they resist uplift solely through dead weight. Environmental contamination from underground fuel tanks adds complexity to drilling operations on gas station sites.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Drilled shaft (caisson) foundations are the standard choice for Miami-Dade gas station canopies. Typical specifications include 30 to 48 inch diameter shafts extending 15 to 25 feet deep, socketed into the Miami Limestone formation. Reinforcement consists of 8-12 vertical #8 or #9 bars with #4 spiral ties at 6-inch pitch. Rock socket design relies on skin friction values of 5-15 psi verified by site-specific geotechnical borings. Spread footings are used for smaller single-island canopies but require massive concrete volumes (8x8x4 ft minimum, 9-14 cubic yards per footing) because they resist uplift solely through dead weight. Environmental contamination from underground fuel tanks adds complexity to drilling operations on gas station sites.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="question-item reveal">
+                <div class="question-trigger" onclick="toggleFaq(this)">
                     <h3>Do gas station canopies need Miami-Dade NOA certification?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Prefabricated canopy systems from manufacturers (such as modular steel canopy kits) require either a Notice of Acceptance (NOA) from Miami-Dade County Product Control or a Florida Product Approval with HVHZ designation. The NOA must specifically cover the design wind speed (180 MPH), exposure category, and canopy dimensions matching the project. Custom-engineered canopies designed project-specifically by a Florida PE do not require an NOA but must have sealed structural drawings with full wind load calculations demonstrating compliance with ASCE 7-22, FBC 2023, and Miami-Dade local amendments. Miami-Dade Product Control reviews all canopy submissions in the HVHZ regardless of the approval path chosen.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Prefabricated canopy systems from manufacturers (such as modular steel canopy kits) require either a Notice of Acceptance (NOA) from Miami-Dade County Product Control or a Florida Product Approval with HVHZ designation. The NOA must specifically cover the design wind speed (180 MPH), exposure category, and canopy dimensions matching the project. Custom-engineered canopies designed project-specifically by a Florida PE do not require an NOA but must have sealed structural drawings with full wind load calculations demonstrating compliance with ASCE 7-22, FBC 2023, and Miami-Dade local amendments. Miami-Dade Product Control reviews all canopy submissions in the HVHZ regardless of the approval path chosen.</div>
                 </div>
             </div>
 
-            <div class="faq-item reveal">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="question-item reveal">
+                <div class="question-trigger" onclick="toggleFaq(this)">
                     <h3>How does canopy height and aspect ratio affect gas station wind loads?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Canopy height directly impacts the velocity pressure exposure coefficient Kz. A standard 16 ft mean roof height in Exposure C yields Kz of 0.98, while increasing to 20 ft raises Kz to 1.04 (approximately 6% higher pressures). Aspect ratio affects net pressure coefficients: canopies with length-to-width ratios exceeding 2:1 develop stronger vortex shedding along long edges, increasing Zone 2 pressures. The ratio of mean roof height to horizontal dimension also determines which CN values apply from ASCE 7-22 Figure 29.4-1. Blocked conditions (fuel dispensers and vehicles underneath) can modify flow patterns, but the code requires using the unblocked case for conservative design since vehicles are transient obstructions.</div>
+                <div class="question-content">
+                    <div class="question-content-inner">Canopy height directly impacts the velocity pressure exposure coefficient Kz. A standard 16 ft mean roof height in Exposure C yields Kz of 0.98, while increasing to 20 ft raises Kz to 1.04 (approximately 6% higher pressures). Aspect ratio affects net pressure coefficients: canopies with length-to-width ratios exceeding 2:1 develop stronger vortex shedding along long edges, increasing Zone 2 pressures. The ratio of mean roof height to horizontal dimension also determines which CN values apply from ASCE 7-22 Figure 29.4-1. Blocked conditions (fuel dispensers and vehicles underneath) can modify flow patterns, but the code requires using the unblocked case for conservative design since vehicles are transient obstructions.</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Final CTA -->
-    <section class="cta-section">
+    <section class="launch-section">
         <div class="cta-container reveal-scale">
             <h2>Engineering a Gas Station Canopy in <span style="color: #f59e0b;">Miami-Dade HVHZ</span>?</h2>
             <p>Get precise ASCE 7-22 Chapter 29 wind load calculations for your fuel station canopy project. Our specialty structure calculator handles open building net pressure coefficients, column base reactions, and foundation demands at 180 MPH design wind speed.</p>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Canopy Wind Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-main">Calculate Canopy Wind Loads</a>
             <div class="cta-badge">ASCE 7-22 Compliant &middot; Miami-Dade HVHZ &middot; PE-Ready Output</div>
         </div>
     </section>
@@ -876,10 +877,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.8;
-                this.speedX = Math.random() * 3.5 + 1.5;
+                this.size = Math.random() * 2.1 + 0.8;
+                this.speedX = Math.random() * 3.3 + 1.4;
                 this.speedY = (Math.random() - 0.5) * 1.2;
-                this.opacity = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.55 + 0.19;
                 this.color = Math.random() > 0.6 ? '#f59e0b' : (Math.random() > 0.5 ? '#ff8c00' : '#00e5ff');
             }
             update() {
@@ -921,7 +922,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
         reveals.forEach(el => observer.observe(el));
     })();
 
@@ -955,7 +956,7 @@
                     requestAnimationFrame(tick);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.25 });
         counters.forEach(c => counterObserver.observe(c));
     })();
 
@@ -980,13 +981,13 @@
     // FAQ Accordion
     function toggleFaq(el) {
         const item = el.parentElement;
-        const answer = item.querySelector('.faq-answer');
+        const answer = item.querySelector('.question-content');
         const isActive = item.classList.contains('active');
 
-        document.querySelectorAll('.faq-item.active').forEach(other => {
+        document.querySelectorAll('.question-item.active').forEach(other => {
             if (other !== item) {
                 other.classList.remove('active');
-                other.querySelector('.faq-answer').style.maxHeight = '0';
+                other.querySelector('.question-content').style.maxHeight = '0';
             }
         });
 
@@ -1019,7 +1020,7 @@
     })();
 
     // Button Ripple Effect
-    document.querySelectorAll('.btn-primary').forEach(btn => {
+    document.querySelectorAll('.btn-main').forEach(btn => {
         btn.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
             const rect = this.getBoundingClientRect();

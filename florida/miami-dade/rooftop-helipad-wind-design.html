@@ -97,21 +97,22 @@
     </script>
 
     <style>
+/* uid:03c3b86b */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0a0f1a; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 30% 25%, rgba(30, 64, 175, 0.06) 0%, transparent 50%), radial-gradient(circle at 70% 70%, rgba(234, 179, 8, 0.04) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.75s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.7s ease; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.4s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(40px); transition: all 0.55s cubic-bezier(0.65, 0, 0.35, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -124,7 +125,7 @@
         @keyframes downwash-pulse { 0%, 100% { opacity: 0.15; transform: scale(1); } 50% { opacity: 0.4; transform: scale(1.08); } }
         @keyframes windsock-sway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(15deg); } }
         @keyframes edge-light-blink { 0%, 49% { opacity: 1; } 50%, 100% { opacity: 0.3; } }
-        @keyframes approach-arrow { 0% { opacity: 0; transform: translateY(20px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-20px); } }
+        @keyframes approach-arrow { 0% { opacity: 0; transform: translateY(30px); } 50% { opacity: 1; } 100% { opacity: 0; transform: translateY(-20px); } }
         @keyframes glow-pulse-blue { 0%, 100% { box-shadow: 0 0 20px rgba(30, 64, 175, 0.3), 0 0 40px rgba(30, 64, 175, 0.1); } 50% { box-shadow: 0 0 40px rgba(30, 64, 175, 0.5), 0 0 80px rgba(30, 64, 175, 0.2); } }
         @keyframes warning-flash { 0%, 100% { border-left-color: #ff4757; } 50% { border-left-color: #ff6b7a; box-shadow: inset 0 0 30px rgba(255, 71, 87, 0.1); } }
         @keyframes counter-pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
@@ -132,29 +133,29 @@
         .hero-shimmer { background: linear-gradient(120deg, #eab308 0%, #1e40af 25%, #eab308 50%, #60a5fa 75%, #eab308 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Wind Widget */
-        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(10, 15, 26, 0.95); border: 1px solid rgba(30, 64, 175, 0.4); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 180px; }
+        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(10, 15, 26, 0.95); border: 1px solid rgba(30, 64, 175, 0.4); border-radius: 18px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(20px); opacity: 0; transform: translateX(120px); transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1); min-width: 180px; }
         .wind-widget.visible { opacity: 1; transform: translateX(0); }
-        .wind-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
-        .wind-widget-value { font-size: 1.5rem; font-weight: 800; color: #eab308; margin-bottom: 4px; }
+        .wind-meter-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+        .wind-chip-value { font-size: 1.5rem; font-weight: 800; color: #eab308; margin-bottom: 4px; }
         .wind-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .wind-widget-fill { height: 100%; background: linear-gradient(90deg, #1e40af, #eab308); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .wind-widget-phase { font-size: 0.75rem; font-weight: 600; color: #60a5fa; transition: opacity 0.3s; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10, 15, 26, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(30, 64, 175, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(10, 15, 26, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(30, 64, 175, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.70rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #eab308; }
-        .nav-cta { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(30, 64, 175, 0.5); }
+        .nav-cta { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
+        .nav-cta:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(30, 64, 175, 0.5); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1250px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #eab308; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -167,11 +168,11 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 740px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #eab308; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(30, 64, 175, 0.5); }
-        .btn-secondary { border: 2px solid rgba(234, 179, 8, 0.5); color: #eab308; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(234, 179, 8, 0.1); border-color: #eab308; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 0.81rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-launch { background: linear-gradient(135deg, #1e40af 0%, #2563eb 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 13px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-launch:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(30, 64, 175, 0.5); }
+        .btn-browse { border: 2px solid rgba(234, 179, 8, 0.5); color: #eab308; padding: 0.9rem 2rem; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1); background: transparent; }
+        .btn-browse:hover { background: rgba(234, 179, 8, 0.1); border-color: #eab308; transform: translateY(-8px); }
         .warning-banner { background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.3); border-left: 4px solid #ff4757; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 720px; margin: 0 auto; animation: warning-flash 3s ease infinite; }
         .warning-banner strong { color: #ff4757; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
@@ -183,14 +184,14 @@
 
         /* Trust Badges */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(30, 64, 175, 0.03); border-top: 1px solid rgba(30, 64, 175, 0.1); border-bottom: 1px solid rgba(30, 64, 175, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.11rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #eab308; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
         .counter-pop { animation: counter-pop 0.4s ease; }
 
         /* Sections */
-        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .section-container { max-width: 1250px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(30, 64, 175, 0.1); border: 1px solid rgba(30, 64, 175, 0.25); color: #60a5fa; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-label-yellow { background: rgba(234, 179, 8, 0.1); border: 1px solid rgba(234, 179, 8, 0.25); color: #eab308; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
@@ -199,12 +200,12 @@
         .section-subtitle { font-size: 1.05rem; color: #94a3b8; max-width: 700px; margin-bottom: 2.5rem; line-height: 1.7; }
 
         /* Load Zone Cards */
-        .zone-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .zone-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .zone-card:hover { transform: translateY(-5px); border-color: rgba(30, 64, 175, 0.5); box-shadow: 0 8px 40px rgba(30, 64, 175, 0.15); }
+        .zone-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.66rem; margin-top: 2rem; }
+        .zone-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 17px; padding: 2rem; transition: all 0.75s cubic-bezier(0.33, 1, 0.68, 1); position: relative; overflow: hidden; }
+        .zone-card:hover { transform: translateY(-3px) scale(1.01); border-color: rgba(30, 64, 175, 0.5); box-shadow: 0 8px 40px rgba(30, 64, 175, 0.15); }
         .zone-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #1e40af, #eab308); opacity: 0; transition: opacity 0.3s ease; }
         .zone-card:hover::before { opacity: 1; }
-        .zone-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
+        .zone-icon { width: 48px; height: 48px; border-radius: 14px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: 800; margin-bottom: 1rem; }
         .zone-blue .zone-icon { background: rgba(30, 64, 175, 0.2); color: #60a5fa; }
         .zone-yellow .zone-icon { background: rgba(234, 179, 8, 0.2); color: #eab308; }
         .zone-red .zone-icon { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
@@ -216,7 +217,7 @@
         .zone-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
 
         /* Two Column */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.72rem; align-items: start; margin-top: 2rem; }
         .col-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .col-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
         .col-content ul { list-style: none; padding: 0; }
@@ -224,7 +225,7 @@
         .col-content ul li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: #eab308; }
 
         /* Spec Table */
-        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 12px; border: 1px solid rgba(30, 64, 175, 0.15); }
+        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 14px; border: 1px solid rgba(30, 64, 175, 0.15); }
         .spec-table { width: 100%; border-collapse: collapse; }
         .spec-table thead { background: rgba(30, 64, 175, 0.1); }
         .spec-table th { padding: 0.9rem 1.25rem; text-align: left; font-size: 0.85rem; font-weight: 700; color: #60a5fa; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(30, 64, 175, 0.2); }
@@ -234,11 +235,11 @@
         .spec-table .highlight { color: #eab308; font-weight: 700; }
 
         /* Comparison Cards 2x2 */
-        .compare-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .compare-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .compare-card:hover { border-color: rgba(30, 64, 175, 0.4); transform: translateY(-3px); }
-        .compare-card .cc-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
-        .compare-card .cc-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
+        .compare-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.97rem; margin-top: 2rem; }
+        .compare-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 18px; padding: 2rem; transition: all 0.55s ease-out; }
+        .compare-card:hover { border-color: rgba(30, 64, 175, 0.4); transform: translateY(-8px); }
+        .compare-card .cc-header { display: flex; align-items: center; gap: 1.16rem; margin-bottom: 1.25rem; }
+        .compare-card .cc-icon { width: 44px; height: 44px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
         .compare-card .cc-icon.blue-icon { background: rgba(30, 64, 175, 0.2); color: #60a5fa; }
         .compare-card .cc-icon.yellow-icon { background: rgba(234, 179, 8, 0.2); color: #eab308; }
         .compare-card .cc-icon.red-icon { background: rgba(255, 71, 87, 0.2); color: #ff4757; }
@@ -253,7 +254,7 @@
 
         /* Process Steps */
         .process-steps { position: relative; margin-top: 2rem; }
-        .process-step { display: flex; gap: 2rem; margin-bottom: 2rem; position: relative; }
+        .process-step { display: flex; gap: 2.18rem; margin-bottom: 2rem; position: relative; }
         .step-marker { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; background: rgba(30, 64, 175, 0.15); border: 2px solid #1e40af; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #60a5fa; position: relative; z-index: 2; }
         .step-connector { position: absolute; left: 23px; top: 48px; width: 2px; height: calc(100% - 48px); background: linear-gradient(180deg, #1e40af, rgba(30, 64, 175, 0.1)); z-index: 1; }
         .process-step:last-child .step-connector { display: none; }
@@ -262,35 +263,35 @@
         .step-content p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
 
         /* Six-card grid 3x2 */
-        .six-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .six-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 14px; padding: 1.5rem; transition: all 0.4s ease; }
-        .six-card:hover { border-color: rgba(234, 179, 8, 0.4); transform: translateY(-4px); }
+        .six-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.20rem; margin-top: 2rem; }
+        .six-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 13px; padding: 1.5rem; transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
+        .six-card:hover { border-color: rgba(234, 179, 8, 0.4); transform: translateY(-5px); }
         .six-card .sc-icon { font-size: 1.5rem; margin-bottom: 0.75rem; }
         .six-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .six-card p { color: #94a3b8; font-size: 0.85rem; line-height: 1.6; }
 
         /* FAQ */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(30, 64, 175, 0.02); }
+        .info-section { padding: 4rem 2rem; position: relative; z-index: 2; background: rgba(30, 64, 175, 0.02); }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
-        .faq-item.active { border-color: rgba(30, 64, 175, 0.4); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(30, 64, 175, 0.05); }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; flex: 1; }
-        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(30, 64, 175, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
+        .help-item { border: 1px solid rgba(30, 64, 175, 0.15); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
+        .help-item.active { border-color: rgba(30, 64, 175, 0.4); }
+        .qa-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.90rem; transition: background 0.3s ease; }
+        .qa-trigger:hover { background: rgba(30, 64, 175, 0.05); }
+        .qa-trigger h3 { font-size: 1rem; font-weight: 600; flex: 1; }
+        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(30, 64, 175, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1); flex-shrink: 0; }
         .faq-toggle svg { width: 14px; height: 14px; stroke: #60a5fa; transition: transform 0.3s ease; }
-        .faq-item.active .faq-toggle { background: rgba(30, 64, 175, 0.3); }
-        .faq-item.active .faq-toggle svg { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .help-item.active .faq-toggle { background: rgba(30, 64, 175, 0.3); }
+        .help-item.active .faq-toggle svg { transform: rotate(45deg); }
+        .reveal-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-body-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* CTA */
-        .cta-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; }
+        .finale-section { padding: 6rem 2rem; position: relative; z-index: 2; text-align: center; }
         .cta-container { max-width: 700px; margin: 0 auto; }
         .cta-container h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; font-size: 1.05rem; margin-bottom: 2rem; }
         .cta-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(30, 64, 175, 0.1); border: 1px solid rgba(30, 64, 175, 0.2); color: #60a5fa; padding: 0.5rem 1.25rem; border-radius: 100px; font-size: 0.85rem; font-weight: 600; margin-top: 1.5rem; }
-        .cta-links { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
+        .cta-links { display: flex; gap: 1.12rem; justify-content: center; flex-wrap: wrap; margin-top: 1rem; }
         .cta-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
         .cta-links a:hover { color: #eab308; }
 
@@ -307,7 +308,7 @@
             .zone-grid, .six-grid { grid-template-columns: 1fr; }
             .two-col { grid-template-columns: 1fr; }
             .compare-grid { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: 1fr 1fr; }
             .nav-links { display: none; }
             .wind-widget { display: none; }
         }
@@ -315,7 +316,7 @@
             .hero { padding: 3rem 1.25rem 2rem; }
             .section { padding: 3rem 1.25rem; }
             .hero-cta { flex-direction: column; align-items: center; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.40rem; }
         }
     </style>
 </head>
@@ -325,8 +326,8 @@
 
     <!-- Wind Widget (Cycling Phases) -->
     <div class="wind-widget" id="windWidget">
-        <div class="wind-widget-label">Design Wind Speed</div>
-        <div class="wind-widget-value">180 MPH</div>
+        <div class="wind-meter-label">Design Wind Speed</div>
+        <div class="wind-chip-value">180 MPH</div>
         <div class="wind-widget-bar"><div class="wind-widget-fill" id="windFill"></div></div>
         <div class="wind-widget-phase" id="windPhase">HVHZ Rooftop Structure</div>
     </div>
@@ -366,8 +367,8 @@
                 Rooftop helipad wind load design in Miami-Dade County requires engineering for <strong>180 MPH basic wind speed</strong> per ASCE 7-22 combined with FAA heliport design standards. A helicopter landing pad on a 200-foot hospital roof experiences velocity pressures exceeding <strong>85 psf</strong> before pressure coefficients, while safety nets, edge lighting, wind cones, and fuel storage equipment each demand independent wind anchorage calculations that satisfy both the Florida Building Code and federal aviation requirements.
             </p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Helipad Loads</a>
-                <a href="https://windloadcalc.com/services.html" class="btn-secondary">Engineering Services</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-launch">Calculate Helipad Loads</a>
+                <a href="https://windloadcalc.com/services.html" class="btn-browse">Engineering Services</a>
             </div>
             <div class="warning-banner">
                 <p><strong>Structural Alert:</strong> During Hurricane Irma (2017), multiple rooftop helipad safety nets in Miami-Dade were torn from their post anchors when expansion bolt connections failed in cracked concrete. Three hospital helipads sustained damage to edge lighting circuits and wind cones, grounding EMS operations for 48+ hours post-storm. Current ASCE 7-22 provisions require adhesive or undercut anchors in cracked concrete zones for all helipad perimeter components.</p>
@@ -973,81 +974,81 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section class="info-section">
         <div class="faq-container">
             <div class="section-label" style="text-align:center;display:block;">Frequently Asked Questions</div>
             <h2 class="section-title reveal" style="text-align:center;">Rooftop Helipad Wind Design <span class="accent">FAQ</span></h2>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="help-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>What ASCE 7-22 provisions govern wind loads on rooftop helipads in Miami-Dade?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Rooftop helipads fall under multiple ASCE 7-22 provisions. An elevated deck on columns is treated as an open building per Section 29.4, with net pressure coefficients combining top and bottom surface effects. Flush-mounted pads follow roof C&amp;C provisions in Chapter 30. Perimeter safety nets are open framework structures, while the wind cone and lighting are individual components with force coefficients from Chapter 29. At Miami-Dade's 180 MPH basic wind speed, velocity pressure at a 200-foot rooftop reaches approximately 102.8 psf, which gets multiplied by the relevant pressure coefficients for each element. Risk Category IV hospitals apply an additional 1.15 importance factor, effectively designing to a 194 MPH equivalent wind speed.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Rooftop helipads fall under multiple ASCE 7-22 provisions. An elevated deck on columns is treated as an open building per Section 29.4, with net pressure coefficients combining top and bottom surface effects. Flush-mounted pads follow roof C&amp;C provisions in Chapter 30. Perimeter safety nets are open framework structures, while the wind cone and lighting are individual components with force coefficients from Chapter 29. At Miami-Dade's 180 MPH basic wind speed, velocity pressure at a 200-foot rooftop reaches approximately 102.8 psf, which gets multiplied by the relevant pressure coefficients for each element. Risk Category IV hospitals apply an additional 1.15 importance factor, effectively designing to a 194 MPH equivalent wind speed.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="help-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>How does rotor downwash affect helipad structural design in hurricane zones?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Rotor downwash pressure equals the helicopter's maximum gross weight divided by the main rotor disc area. For common EMS helicopters, this ranges from 4.4 psf (Bell 407) to 8.8 psf (Leonardo AW139). FAA AC 150/5390-2C requires a 1.5x dynamic impact factor on these pressures. While modest compared to 180 MPH wind loads, downwash is an operational load that occurs simultaneously with ambient wind during landing, creating a unique load combination: 1.2D + 1.6L(helicopter) + 1.0W(operational) + 1.5(downwash). The deck must resist both this operational case and the unoccupied hurricane case of 0.9D + 1.0W(180 MPH ultimate), with the uplift case typically governing connection design.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Rotor downwash pressure equals the helicopter's maximum gross weight divided by the main rotor disc area. For common EMS helicopters, this ranges from 4.4 psf (Bell 407) to 8.8 psf (Leonardo AW139). FAA AC 150/5390-2C requires a 1.5x dynamic impact factor on these pressures. While modest compared to 180 MPH wind loads, downwash is an operational load that occurs simultaneously with ambient wind during landing, creating a unique load combination: 1.2D + 1.6L(helicopter) + 1.0W(operational) + 1.5(downwash). The deck must resist both this operational case and the unoccupied hurricane case of 0.9D + 1.0W(180 MPH ultimate), with the uplift case typically governing connection design.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="help-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>What permits are required for a rooftop helipad in Miami-Dade County?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Three separate approvals are required: (1) FAA Form 7480-1 airspace determination under 14 CFR Part 77, which takes 45-90 days and must be obtained first; (2) Miami-Dade zoning approval, which may require a public hearing for private helipads under County Code Section 33-151; and (3) a Miami-Dade building permit with full HVHZ structural review by Product Control. The building permit package must include ASCE 7-22 wind load calculations for every component, anchor calculations per ACI 318 Chapter 17, fire protection per NFPA 418 (hospitals), and drainage details. Hospital helipads also require Florida DOH licensing coordination. Expect 8-12 weeks for structural plan review alone.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Three separate approvals are required: (1) FAA Form 7480-1 airspace determination under 14 CFR Part 77, which takes 45-90 days and must be obtained first; (2) Miami-Dade zoning approval, which may require a public hearing for private helipads under County Code Section 33-151; and (3) a Miami-Dade building permit with full HVHZ structural review by Product Control. The building permit package must include ASCE 7-22 wind load calculations for every component, anchor calculations per ACI 318 Chapter 17, fire protection per NFPA 418 (hospitals), and drainage details. Hospital helipads also require Florida DOH licensing coordination. Expect 8-12 weeks for structural plan review alone.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="help-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>What are the wind speed operating limits for helicopter rooftop operations?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Most EMS operators establish maximum crosswind limits of 30-35 knots (35-40 MPH) and headwind limits of 45 knots (52 MPH) for rooftop pads. Tailwind limits are severely restricted at 15 knots (17 MPH). Operations cease entirely when peak gusts exceed 50 knots (58 MPH). Rooftop locations add 10-15 knots of mechanical turbulence from building edge effects that do not exist at ground-level heliports. The wind cone must be visible from 500 feet and rated for 180 MPH survival wind speed. When winds exceed operational limits the pad closes, but every structural component must survive the full 180 MPH design event while unoccupied.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Most EMS operators establish maximum crosswind limits of 30-35 knots (35-40 MPH) and headwind limits of 45 knots (52 MPH) for rooftop pads. Tailwind limits are severely restricted at 15 knots (17 MPH). Operations cease entirely when peak gusts exceed 50 knots (58 MPH). Rooftop locations add 10-15 knots of mechanical turbulence from building edge effects that do not exist at ground-level heliports. The wind cone must be visible from 500 feet and rated for 180 MPH survival wind speed. When winds exceed operational limits the pad closes, but every structural component must survive the full 180 MPH design event while unoccupied.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="help-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>How are perimeter safety nets designed for wind loads on rooftop helipads?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Safety nets with a typical solidity ratio of 0.35-0.45 experience wind drag of 35-48 plf at 180 MPH on a 200-foot building. Posts spaced at 10-foot intervals resist 350-480 lbs of lateral load, creating base moments of 1,400-1,920 ft-lbs per post. Posts are typically HSS 4x4x1/4 welded to 10x10 inch base plates with four 3/4-inch adhesive anchors embedded 6 inches into reinforced concrete. After Hurricane Irma revealed expansion anchor failures in cracked concrete at multiple Miami-Dade hospital helipads, adhesive or undercut anchors are now required per ACI 318 Chapter 17 with cracked-concrete capacity reduction factors applied to all tension calculations.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Safety nets with a typical solidity ratio of 0.35-0.45 experience wind drag of 35-48 plf at 180 MPH on a 200-foot building. Posts spaced at 10-foot intervals resist 350-480 lbs of lateral load, creating base moments of 1,400-1,920 ft-lbs per post. Posts are typically HSS 4x4x1/4 welded to 10x10 inch base plates with four 3/4-inch adhesive anchors embedded 6 inches into reinforced concrete. After Hurricane Irma revealed expansion anchor failures in cracked concrete at multiple Miami-Dade hospital helipads, adhesive or undercut anchors are now required per ACI 318 Chapter 17 with cracked-concrete capacity reduction factors applied to all tension calculations.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="help-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>What is the difference between hospital and private helipad structural requirements?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Hospital helipads are Risk Category IV essential facilities with an importance factor Ie of 1.15, increasing all design wind pressures by 15% compared to Risk Category II private helipads (Ie = 1.0). This means a hospital helipad at 180 MPH base wind speed is effectively designed to a 194 MPH equivalent. Hospital pads also require NFPA 418 fire suppression systems, emergency generator-backed lighting circuits, mandatory safety nets per FAA guidance, and redundant structural load paths per FBC Section 1620. Typical construction costs range from $800K to $2.5M for hospital helipads versus $250K to $750K for private installations, a 2-3x cost multiplier driven primarily by the enhanced structural and fire protection requirements.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Hospital helipads are Risk Category IV essential facilities with an importance factor Ie of 1.15, increasing all design wind pressures by 15% compared to Risk Category II private helipads (Ie = 1.0). This means a hospital helipad at 180 MPH base wind speed is effectively designed to a 194 MPH equivalent. Hospital pads also require NFPA 418 fire suppression systems, emergency generator-backed lighting circuits, mandatory safety nets per FAA guidance, and redundant structural load paths per FBC Section 1620. Typical construction costs range from $800K to $2.5M for hospital helipads versus $250K to $750K for private installations, a 2-3x cost multiplier driven primarily by the enhanced structural and fire protection requirements.</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Final CTA -->
-    <section class="cta-section">
+    <section class="finale-section">
         <div class="cta-container reveal">
             <h2>Calculate <span style="color:#eab308;">Rooftop Helipad</span> Wind Loads</h2>
             <p>Get ASCE 7-22 compliant wind load analysis for helipad deck structures, safety net anchorage, lighting fixtures, and perimeter components in Miami-Dade HVHZ — engineered for 180 MPH survival and FAA compliance.</p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Helipad Loads</a>
-                <a href="https://windloadcalc.com/services.html" class="btn-secondary">Engineering Services</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-launch">Calculate Helipad Loads</a>
+                <a href="https://windloadcalc.com/services.html" class="btn-browse">Engineering Services</a>
             </div>
             <div class="cta-badge">ASCE 7-22 Compliant &middot; HVHZ Approved &middot; FAA AC 150/5390-2C</div>
         </div>
@@ -1077,10 +1078,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.8;
-                this.speedX = Math.random() * 3.5 + 1.5;
+                this.size = Math.random() * 2.0 + 0.8;
+                this.speedX = Math.random() * 3.7 + 1.5;
                 this.speedY = (Math.random() - 0.5) * 1.2;
-                this.opacity = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.53 + 0.17;
                 this.color = Math.random() > 0.6 ? '#eab308' : (Math.random() > 0.5 ? '#1e40af' : '#60a5fa');
             }
             update() {
@@ -1120,7 +1121,7 @@
             entries.forEach(function(entry) {
                 if (entry.isIntersecting) entry.target.classList.add('active');
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
         reveals.forEach(function(el) { observer.observe(el); });
     })();
 
@@ -1154,7 +1155,7 @@
                     requestAnimationFrame(tick);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.1 });
         counters.forEach(function(c) { counterObserver.observe(c); });
     })();
 
@@ -1192,13 +1193,13 @@
     // FAQ Accordion
     function toggleFaq(el) {
         var item = el.parentElement;
-        var answer = item.querySelector('.faq-answer');
+        var answer = item.querySelector('.reveal-body');
         var isActive = item.classList.contains('active');
 
-        document.querySelectorAll('.faq-item.active').forEach(function(other) {
+        document.querySelectorAll('.help-item.active').forEach(function(other) {
             if (other !== item) {
                 other.classList.remove('active');
-                other.querySelector('.faq-answer').style.maxHeight = '0';
+                other.querySelector('.reveal-body').style.maxHeight = '0';
             }
         });
 
@@ -1231,7 +1232,7 @@
     })();
 
     // Button Ripple Effect
-    document.querySelectorAll('.btn-primary').forEach(function(btn) {
+    document.querySelectorAll('.btn-launch').forEach(function(btn) {
         btn.addEventListener('click', function(e) {
             var ripple = document.createElement('span');
             var rect = this.getBoundingClientRect();

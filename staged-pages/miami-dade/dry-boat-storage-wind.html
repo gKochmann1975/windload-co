@@ -97,21 +97,22 @@
     </script>
 
     <style>
+/* uid:03891c1c */
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0c1220;color:#fff;line-height:1.6;overflow-x:hidden}
 
         #rack-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.55}
         .ocean-gradient{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 25% 15%,rgba(8,145,178,.06) 0%,transparent 50%),radial-gradient(circle at 75% 85%,rgba(249,115,22,.04) 0%,transparent 50%),radial-gradient(circle at 50% 50%,rgba(12,74,110,.05) 0%,transparent 60%)}
 
-        .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal{opacity:0;transform: translateY(20px);transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1)}
         .reveal.active{opacity:1;transform:translateY(0)}
-        .reveal-left{opacity:0;transform:translateX(-60px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-left{opacity:0;transform:translateX(-60px);transition: all 0.7s ease}
         .reveal-left.active{opacity:1;transform:translateX(0)}
-        .reveal-right{opacity:0;transform:translateX(60px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-right{opacity:0;transform:translateX(60px);transition: all 0.75s ease-out}
         .reveal-right.active{opacity:1;transform:translateX(0)}
-        .reveal-scale{opacity:0;transform:scale(.8);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-scale{opacity:0;transform:scale(.8);transition: all 0.8s cubic-bezier(0.33, 1, 0.68, 1)}
         .reveal-scale.active{opacity:1;transform:scale(1)}
-        .stagger-children>*{opacity:0;transform:translateY(30px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+        .stagger-children>*{opacity:0;transform: translateY(40px);transition: all 0.75s cubic-bezier(0.25, 0.8, 0.25, 1)}
         .stagger-children.active>*:nth-child(1){transition-delay:.1s;opacity:1;transform:translateY(0)}
         .stagger-children.active>*:nth-child(2){transition-delay:.2s;opacity:1;transform:translateY(0)}
         .stagger-children.active>*:nth-child(3){transition-delay:.3s;opacity:1;transform:translateY(0)}
@@ -132,9 +133,9 @@
         .shimmer{background:linear-gradient(120deg,#0891b2 0%,#f97316 25%,#06b6d4 50%,#0891b2 75%,#06b6d4 100%);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
 
         /* Rack Level Widget */
-        .rack-widget{position:fixed;top:80px;right:20px;background:rgba(12,18,32,.95);border:1px solid rgba(8,145,178,.3);border-radius:16px;padding:16px 20px;z-index:99;backdrop-filter:blur(10px);opacity:0;transform:translateX(120px);transition:all .5s cubic-bezier(.16,1,.3,1);min-width:190px}
+        .rack-widget{position:fixed;top:80px;right:20px;background:rgba(12,18,32,.95);border:1px solid rgba(8,145,178,.3);border-radius: 14px;padding:16px 20px;z-index:99;backdrop-filter: blur(12px);opacity:0;transform:translateX(120px);transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);min-width:190px}
         .rack-widget.visible{opacity:1;transform:translateX(0)}
-        .rack-widget-label{font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+        .rack-indicator-label{font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
         .rack-widget-level{font-size:1.2rem;font-weight:700;margin-bottom:4px;transition:color .4s ease;color:#06b6d4}
         .rack-widget-height{font-size:.8rem;color:#94a3b8;margin-bottom:6px}
         .rack-widget-data{display:grid;grid-template-columns:1fr 1fr;gap:4px;margin-bottom:8px}
@@ -146,20 +147,20 @@
         .rack-widget-exposure{font-size:.7rem;color:#64748b;font-style:italic}
 
         /* Navigation */
-        .nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(12,18,32,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(8,145,178,.15)}
+        .nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(12,18,32,.9);backdrop-filter: blur(20px);border-bottom:1px solid rgba(8,145,178,.15)}
         .nav-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
         .nav-logo .logo-img{height:28px;width:auto}
         .nav-logo .logo-text{font-size:1.5rem;font-weight:800;color:#ffffff}
         .nav-logo .logo-text span{color:#00b4d8}
-        .nav-links{display:flex;gap:1.5rem;align-items:center}
+        .nav-links{display:flex;gap: 1.72rem;align-items:center}
         .nav-links a{color:#94a3b8;text-decoration:none;font-size:.875rem;font-weight:500;transition:color .3s}
         .nav-links a:hover{color:#0891b2}
         .nav-cta{background:linear-gradient(135deg,#0891b2,#0c4a6e);color:#fff;padding:.5rem 1.25rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.875rem;transition:all .3s;border:1px solid rgba(8,145,178,.4)}
-        .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(8,145,178,.4)}
+        .nav-cta:hover{transform: translateY(-5px);box-shadow:0 4px 20px rgba(8,145,178,.4)}
 
         /* Breadcrumb */
         .breadcrumb{padding:.75rem 2rem;margin-top:60px;position:relative;z-index:2;border-bottom:1px solid rgba(255,255,255,.05)}
-        .breadcrumb-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
+        .breadcrumb-container{max-width: 1100px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
         .breadcrumb-container a{color:#64748b;text-decoration:none;transition:color .3s}
         .breadcrumb-container a:hover{color:#0891b2}
         .breadcrumb-container span{color:#475569}
@@ -172,11 +173,11 @@
         .hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.15;margin-bottom:1.25rem;color:#fff}
         .hero h1 .shimmer{display:inline}
         .hero p{font-size:1.15rem;color:#94a3b8;max-width:750px;margin:0 auto 2rem;line-height:1.7}
-        .hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
-        .btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#0891b2,#0c4a6e);color:#fff;padding:.85rem 2rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:none;cursor:pointer;position:relative;overflow:hidden}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(8,145,178,.4)}
-        .btn-secondary{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:#0891b2;padding:.85rem 2rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(8,145,178,.4)}
-        .btn-secondary:hover{background:rgba(8,145,178,.1);transform:translateY(-2px)}
+        .hero-ctas{display:flex;gap: 0.98rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .btn-engage{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#0891b2,#0c4a6e);color:#fff;padding:.85rem 2rem;border-radius: 10px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:none;cursor:pointer;position:relative;overflow:hidden}
+        .btn-engage:hover{transform: translateY(-4px);box-shadow:0 8px 30px rgba(8,145,178,.4)}
+        .btn-browse{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:#0891b2;padding:.85rem 2rem;border-radius: 12px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(8,145,178,.4)}
+        .btn-browse:hover{background:rgba(8,145,178,.1);transform: translateY(-3px) scale(1.01)}
         .btn-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:ripple .6s linear}
         @keyframes ripple{to{transform:scale(4);opacity:0}}
 
@@ -186,34 +187,34 @@
         .warning-banner p{color:#d4a574;font-size:.9rem;margin:0}
 
         /* Trust Badges */
-        .trust-section{position:relative;z-index:2;padding:3rem 2rem;max-width:1200px;margin:0 auto}
-        .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-        .trust-badge{background:rgba(255,255,255,.03);border:1px solid rgba(8,145,178,.12);border-radius:16px;padding:1.5rem;text-align:center;transition:all .4s}
-        .trust-badge:hover{border-color:rgba(8,145,178,.35);background:rgba(8,145,178,.05);transform:translateY(-4px)}
+        .trust-section{position:relative;z-index:2;padding: 3rem 2rem;max-width: 1350px;margin:0 auto}
+        .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap: 1.54rem}
+        .trust-badge{background:rgba(255,255,255,.03);border:1px solid rgba(8,145,178,.12);border-radius: 17px;padding:1.5rem;text-align:center;transition:all .4s}
+        .trust-badge:hover{border-color:rgba(8,145,178,.35);background:rgba(8,145,178,.05);transform: scale(1.03)}
         .trust-badge .counter{font-size:2rem;font-weight:800;color:#0891b2;display:block;margin-bottom:.25rem}
         .trust-badge .counter-label{font-size:.8rem;color:#64748b}
 
         /* Content Sections */
-        .content-section{position:relative;z-index:2;padding:4rem 2rem;max-width:1200px;margin:0 auto}
-        .section-header{text-align:center;margin-bottom:3rem}
-        .section-header .section-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f97316;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);padding:.35rem 1rem;border-radius:100px;margin-bottom:1rem}
-        .section-header .section-tag-teal{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#0891b2;background:rgba(8,145,178,.1);border:1px solid rgba(8,145,178,.2);padding:.35rem 1rem;border-radius:100px;margin-bottom:1rem}
-        .section-header h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-bottom:1rem;color:#fff}
-        .section-header p{color:#94a3b8;max-width:700px;margin:0 auto;font-size:1rem}
+        .content-section{position:relative;z-index:2;padding: 4rem 2rem;max-width: 1250px;margin:0 auto}
+        .section-title-area{text-align:center;margin-bottom:3rem}
+        .section-title-area .section-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f97316;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);padding:.35rem 1rem;border-radius:100px;margin-bottom:1rem}
+        .section-title-area .section-tag-teal{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#0891b2;background:rgba(8,145,178,.1);border:1px solid rgba(8,145,178,.2);padding:.35rem 1rem;border-radius:100px;margin-bottom:1rem}
+        .section-title-area h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-bottom:1rem;color:#fff}
+        .section-title-area p{color:#94a3b8;max-width:700px;margin:0 auto;font-size:1rem}
 
         /* Rack Canvas */
-        .rack-canvas-section{position:relative;z-index:2;padding:2rem;max-width:1100px;margin:0 auto}
-        .rack-canvas-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(8,145,178,.2);border-radius:20px;padding:2rem;position:relative;overflow:hidden}
+        .rack-canvas-section{position:relative;z-index:2;padding:2rem;max-width: 1300px;margin:0 auto}
+        .rack-canvas-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(8,145,178,.2);border-radius: 22px;padding:2rem;position:relative;overflow:hidden}
         .rack-canvas-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(8,145,178,.4),transparent)}
-        #rack-cross-section{width:100%;height:480px;display:block;border-radius:12px}
-        .canvas-legend{display:flex;justify-content:center;gap:2rem;margin-top:1rem;flex-wrap:wrap}
+        #rack-cross-section{width:100%;height:480px;display:block;border-radius: 12px}
+        .canvas-legend{display:flex;justify-content:center;gap: 1.83rem;margin-top:1rem;flex-wrap:wrap}
         .legend-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:#94a3b8}
         .legend-dot{width:10px;height:10px;border-radius:50%}
 
         /* Level Comparison Cards */
-        .level-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-        .level-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:all .4s}
-        .level-card:hover{border-color:rgba(8,145,178,.35);transform:translateY(-4px)}
+        .level-grid{display:grid;grid-template-columns: 1fr 1fr 1fr;gap: 1.41rem}
+        .level-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius: 18px;padding:2rem;position:relative;overflow:hidden;transition:all .4s}
+        .level-card:hover{border-color:rgba(8,145,178,.35);transform: scale(1.03)}
         .level-card .card-icon{font-size:2.5rem;margin-bottom:1rem}
         .level-card h3{font-size:1.15rem;font-weight:700;margin-bottom:.5rem;color:#fff}
         .level-card .level-value{font-size:2rem;font-weight:800;color:#0891b2;margin-bottom:.5rem}
@@ -224,7 +225,7 @@
         .level-card.critical .card-highlight{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
 
         /* Two Column Layout */
-        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap: 2.75rem;align-items:start}
         .two-col-text h3{font-size:1.4rem;font-weight:700;margin-bottom:1rem;color:#fff}
         .two-col-text p{color:#94a3b8;margin-bottom:1rem;line-height:1.7}
         .two-col-text ul{list-style:none;padding:0;margin-bottom:1.5rem}
@@ -232,7 +233,7 @@
         .two-col-text ul li::before{content:'\25B8';position:absolute;left:0;color:#0891b2;font-weight:700}
 
         /* Data Table */
-        .data-table-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(8,145,178,.15);border-radius:16px;overflow:hidden}
+        .data-table-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(8,145,178,.15);border-radius: 19px;overflow:hidden}
         .data-table{width:100%;border-collapse:collapse}
         .data-table thead{background:rgba(8,145,178,.08)}
         .data-table th{padding:1rem;text-align:left;font-size:.8rem;font-weight:700;color:#0891b2;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid rgba(8,145,178,.15)}
@@ -254,9 +255,9 @@
         .rack-bar-fill.danger{background:linear-gradient(90deg,#ef4444,#f87171)}
 
         /* Corrosion Zone Cards */
-        .corrosion-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
-        .corrosion-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem;position:relative;counter-increment:corrosion-step;transition:all .4s}
-        .corrosion-card:hover{border-color:rgba(249,115,22,.3);transform:translateY(-3px)}
+        .corrosion-grid{display:grid;grid-template-columns: repeat(2, 1fr);gap: 1.35rem}
+        .corrosion-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius: 19px;padding:2rem;position:relative;counter-increment:corrosion-step;transition:all .4s}
+        .corrosion-card:hover{border-color:rgba(249,115,22,.3);transform: translateY(-5px) scale(1.01)}
         .corrosion-card::before{content:counter(corrosion-step);position:absolute;top:1rem;right:1rem;font-size:3rem;font-weight:800;color:rgba(8,145,178,.08);line-height:1}
         .corrosion-card h4{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.5rem}
         .corrosion-card p{font-size:.85rem;color:#94a3b8;line-height:1.6}
@@ -274,29 +275,29 @@
         .timeline-item p{color:#94a3b8;font-size:.85rem;line-height:1.6}
 
         /* Insurance Matrix */
-        .insurance-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
-        .insurance-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem;transition:all .4s}
-        .insurance-card:hover{border-color:rgba(8,145,178,.35);transform:translateY(-3px)}
+        .insurance-grid{display:grid;grid-template-columns: 1fr 1fr;gap: 1.59rem}
+        .insurance-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius: 19px;padding:2rem;transition:all .4s}
+        .insurance-card:hover{border-color:rgba(8,145,178,.35);transform: scale(1.03)}
         .insurance-card h4{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.3rem}
         .insurance-card .ins-premium{font-size:1.6rem;font-weight:800;color:#f97316;margin-bottom:.5rem}
         .insurance-card p{font-size:.85rem;color:#94a3b8;line-height:1.6}
         .insurance-card .ins-tag{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.7rem;font-weight:600;margin-top:.75rem}
 
         /* FAQ */
-        .faq-section{position:relative;z-index:2;padding:4rem 2rem;max-width:900px;margin:0 auto}
-        .faq-item{border:1px solid rgba(8,145,178,.12);border-radius:12px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
-        .faq-item:hover{border-color:rgba(8,145,178,.3)}
-        .faq-item.active{border-color:rgba(8,145,178,.4);background:rgba(8,145,178,.03)}
-        .faq-question{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;cursor:pointer;font-weight:600;color:#fff;font-size:.95rem;gap:1rem}
-        .faq-question:hover{color:#0891b2}
+        .reference-section{position:relative;z-index:2;padding: 3rem 2rem;max-width:900px;margin:0 auto}
+        .answer-item{border:1px solid rgba(8,145,178,.12);border-radius: 13px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
+        .answer-item:hover{border-color:rgba(8,145,178,.3)}
+        .answer-item.active{border-color:rgba(8,145,178,.4);background:rgba(8,145,178,.03)}
+        .guide-toggle{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;cursor:pointer;font-weight:600;color:#fff;font-size:.95rem;gap: 1.29rem}
+        .guide-toggle:hover{color:#0891b2}
         .faq-icon{font-size:1.2rem;color:#0891b2;transition:transform .3s;flex-shrink:0}
-        .faq-item.active .faq-icon{transform:rotate(45deg)}
-        .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)}
-        .faq-item.active .faq-answer{max-height:500px}
-        .faq-answer p{padding:0 1.5rem 1.25rem;color:#94a3b8;line-height:1.7;font-size:.9rem}
+        .answer-item.active .faq-icon{transform:rotate(45deg)}
+        .knowledge-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)}
+        .answer-item.active .knowledge-body{max-height:500px}
+        .knowledge-body p{padding:0 1.5rem 1.25rem;color:#94a3b8;line-height:1.7;font-size:.9rem}
 
         /* CTA Section */
-        .final-cta{position:relative;z-index:2;text-align:center;padding:5rem 2rem;max-width:800px;margin:0 auto}
+        .final-cta{position:relative;z-index:2;text-align:center;padding: 6rem 2rem;max-width:800px;margin:0 auto}
         .final-cta h2{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;margin-bottom:1rem}
         .final-cta p{color:#94a3b8;font-size:1.1rem;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto}
 
@@ -318,7 +319,7 @@
 
         /* Responsive */
         @media(max-width:1024px){
-            .trust-grid{grid-template-columns:repeat(2,1fr)}
+            .trust-grid{grid-template-columns: 1fr 1fr}
             .level-grid{grid-template-columns:1fr}
             .two-col{grid-template-columns:1fr}
             .corrosion-grid{grid-template-columns:1fr}
@@ -331,7 +332,7 @@
             .hero h1{font-size:1.8rem}
             .trust-grid{grid-template-columns:1fr 1fr}
             .content-section{padding:2rem 1rem}
-            .faq-section{padding:2rem 1rem}
+            .reference-section{padding:2rem 1rem}
             .rack-widget{top:auto;bottom:20px;right:10px;left:10px;min-width:auto}
             #rack-cross-section{height:340px}
         }
@@ -358,7 +359,7 @@
 
 <!-- Rack Level Widget -->
 <div class="rack-widget" id="rackWidget">
-    <div class="rack-widget-label">Rack Level Monitor</div>
+    <div class="rack-indicator-label">Rack Level Monitor</div>
     <div class="rack-widget-level" id="rackLevel">L1 &mdash; Ground</div>
     <div class="rack-widget-height" id="rackHeight">Elev: 0-12 ft AGL</div>
     <div class="rack-widget-data">
@@ -410,8 +411,8 @@
     <h1>Dry Stack Boat Storage Wind Load Design in <span class="shimmer">Miami-Dade HVHZ</span></h1>
     <p>Dry stack boat storage buildings are among the tallest single-occupancy structures in South Florida's marina districts, rising 60 to 80 feet with open retrieval bays that funnel 180 MPH hurricane winds directly through multi-level steel rack systems holding hundreds of vessels worth millions of dollars. Engineering these partially enclosed towers against wind, surge, salt spray, and progressive rack collapse demands specialized analysis beyond standard building design.</p>
     <div class="hero-ctas">
-        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary" onclick="createRipple(event)">Calculate MWFRS Loads</a>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">Specialty Structures</a>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-engage" onclick="createRipple(event)">Calculate MWFRS Loads</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-browse">Specialty Structures</a>
     </div>
     <div class="warning-banner">
         <p><strong>Critical Design Alert:</strong> A 5-level dry stack building at 75 ft in Miami-Dade HVHZ Exposure C generates roof uplift pressures exceeding -115 psf in corner zones under partially enclosed conditions. Boats on the top rack level experience wind exposure equivalent to freestanding objects at 70 ft elevation, producing drag forces of 600-1,200 lbs per vessel that rack connections must resist.</p>
@@ -456,7 +457,7 @@
 
 <!-- Enclosure Classification Section -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-title-area reveal">
         <span class="section-tag">Enclosure Classification</span>
         <h2>Why Every Dry Stack Is a Partially Enclosed Building</h2>
         <p>The open retrieval bay that defines dry stack operations also defines the wind engineering challenge. A single 50-foot-wide forklift opening transforms the entire building's pressure profile.</p>
@@ -489,7 +490,7 @@
 
 <!-- Rack System Wind Loads by Level -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-title-area reveal">
         <span class="section-tag-teal">Structural Engineering</span>
         <h2>Wind Exposure Escalation Across Five Rack Levels</h2>
         <p>Each rack level sits at a different elevation, experiencing progressively higher velocity pressures that increase lateral forces on rack bracing and boat tie-downs.</p>
@@ -538,7 +539,7 @@
 
 <!-- Rack Lateral Bracing and Progressive Collapse -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-title-area reveal">
         <span class="section-tag">Progressive Collapse Prevention</span>
         <h2>Rack System Lateral Bracing Against Cascading Failure</h2>
         <p>A single rack column failure under wind load can trigger a domino-effect collapse of the entire rack system, turning 400 boats into a catastrophic debris field inside the building shell.</p>
@@ -614,7 +615,7 @@
 
 <!-- Salt Spray Corrosion Design -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-title-area reveal">
         <span class="section-tag-teal">Corrosion Engineering</span>
         <h2>Salt Spray Destroys What Hurricanes Spare</h2>
         <p>A dry stack facility that survives a Category 4 hurricane can fail in fair weather if salt-induced section loss degrades rack connections below their designed capacity within a decade.</p>
@@ -642,7 +643,7 @@
 
 <!-- Hurricane Preparation Timeline -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-title-area reveal">
         <span class="section-tag">Hurricane Operations</span>
         <h2>Hurricane Preparation Sequence for 400-Vessel Facilities</h2>
         <p>Securing a fully loaded dry stack facility before hurricane landfall requires a precise operational timeline. Forklift operations must cease when sustained winds reach 35 MPH, creating a hard deadline that works backward from projected landfall.</p>
@@ -738,7 +739,7 @@
 
 <!-- Combined Flood + Wind Loading -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-title-area reveal">
         <span class="section-tag-teal">Combined Loading</span>
         <h2>When Storm Surge Meets 180 MPH Wind at the Same Structure</h2>
         <p>Miami-Dade's coastal dry stack facilities face the dual threat of hurricane wind loading from above and storm surge flooding from below, often peaking simultaneously during the eyewall passage.</p>
@@ -812,7 +813,7 @@
 
 <!-- Fire Sprinkler Wind Interaction -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="section-title-area reveal">
         <span class="section-tag">Building Systems</span>
         <h2>Fire Sprinkler and Large Door Interactions with Wind</h2>
         <p>The building systems that protect dry stack facilities during normal operations create unexpected vulnerabilities during hurricane events when wind pressures deform the structural frame and surge floods mechanical rooms.</p>
@@ -847,65 +848,65 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
-    <div class="section-header reveal">
+<section class="reference-section">
+    <div class="section-title-area reveal">
         <span class="section-tag-teal">Expert Answers</span>
         <h2>Dry Stack Boat Storage Wind Load FAQs</h2>
         <p>Detailed engineering answers for dry stack facility owners, structural engineers, and marina developers working in Miami-Dade County's High Velocity Hurricane Zone.</p>
     </div>
 
     <div class="reveal">
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
+        <div class="answer-item">
+            <div class="guide-toggle" onclick="toggleFAQ(this)">
                 <span>What enclosure classification applies to dry stack boat storage buildings in Miami-Dade HVHZ?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="knowledge-body">
                 <p>Dry stack boat storage buildings are classified as partially enclosed per ASCE 7-22 Section 26.2 because the waterside retrieval bay opening (typically 40 to 60 feet wide by 25 to 30 feet tall, creating 1,000 to 1,800 sq ft of open area) vastly exceeds the 1% threshold on a single wall and exceeds the sum of openings on all other walls by more than 10%. This triggers the internal pressure coefficient GCpi of plus or minus 0.55, compared to 0.18 for enclosed buildings. At 180 MPH in the HVHZ, this classification increases net roof uplift pressures by 30 to 40% and adds 37 psf of internal pressurization to every surface, demanding 30 to 45% more structural steel tonnage than an enclosed assumption would require.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
+        <div class="answer-item">
+            <div class="guide-toggle" onclick="toggleFAQ(this)">
                 <span>How tall are dry stack boat storage buildings and why does height matter for wind loads?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="knowledge-body">
                 <p>Dry stack buildings in Miami-Dade typically stand 60 to 80 feet tall to accommodate 4 to 6 levels of rack storage for vessels up to 45 feet LOA. Height directly controls the velocity pressure exposure coefficient Kz per ASCE 7-22 Table 26.10-1. At 75 feet in Exposure C, Kz reaches 1.21, producing velocity pressure qh of 82.9 psf at 180 MPH. Compared to a 30-foot building where Kz is 0.98 and qh is 67.1 psf, the 75-foot dry stack experiences 24% higher design pressures. This height effect cascades through every calculation: MWFRS base shear increases proportionally, overturning moment increases quadratically with height, and boats on upper rack levels face dramatically higher wind exposure than those on Level 1.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
+        <div class="answer-item">
+            <div class="guide-toggle" onclick="toggleFAQ(this)">
                 <span>What wind loads act on the steel boat storage rack system inside the building?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="knowledge-body">
                 <p>The internal rack system resists wind loads transmitted through the open retrieval bay, amplified by the Venturi effect in narrow forklift aisles. Each rack level experiences lateral force proportional to the tributary area of boats and cradles on that level. For a 5-level rack with 30-foot boats averaging 40 sq ft frontal area per vessel and 10 boats per level, wind drag at internal velocities of 60 to 80 MPH reaches 400 to 800 lbs per boat. Total lateral force per rack frame reaches 4,000 to 8,000 lbs, requiring X-bracing or moment connections in the cross-aisle direction. Rack columns must be designed for combined axial gravity plus bending from lateral wind, with connections sized for combined shear and tension using AISC 360 interaction equations.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
+        <div class="answer-item">
+            <div class="guide-toggle" onclick="toggleFAQ(this)">
                 <span>How does salt spray corrosion affect structural steel connections in marina boat storage?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="knowledge-body">
                 <p>Salt spray is the primary long-term threat to dry stack structural integrity. Within 3,000 feet of coastal mean high water (FBC Section 1504.3.2), untreated carbon steel loses 2 to 5 mils of section per year. Base plate anchor bolts at grade level experience the worst accumulation, potentially losing 15 to 25% of capacity within 10 years. Design countermeasures include hot-dip galvanizing all steel per ASTM A123 at 3.0+ mil coating, 316 stainless steel fasteners at rack connections, zinc-rich primer with polyurethane topcoat on field welds, 25% additional connection capacity as a corrosion allowance, and mandatory annual ultrasonic thickness testing at base plates, splices, and bracing gussets.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
+        <div class="answer-item">
+            <div class="guide-toggle" onclick="toggleFAQ(this)">
                 <span>What are the hurricane preparation requirements for boats stored in dry stack facilities?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="knowledge-body">
                 <p>Miami-Dade County requires operators to maintain a Hurricane Preparedness Plan covering vessel securing before storm conditions. Key requirements include: ratchet strap tie-down at minimum 4 points per vessel using 2-inch polyester straps rated for 5,000-lb WLL, cradle-to-rack bolted connections rated for the design wind uplift on the hull profile, lowering of top-level (Level 5) vessels to ground level when feasible before landfall, closure and latching of all operational doors by the time sustained winds reach 45 MPH, removal of loose items (canvas, electronics, outboard covers) from all stored vessels, and cessation of forklift operations when sustained winds exceed 35 MPH. A 400-vessel facility requires 36 to 48 hours of continuous forklift operations to fully secure and selectively relocate top-level boats.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFAQ(this)">
+        <div class="answer-item">
+            <div class="guide-toggle" onclick="toggleFAQ(this)">
                 <span>How do combined flood and wind loads affect dry stack boat storage foundation design?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="knowledge-body">
                 <p>Coastal dry stack foundations must resist simultaneous hurricane wind and storm surge per ASCE 7-22 load combination 1.2D + 1.0W + 1.0Fa. Miami-Dade coastal zones carry BFE of 9 to 14 feet NAVD88, meaning 6 to 12 feet of surge can inundate Level 1. The combined loading increases overturning moment by 40 to 60% beyond wind-only design, base shear by 35 to 45%, and peak pile tension by 50 to 65%. Typical foundations use 18 to 24 inch prestressed concrete piles driven 40 to 60 feet into Miami Limestone. Ground-level boats become buoyant in surge conditions, imposing lateral drift loads on rack restraints that must be added to the wind lateral forces on those connections.</p>
             </div>
         </div>
@@ -917,8 +918,8 @@
     <h2>Engineer Your Dry Stack for <span class="shimmer">180 MPH Certainty</span></h2>
     <p>Get ASCE 7-22 compliant MWFRS calculations for dry stack boat storage buildings in Miami-Dade's High Velocity Hurricane Zone. Partially enclosed classification, rack-level exposure analysis, and combined flood-wind foundation design.</p>
     <div class="hero-ctas">
-        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary" onclick="createRipple(event)">Calculate MWFRS Loads</a>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">Specialty Structure Analysis</a>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-engage" onclick="createRipple(event)">Calculate MWFRS Loads</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-browse">Specialty Structure Analysis</a>
     </div>
 </section>
 
@@ -948,10 +949,10 @@
         reset(){
             this.x = Math.random() * w;
             this.y = Math.random() * h;
-            this.size = Math.random() * 2.5 + 0.8;
-            this.speedX = Math.random() * 2.5 + 1.5;
+            this.size = Math.random() * 2.8 + 0.6;
+            this.speedX = Math.random() * 2.3 + 1.4;
             this.speedY = (Math.random() - 0.5) * 0.8;
-            this.opacity = Math.random() * 0.5 + 0.2;
+            this.opacity = Math.random() * 0.57 + 0.22;
             this.color = Math.random() > 0.6 ? '#06b6d4' : (Math.random() > 0.5 ? '#0891b2' : '#f97316');
         }
         update(){
@@ -1325,7 +1326,7 @@
                 e.target.classList.add('active');
             }
         });
-    }, { threshold: 0.12 });
+    }, { threshold: 0.3 });
     reveals.forEach(function(el){ io.observe(el); });
 })();
 
@@ -1358,7 +1359,7 @@
                 requestAnimationFrame(tick);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.3 });
     counters.forEach(function(c){ io.observe(c); });
 })();
 
@@ -1376,7 +1377,7 @@
                 }, 200);
             }
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
     bars.forEach(function(b){ io.observe(b); });
 })();
 
@@ -1418,7 +1419,7 @@ function createRipple(e){
 function toggleFAQ(el){
     const item = el.parentElement;
     const wasActive = item.classList.contains('active');
-    document.querySelectorAll('.faq-item').forEach(function(i){ i.classList.remove('active'); });
+    document.querySelectorAll('.answer-item').forEach(function(i){ i.classList.remove('active'); });
     if(!wasActive) item.classList.add('active');
 }
 </script>

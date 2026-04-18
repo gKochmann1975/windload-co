@@ -94,21 +94,22 @@
     }
     </script>
     <style>
+/* uid:c0a361d7 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 25% 40%, rgba(239, 68, 68, 0.05) 0%, transparent 50%), radial-gradient(circle at 75% 60%, rgba(0, 229, 255, 0.04) 0%, transparent 50%); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.65s ease; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.65s ease-in-out; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.55s ease; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(35px); transition: all 0.65s ease-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -127,28 +128,28 @@
         .shimmer { background: linear-gradient(120deg, #ef4444 0%, #00e5ff 25%, #ef4444 50%, #dc2626 75%, #ef4444 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Force Diagram Widget */
-        .force-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
+        .force-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 15px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(24px); opacity: 0; transform: translateX(120px); transition: all 0.45s ease; min-width: 190px; }
         .force-widget.visible { opacity: 1; transform: translateX(0); }
-        .force-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .force-widget-value { font-size: 1.5rem; font-weight: 800; color: #ef4444; margin-bottom: 4px; }
+        .force-indicator-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .force-meter-reading { font-size: 1.5rem; font-weight: 800; color: #ef4444; margin-bottom: 4px; }
         .force-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .force-widget-fill { height: 100%; background: linear-gradient(90deg, #ef4444, #dc2626); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .force-widget-status { font-size: 0.8rem; font-weight: 600; color: #ef4444; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(239, 68, 68, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(239, 68, 68, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.50rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #00b4d8; }
-        .nav-cta { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.55s cubic-bezier(0.22, 1, 0.36, 1); }
+        .nav-cta:hover { transform: translateY(-4px); box-shadow: 0 4px 20px rgba(239, 68, 68, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
         .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #00b4d8; }
@@ -162,45 +163,45 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #ef4444; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; box-shadow: 0 4px 25px rgba(239, 68, 68, 0.4); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(239, 68, 68, 0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+        .hero-cta { display: flex; gap: 0.81rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 15px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.4s cubic-bezier(0.65, 0, 0.35, 1); position: relative; overflow: hidden; }
+        .btn-main { background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%); color: #ffffff; box-shadow: 0 4px 25px rgba(239, 68, 68, 0.4); }
+        .btn-main:hover { transform: translateY(-8px); box-shadow: 0 8px 40px rgba(239, 68, 68, 0.5); }
+        .btn-discover { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-discover:hover { background: rgba(255,255,255,0.15); }
         .alert-banner { background: linear-gradient(90deg, rgba(239, 68, 68, 0.15) 0%, rgba(239, 68, 68, 0.05) 100%); border-left: 4px solid #ef4444; padding: 1.5rem 2rem; margin: 2rem auto 0; max-width: 900px; border-radius: 0 12px 12px 0; animation: warning-flash 3s ease-in-out infinite; }
         .alert-banner h3 { color: #ef4444; font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
         .alert-banner p { color: #94a3b8; font-size: 0.95rem; }
 
         /* Trust Badges */
         .trust-section { padding: 3rem 2rem; background: rgba(255,255,255,0.02); border-top: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 2; }
-        .trust-grid { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        .trust-grid { max-width: 1300px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.87rem; text-align: center; }
         .trust-item .trust-value { font-size: 2.25rem; font-weight: 800; color: #ef4444; }
         .trust-item .trust-label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; }
 
         /* Sections */
-        .section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
         .section-alt { background: linear-gradient(180deg, #0c1220 0%, #10141f 100%); }
         .section-container { max-width: 1100px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .section-header h2 .accent { color: #ef4444; }
-        .section-header p { color: #94a3b8; }
+        .zone-header { text-align: center; margin-bottom: 3rem; }
+        .zone-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .zone-header h2 .accent { color: #ef4444; }
+        .zone-header p { color: #94a3b8; }
 
         /* Force Diagram Canvas */
-        .diagram-wrapper { width: 100%; max-width: 800px; margin: 0 auto 3rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 20px; padding: 1.5rem; position: relative; overflow: hidden; }
+        .diagram-wrapper { width: 100%; max-width: 800px; margin: 0 auto 3rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 19px; padding: 1.5rem; position: relative; overflow: hidden; }
         .diagram-wrapper canvas { width: 100%; height: 350px; display: block; }
-        .diagram-legend { display: flex; gap: 1.5rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
+        .diagram-legend { display: flex; gap: 1.42rem; justify-content: center; margin-top: 1rem; flex-wrap: wrap; }
         .diagram-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; color: #94a3b8; }
         .diagram-legend-dot { width: 12px; height: 12px; border-radius: 3px; }
 
         /* Comparison: Cantilever vs Column */
-        .compare-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2rem; }
-        .compare-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .compare-card:hover { border-color: rgba(239, 68, 68, 0.3); transform: translateY(-4px); }
+        .compare-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 2.40rem; margin-top: 2rem; }
+        .compare-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 23px; padding: 2rem; transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); position: relative; overflow: hidden; }
+        .compare-card:hover { border-color: rgba(239, 68, 68, 0.3); transform: translateY(-6px); }
         .compare-card.highlight { border-color: rgba(239, 68, 68, 0.4); }
         .compare-card.highlight::before { content: 'MOST COMMON'; position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.25rem 0.5rem; border-radius: 4px; }
-        .compare-card-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+        .compare-card-icon { width: 56px; height: 56px; border-radius: 13px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
         .compare-card h3 { font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem; }
         .compare-card .compare-stat { font-size: 1.75rem; font-weight: 800; color: #ef4444; margin-bottom: 0.5rem; }
         .compare-card p { color: #94a3b8; font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.7; }
@@ -210,7 +211,7 @@
 
         /* Pressure Data Grid */
         .pressure-table-wrap { overflow-x: auto; margin-top: 2rem; }
-        .pressure-table { width: 100%; border-collapse: separate; border-spacing: 0; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; }
+        .pressure-table { width: 100%; border-collapse: separate; border-spacing: 0; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 13px; overflow: hidden; }
         .pressure-table th { background: rgba(239, 68, 68, 0.1); padding: 1rem 1.25rem; text-align: left; font-size: 0.85rem; font-weight: 600; color: #e2e8f0; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(239, 68, 68, 0.2); }
         .pressure-table td { padding: 0.9rem 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: #94a3b8; font-size: 0.95rem; }
         .pressure-table tr:last-child td { border-bottom: none; }
@@ -220,18 +221,18 @@
         .pressure-table .value-moderate { color: #00e5ff; font-weight: 600; }
 
         /* Connection Design Cards */
-        .connection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; margin-top: 2rem; }
-        .connection-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; }
-        .connection-card:hover { border-color: rgba(0, 229, 255, 0.3); transform: translateY(-4px); }
+        .connection-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.82rem; margin-top: 2rem; }
+        .connection-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 2rem; transition: all 0.45s ease; }
+        .connection-card:hover { border-color: rgba(0, 229, 255, 0.3); transform: scale(1.02); }
         .connection-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1.25rem; }
-        .connection-card-num { width: 36px; height: 36px; border-radius: 10px; background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .connection-card-num { width: 36px; height: 36px; border-radius: 12px; background: rgba(239, 68, 68, 0.15); color: #ef4444; font-weight: 800; font-size: 1rem; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .connection-card h3 { font-size: 1.05rem; font-weight: 700; }
         .connection-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; margin-bottom: 0.75rem; }
         .connection-spec { font-size: 0.85rem; color: #ef4444; font-weight: 600; background: rgba(239, 68, 68, 0.08); padding: 0.5rem 0.75rem; border-radius: 8px; display: inline-block; }
 
         /* Foundation Section */
-        .foundation-split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
-        .foundation-diagram { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .foundation-split { display: grid; grid-template-columns: 1fr 1fr; gap: 2.72rem; align-items: start; margin-top: 2rem; }
+        .foundation-diagram { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 21px; padding: 2rem; }
         .foundation-diagram canvas { width: 100%; height: 320px; display: block; }
         .foundation-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
         .foundation-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; }
@@ -242,45 +243,45 @@
         .foundation-specs li strong { color: #e2e8f0; }
 
         /* Menu Board Section */
-        .menuboard-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2.5rem; align-items: center; margin-top: 2rem; }
+        .menuboard-layout { display: grid; grid-template-columns: 2fr 1fr; gap: 2.52rem; align-items: center; margin-top: 2rem; }
         .menuboard-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
         .menuboard-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; }
-        .menuboard-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
-        .menuboard-stat { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 12px; padding: 1rem; text-align: center; }
+        .menuboard-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1.10rem; margin-top: 1.5rem; }
+        .menuboard-stat { background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); border-radius: 9px; padding: 1rem; text-align: center; }
         .menuboard-stat .stat-val { font-size: 1.5rem; font-weight: 800; color: #ef4444; }
         .menuboard-stat .stat-lbl { font-size: 0.75rem; color: #64748b; text-transform: uppercase; }
-        .menuboard-visual { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 1.5rem; }
+        .menuboard-visual { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 1.5rem; }
         .menuboard-visual canvas { width: 100%; height: 260px; display: block; }
 
         /* Permit Process Steps */
         .permit-steps { margin-top: 2rem; position: relative; }
         .permit-steps::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #ef4444, rgba(239, 68, 68, 0.1)); }
-        .permit-step { display: flex; gap: 1.5rem; margin-bottom: 2rem; position: relative; }
+        .permit-step { display: flex; gap: 1.28rem; margin-bottom: 2rem; position: relative; }
         .permit-step-marker { width: 50px; height: 50px; border-radius: 50%; background: rgba(239, 68, 68, 0.15); border: 2px solid #ef4444; display: flex; align-items: center; justify-content: center; font-weight: 800; color: #ef4444; font-size: 1rem; flex-shrink: 0; position: relative; z-index: 1; }
-        .permit-step-content { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.5rem; flex-grow: 1; transition: all 0.3s ease; }
+        .permit-step-content { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 17px; padding: 1.5rem; flex-grow: 1; transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1); }
         .permit-step-content:hover { border-color: rgba(239, 68, 68, 0.3); }
         .permit-step-content h4 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .permit-step-content p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
         .permit-step-content .step-time { display: inline-block; background: rgba(239, 68, 68, 0.1); color: #ef4444; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.75rem; border-radius: 100px; margin-top: 0.5rem; }
 
         /* FAQ */
-        .faq-section { padding: 4rem 2rem; background: #0c1220; position: relative; z-index: 2; }
+        .support-section { padding: 4rem 2rem; background: #0c1220; position: relative; z-index: 2; }
         .faq-list { max-width: 800px; margin: 2rem auto 0; }
-        .faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
-        .faq-question { padding: 1.25rem 1.5rem; font-weight: 600; color: #e2e8f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question:hover { background: rgba(239, 68, 68, 0.05); }
-        .faq-question::after { content: '+'; font-size: 1.5rem; color: #ef4444; transition: transform 0.3s ease; }
-        .faq-item.open .faq-question::after { transform: rotate(45deg); }
-        .faq-answer { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: #94a3b8; line-height: 1.7; }
-        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 600px; }
+        .help-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 11px; margin-bottom: 1rem; overflow: hidden; }
+        .expand-trigger { padding: 1.25rem 1.5rem; font-weight: 600; color: #e2e8f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .expand-trigger:hover { background: rgba(239, 68, 68, 0.05); }
+        .expand-trigger::after { content: '+'; font-size: 1.5rem; color: #ef4444; transition: transform 0.3s ease; }
+        .help-item.open .expand-trigger::after { transform: rotate(45deg); }
+        .learn-body { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.4s cubic-bezier(0.33, 1, 0.68, 1); color: #94a3b8; line-height: 1.7; }
+        .help-item.open .learn-body { padding: 0 1.5rem 1.5rem; max-height: 600px; }
 
         /* Final CTA */
-        .cta { padding: 5rem 2rem; background: linear-gradient(135deg, #ef4444 0%, #dc2626 40%, #991b1b 100%); text-align: center; position: relative; z-index: 2; overflow: hidden; }
+        .cta { padding: 6rem 2rem; background: linear-gradient(135deg, #ef4444 0%, #dc2626 40%, #991b1b 100%); text-align: center; position: relative; z-index: 2; overflow: hidden; }
         .cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(255,255,255,0.15) 0%, transparent 70%); pointer-events: none; }
         .cta h2 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1rem; position: relative; color: #ffffff; }
         .cta p { font-size: 1.125rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; color: #ffffff; opacity: 0.9; }
-        .cta .btn-primary { background: #0c1220; color: #ef4444; box-shadow: 0 4px 20px rgba(0,0,0,0.3); position: relative; }
-        .cta .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+        .cta .btn-main { background: #0c1220; color: #ef4444; box-shadow: 0 4px 20px rgba(0,0,0,0.3); position: relative; }
+        .cta .btn-main:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
 
         /* Footer */
         footer { padding: 2rem; text-align: center; color: #64748b; font-size: 0.875rem; background: #0c1220; border-top: 1px solid rgba(239, 68, 68, 0.2); position: relative; z-index: 2; }
@@ -302,7 +303,7 @@
             .hero-cta { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; justify-content: center; }
             .force-widget { display: none; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.55rem; }
         }
     </style>
 </head>
@@ -312,8 +313,8 @@
 
     <!-- Force Diagram Widget -->
     <div class="force-widget" id="forceWidget">
-        <div class="force-widget-label">Cantilever Moment</div>
-        <div class="force-widget-value" id="widgetMoment">0 ft-lbs</div>
+        <div class="force-indicator-label">Cantilever Moment</div>
+        <div class="force-meter-reading" id="widgetMoment">0 ft-lbs</div>
         <div class="force-widget-bar"><div class="force-widget-fill" id="widgetFill"></div></div>
         <div class="force-widget-status" id="widgetStatus">Analyzing...</div>
     </div>
@@ -354,8 +355,8 @@
             <h1>Miami-Dade <span class="shimmer">Drive-Through Canopy</span> Wind Load Engineering</h1>
             <p class="hero-intro">Drive-through canopies for fast food restaurants and bank facilities in the High Velocity Hurricane Zone face <strong>extreme cantilever bending moments exceeding 90,000 ft-lbs</strong> per column at 180 MPH design wind speed. Open structure net pressure coefficients amplify uplift forces far beyond typical enclosed building loads, demanding specialized structural engineering and deep foundation systems anchored into Miami-Dade limestone.</p>
             <div class="hero-cta stagger-children">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-primary">Calculate Canopy Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                <a href="#force-diagram" class="btn btn-secondary">View Force Diagram</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-main">Calculate Canopy Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="#force-diagram" class="btn btn-discover">View Force Diagram</a>
             </div>
         </div>
         <div class="alert-banner reveal">
@@ -389,7 +390,7 @@
     <!-- Animated Force Diagram Section -->
     <section class="section section-alt" id="force-diagram">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Cantilever <span class="accent">Bending Moment</span> Diagram</h2>
                 <p>Real-time visualization of wind-induced forces on a typical drive-through canopy structure</p>
             </div>
@@ -440,7 +441,7 @@
     <!-- Design Pressure Data -->
     <section class="section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Net Pressure Coefficients for <span class="accent">Open Canopies</span></h2>
                 <p>ASCE 7-22 Section 27.4.3 net pressure values for monoslope free roofs at 180 MPH</p>
             </div>
@@ -501,7 +502,7 @@
     <!-- Connection Design -->
     <section class="section section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Critical <span class="accent">Connection Design</span> Details</h2>
                 <p>Moment connections, base plates, and anchor bolts engineered for 180 MPH cantilever forces</p>
             </div>
@@ -537,7 +538,7 @@
     <!-- Foundation Design -->
     <section class="section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Foundation Design for <span class="accent">Combined Loads</span></h2>
                 <p>Drilled shaft foundations resist gravity weight plus extreme wind uplift and overturning</p>
             </div>
@@ -565,7 +566,7 @@
     <!-- Menu Board and Attachments -->
     <section class="section section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Menu Board &amp; Lighting <span class="accent">Attachment Loads</span></h2>
                 <p>Secondary elements mounted on canopy structures create additional wind forces that compound primary structural demands</p>
             </div>
@@ -603,7 +604,7 @@
     <!-- Permit Process -->
     <section class="section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Miami-Dade <span class="accent">Permit Process</span> for Drive-Through Canopies</h2>
                 <p>Navigating HVHZ structural permit requirements from engineering through final inspection</p>
             </div>
@@ -653,36 +654,36 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section class="support-section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Frequently Asked Questions</h2>
                 <p>Common engineering questions about drive-through canopy wind loads in Miami-Dade HVHZ</p>
             </div>
             <div class="faq-list">
-                <div class="faq-item reveal">
-                    <div class="faq-question">What wind loads apply to drive-through canopies in Miami-Dade HVHZ?</div>
-                    <div class="faq-answer">Drive-through canopies in Miami-Dade HVHZ must be designed for 180 MPH basic wind speed per ASCE 7-22 Section 27.4.3 for open structures. Net uplift pressures typically range from -35 to -60 psf depending on zone location, with corner zones experiencing the highest loads. A standard 16 ft wide by 60 ft long canopy at 12 ft height generates column uplift reactions exceeding 15,000 lbs and base moments over 90,000 ft-lbs at cantilever supports. The open structure provisions produce significantly higher uplift than enclosed building roof calculations because wind acts simultaneously on both the top and bottom surfaces of the canopy.</div>
+                <div class="help-item reveal">
+                    <div class="expand-trigger">What wind loads apply to drive-through canopies in Miami-Dade HVHZ?</div>
+                    <div class="learn-body">Drive-through canopies in Miami-Dade HVHZ must be designed for 180 MPH basic wind speed per ASCE 7-22 Section 27.4.3 for open structures. Net uplift pressures typically range from -35 to -60 psf depending on zone location, with corner zones experiencing the highest loads. A standard 16 ft wide by 60 ft long canopy at 12 ft height generates column uplift reactions exceeding 15,000 lbs and base moments over 90,000 ft-lbs at cantilever supports. The open structure provisions produce significantly higher uplift than enclosed building roof calculations because wind acts simultaneously on both the top and bottom surfaces of the canopy.</div>
                 </div>
-                <div class="faq-item reveal">
-                    <div class="faq-question">How do cantilever canopies differ from column-supported canopies for wind design?</div>
-                    <div class="faq-answer">Cantilever canopies concentrate all loads at one edge, creating massive bending moments at the fixed support — typically 2-3 times the base moment of an equivalent column-supported design. A 16 ft cantilever at 180 MPH generates approximately 90,000 ft-lbs per column, requiring W12x53 or larger HSS sections with reinforced base plates. Column-supported canopies distribute loads across multiple supports, reducing individual column reactions to 8,000-15,000 lbs uplift, but require more foundation points and can obstruct drive lanes. The choice between systems is usually driven by the franchise operator's clearance requirements and site geometry rather than structural economy alone.</div>
+                <div class="help-item reveal">
+                    <div class="expand-trigger">How do cantilever canopies differ from column-supported canopies for wind design?</div>
+                    <div class="learn-body">Cantilever canopies concentrate all loads at one edge, creating massive bending moments at the fixed support — typically 2-3 times the base moment of an equivalent column-supported design. A 16 ft cantilever at 180 MPH generates approximately 90,000 ft-lbs per column, requiring W12x53 or larger HSS sections with reinforced base plates. Column-supported canopies distribute loads across multiple supports, reducing individual column reactions to 8,000-15,000 lbs uplift, but require more foundation points and can obstruct drive lanes. The choice between systems is usually driven by the franchise operator's clearance requirements and site geometry rather than structural economy alone.</div>
                 </div>
-                <div class="faq-item reveal">
-                    <div class="faq-question">What foundation is required for a drive-through canopy in Miami-Dade?</div>
-                    <div class="faq-answer">Cantilever canopy foundations in Miami-Dade HVHZ typically require drilled shafts (caissons) 24-36 inches in diameter extending 10-20 ft into limestone bedrock. Each shaft must resist combined uplift of 15,000+ lbs, lateral shear of 6,000+ lbs, and overturning moment of 90,000+ ft-lbs. Column-supported designs use spread footings or shorter caissons, typically 18-24 inch diameter at 8-12 ft depth. All foundations require Miami-Dade geotechnical investigation confirming rock socket capacity. The cost differential between cantilever and column-supported foundations is typically $8,000-$15,000 per column location.</div>
+                <div class="help-item reveal">
+                    <div class="expand-trigger">What foundation is required for a drive-through canopy in Miami-Dade?</div>
+                    <div class="learn-body">Cantilever canopy foundations in Miami-Dade HVHZ typically require drilled shafts (caissons) 24-36 inches in diameter extending 10-20 ft into limestone bedrock. Each shaft must resist combined uplift of 15,000+ lbs, lateral shear of 6,000+ lbs, and overturning moment of 90,000+ ft-lbs. Column-supported designs use spread footings or shorter caissons, typically 18-24 inch diameter at 8-12 ft depth. All foundations require Miami-Dade geotechnical investigation confirming rock socket capacity. The cost differential between cantilever and column-supported foundations is typically $8,000-$15,000 per column location.</div>
                 </div>
-                <div class="faq-item reveal">
-                    <div class="faq-question">Do drive-through canopy menu boards need separate wind load analysis?</div>
-                    <div class="faq-answer">Yes. Menu boards and digital displays mounted to canopy structures create additional wind area that must be analyzed independently per ASCE 7-22 Chapter 29 for signs and attached elements. A typical 4 ft x 6 ft menu board at 180 MPH generates 1,200-1,800 lbs of lateral force plus moment arm effects on the canopy column. The attachment connection must transfer these loads without overstressing the canopy frame. Electrical conduit penetrations must also be sealed to prevent internal pressurization of hollow structural sections. Digital menu boards with LCD screens require additional consideration for panel retention under cyclic wind loading and must demonstrate compliance via product testing or engineering analysis.</div>
+                <div class="help-item reveal">
+                    <div class="expand-trigger">Do drive-through canopy menu boards need separate wind load analysis?</div>
+                    <div class="learn-body">Yes. Menu boards and digital displays mounted to canopy structures create additional wind area that must be analyzed independently per ASCE 7-22 Chapter 29 for signs and attached elements. A typical 4 ft x 6 ft menu board at 180 MPH generates 1,200-1,800 lbs of lateral force plus moment arm effects on the canopy column. The attachment connection must transfer these loads without overstressing the canopy frame. Electrical conduit penetrations must also be sealed to prevent internal pressurization of hollow structural sections. Digital menu boards with LCD screens require additional consideration for panel retention under cyclic wind loading and must demonstrate compliance via product testing or engineering analysis.</div>
                 </div>
-                <div class="faq-item reveal">
-                    <div class="faq-question">What ASCE 7-22 provisions apply to open canopy structures?</div>
-                    <div class="faq-answer">Drive-through canopies fall under ASCE 7-22 Section 27.4.3 for open buildings with monoslope, pitched, or troughed free roofs. Net pressure coefficients (CN) from Figures 27.3-4 through 27.3-7 account for simultaneous wind action on top and bottom surfaces. For flat or low-slope canopies (under 7.5 degrees), CN values range from -1.2 in corner zones to -0.6 in interior zones for uplift, and +0.3 for downward cases. These coefficients produce significantly higher uplift than enclosed building roofs because there is no internal pressure to offset roof suction — the wind flows freely under the canopy and adds to the net uplift force on the roof surface.</div>
+                <div class="help-item reveal">
+                    <div class="expand-trigger">What ASCE 7-22 provisions apply to open canopy structures?</div>
+                    <div class="learn-body">Drive-through canopies fall under ASCE 7-22 Section 27.4.3 for open buildings with monoslope, pitched, or troughed free roofs. Net pressure coefficients (CN) from Figures 27.3-4 through 27.3-7 account for simultaneous wind action on top and bottom surfaces. For flat or low-slope canopies (under 7.5 degrees), CN values range from -1.2 in corner zones to -0.6 in interior zones for uplift, and +0.3 for downward cases. These coefficients produce significantly higher uplift than enclosed building roofs because there is no internal pressure to offset roof suction — the wind flows freely under the canopy and adds to the net uplift force on the roof surface.</div>
                 </div>
-                <div class="faq-item reveal">
-                    <div class="faq-question">Does a drive-through canopy need Miami-Dade product approval or NOA?</div>
-                    <div class="faq-answer">Prefabricated canopy systems installed in Miami-Dade HVHZ require either a Notice of Acceptance (NOA) or Florida Product Approval with HVHZ designation. Most commercial drive-through canopies are custom-engineered and require sealed structural drawings from a Florida-licensed PE showing compliance with ASCE 7-22 at 180 MPH, Florida Building Code 2023, and Miami-Dade local amendments. Connection details, base plate designs, and anchor bolt layouts must be included in the permit package. Non-structural canopy components such as standing seam metal roof panels, fascia trim, gutters, and soffit panels do require individual product approvals even when the primary structure is custom-engineered.</div>
+                <div class="help-item reveal">
+                    <div class="expand-trigger">Does a drive-through canopy need Miami-Dade product approval or NOA?</div>
+                    <div class="learn-body">Prefabricated canopy systems installed in Miami-Dade HVHZ require either a Notice of Acceptance (NOA) or Florida Product Approval with HVHZ designation. Most commercial drive-through canopies are custom-engineered and require sealed structural drawings from a Florida-licensed PE showing compliance with ASCE 7-22 at 180 MPH, Florida Building Code 2023, and Miami-Dade local amendments. Connection details, base plate designs, and anchor bolt layouts must be included in the permit package. Non-structural canopy components such as standing seam metal roof panels, fascia trim, gutters, and soffit panels do require individual product approvals even when the primary structure is custom-engineered.</div>
                 </div>
             </div>
         </div>
@@ -693,7 +694,7 @@
         <div class="section-container reveal">
             <h2>Calculate Your Canopy Wind Loads</h2>
             <p>Get accurate ASCE 7-22 wind load calculations for drive-through canopies, open structures, and specialty designs in Miami-Dade HVHZ.</p>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-primary">Start Canopy Calculation<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-main">Start Canopy Calculation<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
         </div>
     </section>
 
@@ -725,8 +726,8 @@
             reset() {
                 this.x = Math.random() * w;
                 this.y = Math.random() * h;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = Math.random() * 2.5 + 1.5;
+                this.size = Math.random() * 2.0 + 0.7;
+                this.speedX = Math.random() * 2.4 + 1.6;
                 this.speedY = (Math.random() - 0.5) * 0.8;
                 this.color = Math.random() > 0.65 ? '#ef4444' : '#00e5ff';
                 this.alpha = Math.random() * 0.5 + 0.2;
@@ -1014,7 +1015,7 @@
                     animating = false;
                 }
             });
-        }, { threshold: 0.2 });
+        }, { threshold: 0.3 });
         observer.observe(canvas);
     })();
 
@@ -1292,7 +1293,7 @@
                 if (e.isIntersecting && !running) { running = true; draw(); }
                 else if (!e.isIntersecting) { running = false; }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.25 });
         observer.observe(canvas);
     })();
 
@@ -1305,7 +1306,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
         reveals.forEach(el => observer.observe(el));
     })();
 
@@ -1339,7 +1340,7 @@
                     requestAnimationFrame(update);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.3 });
         counters.forEach(c => observer.observe(c));
     })();
 
@@ -1374,11 +1375,11 @@
 
     // FAQ Accordion
     (function() {
-        document.querySelectorAll('.faq-question').forEach(q => {
+        document.querySelectorAll('.expand-trigger').forEach(q => {
             q.addEventListener('click', () => {
                 const item = q.parentElement;
                 const wasOpen = item.classList.contains('open');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                document.querySelectorAll('.help-item').forEach(i => i.classList.remove('open'));
                 if (!wasOpen) item.classList.add('open');
             });
         });

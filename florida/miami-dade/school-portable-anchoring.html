@@ -97,21 +97,22 @@
     </script>
 
     <style>
+/* uid:10b83811 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 20% 40%, rgba(234, 88, 12, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(217, 119, 6, 0.04) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(35px); transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.45s ease-in-out; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.45s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.65, 0, 0.35, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -133,29 +134,29 @@
         .hero-shimmer { background: linear-gradient(120deg, #ea580c 0%, #d97706 25%, #ea580c 50%, #00e5ff 75%, #ea580c 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Anchoring Intensity Widget */
-        .anchor-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(234, 88, 12, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; animation: widget-pulse 4s ease infinite; }
+        .anchor-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(234, 88, 12, 0.3); border-radius: 14px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(16px); opacity: 0; transform: translateX(120px); transition: all 0.6s ease-out; min-width: 190px; animation: widget-pulse 4s ease infinite; }
         .anchor-widget.visible { opacity: 1; transform: translateX(0); }
-        .anchor-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .anchor-widget-value { font-size: 1.5rem; font-weight: 800; color: #ea580c; margin-bottom: 4px; }
+        .anchor-snap-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .anchor-badge-figure { font-size: 1.5rem; font-weight: 800; color: #ea580c; margin-bottom: 4px; }
         .anchor-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .anchor-widget-fill { height: 100%; background: linear-gradient(90deg, #ea580c, #d97706); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .anchor-widget-status { font-size: 0.8rem; font-weight: 600; color: #d97706; }
         .anchor-widget-risk { font-size: 0.7rem; color: #ff4757; margin-top: 6px; font-weight: 600; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(234, 88, 12, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(234, 88, 12, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.24rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #ea580c; }
-        .nav-cta { background: linear-gradient(135deg, #ea580c 0%, #d97706 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(234, 88, 12, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #ea580c 0%, #d97706 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.45s ease-in-out; }
+        .nav-cta:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 4px 20px rgba(234, 88, 12, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
         .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #ea580c; }
@@ -169,11 +170,11 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #ea580c; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #ea580c 0%, #d97706 100%); color: #0c1220; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(234, 88, 12, 0.4); }
-        .btn-secondary { border: 2px solid rgba(234, 88, 12, 0.5); color: #ea580c; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(234, 88, 12, 0.1); border-color: #ea580c; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 0.88rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-engage { background: linear-gradient(135deg, #ea580c 0%, #d97706 100%); color: #0c1220; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-engage:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(234, 88, 12, 0.4); }
+        .btn-detail { border: 2px solid rgba(234, 88, 12, 0.5); color: #ea580c; padding: 0.9rem 2rem; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.4s ease; background: transparent; }
+        .btn-detail:hover { background: rgba(234, 88, 12, 0.1); border-color: #ea580c; transform: translateY(-5px); }
         .warning-banner { background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.3); border-left: 4px solid #ff4757; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 700px; margin: 0 auto; animation: warning-flash 3s ease infinite; }
         .warning-banner strong { color: #ff4757; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
@@ -189,25 +190,25 @@
 
         /* Trust Badges */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(234, 88, 12, 0.03); border-top: 1px solid rgba(234, 88, 12, 0.1); border-bottom: 1px solid rgba(234, 88, 12, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.30rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #ea580c; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
 
         /* Sections */
         .section { padding: 5rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section-container { max-width: 1250px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(234, 88, 12, 0.1); border: 1px solid rgba(234, 88, 12, 0.25); color: #ea580c; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .section-title .accent { color: #ea580c; }
         .section-subtitle { font-size: 1.05rem; color: #94a3b8; max-width: 700px; margin-bottom: 2.5rem; line-height: 1.7; }
 
         /* Anchor Type Cards */
-        .anchor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .anchor-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(234, 88, 12, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .anchor-card:hover { transform: translateY(-5px); border-color: rgba(234, 88, 12, 0.5); box-shadow: 0 8px 40px rgba(234, 88, 12, 0.15); }
+        .anchor-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.42rem; margin-top: 2rem; }
+        .anchor-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(234, 88, 12, 0.15); border-radius: 17px; padding: 2rem; transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); position: relative; overflow: hidden; }
+        .anchor-card:hover { transform: translateY(-5px) scale(1.01); border-color: rgba(234, 88, 12, 0.5); box-shadow: 0 8px 40px rgba(234, 88, 12, 0.15); }
         .anchor-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #ea580c, #d97706); opacity: 0; transition: opacity 0.3s ease; }
         .anchor-card:hover::before { opacity: 1; }
-        .anchor-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+        .anchor-icon { width: 52px; height: 52px; border-radius: 17px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
         .anchor-icon svg { width: 28px; height: 28px; }
         .anchor-icon.deadman { background: rgba(234, 88, 12, 0.15); }
         .anchor-icon.helical { background: rgba(0, 229, 255, 0.12); }
@@ -226,7 +227,7 @@
         .anchor-icon.ground + h3 ~ .spec-list li::before, .anchor-card:nth-child(3) .spec-list li::before { background: #d97706; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3.14rem; align-items: start; margin-top: 2rem; }
         .col-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .col-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
         .col-content ul { list-style: none; padding: 0; }
@@ -234,7 +235,7 @@
         .col-content ul li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: #ea580c; }
 
         /* Overturn Calculation Panel */
-        .calc-panel { background: rgba(234, 88, 12, 0.05); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: 16px; padding: 2rem; margin-top: 2rem; }
+        .calc-panel { background: rgba(234, 88, 12, 0.05); border: 1px solid rgba(234, 88, 12, 0.2); border-radius: 18px; padding: 2rem; margin-top: 2rem; }
         .calc-panel h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; color: #ea580c; }
         .calc-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .calc-row:last-child { border-bottom: none; }
@@ -245,12 +246,12 @@
         .calc-value.green { color: #00ff88; }
         .calc-value.cyan { color: #00e5ff; }
         .calc-divider { height: 2px; background: linear-gradient(90deg, rgba(234, 88, 12, 0.5), transparent); margin: 0.5rem 0; }
-        .calc-result { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(234, 88, 12, 0.1); border-radius: 10px; margin-top: 0.75rem; }
+        .calc-result { display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: rgba(234, 88, 12, 0.1); border-radius: 12px; margin-top: 0.75rem; }
         .calc-result .calc-label { color: #e2e8f0; font-weight: 600; }
         .calc-result .calc-value { font-size: 1.1rem; }
 
         /* Spec Table */
-        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 12px; border: 1px solid rgba(234, 88, 12, 0.15); }
+        .spec-table-wrap { overflow-x: auto; margin-top: 1.5rem; border-radius: 10px; border: 1px solid rgba(234, 88, 12, 0.15); }
         .spec-table { width: 100%; border-collapse: collapse; }
         .spec-table thead { background: rgba(234, 88, 12, 0.1); }
         .spec-table th { padding: 0.9rem 1.25rem; text-align: left; font-size: 0.85rem; font-weight: 700; color: #ea580c; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(234, 88, 12, 0.2); }
@@ -272,9 +273,9 @@
         .timeline-tag { display: inline-block; background: rgba(234, 88, 12, 0.15); color: #ea580c; padding: 0.2rem 0.6rem; border-radius: 6px; font-size: 0.75rem; font-weight: 600; margin-bottom: 0.4rem; }
 
         /* History Impact Cards */
-        .impact-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .impact-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 71, 87, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .impact-card:hover { border-color: rgba(255, 71, 87, 0.4); transform: translateY(-3px); }
+        .impact-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 2.19rem; margin-top: 2rem; }
+        .impact-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(255, 71, 87, 0.15); border-radius: 14px; padding: 2rem; transition: all 0.55s cubic-bezier(0.33, 1, 0.68, 1); }
+        .impact-card:hover { border-color: rgba(255, 71, 87, 0.4); transform: translateY(-6px); }
         .impact-card.reform { border-color: rgba(0, 255, 136, 0.15); }
         .impact-card.reform:hover { border-color: rgba(0, 255, 136, 0.4); }
         .impact-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
@@ -290,36 +291,36 @@
         /* Sliding Force Diagram */
         .sliding-panel { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(234, 88, 12, 0.15); border-radius: 16px; padding: 2rem; margin-top: 2rem; }
         .sliding-panel h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 1rem; }
-        .friction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.25rem; margin-top: 1.5rem; }
-        .friction-item { text-align: center; padding: 1.25rem; background: rgba(234, 88, 12, 0.05); border-radius: 12px; border: 1px solid rgba(234, 88, 12, 0.1); }
+        .friction-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.31rem; margin-top: 1.5rem; }
+        .friction-item { text-align: center; padding: 1.25rem; background: rgba(234, 88, 12, 0.05); border-radius: 13px; border: 1px solid rgba(234, 88, 12, 0.1); }
         .friction-item .mu-val { font-size: 1.75rem; font-weight: 800; color: #ea580c; }
         .friction-item .mu-label { font-size: 0.8rem; color: #94a3b8; margin-top: 0.25rem; }
         .friction-item .mu-desc { font-size: 0.75rem; color: #64748b; margin-top: 0.25rem; }
 
         /* FAQ */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(234, 88, 12, 0.02); }
+        .answers-section { padding: 6rem 2rem; position: relative; z-index: 2; background: rgba(234, 88, 12, 0.02); }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(234, 88, 12, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
-        .faq-item.active { border-color: rgba(234, 88, 12, 0.4); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(234, 88, 12, 0.05); }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; flex: 1; }
-        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(234, 88, 12, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
+        .resource-item { border: 1px solid rgba(234, 88, 12, 0.15); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
+        .resource-item.active { border-color: rgba(234, 88, 12, 0.4); }
+        .expand-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.71rem; transition: background 0.3s ease; }
+        .expand-trigger:hover { background: rgba(234, 88, 12, 0.05); }
+        .expand-trigger h3 { font-size: 1rem; font-weight: 600; flex: 1; }
+        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(234, 88, 12, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.55s cubic-bezier(0.65, 0, 0.35, 1); flex-shrink: 0; }
         .faq-toggle svg { width: 14px; height: 14px; stroke: #ea580c; transition: transform 0.3s ease; }
-        .faq-item.active .faq-toggle { background: rgba(234, 88, 12, 0.3); }
-        .faq-item.active .faq-toggle svg { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .resource-item.active .faq-toggle { background: rgba(234, 88, 12, 0.3); }
+        .resource-item.active .faq-toggle svg { transform: rotate(45deg); }
+        .help-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .help-content-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* CTA Section */
-        .cta-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; }
+        .engage-section { padding: 4rem 2rem; position: relative; z-index: 2; text-align: center; }
         .cta-container { max-width: 700px; margin: 0 auto; }
         .cta-container h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; font-size: 1.05rem; margin-bottom: 2rem; }
         .cta-badge { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(234, 88, 12, 0.1); border: 1px solid rgba(234, 88, 12, 0.2); color: #ea580c; padding: 0.5rem 1.25rem; border-radius: 100px; font-size: 0.85rem; font-weight: 600; margin-top: 1.5rem; }
 
         /* Footer */
-        .footer { padding: 3rem 2rem; border-top: 1px solid rgba(234, 88, 12, 0.1); text-align: center; position: relative; z-index: 2; }
+        .footer { padding: 4rem 2rem; border-top: 1px solid rgba(234, 88, 12, 0.1); text-align: center; position: relative; z-index: 2; }
         .footer p { color: #64748b; font-size: 0.85rem; }
         .footer a { color: #94a3b8; text-decoration: none; }
         .footer a:hover { color: #ea580c; }
@@ -335,7 +336,7 @@
             .two-col { grid-template-columns: 1fr; }
             .impact-grid { grid-template-columns: 1fr; }
             .friction-grid { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: 1fr 1fr; }
             .nav-links { display: none; }
             .anchor-widget { display: none; }
             .force-diagram { margin-top: 1.5rem; }
@@ -344,7 +345,7 @@
             .hero { padding: 3rem 1.25rem 2rem; }
             .section { padding: 3rem 1.25rem; }
             .hero-cta { flex-direction: column; align-items: center; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.60rem; }
         }
     </style>
 </head>
@@ -354,8 +355,8 @@
 
     <!-- Anchoring Intensity Widget -->
     <div class="anchor-widget" id="anchorWidget">
-        <div class="anchor-widget-label">Risk Category III</div>
-        <div class="anchor-widget-value">180 MPH</div>
+        <div class="anchor-snap-label">Risk Category III</div>
+        <div class="anchor-badge-figure">180 MPH</div>
         <div class="anchor-widget-bar"><div class="anchor-widget-fill" id="anchorFill"></div></div>
         <div class="anchor-widget-status">Iw = 1.15 Active</div>
         <div class="anchor-widget-risk">School Occupancy</div>
@@ -397,8 +398,8 @@
             <h1>School Portable Building <span class="hero-shimmer">Anchoring Engineering</span> in Miami-Dade HVHZ</h1>
             <p class="hero-intro">Relocatable classrooms across Miami-Dade County must resist <strong>180 MPH design wind speeds</strong> with an Importance Factor of 1.15 for Risk Category III school occupancy. Tie-down engineering for portable buildings combines overturn resistance, sliding force analysis, and anchor capacity verification to keep students and faculty safe when the next hurricane makes landfall.</p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Anchoring Loads</a>
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">View Tie-Down Analysis</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage">Calculate Anchoring Loads</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-detail">View Tie-Down Analysis</a>
             </div>
             <div class="warning-banner">
                 <strong>Hurricane Andrew Lesson:</strong>
@@ -949,65 +950,65 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section class="answers-section">
         <div class="faq-container">
             <div class="reveal">
                 <div class="section-label" style="text-align:center; display:block;">Common Questions</div>
                 <h2 class="section-title" style="text-align:center;">School Portable Anchoring <span class="accent">FAQ</span></h2>
             </div>
             <div class="reveal">
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <div class="resource-item">
+                    <div class="expand-trigger" onclick="toggleFAQ(this)">
                         <h3>What wind speed must school portable buildings withstand in Miami-Dade County?</h3>
                         <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                     </div>
-                    <div class="faq-answer"><div class="faq-answer-inner">School portable buildings in Miami-Dade HVHZ must be anchored to resist a basic design wind speed of 180 MPH per ASCE 7-22 Figure 26.5-1B. Because schools are classified as Risk Category III under ASCE 7-22 Table 1.5-1, the Importance Factor (Iw) of 1.15 increases the effective design pressure by 15% above standard occupancies. This means a portable classroom experiences roughly 32% higher total wind forces compared to a Risk Category II residential portable at the same location, factoring in the combined effect of the importance factor on velocity pressure.</div></div>
+                    <div class="help-content"><div class="help-content-inner">School portable buildings in Miami-Dade HVHZ must be anchored to resist a basic design wind speed of 180 MPH per ASCE 7-22 Figure 26.5-1B. Because schools are classified as Risk Category III under ASCE 7-22 Table 1.5-1, the Importance Factor (Iw) of 1.15 increases the effective design pressure by 15% above standard occupancies. This means a portable classroom experiences roughly 32% higher total wind forces compared to a Risk Category II residential portable at the same location, factoring in the combined effect of the importance factor on velocity pressure.</div></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <div class="resource-item">
+                    <div class="expand-trigger" onclick="toggleFAQ(this)">
                         <h3>What anchor types are approved for relocatable classrooms in Miami-Dade HVHZ?</h3>
                         <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                     </div>
-                    <div class="faq-answer"><div class="faq-answer-inner">Three primary anchor systems are used for school portables in Miami-Dade HVHZ: concrete deadman anchors (buried reinforced concrete blocks typically 2x2x4 ft with minimum 3,000 psi concrete and #4 rebar cage), helical pile anchors (multi-helix steel shafts torqued into soil with minimum 6,000 lb rated working capacity per anchor), and mechanical ground anchors (expanding or drive-in anchors rated for the site's specific soil classification). Concrete deadman systems are most common for permanent portable installations because they provide the highest verified pullout resistance in Miami-Dade's oolitic limestone substrate.</div></div>
+                    <div class="help-content"><div class="help-content-inner">Three primary anchor systems are used for school portables in Miami-Dade HVHZ: concrete deadman anchors (buried reinforced concrete blocks typically 2x2x4 ft with minimum 3,000 psi concrete and #4 rebar cage), helical pile anchors (multi-helix steel shafts torqued into soil with minimum 6,000 lb rated working capacity per anchor), and mechanical ground anchors (expanding or drive-in anchors rated for the site's specific soil classification). Concrete deadman systems are most common for permanent portable installations because they provide the highest verified pullout resistance in Miami-Dade's oolitic limestone substrate.</div></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <div class="resource-item">
+                    <div class="expand-trigger" onclick="toggleFAQ(this)">
                         <h3>How is the overturning moment calculated for a 24x60 ft portable classroom?</h3>
                         <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                     </div>
-                    <div class="faq-answer"><div class="faq-answer-inner">The overturning moment for a 24x60 ft double-wide portable in Miami-Dade HVHZ is calculated by summing wind pressure forces multiplied by their moment arms about the leeward base edge. For a unit 12 ft tall (floor to ridge), horizontal wall pressures of approximately 55-65 psf act at mid-height (6 ft arm), and net roof uplift of 45-70 psf acts at the 12 ft arm. The total overturning moment for one 60 ft long face typically ranges from 280,000 to 340,000 ft-lbs. The restoring moment from dead weight (approximately 45,000 lbs) acting at the 12 ft half-width provides roughly 270,000 ft-lbs. Since overturning moment exceeds restoring moment, tie-down anchors must resist the deficit plus a safety factor of 1.5 per FBC requirements.</div></div>
+                    <div class="help-content"><div class="help-content-inner">The overturning moment for a 24x60 ft double-wide portable in Miami-Dade HVHZ is calculated by summing wind pressure forces multiplied by their moment arms about the leeward base edge. For a unit 12 ft tall (floor to ridge), horizontal wall pressures of approximately 55-65 psf act at mid-height (6 ft arm), and net roof uplift of 45-70 psf acts at the 12 ft arm. The total overturning moment for one 60 ft long face typically ranges from 280,000 to 340,000 ft-lbs. The restoring moment from dead weight (approximately 45,000 lbs) acting at the 12 ft half-width provides roughly 270,000 ft-lbs. Since overturning moment exceeds restoring moment, tie-down anchors must resist the deficit plus a safety factor of 1.5 per FBC requirements.</div></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <div class="resource-item">
+                    <div class="expand-trigger" onclick="toggleFAQ(this)">
                         <h3>Are annual inspections required for school portable anchoring in Miami-Dade?</h3>
                         <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                     </div>
-                    <div class="faq-answer"><div class="faq-answer-inner">Yes. Florida Administrative Code 61G15-32 and Miami-Dade County Public Schools (MDCPS) policy require annual re-certification inspections for all relocatable classroom anchoring systems. A Florida-licensed Professional Engineer must visually inspect all tie-down straps, anchor connections, frame attachment points, and foundation pads. The PE must verify strap tension using a calibrated tension gauge, check for corrosion on steel components, confirm no soil erosion has reduced anchor embedment depth, and certify that the anchoring system still meets current code requirements. Inspection reports are filed with the school district facilities department and the local building official. All certifications must be completed before June 1 ahead of hurricane season.</div></div>
+                    <div class="help-content"><div class="help-content-inner">Yes. Florida Administrative Code 61G15-32 and Miami-Dade County Public Schools (MDCPS) policy require annual re-certification inspections for all relocatable classroom anchoring systems. A Florida-licensed Professional Engineer must visually inspect all tie-down straps, anchor connections, frame attachment points, and foundation pads. The PE must verify strap tension using a calibrated tension gauge, check for corrosion on steel components, confirm no soil erosion has reduced anchor embedment depth, and certify that the anchoring system still meets current code requirements. Inspection reports are filed with the school district facilities department and the local building official. All certifications must be completed before June 1 ahead of hurricane season.</div></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <div class="resource-item">
+                    <div class="expand-trigger" onclick="toggleFAQ(this)">
                         <h3>What happened to school portables during Hurricane Andrew and how did codes change?</h3>
                         <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                     </div>
-                    <div class="faq-answer"><div class="faq-answer-inner">Hurricane Andrew in 1992 destroyed virtually every portable classroom in its path across southern Miami-Dade County. Most portables had anchoring systems designed for 120 MPH wind speeds using HUD manufactured housing standards, which proved catastrophically inadequate against Andrew's 165+ MPH gusts. Portables were ripped from foundations, tumbled across campuses, and became deadly debris projectiles. The disaster triggered the HVHZ provisions requiring 180 MPH design speeds, reclassified school portables from manufactured housing to Risk Category III building standards, and mandated engineered tie-down systems with annual PE inspections. The current code framework treats school portables essentially as permanent structures for wind resistance purposes.</div></div>
+                    <div class="help-content"><div class="help-content-inner">Hurricane Andrew in 1992 destroyed virtually every portable classroom in its path across southern Miami-Dade County. Most portables had anchoring systems designed for 120 MPH wind speeds using HUD manufactured housing standards, which proved catastrophically inadequate against Andrew's 165+ MPH gusts. Portables were ripped from foundations, tumbled across campuses, and became deadly debris projectiles. The disaster triggered the HVHZ provisions requiring 180 MPH design speeds, reclassified school portables from manufactured housing to Risk Category III building standards, and mandated engineered tie-down systems with annual PE inspections. The current code framework treats school portables essentially as permanent structures for wind resistance purposes.</div></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question" onclick="toggleFAQ(this)">
+                <div class="resource-item">
+                    <div class="expand-trigger" onclick="toggleFAQ(this)">
                         <h3>What is the difference between HUD anchoring and Florida school portable requirements?</h3>
                         <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                     </div>
-                    <div class="faq-answer"><div class="faq-answer-inner">HUD manufactured housing anchoring standards (24 CFR 3280) use a simplified prescriptive approach based on Wind Zone maps, with Zone III requiring resistance to 110 MPH fastest-mile wind speed. Florida school portable requirements mandate site-specific engineering per ASCE 7-22 with basic wind speeds up to 180 MPH in the HVHZ, apply Risk Category III importance factors (Iw = 1.15), require large missile impact protection for exposed components, and enforce annual PE re-certification. A school portable in Miami-Dade HVHZ requires approximately 3 to 4 times the anchor capacity of the same unit anchored under HUD Zone III standards. HUD anchoring alone is never code-compliant for any school portable installation in Florida.</div></div>
+                    <div class="help-content"><div class="help-content-inner">HUD manufactured housing anchoring standards (24 CFR 3280) use a simplified prescriptive approach based on Wind Zone maps, with Zone III requiring resistance to 110 MPH fastest-mile wind speed. Florida school portable requirements mandate site-specific engineering per ASCE 7-22 with basic wind speeds up to 180 MPH in the HVHZ, apply Risk Category III importance factors (Iw = 1.15), require large missile impact protection for exposed components, and enforce annual PE re-certification. A school portable in Miami-Dade HVHZ requires approximately 3 to 4 times the anchor capacity of the same unit anchored under HUD Zone III standards. HUD anchoring alone is never code-compliant for any school portable installation in Florida.</div></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- CTA Section -->
-    <section class="cta-section">
+    <section class="engage-section">
         <div class="cta-container reveal">
             <h2>Get Precise Anchoring Load Calculations for <span style="color: #ea580c;">School Portables</span></h2>
             <p>Site-specific wind load analysis per ASCE 7-22 with Risk Category III importance factors for relocatable classroom tie-down engineering in Miami-Dade HVHZ.</p>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Anchoring Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage">Calculate Anchoring Loads</a>
             <div class="cta-badge">ASCE 7-22 &bull; Risk Category III &bull; 180 MPH HVHZ</div>
         </div>
     </section>
@@ -1039,10 +1040,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = Math.random() * 2.5 + 1.5;
+                this.size = Math.random() * 2.2 + 0.6;
+                this.speedX = Math.random() * 2.3 + 1.4;
                 this.speedY = (Math.random() - 0.5) * 0.8;
-                this.opacity = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.57 + 0.19;
                 // Safety orange and cyan particle mix
                 this.color = Math.random() > 0.6 ? '#ea580c' : (Math.random() > 0.5 ? '#00e5ff' : '#d97706');
             }
@@ -1091,7 +1092,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.3, rootMargin: '0px 0px -40px 0px' });
         revealEls.forEach(el => observer.observe(el));
     })();
 
@@ -1125,7 +1126,7 @@
                     counterObserver.unobserve(el);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.25 });
         counters.forEach(c => counterObserver.observe(c));
     })();
 
@@ -1150,12 +1151,12 @@
     // FAQ accordion
     function toggleFAQ(el) {
         const item = el.parentElement;
-        const answer = item.querySelector('.faq-answer');
+        const answer = item.querySelector('.help-content');
         const isActive = item.classList.contains('active');
         // Close all
-        document.querySelectorAll('.faq-item').forEach(faq => {
+        document.querySelectorAll('.resource-item').forEach(faq => {
             faq.classList.remove('active');
-            faq.querySelector('.faq-answer').style.maxHeight = '0';
+            faq.querySelector('.help-content').style.maxHeight = '0';
         });
         // Open clicked (if not already open)
         if (!isActive) {
@@ -1185,7 +1186,7 @@
 
     // Button ripple effect
     (function() {
-        document.querySelectorAll('.btn-primary').forEach(btn => {
+        document.querySelectorAll('.btn-engage').forEach(btn => {
             btn.addEventListener('click', function(e) {
                 const ripple = document.createElement('span');
                 const rect = btn.getBoundingClientRect();

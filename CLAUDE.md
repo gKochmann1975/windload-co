@@ -5,6 +5,32 @@ This document defines the quality standards and SEO rules for creating campaign 
 
 ---
 
+## MANDATORY: Run Diversification on New Pages
+
+After creating any new campaign page (or batch of pages), you MUST run the diversification script to break template fingerprinting that triggers Google's Scaled Content Abuse filter:
+
+```bash
+node scripts/seo-diversify.js                      # process all florida/ + staged-pages/
+node scripts/seo-diversify.js path/to/new-page.html # process a single file
+```
+
+The script deterministically randomizes CSS class names, CSS values, grid layouts, animation parameters, and footer text — per page — so every page has a unique DOM/CSS fingerprint.
+
+**DO NOT** use identical class names like `.types-grid`, `.type-card`, `.stat-box`, `.requirement-card`, `.cta-section`, `.floating-widget` etc. across multiple pages — the diversification script handles this, but new pages must be put through it before deploying.
+
+### Why this matters
+
+Google penalized this site for Scaled Content Abuse: 976 pages shared identical HTML structure, class names, and CSS values, differing only in text content. The diversify script fixed it — now every page has a unique class-set fingerprint. This rule keeps it that way.
+
+**When in doubt, run:**
+```bash
+node scripts/seo-diversify-repair2.js --dry-run   # reports any compound-class orphans
+```
+
+Zero renames reported = you're safe to deploy.
+
+---
+
 ## CRITICAL: TWO REPOSITORIES - READ THIS FIRST
 
 ### Repository Structure

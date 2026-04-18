@@ -96,24 +96,25 @@
     </script>
 
     <style>
+/* uid:ebde09a3 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.4; }
 
         /* Membrane Surface Canvas */
-        #membrane-viz { position: relative; z-index: 2; width: 100%; max-width: 900px; margin: 0 auto; height: 400px; border-radius: 20px; overflow: hidden; background: rgba(12, 18, 32, 0.6); border: 1px solid rgba(56, 189, 248, 0.15); }
+        #membrane-viz { position: relative; z-index: 2; width: 100%; max-width: 900px; margin: 0 auto; height: 400px; border-radius: 19px; overflow: hidden; background: rgba(12, 18, 32, 0.6); border: 1px solid rgba(56, 189, 248, 0.15); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(35px); transition: all 0.5s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.5s ease-in-out; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.5s ease-out; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.85); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.85); transition: all 0.65s ease-in-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(40px); transition: all 0.7s ease-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -133,26 +134,26 @@
         .hero-shimmer { background: linear-gradient(120deg, #38bdf8 0%, #f0f0f0 20%, #38bdf8 40%, #f0f0f0 60%, #38bdf8 80%, #f0f0f0 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 4s linear infinite; }
 
         /* Membrane Type Widget */
-        .membrane-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 195px; }
+        .membrane-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(56, 189, 248, 0.3); border-radius: 17px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(28px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 195px; }
         .membrane-widget.visible { opacity: 1; transform: translateX(0); }
-        .membrane-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
-        .membrane-widget-type { font-size: 1.4rem; font-weight: 800; color: #38bdf8; margin-bottom: 4px; transition: all 0.4s ease; }
+        .membrane-meter-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+        .membrane-widget-type { font-size: 1.4rem; font-weight: 800; color: #38bdf8; margin-bottom: 4px; transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .membrane-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.08); border-radius: 3px; overflow: hidden; margin: 8px 0; }
         .membrane-widget-fill { height: 100%; background: linear-gradient(90deg, #38bdf8, #f0f0f0); border-radius: 3px; width: 0%; transition: width 1.5s cubic-bezier(0.16, 1, 0.3, 1); }
         .membrane-widget-stat { font-size: 0.78rem; color: #94a3b8; margin-bottom: 2px; }
         .membrane-widget-stat strong { color: #f0f0f0; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(56, 189, 248, 0.15); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(56, 189, 248, 0.15); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.40rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #38bdf8; }
-        .nav-cta { background: linear-gradient(135deg, #38bdf8 0%, #f0f0f0 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #38bdf8 0%, #f0f0f0 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1); }
+        .nav-cta:hover { transform: translateY(-6px); box-shadow: 0 6px 20px rgba(56, 189, 248, 0.4); }
 
         /* Breadcrumb */
         .breadcrumb { padding: 0.75rem 2rem; margin-top: 60px; position: relative; z-index: 2; background: rgba(56, 189, 248, 0.03); border-bottom: 1px solid rgba(56, 189, 248, 0.08); }
@@ -168,26 +169,26 @@
         .hero-badge-dot { width: 8px; height: 8px; background: #38bdf8; border-radius: 50%; animation: glow-pulse 2s infinite; }
         .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.15; margin-bottom: 1.25rem; color: #ffffff; }
         .hero p { font-size: 1.1rem; color: #94a3b8; max-width: 780px; margin: 0 auto 2rem; line-height: 1.7; }
-        .hero-cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: linear-gradient(135deg, #38bdf8 0%, #f0f0f0 100%); color: #0c1220; font-weight: 700; font-size: 0.95rem; border-radius: 10px; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(56, 189, 248, 0.4); }
-        .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: transparent; color: #38bdf8; font-weight: 700; font-size: 0.95rem; border-radius: 10px; text-decoration: none; border: 2px solid rgba(56, 189, 248, 0.4); transition: all 0.3s ease; }
-        .btn-secondary:hover { background: rgba(56, 189, 248, 0.1); transform: translateY(-2px); }
+        .hero-cta-row { display: flex; gap: 1.07rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-submit { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: linear-gradient(135deg, #38bdf8 0%, #f0f0f0 100%); color: #0c1220; font-weight: 700; font-size: 0.95rem; border-radius: 8px; text-decoration: none; transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1); border: none; cursor: pointer; }
+        .btn-submit:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(56, 189, 248, 0.4); }
+        .btn-detail { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: transparent; color: #38bdf8; font-weight: 700; font-size: 0.95rem; border-radius: 10px; text-decoration: none; border: 2px solid rgba(56, 189, 248, 0.4); transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .btn-detail:hover { background: rgba(56, 189, 248, 0.1); transform: translateY(-5px); }
         .hero-warning { background: rgba(245, 158, 11, 0.06); border-left: 4px solid #f59e0b; border-radius: 0 12px 12px 0; padding: 1rem 1.5rem; text-align: left; max-width: 720px; margin: 0 auto; animation: warn-flash 3s ease-in-out infinite; }
         @keyframes warn-flash { 0%, 100% { border-left-color: #f59e0b; } 50% { border-left-color: #fbbf24; box-shadow: inset 0 0 30px rgba(245, 158, 11, 0.06); } }
         .hero-warning strong { color: #f59e0b; }
         .hero-warning p { font-size: 0.85rem; color: #94a3b8; margin: 0; text-align: left; }
 
         /* Trust Badges */
-        .trust-row { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; padding: 2.5rem 2rem; position: relative; z-index: 2; max-width: 950px; margin: 0 auto; }
+        .trust-row { display: flex; justify-content: center; gap: 2.26rem; flex-wrap: wrap; padding: 2.5rem 2rem; position: relative; z-index: 2; max-width: 950px; margin: 0 auto; }
         .trust-item { text-align: center; }
         .trust-value { font-size: 2rem; font-weight: 800; color: #38bdf8; }
         .trust-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
         .counter-pop { animation: counter-pop 0.4s ease; }
 
         /* Section Styles */
-        .section { position: relative; z-index: 2; padding: 5rem 2rem; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section { position: relative; z-index: 2; padding: 4rem 2rem; }
+        .section-container { max-width: 1250px; margin: 0 auto; }
         .section-label { font-size: 0.75rem; font-weight: 700; color: #38bdf8; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.75rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
         .section-subtitle { font-size: 1rem; color: #94a3b8; max-width: 800px; margin-bottom: 3rem; line-height: 1.7; }
@@ -195,10 +196,10 @@
         .accent-warm { color: #f59e0b; }
 
         /* Membrane Material Comparison Cards */
-        .material-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
-        .material-card { background: rgba(56, 189, 248, 0.04); border: 1px solid rgba(56, 189, 248, 0.12); border-radius: 16px; padding: 2rem 1.5rem; position: relative; overflow: hidden; transition: all 0.4s ease; }
-        .material-card:hover { border-color: rgba(56, 189, 248, 0.35); transform: translateY(-4px); }
-        .material-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 16px 16px 0 0; }
+        .material-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.79rem; margin: 2rem 0; }
+        .material-card { background: rgba(56, 189, 248, 0.04); border: 1px solid rgba(56, 189, 248, 0.12); border-radius: 18px; padding: 2rem 1.5rem; position: relative; overflow: hidden; transition: all 0.45s cubic-bezier(0.65, 0, 0.35, 1); }
+        .material-card:hover { border-color: rgba(56, 189, 248, 0.35); transform: scale(1.02); }
+        .material-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; border-radius: 15px 16px 0 0; }
         .material-card.ptfe::before { background: linear-gradient(90deg, #38bdf8, #f0f0f0); }
         .material-card.etfe::before { background: linear-gradient(90deg, #a78bfa, #c084fc); }
         .material-card.pvc::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
@@ -214,20 +215,20 @@
         .mat-specs .spec-val { color: #f0f0f0; font-weight: 600; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; align-items: start; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.42rem; align-items: start; }
         .col-content h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; color: #f0f0f0; }
         .col-content p { font-size: 0.92rem; color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; }
 
         /* Stress Distribution Visualization */
-        .stress-viz { background: rgba(56, 189, 248, 0.03); border: 1px solid rgba(56, 189, 248, 0.12); border-radius: 20px; padding: 2rem; margin: 2rem auto; max-width: 850px; position: relative; overflow: hidden; }
-        .stress-viz canvas { width: 100%; height: 350px; display: block; border-radius: 12px; }
-        .stress-legend { display: flex; justify-content: center; gap: 2rem; margin-top: 1rem; flex-wrap: wrap; }
+        .stress-viz { background: rgba(56, 189, 248, 0.03); border: 1px solid rgba(56, 189, 248, 0.12); border-radius: 23px; padding: 2rem; margin: 2rem auto; max-width: 850px; position: relative; overflow: hidden; }
+        .stress-viz canvas { width: 100%; height: 350px; display: block; border-radius: 11px; }
+        .stress-legend { display: flex; justify-content: center; gap: 2.15rem; margin-top: 1rem; flex-wrap: wrap; }
         .stress-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; color: #94a3b8; }
         .stress-legend-dot { width: 12px; height: 12px; border-radius: 3px; }
 
         /* Connection Details Grid */
-        .connection-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 2rem 0; }
-        .connection-card { background: rgba(56, 189, 248, 0.04); border: 1px solid rgba(56, 189, 248, 0.1); border-radius: 14px; padding: 1.75rem; transition: all 0.3s ease; }
+        .connection-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.61rem; margin: 2rem 0; }
+        .connection-card { background: rgba(56, 189, 248, 0.04); border: 1px solid rgba(56, 189, 248, 0.1); border-radius: 14px; padding: 1.75rem; transition: all 0.7s cubic-bezier(0.33, 1, 0.68, 1); }
         .connection-card:hover { border-color: rgba(56, 189, 248, 0.3); }
         .connection-card h4 { font-size: 1rem; font-weight: 700; color: #f0f0f0; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
         .connection-card h4 .conn-icon { width: 28px; height: 28px; background: rgba(56, 189, 248, 0.12); border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
@@ -236,7 +237,7 @@
         .connection-card .conn-spec { font-size: 0.78rem; color: #38bdf8; font-weight: 600; margin-top: 0.5rem; display: block; }
 
         /* Catenary Calculator Display */
-        .catenary-calc { background: rgba(12, 18, 32, 0.8); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 16px; padding: 2rem; margin: 2rem auto; max-width: 700px; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; }
+        .catenary-calc { background: rgba(12, 18, 32, 0.8); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 18px; padding: 2rem; margin: 2rem auto; max-width: 700px; font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace; }
         .calc-title { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 1rem; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; }
         .calc-line { font-size: 0.85rem; color: #94a3b8; padding: 0.3rem 0; }
         .calc-line .calc-var { color: #38bdf8; }
@@ -245,15 +246,15 @@
         .calc-result { font-size: 1rem; color: #f0f0f0; font-weight: 700; padding: 0.75rem 0; border-top: 1px solid rgba(56, 189, 248, 0.15); margin-top: 0.5rem; }
 
         /* Flutter Analysis Section */
-        .flutter-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin: 2rem 0; }
-        .flutter-card { background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.12); border-radius: 14px; padding: 1.5rem; text-align: center; }
+        .flutter-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.30rem; margin: 2rem 0; }
+        .flutter-card { background: rgba(245, 158, 11, 0.04); border: 1px solid rgba(245, 158, 11, 0.12); border-radius: 13px; padding: 1.5rem; text-align: center; }
         .flutter-card .flutter-icon { font-size: 2rem; margin-bottom: 0.5rem; }
         .flutter-card h4 { font-size: 0.95rem; font-weight: 700; color: #f0f0f0; margin-bottom: 0.5rem; }
         .flutter-card p { font-size: 0.82rem; color: #94a3b8; line-height: 1.6; }
         .flutter-card .flutter-val { display: block; font-size: 1.3rem; font-weight: 800; color: #f59e0b; margin-top: 0.5rem; }
 
         /* Data Table */
-        .data-table-wrap { overflow-x: auto; margin: 2rem 0; border-radius: 14px; border: 1px solid rgba(56, 189, 248, 0.12); }
+        .data-table-wrap { overflow-x: auto; margin: 2rem 0; border-radius: 16px; border: 1px solid rgba(56, 189, 248, 0.12); }
         .data-table { width: 100%; border-collapse: collapse; font-size: 0.85rem; }
         .data-table thead { background: rgba(56, 189, 248, 0.08); }
         .data-table th { padding: 0.85rem 1rem; text-align: left; color: #38bdf8; font-weight: 700; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
@@ -262,31 +263,31 @@
         .data-table .highlight { color: #f0f0f0; font-weight: 600; }
 
         /* NOA Requirements */
-        .noa-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin: 2rem 0; }
+        .noa-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.58rem; margin: 2rem 0; }
         .noa-card { background: rgba(56, 189, 248, 0.04); border-left: 3px solid #38bdf8; border-radius: 0 12px 12px 0; padding: 1.5rem; }
         .noa-card h4 { font-size: 0.95rem; font-weight: 700; color: #f0f0f0; margin-bottom: 0.5rem; }
         .noa-card p { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
         .noa-card .noa-ref { font-size: 0.75rem; color: #38bdf8; font-weight: 600; margin-top: 0.5rem; display: block; }
 
         /* FAQ Styles */
-        .faq-section { position: relative; z-index: 2; padding: 5rem 2rem; background: rgba(56, 189, 248, 0.02); }
+        .info-section { position: relative; z-index: 2; padding: 6rem 2rem; background: rgba(56, 189, 248, 0.02); }
         .faq-container { max-width: 850px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(56, 189, 248, 0.1); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
-        .faq-item:hover { border-color: rgba(56, 189, 248, 0.25); }
-        .faq-item.open { border-color: rgba(56, 189, 248, 0.35); }
-        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; background: rgba(12, 18, 32, 0.5); transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(56, 189, 248, 0.04); }
-        .faq-question h3 { font-size: 0.95rem; font-weight: 600; color: #f0f0f0; flex: 1; padding-right: 1rem; }
+        .info-item { border: 1px solid rgba(56, 189, 248, 0.1); border-radius: 15px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
+        .info-item:hover { border-color: rgba(56, 189, 248, 0.25); }
+        .info-item.open { border-color: rgba(56, 189, 248, 0.35); }
+        .question-trigger { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; background: rgba(12, 18, 32, 0.5); transition: background 0.3s ease; }
+        .question-trigger:hover { background: rgba(56, 189, 248, 0.04); }
+        .question-trigger h3 { font-size: 0.95rem; font-weight: 600; color: #f0f0f0; flex: 1; padding-right: 1rem; }
         .faq-toggle { width: 28px; height: 28px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: #38bdf8; transition: transform 0.3s ease; }
         .faq-toggle svg { width: 18px; height: 18px; }
-        .faq-item.open .faq-toggle { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-item.open .faq-answer { max-height: 600px; }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; font-size: 0.9rem; color: #94a3b8; line-height: 1.7; }
+        .info-item.open .faq-toggle { transform: rotate(45deg); }
+        .guide-content { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .info-item.open .guide-content { max-height: 600px; }
+        .guide-content-inner { padding: 0 1.5rem 1.25rem; font-size: 0.9rem; color: #94a3b8; line-height: 1.7; }
 
         /* CTA Section */
-        .cta-section { position: relative; z-index: 2; padding: 5rem 2rem; text-align: center; }
-        .cta-container { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(240, 240, 240, 0.04) 100%); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 24px; padding: 3.5rem 2.5rem; }
+        .finale-section { position: relative; z-index: 2; padding: 6rem 2rem; text-align: center; }
+        .cta-container { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(56, 189, 248, 0.08) 0%, rgba(240, 240, 240, 0.04) 100%); border: 1px solid rgba(56, 189, 248, 0.2); border-radius: 22px; padding: 3.5rem 2.5rem; }
         .cta-container h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; margin-bottom: 2rem; font-size: 1rem; line-height: 1.7; }
         .cta-badge { margin-top: 1.5rem; font-size: 0.75rem; color: #64748b; letter-spacing: 0.05em; }
@@ -313,8 +314,8 @@
         }
         @media (max-width: 600px) {
             .hero { padding: 3rem 1rem 2rem; }
-            .section { padding: 3rem 1rem; }
-            .trust-row { gap: 1.5rem; }
+            .section { padding: 4rem 1rem; }
+            .trust-row { gap: 1.51rem; }
         }
     </style>
 </head>
@@ -324,7 +325,7 @@
 
 <!-- Membrane Type Widget -->
 <div class="membrane-widget" id="membraneWidget">
-    <div class="membrane-widget-label">Membrane Type</div>
+    <div class="membrane-meter-label">Membrane Type</div>
     <div class="membrane-widget-type" id="widgetType">PTFE</div>
     <div class="membrane-widget-bar"><div class="membrane-widget-fill" id="widgetFill"></div></div>
     <div class="membrane-widget-stat">Tensile: <strong id="widgetTensile">800 lbs/in</strong></div>
@@ -366,8 +367,8 @@
     <h1>Tensile Membrane <span class="hero-shimmer">Wind Design</span> for Miami-Dade HVHZ</h1>
     <p>Tensile membrane structures in Miami-Dade's High Velocity Hurricane Zone must resist 180 MPH design wind speeds per ASCE 7-22 and FBC 2023 Section 3102. Engineering these lightweight fabric enclosures demands specialized form-finding analysis, aeroelastic flutter assessment, cable catenary calculations, and membrane material selection calibrated to the extreme velocity pressures of South Florida. This guide covers PTFE, ETFE, and PVC membrane systems, pre-stress requirements, connection detailing, wind tunnel testing criteria, and the NOA approval pathway for permanent tensile structures in the HVHZ.</p>
     <div class="hero-cta-row">
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Membrane Wind Loads</a>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">View Specialty Structures</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-submit">Calculate Membrane Wind Loads</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-detail">View Specialty Structures</a>
     </div>
     <div class="hero-warning">
         <p><strong>Engineering Notice:</strong> Tensile membrane structures in HVHZ require PE-sealed nonlinear analysis with form-finding, wind load application, and cable design per ASCE 7-22 and ASCE 19. Standard linear analysis methods used for rigid structures are invalid for flexible membrane systems. All permanent installations require Miami-Dade NOA or equivalent product approval.</p>
@@ -743,79 +744,79 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
+<section class="info-section">
     <div class="faq-container">
         <div class="section-label reveal" style="text-align: center;">Common Questions</div>
         <h2 class="section-title reveal" style="text-align: center;">Frequently Asked Questions About <span class="accent">Tensile Membrane Wind Design</span></h2>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <h3>What membrane materials are approved for permanent tensile structures in Miami-Dade HVHZ?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Three membrane classes are used for permanent tensile structures in Miami-Dade HVHZ: PTFE-coated fiberglass (Type I) with tensile strengths of 500 to 800 lbs per inch and a 30-plus year service life, ETFE foil cushion systems (Type II) achieving 85 to 95 percent light transmittance with self-extinguishing fire properties, and PVC-coated polyester (Type III/IV) offering 300 to 900 lbs per inch at lower cost but with a 15 to 20 year UV-limited lifespan. All permanent membrane installations in the HVHZ require either a Miami-Dade NOA or PE-sealed structural calculations demonstrating compliance with FBC 2023 Section 3102 and ASCE 7-22.</div>
+            <div class="guide-content">
+                <div class="guide-content-inner">Three membrane classes are used for permanent tensile structures in Miami-Dade HVHZ: PTFE-coated fiberglass (Type I) with tensile strengths of 500 to 800 lbs per inch and a 30-plus year service life, ETFE foil cushion systems (Type II) achieving 85 to 95 percent light transmittance with self-extinguishing fire properties, and PVC-coated polyester (Type III/IV) offering 300 to 900 lbs per inch at lower cost but with a 15 to 20 year UV-limited lifespan. All permanent membrane installations in the HVHZ require either a Miami-Dade NOA or PE-sealed structural calculations demonstrating compliance with FBC 2023 Section 3102 and ASCE 7-22.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <h3>How is form-finding analysis performed for tensile membrane structures in 180 MPH wind zones?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Form-finding is the computational process that discovers the membrane's equilibrium shape under prescribed pre-stress. Engineers use nonlinear finite element software (Forten 4000, MPanel, RFEM) with the force density method or dynamic relaxation algorithm. Pre-stress for PTFE membranes in the HVHZ typically ranges from 1.0 to 2.5 kN per meter in both warp and fill directions. The resulting anticlastic geometry is then verified against 180 MPH wind loads, checking that fabric stress ratios remain below 0.25 under sustained wind and 0.50 under peak gust combinations.</div>
+            <div class="guide-content">
+                <div class="guide-content-inner">Form-finding is the computational process that discovers the membrane's equilibrium shape under prescribed pre-stress. Engineers use nonlinear finite element software (Forten 4000, MPanel, RFEM) with the force density method or dynamic relaxation algorithm. Pre-stress for PTFE membranes in the HVHZ typically ranges from 1.0 to 2.5 kN per meter in both warp and fill directions. The resulting anticlastic geometry is then verified against 180 MPH wind loads, checking that fabric stress ratios remain below 0.25 under sustained wind and 0.50 under peak gust combinations.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <h3>What causes aeroelastic flutter in tensile membranes and how is it prevented?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Aeroelastic flutter occurs when wind energy couples with the membrane's natural vibration modes, creating self-amplifying oscillations. Flutter initiates when wind suction exceeds membrane pre-stress. Prevention requires maintaining pre-stress at 10 to 15 percent of ultimate tensile strength, ensuring anticlastic curvature with a sag-to-span ratio between 1:8 and 1:15, and adding cable net reinforcement at 3 to 6 foot spacing near free edges and ridge lines. Proper design raises the flutter onset velocity above the 180 MPH design wind speed.</div>
+            <div class="guide-content">
+                <div class="guide-content-inner">Aeroelastic flutter occurs when wind energy couples with the membrane's natural vibration modes, creating self-amplifying oscillations. Flutter initiates when wind suction exceeds membrane pre-stress. Prevention requires maintaining pre-stress at 10 to 15 percent of ultimate tensile strength, ensuring anticlastic curvature with a sag-to-span ratio between 1:8 and 1:15, and adding cable net reinforcement at 3 to 6 foot spacing near free edges and ridge lines. Proper design raises the flutter onset velocity above the 180 MPH design wind speed.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <h3>Are wind tunnel tests required for tensile membrane structures in Miami-Dade?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Wind tunnel testing is not universally mandated but is routinely required by Miami-Dade building officials for membrane structures exceeding 5,000 square feet or with unusual geometries. Aeroelastic models replicating membrane flexibility are preferred over rigid pressure models. Testing must cover 36 wind directions with turbulence matching Exposure C conditions. A typical aeroelastic study costs $40,000 to $120,000 depending on complexity. CFD analysis is increasingly accepted as an alternative when performed by qualified specialists.</div>
+            <div class="guide-content">
+                <div class="guide-content-inner">Wind tunnel testing is not universally mandated but is routinely required by Miami-Dade building officials for membrane structures exceeding 5,000 square feet or with unusual geometries. Aeroelastic models replicating membrane flexibility are preferred over rigid pressure models. Testing must cover 36 wind directions with turbulence matching Exposure C conditions. A typical aeroelastic study costs $40,000 to $120,000 depending on complexity. CFD analysis is increasingly accepted as an alternative when performed by qualified specialists.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <h3>How do cable catenary calculations work for membrane support cables in hurricane zones?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Cable catenary calculations relate horizontal tension (H) to distributed load (w) and span (L) through the equation: sag = wL squared divided by 8H. For an 80-foot ridge cable in 180 MPH wind with 320 lbs/ft distributed load at 1:10 sag ratio, horizontal tension reaches 32,000 lbs with maximum support tension of 34,464 lbs. Cable sizes range from 1 to 2.5 inch spiral strand with minimum breaking strengths of 150,000 to 500,000 lbs. A safety factor of 3.0 per ASCE 19 is standard practice, with open socket or swaged end fittings at 95 to 100 percent efficiency.</div>
+            <div class="guide-content">
+                <div class="guide-content-inner">Cable catenary calculations relate horizontal tension (H) to distributed load (w) and span (L) through the equation: sag = wL squared divided by 8H. For an 80-foot ridge cable in 180 MPH wind with 320 lbs/ft distributed load at 1:10 sag ratio, horizontal tension reaches 32,000 lbs with maximum support tension of 34,464 lbs. Cable sizes range from 1 to 2.5 inch spiral strand with minimum breaking strengths of 150,000 to 500,000 lbs. A safety factor of 3.0 per ASCE 19 is standard practice, with open socket or swaged end fittings at 95 to 100 percent efficiency.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <h3>What connection details are required for tensile membrane structures in the HVHZ?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Membrane-to-cable connections use either continuous keder rail systems or discrete clamp plates at 12 to 24 inch spacing. Corner plates concentrate multi-cable forces at mast heads, with capacities of 20,000 to 100,000 lbs. Mast base connections require 6 to 12 anchor bolts of 1.25 to 2 inch diameter A325 steel embedded 20 to 30 bolt diameters into drilled shaft foundations. Cable end fittings use open sockets (100% efficiency) or swaged fittings (95% efficiency) with proof testing to 50% of rated breaking strength. All exposed hardware requires 316 marine-grade stainless steel or hot-dip galvanizing per ASTM A153.</div>
+            <div class="guide-content">
+                <div class="guide-content-inner">Membrane-to-cable connections use either continuous keder rail systems or discrete clamp plates at 12 to 24 inch spacing. Corner plates concentrate multi-cable forces at mast heads, with capacities of 20,000 to 100,000 lbs. Mast base connections require 6 to 12 anchor bolts of 1.25 to 2 inch diameter A325 steel embedded 20 to 30 bolt diameters into drilled shaft foundations. Cable end fittings use open sockets (100% efficiency) or swaged fittings (95% efficiency) with proof testing to 50% of rated breaking strength. All exposed hardware requires 316 marine-grade stainless steel or hot-dip galvanizing per ASTM A153.</div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="cta-section">
+<section class="finale-section">
     <div class="cta-container reveal-scale">
         <h2>Calculate Tensile Membrane <span class="accent">Wind Loads</span> Now</h2>
         <p>Get ASCE 7-22 compliant wind load calculations for tensile membrane structures, cable net systems, and specialty fabric enclosures in Miami-Dade HVHZ. PE-ready output for your NOA application and permit package.</p>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Start Membrane Structure Calculation</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-submit">Start Membrane Structure Calculation</a>
         <div class="cta-badge">ASCE 7-22 Compliant &middot; FBC 2023 Section 3102 &middot; Miami-Dade HVHZ &middot; PE-Ready Output</div>
     </div>
 </section>
@@ -846,10 +847,10 @@
         reset() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.2 + 0.5;
-            this.speedX = Math.random() * 2 + 0.8;
+            this.size = Math.random() * 2.0 + 0.4;
+            this.speedX = Math.random() * 2.3 + 0.7;
             this.speedY = (Math.random() - 0.5) * 0.6;
-            this.opacity = Math.random() * 0.35 + 0.1;
+            this.opacity = Math.random() * 0.34 + 0.09;
             const r = Math.random();
             if (r > 0.6) this.color = '#38bdf8';
             else if (r > 0.3) this.color = '#f0f0f0';
@@ -1239,7 +1240,7 @@
                 requestAnimationFrame(tick);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.15 });
     counters.forEach(c => counterObserver.observe(c));
 })();
 
@@ -1270,14 +1271,14 @@
 function toggleFaq(el) {
     const item = el.parentElement;
     const wasOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => i.classList.remove('open'));
+    document.querySelectorAll('.info-item.open').forEach(i => i.classList.remove('open'));
     if (!wasOpen) item.classList.add('open');
 }
 
 // ============================================
 // Button Ripple Effect
 // ============================================
-document.querySelectorAll('.btn-primary').forEach(btn => {
+document.querySelectorAll('.btn-submit').forEach(btn => {
     btn.addEventListener('click', function(e) {
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');

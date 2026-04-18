@@ -93,19 +93,20 @@
     }
     </script>
     <style>
+/* uid:1b84d8f7 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 25% 35%, rgba(14, 165, 233, 0.05) 0%, transparent 50%), radial-gradient(circle at 75% 65%, rgba(59, 130, 246, 0.04) 0%, transparent 50%); }
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.45s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.65s ease-in-out; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.5s ease; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(25px); transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -119,26 +120,26 @@
         @keyframes arrow-drift { 0% { transform: translateX(0); opacity: 0.3; } 50% { opacity: 1; } 100% { transform: translateX(20px); opacity: 0.3; } }
         @keyframes counter-pop { 0% { transform: scale(1); } 50% { transform: scale(1.15); } 100% { transform: scale(1); } }
         .shimmer { background: linear-gradient(120deg, #0ea5e9 0%, #00e5ff 25%, #3b82f6 50%, #0ea5e9 75%, #00e5ff 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
-        .tunnel-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
+        .tunnel-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 18px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(20px); opacity: 0; transform: translateX(120px); transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1); min-width: 190px; }
         .tunnel-widget.visible { opacity: 1; transform: translateX(0); }
-        .tunnel-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .tunnel-widget-value { font-size: 1.5rem; font-weight: 800; color: #0ea5e9; margin-bottom: 4px; }
+        .tunnel-chip-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .tunnel-quick-number { font-size: 1.5rem; font-weight: 800; color: #0ea5e9; margin-bottom: 4px; }
         .tunnel-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .tunnel-widget-fill { height: 100%; background: linear-gradient(90deg, #0ea5e9, #3b82f6); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .tunnel-widget-status { font-size: 0.8rem; font-weight: 600; color: #0ea5e9; }
 
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(14, 165, 233, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(28px); border-bottom: 1px solid rgba(14, 165, 233, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.42rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #0ea5e9; }
-        .nav-cta { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4); }
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .nav-cta { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.6s ease-out; }
+        .nav-cta:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(14, 165, 233, 0.4); }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1250px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #0ea5e9; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -150,24 +151,24 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.2rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #0ea5e9; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: #ffffff; box-shadow: 0 4px 25px rgba(14, 165, 233, 0.4); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(14, 165, 233, 0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.15); }
+        .hero-cta { display: flex; gap: 0.79rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.25rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.1rem; text-decoration: none; transition: all 0.75s ease-out; position: relative; overflow: hidden; }
+        .btn-main { background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 100%); color: #ffffff; box-shadow: 0 4px 25px rgba(14, 165, 233, 0.4); }
+        .btn-main:hover { transform: translateY(-8px); box-shadow: 0 8px 40px rgba(14, 165, 233, 0.5); }
+        .btn-view { background: rgba(255,255,255,0.1); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-view:hover { background: rgba(255,255,255,0.15); }
         .alert-banner { background: linear-gradient(90deg, rgba(14, 165, 233, 0.15) 0%, rgba(14, 165, 233, 0.05) 100%); border-left: 4px solid #0ea5e9; padding: 1.5rem 2rem; margin: 2rem auto 0; max-width: 900px; border-radius: 0 12px 12px 0; }
         .alert-banner h3 { color: #0ea5e9; font-size: 1.1rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; }
         .alert-banner p { color: #94a3b8; font-size: 0.95rem; }
 
-        .section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .section { padding: 3rem 2rem; position: relative; z-index: 2; }
         .section-alt { background: linear-gradient(180deg, #0c1220 0%, #0f1729 100%); }
-        .section-container { max-width: 1100px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
-        .section-header p { color: #94a3b8; }
+        .section-container { max-width: 1400px; margin: 0 auto; }
+        .zone-header { text-align: center; margin-bottom: 3rem; }
+        .zone-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.5rem; }
+        .zone-header p { color: #94a3b8; }
 
-        .trust-bar { display: flex; justify-content: center; gap: 3rem; flex-wrap: wrap; padding: 3rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(14, 165, 233, 0.1); }
+        .trust-bar { display: flex; justify-content: center; gap: 2.74rem; flex-wrap: wrap; padding: 3rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(14, 165, 233, 0.1); }
         .trust-item { text-align: center; }
         .trust-value { font-size: 2rem; font-weight: 800; color: #0ea5e9; }
         .trust-label { font-size: 0.8rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-top: 0.25rem; }
@@ -180,12 +181,12 @@
         .pressure-label { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', monospace; }
         .pressure-zone-svg { animation: pressure-throb 3s ease-in-out infinite; }
 
-        .classification-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .class-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .class-card:hover { border-color: rgba(14, 165, 233, 0.3); transform: translateY(-6px); }
+        .classification-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.83rem; margin-top: 2rem; }
+        .class-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 23px; padding: 2rem; transition: all 0.55s ease-in-out; position: relative; overflow: hidden; }
+        .class-card:hover { border-color: rgba(14, 165, 233, 0.3); transform: scale(1.02); }
         .class-card.critical { border-color: rgba(239, 68, 68, 0.4); }
         .class-card.critical::before { content: 'WORST CASE'; position: absolute; top: 12px; right: 12px; background: linear-gradient(135deg, #ef4444, #dc2626); color: #fff; font-size: 0.6rem; font-weight: 700; padding: 0.25rem 0.5rem; border-radius: 4px; }
-        .class-icon { width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
+        .class-icon { width: 52px; height: 52px; border-radius: 13px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; }
         .class-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
         .class-gcpi { font-size: 1.75rem; font-weight: 800; margin-bottom: 0.5rem; }
         .class-card p { color: #94a3b8; font-size: 0.95rem; line-height: 1.6; }
@@ -193,7 +194,7 @@
         .class-detail li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; color: #94a3b8; font-size: 0.9rem; }
         .class-detail li::before { content: '>'; position: absolute; left: 0; color: #0ea5e9; font-weight: bold; }
 
-        .pressure-table-wrap { overflow-x: auto; margin-top: 2rem; border-radius: 16px; border: 1px solid rgba(255,255,255,0.1); }
+        .pressure-table-wrap { overflow-x: auto; margin-top: 2rem; border-radius: 17px; border: 1px solid rgba(255,255,255,0.1); }
         .pressure-table { width: 100%; border-collapse: collapse; }
         .pressure-table thead { background: rgba(14, 165, 233, 0.1); }
         .pressure-table th { padding: 1rem 1.25rem; text-align: left; font-size: 0.85rem; font-weight: 700; color: #0ea5e9; text-transform: uppercase; letter-spacing: 0.05em; border-bottom: 1px solid rgba(14, 165, 233, 0.2); }
@@ -205,19 +206,19 @@
         .zone-edge { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
         .zone-corner { background: rgba(239, 68, 68, 0.15); color: #ef4444; }
 
-        .frame-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
-        .frame-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .frame-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3.06rem; align-items: start; margin-top: 2rem; }
+        .frame-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 17px; padding: 2rem; }
         .frame-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
         .frame-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; }
-        .frame-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-top: 1.5rem; }
+        .frame-specs { display: grid; grid-template-columns: 1fr 1fr; gap: 1.12rem; margin-top: 1.5rem; }
         .frame-spec { background: rgba(14, 165, 233, 0.08); border: 1px solid rgba(14, 165, 233, 0.15); border-radius: 12px; padding: 1rem; text-align: center; }
         .frame-spec-value { font-size: 1.4rem; font-weight: 800; color: #0ea5e9; }
         .frame-spec-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; margin-top: 0.25rem; }
 
-        .equipment-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .equip-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; padding: 1.75rem; transition: all 0.3s ease; }
-        .equip-card:hover { border-color: rgba(59, 130, 246, 0.4); transform: translateY(-4px); }
-        .equip-icon { width: 48px; height: 48px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; background: rgba(14, 165, 233, 0.1); }
+        .equipment-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 1.27rem; margin-top: 2rem; }
+        .equip-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 14px; padding: 1.75rem; transition: all 0.7s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .equip-card:hover { border-color: rgba(59, 130, 246, 0.4); transform: translateY(-5px) scale(1.01); }
+        .equip-icon { width: 48px; height: 48px; border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; background: rgba(14, 165, 233, 0.1); }
         .equip-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .equip-force { font-size: 1.3rem; font-weight: 800; color: #3b82f6; margin-bottom: 0.5rem; }
         .equip-card p { color: #94a3b8; font-size: 0.9rem; }
@@ -225,8 +226,8 @@
         .equip-detail li { padding: 0.3rem 0; padding-left: 1.25rem; position: relative; color: #94a3b8; font-size: 0.85rem; }
         .equip-detail li::before { content: ''; position: absolute; left: 0; top: 50%; width: 6px; height: 6px; border-radius: 50%; background: #3b82f6; transform: translateY(-50%); }
 
-        .door-section { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .door-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; }
+        .door-section { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.25rem; margin-top: 2rem; }
+        .door-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 18px; padding: 2rem; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .door-card:hover { border-color: rgba(14, 165, 233, 0.3); }
         .door-card h3 { font-size: 1.2rem; font-weight: 700; margin-bottom: 0.5rem; }
         .door-rating { font-size: 1.5rem; font-weight: 800; color: #0ea5e9; margin-bottom: 0.5rem; }
@@ -235,33 +236,33 @@
         .door-features li { padding: 0.4rem 0; padding-left: 1.5rem; position: relative; color: #94a3b8; font-size: 0.9rem; }
         .door-features li::before { content: '>'; position: absolute; left: 0; color: #0ea5e9; font-weight: bold; }
 
-        .foundation-split { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .foundation-split { display: grid; grid-template-columns: 1fr 1fr; gap: 2.88rem; align-items: start; margin-top: 2rem; }
         .foundation-list { list-style: none; }
-        .foundation-list li { padding: 1rem; padding-left: 1.75rem; position: relative; color: #e2e8f0; font-size: 0.95rem; margin-bottom: 0.75rem; background: rgba(255,255,255,0.02); border-radius: 12px; border-left: 3px solid rgba(14, 165, 233, 0.3); }
+        .foundation-list li { padding: 1rem; padding-left: 1.75rem; position: relative; color: #e2e8f0; font-size: 0.95rem; margin-bottom: 0.75rem; background: rgba(255,255,255,0.02); border-radius: 14px; border-left: 3px solid rgba(14, 165, 233, 0.3); }
         .foundation-list li strong { color: #0ea5e9; display: block; margin-bottom: 0.25rem; }
-        .foundation-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem; }
+        .foundation-diagram { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 22px; padding: 2rem; }
         .anchor-value { font-size: 2rem; font-weight: 800; color: #3b82f6; text-align: center; margin-bottom: 0.5rem; }
         .anchor-label { font-size: 0.85rem; color: #64748b; text-align: center; margin-bottom: 1.5rem; }
         .anchor-breakdown { list-style: none; }
         .anchor-breakdown li { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); color: #94a3b8; font-size: 0.9rem; }
         .anchor-breakdown li span:last-child { font-weight: 700; color: #e2e8f0; }
 
-        .faq-section { padding: 4rem 2rem; background: #0c1220; position: relative; z-index: 2; }
+        .resource-section { padding: 4rem 2rem; background: #0c1220; position: relative; z-index: 2; }
         .faq-list { margin-top: 2rem; }
-        .faq-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; }
-        .faq-question { padding: 1.25rem 1.5rem; font-weight: 600; color: #e2e8f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
-        .faq-question:hover { background: rgba(14, 165, 233, 0.05); }
-        .faq-question::after { content: '+'; font-size: 1.5rem; color: #0ea5e9; transition: transform 0.3s ease; }
-        .faq-item.open .faq-question::after { transform: rotate(45deg); }
-        .faq-answer { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.3s ease; color: #94a3b8; line-height: 1.7; }
-        .faq-item.open .faq-answer { padding: 0 1.5rem 1.5rem; max-height: 500px; }
+        .answer-item { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.08); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; }
+        .knowledge-trigger { padding: 1.25rem 1.5rem; font-weight: 600; color: #e2e8f0; cursor: pointer; display: flex; justify-content: space-between; align-items: center; }
+        .knowledge-trigger:hover { background: rgba(14, 165, 233, 0.05); }
+        .knowledge-trigger::after { content: '+'; font-size: 1.5rem; color: #0ea5e9; transition: transform 0.3s ease; }
+        .answer-item.open .knowledge-trigger::after { transform: rotate(45deg); }
+        .question-content { padding: 0 1.5rem; max-height: 0; overflow: hidden; transition: all 0.75s cubic-bezier(0.65, 0, 0.35, 1); color: #94a3b8; line-height: 1.7; }
+        .answer-item.open .question-content { padding: 0 1.5rem 1.5rem; max-height: 500px; }
 
-        .cta { padding: 5rem 2rem; background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 40%, #1d4ed8 100%); text-align: center; position: relative; z-index: 2; overflow: hidden; }
+        .cta { padding: 6rem 2rem; background: linear-gradient(135deg, #0ea5e9 0%, #3b82f6 40%, #1d4ed8 100%); text-align: center; position: relative; z-index: 2; overflow: hidden; }
         .cta::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(ellipse at center, rgba(255,255,255,0.12) 0%, transparent 70%); pointer-events: none; }
         .cta h2 { font-size: 2.25rem; font-weight: 800; margin-bottom: 1rem; position: relative; color: #ffffff; }
         .cta p { font-size: 1.125rem; margin-bottom: 2rem; max-width: 600px; margin-left: auto; margin-right: auto; position: relative; color: #ffffff; opacity: 0.85; }
-        .cta .btn-primary { background: #0c1220; color: #0ea5e9; box-shadow: 0 4px 20px rgba(0,0,0,0.3); position: relative; }
-        .cta .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
+        .cta .btn-main { background: #0c1220; color: #0ea5e9; box-shadow: 0 4px 20px rgba(0,0,0,0.3); position: relative; }
+        .cta .btn-main:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(0,0,0,0.4); }
 
         footer { padding: 2rem; text-align: center; color: #64748b; font-size: 0.875rem; background: #0c1220; border-top: 1px solid rgba(14, 165, 233, 0.2); position: relative; z-index: 2; }
         footer a { color: #0ea5e9; text-decoration: none; }
@@ -281,7 +282,7 @@
             .hero-cta { flex-direction: column; align-items: center; }
             .btn { width: 100%; max-width: 300px; justify-content: center; }
             .tunnel-widget { display: none; }
-            .trust-bar { gap: 1.5rem; }
+            .trust-bar { gap: 1.44rem; }
             .frame-specs { grid-template-columns: 1fr; }
         }
     </style>
@@ -291,8 +292,8 @@
     <div class="grid-pattern"></div>
 
     <div class="tunnel-widget" id="tunnelWidget">
-        <div class="tunnel-widget-label">Bay Pressure Load</div>
-        <div class="tunnel-widget-value" id="widgetPressure">0 psf</div>
+        <div class="tunnel-chip-label">Bay Pressure Load</div>
+        <div class="tunnel-quick-number" id="widgetPressure">0 psf</div>
         <div class="tunnel-widget-bar"><div class="tunnel-widget-fill" id="widgetFill"></div></div>
         <div class="tunnel-widget-status" id="widgetStatus">Calculating...</div>
     </div>
@@ -327,8 +328,8 @@
             <h1>Miami-Dade <span class="shimmer">Car Wash Bay Wind Load</span> Design</h1>
             <p class="hero-intro">Tunnel-style car wash bays present one of the most demanding wind engineering challenges in Miami-Dade's High Velocity Hurricane Zone. With openings spanning <strong>30 to 50 feet on each end</strong>, these open-through structures generate internal pressures that can exceed standard enclosed building loads by 70% or more — demanding specialized portal frame design at <strong>180 MPH</strong> design wind speed.</p>
             <div class="hero-cta stagger-children">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-primary">Calculate Bay Wind Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                <a href="#airflow-diagram" class="btn btn-secondary">View Bay Cross-Section</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-main">Calculate Bay Wind Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="#airflow-diagram" class="btn btn-view">View Bay Cross-Section</a>
             </div>
         </div>
         <div class="alert-banner reveal">
@@ -358,7 +359,7 @@
 
     <section class="section" id="airflow-diagram">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Bay Cross-Section: Wind Flow and Pressure Coefficients</h2>
                 <p>Airflow accelerates through the tunnel, creating asymmetric pressure distributions on roof and walls</p>
             </div>
@@ -496,7 +497,7 @@
 
     <section class="section section-alt" id="classification">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Building Enclosure Classification: Why It Changes Everything</h2>
                 <p>ASCE 7-22 Section 26.2 defines four enclosure categories — car wash bays can fall into two of them depending on door status</p>
             </div>
@@ -535,7 +536,7 @@
 
     <section class="section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Roof Pressure Zones: Design Values at 180 MPH</h2>
                 <p>Net roof pressures for a typical 36 ft wide x 100 ft long car wash bay, Exposure C, partially enclosed</p>
             </div>
@@ -601,7 +602,7 @@
 
     <section class="section section-alt" id="steel-frame">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Steel Portal Frame Design for Bay Structures</h2>
                 <p>Rigid moment frames transfer wind forces from roof to foundation through column-rafter connections</p>
             </div>
@@ -697,7 +698,7 @@
 
     <section class="section" id="equipment-anchorage">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Equipment Anchorage at 180 MPH: Interior Wind Forces</h2>
                 <p>Every piece of overhead equipment must be anchored to resist the amplified wind pressures inside the bay tunnel</p>
             </div>
@@ -750,7 +751,7 @@
 
     <section class="section section-alt" id="roll-up-doors">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Roll-Up Door Wind Ratings for Bay Openings</h2>
                 <p>Bay doors are the first line of defense against enclosure reclassification — their DP rating determines whether your frame can survive</p>
             </div>
@@ -785,7 +786,7 @@
 
     <section class="section" id="foundation">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Foundation Tie-Down and Anchor Bolt Design</h2>
                 <p>Every portal frame column transmits massive uplift and shear forces to the foundation — standard anchor bolts are not sufficient</p>
             </div>
@@ -829,7 +830,7 @@
 
     <section class="section section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Why Open-Through Structures Demand Specialized Analysis</h2>
                 <p>Standard enclosed building provisions do not capture the aerodynamic reality of a car wash tunnel</p>
             </div>
@@ -840,25 +841,25 @@
                     <p>The acceleration effect is most severe at the midpoint of the tunnel where the cumulative obstruction of equipment narrows the available cross-section. Conveyor track systems, which run the full length of the bay floor, experience particularly intense turbulent loading as the accelerated flow separates around guide rails and vehicle carriers. The resulting oscillating forces can cause fatigue failures at bracket connections if the anchorage was only designed for static wind loads.</p>
                     <p>Engineers analyzing car wash bays must consider both the static design pressure from ASCE 7-22 and the dynamic amplification from internal flow acceleration. Computational fluid dynamics (CFD) analysis is increasingly used for large multi-bay installations where the interaction between adjacent tunnels creates additional pressure patterns not captured by code-based hand calculations. For single-bay facilities, the ASCE 7-22 partially enclosed provisions with appropriate equipment drag coefficients generally produce conservative results when the Venturi amplification factor is applied to the interior component analysis.</p>
                 </div>
-                <div class="reveal-right" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; padding: 2rem;">
+                <div class="reveal-right" style="background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.1); border-radius: 23px; padding: 2rem;">
                     <h3 style="font-size: 1.2rem; font-weight: 700; margin-bottom: 1.5rem; color: #0ea5e9;">Key Engineering Parameters</h3>
-                    <div style="display: grid; gap: 1rem;">
-                        <div style="background: rgba(14, 165, 233, 0.08); border-radius: 12px; padding: 1.25rem;">
+                    <div style="display: grid; gap: 1.23rem;">
+                        <div style="background: rgba(14, 165, 233, 0.08); border-radius: 14px; padding: 1.25rem;">
                             <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Basic Wind Speed (V)</div>
                             <div style="font-size: 1.75rem; font-weight: 800; color: #0ea5e9;">180 MPH</div>
                             <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">Miami-Dade HVHZ, Risk Category II</div>
                         </div>
-                        <div style="background: rgba(59, 130, 246, 0.08); border-radius: 12px; padding: 1.25rem;">
+                        <div style="background: rgba(59, 130, 246, 0.08); border-radius: 15px; padding: 1.25rem;">
                             <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Velocity Pressure (qh)</div>
                             <div style="font-size: 1.75rem; font-weight: 800; color: #3b82f6;">56.16 psf</div>
                             <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">At h = 18 ft, Exposure C, Kz = 0.93</div>
                         </div>
-                        <div style="background: rgba(239, 68, 68, 0.08); border-radius: 12px; padding: 1.25rem;">
+                        <div style="background: rgba(239, 68, 68, 0.08); border-radius: 14px; padding: 1.25rem;">
                             <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Peak Net Uplift (Roof Corner)</div>
                             <div style="font-size: 1.75rem; font-weight: 800; color: #ef4444;">-90.2 psf</div>
                             <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">GCp = -2.8 with GCpi = +0.55</div>
                         </div>
-                        <div style="background: rgba(245, 158, 11, 0.08); border-radius: 12px; padding: 1.25rem;">
+                        <div style="background: rgba(245, 158, 11, 0.08); border-radius: 11px; padding: 1.25rem;">
                             <div style="font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; margin-bottom: 0.5rem;">Internal Flow Amplification</div>
                             <div style="font-size: 1.75rem; font-weight: 800; color: #f59e0b;">15 - 25%</div>
                             <div style="font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem;">Velocity increase at mid-tunnel obstructions</div>
@@ -871,7 +872,7 @@
 
     <section class="section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Miami-Dade Permit Requirements for Car Wash Construction</h2>
                 <p>The HVHZ permit process for open-through structures involves additional engineering review beyond standard commercial buildings</p>
             </div>
@@ -908,36 +909,36 @@
         </div>
     </section>
 
-    <section class="faq-section">
+    <section class="resource-section">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="zone-header reveal">
                 <h2>Frequently Asked Questions</h2>
                 <p>Common engineering and permitting questions about car wash bay wind loads in Miami-Dade HVHZ</p>
             </div>
             <div class="faq-list reveal">
-                <div class="faq-item">
-                    <div class="faq-question">How is a car wash bay classified for wind load design under ASCE 7-22?</div>
-                    <div class="faq-answer">A car wash bay with openings on both ends (tunnel-style) is classified as an open building under ASCE 7-22 Section 26.2 when the ratio of total open area to gross wall area exceeds 80%. When one or both bay doors are closed during a storm, the structure transitions to partially enclosed classification with internal pressure coefficient GCpi of +/-0.55. Engineers must analyze both conditions — doors open and doors closed — because peak loads shift between roof uplift and lateral frame forces depending on the enclosure status. The partially enclosed case almost always governs for roof connections and foundation anchors.</div>
+                <div class="answer-item">
+                    <div class="knowledge-trigger">How is a car wash bay classified for wind load design under ASCE 7-22?</div>
+                    <div class="question-content">A car wash bay with openings on both ends (tunnel-style) is classified as an open building under ASCE 7-22 Section 26.2 when the ratio of total open area to gross wall area exceeds 80%. When one or both bay doors are closed during a storm, the structure transitions to partially enclosed classification with internal pressure coefficient GCpi of +/-0.55. Engineers must analyze both conditions — doors open and doors closed — because peak loads shift between roof uplift and lateral frame forces depending on the enclosure status. The partially enclosed case almost always governs for roof connections and foundation anchors.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What design wind pressures apply to car wash bay roofs in Miami-Dade HVHZ?</div>
-                    <div class="faq-answer">Car wash bay roofs in Miami-Dade HVHZ typically experience design pressures ranging from -55 psf in interior roof zones to -90 psf or higher at edge and corner zones. These values account for the 180 MPH basic wind speed, the open or partially enclosed internal pressure coefficient, and GCp values from ASCE 7-22 Figure 27.3-1. The large bay openings amplify internal pressures significantly — a partially enclosed car wash generates roughly 70% higher net roof uplift than an enclosed building of identical dimensions. Roof deck fastener spacing must be reduced in edge and corner zones to match these elevated pressures.</div>
+                <div class="answer-item">
+                    <div class="knowledge-trigger">What design wind pressures apply to car wash bay roofs in Miami-Dade HVHZ?</div>
+                    <div class="question-content">Car wash bay roofs in Miami-Dade HVHZ typically experience design pressures ranging from -55 psf in interior roof zones to -90 psf or higher at edge and corner zones. These values account for the 180 MPH basic wind speed, the open or partially enclosed internal pressure coefficient, and GCp values from ASCE 7-22 Figure 27.3-1. The large bay openings amplify internal pressures significantly — a partially enclosed car wash generates roughly 70% higher net roof uplift than an enclosed building of identical dimensions. Roof deck fastener spacing must be reduced in edge and corner zones to match these elevated pressures.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">Why does wind tunneling through a car wash bay increase structural loads?</div>
-                    <div class="faq-answer">When wind enters one bay opening and exits the other, a Venturi-like acceleration effect develops inside the tunnel. Flow velocities inside the bay can exceed the ambient free-stream speed by 15-25% depending on the opening-to-cross-section ratio. This acceleration increases dynamic pressure on interior equipment, conveyor tracks, and suspended dryer assemblies. Additionally, the pressure differential between the windward opening and leeward opening creates a net horizontal force on the steel portal frame that must be resisted by moment connections and foundation anchorage. CFD analysis of car wash geometries confirms that mid-tunnel equipment locations experience the highest dynamic pressures.</div>
+                <div class="answer-item">
+                    <div class="knowledge-trigger">Why does wind tunneling through a car wash bay increase structural loads?</div>
+                    <div class="question-content">When wind enters one bay opening and exits the other, a Venturi-like acceleration effect develops inside the tunnel. Flow velocities inside the bay can exceed the ambient free-stream speed by 15-25% depending on the opening-to-cross-section ratio. This acceleration increases dynamic pressure on interior equipment, conveyor tracks, and suspended dryer assemblies. Additionally, the pressure differential between the windward opening and leeward opening creates a net horizontal force on the steel portal frame that must be resisted by moment connections and foundation anchorage. CFD analysis of car wash geometries confirms that mid-tunnel equipment locations experience the highest dynamic pressures.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What steel frame design is required for a car wash bay in Miami-Dade?</div>
-                    <div class="faq-answer">Car wash bays in Miami-Dade HVHZ typically require rigid steel portal frames with moment-resisting connections at the column-to-rafter joints. For a 30 ft wide single-lane bay, typical column sizes range from W10x33 to W12x40 depending on height and bay spacing. Rafter sizes range from W10x22 to W12x26 for 6-8 ft bay spacing. The portal frame must resist combined gravity, wind uplift, and lateral drift — with lateral drift limited to H/60 for serviceability. All connections require bolted or welded moment connections designed per AISC 360 with Miami-Dade product approval. Base plates are typically 1" thick with four to six 1" diameter anchor bolts per column.</div>
+                <div class="answer-item">
+                    <div class="knowledge-trigger">What steel frame design is required for a car wash bay in Miami-Dade?</div>
+                    <div class="question-content">Car wash bays in Miami-Dade HVHZ typically require rigid steel portal frames with moment-resisting connections at the column-to-rafter joints. For a 30 ft wide single-lane bay, typical column sizes range from W10x33 to W12x40 depending on height and bay spacing. Rafter sizes range from W10x22 to W12x26 for 6-8 ft bay spacing. The portal frame must resist combined gravity, wind uplift, and lateral drift — with lateral drift limited to H/60 for serviceability. All connections require bolted or welded moment connections designed per AISC 360 with Miami-Dade product approval. Base plates are typically 1" thick with four to six 1" diameter anchor bolts per column.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">How do you anchor car wash equipment for 180 MPH wind loads?</div>
-                    <div class="faq-answer">Overhead dryer assemblies, conveyor track systems, and chemical dispensing arches must be anchored to resist the internal wind pressures calculated for the bay interior. A typical overhead dryer unit weighing 150-300 lbs experiences 800-1,400 lbs of lateral wind force at 180 MPH due to the high drag coefficient of exposed equipment (Cd = 1.4-2.0). Anchorage requires through-bolted connections to the steel frame with minimum 1/2 inch diameter Grade 5 bolts, spaced per the equipment manufacturer's NOA-approved installation drawings. Conveyor rail anchorage must resist both horizontal drag and vertical uplift at each support point, typically requiring 3/8" expansion anchors at 24" spacing along the rail length.</div>
+                <div class="answer-item">
+                    <div class="knowledge-trigger">How do you anchor car wash equipment for 180 MPH wind loads?</div>
+                    <div class="question-content">Overhead dryer assemblies, conveyor track systems, and chemical dispensing arches must be anchored to resist the internal wind pressures calculated for the bay interior. A typical overhead dryer unit weighing 150-300 lbs experiences 800-1,400 lbs of lateral wind force at 180 MPH due to the high drag coefficient of exposed equipment (Cd = 1.4-2.0). Anchorage requires through-bolted connections to the steel frame with minimum 1/2 inch diameter Grade 5 bolts, spaced per the equipment manufacturer's NOA-approved installation drawings. Conveyor rail anchorage must resist both horizontal drag and vertical uplift at each support point, typically requiring 3/8" expansion anchors at 24" spacing along the rail length.</div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What are the roll-up door wind load requirements for car wash bays?</div>
-                    <div class="faq-answer">Roll-up doors at car wash bay openings in Miami-Dade HVHZ must carry a DP rating matching the calculated wall zone pressure at the door location — typically DP +50 to DP +70 for the positive pressure case and DP -40 to DP -60 for suction. For a 12 ft wide x 10 ft tall standard bay door, this translates to total wind forces of 6,000-8,400 lbs. The door, guide tracks, brackets, and header assembly all require Miami-Dade NOA approval as a complete system. High-performance doors rated for HVHZ typically use extruded aluminum slat construction with wind-lock guide channels that prevent slat disengagement under negative pressure cycling. The door operator must include a wind sensor that automatically closes the door when sustained winds exceed 45 MPH.</div>
+                <div class="answer-item">
+                    <div class="knowledge-trigger">What are the roll-up door wind load requirements for car wash bays?</div>
+                    <div class="question-content">Roll-up doors at car wash bay openings in Miami-Dade HVHZ must carry a DP rating matching the calculated wall zone pressure at the door location — typically DP +50 to DP +70 for the positive pressure case and DP -40 to DP -60 for suction. For a 12 ft wide x 10 ft tall standard bay door, this translates to total wind forces of 6,000-8,400 lbs. The door, guide tracks, brackets, and header assembly all require Miami-Dade NOA approval as a complete system. High-performance doors rated for HVHZ typically use extruded aluminum slat construction with wind-lock guide channels that prevent slat disengagement under negative pressure cycling. The door operator must include a wind sensor that automatically closes the door when sustained winds exceed 45 MPH.</div>
                 </div>
             </div>
         </div>
@@ -956,7 +957,7 @@
     <section class="cta reveal-scale">
         <h2>Calculate Your Car Wash Bay Wind Loads</h2>
         <p>Get precise wind pressure calculations for open-through structures, portal frame design, and equipment anchorage in Miami-Dade HVHZ.</p>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-primary">Calculate Structure Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-main">Calculate Structure Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </section>
 
     <footer>
@@ -967,11 +968,11 @@
 
     <script>
         // FAQ Toggle
-        document.querySelectorAll('.faq-question').forEach(q => {
+        document.querySelectorAll('.knowledge-trigger').forEach(q => {
             q.addEventListener('click', () => {
                 const item = q.parentElement;
                 const wasOpen = item.classList.contains('open');
-                document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+                document.querySelectorAll('.answer-item').forEach(i => i.classList.remove('open'));
                 if (!wasOpen) item.classList.add('open');
             });
         });
@@ -988,10 +989,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = Math.random() * 2.5 + 1;
+                this.size = Math.random() * 2.1 + 0.6;
+                this.speedX = Math.random() * 2.6 + 1.0;
                 this.speedY = Math.random() * 0.6 - 0.3;
-                this.opacity = Math.random() * 0.25 + 0.08;
+                this.opacity = Math.random() * 0.31 + 0.10;
                 this.color = Math.random() > 0.5 ? '#0ea5e9' : '#3b82f6';
             }
             update() {
@@ -1072,7 +1073,7 @@
         let widgetShown = false;
         function updateWidget() {
             const scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            if (scrollPercent > 0.05 && !widgetShown) {
+            if (scrollPercent > 0.06 && !widgetShown) {
                 widgetShown = true;
                 tunnelWidget.classList.add('visible');
                 let pressure = 0;

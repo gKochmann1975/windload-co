@@ -97,6 +97,7 @@
     </script>
 
     <style>
+/* uid:090e7c04 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -109,15 +110,15 @@
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 20% 30%, rgba(220, 38, 38, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(245, 158, 11, 0.04) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.55s ease-in-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.45s ease; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.55s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(35px); transition: all 0.65s ease; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -136,30 +137,30 @@
         .hero-shimmer { background: linear-gradient(120deg, #dc2626 0%, #f59e0b 25%, #dc2626 50%, #00e5ff 75%, #dc2626 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Billboard Intensity Widget */
-        .billboard-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 185px; }
+        .billboard-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(220, 38, 38, 0.3); border-radius: 15px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(16px); opacity: 0; transform: translateX(120px); transition: all 0.75s cubic-bezier(0.65, 0, 0.35, 1); min-width: 185px; }
         .billboard-widget.visible { opacity: 1; transform: translateX(0); }
-        .billboard-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .billboard-widget-value { font-size: 1.5rem; font-weight: 800; color: #dc2626; margin-bottom: 4px; }
+        .billboard-panel-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .billboard-meter-reading { font-size: 1.5rem; font-weight: 800; color: #dc2626; margin-bottom: 4px; }
         .billboard-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .billboard-widget-fill { height: 100%; background: linear-gradient(90deg, #dc2626, #f59e0b); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .billboard-widget-sub { font-size: 0.75rem; color: #94a3b8; margin-bottom: 4px; }
         .billboard-widget-status { font-size: 0.8rem; font-weight: 600; color: #dc2626; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(28px); border-bottom: 1px solid rgba(220, 38, 38, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.27rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #dc2626; }
-        .nav-cta { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.4s ease; }
+        .nav-cta:hover { transform: translateY(-4px); box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1300px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #dc2626; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -172,11 +173,11 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #dc2626; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4); }
-        .btn-secondary { border: 2px solid rgba(220, 38, 38, 0.5); color: #dc2626; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(220, 38, 38, 0.1); border-color: #dc2626; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.01rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-proceed { background: linear-gradient(135deg, #dc2626 0%, #b91c1c 100%); color: #ffffff; padding: 0.9rem 2rem; border-radius: 7px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.8s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-proceed:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(220, 38, 38, 0.4); }
+        .btn-discover { border: 2px solid rgba(220, 38, 38, 0.5); color: #dc2626; padding: 0.9rem 2rem; border-radius: 7px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.55s ease; background: transparent; }
+        .btn-discover:hover { background: rgba(220, 38, 38, 0.1); border-color: #dc2626; transform: translateY(-4px); }
         .warning-banner { background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.3); border-left: 4px solid #dc2626; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 700px; margin: 0 auto; animation: warning-flash 3s ease-in-out infinite; }
         .warning-banner strong { color: #dc2626; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
@@ -184,8 +185,8 @@
         /* Force Visualization */
         .force-viz { max-width: 900px; margin: 3rem auto 0; position: relative; }
         .force-viz-container { width: 100%; position: relative; }
-        .force-chart { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 16px; padding: 2rem; }
-        .force-chart-title { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; text-align: center; }
+        .force-chart { width: 100%; background: rgba(255,255,255,0.02); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 19px; padding: 2rem; }
+        .force-chart-name { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1.5rem; text-align: center; }
         .force-bar-group { margin-bottom: 1.25rem; }
         .force-bar-label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem; }
         .force-bar-label .fb-name { font-size: 0.9rem; color: #e2e8f0; font-weight: 600; }
@@ -197,7 +198,7 @@
         .force-bar-fill.amber { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
         .force-bar-fill.cyan { background: linear-gradient(90deg, #00b4d8, #00e5ff); }
         .force-bar-inner { font-size: 0.75rem; font-weight: 700; color: #fff; white-space: nowrap; }
-        .force-legend { display: flex; gap: 1.5rem; justify-content: center; margin-top: 1.25rem; flex-wrap: wrap; }
+        .force-legend { display: flex; gap: 1.33rem; justify-content: center; margin-top: 1.25rem; flex-wrap: wrap; }
         .force-legend-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.8rem; color: #94a3b8; }
         .force-legend-dot { width: 10px; height: 10px; border-radius: 3px; }
         .force-legend-dot.red { background: #dc2626; }
@@ -206,13 +207,13 @@
 
         /* Trust Badges */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(220, 38, 38, 0.03); border-top: 1px solid rgba(220, 38, 38, 0.1); border-bottom: 1px solid rgba(220, 38, 38, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.08rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #dc2626; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
 
         /* Sections */
-        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section { padding: 6rem 2rem; position: relative; z-index: 2; }
+        .section-container { max-width: 1350px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(220, 38, 38, 0.1); border: 1px solid rgba(220, 38, 38, 0.25); color: #dc2626; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .section-title .accent { color: #dc2626; }
@@ -223,15 +224,15 @@
         .section-prose strong { color: #e2e8f0; }
 
         /* Structure Type Cards */
-        .struct-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .struct-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .struct-card:hover { transform: translateY(-5px); border-color: rgba(220, 38, 38, 0.5); box-shadow: 0 8px 40px rgba(220, 38, 38, 0.15); }
+        .struct-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.23rem; margin-top: 2rem; }
+        .struct-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.45s ease-in-out; position: relative; overflow: hidden; }
+        .struct-card:hover { transform: scale(1.03); border-color: rgba(220, 38, 38, 0.5); box-shadow: 0 8px 40px rgba(220, 38, 38, 0.15); }
         .struct-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; opacity: 0; transition: opacity 0.3s ease; }
         .struct-card:hover::before { opacity: 1; }
         .struct-card:nth-child(1)::before { background: linear-gradient(90deg, #dc2626, #ef4444); }
         .struct-card:nth-child(2)::before { background: linear-gradient(90deg, #f59e0b, #fbbf24); }
         .struct-card:nth-child(3)::before { background: linear-gradient(90deg, #00e5ff, #00b4d8); }
-        .struct-icon { width: 56px; height: 56px; border-radius: 14px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
+        .struct-icon { width: 56px; height: 56px; border-radius: 16px; display: flex; align-items: center; justify-content: center; margin-bottom: 1.25rem; }
         .struct-icon svg { width: 32px; height: 32px; }
         .struct-card:nth-child(1) .struct-icon { background: rgba(220, 38, 38, 0.15); }
         .struct-card:nth-child(2) .struct-icon { background: rgba(245, 158, 11, 0.15); }
@@ -248,7 +249,7 @@
         .struct-card .spec-row .spec-val { color: #e2e8f0; font-weight: 600; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; margin-top: 2rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3.16rem; align-items: start; margin-top: 2rem; }
         .col-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .col-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; margin-bottom: 1rem; }
         .col-content ul { list-style: none; padding: 0; }
@@ -256,11 +257,11 @@
         .col-content ul li::before { content: ''; position: absolute; left: 0; top: 50%; transform: translateY(-50%); width: 8px; height: 8px; border-radius: 50%; background: #dc2626; }
 
         /* Foundation Comparison Cards */
-        .foundation-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .foundation-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .foundation-card:hover { border-color: rgba(220, 38, 38, 0.4); transform: translateY(-3px); }
-        .foundation-card .fc-header { display: flex; align-items: center; gap: 1rem; margin-bottom: 1.25rem; }
-        .foundation-card .fc-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; }
+        .foundation-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.98rem; margin-top: 2rem; }
+        .foundation-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 13px; padding: 2rem; transition: all 0.75s cubic-bezier(0.65, 0, 0.35, 1); }
+        .foundation-card:hover { border-color: rgba(220, 38, 38, 0.4); transform: translateY(-8px); }
+        .foundation-card .fc-header { display: flex; align-items: center; gap: 1.11rem; margin-bottom: 1.25rem; }
+        .foundation-card .fc-icon { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
         .foundation-card:nth-child(1) .fc-icon { background: rgba(220, 38, 38, 0.15); }
         .foundation-card:nth-child(2) .fc-icon { background: rgba(245, 158, 11, 0.15); }
         .foundation-card .fc-icon svg { width: 24px; height: 24px; }
@@ -286,9 +287,9 @@
         .spec-table .highlight-amber { color: #f59e0b; font-weight: 700; }
 
         /* Connection Detail Cards (2x2 grid) */
-        .connection-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .connect-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(220, 38, 38, 0.12); border-radius: 14px; padding: 1.75rem; transition: all 0.4s ease; }
-        .connect-card:hover { border-color: rgba(220, 38, 38, 0.4); transform: translateY(-3px); }
+        .connection-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.78rem; margin-top: 2rem; }
+        .connect-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(220, 38, 38, 0.12); border-radius: 12px; padding: 1.75rem; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .connect-card:hover { border-color: rgba(220, 38, 38, 0.4); transform: translateY(-3px) scale(1.01); }
         .connect-card .cc-num { display: inline-flex; width: 32px; height: 32px; border-radius: 8px; background: rgba(220, 38, 38, 0.15); color: #dc2626; font-weight: 800; font-size: 0.9rem; align-items: center; justify-content: center; margin-bottom: 0.75rem; }
         .connect-card h3 { font-size: 1.05rem; font-weight: 700; margin-bottom: 0.5rem; }
         .connect-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; }
@@ -296,7 +297,7 @@
 
         /* Process Steps */
         .process-steps { position: relative; margin-top: 2rem; }
-        .process-step { display: flex; gap: 2rem; margin-bottom: 2rem; position: relative; }
+        .process-step { display: flex; gap: 1.73rem; margin-bottom: 2rem; position: relative; }
         .step-marker { flex-shrink: 0; width: 48px; height: 48px; border-radius: 50%; background: rgba(220, 38, 38, 0.15); border: 2px solid #dc2626; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.1rem; color: #dc2626; position: relative; z-index: 2; }
         .step-connector { position: absolute; left: 23px; top: 48px; width: 2px; height: calc(100% - 48px); background: linear-gradient(180deg, #dc2626, rgba(220, 38, 38, 0.1)); z-index: 1; }
         .process-step:last-child .step-connector { display: none; }
@@ -315,22 +316,22 @@
         .alert-callout p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
 
         /* FAQ */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(220, 38, 38, 0.02); }
+        .learn-section { padding: 6rem 2rem; position: relative; z-index: 2; background: rgba(220, 38, 38, 0.02); }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
-        .faq-item.active { border-color: rgba(220, 38, 38, 0.4); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 1rem; transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(220, 38, 38, 0.05); }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; flex: 1; }
-        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(220, 38, 38, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; }
+        .qa-item { border: 1px solid rgba(220, 38, 38, 0.15); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: border-color 0.3s ease; }
+        .qa-item.active { border-color: rgba(220, 38, 38, 0.4); }
+        .qa-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; gap: 0.81rem; transition: background 0.3s ease; }
+        .qa-trigger:hover { background: rgba(220, 38, 38, 0.05); }
+        .qa-trigger h3 { font-size: 1rem; font-weight: 600; flex: 1; }
+        .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(220, 38, 38, 0.15); display: flex; align-items: center; justify-content: center; transition: all 0.45s ease; flex-shrink: 0; }
         .faq-toggle svg { width: 14px; height: 14px; stroke: #dc2626; transition: transform 0.3s ease; }
-        .faq-item.active .faq-toggle { background: rgba(220, 38, 38, 0.3); }
-        .faq-item.active .faq-toggle svg { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .qa-item.active .faq-toggle { background: rgba(220, 38, 38, 0.3); }
+        .qa-item.active .faq-toggle svg { transform: rotate(45deg); }
+        .expand-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .expand-body-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* CTA Section */
-        .cta-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; }
+        .promo-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; }
         .cta-container { max-width: 700px; margin: 0 auto; }
         .cta-container h2 { font-size: clamp(1.5rem, 3vw, 2rem); font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; font-size: 1.05rem; margin-bottom: 2rem; }
@@ -363,7 +364,7 @@
             .hero { padding: 3rem 1.25rem 2rem; }
             .section { padding: 3rem 1.25rem; }
             .hero-cta { flex-direction: column; align-items: center; }
-            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+            .trust-grid { grid-template-columns: 1fr 1fr; gap: 1.26rem; }
         }
     </style>
 </head>
@@ -373,8 +374,8 @@
 
     <!-- Billboard Intensity Widget -->
     <div class="billboard-widget" id="billboardWidget">
-        <div class="billboard-widget-label">Wind Force on 14x48</div>
-        <div class="billboard-widget-value">68,000 lbs</div>
+        <div class="billboard-panel-label">Wind Force on 14x48</div>
+        <div class="billboard-meter-reading">68,000 lbs</div>
         <div class="billboard-widget-bar"><div class="billboard-widget-fill" id="widgetFill"></div></div>
         <div class="billboard-widget-sub">Overturning: 4.08M ft-lbs</div>
         <div class="billboard-widget-status">HVHZ Critical</div>
@@ -413,8 +414,8 @@
             <h1>Billboard Wind Load Engineering in <span class="hero-shimmer">Miami-Dade HVHZ</span></h1>
             <p class="hero-intro">Billboard structures in the High-Velocity Hurricane Zone face wind forces that can exceed <strong>68,000 pounds of horizontal load</strong> on a single 14x48 ft face at 60 ft height. Engineering these elevated sign structures for 180 MPH ultimate wind speed demands rigorous analysis of monopole bending, drilled shaft embedment, base plate connections, and fatigue from continuous vortex shedding across thousands of annual stress cycles.</p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Billboard Loads</a>
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">Sign Structure Analysis</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-proceed">Calculate Billboard Loads</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn-discover">Sign Structure Analysis</a>
             </div>
             <div class="warning-banner">
                 <p><strong>HVHZ Structural Mandate:</strong> All billboard structures in Miami-Dade must be engineered by a Florida PE using ASCE 7-22 Chapter 29 provisions with 180 MPH design wind speed. Underdesigned sign poles account for a disproportionate share of structural failures during hurricanes.</p>
@@ -423,7 +424,7 @@
             <!-- Animated Force Bar Chart -->
             <div class="force-viz reveal">
                 <div class="force-chart" id="forceChart">
-                    <div class="force-chart-title">Sign Face Area vs. Total Horizontal Wind Force at 60 ft &mdash; 180 MPH HVHZ</div>
+                    <div class="force-chart-name">Sign Face Area vs. Total Horizontal Wind Force at 60 ft &mdash; 180 MPH HVHZ</div>
 
                     <div class="force-bar-group">
                         <div class="force-bar-label">
@@ -865,80 +866,80 @@
     </section>
 
     <!-- FAQ Section -->
-    <section class="faq-section">
+    <section class="learn-section">
         <div class="faq-container">
             <div class="section-label reveal" style="text-align:center; display:block;">Frequently Asked Questions</div>
             <h2 class="section-title reveal" style="text-align:center;">Billboard Wind Engineering <span class="accent">FAQ</span></h2>
             <p class="section-subtitle reveal" style="text-align:center; margin-left:auto; margin-right:auto;">Answers to common questions about billboard structural design in the HVHZ</p>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="qa-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>What ASCE 7-22 provisions govern billboard wind loads in Miami-Dade?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Billboard wind loads in Miami-Dade are governed by ASCE 7-22 Chapter 29, specifically Section 29.3 for solid freestanding signs and Section 29.4 for open signs and lattice frameworks. For a standard 14x48 ft billboard face at 60 ft height in the HVHZ, the design velocity pressure qz reaches approximately 73 psf using the 180 MPH ultimate wind speed, Exposure C, Kz of 1.13, Kd of 0.85, and Ke of 1.0. The net force coefficient Cf ranges from 1.2 to 1.8 depending on the aspect ratio and clearance ratio, producing total horizontal wind forces between 58,000 and 89,000 lbs on a single face.</div>
+                <div class="expand-body">
+                    <div class="expand-body-inner">Billboard wind loads in Miami-Dade are governed by ASCE 7-22 Chapter 29, specifically Section 29.3 for solid freestanding signs and Section 29.4 for open signs and lattice frameworks. For a standard 14x48 ft billboard face at 60 ft height in the HVHZ, the design velocity pressure qz reaches approximately 73 psf using the 180 MPH ultimate wind speed, Exposure C, Kz of 1.13, Kd of 0.85, and Ke of 1.0. The net force coefficient Cf ranges from 1.2 to 1.8 depending on the aspect ratio and clearance ratio, producing total horizontal wind forces between 58,000 and 89,000 lbs on a single face.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="qa-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>How does sign face area affect billboard wind force calculations?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Billboard wind force scales directly with sign face area through the equation F = qz x G x Cf x As. A standard 14x48 ft bulletin has 672 sq ft of face area. Increasing to a 20x60 ft spectacle billboard raises face area to 1,200 sq ft, increasing total wind force by 78% at the same height. The force coefficient Cf also varies with aspect ratio B/s (width-to-height): narrow tall signs with B/s less than 1 have Cf around 1.8, while wide signs with B/s of 3.4 (the 14x48 standard) have Cf closer to 1.2. In Miami-Dade at 180 MPH, a 672 sq ft face at 60 ft produces roughly 68,000 lbs horizontal force and an overturning moment of 4,080,000 ft-lbs at the base.</div>
+                <div class="expand-body">
+                    <div class="expand-body-inner">Billboard wind force scales directly with sign face area through the equation F = qz x G x Cf x As. A standard 14x48 ft bulletin has 672 sq ft of face area. Increasing to a 20x60 ft spectacle billboard raises face area to 1,200 sq ft, increasing total wind force by 78% at the same height. The force coefficient Cf also varies with aspect ratio B/s (width-to-height): narrow tall signs with B/s less than 1 have Cf around 1.8, while wide signs with B/s of 3.4 (the 14x48 standard) have Cf closer to 1.2. In Miami-Dade at 180 MPH, a 672 sq ft face at 60 ft produces roughly 68,000 lbs horizontal force and an overturning moment of 4,080,000 ft-lbs at the base.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="qa-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>What foundation is required for a billboard monopole in Miami-Dade HVHZ?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Billboard monopole foundations in Miami-Dade HVHZ typically require drilled shaft construction due to extreme overturning moments. A standard 14x48 ft billboard at 60 ft height requires a drilled shaft of 4 to 6 ft diameter extending 25 to 40 ft deep into the Miami oolitic limestone formation. The shaft must resist an overturning moment of approximately 4 to 5 million ft-lbs. Reinforcement includes 12 to 20 vertical #11 or #14 bars with #5 spiral ties at 6-inch pitch. The pole-to-shaft connection uses an embedded steel stub or base plate with anchor bolts. Geotechnical investigation is mandatory because Miami-Dade's variable limestone depth directly affects required embedment.</div>
+                <div class="expand-body">
+                    <div class="expand-body-inner">Billboard monopole foundations in Miami-Dade HVHZ typically require drilled shaft construction due to extreme overturning moments. A standard 14x48 ft billboard at 60 ft height requires a drilled shaft of 4 to 6 ft diameter extending 25 to 40 ft deep into the Miami oolitic limestone formation. The shaft must resist an overturning moment of approximately 4 to 5 million ft-lbs. Reinforcement includes 12 to 20 vertical #11 or #14 bars with #5 spiral ties at 6-inch pitch. The pole-to-shaft connection uses an embedded steel stub or base plate with anchor bolts. Geotechnical investigation is mandatory because Miami-Dade's variable limestone depth directly affects required embedment.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="qa-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>How do digital LED billboards differ from traditional billboards for wind loading?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Digital LED billboards present unique wind engineering challenges compared to traditional vinyl-face signs. LED modules add 15 to 25 psf of dead load per face compared to 2-5 psf for traditional, increasing gravity loads significantly. However, some LED cabinet designs with ventilation louvers or perforated backing can reduce wind force by 10-20% compared to a solid face, depending on the porosity ratio. The electrical infrastructure adds concentrated mass at the top of the structure, raising the center of gravity. In Miami-Dade at 180 MPH, a digital billboard pole section typically increases from a 36-inch diameter monopole for traditional to a 42-48 inch diameter for digital due to the combined weight and wind loads.</div>
+                <div class="expand-body">
+                    <div class="expand-body-inner">Digital LED billboards present unique wind engineering challenges compared to traditional vinyl-face signs. LED modules add 15 to 25 psf of dead load per face compared to 2-5 psf for traditional, increasing gravity loads significantly. However, some LED cabinet designs with ventilation louvers or perforated backing can reduce wind force by 10-20% compared to a solid face, depending on the porosity ratio. The electrical infrastructure adds concentrated mass at the top of the structure, raising the center of gravity. In Miami-Dade at 180 MPH, a digital billboard pole section typically increases from a 36-inch diameter monopole for traditional to a 42-48 inch diameter for digital due to the combined weight and wind loads.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="qa-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>What are the FDOT and Miami-Dade permitting requirements for billboards?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Billboard permitting in Miami-Dade requires dual approval from both FDOT and Miami-Dade Building Department. FDOT regulates outdoor advertising through Chapter 479 Florida Statutes and Rule 14-10 FAC, governing spacing (1,500 ft minimum on interstates), setbacks, size limits (maximum 672 sq ft face for bulletins), and lighting restrictions. The Miami-Dade Building Department requires a full structural permit package with wind load calculations sealed by a Florida PE, foundation design with geotechnical report, electrical permit for illuminated signs, and compliance with Chapter 33 of the FBC for sign structures.</div>
+                <div class="expand-body">
+                    <div class="expand-body-inner">Billboard permitting in Miami-Dade requires dual approval from both FDOT and Miami-Dade Building Department. FDOT regulates outdoor advertising through Chapter 479 Florida Statutes and Rule 14-10 FAC, governing spacing (1,500 ft minimum on interstates), setbacks, size limits (maximum 672 sq ft face for bulletins), and lighting restrictions. The Miami-Dade Building Department requires a full structural permit package with wind load calculations sealed by a Florida PE, foundation design with geotechnical report, electrical permit for illuminated signs, and compliance with Chapter 33 of the FBC for sign structures.</div>
                 </div>
             </div>
 
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="qa-item">
+                <div class="qa-trigger" onclick="toggleFaq(this)">
                     <h3>How is fatigue from wind-induced vibration addressed in billboard design?</h3>
                     <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Wind-induced fatigue is a critical concern for billboard monopoles because the tall, slender pole acts as a cantilever subject to vortex shedding. For monopole billboards, the base plate weld connection is the most fatigue-critical detail, typically classified as Category E or E-prime per AASHTO. Miami-Dade's sustained high winds mean billboards experience thousands of stress cycles annually. Design countermeasures include increasing pole wall thickness near the base, using full-penetration welds instead of fillet welds at the base plate, adding vortex-suppression devices like helical strakes, and ensuring the natural frequency avoids resonance with typical vortex shedding frequencies of 0.5 to 2 Hz for billboard structures.</div>
+                <div class="expand-body">
+                    <div class="expand-body-inner">Wind-induced fatigue is a critical concern for billboard monopoles because the tall, slender pole acts as a cantilever subject to vortex shedding. For monopole billboards, the base plate weld connection is the most fatigue-critical detail, typically classified as Category E or E-prime per AASHTO. Miami-Dade's sustained high winds mean billboards experience thousands of stress cycles annually. Design countermeasures include increasing pole wall thickness near the base, using full-penetration welds instead of fillet welds at the base plate, adding vortex-suppression devices like helical strakes, and ensuring the natural frequency avoids resonance with typical vortex shedding frequencies of 0.5 to 2 Hz for billboard structures.</div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Final CTA -->
-    <section class="cta-section">
+    <section class="promo-section">
         <div class="cta-container reveal">
             <h2>Get Billboard Wind Load <span class="accent">Calculations</span></h2>
             <p>Accurate ASCE 7-22 Chapter 29 wind force analysis for billboard monopoles, V-type structures, and digital LED sign installations across Miami-Dade County's High-Velocity Hurricane Zone.</p>
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Sign Structure Loads</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-proceed">Calculate Sign Structure Loads</a>
             <br>
             <div class="cta-badge">ASCE 7-22 Compliant &middot; 180 MPH HVHZ &middot; PE-Ready Output</div>
         </div>
@@ -969,10 +970,10 @@
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.8;
-                this.speedX = Math.random() * 3.5 + 1.5;
+                this.size = Math.random() * 2.7 + 0.9;
+                this.speedX = Math.random() * 3.7 + 1.4;
                 this.speedY = (Math.random() - 0.5) * 1.2;
-                this.opacity = Math.random() * 0.5 + 0.2;
+                this.opacity = Math.random() * 0.54 + 0.17;
                 this.color = Math.random() > 0.55 ? '#dc2626' : (Math.random() > 0.5 ? '#f59e0b' : '#00e5ff');
             }
             update() {
@@ -1032,7 +1033,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+        }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
         reveals.forEach(el => observer.observe(el));
     })();
 
@@ -1066,7 +1067,7 @@
                     requestAnimationFrame(tick);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.15 });
         counters.forEach(c => counterObserver.observe(c));
     })();
 
@@ -1091,13 +1092,13 @@
     // FAQ Accordion
     function toggleFaq(el) {
         const item = el.parentElement;
-        const answer = item.querySelector('.faq-answer');
+        const answer = item.querySelector('.expand-body');
         const isActive = item.classList.contains('active');
 
-        document.querySelectorAll('.faq-item.active').forEach(other => {
+        document.querySelectorAll('.qa-item.active').forEach(other => {
             if (other !== item) {
                 other.classList.remove('active');
-                other.querySelector('.faq-answer').style.maxHeight = '0';
+                other.querySelector('.expand-body').style.maxHeight = '0';
             }
         });
 
@@ -1130,7 +1131,7 @@
     })();
 
     // Button Ripple Effect
-    document.querySelectorAll('.btn-primary').forEach(btn => {
+    document.querySelectorAll('.btn-proceed').forEach(btn => {
         btn.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
             const rect = this.getBoundingClientRect();

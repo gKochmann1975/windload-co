@@ -97,21 +97,22 @@
     </script>
 
     <style>
+/* uid:b0ae6c7a */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 20% 30%, rgba(34, 197, 94, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(59, 130, 246, 0.05) 0%, transparent 50%); }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.5s ease-out; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.55s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(25px); transition: all 0.65s ease; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -130,9 +131,9 @@
         .hero-shimmer { background: linear-gradient(120deg, #22c55e 0%, #4ade80 25%, #3b82f6 50%, #22c55e 75%, #4ade80 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Charging Status Widget */
-        .charge-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 195px; }
+        .charge-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(34, 197, 94, 0.3); border-radius: 17px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(16px); opacity: 0; transform: translateX(120px); transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1); min-width: 195px; }
         .charge-widget.visible { opacity: 1; transform: translateX(0); }
-        .charge-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .charge-indicator-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
         .charge-widget-title { font-size: 1rem; font-weight: 700; color: #22c55e; margin-bottom: 10px; display: flex; align-items: center; gap: 6px; }
         .charge-widget-title .dot { width: 8px; height: 8px; border-radius: 50%; background: #22c55e; animation: station-blink 1.5s ease-in-out infinite; }
         .charge-widget-row { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
@@ -146,19 +147,19 @@
         .charge-widget-threshold { font-size: 0.7rem; color: #ff4757; font-weight: 600; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(34, 197, 94, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.30rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #22c55e; }
-        .nav-cta { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
+        .nav-cta:hover { transform: translateY(-8px); box-shadow: 0 4px 20px rgba(34, 197, 94, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
         .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #22c55e; }
@@ -172,30 +173,30 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #4ade80; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #0c1220; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4); }
-        .btn-secondary { border: 2px solid rgba(34, 197, 94, 0.5); color: #4ade80; padding: 0.9rem 2rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s ease; background: transparent; }
-        .btn-secondary:hover { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 0.71rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-go { background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%); color: #0c1220; padding: 0.9rem 2rem; border-radius: 11px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1); display: inline-flex; align-items: center; gap: 0.5rem; position: relative; overflow: hidden; }
+        .btn-go:hover { transform: translateY(-5px); box-shadow: 0 8px 30px rgba(34, 197, 94, 0.4); }
+        .btn-more { border: 2px solid rgba(34, 197, 94, 0.5); color: #4ade80; padding: 0.9rem 2rem; border-radius: 9px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); background: transparent; }
+        .btn-more:hover { background: rgba(34, 197, 94, 0.1); border-color: #22c55e; transform: scale(1.02); }
         .warning-banner { background: rgba(255, 71, 87, 0.1); border: 1px solid rgba(255, 71, 87, 0.3); border-left: 4px solid #ff4757; padding: 1rem 1.5rem; border-radius: 0 10px 10px 0; text-align: left; max-width: 700px; margin: 0 auto; }
         .warning-banner strong { color: #ff4757; }
         .warning-banner p { color: #e2e8f0; font-size: 0.95rem; }
 
         /* Canvas Visualization Container */
         .canopy-viz { max-width: 900px; margin: 3rem auto 0; }
-        .canopy-canvas-wrap { background: rgba(6, 78, 59, 0.08); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 16px; padding: 24px; position: relative; overflow: hidden; }
+        .canopy-canvas-wrap { background: rgba(6, 78, 59, 0.08); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 19px; padding: 24px; position: relative; overflow: hidden; }
         .canopy-canvas-wrap canvas { width: 100%; display: block; border-radius: 8px; }
         .canopy-canvas-label { position: absolute; bottom: 12px; right: 16px; font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; }
 
         /* Trust Badges */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(34, 197, 94, 0.03); border-top: 1px solid rgba(34, 197, 94, 0.1); border-bottom: 1px solid rgba(34, 197, 94, 0.1); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.86rem; max-width: 1000px; margin: 0 auto; text-align: center; }
         .trust-item .trust-number { font-size: 2.5rem; font-weight: 800; color: #22c55e; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #94a3b8; }
 
         /* Sections */
-        .section { padding: 5rem 2rem; position: relative; z-index: 2; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .section-container { max-width: 1350px; margin: 0 auto; }
         .section-label { display: inline-flex; align-items: center; gap: 0.5rem; background: rgba(34, 197, 94, 0.1); border: 1px solid rgba(34, 197, 94, 0.25); color: #4ade80; padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .section-title .accent { color: #22c55e; }
@@ -205,21 +206,21 @@
         .section-text strong { color: #4ade80; }
 
         /* Component Cards - 2x3 grid */
-        .component-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .component-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .component-card:hover { transform: translateY(-5px); border-color: rgba(34, 197, 94, 0.5); box-shadow: 0 8px 40px rgba(34, 197, 94, 0.15); }
+        .component-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.76rem; margin-top: 2rem; }
+        .component-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(34, 197, 94, 0.15); border-radius: 15px; padding: 2rem; transition: all 0.75s ease-out; position: relative; overflow: hidden; }
+        .component-card:hover { transform: translateY(-4px); border-color: rgba(34, 197, 94, 0.5); box-shadow: 0 8px 40px rgba(34, 197, 94, 0.15); }
         .component-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #22c55e, #3b82f6); opacity: 0; transition: opacity 0.3s ease; }
         .component-card:hover::before { opacity: 1; }
         .component-card .card-icon { font-size: 2rem; margin-bottom: 1rem; }
         .component-card h3 { font-size: 1.1rem; font-weight: 700; color: #ffffff; margin-bottom: 0.75rem; }
         .component-card p { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; }
         .component-card .card-stat { margin-top: 1rem; padding-top: 1rem; border-top: 1px solid rgba(255,255,255,0.06); display: flex; justify-content: space-between; }
-        .component-card .card-stat .stat-label { font-size: 0.75rem; color: #64748b; }
-        .component-card .card-stat .stat-value { font-size: 0.9rem; font-weight: 700; color: #4ade80; }
+        .component-card .card-stat .measure-label { font-size: 0.75rem; color: #64748b; }
+        .component-card .card-stat .highlight-value { font-size: 0.9rem; font-weight: 700; color: #4ade80; }
 
         /* Pressure Comparison - 2 column layout */
-        .pressure-split { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2rem; align-items: start; }
-        .pressure-block { background: rgba(255,255,255,0.02); border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 16px; padding: 2rem; }
+        .pressure-split { display: grid; grid-template-columns: 1fr 1fr; gap: 2.54rem; margin-top: 2rem; align-items: start; }
+        .pressure-block { background: rgba(255,255,255,0.02); border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 13px; padding: 2rem; }
         .pressure-block h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 1.5rem; color: #ffffff; }
         .pressure-row { display: flex; justify-content: space-between; align-items: center; padding: 0.75rem 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
         .pressure-row:last-child { border-bottom: none; }
@@ -242,8 +243,8 @@
         .tilt-bar-note { font-size: 0.75rem; color: #64748b; margin-top: 0.25rem; }
 
         /* NEC Electrical Section */
-        .nec-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .nec-card { background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
+        .nec-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.74rem; margin-top: 2rem; }
+        .nec-card { background: rgba(59, 130, 246, 0.05); border: 1px solid rgba(59, 130, 246, 0.2); border-radius: 17px; padding: 2rem; transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1); }
         .nec-card:hover { border-color: rgba(59, 130, 246, 0.5); box-shadow: 0 8px 30px rgba(59, 130, 246, 0.12); }
         .nec-card h3 { font-size: 1.05rem; font-weight: 700; color: #3b82f6; margin-bottom: 0.75rem; }
         .nec-card p { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; }
@@ -255,43 +256,43 @@
 
         /* Anchorage Detail Steps */
         .anchor-steps { margin-top: 2rem; counter-reset: step-counter; }
-        .anchor-step { display: flex; gap: 1.5rem; margin-bottom: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(34, 197, 94, 0.1); border-radius: 12px; transition: all 0.3s ease; }
+        .anchor-step { display: flex; gap: 1.53rem; margin-bottom: 2rem; padding: 1.5rem; background: rgba(255,255,255,0.02); border: 1px solid rgba(34, 197, 94, 0.1); border-radius: 13px; transition: all 0.55s ease-out; }
         .anchor-step:hover { border-color: rgba(34, 197, 94, 0.3); background: rgba(34, 197, 94, 0.03); }
-        .anchor-step .step-num { counter-increment: step-counter; flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, #064e3b, #22c55e); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; color: #ffffff; }
+        .anchor-step .step-num { counter-increment: step-counter; flex-shrink: 0; width: 48px; height: 48px; background: linear-gradient(135deg, #064e3b, #22c55e); border-radius: 15px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; font-weight: 800; color: #ffffff; }
         .anchor-step .step-content h3 { font-size: 1.05rem; font-weight: 700; color: #ffffff; margin-bottom: 0.5rem; }
         .anchor-step .step-content p { font-size: 0.9rem; color: #94a3b8; line-height: 1.6; }
         .anchor-step .step-content .step-spec { font-size: 0.8rem; color: #4ade80; font-weight: 600; margin-top: 0.5rem; }
 
         /* BESS Section with gauge */
-        .bess-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.5rem; margin-top: 2rem; align-items: start; }
+        .bess-layout { display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 2.34rem; margin-top: 2rem; align-items: start; }
         .bess-info { }
-        .bess-gauge-container { background: rgba(6, 78, 59, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 16px; padding: 2rem; text-align: center; }
+        .bess-gauge-container { background: rgba(6, 78, 59, 0.1); border: 1px solid rgba(34, 197, 94, 0.2); border-radius: 19px; padding: 2rem; text-align: center; }
         .bess-gauge-container h4 { font-size: 0.9rem; color: #94a3b8; margin-bottom: 1rem; text-transform: uppercase; letter-spacing: 0.08em; }
         .bess-gauge-container canvas { width: 100%; max-width: 260px; display: block; margin: 0 auto; }
         .bess-gauge-label { font-size: 0.8rem; color: #64748b; margin-top: 0.75rem; }
 
         /* Code Compliance Checklist */
-        .compliance-list { margin-top: 2rem; display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; }
-        .compliance-item { display: flex; gap: 0.75rem; align-items: flex-start; background: rgba(255,255,255,0.02); border: 1px solid rgba(34, 197, 94, 0.08); border-radius: 10px; padding: 1rem 1.25rem; }
+        .compliance-list { margin-top: 2rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.90rem; }
+        .compliance-item { display: flex; gap: 0.75rem; align-items: flex-start; background: rgba(255,255,255,0.02); border: 1px solid rgba(34, 197, 94, 0.08); border-radius: 7px; padding: 1rem 1.25rem; }
         .compliance-item .ci-check { flex-shrink: 0; width: 24px; height: 24px; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.4); border-radius: 6px; display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 0.75rem; font-weight: 800; }
         .compliance-item .ci-text { font-size: 0.9rem; color: #cbd5e1; line-height: 1.4; }
         .compliance-item .ci-text strong { color: #4ade80; font-size: 0.8rem; display: block; margin-top: 0.25rem; }
 
         /* FAQ Section */
-        .faq-section { padding: 5rem 2rem; position: relative; z-index: 2; background: rgba(6, 78, 59, 0.04); }
+        .answers-section { padding: 6rem 2rem; position: relative; z-index: 2; background: rgba(6, 78, 59, 0.04); }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(34, 197, 94, 0.3); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); transition: background 0.3s ease; }
-        .faq-question:hover { background: rgba(34, 197, 94, 0.05); }
-        .faq-question h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; padding-right: 1rem; }
-        .faq-question .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(34, 197, 94, 0.15); display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.1rem; flex-shrink: 0; transition: all 0.3s ease; }
-        .faq-item.open .faq-toggle { transform: rotate(45deg); background: rgba(34, 197, 94, 0.3); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .info-item { border: 1px solid rgba(34, 197, 94, 0.12); border-radius: 10px; margin-bottom: 1rem; overflow: hidden; transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); }
+        .info-item:hover { border-color: rgba(34, 197, 94, 0.3); }
+        .expand-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); transition: background 0.3s ease; }
+        .expand-trigger:hover { background: rgba(34, 197, 94, 0.05); }
+        .expand-trigger h3 { font-size: 1rem; font-weight: 600; color: #e2e8f0; padding-right: 1rem; }
+        .expand-trigger .faq-toggle { width: 28px; height: 28px; border-radius: 50%; background: rgba(34, 197, 94, 0.15); display: flex; align-items: center; justify-content: center; color: #22c55e; font-size: 1.1rem; flex-shrink: 0; transition: all 0.55s ease-out; }
+        .info-item.open .faq-toggle { transform: rotate(45deg); background: rgba(34, 197, 94, 0.3); }
+        .info-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease; }
+        .info-body-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* Final CTA */
-        .final-cta { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; background: linear-gradient(180deg, transparent, rgba(34, 197, 94, 0.05), transparent); }
+        .final-cta { padding: 6rem 2rem; position: relative; z-index: 2; text-align: center; background: linear-gradient(180deg, transparent, rgba(34, 197, 94, 0.05), transparent); }
         .final-cta h2 { font-size: clamp(1.5rem, 3vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; }
         .final-cta p { color: #94a3b8; font-size: 1.05rem; max-width: 600px; margin: 0 auto 2rem; }
 
@@ -305,12 +306,12 @@
 
         /* Responsive */
         @media (max-width: 900px) {
-            .component-grid { grid-template-columns: repeat(2, 1fr); }
+            .component-grid { grid-template-columns: 1fr 1fr; }
             .pressure-split { grid-template-columns: 1fr; }
             .nec-grid { grid-template-columns: 1fr; }
             .bess-layout { grid-template-columns: 1fr; }
             .compliance-list { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
             .charge-widget { display: none; }
         }
         @media (max-width: 600px) {
@@ -329,7 +330,7 @@
 
 <!-- Charging Status Widget -->
 <div class="charge-widget" id="chargeWidget">
-    <div class="charge-widget-label">Charging Status</div>
+    <div class="charge-indicator-label">Charging Status</div>
     <div class="charge-widget-title"><span class="dot"></span> Station Monitor</div>
     <div class="charge-widget-row">
         <span class="cw-label">Active Stalls</span>
@@ -385,8 +386,8 @@
         <h1>EV Charging Station <span class="hero-shimmer">Canopy Wind Load</span> Design in Miami-Dade HVHZ</h1>
         <p class="hero-intro">Electric vehicle charging canopies in Miami-Dade's High Velocity Hurricane Zone face a unique convergence of structural, electrical, and solar engineering challenges. A single 40x80-ft solar canopy sheltering 12 charging stalls must resist <strong>180 MPH ultimate wind speed</strong> while maintaining <strong>NEC Article 625 electrical compliance</strong>, protecting DC fast chargers rated at 350 kW, and anchoring battery energy storage systems that weigh over 30,000 lbs. Understanding the interplay between ASCE 7-22 Chapter 29 canopy provisions, photovoltaic tilt-angle uplift coefficients, and charging equipment pedestal anchorage is essential for any project in this wind zone.</p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">&#9889; Calculate Canopy Loads</a>
-            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-go">&#9889; Calculate Canopy Loads</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-more">Browse All Calculators</a>
         </div>
         <div class="warning-banner">
             <strong>&#9888; Engineering Alert:</strong>
@@ -442,8 +443,8 @@
                 <h3>Solar PV Roof Panel</h3>
                 <p>Tilted photovoltaic arrays create asymmetric wind loading. ASCE 7-22 Section 29.4.3 governs ground-mounted solar panels, applied to canopy-mounted configurations with adjusted exposure.</p>
                 <div class="card-stat">
-                    <div><span class="stat-label">Tilt Range</span><br><span class="stat-value">5 - 15 deg</span></div>
-                    <div><span class="stat-label">Panel Dead Load</span><br><span class="stat-value">2.5 - 4.0 psf</span></div>
+                    <div><span class="measure-label">Tilt Range</span><br><span class="highlight-value">5 - 15 deg</span></div>
+                    <div><span class="measure-label">Panel Dead Load</span><br><span class="highlight-value">2.5 - 4.0 psf</span></div>
                 </div>
             </div>
             <div class="component-card magnetic-card">
@@ -451,8 +452,8 @@
                 <h3>DC Fast Charger Pedestal</h3>
                 <p>350 kW dispensers weighing 500-1,200 lbs present 8-15 sq ft effective projected area. NEC Article 625 requires equipment rated for environmental conditions at the installation site.</p>
                 <div class="card-stat">
-                    <div><span class="stat-label">Wind Force</span><br><span class="stat-value">850 - 2,200 lbs</span></div>
-                    <div><span class="stat-label">Anchor Bolts</span><br><span class="stat-value">6 x 7/8 in</span></div>
+                    <div><span class="measure-label">Wind Force</span><br><span class="highlight-value">850 - 2,200 lbs</span></div>
+                    <div><span class="measure-label">Anchor Bolts</span><br><span class="highlight-value">6 x 7/8 in</span></div>
                 </div>
             </div>
             <div class="component-card magnetic-card">
@@ -460,8 +461,8 @@
                 <h3>BESS Enclosure</h3>
                 <p>Battery energy storage systems in 20-ft container format present 160 sq ft windward area. NFPA 855 separation and UL 9540A thermal testing govern placement near the canopy structure.</p>
                 <div class="card-stat">
-                    <div><span class="stat-label">Wind Force</span><br><span class="stat-value">~9,500 lbs</span></div>
-                    <div><span class="stat-label">Weight</span><br><span class="stat-value">20,000-35,000 lb</span></div>
+                    <div><span class="measure-label">Wind Force</span><br><span class="highlight-value">~9,500 lbs</span></div>
+                    <div><span class="measure-label">Weight</span><br><span class="highlight-value">20,000-35,000 lb</span></div>
                 </div>
             </div>
             <div class="component-card magnetic-card">
@@ -469,8 +470,8 @@
                 <h3>Steel HSS Columns</h3>
                 <p>Columns at 20x40 ft grid spacing resist tributary uplift of 25,000-55,000 lbs per column. HSS 8x8 to 10x10 sections with moment-resisting base plates are standard.</p>
                 <div class="card-stat">
-                    <div><span class="stat-label">Column Size</span><br><span class="stat-value">HSS 8x8 - 10x10</span></div>
-                    <div><span class="stat-label">Wall Thickness</span><br><span class="stat-value">3/8 - 1/2 in</span></div>
+                    <div><span class="measure-label">Column Size</span><br><span class="highlight-value">HSS 8x8 - 10x10</span></div>
+                    <div><span class="measure-label">Wall Thickness</span><br><span class="highlight-value">3/8 - 1/2 in</span></div>
                 </div>
             </div>
             <div class="component-card magnetic-card">
@@ -478,8 +479,8 @@
                 <h3>LED Lighting Array</h3>
                 <p>Canopy-mounted LED fixtures provide EV charging area illumination. Each fixture presents 0.5-1.2 sq ft effective projected area with 1.0-1.3 drag coefficient for wind calculations.</p>
                 <div class="card-stat">
-                    <div><span class="stat-label">EPA per Fixture</span><br><span class="stat-value">0.5 - 1.2 sq ft</span></div>
-                    <div><span class="stat-label">Attachment</span><br><span class="stat-value">Thru-bolt</span></div>
+                    <div><span class="measure-label">EPA per Fixture</span><br><span class="highlight-value">0.5 - 1.2 sq ft</span></div>
+                    <div><span class="measure-label">Attachment</span><br><span class="highlight-value">Thru-bolt</span></div>
                 </div>
             </div>
             <div class="component-card magnetic-card">
@@ -487,8 +488,8 @@
                 <h3>Cable Management Tray</h3>
                 <p>Charging cable routing trays and retractors mounted beneath the canopy require wind restraint per ASCE 7-22 Chapter 29. Cable sway under wind induces fatigue at connection points.</p>
                 <div class="card-stat">
-                    <div><span class="stat-label">Restraint Spacing</span><br><span class="stat-value">4 ft intervals</span></div>
-                    <div><span class="stat-label">Cable Weight</span><br><span class="stat-value">3 - 8 lb/ft</span></div>
+                    <div><span class="measure-label">Restraint Spacing</span><br><span class="highlight-value">4 ft intervals</span></div>
+                    <div><span class="measure-label">Cable Weight</span><br><span class="highlight-value">3 - 8 lb/ft</span></div>
                 </div>
             </div>
         </div>
@@ -766,64 +767,64 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
+<section class="answers-section">
     <div class="faq-container">
         <div class="section-label reveal" style="text-align: center;">&#10067; Frequently Asked Questions</div>
         <h2 class="section-title reveal" style="text-align: center;">EV Charging Canopy <span class="accent">Wind Load FAQ</span></h2>
         <p class="section-subtitle reveal" style="text-align: center; margin-left: auto; margin-right: auto;">Answers to the most common engineering questions about designing EV charging station canopies for Miami-Dade HVHZ at 180 MPH.</p>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="expand-trigger" onclick="toggleFaq(this)">
                 <h3>What ASCE 7-22 provisions govern EV charging station canopy wind loads in Miami-Dade?</h3>
                 <div class="faq-toggle">+</div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">EV charging canopies are classified as open buildings under ASCE 7-22 Chapter 29, specifically Section 29.4 for monoslope or pitched free roofs. When solar panels are mounted on the canopy, Section 29.4.3 for ground-mounted solar panel arrays also applies to the PV components. The velocity pressure is calculated using the 180 MPH ultimate wind speed for Miami-Dade HVHZ, Exposure C, with net pressure coefficients (CN) from Figures 29.4-1 through 29.4-7 accounting for combined top-surface and bottom-surface aerodynamic effects. A typical 40x80 ft EV charging canopy at 14 ft mean roof height produces net uplift pressures of -50 to -68 psf in corner zones and -35 to -48 psf in interior zones.</div>
+            <div class="info-body">
+                <div class="info-body-inner">EV charging canopies are classified as open buildings under ASCE 7-22 Chapter 29, specifically Section 29.4 for monoslope or pitched free roofs. When solar panels are mounted on the canopy, Section 29.4.3 for ground-mounted solar panel arrays also applies to the PV components. The velocity pressure is calculated using the 180 MPH ultimate wind speed for Miami-Dade HVHZ, Exposure C, with net pressure coefficients (CN) from Figures 29.4-1 through 29.4-7 accounting for combined top-surface and bottom-surface aerodynamic effects. A typical 40x80 ft EV charging canopy at 14 ft mean roof height produces net uplift pressures of -50 to -68 psf in corner zones and -35 to -48 psf in interior zones.</div>
             </div>
         </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="expand-trigger" onclick="toggleFaq(this)">
                 <h3>How does solar panel tilt angle affect wind uplift on an EV charging canopy?</h3>
                 <div class="faq-toggle">+</div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Solar panel tilt angle directly influences net pressure coefficients under ASCE 7-22 Section 29.4.3. For a typical EV canopy in Miami-Dade at latitude 25.76 degrees, panels tilted 5 to 15 degrees optimize solar gain while managing wind loads. At 5-degree tilt, the net uplift coefficient ranges from -1.2 to -1.8 depending on panel position. Increasing tilt to 15 degrees raises the uplift coefficient to -1.5 to -2.3 as the panel presents more surface area to wind flowing underneath the canopy. At 180 MPH design wind speed, this translates to an uplift pressure increase of approximately 15 to 25 percent. Many Miami-Dade EV canopy designs use 5-degree tilt as a compromise between energy production (approximately 2 percent annual loss versus optimal tilt) and wind load reduction (approximately 20 percent lower uplift versus 15-degree tilt).</div>
+            <div class="info-body">
+                <div class="info-body-inner">Solar panel tilt angle directly influences net pressure coefficients under ASCE 7-22 Section 29.4.3. For a typical EV canopy in Miami-Dade at latitude 25.76 degrees, panels tilted 5 to 15 degrees optimize solar gain while managing wind loads. At 5-degree tilt, the net uplift coefficient ranges from -1.2 to -1.8 depending on panel position. Increasing tilt to 15 degrees raises the uplift coefficient to -1.5 to -2.3 as the panel presents more surface area to wind flowing underneath the canopy. At 180 MPH design wind speed, this translates to an uplift pressure increase of approximately 15 to 25 percent. Many Miami-Dade EV canopy designs use 5-degree tilt as a compromise between energy production (approximately 2 percent annual loss versus optimal tilt) and wind load reduction (approximately 20 percent lower uplift versus 15-degree tilt).</div>
             </div>
         </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="expand-trigger" onclick="toggleFaq(this)">
                 <h3>What are the NEC Article 625 requirements for EV charging equipment wind resistance?</h3>
                 <div class="faq-toggle">+</div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">NEC Article 625 governs Electric Vehicle Power Transfer Systems and requires all outdoor charging equipment to be listed for wet locations and rated for the environmental conditions at the installation site. In Miami-Dade HVHZ, this means charging pedestals must withstand 180 MPH wind speeds per the Florida Building Code. Level 2 charging pedestals (7.7 to 19.2 kW) typically require 4-bolt base plates with 0.75-inch anchor bolts embedded 8 to 12 inches into the concrete pad. DC fast chargers (50 to 350 kW) weigh 500 to 1,200 lbs and present effective projected areas of 8 to 15 sq ft, requiring 6-bolt patterns with 0.875-inch anchors. The emergency disconnect switch must remain accessible and operable during hurricane conditions per NEC 625.44.</div>
+            <div class="info-body">
+                <div class="info-body-inner">NEC Article 625 governs Electric Vehicle Power Transfer Systems and requires all outdoor charging equipment to be listed for wet locations and rated for the environmental conditions at the installation site. In Miami-Dade HVHZ, this means charging pedestals must withstand 180 MPH wind speeds per the Florida Building Code. Level 2 charging pedestals (7.7 to 19.2 kW) typically require 4-bolt base plates with 0.75-inch anchor bolts embedded 8 to 12 inches into the concrete pad. DC fast chargers (50 to 350 kW) weigh 500 to 1,200 lbs and present effective projected areas of 8 to 15 sq ft, requiring 6-bolt patterns with 0.875-inch anchors. The emergency disconnect switch must remain accessible and operable during hurricane conditions per NEC 625.44.</div>
             </div>
         </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="expand-trigger" onclick="toggleFaq(this)">
                 <h3>How are EV charging canopy columns spaced to accommodate vehicle access and wind loads?</h3>
                 <div class="faq-toggle">+</div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">EV charging canopy column spacing must balance structural efficiency against vehicle access requirements. ADA standards require 8-ft minimum width for accessible stalls with 5-ft access aisles, while standard EV charging stalls need 9 to 10 ft width with 24-ft drive aisles. Typical column grids are 20x40 ft or 20x36 ft, placing columns between every two parking stalls. In Miami-Dade HVHZ at 180 MPH, a 20x40 ft bay produces tributary uplift forces of 25,000 to 55,000 lbs per column depending on roof zone. Steel HSS columns (8x8 to 10x10 inch, 0.375 to 0.5 inch wall) or W10 wide-flange sections with moment-resisting base connections are standard. Columns must include bollard protection rated for 10,000-lb vehicle impact per IBC Section 1607.8.</div>
+            <div class="info-body">
+                <div class="info-body-inner">EV charging canopy column spacing must balance structural efficiency against vehicle access requirements. ADA standards require 8-ft minimum width for accessible stalls with 5-ft access aisles, while standard EV charging stalls need 9 to 10 ft width with 24-ft drive aisles. Typical column grids are 20x40 ft or 20x36 ft, placing columns between every two parking stalls. In Miami-Dade HVHZ at 180 MPH, a 20x40 ft bay produces tributary uplift forces of 25,000 to 55,000 lbs per column depending on roof zone. Steel HSS columns (8x8 to 10x10 inch, 0.375 to 0.5 inch wall) or W10 wide-flange sections with moment-resisting base connections are standard. Columns must include bollard protection rated for 10,000-lb vehicle impact per IBC Section 1607.8.</div>
             </div>
         </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="expand-trigger" onclick="toggleFaq(this)">
                 <h3>What wind design is required for battery energy storage systems (BESS) at EV charging stations?</h3>
                 <div class="faq-toggle">+</div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Battery energy storage system enclosures at Miami-Dade EV charging stations are designed as equipment structures under ASCE 7-22 Chapter 29, classified by their effective projected area and drag coefficient. A typical 20-ft shipping container-style BESS unit (8x8x20 ft) presents 160 sq ft of windward area with drag coefficient Cf of 1.3 for rectangular sections. At 180 MPH in Exposure C, the total horizontal wind force reaches approximately 9,500 lbs. The BESS must be anchored to a concrete pad using 0.75-inch anchor bolts at 24-inch spacing or welded to embedded plates. NFPA 855 requires 10-ft minimum separation from buildings and property lines, while Miami-Dade Fire Rescue mandates additional clearances that affect wind exposure. The enclosure must also resist internal pressure from thermal events per UL 9540A testing requirements.</div>
+            <div class="info-body">
+                <div class="info-body-inner">Battery energy storage system enclosures at Miami-Dade EV charging stations are designed as equipment structures under ASCE 7-22 Chapter 29, classified by their effective projected area and drag coefficient. A typical 20-ft shipping container-style BESS unit (8x8x20 ft) presents 160 sq ft of windward area with drag coefficient Cf of 1.3 for rectangular sections. At 180 MPH in Exposure C, the total horizontal wind force reaches approximately 9,500 lbs. The BESS must be anchored to a concrete pad using 0.75-inch anchor bolts at 24-inch spacing or welded to embedded plates. NFPA 855 requires 10-ft minimum separation from buildings and property lines, while Miami-Dade Fire Rescue mandates additional clearances that affect wind exposure. The enclosure must also resist internal pressure from thermal events per UL 9540A testing requirements.</div>
             </div>
         </div>
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="info-item reveal">
+            <div class="expand-trigger" onclick="toggleFaq(this)">
                 <h3>What permits and inspections does Miami-Dade require for EV charging canopy construction?</h3>
                 <div class="faq-toggle">+</div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Miami-Dade County requires multiple permits for EV charging canopy installations: a building permit for the canopy structure with sealed structural drawings from a Florida-licensed PE, an electrical permit for the charging equipment and solar array per NEC 2023 and FBC Electrical, a mechanical permit if the canopy includes HVAC for BESS cooling, and potentially a zoning permit if the canopy exceeds height limits or setback requirements. The permit package must include full ASCE 7-22 wind load calculations, foundation design, connection details, solar panel attachment specifications, and a drainage plan. Miami-Dade Product Control reviews all structural components in the HVHZ. Inspections include foundation, structural steel, electrical rough-in, solar mounting, final structural, and final electrical. Total permit timeline runs 6 to 12 weeks for plan review plus 4 to 8 weeks for construction inspections.</div>
+            <div class="info-body">
+                <div class="info-body-inner">Miami-Dade County requires multiple permits for EV charging canopy installations: a building permit for the canopy structure with sealed structural drawings from a Florida-licensed PE, an electrical permit for the charging equipment and solar array per NEC 2023 and FBC Electrical, a mechanical permit if the canopy includes HVAC for BESS cooling, and potentially a zoning permit if the canopy exceeds height limits or setback requirements. The permit package must include full ASCE 7-22 wind load calculations, foundation design, connection details, solar panel attachment specifications, and a drainage plan. Miami-Dade Product Control reviews all structural components in the HVHZ. Inspections include foundation, structural steel, electrical rough-in, solar mounting, final structural, and final electrical. Total permit timeline runs 6 to 12 weeks for plan review plus 4 to 8 weeks for construction inspections.</div>
             </div>
         </div>
     </div>
@@ -835,8 +836,8 @@
         <h2>Ready to Engineer Your <span class="hero-shimmer">EV Charging Canopy</span>?</h2>
         <p>Get precise wind load calculations for solar canopies, charging pedestals, BESS enclosures, and all ancillary components in Miami-Dade HVHZ at 180 MPH design wind speed.</p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">&#9889; Calculate Canopy Loads</a>
-            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+            <a href="https://windloadcalc.com/shop/specialty.html" class="btn-go">&#9889; Calculate Canopy Loads</a>
+            <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-more">Browse All Calculators</a>
         </div>
     </div>
 </section>
@@ -869,11 +870,11 @@
             this.x = Math.random() * w;
             this.y = Math.random() * h;
             this.size = Math.random() * 2.5 + 0.5;
-            this.speedX = Math.random() * 2 + 1;
+            this.speedX = Math.random() * 1.7 + 0.9;
             this.speedY = (Math.random() - 0.5) * 0.6;
             const r = Math.random();
             this.color = r > 0.6 ? '#22c55e' : (r > 0.3 ? '#4ade80' : '#3b82f6');
-            this.opacity = Math.random() * 0.4 + 0.2;
+            this.opacity = Math.random() * 0.37 + 0.24;
         }
         update() {
             this.x += this.speedX;
@@ -1302,7 +1303,7 @@
                 started = true;
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.25 });
     observer.observe(canvas);
 
     drawGauge();
@@ -1319,7 +1320,7 @@
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.3 });
     revealEls.forEach(el => observer.observe(el));
 })();
 
@@ -1351,7 +1352,7 @@
                 }, 25);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.1 });
     counters.forEach(c => observer.observe(c));
 })();
 
@@ -1372,7 +1373,7 @@
                 }
             }
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
     bars.forEach(b => observer.observe(b));
 })();
 
@@ -1442,13 +1443,13 @@
 // ============================================
 function toggleFaq(el) {
     const item = el.parentElement;
-    const answer = item.querySelector('.faq-answer');
-    const inner = answer.querySelector('.faq-answer-inner');
+    const answer = item.querySelector('.info-body');
+    const inner = answer.querySelector('.info-body-inner');
     const isOpen = item.classList.contains('open');
 
-    document.querySelectorAll('.faq-item.open').forEach(openItem => {
+    document.querySelectorAll('.info-item.open').forEach(openItem => {
         openItem.classList.remove('open');
-        openItem.querySelector('.faq-answer').style.maxHeight = '0';
+        openItem.querySelector('.info-body').style.maxHeight = '0';
     });
 
     if (!isOpen) {
@@ -1460,7 +1461,7 @@ function toggleFaq(el) {
 // ============================================
 // Button Ripple Effect
 // ============================================
-document.querySelectorAll('.btn-primary').forEach(btn => {
+document.querySelectorAll('.btn-go').forEach(btn => {
     btn.addEventListener('click', function(e) {
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');

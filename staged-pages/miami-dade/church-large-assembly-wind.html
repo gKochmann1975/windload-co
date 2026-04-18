@@ -93,19 +93,20 @@
     }
     </script>
     <style>
+/* uid:9e5a808e */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 20% 30%, rgba(109, 40, 217, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 70%, rgba(217, 119, 6, 0.04) 0%, transparent 50%); }
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.4s ease; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.55s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.65s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -120,29 +121,29 @@
         .hero-shimmer { background: linear-gradient(120deg, #6d28d9 0%, #8b5cf6 20%, #d97706 40%, #6d28d9 60%, #8b5cf6 80%, #d97706 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Fixed Cycling Widget */
-        .span-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(109, 40, 217, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 200px; }
+        .span-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(109, 40, 217, 0.3); border-radius: 14px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(24px); opacity: 0; transform: translateX(120px); transition: all 0.75s cubic-bezier(0.16, 1, 0.3, 1); min-width: 200px; }
         .span-widget.visible { opacity: 1; transform: translateX(0); }
-        .span-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .span-widget-value { font-size: 1.5rem; font-weight: 800; color: #8b5cf6; margin-bottom: 4px; }
+        .span-snap-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .span-indicator-val { font-size: 1.5rem; font-weight: 800; color: #8b5cf6; margin-bottom: 4px; }
         .span-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .span-widget-fill { height: 100%; background: linear-gradient(90deg, #6d28d9, #d97706); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .span-widget-status { font-size: 0.8rem; font-weight: 600; color: #d97706; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(109, 40, 217, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(109, 40, 217, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.54rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #8b5cf6; }
-        .nav-cta { background: linear-gradient(135deg, #6d28d9 0%, #d97706 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(109, 40, 217, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #6d28d9 0%, #d97706 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.8s cubic-bezier(0.33, 1, 0.68, 1); }
+        .nav-cta:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(109, 40, 217, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1300px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #8b5cf6; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -155,14 +156,14 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.2rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #8b5cf6; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%); color: #ffffff; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(109, 40, 217, 0.4); }
-        .btn-secondary { background: rgba(109, 40, 217, 0.1); border: 1px solid rgba(109, 40, 217, 0.3); color: #8b5cf6; }
-        .btn-secondary:hover { background: rgba(109, 40, 217, 0.2); transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.05rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 3rem 2rem; border-radius: 10px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.4s cubic-bezier(0.25, 0.8, 0.25, 1); cursor: pointer; border: none; position: relative; overflow: hidden; }
+        .btn-submit { background: linear-gradient(135deg, #6d28d9 0%, #8b5cf6 100%); color: #ffffff; }
+        .btn-submit:hover { transform: translateY(-5px) scale(1.01); box-shadow: 0 8px 30px rgba(109, 40, 217, 0.4); }
+        .btn-option { background: rgba(109, 40, 217, 0.1); border: 1px solid rgba(109, 40, 217, 0.3); color: #8b5cf6; }
+        .btn-option:hover { background: rgba(109, 40, 217, 0.2); transform: scale(1.03); }
         .btn-gold { background: linear-gradient(135deg, #d97706 0%, #f59e0b 100%); color: #ffffff; }
-        .btn-gold:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.4); }
+        .btn-gold:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 8px 30px rgba(217, 119, 6, 0.4); }
         .btn .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: ripple-anim 0.6s ease-out; pointer-events: none; }
         @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
         .warning-banner { background: rgba(217, 119, 6, 0.1); border: 1px solid rgba(217, 119, 6, 0.3); border-left: 4px solid #d97706; padding: 1rem 1.5rem; border-radius: 0 12px 12px 0; margin-top: 1rem; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto; animation: warning-flash 3s ease-in-out infinite; }
@@ -171,36 +172,36 @@
 
         /* Trust Bar */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(109, 40, 217, 0.1); }
-        .trust-bar-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        .trust-bar-container { max-width: 1250px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.92rem; text-align: center; }
         .trust-item .counter { font-size: 2.5rem; font-weight: 800; color: #6d28d9; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #64748b; }
 
         /* Sections */
         section { position: relative; z-index: 2; }
-        .section-dark { padding: 5rem 2rem; }
+        .section-dark { padding: 4rem 2rem; }
         .section-alt { padding: 5rem 2rem; background: rgba(109, 40, 217, 0.03); }
-        .section-stone { padding: 5rem 2rem; background: rgba(120, 113, 108, 0.04); }
-        .section-container { max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
-        .section-header h2 .accent { color: #6d28d9; }
-        .section-header h2 .gold { color: #d97706; }
-        .section-header p { font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 0 auto; }
+        .section-stone { padding: 6rem 2rem; background: rgba(120, 113, 108, 0.04); }
+        .section-container { max-width: 1250px; margin: 0 auto; }
+        .block-header { text-align: center; margin-bottom: 3rem; }
+        .block-header h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
+        .block-header h2 .accent { color: #6d28d9; }
+        .block-header h2 .gold { color: #d97706; }
+        .block-header p { font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 0 auto; }
 
         /* Clear Span Roof Visualization */
-        .roof-viz { position: relative; background: rgba(255,255,255,0.03); border: 1px solid rgba(109, 40, 217, 0.2); border-radius: 20px; padding: 2rem; margin-bottom: 3rem; overflow: hidden; }
-        .roof-canvas-container { width: 100%; height: 420px; position: relative; border-radius: 12px; overflow: hidden; }
+        .roof-viz { position: relative; background: rgba(255,255,255,0.03); border: 1px solid rgba(109, 40, 217, 0.2); border-radius: 19px; padding: 2rem; margin-bottom: 3rem; overflow: hidden; }
+        .roof-canvas-container { width: 100%; height: 420px; position: relative; border-radius: 11px; overflow: hidden; }
         #roofCanvas { width: 100%; height: 100%; display: block; }
-        .roof-legend { display: flex; gap: 2rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+        .roof-legend { display: flex; gap: 1.87rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
         .roof-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #94a3b8; }
         .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
 
         /* Content Cards */
-        .content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-        .content-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .content-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(109, 40, 217, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .content-card:hover { transform: translateY(-6px); border-color: rgba(109, 40, 217, 0.4); box-shadow: 0 8px 30px rgba(109, 40, 217, 0.15); }
-        .card-icon { width: 48px; height: 48px; background: rgba(109, 40, 217, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
+        .content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.71rem; }
+        .content-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.74rem; }
+        .content-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(109, 40, 217, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        .content-card:hover { transform: translateY(-8px); border-color: rgba(109, 40, 217, 0.4); box-shadow: 0 8px 30px rgba(109, 40, 217, 0.15); }
+        .card-icon { width: 48px; height: 48px; background: rgba(109, 40, 217, 0.15); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
         .card-icon-gold { background: rgba(217, 119, 6, 0.15); }
         .card-icon-stone { background: rgba(120, 113, 108, 0.15); }
         .content-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; color: #ffffff; }
@@ -209,7 +210,7 @@
         .content-card .gold-hl { color: #d97706; font-weight: 700; }
 
         /* Split Layout */
-        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2.87rem; align-items: start; }
         .split-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
         .split-content h3 .accent { color: #6d28d9; }
         .split-content h3 .gold { color: #d97706; }
@@ -228,9 +229,9 @@
         .pressure-table .val-danger { color: #ff4757; font-weight: 700; }
 
         /* Scenario Cards */
-        .scenario-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-        .scenario-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 16px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.4s ease; }
-        .scenario-card:hover { border-color: rgba(217, 119, 6, 0.5); transform: translateY(-4px); }
+        .scenario-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: 1.76rem; }
+        .scenario-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(217, 119, 6, 0.2); border-radius: 14px; padding: 2rem; position: relative; overflow: hidden; transition: all 0.4s ease-out; }
+        .scenario-card:hover { border-color: rgba(217, 119, 6, 0.5); transform: translateY(-6px); }
         .scenario-card::before { content: ''; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: linear-gradient(180deg, #6d28d9, #d97706); }
         .scenario-label { font-size: 0.7rem; color: #d97706; text-transform: uppercase; letter-spacing: 0.1em; font-weight: 700; margin-bottom: 0.75rem; }
         .scenario-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; }
@@ -238,29 +239,29 @@
 
         /* Permit Steps */
         .permit-steps { counter-reset: pstep; }
-        .permit-step { display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start; }
+        .permit-step { display: flex; gap: 1.23rem; margin-bottom: 2rem; align-items: flex-start; }
         .pstep-number { flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #6d28d9, #d97706); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; color: #fff; box-shadow: 0 4px 15px rgba(109, 40, 217, 0.3); }
         .pstep-content h4 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
         .pstep-content p { font-size: 0.9rem; color: #94a3b8; line-height: 1.7; }
 
         /* FAQ */
-        .faq { padding: 5rem 2rem; }
+        .faq { padding: 6rem 2rem; }
         .faq-container { max-width: 800px; margin: 0 auto; }
         .faq-list { margin-top: 2rem; }
-        .faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(109, 40, 217, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(109, 40, 217, 0.3); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; color: #ffffff; }
-        .faq-question::after { content: '+'; font-size: 1.5rem; color: #6d28d9; transition: transform 0.3s ease; flex-shrink: 0; }
-        .faq-item.open .faq-question::after { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
-        .faq-item.open .faq-answer { max-height: 600px; padding: 0 1.5rem 1.25rem; }
-        .faq-answer p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .support-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(109, 40, 217, 0.15); border-radius: 11px; margin-bottom: 1rem; overflow: hidden; transition: all 0.65s cubic-bezier(0.4, 0, 0.2, 1); }
+        .support-item:hover { border-color: rgba(109, 40, 217, 0.3); }
+        .help-trigger { padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; gap: 1.01rem; color: #ffffff; }
+        .help-trigger::after { content: '+'; font-size: 1.5rem; color: #6d28d9; transition: transform 0.3s ease; flex-shrink: 0; }
+        .support-item.open .help-trigger::after { transform: rotate(45deg); }
+        .guide-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+        .support-item.open .guide-content { max-height: 600px; padding: 0 1.5rem 1.25rem; }
+        .guide-content p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
 
         /* CTA */
-        .cta-section { padding: 5rem 2rem; text-align: center; position: relative; z-index: 2; }
-        .cta-section h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
-        .cta-section p { font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .promo-section { padding: 4rem 2rem; text-align: center; position: relative; z-index: 2; }
+        .promo-section h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
+        .promo-section p { font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; }
+        .cta-buttons { display: flex; gap: 1.18rem; justify-content: center; flex-wrap: wrap; }
 
         /* Footer */
         footer { padding: 2rem; text-align: center; border-top: 1px solid rgba(109, 40, 217, 0.1); position: relative; z-index: 2; }
@@ -271,7 +272,7 @@
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .trust-bar-container { grid-template-columns: repeat(2, 1fr); }
+            .trust-bar-container { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
             .content-grid { grid-template-columns: 1fr; }
             .content-grid-3 { grid-template-columns: 1fr; }
             .split-section { grid-template-columns: 1fr; }
@@ -287,8 +288,8 @@
 
     <!-- Fixed Cycling Widget -->
     <div class="span-widget" id="spanWidget">
-        <div class="span-widget-label">Roof Span Analysis</div>
-        <div class="span-widget-value" id="widgetValue">0 ft</div>
+        <div class="span-snap-label">Roof Span Analysis</div>
+        <div class="span-indicator-val" id="widgetValue">0 ft</div>
         <div class="span-widget-bar"><div class="span-widget-fill" id="widgetFill"></div></div>
         <div class="span-widget-status" id="widgetStatus">Calculating...</div>
     </div>
@@ -327,7 +328,7 @@
             <h1>Church & Large Assembly <span class="hero-shimmer">Wind Load Design</span> in Miami-Dade HVHZ</h1>
             <p class="hero-intro">Churches and large assembly buildings seating more than 300 occupants are classified as <strong>Risk Category III</strong> under ASCE 7-22, requiring a 1.15 importance factor that increases design wind pressures by 15% above standard commercial construction. In Miami-Dade's High Velocity Hurricane Zone, the <strong>180 MPH basic wind speed</strong> combined with long-span roofs exceeding 80 feet, large entry doors that trigger partially enclosed internal pressures, and stained glass windows demanding impact-rated protective glazing creates one of the most demanding structural design scenarios in U.S. building practice. Sanctuary roof diaphragm shear can exceed <strong>1,000 pounds per linear foot</strong>, and net uplift at roof corners can reach negative 65 psf under Risk Category III loading.</p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-primary">Calculate MWFRS Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-submit">Calculate MWFRS Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
                 <a href="https://windloadcalc.com/services.html" class="btn btn-gold">Engineering Services</a>
             </div>
             <div class="warning-banner">
@@ -361,7 +362,7 @@
     <!-- Clear Span Roof Visualization -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Clear Span Roof <span class="accent">Cross-Section Analysis</span></h2>
                 <p>Animated cross-section of a large assembly sanctuary showing long-span roof structure behavior under 180 MPH wind conditions. Observe how internal pressure from open doors combines with external suction to create critical net uplift, and how diaphragm shear flows along the roof deck to the lateral system.</p>
             </div>
@@ -383,7 +384,7 @@
     <!-- Risk Category & Internal Pressure -->
     <section class="section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Risk Category III & <span class="accent">Internal Pressure Classification</span></h2>
                 <p>The two most consequential design decisions for any church project in Miami-Dade HVHZ: determining the correct Risk Category and the internal pressure classification. Getting either wrong can leave the building structurally deficient or grossly over-designed.</p>
             </div>
@@ -423,7 +424,7 @@
     <!-- Long-Span Roof Systems -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Long-Span Roof Systems for <span class="gold">Assembly Sanctuaries</span></h2>
                 <p>Clear spans of 60 to 120 feet are standard for church sanctuaries, requiring structural systems that manage both gravity loads and extreme wind forces without interior columns obstructing sight lines.</p>
             </div>
@@ -486,7 +487,7 @@
     <!-- Sanctuary Glazing & Bell Tower -->
     <section class="section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Sanctuary Glazing & <span class="accent">Bell Tower Appendage Loads</span></h2>
                 <p>Two distinctive architectural features of church buildings create unique wind engineering challenges: large stained glass windows that must be protected while preserving their artistic value, and bell towers or steeples that function as appendages with amplified wind exposure.</p>
             </div>
@@ -526,7 +527,7 @@
     <!-- Real-World Scenarios -->
     <section class="section-stone">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Real-World Hurricane Damage: <span class="gold">Churches & Assembly Buildings</span></h2>
                 <p>Each hurricane teaches the engineering community lessons specific to large assembly structures. These failures reveal the gap between assumed and actual building performance when wind speeds exceed 130 MPH.</p>
             </div>
@@ -558,7 +559,7 @@
     <!-- Internal Pressure Deep Dive -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Internal Pressure: The <span class="accent">Hidden Load Multiplier</span></h2>
                 <p>Internal pressure is the single most underappreciated force acting on church buildings. When large doors open or breach during a hurricane, the internal pressure doesn't just push outward — it adds directly to external suction on the roof, dramatically increasing net uplift on every fastener, purlin, and truss connection.</p>
             </div>
@@ -617,7 +618,7 @@
     <!-- Permit Process -->
     <section class="section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Miami-Dade Permit Process for <span class="gold">Religious Assembly Buildings</span></h2>
                 <p>The permit path for churches and assembly buildings in Miami-Dade HVHZ is more demanding than standard commercial construction due to Risk Category III classification, threshold building requirements, and enhanced plan review for assembly occupancies.</p>
             </div>
@@ -722,7 +723,7 @@
     <!-- Roof-to-Wall Connection Detail -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Critical Connection Details for <span class="accent">Assembly Roof Systems</span></h2>
                 <p>The roof-to-wall connection is where gravity load paths and wind load paths converge. In long-span assembly buildings, these connections must resist forces 3-5 times greater than typical residential construction due to the combination of larger tributary areas, higher roof heights, and Risk Category III loading.</p>
             </div>
@@ -755,45 +756,45 @@
     <!-- FAQ Section -->
     <section class="faq">
         <div class="faq-container">
-            <div class="section-header reveal">
+            <div class="block-header reveal">
                 <h2>Frequently Asked Questions: <span class="accent">Church & Assembly</span> <span class="gold">Wind Loads</span></h2>
                 <p>Engineering answers to the most critical questions about designing churches and large assembly buildings for Miami-Dade HVHZ wind conditions.</p>
             </div>
             <div class="faq-list stagger-children">
-                <div class="faq-item open">
-                    <div class="faq-question">What Risk Category applies to churches and large assembly buildings in Miami-Dade?</div>
-                    <div class="faq-answer"><p>Churches and assembly buildings with occupancy loads exceeding 300 people are classified as Risk Category III under ASCE 7-22 Table 1.5-1. This classification applies to the entire structure, not just the assembly area, and carries an importance factor of 1.15 for wind loads. In Miami-Dade's HVHZ with a basic wind speed of 180 MPH, this increases the effective velocity pressure by 15% compared to a standard Risk Category II commercial building. If the church also serves as a designated hurricane evacuation shelter, the classification upgrades to Risk Category IV. The Risk Category determination should be made early in the design process because it affects the sizing of every structural member, connection, and foundation element.</p></div>
+                <div class="support-item open">
+                    <div class="help-trigger">What Risk Category applies to churches and large assembly buildings in Miami-Dade?</div>
+                    <div class="guide-content"><p>Churches and assembly buildings with occupancy loads exceeding 300 people are classified as Risk Category III under ASCE 7-22 Table 1.5-1. This classification applies to the entire structure, not just the assembly area, and carries an importance factor of 1.15 for wind loads. In Miami-Dade's HVHZ with a basic wind speed of 180 MPH, this increases the effective velocity pressure by 15% compared to a standard Risk Category II commercial building. If the church also serves as a designated hurricane evacuation shelter, the classification upgrades to Risk Category IV. The Risk Category determination should be made early in the design process because it affects the sizing of every structural member, connection, and foundation element.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">How do large entry doors affect wind load classification for a church?</div>
-                    <div class="faq-answer"><p>Large entry doors on churches create a critical internal pressure consideration. ASCE 7-22 Section 26.2 defines a partially enclosed building based on the ratio of openings between the windward wall and remaining walls. A sanctuary with a pair of 8-foot by 6-foot entry doors (96 sq ft of potential opening) on the windward face triggers partially enclosed classification if the remaining walls have openings summing to less than 87 sq ft. This changes the internal pressure coefficient GCpi from plus or minus 0.18 to plus or minus 0.55 — tripling the internal pressure component. On a practical level, this can increase net roof uplift by 30-42% and requires significantly heavier roof connections. Architects can mitigate this by designing a narthex (entry vestibule) that isolates the large doors from the main sanctuary volume.</p></div>
+                <div class="support-item">
+                    <div class="help-trigger">How do large entry doors affect wind load classification for a church?</div>
+                    <div class="guide-content"><p>Large entry doors on churches create a critical internal pressure consideration. ASCE 7-22 Section 26.2 defines a partially enclosed building based on the ratio of openings between the windward wall and remaining walls. A sanctuary with a pair of 8-foot by 6-foot entry doors (96 sq ft of potential opening) on the windward face triggers partially enclosed classification if the remaining walls have openings summing to less than 87 sq ft. This changes the internal pressure coefficient GCpi from plus or minus 0.18 to plus or minus 0.55 — tripling the internal pressure component. On a practical level, this can increase net roof uplift by 30-42% and requires significantly heavier roof connections. Architects can mitigate this by designing a narthex (entry vestibule) that isolates the large doors from the main sanctuary volume.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What are the wind load requirements for long-span church roofs in Miami-Dade HVHZ?</div>
-                    <div class="faq-answer"><p>Long-span church roofs (60-120 feet clear span) face several compounding wind load challenges at 180 MPH in HVHZ. The MWFRS must handle the full design wind speed with the Risk Category III importance factor of 1.15. Roof diaphragm shear from lateral wind loads can reach 800-1,200 plf along the roof deck depending on building proportions, requiring welded steel deck or heavily nailed structural plywood. Net uplift at roof edge zones can reach minus 60 to minus 75 psf under partially enclosed conditions, demanding continuous mechanical attachment. For steel trusses spanning 80-plus feet, the bottom chord must be braced against lateral-torsional buckling from net uplift load reversal, which creates compression in a member designed primarily for tension under gravity loads.</p></div>
+                <div class="support-item">
+                    <div class="help-trigger">What are the wind load requirements for long-span church roofs in Miami-Dade HVHZ?</div>
+                    <div class="guide-content"><p>Long-span church roofs (60-120 feet clear span) face several compounding wind load challenges at 180 MPH in HVHZ. The MWFRS must handle the full design wind speed with the Risk Category III importance factor of 1.15. Roof diaphragm shear from lateral wind loads can reach 800-1,200 plf along the roof deck depending on building proportions, requiring welded steel deck or heavily nailed structural plywood. Net uplift at roof edge zones can reach minus 60 to minus 75 psf under partially enclosed conditions, demanding continuous mechanical attachment. For steel trusses spanning 80-plus feet, the bottom chord must be braced against lateral-torsional buckling from net uplift load reversal, which creates compression in a member designed primarily for tension under gravity loads.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">How are stained glass windows engineered for hurricane wind loads?</div>
-                    <div class="faq-answer"><p>Stained glass in Miami-Dade HVHZ requires an independent protective glazing system because leaded glass cannot resist design wind pressures of 35-55 psf typical for wall surfaces. The standard approach installs an exterior storm glazing layer (laminated impact glass or polycarbonate) in an aluminum frame outboard of the stained glass. This protective layer must satisfy both the calculated design pressure for the window opening and HVHZ large missile impact requirements (9-lb 2x4 at 50 fps). The air gap between protective glazing and stained glass must be pressure-equalized through venting to prevent the stained glass from being loaded by pressure differential. Window openings exceeding 20 sq ft trigger heightened C&C zone pressures at building corners, potentially requiring thicker laminated glass assemblies.</p></div>
+                <div class="support-item">
+                    <div class="help-trigger">How are stained glass windows engineered for hurricane wind loads?</div>
+                    <div class="guide-content"><p>Stained glass in Miami-Dade HVHZ requires an independent protective glazing system because leaded glass cannot resist design wind pressures of 35-55 psf typical for wall surfaces. The standard approach installs an exterior storm glazing layer (laminated impact glass or polycarbonate) in an aluminum frame outboard of the stained glass. This protective layer must satisfy both the calculated design pressure for the window opening and HVHZ large missile impact requirements (9-lb 2x4 at 50 fps). The air gap between protective glazing and stained glass must be pressure-equalized through venting to prevent the stained glass from being loaded by pressure differential. Window openings exceeding 20 sq ft trigger heightened C&C zone pressures at building corners, potentially requiring thicker laminated glass assemblies.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">Does a bell tower get analyzed separately from the main church building?</div>
-                    <div class="faq-answer"><p>Yes. ASCE 7-22 treats bell towers and steeples projecting above the main roof as separate structural elements for wind load purposes. The tower experiences velocity pressures at its actual height above grade, not the church roof height. A bell tower rising 40 feet above a 35-foot church roof has its tip at 75 feet above grade, where the velocity pressure exposure coefficient Kz reaches 1.16 for Exposure C — producing pressures 16% higher than at the roof line. The connection at the tower base must transfer horizontal shear, overturning moment, uplift, and torsion into the main building structure. For slender towers with height-to-width ratios exceeding 4, dynamic analysis with the flexible structure gust effect factor Gf is required per ASCE 7-22 Section 26.11, often producing values of 1.2-1.6 instead of the standard 0.85.</p></div>
+                <div class="support-item">
+                    <div class="help-trigger">Does a bell tower get analyzed separately from the main church building?</div>
+                    <div class="guide-content"><p>Yes. ASCE 7-22 treats bell towers and steeples projecting above the main roof as separate structural elements for wind load purposes. The tower experiences velocity pressures at its actual height above grade, not the church roof height. A bell tower rising 40 feet above a 35-foot church roof has its tip at 75 feet above grade, where the velocity pressure exposure coefficient Kz reaches 1.16 for Exposure C — producing pressures 16% higher than at the roof line. The connection at the tower base must transfer horizontal shear, overturning moment, uplift, and torsion into the main building structure. For slender towers with height-to-width ratios exceeding 4, dynamic analysis with the flexible structure gust effect factor Gf is required per ASCE 7-22 Section 26.11, often producing values of 1.2-1.6 instead of the standard 0.85.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What permit requirements apply to religious assembly buildings in Miami-Dade HVHZ?</div>
-                    <div class="faq-answer"><p>Religious assembly buildings require full building permits with structural engineering review. The submission must include sealed structural drawings and wind load calculations from a Florida-licensed PE, verification of Risk Category III classification, and Miami-Dade NOA documentation for all exterior products. Buildings exceeding threshold criteria (3 stories, 50 feet height, or 5,000 sq ft floor area per story) trigger threshold building requirements under Florida Statute 553.71, mandating a special inspector for all structural concrete, steel connections, and masonry. Plan review typically takes 8-14 weeks for large assembly buildings, and the building official may require a peer review of the structural design by an independent PE for unusual structural systems or complex geometries. Budget $55,000-$75,000 for the combined permit and inspection costs on a typical 10,000 sq ft sanctuary project.</p></div>
+                <div class="support-item">
+                    <div class="help-trigger">What permit requirements apply to religious assembly buildings in Miami-Dade HVHZ?</div>
+                    <div class="guide-content"><p>Religious assembly buildings require full building permits with structural engineering review. The submission must include sealed structural drawings and wind load calculations from a Florida-licensed PE, verification of Risk Category III classification, and Miami-Dade NOA documentation for all exterior products. Buildings exceeding threshold criteria (3 stories, 50 feet height, or 5,000 sq ft floor area per story) trigger threshold building requirements under Florida Statute 553.71, mandating a special inspector for all structural concrete, steel connections, and masonry. Plan review typically takes 8-14 weeks for large assembly buildings, and the building official may require a peer review of the structural design by an independent PE for unusual structural systems or complex geometries. Budget $55,000-$75,000 for the combined permit and inspection costs on a typical 10,000 sq ft sanctuary project.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Final CTA -->
-    <section class="cta-section reveal-scale">
+    <section class="promo-section reveal-scale">
         <h2>Design Your Assembly Building for <span style="color:#6d28d9">180 MPH</span> Winds</h2>
         <p>Get precise MWFRS and C&C wind load calculations for your church or large assembly project in Miami-Dade HVHZ. Know the forces, diaphragm demands, and connection requirements before you design.</p>
         <div class="cta-buttons">
-            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-primary">Calculate MWFRS Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-submit">Calculate MWFRS Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
             <a href="https://windloadcalc.com/services.html" class="btn btn-gold">Engineering Services</a>
         </div>
     </section>
@@ -806,11 +807,11 @@
 
     <script>
         // FAQ Toggle
-        document.querySelectorAll('.faq-question').forEach(function(q) {
+        document.querySelectorAll('.help-trigger').forEach(function(q) {
             q.addEventListener('click', function() {
                 var item = q.parentElement;
                 var wasOpen = item.classList.contains('open');
-                document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+                document.querySelectorAll('.support-item').forEach(function(i) { i.classList.remove('open'); });
                 if (!wasOpen) item.classList.add('open');
             });
         });
@@ -841,10 +842,10 @@
         Particle.prototype.reset = function() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = Math.random() * 2 + 0.5;
+            this.size = Math.random() * 2.1 + 0.4;
+            this.speedX = Math.random() * 2.0 + 0.6;
             this.speedY = Math.random() * 1 - 0.5;
-            this.opacity = Math.random() * 0.2 + 0.05;
+            this.opacity = Math.random() * 0.15 + 0.04;
             var r = Math.random();
             this.color = r > 0.7 ? '#d97706' : r > 0.4 ? '#8b5cf6' : '#6d28d9';
         };
@@ -1263,7 +1264,7 @@
                     entry.target.classList.add('active');
                 }
             });
-        }, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
         revealElements.forEach(function(el) { revealObserver.observe(el); });
 
         // Counter Animation
@@ -1303,7 +1304,7 @@
                     requestAnimationFrame(updateCounter);
                 }
             });
-        }, { threshold: 0.5 });
+        }, { threshold: 0.25 });
         counterElements.forEach(function(el) { counterObserver.observe(el); });
 
         // Magnetic Card Hover Effect

@@ -93,21 +93,22 @@
     }
     </script>
     <style>
+/* uid:810fbca8 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 15% 40%, rgba(6, 95, 70, 0.06) 0%, transparent 50%), radial-gradient(circle at 85% 60%, rgba(220, 38, 38, 0.04) 0%, transparent 50%); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(20px); transition: all 0.5s cubic-bezier(0.65, 0, 0.35, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.6s ease; }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.45s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.55s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(20px); transition: all 0.45s cubic-bezier(0.22, 1, 0.36, 1); }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -130,29 +131,29 @@
         .shimmer { background: linear-gradient(120deg, #065f46 0%, #10b981 25%, #065f46 50%, #059669 75%, #065f46 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
 
         /* Shelter Capacity Widget */
-        .shelter-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(6, 95, 70, 0.4); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
+        .shelter-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(6, 95, 70, 0.4); border-radius: 19px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(28px); opacity: 0; transform: translateX(120px); transition: all 0.55s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
         .shelter-widget.visible { opacity: 1; transform: translateX(0); }
-        .shelter-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .shelter-widget-value { font-size: 1.4rem; font-weight: 800; color: #10b981; margin-bottom: 4px; }
+        .shelter-indicator-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .shelter-indicator-val { font-size: 1.4rem; font-weight: 800; color: #10b981; margin-bottom: 4px; }
         .shelter-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .shelter-widget-fill { height: 100%; background: linear-gradient(90deg, #065f46, #10b981); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .shelter-widget-status { font-size: 0.78rem; font-weight: 600; color: #10b981; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(0, 180, 216, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(0, 180, 216, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.49rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #00b4d8; }
-        .nav-cta { background: linear-gradient(135deg, #065f46 0%, #10b981 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #065f46 0%, #10b981 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.4s ease; }
+        .nav-cta:hover { transform: translateY(-3px) scale(1.01); box-shadow: 0 4px 20px rgba(16, 185, 129, 0.4); }
 
         /* Breadcrumb */
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1150px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #00b4d8; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -165,12 +166,12 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.15rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 720px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #10b981; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
-        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.15rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1.05rem; text-decoration: none; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .btn-primary { background: linear-gradient(135deg, #065f46 0%, #10b981 100%); color: #ffffff; box-shadow: 0 4px 25px rgba(16, 185, 129, 0.35); }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 40px rgba(16, 185, 129, 0.5); }
-        .btn-secondary { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); }
-        .btn-secondary:hover { background: rgba(255,255,255,0.14); transform: translateY(-2px); }
+        .hero-cta { display: flex; gap: 0.71rem; justify-content: center; flex-wrap: wrap; }
+        .btn { display: inline-flex; align-items: center; gap: 0.75rem; padding: 1.15rem 2rem; border-radius: 15px; font-weight: 700; font-size: 1.05rem; text-decoration: none; transition: all 0.4s ease; position: relative; overflow: hidden; }
+        .btn-main { background: linear-gradient(135deg, #065f46 0%, #10b981 100%); color: #ffffff; box-shadow: 0 4px 25px rgba(16, 185, 129, 0.35); }
+        .btn-main:hover { transform: translateY(-5px); box-shadow: 0 8px 40px rgba(16, 185, 129, 0.5); }
+        .btn-explore { background: rgba(255,255,255,0.08); color: white; border: 1px solid rgba(255,255,255,0.2); }
+        .btn-explore:hover { background: rgba(255,255,255,0.14); transform: translateY(-6px); }
         .btn .ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: ripple-anim 0.6s ease-out; pointer-events: none; }
         @keyframes ripple-anim { to { transform: scale(4); opacity: 0; } }
 
@@ -181,22 +182,22 @@
 
         /* Trust Counters */
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; background: rgba(6, 95, 70, 0.05); border-top: 1px solid rgba(6, 95, 70, 0.15); border-bottom: 1px solid rgba(6, 95, 70, 0.15); }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; max-width: 1100px; margin: 0 auto; text-align: center; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.71rem; max-width: 1350px; margin: 0 auto; text-align: center; }
         .trust-item { padding: 1rem; }
         .trust-number { font-size: 2.5rem; font-weight: 800; color: #10b981; margin-bottom: 0.25rem; }
         .trust-label { font-size: 0.85rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
 
         /* Sections */
-        .section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .section { padding: 3rem 2rem; position: relative; z-index: 2; }
         .section-alt { background: rgba(6, 95, 70, 0.03); }
-        .section-container { max-width: 1100px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; }
-        .section-header p { color: #94a3b8; max-width: 650px; margin: 0 auto; }
+        .section-container { max-width: 1300px; margin: 0 auto; }
+        .section-lead { text-align: center; margin-bottom: 3rem; }
+        .section-lead h2 { font-size: 2rem; font-weight: 700; margin-bottom: 0.75rem; }
+        .section-lead p { color: #94a3b8; max-width: 650px; margin: 0 auto; }
 
         /* === SHELTER CAPACITY DASHBOARD === */
-        .dashboard-container { display: grid; grid-template-columns: 1.4fr 1fr; gap: 2rem; margin-bottom: 2rem; }
-        .floor-plan-wrap { background: rgba(255,255,255,0.03); border: 1px solid rgba(6, 95, 70, 0.3); border-radius: 20px; padding: 1.5rem; position: relative; overflow: hidden; }
+        .dashboard-container { display: grid; grid-template-columns: 1.4fr 1fr; gap: 1.75rem; margin-bottom: 2rem; }
+        .floor-plan-wrap { background: rgba(255,255,255,0.03); border: 1px solid rgba(6, 95, 70, 0.3); border-radius: 22px; padding: 1.5rem; position: relative; overflow: hidden; }
         .floor-plan-title { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 1rem; display: flex; align-items: center; gap: 0.5rem; }
         .floor-plan-title .dot { width: 8px; height: 8px; border-radius: 50%; background: #10b981; animation: shelter-pulse 2s ease-in-out infinite; }
         .floor-plan-svg { width: 100%; height: auto; }
@@ -211,8 +212,8 @@
         .zone-d { fill: rgba(220, 38, 38, 0.15); stroke: rgba(220, 38, 38, 0.4); stroke-width: 1; }
 
         .dashboard-metrics { display: flex; flex-direction: column; gap: 1.25rem; }
-        .metric-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.25rem; transition: all 0.3s ease; }
-        .metric-card:hover { border-color: rgba(16, 185, 129, 0.3); transform: translateY(-3px); }
+        .metric-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 19px; padding: 1.25rem; transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
+        .metric-card:hover { border-color: rgba(16, 185, 129, 0.3); transform: translateY(-8px); }
         .metric-label { font-size: 0.7rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 0.5rem; }
         .metric-value { font-size: 1.5rem; font-weight: 800; margin-bottom: 0.5rem; }
         .metric-bar-track { width: 100%; height: 8px; background: rgba(255,255,255,0.08); border-radius: 4px; overflow: hidden; }
@@ -224,8 +225,8 @@
         .metric-note { font-size: 0.78rem; color: #64748b; margin-top: 0.4rem; }
 
         /* Gauge Section */
-        .gauge-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem 1.5rem; text-align: center; transition: all 0.3s ease; }
+        .gauge-row { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.65rem; margin-top: 2rem; }
+        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 19px; padding: 2rem 1.5rem; text-align: center; transition: all 0.45s ease-out; }
         .gauge-card:hover { border-color: rgba(16, 185, 129, 0.3); }
         .gauge-svg { width: 120px; height: 80px; margin: 0 auto 1rem; }
         .gauge-bg { fill: none; stroke: rgba(255,255,255,0.08); stroke-width: 8; stroke-linecap: round; }
@@ -234,12 +235,12 @@
         .gauge-label { font-size: 0.8rem; color: #64748b; }
 
         /* Structural Systems */
-        .struct-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-        .struct-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; position: relative; overflow: hidden; }
-        .struct-card:hover { border-color: rgba(6, 95, 70, 0.4); transform: translateY(-4px); }
+        .struct-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.72rem; }
+        .struct-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 17px; padding: 2rem; transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1); position: relative; overflow: hidden; }
+        .struct-card:hover { border-color: rgba(6, 95, 70, 0.4); transform: translateY(-8px); }
         .struct-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #065f46, #10b981); opacity: 0; transition: opacity 0.3s ease; }
         .struct-card:hover::before { opacity: 1; }
-        .struct-icon { width: 50px; height: 50px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
+        .struct-icon { width: 50px; height: 50px; border-radius: 13px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
         .struct-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; }
         .struct-card p { color: #94a3b8; font-size: 0.92rem; line-height: 1.65; margin-bottom: 1rem; }
         .struct-specs { list-style: none; }
@@ -260,33 +261,33 @@
         .failure-bar-fill.moderate { background: linear-gradient(90deg, #92400e, #f59e0b); }
 
         /* Split Content */
-        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: center; margin-top: 2rem; }
+        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2.86rem; align-items: center; margin-top: 2rem; }
         .split-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1rem; }
         .split-content p { color: #94a3b8; line-height: 1.7; margin-bottom: 1rem; font-size: 0.95rem; }
-        .split-visual { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; }
+        .split-visual { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 17px; padding: 2rem; }
         .callout-list { list-style: none; margin-top: 1rem; }
         .callout-list li { padding: 0.75rem 1rem; margin-bottom: 0.5rem; background: rgba(6, 95, 70, 0.1); border-left: 3px solid #10b981; border-radius: 0 8px 8px 0; color: #e2e8f0; font-size: 0.9rem; }
         .callout-list li strong { color: #10b981; }
 
         /* Door & Opening Cards */
-        .opening-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
-        .opening-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; transition: all 0.3s ease; }
-        .opening-card:hover { border-color: rgba(220, 38, 38, 0.3); transform: translateY(-4px); }
+        .opening-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.22rem; margin-top: 2rem; }
+        .opening-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 18px; padding: 2rem; transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1); }
+        .opening-card:hover { border-color: rgba(220, 38, 38, 0.3); transform: translateY(-5px) scale(1.01); }
         .opening-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; color: #ffffff; display: flex; align-items: center; gap: 0.5rem; }
         .opening-card p { color: #94a3b8; font-size: 0.9rem; line-height: 1.6; margin-bottom: 1rem; }
         .spec-tag { display: inline-block; background: rgba(220, 38, 38, 0.15); border: 1px solid rgba(220, 38, 38, 0.3); color: #f87171; font-size: 0.75rem; font-weight: 600; padding: 0.25rem 0.6rem; border-radius: 6px; margin-right: 0.5rem; margin-bottom: 0.5rem; }
         .spec-tag.green { background: rgba(6, 95, 70, 0.15); border-color: rgba(16, 185, 129, 0.3); color: #10b981; }
 
         /* School Shelter Section */
-        .school-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .school-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; padding: 1.5rem; text-align: center; transition: all 0.3s ease; }
+        .school-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.35rem; margin-top: 2rem; }
+        .school-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 15px; padding: 1.5rem; text-align: center; transition: all 0.55s cubic-bezier(0.33, 1, 0.68, 1); }
         .school-card:hover { border-color: rgba(6, 95, 70, 0.4); }
         .school-icon { font-size: 2rem; margin-bottom: 0.75rem; }
         .school-card h4 { font-size: 1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .school-card p { color: #94a3b8; font-size: 0.85rem; line-height: 1.5; }
 
         /* Historical Performance */
-        .history-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; margin-top: 2rem; }
+        .history-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.18rem; margin-top: 2rem; }
         .history-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.08); border-radius: 20px; padding: 2rem; position: relative; overflow: hidden; }
         .history-card::after { content: ''; position: absolute; top: 0; right: 0; width: 80px; height: 80px; background: radial-gradient(circle at top right, rgba(6, 95, 70, 0.15), transparent 70%); }
         .history-year { font-size: 3rem; font-weight: 800; color: rgba(16, 185, 129, 0.2); position: absolute; top: 10px; right: 15px; }
@@ -294,25 +295,25 @@
         .history-card p { color: #94a3b8; font-size: 0.92rem; line-height: 1.65; }
 
         /* FAQ */
-        .faq-section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .learn-section { padding: 5rem 2rem; position: relative; z-index: 2; }
         .faq-container { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: border-color 0.3s ease; }
-        .faq-item:hover { border-color: rgba(6, 95, 70, 0.3); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; color: #e2e8f0; transition: color 0.3s ease; }
-        .faq-question:hover { color: #10b981; }
-        .faq-toggle { width: 24px; height: 24px; border-radius: 50%; background: rgba(6, 95, 70, 0.2); display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; flex-shrink: 0; margin-left: 1rem; }
+        .resource-item { border: 1px solid rgba(255,255,255,0.08); border-radius: 15px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: border-color 0.3s ease; }
+        .resource-item:hover { border-color: rgba(6, 95, 70, 0.3); }
+        .guide-toggle { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; color: #e2e8f0; transition: color 0.3s ease; }
+        .guide-toggle:hover { color: #10b981; }
+        .faq-toggle { width: 24px; height: 24px; border-radius: 50%; background: rgba(6, 95, 70, 0.2); display: flex; align-items: center; justify-content: center; transition: all 0.4s ease; flex-shrink: 0; margin-left: 1rem; }
         .faq-toggle svg { width: 12px; height: 12px; stroke: #10b981; stroke-width: 2; fill: none; transition: transform 0.3s ease; }
-        .faq-item.open .faq-toggle { background: #065f46; }
-        .faq-item.open .faq-toggle svg { transform: rotate(180deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
+        .resource-item.open .faq-toggle { background: #065f46; }
+        .resource-item.open .faq-toggle svg { transform: rotate(180deg); }
+        .knowledge-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .knowledge-body-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
 
         /* CTA */
-        .cta-section { padding: 5rem 2rem; position: relative; z-index: 2; text-align: center; background: linear-gradient(180deg, #0c1220 0%, #0a1628 100%); }
+        .convert-section { padding: 6rem 2rem; position: relative; z-index: 2; text-align: center; background: linear-gradient(180deg, #0c1220 0%, #0a1628 100%); }
         .cta-container { max-width: 700px; margin: 0 auto; }
-        .cta-section h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
-        .cta-section p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.7; }
-        .cta-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; }
+        .convert-section h2 { font-size: 2rem; font-weight: 800; margin-bottom: 1rem; }
+        .convert-section p { color: #94a3b8; font-size: 1.1rem; margin-bottom: 2rem; line-height: 1.7; }
+        .cta-buttons { display: flex; gap: 0.85rem; justify-content: center; flex-wrap: wrap; }
 
         /* Footer */
         .footer { padding: 3rem 2rem; border-top: 1px solid rgba(255,255,255,0.05); position: relative; z-index: 2; text-align: center; }
@@ -323,7 +324,7 @@
         /* Responsive */
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: 1fr 1fr; }
             .dashboard-container { grid-template-columns: 1fr; }
             .struct-grid { grid-template-columns: 1fr; }
             .split-section { grid-template-columns: 1fr; }
@@ -343,8 +344,8 @@
 
 <!-- Shelter Capacity Widget -->
 <div class="shelter-widget" id="shelterWidget">
-    <div class="shelter-widget-label">Shelter Integrity</div>
-    <div class="shelter-widget-value" id="widgetValue">Envelope Sealed</div>
+    <div class="shelter-indicator-label">Shelter Integrity</div>
+    <div class="shelter-indicator-val" id="widgetValue">Envelope Sealed</div>
     <div class="shelter-widget-bar"><div class="shelter-widget-fill" id="widgetFill"></div></div>
     <div class="shelter-widget-status" id="widgetStatus">Breach Probability: 0.0%</div>
 </div>
@@ -385,8 +386,8 @@
         <h1>Hurricane Shelter &amp; Public Refuge <span class="shimmer">Structural Design</span> in Miami-Dade County</h1>
         <p class="hero-intro">A hurricane shelter in Miami-Dade County must resist <strong>180 MPH design wind speeds</strong> at ASCE 7-22 Risk Category IV with an <strong>importance factor of 1.6</strong>, producing effective pressures 60% higher than standard buildings. FEMA P-361 community safe rooms raise the bar to <strong>250 MPH</strong> with 15 lb missile impact at 100 mph. Zero envelope breach is the only acceptable outcome.</p>
         <div class="hero-cta">
-            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-primary">Calculate Shelter Wind Loads</a>
-            <a href="https://windloadcalc.com/services.html" class="btn btn-secondary">Engineering Services</a>
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-main">Calculate Shelter Wind Loads</a>
+            <a href="https://windloadcalc.com/services.html" class="btn btn-explore">Engineering Services</a>
         </div>
         <div class="alert-banner">
             <h3>Critical Design Threshold</h3>
@@ -420,7 +421,7 @@
 <!-- SHELTER CAPACITY DASHBOARD -->
 <section class="section reveal" id="dashboard">
     <div class="section-container">
-        <div class="section-header">
+        <div class="section-lead">
             <h2>Shelter Capacity <span class="shimmer">Dashboard</span></h2>
             <p>Animated building plan showing occupant capacity zones, ventilation rates, structural wall indicators, and envelope breach probability for a typical Miami-Dade public hurricane shelter.</p>
         </div>
@@ -617,7 +618,7 @@
 <!-- FEMA P-361 vs ICC 500 -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Understanding the Dual Standard: ICC 500 vs FEMA P-361</h2>
             <p>Miami-Dade hurricane shelters operate under two overlapping frameworks that define different performance thresholds for community protection.</p>
         </div>
@@ -659,8 +660,8 @@
         <div class="split-section" style="margin-top: 3rem;">
             <div class="split-visual reveal-left">
                 <h4 style="font-size: 1rem; font-weight: 700; margin-bottom: 1.25rem; color: #dc2626;">Missile Impact Criteria Comparison</h4>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
-                    <div style="background: rgba(6,95,70,0.1); border-radius: 12px; padding: 1.25rem; text-align: center;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.70rem;">
+                    <div style="background: rgba(6,95,70,0.1); border-radius: 10px; padding: 1.25rem; text-align: center;">
                         <div style="font-size: 0.7rem; color: #64748b; text-transform: uppercase; margin-bottom: 0.5rem;">HVHZ Standard</div>
                         <div style="font-size: 1.5rem; font-weight: 800; color: #10b981;">9 lb</div>
                         <div style="font-size: 0.8rem; color: #94a3b8;">2x4 at 50 fps</div>
@@ -688,7 +689,7 @@
 <!-- Structural Systems -->
 <section class="section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Approved Structural Systems for HVHZ Shelters</h2>
             <p>Each structural system offers different advantages for achieving the extreme wind resistance and missile impact protection required in the High Velocity Hurricane Zone.</p>
         </div>
@@ -748,7 +749,7 @@
 <!-- Ventilation & Envelope Integrity -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Ventilation Without Envelope Compromise</h2>
             <p>The greatest engineering challenge in shelter design is maintaining breathable air quality for hundreds of occupants while ensuring zero wind or debris penetration through ventilation openings.</p>
         </div>
@@ -778,7 +779,7 @@
 <!-- Door & Opening Protection -->
 <section class="section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Door &amp; Opening Protection Systems</h2>
             <p>Doors and openings are the most vulnerable components in a hurricane shelter envelope. Each assembly must resist the full design wind load plus missile impact without deformation or breach.</p>
         </div>
@@ -830,7 +831,7 @@
 <!-- School Shelter Program -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Miami-Dade School Hurricane Shelter Program</h2>
             <p>Miami-Dade County Public Schools operates one of the largest school-based hurricane shelter networks in the United States, with over 80 designated shelter sites serving as public refuges during hurricane events.</p>
         </div>
@@ -843,7 +844,7 @@
                 <p>The M-DCPS building department works with the county's Emergency Management Division to identify schools in underserved shelter zones. When a new school is built or a major renovation occurs in a shelter-deficit area, the EHPA program may require the gymnasium, cafeteria, or media center to be designed as a hardened shelter with the full ICC 500 structural upgrades, impact-rated envelope, and emergency generator backup.</p>
             </div>
             <div class="split-visual reveal-right">
-                <div class="school-grid" style="grid-template-columns: repeat(2, 1fr);">
+                <div class="school-grid" style="grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));">
                     <div class="school-card">
                         <div class="school-icon">&#127979;</div>
                         <h4>80+ Sites</h4>
@@ -873,7 +874,7 @@
 <!-- Emergency Generator & Life Safety -->
 <section class="section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Emergency Generator &amp; Life Safety Wind Protection</h2>
             <p>A hurricane shelter's generator and life safety systems must be protected to the same wind load and impact standards as the shelter envelope itself. Equipment failure during the design event eliminates the shelter's ability to sustain occupants.</p>
         </div>
@@ -911,7 +912,7 @@
 <!-- Historical Performance -->
 <section class="section section-alt">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Real-World Shelter Performance: Andrew &amp; Irma</h2>
             <p>The performance of hurricane shelters during actual storm events provides the most compelling evidence for the design standards that govern construction today.</p>
         </div>
@@ -933,67 +934,67 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
+<section class="learn-section">
     <div class="section-container">
-        <div class="section-header reveal">
+        <div class="section-lead reveal">
             <h2>Frequently Asked Questions</h2>
             <p>Detailed answers to common questions about hurricane shelter structural design in Miami-Dade County.</p>
         </div>
         <div class="faq-container">
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="resource-item reveal">
+                <div class="guide-toggle">
                     What wind speed must a public hurricane shelter withstand in Miami-Dade County?
                     <div class="faq-toggle"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
                 </div>
-                <div class="faq-answer"><div class="faq-answer-inner">Public hurricane shelters in Miami-Dade must be designed for the ASCE 7-22 Risk Category IV basic wind speed of 180 MPH, amplified by an importance factor of 1.6 under the ICC 500 Standard for Storm Shelters. This produces effective design pressures roughly 60% higher than a standard Risk Category II building at the same location. FEMA P-361 community safe rooms go further, requiring a 250 MPH design wind speed to also resist EF5 tornado conditions.</div></div>
+                <div class="knowledge-body"><div class="knowledge-body-inner">Public hurricane shelters in Miami-Dade must be designed for the ASCE 7-22 Risk Category IV basic wind speed of 180 MPH, amplified by an importance factor of 1.6 under the ICC 500 Standard for Storm Shelters. This produces effective design pressures roughly 60% higher than a standard Risk Category II building at the same location. FEMA P-361 community safe rooms go further, requiring a 250 MPH design wind speed to also resist EF5 tornado conditions.</div></div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="resource-item reveal">
+                <div class="guide-toggle">
                     What is the difference between an ICC 500 storm shelter and a FEMA P-361 safe room?
                     <div class="faq-toggle"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
                 </div>
-                <div class="faq-answer"><div class="faq-answer-inner">ICC 500 is a building code standard adopted into the Florida Building Code that defines minimum requirements for storm shelters, including 180 MPH hurricane wind resistance in Miami-Dade. FEMA P-361 is a higher voluntary standard for community and residential safe rooms requiring 250 MPH wind resistance plus tornado missile impact from a 15 lb 2x4 at 100 mph. An ICC 500 shelter meets code minimums; a FEMA P-361 safe room exceeds them and qualifies for FEMA Hazard Mitigation Grant funding.</div></div>
+                <div class="knowledge-body"><div class="knowledge-body-inner">ICC 500 is a building code standard adopted into the Florida Building Code that defines minimum requirements for storm shelters, including 180 MPH hurricane wind resistance in Miami-Dade. FEMA P-361 is a higher voluntary standard for community and residential safe rooms requiring 250 MPH wind resistance plus tornado missile impact from a 15 lb 2x4 at 100 mph. An ICC 500 shelter meets code minimums; a FEMA P-361 safe room exceeds them and qualifies for FEMA Hazard Mitigation Grant funding.</div></div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="resource-item reveal">
+                <div class="guide-toggle">
                     What structural systems are approved for hurricane shelters in the HVHZ?
                     <div class="faq-toggle"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
                 </div>
-                <div class="faq-answer"><div class="faq-answer-inner">Approved structural systems for hurricane shelters in Miami-Dade HVHZ include reinforced cast-in-place concrete walls (minimum 8 inches with #5 rebar at 8 inches on center), reinforced concrete masonry unit (CMU) walls fully grouted with #5 rebar at 8 inches on center, insulated concrete form (ICF) walls with 6-inch concrete cores, and steel-reinforced precast concrete panels. All systems must achieve zero envelope breach under the design wind event and resist large missile impact per HVHZ requirements.</div></div>
+                <div class="knowledge-body"><div class="knowledge-body-inner">Approved structural systems for hurricane shelters in Miami-Dade HVHZ include reinforced cast-in-place concrete walls (minimum 8 inches with #5 rebar at 8 inches on center), reinforced concrete masonry unit (CMU) walls fully grouted with #5 rebar at 8 inches on center, insulated concrete form (ICF) walls with 6-inch concrete cores, and steel-reinforced precast concrete panels. All systems must achieve zero envelope breach under the design wind event and resist large missile impact per HVHZ requirements.</div></div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="resource-item reveal">
+                <div class="guide-toggle">
                     How is ventilation maintained in a hurricane shelter without compromising the envelope?
                     <div class="faq-toggle"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
                 </div>
-                <div class="faq-answer"><div class="faq-answer-inner">Hurricane shelters use FEMA-rated protected louver systems that allow minimum 20 CFM of fresh air per occupant while maintaining missile impact resistance. These louvers feature staggered blade configurations, impact-rated steel frames with NOA certification, and internal baffle systems that prevent wind-driven rain penetration. In Miami-Dade HVHZ, shelter ventilation louvers must carry a valid Notice of Acceptance with large missile impact certification rated to the shelter design pressure.</div></div>
+                <div class="knowledge-body"><div class="knowledge-body-inner">Hurricane shelters use FEMA-rated protected louver systems that allow minimum 20 CFM of fresh air per occupant while maintaining missile impact resistance. These louvers feature staggered blade configurations, impact-rated steel frames with NOA certification, and internal baffle systems that prevent wind-driven rain penetration. In Miami-Dade HVHZ, shelter ventilation louvers must carry a valid Notice of Acceptance with large missile impact certification rated to the shelter design pressure.</div></div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="resource-item reveal">
+                <div class="guide-toggle">
                     What are Miami-Dade's requirements for school hurricane shelters?
                     <div class="faq-toggle"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
                 </div>
-                <div class="faq-answer"><div class="faq-answer-inner">Miami-Dade County Public Schools operates an Enhanced Hurricane Protection Area (EHPA) program requiring designated school buildings to serve as public hurricane shelters. These facilities must meet ICC 500 storm shelter criteria, provide minimum 20 square feet per occupant for extended shelter operations, include emergency generator backup for 96 hours minimum, maintain potable water supply, and have hardened mechanical and electrical systems. Over 80 school sites are currently designated as public hurricane shelters in Miami-Dade County.</div></div>
+                <div class="knowledge-body"><div class="knowledge-body-inner">Miami-Dade County Public Schools operates an Enhanced Hurricane Protection Area (EHPA) program requiring designated school buildings to serve as public hurricane shelters. These facilities must meet ICC 500 storm shelter criteria, provide minimum 20 square feet per occupant for extended shelter operations, include emergency generator backup for 96 hours minimum, maintain potable water supply, and have hardened mechanical and electrical systems. Over 80 school sites are currently designated as public hurricane shelters in Miami-Dade County.</div></div>
             </div>
-            <div class="faq-item reveal">
-                <div class="faq-question">
+            <div class="resource-item reveal">
+                <div class="guide-toggle">
                     What door and opening protection is required for hurricane shelters?
                     <div class="faq-toggle"><svg viewBox="0 0 12 12"><polyline points="2,4 6,8 10,4"/></svg></div>
                 </div>
-                <div class="faq-answer"><div class="faq-answer-inner">Hurricane shelter doors and openings require the highest level of protection available. Entry doors must be minimum 14-gauge steel with continuous hinges, multi-point locking systems (minimum 3-point for personnel doors, 5-point for double doors), and structural steel frames anchored to reinforced concrete or CMU with minimum 1/2-inch anchor bolts at 12 inches on center. All glazing is prohibited in shelter envelopes unless it meets ICC 500 missile impact criteria. Roll-up doors for vehicle access require blast-rated assemblies tested to the full design wind speed plus missile impact.</div></div>
+                <div class="knowledge-body"><div class="knowledge-body-inner">Hurricane shelter doors and openings require the highest level of protection available. Entry doors must be minimum 14-gauge steel with continuous hinges, multi-point locking systems (minimum 3-point for personnel doors, 5-point for double doors), and structural steel frames anchored to reinforced concrete or CMU with minimum 1/2-inch anchor bolts at 12 inches on center. All glazing is prohibited in shelter envelopes unless it meets ICC 500 missile impact criteria. Roll-up doors for vehicle access require blast-rated assemblies tested to the full design wind speed plus missile impact.</div></div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- Final CTA -->
-<section class="cta-section">
+<section class="convert-section">
     <div class="cta-container reveal">
         <h2>Calculate Wind Loads for <span class="shimmer">Hurricane Shelter Design</span></h2>
         <p>Get precise ASCE 7-22 wind load calculations for your hurricane shelter project in Miami-Dade County. Risk Category IV, importance factor 1.6, and HVHZ-specific pressure coefficients calculated for your exact building dimensions and site exposure.</p>
         <div class="cta-buttons">
-            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-primary">Calculate Shelter Wind Loads</a>
-            <a href="https://windloadcalc.com/services.html" class="btn btn-secondary">Engineering Services</a>
+            <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn btn-main">Calculate Shelter Wind Loads</a>
+            <a href="https://windloadcalc.com/services.html" class="btn btn-explore">Engineering Services</a>
         </div>
     </div>
 </section>
@@ -1024,8 +1025,8 @@
         reset(){
             this.x = Math.random()*w;
             this.y = Math.random()*h;
-            this.size = Math.random()*2.5+0.5;
-            this.speedX = Math.random()*2+1;
+            this.size = Math.random() * 2.3 + 0.4;
+            this.speedX = Math.random() * 2.3 + 1.1;
             this.speedY = (Math.random()-0.5)*0.5;
             this.color = Math.random()>0.7 ? '#10b981' : '#065f46';
             this.alpha = Math.random()*0.5+0.2;
@@ -1066,7 +1067,7 @@
                 e.target.classList.add('active');
             }
         });
-    },{threshold:0.15, rootMargin:'0px 0px -50px 0px'});
+    },{threshold: 0.3, rootMargin:'0px 0px -50px 0px'});
     reveals.forEach(el=>observer.observe(el));
 })();
 
@@ -1099,7 +1100,7 @@
                 requestAnimationFrame(step);
             }
         });
-    },{threshold:0.5});
+    },{threshold: 0.1});
     counters.forEach(c=>observer.observe(c));
 })();
 
@@ -1114,7 +1115,7 @@
                 setTimeout(()=>e.target.style.width = w+'%', 200);
             }
         });
-    },{threshold:0.3});
+    },{threshold: 0.15});
     bars.forEach(b=>observer.observe(b));
 })();
 
@@ -1131,7 +1132,7 @@
                 setTimeout(()=>e.target.style.strokeDashoffset = maxOffset - fillAmount, 300);
             }
         });
-    },{threshold:0.5});
+    },{threshold: 0.15});
     gauges.forEach(g=>observer.observe(g));
 })();
 
@@ -1168,14 +1169,14 @@
 
 // FAQ Accordion
 (function(){
-    document.querySelectorAll('.faq-question').forEach(q=>{
+    document.querySelectorAll('.guide-toggle').forEach(q=>{
         q.addEventListener('click',()=>{
             const item = q.parentElement;
-            const answer = item.querySelector('.faq-answer');
+            const answer = item.querySelector('.knowledge-body');
             const isOpen = item.classList.contains('open');
-            document.querySelectorAll('.faq-item.open').forEach(i=>{
+            document.querySelectorAll('.resource-item.open').forEach(i=>{
                 i.classList.remove('open');
-                i.querySelector('.faq-answer').style.maxHeight = '0';
+                i.querySelector('.knowledge-body').style.maxHeight = '0';
             });
             if(!isOpen){
                 item.classList.add('open');

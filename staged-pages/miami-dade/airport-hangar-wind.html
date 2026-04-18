@@ -97,21 +97,22 @@
     </script>
 
     <style>
+/* uid:b102b929 */
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0c1220;color:#fff;line-height:1.6;overflow-x:hidden}
 
         #hangar-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.6}
         .grid-pattern{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 30% 20%,rgba(59,130,246,.04) 0%,transparent 50%),radial-gradient(circle at 70% 80%,rgba(249,115,22,.03) 0%,transparent 50%)}
 
-        .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal{opacity:0;transform: translateY(40px);transition: all 0.7s ease}
         .reveal.active{opacity:1;transform:translateY(0)}
-        .reveal-left{opacity:0;transform:translateX(-60px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-left{opacity:0;transform:translateX(-60px);transition: all 0.5s ease-out}
         .reveal-left.active{opacity:1;transform:translateX(0)}
-        .reveal-right{opacity:0;transform:translateX(60px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-right{opacity:0;transform:translateX(60px);transition: all 0.7s cubic-bezier(0.65, 0, 0.35, 1)}
         .reveal-right.active{opacity:1;transform:translateX(0)}
-        .reveal-scale{opacity:0;transform:scale(.8);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .reveal-scale{opacity:0;transform:scale(.8);transition: all 0.75s cubic-bezier(0.22, 1, 0.36, 1)}
         .reveal-scale.active{opacity:1;transform:scale(1)}
-        .stagger-children>*{opacity:0;transform:translateY(30px);transition:all .6s cubic-bezier(.16,1,.3,1)}
+        .stagger-children>*{opacity:0;transform: translateY(35px);transition: all 0.65s cubic-bezier(0.25, 0.8, 0.25, 1)}
         .stagger-children.active>*:nth-child(1){transition-delay:.1s;opacity:1;transform:translateY(0)}
         .stagger-children.active>*:nth-child(2){transition-delay:.2s;opacity:1;transform:translateY(0)}
         .stagger-children.active>*:nth-child(3){transition-delay:.3s;opacity:1;transform:translateY(0)}
@@ -132,9 +133,9 @@
         .shimmer{background:linear-gradient(120deg,#3b82f6 0%,#f97316 25%,#3b82f6 50%,#60a5fa 75%,#3b82f6 100%);background-size:200% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 3s linear infinite}
 
         /* Door Status Widget */
-        .door-widget{position:fixed;top:80px;right:20px;background:rgba(12,18,32,.95);border:1px solid rgba(59,130,246,.3);border-radius:16px;padding:16px 20px;z-index:99;backdrop-filter:blur(10px);opacity:0;transform:translateX(120px);transition:all .5s cubic-bezier(.16,1,.3,1);min-width:180px}
+        .door-widget{position:fixed;top:80px;right:20px;background:rgba(12,18,32,.95);border:1px solid rgba(59,130,246,.3);border-radius: 18px;padding:16px 20px;z-index:99;backdrop-filter: blur(24px);opacity:0;transform:translateX(120px);transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);min-width:180px}
         .door-widget.visible{opacity:1;transform:translateX(0)}
-        .door-widget-label{font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
+        .door-quick-label{font-size:.65rem;color:#64748b;text-transform:uppercase;letter-spacing:.1em;margin-bottom:8px}
         .door-widget-status{font-size:1.1rem;font-weight:700;margin-bottom:6px;transition:color .4s ease}
         .door-widget-status.closed{color:#22c55e}
         .door-widget-status.partial{color:#f59e0b}
@@ -145,20 +146,20 @@
         .door-widget-classification{font-size:.7rem;color:#64748b;font-style:italic}
 
         /* Navigation */
-        .nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(12,18,32,.9);backdrop-filter:blur(12px);border-bottom:1px solid rgba(59,130,246,.15)}
+        .nav{display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(12,18,32,.9);backdrop-filter: blur(28px);border-bottom:1px solid rgba(59,130,246,.15)}
         .nav-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
         .nav-logo .logo-img{height:28px;width:auto}
         .nav-logo .logo-text{font-size:1.5rem;font-weight:800;color:#ffffff}
         .nav-logo .logo-text span{color:#00b4d8}
-        .nav-links{display:flex;gap:1.5rem;align-items:center}
+        .nav-links{display:flex;gap: 1.65rem;align-items:center}
         .nav-links a{color:#94a3b8;text-decoration:none;font-size:.875rem;font-weight:500;transition:color .3s}
         .nav-links a:hover{color:#3b82f6}
         .nav-cta{background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;padding:.5rem 1.25rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.875rem;transition:all .3s;border:1px solid rgba(59,130,246,.4)}
-        .nav-cta:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(59,130,246,.4)}
+        .nav-cta:hover{transform: scale(1.03);box-shadow:0 4px 20px rgba(59,130,246,.4)}
 
         /* Breadcrumb */
         .breadcrumb{padding:.75rem 2rem;margin-top:60px;position:relative;z-index:2;border-bottom:1px solid rgba(255,255,255,.05)}
-        .breadcrumb-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
+        .breadcrumb-container{max-width: 1350px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
         .breadcrumb-container a{color:#64748b;text-decoration:none;transition:color .3s}
         .breadcrumb-container a:hover{color:#3b82f6}
         .breadcrumb-container span{color:#475569}
@@ -171,11 +172,11 @@
         .hero h1{font-size:clamp(2rem,5vw,3.2rem);font-weight:800;line-height:1.15;margin-bottom:1.25rem;color:#fff}
         .hero h1 .shimmer{display:inline}
         .hero p{font-size:1.15rem;color:#94a3b8;max-width:750px;margin:0 auto 2rem;line-height:1.7}
-        .hero-ctas{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
-        .btn-primary{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;padding:.85rem 2rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:none;cursor:pointer;position:relative;overflow:hidden}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 8px 30px rgba(59,130,246,.4)}
-        .btn-secondary{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:#3b82f6;padding:.85rem 2rem;border-radius:12px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(59,130,246,.4)}
-        .btn-secondary:hover{background:rgba(59,130,246,.1);transform:translateY(-2px)}
+        .hero-ctas{display:flex;gap: 1.13rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .btn-start{display:inline-flex;align-items:center;gap:.5rem;background:linear-gradient(135deg,#3b82f6,#1d4ed8);color:#fff;padding:.85rem 2rem;border-radius: 11px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:none;cursor:pointer;position:relative;overflow:hidden}
+        .btn-start:hover{transform: translateY(-8px);box-shadow:0 8px 30px rgba(59,130,246,.4)}
+        .btn-more{display:inline-flex;align-items:center;gap:.5rem;background:transparent;color:#3b82f6;padding:.85rem 2rem;border-radius: 9px;text-decoration:none;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(59,130,246,.4)}
+        .btn-more:hover{background:rgba(59,130,246,.1);transform: translateY(-5px)}
         .btn-ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:ripple .6s linear}
         @keyframes ripple{to{transform:scale(4);opacity:0}}
 
@@ -185,33 +186,33 @@
         .warning-banner p{color:#d4a574;font-size:.9rem;margin:0}
 
         /* Trust Badges */
-        .trust-section{position:relative;z-index:2;padding:3rem 2rem;max-width:1200px;margin:0 auto}
-        .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem}
-        .trust-badge{background:rgba(255,255,255,.03);border:1px solid rgba(59,130,246,.12);border-radius:16px;padding:1.5rem;text-align:center;transition:all .4s}
-        .trust-badge:hover{border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.05);transform:translateY(-4px)}
+        .trust-section{position:relative;z-index:2;padding: 3rem 2rem;max-width: 1250px;margin:0 auto}
+        .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap: 1.74rem}
+        .trust-badge{background:rgba(255,255,255,.03);border:1px solid rgba(59,130,246,.12);border-radius: 13px;padding:1.5rem;text-align:center;transition:all .4s}
+        .trust-badge:hover{border-color:rgba(59,130,246,.35);background:rgba(59,130,246,.05);transform: scale(1.02)}
         .trust-badge .counter{font-size:2rem;font-weight:800;color:#3b82f6;display:block;margin-bottom:.25rem}
         .trust-badge .counter-label{font-size:.8rem;color:#64748b}
 
         /* Content Sections */
-        .content-section{position:relative;z-index:2;padding:4rem 2rem;max-width:1200px;margin:0 auto}
-        .section-header{text-align:center;margin-bottom:3rem}
-        .section-header .section-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f97316;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);padding:.35rem 1rem;border-radius:100px;margin-bottom:1rem}
-        .section-header h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-bottom:1rem;color:#fff}
-        .section-header p{color:#94a3b8;max-width:700px;margin:0 auto;font-size:1rem}
+        .content-section{position:relative;z-index:2;padding: 5rem 2rem;max-width: 1350px;margin:0 auto}
+        .part-header{text-align:center;margin-bottom:3rem}
+        .part-header .section-tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:#f97316;background:rgba(249,115,22,.1);border:1px solid rgba(249,115,22,.2);padding:.35rem 1rem;border-radius:100px;margin-bottom:1rem}
+        .part-header h2{font-size:clamp(1.5rem,3vw,2.2rem);font-weight:800;margin-bottom:1rem;color:#fff}
+        .part-header p{color:#94a3b8;max-width:700px;margin:0 auto;font-size:1rem}
 
         /* Hangar Cross-Section Canvas */
-        .hangar-canvas-section{position:relative;z-index:2;padding:2rem;max-width:1100px;margin:0 auto}
-        .hangar-canvas-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(59,130,246,.2);border-radius:20px;padding:2rem;position:relative;overflow:hidden}
+        .hangar-canvas-section{position:relative;z-index:2;padding:2rem;max-width: 1100px;margin:0 auto}
+        .hangar-canvas-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(59,130,246,.2);border-radius: 21px;padding:2rem;position:relative;overflow:hidden}
         .hangar-canvas-wrap::before{content:'';position:absolute;top:0;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,rgba(59,130,246,.4),transparent)}
-        #hangar-cross-section{width:100%;height:420px;display:block;border-radius:12px}
-        .canvas-legend{display:flex;justify-content:center;gap:2rem;margin-top:1rem;flex-wrap:wrap}
+        #hangar-cross-section{width:100%;height:420px;display:block;border-radius: 14px}
+        .canvas-legend{display:flex;justify-content:center;gap: 1.94rem;margin-top:1rem;flex-wrap:wrap}
         .legend-item{display:flex;align-items:center;gap:.4rem;font-size:.75rem;color:#94a3b8}
         .legend-dot{width:10px;height:10px;border-radius:50%}
 
         /* GCpi Comparison Cards */
-        .gcpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-        .gcpi-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem;position:relative;overflow:hidden;transition:all .4s}
-        .gcpi-card:hover{border-color:rgba(59,130,246,.35);transform:translateY(-4px)}
+        .gcpi-grid{display:grid;grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));gap: 1.27rem}
+        .gcpi-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius: 13px;padding:2rem;position:relative;overflow:hidden;transition:all .4s}
+        .gcpi-card:hover{border-color:rgba(59,130,246,.35);transform: translateY(-8px)}
         .gcpi-card .card-icon{font-size:2.5rem;margin-bottom:1rem}
         .gcpi-card h3{font-size:1.15rem;font-weight:700;margin-bottom:.5rem;color:#fff}
         .gcpi-card .gcpi-value{font-size:2rem;font-weight:800;color:#3b82f6;margin-bottom:.5rem}
@@ -222,7 +223,7 @@
         .gcpi-card.open .card-highlight{background:rgba(239,68,68,.1);color:#ef4444;border:1px solid rgba(239,68,68,.2)}
 
         /* Two Column Layout */
-        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap: 2.77rem;align-items:start}
         .two-col-text h3{font-size:1.4rem;font-weight:700;margin-bottom:1rem;color:#fff}
         .two-col-text p{color:#94a3b8;margin-bottom:1rem;line-height:1.7}
         .two-col-text ul{list-style:none;padding:0;margin-bottom:1.5rem}
@@ -230,7 +231,7 @@
         .two-col-text ul li::before{content:'\25B8';position:absolute;left:0;color:#3b82f6;font-weight:700}
 
         /* Data Table */
-        .data-table-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(59,130,246,.15);border-radius:16px;overflow:hidden}
+        .data-table-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(59,130,246,.15);border-radius: 19px;overflow:hidden}
         .data-table{width:100%;border-collapse:collapse}
         .data-table thead{background:rgba(59,130,246,.08)}
         .data-table th{padding:1rem;text-align:left;font-size:.8rem;font-weight:700;color:#3b82f6;text-transform:uppercase;letter-spacing:.05em;border-bottom:1px solid rgba(59,130,246,.15)}
@@ -240,16 +241,16 @@
         .data-table .value-cell{color:#3b82f6;font-weight:600}
 
         /* Pressure Gauge */
-        .gauge-row{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;margin:2rem 0}
+        .gauge-row{display:grid;grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));gap: 2.23rem;margin:2rem 0}
         .gauge-item{text-align:center}
         .gauge-svg{width:160px;height:100px;margin:0 auto}
         .gauge-label{font-size:.85rem;color:#94a3b8;margin-top:.5rem}
         .gauge-value{font-size:1.3rem;font-weight:800;color:#3b82f6}
 
         /* Process Cards */
-        .process-flow{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;counter-reset:process-step}
-        .process-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius:16px;padding:2rem;position:relative;counter-increment:process-step;transition:all .4s}
-        .process-card:hover{border-color:rgba(249,115,22,.3);transform:translateY(-3px)}
+        .process-flow{display:grid;grid-template-columns: repeat(2, 1fr);gap: 1.32rem;counter-reset:process-step}
+        .process-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);border-radius: 14px;padding:2rem;position:relative;counter-increment:process-step;transition:all .4s}
+        .process-card:hover{border-color:rgba(249,115,22,.3);transform: translateY(-3px) scale(1.01)}
         .process-card::before{content:counter(process-step);position:absolute;top:1rem;right:1rem;font-size:3rem;font-weight:800;color:rgba(59,130,246,.08);line-height:1}
         .process-card h4{font-size:1.05rem;font-weight:700;color:#fff;margin-bottom:.5rem}
         .process-card p{font-size:.85rem;color:#94a3b8;line-height:1.6}
@@ -267,20 +268,20 @@
         .span-bar-fill.danger{background:linear-gradient(90deg,#ef4444,#f87171)}
 
         /* FAQ */
-        .faq-section{position:relative;z-index:2;padding:4rem 2rem;max-width:900px;margin:0 auto}
-        .faq-item{border:1px solid rgba(59,130,246,.12);border-radius:12px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
-        .faq-item:hover{border-color:rgba(59,130,246,.3)}
-        .faq-item.active{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.03)}
-        .faq-question{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;cursor:pointer;font-weight:600;color:#fff;font-size:.95rem;gap:1rem}
-        .faq-question:hover{color:#3b82f6}
+        .questions-section{position:relative;z-index:2;padding: 3rem 2rem;max-width:900px;margin:0 auto}
+        .support-item{border:1px solid rgba(59,130,246,.12);border-radius: 9px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
+        .support-item:hover{border-color:rgba(59,130,246,.3)}
+        .support-item.active{border-color:rgba(59,130,246,.4);background:rgba(59,130,246,.03)}
+        .question-trigger{display:flex;justify-content:space-between;align-items:center;padding:1.25rem 1.5rem;cursor:pointer;font-weight:600;color:#fff;font-size:.95rem;gap: 0.82rem}
+        .question-trigger:hover{color:#3b82f6}
         .faq-icon{font-size:1.2rem;color:#3b82f6;transition:transform .3s;flex-shrink:0}
-        .faq-item.active .faq-icon{transform:rotate(45deg)}
-        .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)}
-        .faq-item.active .faq-answer{max-height:500px}
-        .faq-answer p{padding:0 1.5rem 1.25rem;color:#94a3b8;line-height:1.7;font-size:.9rem}
+        .support-item.active .faq-icon{transform:rotate(45deg)}
+        .learn-body{max-height:0;overflow:hidden;transition:max-height .4s cubic-bezier(.16,1,.3,1)}
+        .support-item.active .learn-body{max-height:500px}
+        .learn-body p{padding:0 1.5rem 1.25rem;color:#94a3b8;line-height:1.7;font-size:.9rem}
 
         /* CTA Section */
-        .final-cta{position:relative;z-index:2;text-align:center;padding:5rem 2rem;max-width:800px;margin:0 auto}
+        .final-cta{position:relative;z-index:2;text-align:center;padding: 6rem 2rem;max-width:800px;margin:0 auto}
         .final-cta h2{font-size:clamp(1.8rem,3vw,2.5rem);font-weight:800;margin-bottom:1rem}
         .final-cta p{color:#94a3b8;font-size:1.1rem;margin-bottom:2rem;max-width:600px;margin-left:auto;margin-right:auto}
 
@@ -302,10 +303,10 @@
 
         /* Responsive */
         @media(max-width:1024px){
-            .trust-grid{grid-template-columns:repeat(2,1fr)}
+            .trust-grid{grid-template-columns: 1fr 1fr}
             .gcpi-grid{grid-template-columns:1fr}
             .two-col{grid-template-columns:1fr}
-            .gauge-row{grid-template-columns:repeat(2,1fr)}
+            .gauge-row{grid-template-columns: repeat(auto-fit, minmax(380px, 1fr))}
             .process-flow{grid-template-columns:1fr}
         }
         @media(max-width:768px){
@@ -315,7 +316,7 @@
             .hero h1{font-size:1.8rem}
             .trust-grid{grid-template-columns:1fr 1fr}
             .content-section{padding:2rem 1rem}
-            .faq-section{padding:2rem 1rem}
+            .questions-section{padding:2rem 1rem}
             .door-widget{top:auto;bottom:20px;right:10px;left:10px;min-width:auto}
             .gauge-row{grid-template-columns:1fr}
             .span-bar-track{height:10px}
@@ -343,7 +344,7 @@
 
 <!-- Door Status Widget -->
 <div class="door-widget" id="doorWidget">
-    <div class="door-widget-label">Hangar Door Status</div>
+    <div class="door-quick-label">Hangar Door Status</div>
     <div class="door-widget-status closed" id="doorStatus">CLOSED</div>
     <div class="door-widget-gcpi" id="doorGcpi">GCpi = &pm;0.18</div>
     <div class="door-widget-bar"><div class="door-widget-fill" id="doorFill" style="width:15%;background:#22c55e"></div></div>
@@ -385,8 +386,8 @@
     <h1>Airport Hangar Wind Load Design in <span class="shimmer">Miami-Dade HVHZ</span></h1>
     <p>Engineering massive clear-span hangars to withstand 180 MPH hurricane winds demands precise enclosure classification, internal pressure analysis, and progressive collapse-resistant design. When a 1,920 sq ft bi-fold door defines the boundary between enclosed and partially enclosed, the stakes for structural steel are measured in hundreds of thousands of pounds of additional load.</p>
     <div class="hero-ctas">
-        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary" onclick="createRipple(event)">Calculate MWFRS Loads</a>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">Specialty Structures</a>
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-start" onclick="createRipple(event)">Calculate MWFRS Loads</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-more">Specialty Structures</a>
     </div>
     <div class="warning-banner">
         <p><strong>Critical Design Alert:</strong> A single hangar door failure at 180 MPH transitions enclosure classification from GCpi &pm;0.18 to &pm;0.55, adding over 600,000 lbs of instantaneous roof uplift on a standard 120&times;200 ft hangar. Progressive collapse-resistant framing is not optional in the HVHZ.</p>
@@ -431,7 +432,7 @@
 
 <!-- Enclosure Classification Section -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">Enclosure Classification</span>
         <h2>The GCpi Multiplier That Doubles Your Steel Tonnage</h2>
         <p>Enclosure classification is the single most consequential wind load parameter for hangar design. The difference between enclosed and partially enclosed drives every downstream structural calculation.</p>
@@ -464,7 +465,7 @@
 
 <!-- MWFRS on Clear-Span Frames -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">Structural Engineering</span>
         <h2>MWFRS Design for 100+ Foot Clear-Span Steel Frames</h2>
         <p>Airport hangars demand clear-span rigid frames that eliminate interior columns from the aircraft maneuvering area. These long-span structures amplify every wind load parameter.</p>
@@ -510,7 +511,7 @@
 
 <!-- Door Types Section -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">Hangar Doors</span>
         <h2>Bi-Fold, Sliding, and Hydraulic Door Wind Design</h2>
         <p>The hangar door is simultaneously the largest cladding element, the enclosure boundary, and the most vulnerable structural component during a hurricane.</p>
@@ -590,7 +591,7 @@
 
 <!-- Pressure Gauges Section -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">Internal Pressure</span>
         <h2>Internal Pressurization During Sudden Door Failure</h2>
         <p>The most dangerous structural scenario in a hangar is the instantaneous transition from enclosed to partially enclosed when a door fails during peak hurricane winds.</p>
@@ -653,7 +654,7 @@
 
 <!-- Risk Category and MIA Section -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">FAA Part 139 Compliance</span>
         <h2>Risk Category III Requirements for MIA Airport Hangars</h2>
         <p>Miami International Airport operates under FAA Part 139 certification, which elevates all permanent structures on the airport operations area to Risk Category III minimum.</p>
@@ -681,7 +682,7 @@
 
 <!-- Roof Uplift on Long-Span Trusses -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">Roof Systems</span>
         <h2>Roof Uplift on Long-Span Steel Trusses and Purlins</h2>
         <p>The hangar roof system must resist net uplift forces that can exceed 160 psf in corner zones while maintaining the clear interior volume required for aircraft operations.</p>
@@ -746,7 +747,7 @@
 
 <!-- Taxi Lane Wind Exposure -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">Site-Specific Conditions</span>
         <h2>Taxi Lane Exposure and MIA-Specific Requirements</h2>
         <p>The open terrain surrounding airport hangars creates worst-case wind exposure conditions. At Miami International Airport, the flat expanse of taxiways, runways, and apron areas provides no upwind roughness to reduce wind speeds at the hangar location.</p>
@@ -780,7 +781,7 @@
 
 <!-- Aircraft Tie-Down Section -->
 <section class="content-section">
-    <div class="section-header reveal">
+    <div class="part-header reveal">
         <span class="section-tag">Aircraft Protection</span>
         <h2>When Evacuation Fails: Tie-Down Anchorage for 180 MPH</h2>
         <p>Aircraft that cannot be evacuated before airport closure must be tied down inside the hangar. The tie-down anchorage system must resist 180 MPH wind loads on the aircraft profile as wind-borne debris hazards, because a hangar door failure can expose aircraft to full hurricane winds.</p>
@@ -807,64 +808,64 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
-    <div class="section-header reveal">
+<section class="questions-section">
+    <div class="part-header reveal">
         <span class="section-tag">Expert Answers</span>
         <h2>Airport Hangar Wind Load FAQs</h2>
     </div>
 
     <div class="reveal">
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="support-item">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <span>What enclosure classification applies to airport hangars with large doors in Miami-Dade HVHZ?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="learn-body">
                 <p>Airport hangars with bi-fold, sliding, or hydraulic doors are classified as partially enclosed buildings per ASCE 7-22 Section 26.2 when any door opening exceeds both 4 square feet and 1% of the total wall area on that wall. A typical 80x24 ft hangar door at 1,920 sq ft vastly exceeds these thresholds, triggering GCpi of plus or minus 0.55. This triples the internal pressure component compared to enclosed classification (GCpi plus or minus 0.18), increasing net design pressures by 25-40% across all structural members and connections.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="support-item">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <span>Why are airport hangars at MIA classified as Risk Category III?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="learn-body">
                 <p>Airport hangars at Miami International Airport are classified as Risk Category III per ASCE 7-22 Table 1.5-1 because they serve FAA Part 139 certified airport operations, represent a substantial hazard to human life in the event of failure, and support aviation infrastructure critical to emergency response. MIA serves as a primary FEMA hurricane relief staging area. Risk Category III in the HVHZ uses 180 MPH basic wind speed and imposes stricter serviceability criteria, more conservative load combinations, and progressive collapse resistance requirements per FBC Section 1615.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="support-item">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <span>How do you calculate roof uplift on long-span hangar trusses in the HVHZ?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="learn-body">
                 <p>Roof uplift combines external suction with internal pressurization. For a 120 ft clear-span hangar at 35 ft mean roof height, velocity pressure qh at 180 MPH reaches approximately 68.3 psf in Exposure C. External GCp ranges from -0.9 (interior zones) to -1.8 (corner zones). Adding partially enclosed GCpi of +0.55 creates net uplift of -99.0 psf in interior zones up to -160.5 psf in corners. On a single truss at 25 ft tributary width, the total uplift in a corner zone can reach 480,000 lbs. Connections must resist these forces with appropriate safety factors.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="support-item">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <span>What wind rating must bi-fold hangar doors achieve in Miami-Dade HVHZ?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="learn-body">
                 <p>Bi-fold hangar doors must resist the full component and cladding wind pressure at 180 MPH. For a typical 80x24 ft door, the design pressure ranges from plus or minus 70 to 95 psf depending on the zone and enclosure classification. The door hardware, tracks, and latching mechanisms must resist the partially enclosed pressure case to account for adjacent openings. In the HVHZ, doors require large missile impact testing per Miami-Dade TAS 201 unless protected by an approved shutter system. Emergency closure from full open must complete within 15 minutes under battery backup power.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="support-item">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <span>What happens structurally when a hangar door fails during a hurricane?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="learn-body">
                 <p>Sudden door failure causes an instantaneous transition from enclosed (GCpi plus or minus 0.18) to partially enclosed (GCpi plus or minus 0.55). Internal pressure triples, adding approximately 25 psf of net uplift across the entire roof. For a 120x200 ft hangar, that is over 600,000 additional pounds of sudden uplift force. The dynamic overshoot from the air rushing in amplifies the static pressure by a factor of 1.5 to 2.0 for a transient spike lasting 0.5 to 2.0 seconds. Progressive collapse-resistant design per FBC Section 1615 requires that no single door failure triggers cascading roof failure.</p>
             </div>
         </div>
-        <div class="faq-item">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="support-item">
+            <div class="question-trigger" onclick="toggleFaq(this)">
                 <span>What hurricane preparedness requirements apply to hangars at Miami-Dade airports?</span>
                 <span class="faq-icon">+</span>
             </div>
-            <div class="faq-answer">
+            <div class="learn-body">
                 <p>Miami-Dade requires airport operators to maintain a Hurricane Preparedness Plan per County ordinance and FAA Advisory Circular 150/5200-30. Aircraft evacuation must commence at Hurricane Watch declaration (48 hours). Hangars need emergency door closure systems on battery backup capable of full closure within 15 minutes. The structural engineer of record must provide a wind load placard stating maximum operational door opening permitted at various wind speed thresholds, requiring full closure at 45 MPH sustained. Tie-down anchorage systems for non-evacuated aircraft must resist 180 MPH wind loads on the aircraft profile.</p>
             </div>
         </div>
@@ -875,9 +876,9 @@
 <section class="final-cta reveal">
     <h2>Calculate Your Hangar's <span class="shimmer">MWFRS Wind Loads</span></h2>
     <p>Get precise wind load calculations for airport hangars, clear-span structures, and large-door buildings in Miami-Dade HVHZ. ASCE 7-22 compliant with partially enclosed internal pressure analysis.</p>
-    <div style="display:flex;gap:1rem;justify-content:center;flex-wrap:wrap">
-        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-primary" onclick="createRipple(event)">Calculate MWFRS Loads</a>
-        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+    <div style="display:flex;gap: 1.20rem;justify-content:center;flex-wrap:wrap">
+        <a href="https://windloadcalc.com/shop/mwfrs.html" class="btn-start" onclick="createRipple(event)">Calculate MWFRS Loads</a>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-more">Browse All Calculators</a>
     </div>
 </section>
 
@@ -909,11 +910,11 @@
         reset(){
             this.x = Math.random()*w;
             this.y = Math.random()*h;
-            this.size = Math.random()*2.5+.5;
-            this.speedX = Math.random()*2.5+1.5;
+            this.size = Math.random() * 2.9 + 0.4;
+            this.speedX = Math.random() * 2.7 + 1.6;
             this.speedY = (Math.random()-.5)*.8;
             this.color = Math.random()>.7 ? '#f97316' : '#3b82f6';
-            this.opacity = Math.random()*.5+.3;
+            this.opacity = Math.random() * 0.43 + 0.32;
         }
         update(){
             this.x += this.speedX;
@@ -1235,7 +1236,7 @@
         entries.forEach(entry=>{
             if(entry.isIntersecting) entry.target.classList.add('active');
         });
-    },{threshold:0.1,rootMargin:'0px 0px -50px 0px'});
+    },{threshold: 0.3,rootMargin:'0px 0px -50px 0px'});
 
     document.querySelectorAll('.reveal,.reveal-left,.reveal-right,.reveal-scale,.stagger-children').forEach(el=>{
         observer.observe(el);
@@ -1269,7 +1270,7 @@
                 requestAnimationFrame(update);
             }
         });
-    },{threshold:0.5});
+    },{threshold: 0.1});
 
     counters.forEach(c=>observer.observe(c));
 })();
@@ -1290,7 +1291,7 @@
                 });
             }
         });
-    },{threshold:0.3});
+    },{threshold: 0.1});
 
     document.querySelectorAll('.span-bars').forEach(el=>observer.observe(el));
 })();
@@ -1334,7 +1335,7 @@
 function toggleFaq(el){
     const item = el.parentElement;
     const wasActive = item.classList.contains('active');
-    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('active'));
+    document.querySelectorAll('.support-item').forEach(i=>i.classList.remove('active'));
     if(!wasActive) item.classList.add('active');
 }
 

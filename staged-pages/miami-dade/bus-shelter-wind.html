@@ -95,32 +95,33 @@
     }
     </script>
     <style>
+/* uid:7be5c773 */
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#0c1220;color:#fff;line-height:1.6;overflow-x:hidden}
         #shelter-bg{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;opacity:.35}
         .ambient-overlay{position:fixed;top:0;left:0;width:100%;height:100%;pointer-events:none;z-index:0;background-image:radial-gradient(circle at 20% 40%,rgba(13,148,136,.06) 0%,transparent 50%),radial-gradient(circle at 80% 60%,rgba(107,114,128,.04) 0%,transparent 50%)}
 
-        .reveal{opacity:0;transform:translateY(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal.active{opacity:1;transform:translateY(0)}
-        .reveal-left{opacity:0;transform:translateX(-40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal-left.active{opacity:1;transform:translateX(0)}
-        .reveal-right{opacity:0;transform:translateX(40px);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal-right.active{opacity:1;transform:translateX(0)}
-        .reveal-scale{opacity:0;transform:scale(.9);transition:all .8s cubic-bezier(.16,1,.3,1)}.reveal-scale.active{opacity:1;transform:scale(1)}
+        .reveal{opacity:0;transform: translateY(35px);transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1)}.reveal.active{opacity:1;transform:translateY(0)}
+        .reveal-left{opacity:0;transform:translateX(-40px);transition: all 0.55s ease}.reveal-left.active{opacity:1;transform:translateX(0)}
+        .reveal-right{opacity:0;transform:translateX(40px);transition: all 0.45s cubic-bezier(0.16, 1, 0.3, 1)}.reveal-right.active{opacity:1;transform:translateX(0)}
+        .reveal-scale{opacity:0;transform:scale(.9);transition: all 0.7s cubic-bezier(0.33, 1, 0.68, 1)}.reveal-scale.active{opacity:1;transform:scale(1)}
         .stagger-children .reveal{transition-delay:calc(var(--i,0) * .12s)}
 
         /* Navigation */
-        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(12,18,32,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(13,148,136,.2)}
+        .nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:.75rem 2rem;background:rgba(12,18,32,.92);backdrop-filter: blur(20px);border-bottom:1px solid rgba(13,148,136,.2)}
         .nav-logo{display:flex;align-items:center;gap:.5rem;text-decoration:none}
         .nav-logo .logo-img{height:28px;width:auto}
         .nav-logo .logo-text{font-size:1.25rem;font-weight:800;color:#fff;-webkit-text-fill-color:#fff}
         .nav-logo .logo-text span{color:#00b4d8;-webkit-text-fill-color:#00b4d8}
-        .nav-links{display:flex;gap:1.5rem}
+        .nav-links{display:flex;gap: 1.76rem}
         .nav-links a{color:#94a3b8;text-decoration:none;font-size:.9rem;transition:color .3s}
         .nav-links a:hover{color:#0d9488}
         .nav-cta{background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;padding:.5rem 1.25rem;border-radius:8px;text-decoration:none;font-weight:600;font-size:.85rem;transition:all .3s;border:1px solid rgba(13,148,136,.4)}
-        .nav-cta:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(13,148,136,.4)}
+        .nav-cta:hover{transform: translateY(-4px);box-shadow:0 4px 20px rgba(13,148,136,.4)}
 
         /* Breadcrumb */
         .breadcrumb{margin-top:60px;padding:.75rem 2rem;background:rgba(12,18,32,.6);border-bottom:1px solid rgba(13,148,136,.15)}
-        .breadcrumb-container{max-width:1200px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
+        .breadcrumb-container{max-width: 1300px;margin:0 auto;display:flex;align-items:center;gap:.5rem;font-size:.8rem}
         .breadcrumb-container a{color:#64748b;text-decoration:none;transition:color .3s}
         .breadcrumb-container a:hover{color:#0d9488}
         .breadcrumb-container span{color:#475569}
@@ -133,36 +134,36 @@
         .shimmer{background:linear-gradient(120deg,#6b7280 0%,#0d9488 25%,#00e5ff 50%,#0d9488 75%,#6b7280 100%);background-size:400% 100%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
         @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
         .hero p{font-size:1.15rem;color:#a8a29e;max-width:720px;margin:0 auto 2rem;line-height:1.8}
-        .hero-buttons{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
-        .btn-primary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;text-decoration:none;border-radius:12px;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(13,148,136,.4);position:relative;overflow:hidden}
-        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 8px 30px rgba(13,148,136,.4)}
-        .btn-secondary{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:transparent;color:#5eead4;text-decoration:none;border-radius:12px;font-weight:600;font-size:1rem;border:2px solid rgba(13,148,136,.4);transition:all .3s}
-        .btn-secondary:hover{background:rgba(13,148,136,.1);transform:translateY(-2px)}
+        .hero-buttons{display:flex;gap: 0.95rem;justify-content:center;flex-wrap:wrap;margin-bottom:2rem}
+        .btn-engage{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:linear-gradient(135deg,#0d9488,#0f766e);color:#fff;text-decoration:none;border-radius: 13px;font-weight:700;font-size:1rem;transition:all .3s;border:1px solid rgba(13,148,136,.4);position:relative;overflow:hidden}
+        .btn-engage:hover{transform: scale(1.03);box-shadow:0 8px 30px rgba(13,148,136,.4)}
+        .btn-other{display:inline-flex;align-items:center;gap:.5rem;padding:.85rem 2rem;background:transparent;color:#5eead4;text-decoration:none;border-radius: 14px;font-weight:600;font-size:1rem;border:2px solid rgba(13,148,136,.4);transition:all .3s}
+        .btn-other:hover{background:rgba(13,148,136,.1);transform: translateY(-5px) scale(1.01)}
         .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.3);transform:scale(0);animation:rippleEffect .6s linear;pointer-events:none}
         @keyframes rippleEffect{to{transform:scale(4);opacity:0}}
         .warning-banner{max-width:720px;margin:0 auto;padding:1rem 1.5rem;background:rgba(245,158,11,.08);border-left:4px solid #f59e0b;border-radius:0 12px 12px 0;color:#fde68a;font-size:.9rem}
 
         /* Trust Bar */
-        .trust-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1.5rem;max-width:900px;margin:2rem auto;padding:0 2rem}
-        .trust-item{text-align:center;padding:1.5rem 1rem;background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(13,148,136,.15)}
+        .trust-bar{display:grid;grid-template-columns:repeat(4,1fr);gap: 1.61rem;max-width:900px;margin:2rem auto;padding:0 2rem}
+        .trust-item{text-align:center;padding:1.5rem 1rem;background:rgba(255,255,255,.03);border-radius: 9px;border:1px solid rgba(13,148,136,.15)}
         .trust-number{font-size:2rem;font-weight:800;color:#5eead4}
         .trust-label{font-size:.75rem;color:#6b7280;margin-top:.25rem;text-transform:uppercase;letter-spacing:1px}
 
         /* Sections */
-        .section{max-width:1100px;margin:0 auto;padding:3rem 2rem}
-        .section-header{text-align:center;margin-bottom:2.5rem}
-        .section-header h2{font-size:2rem;font-weight:700;margin-bottom:.75rem}
-        .section-header h2 em{font-style:normal;color:#5eead4}
-        .section-header p{color:#a8a29e;max-width:600px;margin:0 auto}
+        .section{max-width: 1200px;margin:0 auto;padding:3rem 2rem}
+        .section-lead{text-align:center;margin-bottom:2.5rem}
+        .section-lead h2{font-size:2rem;font-weight:700;margin-bottom:.75rem}
+        .section-lead h2 em{font-style:normal;color:#5eead4}
+        .section-lead p{color:#a8a29e;max-width:600px;margin:0 auto}
 
         /* Shelter Diagram Canvas */
-        .shelter-diagram-wrap{max-width:920px;margin:0 auto 3rem;background:rgba(255,255,255,.02);border-radius:16px;border:1px solid rgba(13,148,136,.2);overflow:hidden;padding:1.5rem}
+        .shelter-diagram-wrap{max-width:920px;margin:0 auto 3rem;background:rgba(255,255,255,.02);border-radius: 16px;border:1px solid rgba(13,148,136,.2);overflow:hidden;padding:1.5rem}
         #shelterDiagram{width:100%;height:460px;display:block}
 
         /* Two Column */
-        .two-col{display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:start}
-        .content-card{background:rgba(255,255,255,.03);border-radius:16px;border:1px solid rgba(13,148,136,.15);padding:2rem;transition:all .4s}
-        .content-card:hover{border-color:rgba(13,148,136,.35);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+        .two-col{display:grid;grid-template-columns:1fr 1fr;gap: 1.82rem;align-items:start}
+        .content-card{background:rgba(255,255,255,.03);border-radius: 14px;border:1px solid rgba(13,148,136,.15);padding:2rem;transition:all .4s}
+        .content-card:hover{border-color:rgba(13,148,136,.35);transform: scale(1.03);box-shadow:0 12px 40px rgba(0,0,0,.3)}
         .content-card h3{font-size:1.3rem;margin-bottom:1rem;color:#fff}
         .content-card p,.content-card li{color:#a8a29e;font-size:.95rem;line-height:1.7}
         .content-card ul{list-style:none;padding:0}
@@ -170,12 +171,12 @@
         .content-card ul li::before{content:'';position:absolute;left:0;top:.85rem;width:6px;height:6px;background:#0d9488;border-radius:50%}
         .stat-row{display:flex;justify-content:space-between;padding:.75rem 0;border-bottom:1px solid rgba(13,148,136,.1)}
         .stat-row:last-child{border-bottom:none}
-        .stat-label{color:#a8a29e;font-size:.9rem}
-        .stat-value{color:#5eead4;font-weight:700;font-size:.9rem}
+        .caption-label{color:#a8a29e;font-size:.9rem}
+        .indicator-value{color:#5eead4;font-weight:700;font-size:.9rem}
 
         /* Three Column */
-        .three-col{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem}
-        .magnetic-card{background:rgba(255,255,255,.03);border-radius:12px;border:1px solid rgba(13,148,136,.15);padding:1.5rem;transition:all .4s;cursor:default}
+        .three-col{display:grid;grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));gap: 1.65rem}
+        .magnetic-card{background:rgba(255,255,255,.03);border-radius: 14px;border:1px solid rgba(13,148,136,.15);padding:1.5rem;transition:all .4s;cursor:default}
         .magnetic-card:hover{border-color:rgba(13,148,136,.35);box-shadow:0 12px 40px rgba(0,0,0,.3)}
         .magnetic-card .card-icon{font-size:2rem;margin-bottom:.75rem}
         .magnetic-card h4{color:#fff;margin-bottom:.5rem;font-size:1.05rem}
@@ -190,7 +191,7 @@
         .data-table tr:hover td{background:rgba(13,148,136,.05);color:#d4d4d8}
 
         /* Pressure Comparison Bars */
-        .pressure-bars{display:flex;flex-direction:column;gap:1rem;margin:1.5rem 0}
+        .pressure-bars{display:flex;flex-direction:column;gap: 0.79rem;margin:1.5rem 0}
         .pressure-bar-item{position:relative}
         .pressure-bar-label{display:flex;justify-content:space-between;margin-bottom:.35rem;font-size:.85rem}
         .pressure-bar-name{color:#d4d4d8}
@@ -202,13 +203,13 @@
         .bar-downward{background:linear-gradient(90deg,#0d9488,#3b82f6)}
 
         /* Channel Effect Diagram */
-        .channel-diagram{max-width:860px;margin:0 auto;background:rgba(255,255,255,.02);border-radius:16px;border:1px solid rgba(13,148,136,.2);padding:1.5rem;position:relative;overflow:hidden}
+        .channel-diagram{max-width:860px;margin:0 auto;background:rgba(255,255,255,.02);border-radius: 14px;border:1px solid rgba(13,148,136,.2);padding:1.5rem;position:relative;overflow:hidden}
         #channelCanvas{width:100%;height:320px;display:block}
 
         /* Fixed Shelter Type Widget */
-        .shelter-widget{position:fixed;top:80px;right:20px;background:rgba(12,18,32,.95);border:1px solid rgba(13,148,136,.3);border-radius:16px;padding:16px 20px;z-index:99;backdrop-filter:blur(10px);opacity:0;transform:translateX(120px);transition:all .5s cubic-bezier(.16,1,.3,1);min-width:180px}
+        .shelter-widget{position:fixed;top:80px;right:20px;background:rgba(12,18,32,.95);border:1px solid rgba(13,148,136,.3);border-radius: 19px;padding:16px 20px;z-index:99;backdrop-filter: blur(20px);opacity:0;transform:translateX(120px);transition: all 0.6s ease-out;min-width:180px}
         .shelter-widget.visible{opacity:1;transform:translateX(0)}
-        .shelter-widget-label{font-size:.6rem;color:#6b7280;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
+        .shelter-snap-label{font-size:.6rem;color:#6b7280;text-transform:uppercase;letter-spacing:.1em;margin-bottom:6px}
         .shelter-widget-type{font-size:.95rem;font-weight:700;color:#5eead4;margin-bottom:4px}
         .shelter-widget-rating{font-size:.75rem;color:#a8a29e;margin-bottom:6px}
         .shelter-widget-bar{height:4px;background:rgba(13,148,136,.15);border-radius:2px;overflow:hidden;margin-bottom:4px}
@@ -216,14 +217,14 @@
         .shelter-widget-area{font-size:.7rem;color:#6b7280}
 
         /* Anchor Detail SVG */
-        .anchor-detail-wrap{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:2rem;align-items:center}
-        .anchor-svg-wrap{background:rgba(255,255,255,.02);border-radius:16px;border:1px solid rgba(13,148,136,.2);padding:1.5rem;text-align:center}
+        .anchor-detail-wrap{max-width:860px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap: 1.72rem;align-items:center}
+        .anchor-svg-wrap{background:rgba(255,255,255,.02);border-radius: 15px;border:1px solid rgba(13,148,136,.2);padding:1.5rem;text-align:center}
         .anchor-svg-wrap svg{width:100%;max-width:380px;height:auto}
 
         /* Comparison Grid (2x2) */
-        .comparison-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem}
-        .comparison-card{background:rgba(255,255,255,.03);border-radius:16px;border:1px solid rgba(13,148,136,.15);padding:2rem;transition:all .4s}
-        .comparison-card:hover{border-color:rgba(13,148,136,.35);transform:translateY(-4px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
+        .comparison-grid{display:grid;grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));gap: 1.78rem}
+        .comparison-card{background:rgba(255,255,255,.03);border-radius: 19px;border:1px solid rgba(13,148,136,.15);padding:2rem;transition:all .4s}
+        .comparison-card:hover{border-color:rgba(13,148,136,.35);transform: translateY(-5px);box-shadow:0 12px 40px rgba(0,0,0,.3)}
         .comparison-card h4{font-size:1.15rem;color:#fff;margin-bottom:.75rem;display:flex;align-items:center;gap:.5rem}
         .comparison-card p{color:#a8a29e;font-size:.9rem;line-height:1.7;margin-bottom:.75rem}
         .comparison-tag{display:inline-block;padding:.2rem .6rem;border-radius:6px;font-size:.75rem;font-weight:600}
@@ -243,18 +244,18 @@
 
         /* FAQ */
         .faq-list{max-width:820px;margin:0 auto}
-        .faq-item{background:rgba(255,255,255,.03);border:1px solid rgba(13,148,136,.15);border-radius:12px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
-        .faq-item:hover{border-color:rgba(13,148,136,.3)}
+        .guide-item{background:rgba(255,255,255,.03);border:1px solid rgba(13,148,136,.15);border-radius: 12px;margin-bottom:1rem;overflow:hidden;transition:all .3s}
+        .guide-item:hover{border-color:rgba(13,148,136,.3)}
         .faq-q{padding:1.25rem 1.5rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center;font-weight:600;font-size:1rem;color:#e2e8f0;transition:color .3s}
         .faq-q:hover{color:#5eead4}
         .faq-q .arrow{transition:transform .3s;color:#0d9488;font-size:1.2rem}
-        .faq-item.active .faq-q .arrow{transform:rotate(180deg)}
+        .guide-item.active .faq-q .arrow{transform:rotate(180deg)}
         .faq-a{max-height:0;overflow:hidden;transition:max-height .5s cubic-bezier(.16,1,.3,1);padding:0 1.5rem}
-        .faq-item.active .faq-a{max-height:500px;padding:0 1.5rem 1.25rem}
+        .guide-item.active .faq-a{max-height:500px;padding:0 1.5rem 1.25rem}
         .faq-a p{color:#a8a29e;font-size:.9rem;line-height:1.7}
 
         /* CTA */
-        .final-cta{text-align:center;padding:4rem 2rem;background:linear-gradient(180deg,transparent,rgba(13,148,136,.08),transparent);position:relative}
+        .final-cta{text-align:center;padding: 5rem 2rem;background:linear-gradient(180deg,transparent,rgba(13,148,136,.08),transparent);position:relative}
         .final-cta h2{font-size:2rem;font-weight:800;margin-bottom:1rem}
         .final-cta p{color:#a8a29e;max-width:600px;margin:0 auto 2rem}
 
@@ -268,7 +269,7 @@
             .nav{padding:.5rem 1rem}
             .nav-links{display:none}
             .hero h1{font-size:2rem}
-            .trust-bar{grid-template-columns:repeat(2,1fr)}
+            .trust-bar{grid-template-columns: repeat(2, 1fr)}
             .two-col,.comparison-grid,.three-col{grid-template-columns:1fr}
             .anchor-detail-wrap{grid-template-columns:1fr}
             .shelter-widget{display:none}
@@ -284,7 +285,7 @@
 
 <!-- Shelter Type Widget -->
 <div class="shelter-widget" id="shelterWidget">
-    <div class="shelter-widget-label">Shelter Type</div>
+    <div class="shelter-snap-label">Shelter Type</div>
     <div class="shelter-widget-type" id="widgetType">Standard 3-Panel</div>
     <div class="shelter-widget-rating" id="widgetRating">DP: -65 / +35 psf</div>
     <div class="shelter-widget-bar"><div class="shelter-widget-fill" id="widgetFill" style="width:65%"></div></div>
@@ -326,8 +327,8 @@
     <h1 class="reveal">Bus Shelter & Transit Canopy <span class="shimmer">Wind Load Design</span> in Miami-Dade</h1>
     <p class="reveal">Bus shelters in Miami-Dade's High Velocity Hurricane Zone must resist 180 MPH design wind speeds per ASCE 7-22, producing net roof uplift pressures of -50 to -78 psf and column uplift forces exceeding 5,400 lbs for standard 3-panel shelters classified as partially enclosed structures. Every glazing panel, advertising display, anchor bolt, and structural connection must carry a valid Miami-Dade NOA and withstand large missile impact testing. This guide covers the complete engineering framework for transit shelter wind load design in the nation's most demanding wind zone.</p>
     <div class="hero-buttons reveal">
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Shelter Loads</a>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">View Specialty Structures</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage">Calculate Shelter Loads</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-other">View Specialty Structures</a>
     </div>
     <div class="warning-banner reveal">
         Miami-Dade Public Works requires all bus shelter installations to submit sealed wind load calculations, NOA documentation for every panel and connection, and foundation engineering with soil boring reports before permit issuance. Unpermitted shelters face removal orders and fines of $500 per day.
@@ -356,7 +357,7 @@
 
 <!-- Section 1: Wind Classification -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Open Structure <em>Wind Classification</em> for Bus Shelters</h2>
         <p>Understanding how ASCE 7-22 categorizes transit shelters determines which pressure coefficients and internal pressure assumptions control your design.</p>
     </div>
@@ -366,26 +367,26 @@
             <h3>Partially Enclosed Classification</h3>
             <p>A standard bus shelter with a solid back wall (or advertising panel), partial side returns, and an open front face meets ASCE 7-22's definition of a partially enclosed structure. The open front face exceeds 10 percent of the total wall area on that elevation, and the remaining wall openings on other surfaces are less than the front opening. This triggers the critical GCpi of +/-0.55 internal pressure coefficient.</p>
             <p style="margin-top:1rem">The partially enclosed classification is the single most impactful factor in bus shelter wind design. Compared to an open canopy with GCpi of 0.0, the partially enclosed coefficient adds approximately 23 psf to the roof uplift pressure at 180 MPH. This additional 23 psf can increase required anchor bolt capacity by 40 to 60 percent and may necessitate deeper foundation piers or wider base plates.</p>
-            <div class="stat-row"><span class="stat-label">GCpi (Partially Enclosed)</span><span class="stat-value">+/- 0.55</span></div>
-            <div class="stat-row"><span class="stat-label">GCpi (Open Canopy)</span><span class="stat-value">0.0</span></div>
-            <div class="stat-row"><span class="stat-label">Uplift Increase from Reclassification</span><span class="stat-value">+35 to +50%</span></div>
-            <div class="stat-row"><span class="stat-label">ASCE 7-22 Reference</span><span class="stat-value">Section 26.2</span></div>
+            <div class="stat-row"><span class="caption-label">GCpi (Partially Enclosed)</span><span class="indicator-value">+/- 0.55</span></div>
+            <div class="stat-row"><span class="caption-label">GCpi (Open Canopy)</span><span class="indicator-value">0.0</span></div>
+            <div class="stat-row"><span class="caption-label">Uplift Increase from Reclassification</span><span class="indicator-value">+35 to +50%</span></div>
+            <div class="stat-row"><span class="caption-label">ASCE 7-22 Reference</span><span class="indicator-value">Section 26.2</span></div>
         </div>
         <div class="content-card reveal-right">
             <h3>Pressure Coefficient Selection</h3>
             <p>For partially enclosed bus shelters, wall pressures are determined using ASCE 7-22 Chapter 28 (enclosed/partially enclosed low-rise buildings when mean roof height is 60 ft or less). The external pressure coefficients GCpf from Figure 28.3-1 apply to the shelter walls and roof surfaces. Corner zone roof pressures (Zone 3) of GCpf = -2.8 to -3.8 combine with the internal pressure to produce the highest uplift demand.</p>
             <p style="margin-top:1rem">Alternatively, when the shelter has no walls on three sides and functions more like a canopy, Chapter 27 open building provisions with net pressure coefficients CN from Figures 27.3-4 through 27.3-7 govern. The CN values simultaneously account for wind on both top and bottom roof surfaces. For a flat-roof bus shelter canopy at 0 to 5 degrees slope, CN ranges from -1.2 in corner zones to -0.8 in interior zones for uplift, and +0.8 to +1.2 for downward loading.</p>
-            <div class="stat-row"><span class="stat-label">Corner Zone GCpf (Roof)</span><span class="stat-value">-2.8 to -3.8</span></div>
-            <div class="stat-row"><span class="stat-label">Interior Zone GCpf (Roof)</span><span class="stat-value">-1.0 to -1.8</span></div>
-            <div class="stat-row"><span class="stat-label">Wall GCpf (Windward)</span><span class="stat-value">+0.53</span></div>
-            <div class="stat-row"><span class="stat-label">Reference Figure</span><span class="stat-value">ASCE 28.3-1</span></div>
+            <div class="stat-row"><span class="caption-label">Corner Zone GCpf (Roof)</span><span class="indicator-value">-2.8 to -3.8</span></div>
+            <div class="stat-row"><span class="caption-label">Interior Zone GCpf (Roof)</span><span class="indicator-value">-1.0 to -1.8</span></div>
+            <div class="stat-row"><span class="caption-label">Wall GCpf (Windward)</span><span class="indicator-value">+0.53</span></div>
+            <div class="stat-row"><span class="caption-label">Reference Figure</span><span class="indicator-value">ASCE 28.3-1</span></div>
         </div>
     </div>
 </section>
 
 <!-- Section 2: Animated Shelter Diagram -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Wind Pressure <em>Distribution</em> on Transit Shelters</h2>
         <p>Interactive visualization showing how wind forces act on shelter panels, roof, columns, and adjacent building channeling effects.</p>
     </div>
@@ -396,7 +397,7 @@
 
 <!-- Section 3: Panel Materials Comparison -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Glazing Panel <em>Material Selection</em></h2>
         <p>Glass, polycarbonate, perforated metal, and LED display panels each present distinct wind load and impact resistance profiles.</p>
     </div>
@@ -405,40 +406,40 @@
             <h4><span class="tag-glass">Laminated Glass</span> Impact-Rated Glazing</h4>
             <p>Laminated safety glass remains the premium choice for transit shelter glazing in the HVHZ. Minimum layup is 9/16-inch with two plies of 1/4-inch heat-strengthened glass bonded by a 0.060-inch PVB interlayer. For large missile impact zones, the interlayer upgrades to 0.090-inch SGP (SentryGlas Plus) which provides 5 times the tear resistance of standard PVB after glass breakage.</p>
             <p>Typical design pressures for vertical shelter glass range from +/-35 to +/-55 psf depending on panel size and edge support conditions. Glass panels set in channel glazing with silicone require minimum 3/4-inch bite. Maximum panel size without intermediate mullions is approximately 36 x 72 inches for a -55 psf wind load with 4-sided support.</p>
-            <div class="stat-row"><span class="stat-label">Weight</span><span class="stat-value">7.0 psf</span></div>
-            <div class="stat-row"><span class="stat-label">Deflection (L/60)</span><span class="stat-value">Low</span></div>
-            <div class="stat-row"><span class="stat-label">Vandal Resistance</span><span class="stat-value">Moderate</span></div>
+            <div class="stat-row"><span class="caption-label">Weight</span><span class="indicator-value">7.0 psf</span></div>
+            <div class="stat-row"><span class="caption-label">Deflection (L/60)</span><span class="indicator-value">Low</span></div>
+            <div class="stat-row"><span class="caption-label">Vandal Resistance</span><span class="indicator-value">Moderate</span></div>
         </div>
         <div class="comparison-card magnetic-card reveal" style="--i:1">
             <h4><span class="tag-poly">Polycarbonate</span> Flexible Impact Panel</h4>
             <p>Polycarbonate sheet (3/8-inch to 1/2-inch solid or multiwall) achieves comparable wind resistance to glass at 40 percent of the weight. Its high impact strength makes it virtually unbreakable under vandal attacks and windborne debris strikes, passing TAS 201/202/203 large missile impact tests without the interlayer delamination risk of laminated glass.</p>
             <p>The trade-off is deflection: polycarbonate flexes approximately 4 times more than glass at equal thickness under identical wind pressure. This necessitates closer mullion spacing of 24 to 30 inches versus 36 to 48 inches for glass to keep deflection within L/60 serviceability limits. UV degradation requires surface-coated grades with 10-year warranty against yellowing, and thermal expansion is 7 times greater than glass, requiring oversized glazing channel clearances.</p>
-            <div class="stat-row"><span class="stat-label">Weight</span><span class="stat-value">2.8 psf</span></div>
-            <div class="stat-row"><span class="stat-label">Deflection (L/60)</span><span class="stat-value">High</span></div>
-            <div class="stat-row"><span class="stat-label">Vandal Resistance</span><span class="stat-value">Excellent</span></div>
+            <div class="stat-row"><span class="caption-label">Weight</span><span class="indicator-value">2.8 psf</span></div>
+            <div class="stat-row"><span class="caption-label">Deflection (L/60)</span><span class="indicator-value">High</span></div>
+            <div class="stat-row"><span class="caption-label">Vandal Resistance</span><span class="indicator-value">Excellent</span></div>
         </div>
         <div class="comparison-card magnetic-card reveal" style="--i:2">
             <h4><span class="tag-perf">Perforated Metal</span> Wind-Permeable Screen</h4>
             <p>Perforated metal panels (typically 14 to 16 gauge aluminum or stainless steel with 40 to 60 percent open area) reduce wind loads substantially compared to solid glazing because wind passes through the perforations rather than building pressure against the surface. The effective wind pressure on a 50 percent open perforated panel is approximately 25 to 35 percent of the full design pressure, reducing lateral force on column connections and foundations.</p>
             <p>Perforated panels also change the shelter's enclosure classification. With perforated walls instead of solid glazing, the shelter may qualify as an open structure rather than partially enclosed, eliminating the GCpi = 0.55 internal pressure penalty. This dual benefit of reduced direct panel load and reclassification can decrease total foundation demand by 50 to 65 percent compared to a fully glazed shelter.</p>
-            <div class="stat-row"><span class="stat-label">Weight</span><span class="stat-value">3.5 psf</span></div>
-            <div class="stat-row"><span class="stat-label">Wind Load Reduction</span><span class="stat-value">65-75%</span></div>
-            <div class="stat-row"><span class="stat-label">Vandal Resistance</span><span class="stat-value">Excellent</span></div>
+            <div class="stat-row"><span class="caption-label">Weight</span><span class="indicator-value">3.5 psf</span></div>
+            <div class="stat-row"><span class="caption-label">Wind Load Reduction</span><span class="indicator-value">65-75%</span></div>
+            <div class="stat-row"><span class="caption-label">Vandal Resistance</span><span class="indicator-value">Excellent</span></div>
         </div>
         <div class="comparison-card magnetic-card reveal" style="--i:3">
             <h4><span class="tag-led">LED Display</span> Digital Advertising Panel</h4>
             <p>LED display panels for digital advertising add significant wind load complexity to bus shelters. A typical 4 ft x 6 ft LED display module weighs 150 to 300 lbs and presents a solid surface to wind, generating 1,500 to 2,200 lbs of lateral force at 180 MPH design speed. The display housing is typically sealed and pressurized, creating a rigid element that cannot flex or deform under wind load the way polycarbonate does.</p>
             <p>Structurally, the LED panel mass helps resist roof uplift by adding gravity load to the shelter system, but the eccentric weight and wind force create overturning moments that must be resolved at the column bases. LED panels require dedicated structural frames with vibration isolation to prevent pixel damage from wind-induced oscillation, and all electrical connections must maintain watertight integrity at sustained 180 MPH wind-driven rain pressures exceeding 30 psf equivalent water column.</p>
-            <div class="stat-row"><span class="stat-label">Weight</span><span class="stat-value">6.2-12.5 psf</span></div>
-            <div class="stat-row"><span class="stat-label">Lateral Force at 180 MPH</span><span class="stat-value">1,500-2,200 lbs</span></div>
-            <div class="stat-row"><span class="stat-label">Vandal Resistance</span><span class="stat-value">Good</span></div>
+            <div class="stat-row"><span class="caption-label">Weight</span><span class="indicator-value">6.2-12.5 psf</span></div>
+            <div class="stat-row"><span class="caption-label">Lateral Force at 180 MPH</span><span class="indicator-value">1,500-2,200 lbs</span></div>
+            <div class="stat-row"><span class="caption-label">Vandal Resistance</span><span class="indicator-value">Good</span></div>
         </div>
     </div>
 </section>
 
 <!-- Section 4: Roof Uplift and Design Pressures -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Roof <em>Uplift Analysis</em> by Shelter Configuration</h2>
         <p>Shelter geometry and wall configuration dramatically change uplift demand. Flat, curved, and barrel-vault roofs each respond differently to hurricane wind patterns.</p>
     </div>
@@ -459,9 +460,9 @@
             <h3>Curved and Barrel-Vault Roofs</h3>
             <p>Curved-roof shelters reduce peak uplift in the corner zones by 10 to 20 percent compared to flat roofs because the aerodynamic profile reduces flow separation intensity. A barrel-vault shelter with a rise-to-span ratio of 0.2 to 0.3 produces a smoother pressure distribution with peak uplift of -55 to -65 psf in corner zones versus -65 to -78 psf for a flat configuration.</p>
             <p style="margin-top:.75rem">However, curved roofs introduce positive pressure zones on the windward face of the curve that increase overall structural complexity. The curving structural members (typically HSS tube or curved aluminum extrusions) must resist combined bending, compression, and lateral torsion, requiring moment connections at both column supports. Fabrication costs for curved shelter roofs run 25 to 40 percent higher than flat configurations, partially offset by the 15 to 25 percent reduction in foundation size from lower peak loads.</p>
-            <div class="stat-row"><span class="stat-label">Peak Uplift Reduction</span><span class="stat-value">10-20%</span></div>
-            <div class="stat-row"><span class="stat-label">Fabrication Premium</span><span class="stat-value">25-40%</span></div>
-            <div class="stat-row"><span class="stat-label">Foundation Savings</span><span class="stat-value">15-25%</span></div>
+            <div class="stat-row"><span class="caption-label">Peak Uplift Reduction</span><span class="indicator-value">10-20%</span></div>
+            <div class="stat-row"><span class="caption-label">Fabrication Premium</span><span class="indicator-value">25-40%</span></div>
+            <div class="stat-row"><span class="caption-label">Foundation Savings</span><span class="indicator-value">15-25%</span></div>
         </div>
     </div>
 
@@ -495,7 +496,7 @@
 
 <!-- Section 5: Wind Channeling Effect -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Wind <em>Channeling Effect</em> Between Shelter and Building</h2>
         <p>Urban bus shelters positioned near building facades experience amplified wind speeds from the Venturi effect as air funnels through the gap.</p>
     </div>
@@ -506,10 +507,10 @@
         <div class="content-card reveal-left">
             <h3>Venturi Amplification Factors</h3>
             <p>When a bus shelter is positioned within 15 ft of an adjacent building wall, the gap between the shelter roof and the building creates a constricted flow path that accelerates wind speed. The acceleration ratio depends on the gap width relative to the approach flow cross-section. For typical urban bus stop configurations in Miami-Dade:</p>
-            <div class="stat-row"><span class="stat-label">Gap 5-8 ft</span><span class="stat-value">1.4x to 1.6x speed amplification</span></div>
-            <div class="stat-row"><span class="stat-label">Gap 8-12 ft</span><span class="stat-value">1.2x to 1.4x speed amplification</span></div>
-            <div class="stat-row"><span class="stat-label">Gap 12-20 ft</span><span class="stat-value">1.05x to 1.2x speed amplification</span></div>
-            <div class="stat-row"><span class="stat-label">Gap > 20 ft</span><span class="stat-value">Negligible effect</span></div>
+            <div class="stat-row"><span class="caption-label">Gap 5-8 ft</span><span class="indicator-value">1.4x to 1.6x speed amplification</span></div>
+            <div class="stat-row"><span class="caption-label">Gap 8-12 ft</span><span class="indicator-value">1.2x to 1.4x speed amplification</span></div>
+            <div class="stat-row"><span class="caption-label">Gap 12-20 ft</span><span class="indicator-value">1.05x to 1.2x speed amplification</span></div>
+            <div class="stat-row"><span class="caption-label">Gap > 20 ft</span><span class="indicator-value">Negligible effect</span></div>
             <p style="margin-top:.75rem">Since wind pressure scales with the square of velocity, a 1.4x speed amplification produces 1.96x (nearly double) the wind pressure on shelter components in the channeled zone. This localized pressure increase often governs the design of the shelter's inboard column and roof beam nearest the building.</p>
         </div>
         <div class="content-card reveal-right">
@@ -528,7 +529,7 @@
 
 <!-- Section 6: Anchor Bolt Design -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Anchor Bolt <em>Design</em> for Sidewalk Mounting</h2>
         <p>Bus shelter foundations in Miami-Dade must resolve uplift, shear, and overturning into concrete sidewalks, raised pads, or drilled piers.</p>
     </div>
@@ -578,11 +579,11 @@
         <div class="content-card reveal-right">
             <h3>Foundation Connection Types</h3>
             <p>The choice of anchor system depends on the existing sidewalk condition, soil characteristics, and the magnitude of wind-induced forces. Miami-Dade's shallow limerock substrate at 2 to 4 ft below grade provides excellent bearing capacity but presents challenges for deep anchor embedment.</p>
-            <div class="stat-row"><span class="stat-label">Expansion Anchors</span><span class="stat-value">4-in. slab min, 3,200 lb pullout</span></div>
-            <div class="stat-row"><span class="stat-label">Adhesive Anchors</span><span class="stat-value">6-in. embed, 4,800 lb pullout</span></div>
-            <div class="stat-row"><span class="stat-label">Through-Bolt + Bearing Plate</span><span class="stat-value">Full slab, 6,200 lb capacity</span></div>
-            <div class="stat-row"><span class="stat-label">Cast-In-Place (New Pad)</span><span class="stat-value">12-18-in. embed, 8,500+ lb capacity</span></div>
-            <div class="stat-row"><span class="stat-label">Drilled Pier</span><span class="stat-value">18-24-in. dia x 6-10 ft deep</span></div>
+            <div class="stat-row"><span class="caption-label">Expansion Anchors</span><span class="indicator-value">4-in. slab min, 3,200 lb pullout</span></div>
+            <div class="stat-row"><span class="caption-label">Adhesive Anchors</span><span class="indicator-value">6-in. embed, 4,800 lb pullout</span></div>
+            <div class="stat-row"><span class="caption-label">Through-Bolt + Bearing Plate</span><span class="indicator-value">Full slab, 6,200 lb capacity</span></div>
+            <div class="stat-row"><span class="caption-label">Cast-In-Place (New Pad)</span><span class="indicator-value">12-18-in. embed, 8,500+ lb capacity</span></div>
+            <div class="stat-row"><span class="caption-label">Drilled Pier</span><span class="indicator-value">18-24-in. dia x 6-10 ft deep</span></div>
             <p style="margin-top:1rem">For standard 4-inch thick sidewalks, through-bolting with a bearing plate beneath the slab is the most reliable method because expansion anchor pullout capacity in thin concrete is insufficient for the 3,500 to 5,400 lb column uplift forces generated at 180 MPH. ACI 318 Appendix D governs all anchor-in-concrete design. Grade 316 stainless steel is mandatory in Miami-Dade's coastal exposure.</p>
         </div>
     </div>
@@ -590,7 +591,7 @@
 
 <!-- Section 7: Advertising Panel Wind Contribution -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Advertising Panel <em>Wind Load Contribution</em></h2>
         <p>Transit advertising panels transform bus shelter wind behavior by adding solid area, changing enclosure classification, and shifting the center of lateral force.</p>
     </div>
@@ -618,7 +619,7 @@
 
 <!-- Section 8: Solar Integration + ADA -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Solar Integration, ADA Clearance, <em>& Ancillary Loads</em></h2>
         <p>Modern transit shelters combine renewable energy, accessibility requirements, and multiple attached elements that each contribute to the wind load design envelope.</p>
     </div>
@@ -632,16 +633,16 @@
             <h3>ADA Clearance and Structural Impact</h3>
             <p>ADA Accessibility Guidelines (ADAAG) mandate minimum clear floor space of 30 x 48 inches for wheelchair positioning within the shelter, a minimum 36-inch clear path width along the entire shelter length, and a firm level surface at the shelter entrance with maximum 1:50 cross slope. These clearance requirements constrain column placement and foundation layout.</p>
             <p style="margin-top:.75rem">From a structural perspective, ADA clearance requirements mean columns must be positioned at the shelter perimeter rather than at optimal structural locations. This often results in longer unsupported roof spans and higher bending moments in the roof beams. A column spacing of 10 to 12 ft to maintain the ADA clear path can increase the required roof beam size from HSS 4x4x1/4 to HSS 6x4x3/8, adding 35 to 50 percent to the structural steel weight.</p>
-            <div class="stat-row"><span class="stat-label">Min. Clear Width</span><span class="stat-value">36 inches</span></div>
-            <div class="stat-row"><span class="stat-label">Wheelchair Space</span><span class="stat-value">30 x 48 inches</span></div>
-            <div class="stat-row"><span class="stat-label">Max Cross Slope</span><span class="stat-value">1:50 (2%)</span></div>
+            <div class="stat-row"><span class="caption-label">Min. Clear Width</span><span class="indicator-value">36 inches</span></div>
+            <div class="stat-row"><span class="caption-label">Wheelchair Space</span><span class="indicator-value">30 x 48 inches</span></div>
+            <div class="stat-row"><span class="caption-label">Max Cross Slope</span><span class="indicator-value">1:50 (2%)</span></div>
         </div>
     </div>
 </section>
 
 <!-- Section 9: Breakaway Design and Debris -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Breakaway Design <em>& Debris Hazard</em> Mitigation</h2>
         <p>Bus shelters represent both a wind-resistant structure and a potential windborne debris source, requiring a balanced engineering approach.</p>
     </div>
@@ -671,7 +672,7 @@
 
 <!-- Section 10: Miami-Dade Transit Shelter Standards -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Miami-Dade County <em>Transit Shelter Standards</em></h2>
         <p>County-specific requirements layer additional demands beyond the Florida Building Code, including siting criteria, material restrictions, and permit documentation.</p>
     </div>
@@ -737,32 +738,32 @@
 
 <!-- FAQ Section -->
 <section class="section">
-    <div class="section-header reveal">
+    <div class="section-lead reveal">
         <h2>Frequently Asked <em>Questions</em></h2>
         <p>Common engineering and permitting questions about bus shelter wind loads in Miami-Dade's High Velocity Hurricane Zone.</p>
     </div>
     <div class="faq-list">
-        <div class="faq-item reveal">
+        <div class="guide-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">How are bus shelters classified for wind load calculation under ASCE 7-22 in Miami-Dade?<span class="arrow">&#9662;</span></div>
             <div class="faq-a"><p>Bus shelters in Miami-Dade are classified as partially enclosed structures under ASCE 7-22 when they have a roof and one or more solid walls but remain open on at least one face. This triggers the partially enclosed internal pressure coefficient GCpi of plus or minus 0.55, which dramatically increases net roof uplift compared to open canopies. A standard 3-panel bus shelter at 10 ft mean roof height in the HVHZ with 180 MPH design wind speed and Exposure C generates velocity pressure qh of approximately 42 psf, producing net roof uplift of -50 to -78 psf in corner zones. Shelters with advertising panels on the back wall and partial side returns create the worst-case partially enclosed condition because the open front face becomes the dominant opening.</p></div>
         </div>
-        <div class="faq-item reveal">
+        <div class="guide-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">What design pressures apply to bus shelter glass panels vs polycarbonate panels in the HVHZ?<span class="arrow">&#9662;</span></div>
             <div class="faq-a"><p>Glass panels require a minimum 9/16-inch laminated layup with 0.060-inch PVB or 0.090-inch SGP interlayer, rated for plus or minus 35 to 55 psf. Polycarbonate panels (3/8-inch to 1/2-inch solid or multiwall) achieve comparable wind resistance at 40 percent of the glass weight but deflect approximately 4 times more, requiring closer mullion spacing of 24 to 30 inches versus 36 to 48 inches for glass. Both materials require valid Miami-Dade NOA certification, and polycarbonate must demonstrate impact resistance through separate testing per TAS 201, 202, and 203.</p></div>
         </div>
-        <div class="faq-item reveal">
+        <div class="guide-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">How do advertising panels affect bus shelter wind loads?<span class="arrow">&#9662;</span></div>
             <div class="faq-a"><p>Advertising panels significantly increase total wind force because they create additional solid area capturing wind pressure. A standard 4 ft by 6 ft backlit panel generates 1,320 to 2,200 lbs of lateral force at 180 MPH. More critically, an advertising panel filling the back wall can reclassify the shelter from open to partially enclosed under ASCE 7-22, shifting GCpi from 0.0 to plus or minus 0.55 and increasing roof uplift by 35 to 50 percent. Engineers must design for the worst-case with advertising installed, even if current plans show no advertising.</p></div>
         </div>
-        <div class="faq-item reveal">
+        <div class="guide-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">What anchor bolt design is required for bus shelters on Miami-Dade sidewalks?<span class="arrow">&#9662;</span></div>
             <div class="faq-a"><p>Bus shelter anchors on Miami-Dade sidewalks must resist combined uplift of 3,500 to 5,400 lbs and lateral shear of 1,200 to 2,800 lbs per column. For standard 4-inch thick sidewalks, through-bolting with bearing plates beneath the slab is required because expansion anchor pullout in thin concrete is insufficient. Deeper installations use adhesive anchors at 6-inch minimum embedment or cast-in-place anchors at 12 to 18 inches. All anchor assemblies must comply with ACI 318 Appendix D, and stainless steel grade 316 is mandatory for corrosion resistance in Miami-Dade's coastal environment.</p></div>
         </div>
-        <div class="faq-item reveal">
+        <div class="guide-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">Can solar panels be integrated into bus shelter roofs in the HVHZ?<span class="arrow">&#9662;</span></div>
             <div class="faq-a"><p>Yes, but the combined system must meet ASCE 7-22 Chapter 29 for rooftop solar plus the shelter's structural capacity. Solar adds 2.5 to 4.0 psf dead load that helps resist uplift but introduces differential pressures of plus or minus 25 to 45 psf. BIPV glass can serve as both roof glazing and solar collector, simplifying the structural design. All solar installations require a separate electrical permit per NEC 690 with rapid shutdown capability, and the solar mounting hardware needs its own Miami-Dade NOA independent of the shelter NOA.</p></div>
         </div>
-        <div class="faq-item reveal">
+        <div class="guide-item reveal">
             <div class="faq-q" onclick="toggleFaq(this)">What is breakaway design philosophy for bus shelters and when does Miami-Dade require it?<span class="arrow">&#9662;</span></div>
             <div class="faq-a"><p>Breakaway design allows shelter components to detach in a controlled manner under extreme wind rather than becoming large airborne debris. Glazing panels should remain retained up to 150 percent of design pressure then release from the frame intact. Roof panels may use fusible connections that release at 120 to 140 percent of design uplift. Columns and foundations must remain anchored at all wind speeds up to the design wind speed with a 1.6 safety factor. The breakaway threshold must exceed the 180 MPH design speed while still activating before the shelter becomes a catastrophic debris hazard. Polycarbonate is preferred over glass for breakaway applications because it pops out of channels intact rather than fragmenting.</p></div>
         </div>
@@ -774,8 +775,8 @@
     <h2 class="reveal">Calculate Your <span class="shimmer">Transit Shelter Wind Loads</span></h2>
     <p class="reveal">Get precise design pressures, anchor bolt capacities, and component loads for bus shelters and transit canopies in Miami-Dade's 180 MPH High Velocity Hurricane Zone.</p>
     <div class="hero-buttons reveal">
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Shelter Loads</a>
-        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-engage">Calculate Shelter Loads</a>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-other">Browse All Calculators</a>
     </div>
 </section>
 
@@ -798,8 +799,8 @@ class Particle {
     reset(){
         this.x = Math.random()*canvas.width;
         this.y = Math.random()*canvas.height;
-        this.size = Math.random()*2.5+0.5;
-        this.speedX = Math.random()*2.5+1;
+        this.size = Math.random() * 2.1 + 0.4;
+        this.speedX = Math.random() * 2.6 + 1.1;
         this.speedY = (Math.random()-0.5)*0.8;
         this.color = Math.random()>0.65?'#0d9488':'#6b7280';
         this.alpha = Math.random()*0.5+0.2;
@@ -1165,7 +1166,7 @@ drawChannelDiagram();
 const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale');
 const revealObs = new IntersectionObserver((entries) => {
     entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('active') });
-}, {threshold: 0.15});
+}, {threshold: 0.2});
 revealEls.forEach(el => revealObs.observe(el));
 
 // === Counter Animation ===
@@ -1187,7 +1188,7 @@ const counterObs = new IntersectionObserver((entries) => {
             requestAnimationFrame(update);
         }
     });
-}, {threshold: 0.5});
+}, {threshold: 0.1});
 counters.forEach(c => counterObs.observe(c));
 
 // === Pressure Bar Animation ===
@@ -1201,7 +1202,7 @@ const pressureBarsObs = new IntersectionObserver((entries) => {
             });
         }
     });
-}, {threshold: 0.3});
+}, {threshold: 0.15});
 const pressureBarsEl = document.getElementById('pressureBars');
 if(pressureBarsEl) pressureBarsObs.observe(pressureBarsEl);
 
@@ -1237,7 +1238,7 @@ window.addEventListener('scroll', () => {
 function toggleFaq(el){
     const item = el.parentElement;
     const wasActive = item.classList.contains('active');
-    document.querySelectorAll('.faq-item').forEach(f => f.classList.remove('active'));
+    document.querySelectorAll('.guide-item').forEach(f => f.classList.remove('active'));
     if(!wasActive) item.classList.add('active');
 }
 
@@ -1259,7 +1260,7 @@ document.querySelectorAll('.magnetic-card').forEach(card => {
 });
 
 // === Button Ripple ===
-document.querySelectorAll('.btn-primary').forEach(btn => {
+document.querySelectorAll('.btn-engage').forEach(btn => {
     btn.addEventListener('click', function(e){
         const ripple = document.createElement('span');
         ripple.classList.add('ripple');

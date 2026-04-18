@@ -97,6 +97,7 @@
     </script>
 
     <style>
+/* uid:3b99cae0 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -104,15 +105,15 @@
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 20% 30%, rgba(14, 165, 233, 0.06) 0%, transparent 50%), radial-gradient(circle at 80% 60%, rgba(212, 165, 116, 0.05) 0%, transparent 50%); }
 
         /* Scroll Reveals */
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.65s ease; }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.65s ease-in-out; }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(40px); transition: all 0.55s ease-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -126,36 +127,36 @@
         @keyframes tension-pulse { 0%, 100% { stroke-dashoffset: 0; opacity: 0.7; } 50% { stroke-dashoffset: 20; opacity: 1; } }
         @keyframes fabric-wave { 0% { d: path("M50,120 Q200,80 350,130 Q500,180 650,110"); } 50% { d: path("M50,115 Q200,90 350,120 Q500,170 650,115"); } 100% { d: path("M50,120 Q200,80 350,130 Q500,180 650,110"); } }
         @keyframes mast-stress { 0%, 100% { stroke: #0ea5e9; filter: drop-shadow(0 0 4px rgba(14, 165, 233, 0.5)); } 50% { stroke: #00e5ff; filter: drop-shadow(0 0 8px rgba(0, 229, 255, 0.8)); } }
-        @keyframes cable-vibrate { 0%, 100% { transform: translateY(0); } 25% { transform: translateY(-1px); } 75% { transform: translateY(1px); } }
+        @keyframes cable-vibrate { 0%, 100% { transform: translateY(0); } 25% { transform: translateY(-1px); } 75% { transform: translateY(20px); } }
         @keyframes sand-drift { 0% { transform: translateX(-100%) rotate(5deg); opacity: 0; } 50% { opacity: 0.3; } 100% { transform: translateX(200%) rotate(-5deg); opacity: 0; } }
         @keyframes counter-pop { 0% { transform: scale(1); } 50% { transform: scale(1.12); } 100% { transform: scale(1); } }
 
         .hero-shimmer { background: linear-gradient(120deg, #0ea5e9 0%, #00e5ff 25%, #d4a574 50%, #0ea5e9 75%, #00e5ff 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3.5s linear infinite; }
 
         /* Wind Widget */
-        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 180px; }
+        .wind-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(14, 165, 233, 0.3); border-radius: 19px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(12px); opacity: 0; transform: translateX(120px); transition: all 0.6s cubic-bezier(0.25, 0.8, 0.25, 1); min-width: 180px; }
         .wind-widget.visible { opacity: 1; transform: translateX(0); }
-        .wind-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .wind-widget-value { font-size: 1.5rem; font-weight: 800; color: #0ea5e9; margin-bottom: 4px; }
+        .wind-chip-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .wind-badge-number { font-size: 1.5rem; font-weight: 800; color: #0ea5e9; margin-bottom: 4px; }
         .wind-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .wind-widget-fill { height: 100%; background: linear-gradient(90deg, #0ea5e9, #00e5ff); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .wind-widget-status { font-size: 0.8rem; font-weight: 600; color: #d4a574; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(14, 165, 233, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(24px); border-bottom: 1px solid rgba(14, 165, 233, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.79rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #0ea5e9; }
-        .nav-cta { background: linear-gradient(135deg, #0ea5e9 0%, #00e5ff 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4); }
+        .nav-cta { background: linear-gradient(135deg, #0ea5e9 0%, #00e5ff 100%); color: #0c1220; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.55s cubic-bezier(0.65, 0, 0.35, 1); }
+        .nav-cta:hover { transform: translateY(-4px); box-shadow: 0 6px 20px rgba(14, 165, 233, 0.4); }
 
         /* Breadcrumb */
         .breadcrumb { padding: 0.75rem 2rem; margin-top: 60px; position: relative; z-index: 2; background: rgba(14, 165, 233, 0.04); border-bottom: 1px solid rgba(14, 165, 233, 0.1); }
-        .breadcrumb-container { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; max-width: 1200px; margin: 0 auto; }
+        .breadcrumb-container { display: flex; align-items: center; gap: 0.5rem; font-size: 0.8rem; max-width: 1150px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; transition: color 0.3s; }
         .breadcrumb a:hover { color: #0ea5e9; }
         .breadcrumb > span, .breadcrumb-container > span { color: #475569; }
@@ -167,26 +168,26 @@
         .hero-badge-dot { width: 8px; height: 8px; background: #0ea5e9; border-radius: 50%; animation: glow-pulse-sky 2s infinite; }
         .hero h1 { font-size: clamp(2rem, 5vw, 3.2rem); font-weight: 900; line-height: 1.15; margin-bottom: 1.25rem; color: #ffffff; }
         .hero p { font-size: 1.1rem; color: #94a3b8; max-width: 750px; margin: 0 auto 2rem; line-height: 1.7; }
-        .hero-cta-row { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: linear-gradient(135deg, #0ea5e9 0%, #00e5ff 100%); color: #0c1220; font-weight: 700; font-size: 0.95rem; border-radius: 10px; text-decoration: none; transition: all 0.3s ease; border: none; cursor: pointer; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(14, 165, 233, 0.4); }
-        .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: transparent; color: #0ea5e9; font-weight: 700; font-size: 0.95rem; border-radius: 10px; text-decoration: none; border: 2px solid rgba(14, 165, 233, 0.4); transition: all 0.3s ease; }
-        .btn-secondary:hover { background: rgba(14, 165, 233, 0.1); transform: translateY(-2px); }
+        .hero-cta-row { display: flex; gap: 0.88rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-go { position: relative; overflow: hidden; display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: linear-gradient(135deg, #0ea5e9 0%, #00e5ff 100%); color: #0c1220; font-weight: 700; font-size: 0.95rem; border-radius: 9px; text-decoration: none; transition: all 0.45s ease-in-out; border: none; cursor: pointer; }
+        .btn-go:hover { transform: translateY(-8px); box-shadow: 0 8px 30px rgba(14, 165, 233, 0.4); }
+        .btn-discover { display: inline-flex; align-items: center; gap: 0.5rem; padding: 0.85rem 2rem; background: transparent; color: #0ea5e9; font-weight: 700; font-size: 0.95rem; border-radius: 11px; text-decoration: none; border: 2px solid rgba(14, 165, 233, 0.4); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
+        .btn-discover:hover { background: rgba(14, 165, 233, 0.1); transform: translateY(-6px); }
         .hero-warning { background: rgba(212, 165, 116, 0.08); border-left: 4px solid #d4a574; border-radius: 0 12px 12px 0; padding: 1rem 1.5rem; text-align: left; max-width: 700px; margin: 0 auto; animation: sand-warning-flash 3s ease-in-out infinite; }
         @keyframes sand-warning-flash { 0%, 100% { border-left-color: #d4a574; } 50% { border-left-color: #e8b88a; box-shadow: inset 0 0 30px rgba(212, 165, 116, 0.08); } }
         .hero-warning strong { color: #d4a574; }
         .hero-warning p { font-size: 0.85rem; color: #94a3b8; margin: 0; text-align: left; }
 
         /* Trust Badges */
-        .trust-row { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; padding: 2.5rem 2rem; position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
+        .trust-row { display: flex; justify-content: center; gap: 2.23rem; flex-wrap: wrap; padding: 2.5rem 2rem; position: relative; z-index: 2; max-width: 900px; margin: 0 auto; }
         .trust-item { text-align: center; }
         .trust-value { font-size: 2rem; font-weight: 800; color: #0ea5e9; }
         .trust-label { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.08em; margin-top: 0.25rem; }
         .counter-pop { animation: counter-pop 0.4s ease; }
 
         /* Section Styles */
-        .section { position: relative; z-index: 2; padding: 5rem 2rem; }
-        .section-container { max-width: 1100px; margin: 0 auto; }
+        .section { position: relative; z-index: 2; padding: 4rem 2rem; }
+        .section-container { max-width: 1200px; margin: 0 auto; }
         .section-label { font-size: 0.75rem; font-weight: 700; color: #0ea5e9; text-transform: uppercase; letter-spacing: 0.15em; margin-bottom: 0.75rem; }
         .section-title { font-size: clamp(1.5rem, 3.5vw, 2.2rem); font-weight: 800; margin-bottom: 1rem; line-height: 1.2; }
         .section-subtitle { font-size: 1rem; color: #94a3b8; max-width: 800px; margin-bottom: 3rem; line-height: 1.7; }
@@ -201,19 +202,19 @@
         .catenary-accent { font-size: 0.75rem; fill: #d4a574; font-weight: 600; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; }
 
         /* Two Column */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 2rem; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2.77rem; margin-top: 2rem; }
         .col-content h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; color: #fff; }
         .col-content p { color: #94a3b8; font-size: 0.92rem; line-height: 1.7; margin-bottom: 1rem; }
 
         /* Three Column Cards */
-        .card-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 2rem; }
-        .card-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; margin-top: 2rem; }
+        .card-grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.70rem; margin-top: 2rem; }
+        .card-grid-2 { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.60rem; margin-top: 2rem; }
 
         /* Fabric Type Cards */
-        .fabric-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 165, 233, 0.12); border-radius: 16px; padding: 1.75rem; transition: all 0.4s ease; }
+        .fabric-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 165, 233, 0.12); border-radius: 13px; padding: 1.75rem; transition: all 0.7s cubic-bezier(0.33, 1, 0.68, 1); }
         .fabric-card:hover { border-color: rgba(14, 165, 233, 0.35); background: rgba(14, 165, 233, 0.05); }
         .fabric-card-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; }
-        .fabric-icon { width: 44px; height: 44px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .fabric-icon { width: 44px; height: 44px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
         .fabric-icon svg { width: 24px; height: 24px; }
         .fabric-card h3 { font-size: 1.05rem; font-weight: 700; color: #fff; }
         .fabric-card p { color: #94a3b8; font-size: 0.85rem; line-height: 1.65; margin-bottom: 1rem; }
@@ -223,7 +224,7 @@
         .fabric-spec-val { color: #0ea5e9; font-weight: 600; font-size: 0.8rem; }
 
         /* Geometry Comparison Cards */
-        .geo-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 16px; padding: 1.75rem; transition: all 0.4s ease; text-align: center; }
+        .geo-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.15); border-radius: 14px; padding: 1.75rem; transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1); text-align: center; }
         .geo-card:hover { border-color: rgba(212, 165, 116, 0.4); background: rgba(212, 165, 116, 0.04); }
         .geo-card svg { width: 120px; height: 90px; margin: 0 auto 1rem; display: block; }
         .geo-card h3 { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
@@ -231,7 +232,7 @@
         .geo-stat { display: inline-block; background: rgba(14, 165, 233, 0.1); border: 1px solid rgba(14, 165, 233, 0.2); border-radius: 8px; padding: 0.3rem 0.8rem; font-size: 0.8rem; color: #0ea5e9; font-weight: 600; }
 
         /* Comparison Table */
-        .comparison-table-wrap { overflow-x: auto; margin-top: 2rem; border-radius: 16px; border: 1px solid rgba(14, 165, 233, 0.12); }
+        .comparison-table-wrap { overflow-x: auto; margin-top: 2rem; border-radius: 19px; border: 1px solid rgba(14, 165, 233, 0.12); }
         .comparison-table { width: 100%; border-collapse: collapse; }
         .comparison-table thead th { background: rgba(14, 165, 233, 0.08); padding: 1rem; font-size: 0.85rem; font-weight: 700; text-align: left; color: #0ea5e9; border-bottom: 1px solid rgba(14, 165, 233, 0.15); }
         .comparison-table tbody td { padding: 0.85rem 1rem; font-size: 0.85rem; color: #94a3b8; border-bottom: 1px solid rgba(255,255,255,0.04); }
@@ -240,8 +241,8 @@
         .comparison-table .warn { color: #d4a574; font-weight: 600; }
 
         /* Hurricane Prep Section */
-        .prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-top: 2rem; }
-        .prep-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.12); border-radius: 16px; padding: 1.5rem; transition: all 0.4s ease; }
+        .prep-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.20rem; margin-top: 2rem; }
+        .prep-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 165, 116, 0.12); border-radius: 17px; padding: 1.5rem; transition: all 0.8s cubic-bezier(0.33, 1, 0.68, 1); }
         .prep-card:hover { border-color: rgba(212, 165, 116, 0.35); }
         .prep-card h3 { font-size: 1rem; font-weight: 700; color: #d4a574; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
         .prep-card p { color: #94a3b8; font-size: 0.85rem; line-height: 1.65; }
@@ -249,7 +250,7 @@
         .prep-icon svg { width: 18px; height: 18px; }
 
         /* Mast Design Cards */
-        .mast-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 165, 233, 0.12); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
+        .mast-card { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 165, 233, 0.12); border-radius: 14px; padding: 2rem; transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
         .mast-card:hover { border-color: rgba(14, 165, 233, 0.35); background: rgba(14, 165, 233, 0.04); }
         .mast-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.75rem; color: #fff; }
         .mast-card p { color: #94a3b8; font-size: 0.88rem; line-height: 1.7; margin-bottom: 1rem; }
@@ -259,28 +260,28 @@
         .mast-spec-val { font-size: 0.95rem; font-weight: 700; color: #0ea5e9; }
 
         /* Degradation Timeline */
-        .timeline-bar { display: flex; gap: 0; margin-top: 1.5rem; border-radius: 12px; overflow: hidden; height: 60px; }
-        .timeline-segment { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5rem; transition: all 0.3s ease; }
+        .timeline-bar { display: flex; gap: 0; margin-top: 1.5rem; border-radius: 15px; overflow: hidden; height: 60px; }
+        .timeline-segment { display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 0.5rem; transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1); }
         .timeline-segment:hover { filter: brightness(1.2); }
         .timeline-year { font-size: 0.7rem; font-weight: 700; color: #0c1220; }
         .timeline-capacity { font-size: 0.65rem; color: rgba(12, 18, 32, 0.7); }
 
         /* FAQ Section */
-        .faq-section { position: relative; z-index: 2; padding: 5rem 2rem; background: rgba(14, 165, 233, 0.02); }
+        .help-section { position: relative; z-index: 2; padding: 6rem 2rem; background: rgba(14, 165, 233, 0.02); }
         .faq-container { max-width: 900px; margin: 0 auto; }
-        .faq-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 165, 233, 0.1); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(14, 165, 233, 0.25); }
-        .faq-item.active { border-color: rgba(14, 165, 233, 0.35); }
-        .faq-question { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; gap: 1rem; }
-        .faq-question h3 { font-size: 0.95rem; font-weight: 600; color: #fff; flex: 1; }
+        .help-item { background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(14, 165, 233, 0.1); border-radius: 11px; margin-bottom: 1rem; overflow: hidden; transition: all 0.65s ease-in-out; }
+        .help-item:hover { border-color: rgba(14, 165, 233, 0.25); }
+        .help-item.active { border-color: rgba(14, 165, 233, 0.35); }
+        .guide-toggle { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 1.5rem; cursor: pointer; gap: 0.72rem; }
+        .guide-toggle h3 { font-size: 0.95rem; font-weight: 600; color: #fff; flex: 1; }
         .faq-toggle { width: 28px; height: 28px; flex-shrink: 0; color: #0ea5e9; transition: transform 0.3s ease; }
-        .faq-item.active .faq-toggle { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
+        .help-item.active .faq-toggle { transform: rotate(45deg); }
+        .answer-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .answer-body-inner { padding: 0 1.5rem 1.25rem; color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
 
         /* CTA Section */
-        .cta-section { position: relative; z-index: 2; padding: 5rem 2rem; text-align: center; }
-        .cta-container { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(212, 165, 116, 0.06)); border: 1px solid rgba(14, 165, 233, 0.2); border-radius: 24px; padding: 3rem; }
+        .closing-section { position: relative; z-index: 2; padding: 4rem 2rem; text-align: center; }
+        .cta-container { max-width: 700px; margin: 0 auto; background: linear-gradient(135deg, rgba(14, 165, 233, 0.08), rgba(212, 165, 116, 0.06)); border: 1px solid rgba(14, 165, 233, 0.2); border-radius: 22px; padding: 3rem; }
         .cta-container h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 1rem; }
         .cta-container p { color: #94a3b8; font-size: 1rem; margin-bottom: 2rem; max-width: 550px; margin-left: auto; margin-right: auto; }
         .cta-badge { font-size: 0.75rem; color: #64748b; margin-top: 1.5rem; }
@@ -298,7 +299,7 @@
             .card-grid-2 { grid-template-columns: 1fr; }
             .mast-specs { grid-template-columns: 1fr; }
             .hero h1 { font-size: 2rem; }
-            .trust-row { gap: 1.5rem; }
+            .trust-row { gap: 1.36rem; }
             .wind-widget { display: none; }
             .catenary-diagram { padding: 1rem; }
         }
@@ -317,8 +318,8 @@
 
 <!-- Wind Widget -->
 <div class="wind-widget" id="windWidget">
-    <div class="wind-widget-label">Fabric Tension Status</div>
-    <div class="wind-widget-value">180 MPH</div>
+    <div class="wind-chip-label">Fabric Tension Status</div>
+    <div class="wind-badge-number">180 MPH</div>
     <div class="wind-widget-bar"><div class="wind-widget-fill" id="windFill"></div></div>
     <div class="wind-widget-status">HVHZ Membrane Design</div>
 </div>
@@ -361,8 +362,8 @@
     <h1 class="reveal">Shade Sail <span class="hero-shimmer">Wind Load Engineering</span> for Miami-Dade HVHZ</h1>
     <p class="reveal">Shade sails are tensile membrane structures that transfer wind forces through catenary cable tension into masts and foundations. In Miami-Dade's High Velocity Hurricane Zone, designing these lightweight fabric systems for 180 MPH wind demands precise analysis of pre-tension ratios, cable geometry, mast base reactions, and hurricane removal protocols that go far beyond standard open structure provisions.</p>
     <div class="hero-cta-row reveal">
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Shade Sail Loads</a>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-secondary">Specialty Structure Analysis</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-go">Calculate Shade Sail Loads</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-discover">Specialty Structure Analysis</a>
     </div>
     <div class="hero-warning reveal">
         <strong>Engineering Advisory:</strong>
@@ -871,79 +872,79 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
+<section class="help-section">
     <div class="faq-container">
         <div class="section-label reveal" style="text-align: center;">Common Questions</div>
         <h2 class="section-title reveal" style="text-align: center;">Frequently Asked Questions About <span class="accent">Shade Sail Wind Loads</span></h2>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="help-item reveal">
+            <div class="guide-toggle" onclick="toggleFaq(this)">
                 <h3>What ASCE 7-22 provisions govern shade sail wind loads in Miami-Dade?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Shade sails are classified as membrane structures under ASCE 7-22. Engineers typically apply Chapter 27 (All Heights) for the MWFRS, treating the sail as a flexible open structure, combined with wind tunnel testing provisions from Chapter 31 for complex geometries. Net pressure coefficients for fabric membranes range from 1.2 to 1.8 depending on curvature and angle of inclination. Miami-Dade's 180 MPH design wind speed produces velocity pressure of approximately 56 psf at 15 feet in Exposure C, generating net wind pressures of 67 to 101 psf on the sail surface. The catenary tension in supporting cables can reach 2,000 to 5,000 lbs per linear foot under peak loading.</div>
+            <div class="answer-body">
+                <div class="answer-body-inner">Shade sails are classified as membrane structures under ASCE 7-22. Engineers typically apply Chapter 27 (All Heights) for the MWFRS, treating the sail as a flexible open structure, combined with wind tunnel testing provisions from Chapter 31 for complex geometries. Net pressure coefficients for fabric membranes range from 1.2 to 1.8 depending on curvature and angle of inclination. Miami-Dade's 180 MPH design wind speed produces velocity pressure of approximately 56 psf at 15 feet in Exposure C, generating net wind pressures of 67 to 101 psf on the sail surface. The catenary tension in supporting cables can reach 2,000 to 5,000 lbs per linear foot under peak loading.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="help-item reveal">
+            <div class="guide-toggle" onclick="toggleFaq(this)">
                 <h3>What pre-tension is required for shade sails to resist 180 MPH wind in HVHZ?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Pre-tension must be maintained at 5 to 10 percent of the fabric's ultimate breaking strength. For HDPE fabric with 300 lbs/inch breaking strength, that means 15 to 30 lbs per inch. PVC-coated polyester at 500 to 800 lbs/inch requires 25 to 80 lbs per inch. The higher end of these ranges is recommended for HVHZ because 180 MPH dynamic flutter forces can fatigue under-tensioned membranes in as few as 3 to 5 storm events. Pre-tension is applied through turnbuckle adjustment requiring 2 to 4 inches of travel per turnbuckle, adjusted in a star pattern sequence.</div>
+            <div class="answer-body">
+                <div class="answer-body-inner">Pre-tension must be maintained at 5 to 10 percent of the fabric's ultimate breaking strength. For HDPE fabric with 300 lbs/inch breaking strength, that means 15 to 30 lbs per inch. PVC-coated polyester at 500 to 800 lbs/inch requires 25 to 80 lbs per inch. The higher end of these ranges is recommended for HVHZ because 180 MPH dynamic flutter forces can fatigue under-tensioned membranes in as few as 3 to 5 storm events. Pre-tension is applied through turnbuckle adjustment requiring 2 to 4 inches of travel per turnbuckle, adjusted in a star pattern sequence.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="help-item reveal">
+            <div class="guide-toggle" onclick="toggleFaq(this)">
                 <h3>How are shade sail mast foundations designed for Miami-Dade 180 MPH wind?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Mast foundations must resist combined axial compression, lateral shear, and large overturning moments. A typical 20-foot mast supporting a 400 sq ft triangular sail produces base reactions of 8,000 to 12,000 lbs lateral shear, 15,000 to 25,000 lbs axial compression, and 120,000 to 200,000 ft-lbs overturning moment. Drilled shaft foundations of 24 to 36 inch diameter extending 12 to 18 feet into Miami's limestone bedrock are standard. Base plate connections use 4 to 6 anchor bolts of 1-inch diameter A325 steel embedded 15 to 20 diameters into the shaft.</div>
+            <div class="answer-body">
+                <div class="answer-body-inner">Mast foundations must resist combined axial compression, lateral shear, and large overturning moments. A typical 20-foot mast supporting a 400 sq ft triangular sail produces base reactions of 8,000 to 12,000 lbs lateral shear, 15,000 to 25,000 lbs axial compression, and 120,000 to 200,000 ft-lbs overturning moment. Drilled shaft foundations of 24 to 36 inch diameter extending 12 to 18 feet into Miami's limestone bedrock are standard. Base plate connections use 4 to 6 anchor bolts of 1-inch diameter A325 steel embedded 15 to 20 diameters into the shaft.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="help-item reveal">
+            <div class="guide-toggle" onclick="toggleFaq(this)">
                 <h3>Should shade sails be removed before a hurricane in Miami-Dade?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Yes, removable shade sails should be taken down when sustained winds are forecast to exceed 45 to 60 MPH. HDPE sails must be down by 45 MPH, PVC-coated polyester by 60 MPH. While mast and foundation systems are engineered for 180 MPH, most commercial fabrics are rated for only 70 to 90 MPH as installed. Torn fabric becomes wind-borne debris threatening surrounding structures. Establish a written hurricane action plan with a 48-hour removal window. PTFE-coated fiberglass membranes engineered for HVHZ wind speeds do not require removal but cost 8 to 12 times more than standard HDPE sails.</div>
+            <div class="answer-body">
+                <div class="answer-body-inner">Yes, removable shade sails should be taken down when sustained winds are forecast to exceed 45 to 60 MPH. HDPE sails must be down by 45 MPH, PVC-coated polyester by 60 MPH. While mast and foundation systems are engineered for 180 MPH, most commercial fabrics are rated for only 70 to 90 MPH as installed. Torn fabric becomes wind-borne debris threatening surrounding structures. Establish a written hurricane action plan with a 48-hour removal window. PTFE-coated fiberglass membranes engineered for HVHZ wind speeds do not require removal but cost 8 to 12 times more than standard HDPE sails.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="help-item reveal">
+            <div class="guide-toggle" onclick="toggleFaq(this)">
                 <h3>What fabric types are approved for shade sails in Miami-Dade HVHZ?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Three primary fabric types are used: HDPE knitted mesh (200 to 400 lbs/inch breaking strength, 8 to 12 year UV lifespan, must remove at 45 MPH), PVC-coated polyester (400 to 900 lbs/inch, 12 to 18 year lifespan, remove at 60 MPH), and PTFE-coated fiberglass (800 to 1,400 lbs/inch, 25+ year lifespan, can remain installed through Category 5). All permanent fabric installations in the HVHZ require either a Miami-Dade NOA or a PE-sealed engineering analysis demonstrating FBC 2023 compliance. Removable sails under 400 sq ft may qualify for reduced permit requirements in some jurisdictions.</div>
+            <div class="answer-body">
+                <div class="answer-body-inner">Three primary fabric types are used: HDPE knitted mesh (200 to 400 lbs/inch breaking strength, 8 to 12 year UV lifespan, must remove at 45 MPH), PVC-coated polyester (400 to 900 lbs/inch, 12 to 18 year lifespan, remove at 60 MPH), and PTFE-coated fiberglass (800 to 1,400 lbs/inch, 25+ year lifespan, can remain installed through Category 5). All permanent fabric installations in the HVHZ require either a Miami-Dade NOA or a PE-sealed engineering analysis demonstrating FBC 2023 compliance. Removable sails under 400 sq ft may qualify for reduced permit requirements in some jurisdictions.</div>
             </div>
         </div>
 
-        <div class="faq-item reveal">
-            <div class="faq-question" onclick="toggleFaq(this)">
+        <div class="help-item reveal">
+            <div class="guide-toggle" onclick="toggleFaq(this)">
                 <h3>How does sail geometry affect wind loading on shade structures?</h3>
                 <div class="faq-toggle"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg></div>
             </div>
-            <div class="faq-answer">
-                <div class="faq-answer-inner">Triangular sails concentrate forces at three corners with peak loads 30 to 40 percent higher per point than square sails of equivalent area. Square sails distribute loads to four corners but trap wind-driven rain at the center, risking progressive ponding failure. Hypar (hyperbolic paraboloid) shapes with alternating high and low corners are the most structurally efficient, producing 15 to 25 percent lower peak cable tensions than flat sails because double curvature sheds wind more effectively. The catenary depth-to-span ratio should be 1:8 to 1:12 for optimal wind performance in the HVHZ.</div>
+            <div class="answer-body">
+                <div class="answer-body-inner">Triangular sails concentrate forces at three corners with peak loads 30 to 40 percent higher per point than square sails of equivalent area. Square sails distribute loads to four corners but trap wind-driven rain at the center, risking progressive ponding failure. Hypar (hyperbolic paraboloid) shapes with alternating high and low corners are the most structurally efficient, producing 15 to 25 percent lower peak cable tensions than flat sails because double curvature sheds wind more effectively. The catenary depth-to-span ratio should be 1:8 to 1:12 for optimal wind performance in the HVHZ.</div>
             </div>
         </div>
     </div>
 </section>
 
 <!-- CTA Section -->
-<section class="cta-section">
+<section class="closing-section">
     <div class="cta-container reveal-scale">
         <h2>Calculate Shade Sail <span class="accent">Wind Loads</span> Now</h2>
         <p>Get ASCE 7-22 compliant wind load calculations for shade sails, tensile membranes, and specialty structures in Miami-Dade HVHZ. PE-ready output for your permit package.</p>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Start Specialty Structure Calculation</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-go">Start Specialty Structure Calculation</a>
         <div class="cta-badge">ASCE 7-22 Compliant &middot; Miami-Dade HVHZ &middot; PE-Ready Output</div>
     </div>
 </section>
@@ -973,10 +974,10 @@
         reset() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2.5 + 0.6;
-            this.speedX = Math.random() * 2.5 + 1;
+            this.size = Math.random() * 2.8 + 0.4;
+            this.speedX = Math.random() * 2.4 + 1.0;
             this.speedY = (Math.random() - 0.5) * 0.8;
-            this.opacity = Math.random() * 0.4 + 0.15;
+            this.opacity = Math.random() * 0.45 + 0.19;
             const r = Math.random();
             if (r > 0.65) this.color = '#0ea5e9';
             else if (r > 0.35) this.color = '#d4a574';
@@ -1021,7 +1022,7 @@
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    }, { threshold: 0.2, rootMargin: '0px 0px -40px 0px' });
     reveals.forEach(el => observer.observe(el));
 })();
 
@@ -1055,7 +1056,7 @@
                 requestAnimationFrame(tick);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.2 });
     counters.forEach(c => counterObserver.observe(c));
 })();
 
@@ -1080,13 +1081,13 @@
 // FAQ Accordion
 function toggleFaq(el) {
     const item = el.parentElement;
-    const answer = item.querySelector('.faq-answer');
+    const answer = item.querySelector('.answer-body');
     const isActive = item.classList.contains('active');
 
-    document.querySelectorAll('.faq-item.active').forEach(other => {
+    document.querySelectorAll('.help-item.active').forEach(other => {
         if (other !== item) {
             other.classList.remove('active');
-            other.querySelector('.faq-answer').style.maxHeight = '0';
+            other.querySelector('.answer-body').style.maxHeight = '0';
         }
     });
 
@@ -1119,7 +1120,7 @@ function toggleFaq(el) {
 })();
 
 // Button Ripple Effect
-document.querySelectorAll('.btn-primary').forEach(btn => {
+document.querySelectorAll('.btn-go').forEach(btn => {
     btn.addEventListener('click', function(e) {
         const ripple = document.createElement('span');
         const rect = this.getBoundingClientRect();

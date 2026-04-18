@@ -97,6 +97,7 @@
     </script>
 
     <style>
+/* uid:31a68fdc */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
 
@@ -116,15 +117,15 @@
             background-size: 50px 50px, 50px 50px, 100% 100%, 100% 100%;
         }
 
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.45s cubic-bezier(0.25, 0.8, 0.25, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
-        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.7s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.65s cubic-bezier(0.65, 0, 0.35, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.6s cubic-bezier(0.33, 1, 0.68, 1); }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(20px); transition: all 0.55s ease-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -147,10 +148,10 @@
         .hero-shimmer { background: linear-gradient(120deg, #60a5fa 0%, #93c5fd 20%, #c0c0c0 40%, #60a5fa 60%, #93c5fd 80%, #60a5fa 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3.5s linear infinite; }
 
         /* Signal Status Widget */
-        .signal-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 210px; }
+        .signal-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(96, 165, 250, 0.3); border-radius: 18px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(20px); opacity: 0; transform: translateX(120px); transition: all 0.8s cubic-bezier(0.25, 0.8, 0.25, 1); min-width: 210px; }
         .signal-widget.visible { opacity: 1; transform: translateX(0); }
-        .signal-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
-        .signal-widget-label .beacon { width: 6px; height: 6px; background: #60a5fa; border-radius: 50%; animation: beacon-blink 2s infinite; }
+        .signal-panel-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .signal-panel-label .beacon { width: 6px; height: 6px; background: #60a5fa; border-radius: 50%; animation: beacon-blink 2s infinite; }
         .signal-widget-type { font-size: 0.85rem; font-weight: 700; color: #93c5fd; margin-bottom: 2px; }
         .signal-widget-epa { font-size: 1.6rem; font-weight: 800; color: #60a5fa; margin-bottom: 4px; }
         .signal-bars { display: flex; align-items: flex-end; gap: 3px; height: 24px; margin-bottom: 8px; }
@@ -159,20 +160,20 @@
         .signal-widget-force { font-size: 0.8rem; font-weight: 600; color: #f59e0b; }
 
         /* Navigation */
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(96, 165, 250, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(28px); border-bottom: 1px solid rgba(96, 165, 250, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.5rem; font-weight: 800; color: #ffffff; }
         .nav-logo .logo-text span { color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; align-items: center; }
+        .nav-links { display: flex; gap: 1.46rem; align-items: center; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; transition: color 0.3s; }
         .nav-links a:hover { color: #60a5fa; }
         .nav-cta { background: linear-gradient(135deg, #60a5fa, #1e3a5f); color: #fff; padding: 0.5rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 0.9rem; transition: all 0.3s; border: 1px solid rgba(96, 165, 250, 0.3); }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(96, 165, 250, 0.4); }
+        .nav-cta:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(96, 165, 250, 0.4); }
 
         /* Breadcrumb */
         .breadcrumb { padding: 0.75rem 2rem; background: rgba(30, 58, 95, 0.15); border-bottom: 1px solid rgba(96, 165, 250, 0.1); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; flex-wrap: wrap; }
+        .breadcrumb-container { max-width: 1400px; margin: 0 auto; display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; flex-wrap: wrap; }
         .breadcrumb a { color: #60a5fa; text-decoration: none; }
         .breadcrumb a:hover { text-decoration: underline; }
         .breadcrumb span { color: #64748b; }
@@ -184,11 +185,11 @@
         .hero-badge .pulse-dot { width: 8px; height: 8px; background: #60a5fa; border-radius: 50%; animation: glow-pulse-blue 2s infinite; }
         .hero h1 { font-size: clamp(2rem, 5vw, 3.5rem); font-weight: 800; line-height: 1.15; max-width: 950px; margin: 0 auto 1.5rem; }
         .hero p { font-size: 1.15rem; color: #94a3b8; max-width: 720px; margin: 0 auto 2rem; line-height: 1.7; }
-        .hero-buttons { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn-primary { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #60a5fa, #1e3a5f); color: #fff; padding: 0.85rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s; border: 1px solid rgba(96, 165, 250, 0.4); position: relative; overflow: hidden; cursor: pointer; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(96, 165, 250, 0.4); }
-        .btn-secondary { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: #93c5fd; padding: 0.85rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 600; font-size: 1rem; border: 1px solid rgba(147, 197, 253, 0.3); transition: all 0.3s; }
-        .btn-secondary:hover { background: rgba(147, 197, 253, 0.1); transform: translateY(-2px); }
+        .hero-buttons { display: flex; gap: 1.20rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn-advance { display: inline-flex; align-items: center; gap: 0.5rem; background: linear-gradient(135deg, #60a5fa, #1e3a5f); color: #fff; padding: 0.85rem 1.75rem; border-radius: 10px; text-decoration: none; font-weight: 700; font-size: 1rem; transition: all 0.3s; border: 1px solid rgba(96, 165, 250, 0.4); position: relative; overflow: hidden; cursor: pointer; }
+        .btn-advance:hover { transform: scale(1.02); box-shadow: 0 8px 30px rgba(96, 165, 250, 0.4); }
+        .btn-explore { display: inline-flex; align-items: center; gap: 0.5rem; background: transparent; color: #93c5fd; padding: 0.85rem 1.75rem; border-radius: 9px; text-decoration: none; font-weight: 600; font-size: 1rem; border: 1px solid rgba(147, 197, 253, 0.3); transition: all 0.3s; }
+        .btn-explore:hover { background: rgba(147, 197, 253, 0.1); transform: translateY(-5px) scale(1.01); }
         .btn-ripple { position: absolute; border-radius: 50%; background: rgba(255,255,255,0.3); transform: scale(0); animation: ripple-out 0.6s linear; pointer-events: none; }
         @keyframes ripple-out { to { transform: scale(4); opacity: 0; } }
 
@@ -199,26 +200,26 @@
 
         /* Trust Badges */
         .trust-section { padding: 3rem 2rem; position: relative; z-index: 2; }
-        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
-        .trust-badge { text-align: center; padding: 1.5rem 1rem; background: rgba(255,255,255, 0.02); border: 1px solid rgba(96, 165, 250, 0.1); border-radius: 12px; transition: all 0.3s; }
+        .trust-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1.41rem; max-width: 1000px; margin: 0 auto; }
+        .trust-badge { text-align: center; padding: 1.5rem 1rem; background: rgba(255,255,255, 0.02); border: 1px solid rgba(96, 165, 250, 0.1); border-radius: 15px; transition: all 0.3s; }
         .trust-badge:hover { border-color: rgba(96, 165, 250, 0.3); background: rgba(96, 165, 250, 0.05); }
         .trust-badge .counter { font-size: 2rem; font-weight: 800; color: #60a5fa; margin-bottom: 0.25rem; }
         .trust-badge .label { font-size: 0.8rem; color: #94a3b8; }
 
         /* Content Sections */
-        .content-section { padding: 4rem 2rem; position: relative; z-index: 2; }
-        .content-section .container { max-width: 1100px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header .tag { display: inline-block; background: rgba(96, 165, 250, 0.1); border: 1px solid rgba(96, 165, 250, 0.25); color: #93c5fd; padding: 0.35rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
-        .section-header h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); font-weight: 700; margin-bottom: 1rem; }
-        .section-header h2 .accent { color: #60a5fa; }
-        .section-header p { color: #94a3b8; max-width: 650px; margin: 0 auto; font-size: 1.05rem; }
+        .content-section { padding: 3rem 2rem; position: relative; z-index: 2; }
+        .content-section .container { max-width: 1200px; margin: 0 auto; }
+        .section-top { text-align: center; margin-bottom: 3rem; }
+        .section-top .tag { display: inline-block; background: rgba(96, 165, 250, 0.1); border: 1px solid rgba(96, 165, 250, 0.25); color: #93c5fd; padding: 0.35rem 1rem; border-radius: 50px; font-size: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 1rem; }
+        .section-top h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); font-weight: 700; margin-bottom: 1rem; }
+        .section-top h2 .accent { color: #60a5fa; }
+        .section-top p { color: #94a3b8; max-width: 650px; margin: 0 auto; font-size: 1.05rem; }
 
         /* EPA Comparison Panel — Radar-style Visualization */
-        .epa-radar-container { position: relative; max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: center; }
+        .epa-radar-container { position: relative; max-width: 1000px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.77rem; align-items: center; }
         .epa-radar-svg { width: 100%; max-width: 420px; margin: 0 auto; }
-        .epa-data-panel { display: flex; flex-direction: column; gap: 1.25rem; }
-        .epa-row { background: rgba(255,255,255,0.03); border: 1px solid rgba(96, 165, 250, 0.15); border-radius: 12px; padding: 1.25rem 1.5rem; transition: all 0.4s; cursor: default; }
+        .epa-data-panel { display: flex; flex-direction: column; gap: 1.05rem; }
+        .epa-row { background: rgba(255,255,255,0.03); border: 1px solid rgba(96, 165, 250, 0.15); border-radius: 13px; padding: 1.25rem 1.5rem; transition: all 0.4s; cursor: default; }
         .epa-row:hover { border-color: rgba(96, 165, 250, 0.5); background: rgba(96, 165, 250, 0.06); transform: translateX(6px); }
         .epa-row-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
         .epa-row-name { font-weight: 700; font-size: 1rem; color: #93c5fd; }
@@ -229,16 +230,16 @@
         .epa-row-sub { font-size: 0.8rem; color: #64748b; }
 
         /* Drag Force Vector Cards */
-        .drag-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
-        .drag-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(96, 165, 250, 0.12); border-radius: 16px; padding: 2rem 1.5rem; text-align: center; transition: all 0.4s; }
-        .drag-card:hover { transform: translateY(-6px); border-color: rgba(96, 165, 250, 0.4); box-shadow: 0 12px 40px rgba(30, 58, 95, 0.3); }
+        .drag-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 1.46rem; max-width: 1100px; margin: 0 auto; }
+        .drag-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(96, 165, 250, 0.12); border-radius: 17px; padding: 2rem 1.5rem; text-align: center; transition: all 0.4s; }
+        .drag-card:hover { transform: translateY(-8px); border-color: rgba(96, 165, 250, 0.4); box-shadow: 0 12px 40px rgba(30, 58, 95, 0.3); }
         .drag-card .icon-ring { width: 64px; height: 64px; border-radius: 50%; border: 2px solid rgba(96, 165, 250, 0.3); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 1.5rem; background: rgba(30, 58, 95, 0.2); animation: glow-pulse-blue 3s infinite; }
         .drag-card h3 { font-size: 1.1rem; font-weight: 700; color: #93c5fd; margin-bottom: 0.5rem; }
         .drag-card .force-value { font-size: 2rem; font-weight: 800; color: #60a5fa; margin-bottom: 0.5rem; }
         .drag-card p { font-size: 0.85rem; color: #94a3b8; line-height: 1.5; }
 
         /* Two Column Layout */
-        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; max-width: 1100px; margin: 0 auto; align-items: start; }
+        .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 3.26rem; max-width: 1400px; margin: 0 auto; align-items: start; }
         .two-col .text-content h3 { font-size: 1.35rem; font-weight: 700; margin-bottom: 1rem; color: #ffffff; }
         .two-col .text-content p { color: #94a3b8; margin-bottom: 1rem; line-height: 1.7; }
         .two-col .text-content ul { list-style: none; }
@@ -256,13 +257,13 @@
         .mount-bar-left.active { transform: scaleX(1); }
         .mount-bar-right { height: 100%; border-radius: 5px; background: linear-gradient(90deg, #c0c0c0, #64748b); transform-origin: left; transform: scaleX(0); transition: transform 1s cubic-bezier(0.16,1,0.3,1); }
         .mount-bar-right.active { transform: scaleX(1); }
-        .mount-legend { display: flex; justify-content: center; gap: 2rem; margin-top: 1.5rem; }
+        .mount-legend { display: flex; justify-content: center; gap: 1.92rem; margin-top: 1.5rem; }
         .mount-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #94a3b8; }
         .mount-legend-dot { width: 12px; height: 12px; border-radius: 3px; }
 
         /* Deflection Gauge */
-        .gauge-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2rem; max-width: 1000px; margin: 0 auto; }
-        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(96, 165, 250, 0.12); border-radius: 16px; padding: 2rem 1.5rem; text-align: center; }
+        .gauge-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.78rem; max-width: 1000px; margin: 0 auto; }
+        .gauge-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(96, 165, 250, 0.12); border-radius: 14px; padding: 2rem 1.5rem; text-align: center; }
         .gauge-svg { width: 140px; height: 80px; margin: 0 auto 1rem; }
         .gauge-card h4 { font-size: 1rem; font-weight: 700; color: #93c5fd; margin-bottom: 0.25rem; }
         .gauge-card .tolerance { font-size: 1.5rem; font-weight: 800; color: #60a5fa; margin-bottom: 0.5rem; }
@@ -271,36 +272,36 @@
         /* Process Steps */
         .process-track { max-width: 800px; margin: 0 auto; position: relative; }
         .process-track::before { content: ''; position: absolute; left: 24px; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, #60a5fa, rgba(96, 165, 250, 0.1)); }
-        .process-step { display: flex; gap: 1.5rem; margin-bottom: 2rem; position: relative; }
+        .process-step { display: flex; gap: 1.67rem; margin-bottom: 2rem; position: relative; }
         .process-num { width: 50px; height: 50px; border-radius: 50%; background: rgba(30, 58, 95, 0.4); border: 2px solid rgba(96, 165, 250, 0.3); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; font-weight: 800; color: #60a5fa; flex-shrink: 0; z-index: 1; }
         .process-content { flex: 1; padding-top: 0.5rem; }
         .process-content h4 { font-size: 1.05rem; font-weight: 700; color: #93c5fd; margin-bottom: 0.5rem; }
         .process-content p { font-size: 0.9rem; color: #94a3b8; line-height: 1.7; }
 
         /* Hurricane Prep Cards */
-        .prep-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.5rem; max-width: 1000px; margin: 0 auto; }
-        .prep-card { background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 14px; padding: 1.75rem; transition: all 0.3s; }
-        .prep-card:hover { border-color: rgba(245, 158, 11, 0.5); transform: translateY(-4px); }
+        .prep-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 1.27rem; max-width: 1000px; margin: 0 auto; }
+        .prep-card { background: rgba(245, 158, 11, 0.05); border: 1px solid rgba(245, 158, 11, 0.2); border-radius: 15px; padding: 1.75rem; transition: all 0.3s; }
+        .prep-card:hover { border-color: rgba(245, 158, 11, 0.5); transform: translateY(-8px); }
         .prep-card h4 { font-size: 1rem; font-weight: 700; color: #fbbf24; margin-bottom: 0.75rem; display: flex; align-items: center; gap: 0.5rem; }
         .prep-card p { font-size: 0.9rem; color: #94a3b8; line-height: 1.7; }
 
         /* FAQ Section */
-        .faq-section { padding: 4rem 2rem; position: relative; z-index: 2; }
+        .learn-section { padding: 3rem 2rem; position: relative; z-index: 2; }
         .faq-list { max-width: 800px; margin: 0 auto; }
-        .faq-item { border: 1px solid rgba(96, 165, 250, 0.12); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: border-color 0.3s; }
-        .faq-item:hover { border-color: rgba(96, 165, 250, 0.3); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; color: #ffffff; transition: background 0.3s; }
-        .faq-question:hover { background: rgba(96, 165, 250, 0.05); }
-        .faq-question .arrow { color: #60a5fa; font-size: 1.2rem; transition: transform 0.3s; flex-shrink: 0; margin-left: 1rem; }
-        .faq-item.open .faq-question .arrow { transform: rotate(180deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-        .faq-answer-inner { padding: 0 1.5rem 1.5rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
+        .support-item { border: 1px solid rgba(96, 165, 250, 0.12); border-radius: 11px; margin-bottom: 1rem; overflow: hidden; background: rgba(255,255,255,0.02); transition: border-color 0.3s; }
+        .support-item:hover { border-color: rgba(96, 165, 250, 0.3); }
+        .expand-trigger { padding: 1.25rem 1.5rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; font-weight: 600; font-size: 1rem; color: #ffffff; transition: background 0.3s; }
+        .expand-trigger:hover { background: rgba(96, 165, 250, 0.05); }
+        .expand-trigger .arrow { color: #60a5fa; font-size: 1.2rem; transition: transform 0.3s; flex-shrink: 0; margin-left: 1rem; }
+        .support-item.open .expand-trigger .arrow { transform: rotate(180deg); }
+        .reveal-body { max-height: 0; overflow: hidden; transition: max-height 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-body-inner { padding: 0 1.5rem 1.5rem; color: #94a3b8; line-height: 1.7; font-size: 0.95rem; }
 
         /* Final CTA */
-        .cta-section { padding: 5rem 2rem; text-align: center; position: relative; z-index: 2; }
-        .cta-section h2 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; }
-        .cta-section h2 .accent { color: #60a5fa; }
-        .cta-section p { color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; font-size: 1.05rem; line-height: 1.7; }
+        .finale-section { padding: 6rem 2rem; text-align: center; position: relative; z-index: 2; }
+        .finale-section h2 { font-size: clamp(1.5rem, 3.5vw, 2.5rem); font-weight: 800; margin-bottom: 1rem; }
+        .finale-section h2 .accent { color: #60a5fa; }
+        .finale-section p { color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; font-size: 1.05rem; line-height: 1.7; }
         .cta-glow { display: inline-block; animation: glow-pulse-blue 2s infinite; border-radius: 12px; }
 
         /* Footer */
@@ -320,7 +321,7 @@
         .data-table .highlight { color: #60a5fa; font-weight: 700; }
 
         /* Full-width info banner */
-        .info-banner { max-width: 1100px; margin: 0 auto 2rem; background: rgba(96, 165, 250, 0.06); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 12px; padding: 1.5rem 2rem; }
+        .info-banner { max-width: 1300px; margin: 0 auto 2rem; background: rgba(96, 165, 250, 0.06); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 11px; padding: 1.5rem 2rem; }
         .info-banner h4 { color: #60a5fa; font-size: 1rem; margin-bottom: 0.5rem; }
         .info-banner p { color: #94a3b8; font-size: 0.9rem; line-height: 1.7; }
 
@@ -330,7 +331,7 @@
             .drag-grid { grid-template-columns: 1fr; }
             .two-col { grid-template-columns: 1fr; }
             .gauge-grid { grid-template-columns: 1fr; }
-            .trust-grid { grid-template-columns: repeat(2, 1fr); }
+            .trust-grid { grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); }
             .prep-grid { grid-template-columns: 1fr; }
             .mount-row { grid-template-columns: 1fr; gap: 0.5rem; }
             .mount-label-left, .mount-label-right { text-align: left; padding: 0; }
@@ -350,7 +351,7 @@
 
 <!-- Signal Status Widget -->
 <div class="signal-widget" id="signalWidget">
-    <div class="signal-widget-label"><span class="beacon"></span> Signal Status</div>
+    <div class="signal-panel-label"><span class="beacon"></span> Signal Status</div>
     <div class="signal-widget-type" id="sw-type">6-ft Parabolic Dish</div>
     <div class="signal-widget-epa" id="sw-epa">34.0 sq ft</div>
     <div class="signal-bars" id="sw-bars">
@@ -399,8 +400,8 @@
     <h1>Rooftop Antenna &amp; Satellite Dish <span class="hero-shimmer">Wind Load Design</span> in Miami-Dade HVHZ</h1>
     <p>Rooftop antennas in Miami-Dade's High Velocity Hurricane Zone face 180 MPH design wind speeds that generate forces exceeding 2,400 pounds on a single 6-foot satellite dish. Every installation requires engineered mounting, sealed structural calculations, and building department permits to survive hurricane-force conditions without becoming airborne debris.</p>
     <div class="hero-buttons">
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary">Calculate Antenna Wind Loads</a>
-        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-secondary">Browse All Calculators</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-advance">Calculate Antenna Wind Loads</a>
+        <a href="https://windloadcalc.com/wind-load-calculator-shop.html" class="btn-explore">Browse All Calculators</a>
     </div>
     <div class="warning-banner reveal">
         <p><strong>Critical:</strong> A 4-foot satellite dish on a non-engineered tripod mount generates 1,080 lbs of lateral force at 180 MPH. Without proper anchorage, the dish becomes a 35 lb projectile traveling at over 100 MPH, capable of penetrating impact-rated glazing.</p>
@@ -432,7 +433,7 @@
 <!-- Section 1: EPA Comparison with Radar Visualization -->
 <section class="content-section">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Effective Projected Area</span>
             <h2>Antenna EPA: The Variable That <span class="accent">Drives Design</span></h2>
             <p>Effective Projected Area (EPA) is the product of an antenna's physical frontal area and its drag coefficient. EPA directly determines the wind force each antenna contributes to the mounting structure and building frame.</p>
@@ -511,7 +512,7 @@
 <!-- Section 2: ASCE 7-22 Chapter 29 Rooftop Equipment -->
 <section class="content-section" style="background: rgba(30, 58, 95, 0.06);">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Code Requirements</span>
             <h2>ASCE 7-22 Chapter 29: <span class="accent">Rooftop Equipment Provisions</span></h2>
             <p>Rooftop antennas fall under ASCE 7-22 Chapter 29 as "other structures and building appurtenances." The interaction between the antenna, the building it sits on, and the accelerated wind flow over the roof edge creates a loading scenario more severe than freestanding structures.</p>
@@ -540,7 +541,7 @@
 <!-- Section 3: Drag Force Vectors -->
 <section class="content-section">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Drag Force Analysis</span>
             <h2>Wind Force Vectors by <span class="accent">Antenna Type</span></h2>
             <p>Each antenna geometry produces distinct drag characteristics. Understanding the force coefficient (Cf) and how it varies with wind angle is essential for mounting system design in the HVHZ.</p>
@@ -572,7 +573,7 @@
 <!-- Section 4: Parapet Shielding -->
 <section class="content-section" style="background: rgba(30, 58, 95, 0.06);">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Shielding Factors</span>
             <h2>Parapet Shielding: <span class="accent">Reduction or Illusion?</span></h2>
             <p>Building parapets can reduce wind loads on rooftop equipment, but the reduction is conditional and often smaller than designers assume. Understanding the limits prevents unsafe under-design.</p>
@@ -609,20 +610,20 @@
 <!-- Section 5: Ballast vs Mechanical Mounting -->
 <section class="content-section">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Mounting Systems</span>
             <h2>Ballast vs Mechanical: <span class="accent">The HVHZ Verdict</span></h2>
             <p>Mounting method selection in Miami-Dade's HVHZ comes down to a simple calculation: can the mounting system resist the overturning moment at 180 MPH without exceeding roof deck structural capacity?</p>
         </div>
 
         <div class="mount-compare reveal">
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; margin-bottom: 2rem;">
-                <div style="background: rgba(96, 165, 250, 0.06); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 12px; padding: 1.5rem;">
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1.67rem; margin-bottom: 2rem;">
+                <div style="background: rgba(96, 165, 250, 0.06); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 10px; padding: 1.5rem;">
                     <h4 style="color: #60a5fa; font-size: 1rem; margin-bottom: 0.75rem;">Ballast (Non-Penetrating)</h4>
                     <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7; margin-bottom: 0.75rem;">Relies on concrete block weight to resist wind overturning. A 4-ft dish on a 5-ft mast at 180 MPH requires 2,800+ lbs of ballast on a 4x4 ft frame. This concentrates 175 psf on the roof deck, far exceeding the typical 20 psf live load capacity. The ballast also adds permanent dead load that may exceed the roof structural reserve.</p>
                     <p style="color: #f87171; font-size: 0.85rem; font-weight: 600;">Verdict: Generally unacceptable in HVHZ for dishes over 2 feet</p>
                 </div>
-                <div style="background: rgba(96, 165, 250, 0.06); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 12px; padding: 1.5rem;">
+                <div style="background: rgba(96, 165, 250, 0.06); border: 1px solid rgba(96, 165, 250, 0.2); border-radius: 11px; padding: 1.5rem;">
                     <h4 style="color: #60a5fa; font-size: 1rem; margin-bottom: 0.75rem;">Mechanical Anchoring</h4>
                     <p style="color: #94a3b8; font-size: 0.9rem; line-height: 1.7; margin-bottom: 0.75rem;">Through-bolts or post-installed anchors transfer loads directly into structural framing. Anchorage into steel beams, concrete decks, or reinforced masonry parapets provides high capacity per fastener. A welded base plate with four 3/4-inch anchor bolts into a concrete deck resists over 12,000 lbs in combined shear and tension, sufficient for large dish arrays.</p>
                     <p style="color: #34d399; font-size: 0.85rem; font-weight: 600;">Verdict: Required for virtually all HVHZ antenna installations</p>
@@ -640,7 +641,7 @@
 <!-- Section 6: Mast Deflection Limits -->
 <section class="content-section" style="background: rgba(30, 58, 95, 0.06);">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Signal Quality</span>
             <h2>Mast Deflection Limits for <span class="accent">Signal Integrity</span></h2>
             <p>Structural codes ensure the antenna survives the wind. Signal quality requirements impose much stricter deflection limits that typically govern mast sizing over strength alone.</p>
@@ -689,7 +690,7 @@
 <!-- Section 7: Regulatory Requirements -->
 <section class="content-section">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Regulatory Compliance</span>
             <h2>FCC, FAA, and <span class="accent">Lightning Protection</span></h2>
             <p>Rooftop antenna installations in Miami-Dade intersect three regulatory domains beyond the Florida Building Code: Federal Communications Commission frequency licensing, Federal Aviation Administration height restrictions, and NFPA 780 lightning protection requirements.</p>
@@ -719,7 +720,7 @@
 <!-- Section 8: Cable Tray & Equipment Screen Wind Loads -->
 <section class="content-section" style="background: rgba(30, 58, 95, 0.06);">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Supporting Infrastructure</span>
             <h2>Cable Trays, Equipment Screens, and <span class="accent">Maintenance Platforms</span></h2>
             <p>The antenna itself is only part of the wind load story. Cable trays, equipment screens, access ladders, and maintenance platforms all contribute significant additional EPA that must be included in the structural analysis.</p>
@@ -794,7 +795,7 @@
 <!-- Section 9: Hurricane Preparation -->
 <section class="content-section">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Storm Readiness</span>
             <h2>Hurricane Preparation: <span class="accent">Antenna Stow Procedures</span></h2>
             <p>When a hurricane approaches Miami-Dade, rooftop antenna arrays need specific preparation to minimize wind damage and reduce the risk of equipment becoming windborne debris.</p>
@@ -824,7 +825,7 @@
 <!-- Section 10: Miami-Dade Permit Process -->
 <section class="content-section" style="background: rgba(30, 58, 95, 0.06);">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Permit Requirements</span>
             <h2>Miami-Dade Building Department: <span class="accent">Rooftop Equipment Permits</span></h2>
             <p>Every commercial rooftop antenna installation in Miami-Dade County requires a building permit. The permit process involves structural review, zoning compliance, and field inspections specific to the HVHZ.</p>
@@ -864,66 +865,66 @@
 </section>
 
 <!-- FAQ Section -->
-<section class="faq-section">
+<section class="learn-section">
     <div class="container">
-        <div class="section-header reveal">
+        <div class="section-top reveal">
             <span class="tag">Expert Answers</span>
             <h2>Rooftop Antenna Wind Load <span class="accent">FAQ</span></h2>
         </div>
 
         <div class="faq-list reveal">
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="support-item">
+                <div class="expand-trigger" onclick="toggleFaq(this)">
                     How do you calculate wind loads on a rooftop satellite dish in Miami-Dade HVHZ?
                     <span class="arrow">&#9660;</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Satellite dish wind loads in Miami-Dade HVHZ are calculated using ASCE 7-22 Chapter 29 for other structures and building appurtenances. The design wind speed is 180 MPH ultimate (3-second gust). The velocity pressure qz at rooftop level depends on building height and exposure: for a typical 60-foot commercial building in Exposure C, qz equals approximately 72 psf at roof height. The wind force on the dish equals qz multiplied by the Effective Projected Area (EPA), which is the dish physical area times its drag coefficient. A 6-foot parabolic dish has a physical area of 28.3 sq ft and a drag coefficient (Cf) of 1.2 to 1.4, yielding an EPA of 34 to 40 sq ft. At 72 psf, the total lateral wind force on that single dish is 2,450 to 2,880 lbs.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Satellite dish wind loads in Miami-Dade HVHZ are calculated using ASCE 7-22 Chapter 29 for other structures and building appurtenances. The design wind speed is 180 MPH ultimate (3-second gust). The velocity pressure qz at rooftop level depends on building height and exposure: for a typical 60-foot commercial building in Exposure C, qz equals approximately 72 psf at roof height. The wind force on the dish equals qz multiplied by the Effective Projected Area (EPA), which is the dish physical area times its drag coefficient. A 6-foot parabolic dish has a physical area of 28.3 sq ft and a drag coefficient (Cf) of 1.2 to 1.4, yielding an EPA of 34 to 40 sq ft. At 72 psf, the total lateral wind force on that single dish is 2,450 to 2,880 lbs.</div>
                 </div>
             </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="support-item">
+                <div class="expand-trigger" onclick="toggleFaq(this)">
                     What is the difference between EPA calculations for dish, panel, and whip antennas?
                     <span class="arrow">&#9660;</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Each antenna type has a distinct EPA profile based on its geometry. Parabolic dish antennas have the highest EPA: a 4-foot dish has Cf of 1.2-1.4, yielding EPA of 15-17.5 sq ft. Panel antennas are rectangular, typically 12 inches wide by 48 inches tall, with Cf of 1.6-2.0 for flat plates, yielding EPA of 5.3-6.7 sq ft. Whip antennas are slender cylinders with Cf of 0.7-1.2 depending on Reynolds number; a 1-inch by 8-foot whip has EPA of only 0.47-0.80 sq ft. For HVHZ design, you must use the maximum EPA across all wind directions, since panel antenna EPA varies significantly with wind angle.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Each antenna type has a distinct EPA profile based on its geometry. Parabolic dish antennas have the highest EPA: a 4-foot dish has Cf of 1.2-1.4, yielding EPA of 15-17.5 sq ft. Panel antennas are rectangular, typically 12 inches wide by 48 inches tall, with Cf of 1.6-2.0 for flat plates, yielding EPA of 5.3-6.7 sq ft. Whip antennas are slender cylinders with Cf of 0.7-1.2 depending on Reynolds number; a 1-inch by 8-foot whip has EPA of only 0.47-0.80 sq ft. For HVHZ design, you must use the maximum EPA across all wind directions, since panel antenna EPA varies significantly with wind angle.</div>
                 </div>
             </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="support-item">
+                <div class="expand-trigger" onclick="toggleFaq(this)">
                     Does a rooftop parapet reduce wind loads on antennas in Miami-Dade?
                     <span class="arrow">&#9660;</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Yes, parapets provide measurable wind speed reduction for equipment within a sheltered zone. ASCE 7-22 allows a shielding reduction factor when equipment is within a distance equal to the parapet height measured horizontally. A 4-foot parapet shelters equipment within 4 feet. The reduction factor ranges from 0.6 to 0.85. However, antenna elements extending above the parapet top receive no reduction, corner locations experience amplified pressures, and oblique wind angles reduce effectiveness. In Miami-Dade practice, many engineers conservatively ignore parapet shielding for critical telecommunications installations.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Yes, parapets provide measurable wind speed reduction for equipment within a sheltered zone. ASCE 7-22 allows a shielding reduction factor when equipment is within a distance equal to the parapet height measured horizontally. A 4-foot parapet shelters equipment within 4 feet. The reduction factor ranges from 0.6 to 0.85. However, antenna elements extending above the parapet top receive no reduction, corner locations experience amplified pressures, and oblique wind angles reduce effectiveness. In Miami-Dade practice, many engineers conservatively ignore parapet shielding for critical telecommunications installations.</div>
                 </div>
             </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="support-item">
+                <div class="expand-trigger" onclick="toggleFaq(this)">
                     What mast deflection limits apply to rooftop antennas for signal quality?
                     <span class="arrow">&#9660;</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Deflection limits are driven by signal requirements, not structural codes. Ku-band satellite dishes allow only 0.5 to 1.0 degree of angular deflection (mast limit L/200 to L/400) before signal degradation. Cellular panel antennas tolerate 2 to 3 degrees (L/60 to L/100). Whip antennas accept deflections up to L/30 since they are omnidirectional. These checks use service-level wind speeds (approximately 110 MPH for 50-year return period in Miami-Dade), not the ultimate 180 MPH design speed, because the antenna only needs to maintain signal under operational conditions.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Deflection limits are driven by signal requirements, not structural codes. Ku-band satellite dishes allow only 0.5 to 1.0 degree of angular deflection (mast limit L/200 to L/400) before signal degradation. Cellular panel antennas tolerate 2 to 3 degrees (L/60 to L/100). Whip antennas accept deflections up to L/30 since they are omnidirectional. These checks use service-level wind speeds (approximately 110 MPH for 50-year return period in Miami-Dade), not the ultimate 180 MPH design speed, because the antenna only needs to maintain signal under operational conditions.</div>
                 </div>
             </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="support-item">
+                <div class="expand-trigger" onclick="toggleFaq(this)">
                     What permits does Miami-Dade require for rooftop antenna installations?
                     <span class="arrow">&#9660;</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Commercial antenna installations always require building permits in Miami-Dade. The application must include sealed structural engineering drawings with wind load calculations at 180 MPH, mounting connection details, load path analysis, roof waterproofing details, and grounding per NFPA 780. HVHZ mounting hardware must carry Miami-Dade NOA or Florida Product Approval. If the antenna exceeds 20 feet above the roof or brings total height above FAA thresholds, FAA Form 7460-1 and Determination of No Hazard are required before the county issues the permit. Three field inspections (anchorage, rough, and final) are mandatory.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Commercial antenna installations always require building permits in Miami-Dade. The application must include sealed structural engineering drawings with wind load calculations at 180 MPH, mounting connection details, load path analysis, roof waterproofing details, and grounding per NFPA 780. HVHZ mounting hardware must carry Miami-Dade NOA or Florida Product Approval. If the antenna exceeds 20 feet above the roof or brings total height above FAA thresholds, FAA Form 7460-1 and Determination of No Hazard are required before the county issues the permit. Three field inspections (anchorage, rough, and final) are mandatory.</div>
                 </div>
             </div>
-            <div class="faq-item">
-                <div class="faq-question" onclick="toggleFaq(this)">
+            <div class="support-item">
+                <div class="expand-trigger" onclick="toggleFaq(this)">
                     Should rooftop antennas use ballast or mechanical anchoring in Miami-Dade?
                     <span class="arrow">&#9660;</span>
                 </div>
-                <div class="faq-answer">
-                    <div class="faq-answer-inner">Mechanical anchoring is required for nearly all antenna installations in Miami-Dade HVHZ. Ballast mounting fails the math at 180 MPH: a 4-foot dish on a 5-foot mast requires over 2,800 lbs of ballast, concentrating 175 psf on the roof deck against a typical 20 psf capacity. Mechanical anchoring through the roof membrane into structural framing with proper waterproof flashing distributes loads through the building frame. A welded base plate with four 3/4-inch anchor bolts into concrete resists over 12,000 lbs combined. Roof penetrations must be sealed per the roofing manufacturer's specifications to maintain the roof warranty.</div>
+                <div class="reveal-body">
+                    <div class="reveal-body-inner">Mechanical anchoring is required for nearly all antenna installations in Miami-Dade HVHZ. Ballast mounting fails the math at 180 MPH: a 4-foot dish on a 5-foot mast requires over 2,800 lbs of ballast, concentrating 175 psf on the roof deck against a typical 20 psf capacity. Mechanical anchoring through the roof membrane into structural framing with proper waterproof flashing distributes loads through the building frame. A welded base plate with four 3/4-inch anchor bolts into concrete resists over 12,000 lbs combined. Roof penetrations must be sealed per the roofing manufacturer's specifications to maintain the roof warranty.</div>
                 </div>
             </div>
         </div>
@@ -931,11 +932,11 @@
 </section>
 
 <!-- Final CTA -->
-<section class="cta-section reveal">
+<section class="finale-section reveal">
     <h2>Calculate Your Rooftop <span class="accent">Antenna Wind Loads</span></h2>
     <p>Get precise wind load calculations for satellite dishes, panel antennas, whip masts, equipment screens, and cable trays. ASCE 7-22 compliant analysis for Miami-Dade HVHZ at 180 MPH design wind speed.</p>
     <div class="cta-glow">
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-primary" style="font-size: 1.1rem; padding: 1rem 2.25rem;">Calculate Antenna Wind Loads Now</a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn-advance" style="font-size: 1.1rem; padding: 1rem 2.25rem;">Calculate Antenna Wind Loads Now</a>
     </div>
 </section>
 
@@ -978,8 +979,8 @@
         reset() {
             this.x = -20 - Math.random() * 100;
             this.y = Math.random() * H * 0.65;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = Math.random() * 3 + 1.5;
+            this.size = Math.random() * 2.2 + 0.7;
+            this.speedX = Math.random() * 2.9 + 1.6;
             this.speedY = (Math.random() - 0.5) * 0.5;
             this.alpha = Math.random() * 0.4 + 0.1;
             this.color = Math.random() > 0.6 ? '#60a5fa' : (Math.random() > 0.5 ? '#93c5fd' : '#c0c0c0');
@@ -1267,7 +1268,7 @@
                 entry.target.classList.add('active');
             }
         });
-    }, { threshold: 0.15 });
+    }, { threshold: 0.25 });
     reveals.forEach(el => observer.observe(el));
 })();
 
@@ -1299,7 +1300,7 @@
                 requestAnimationFrame(step);
             }
         });
-    }, { threshold: 0.5 });
+    }, { threshold: 0.2 });
     counters.forEach(c => observer.observe(c));
 })();
 
@@ -1310,7 +1311,7 @@
         entries.forEach(entry => {
             if (entry.isIntersecting) entry.target.classList.add('active');
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.1 });
     fills.forEach(f => observer.observe(f));
 })();
 
@@ -1332,7 +1333,7 @@
                 });
             }
         });
-    }, { threshold: 0.3 });
+    }, { threshold: 0.2 });
     const gaugeSection = document.querySelector('.gauge-grid');
     if (gaugeSection) observer.observe(gaugeSection);
 })();
@@ -1358,7 +1359,7 @@
 
 // ===== Button Ripple =====
 (function() {
-    document.querySelectorAll('.btn-primary').forEach(btn => {
+    document.querySelectorAll('.btn-advance').forEach(btn => {
         btn.addEventListener('click', function(e) {
             const ripple = document.createElement('span');
             ripple.classList.add('btn-ripple');
@@ -1375,11 +1376,11 @@
 // ===== FAQ Accordion =====
 function toggleFaq(el) {
     const item = el.parentElement;
-    const answer = item.querySelector('.faq-answer');
+    const answer = item.querySelector('.reveal-body');
     const isOpen = item.classList.contains('open');
-    document.querySelectorAll('.faq-item.open').forEach(i => {
+    document.querySelectorAll('.support-item.open').forEach(i => {
         i.classList.remove('open');
-        i.querySelector('.faq-answer').style.maxHeight = '0';
+        i.querySelector('.reveal-body').style.maxHeight = '0';
     });
     if (!isOpen) {
         item.classList.add('open');

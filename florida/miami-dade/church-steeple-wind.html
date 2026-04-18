@@ -93,19 +93,20 @@
     }
     </script>
     <style>
+/* uid:54bc0724 */
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0c1220; color: #ffffff; line-height: 1.6; overflow-x: hidden; }
         #hurricane-bg { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.5; }
         .grid-pattern { position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; background-image: radial-gradient(circle at 25% 20%, rgba(124, 58, 237, 0.06) 0%, transparent 50%), radial-gradient(circle at 75% 80%, rgba(139, 92, 246, 0.04) 0%, transparent 50%); }
-        .reveal { opacity: 0; transform: translateY(40px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal { opacity: 0; transform: translateY(25px); transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1); }
         .reveal.active { opacity: 1; transform: translateY(0); }
         .reveal-left { opacity: 0; transform: translateX(-60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-left.active { opacity: 1; transform: translateX(0); }
-        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-right { opacity: 0; transform: translateX(60px); transition: all 0.65s cubic-bezier(0.16, 1, 0.3, 1); }
         .reveal-right.active { opacity: 1; transform: translateX(0); }
-        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1); }
+        .reveal-scale { opacity: 0; transform: scale(0.8); transition: all 0.4s ease-out; }
         .reveal-scale.active { opacity: 1; transform: scale(1); }
-        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .stagger-children > * { opacity: 0; transform: translateY(25px); transition: all 0.4s ease-out; }
         .stagger-children.active > *:nth-child(1) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(2) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
         .stagger-children.active > *:nth-child(3) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
@@ -118,25 +119,25 @@
         @keyframes sway { 0%, 100% { transform: rotate(-0.5deg); } 50% { transform: rotate(0.5deg); } }
         @keyframes freq-pulse { 0%, 100% { opacity: 0.3; } 50% { opacity: 0.9; } }
         .hero-shimmer { background: linear-gradient(120deg, #7c3aed 0%, #8b5cf6 20%, #00e5ff 40%, #7c3aed 60%, #8b5cf6 80%, #00e5ff 100%); background-size: 200% 100%; -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; animation: shimmer 3s linear infinite; }
-        .vortex-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 16px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(10px); opacity: 0; transform: translateX(120px); transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1); min-width: 190px; }
+        .vortex-widget { position: fixed; top: 80px; right: 20px; background: rgba(12, 18, 32, 0.95); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 17px; padding: 16px 20px; z-index: 99; backdrop-filter: blur(28px); opacity: 0; transform: translateX(120px); transition: all 0.8s ease-out; min-width: 190px; }
         .vortex-widget.visible { opacity: 1; transform: translateX(0); }
-        .vortex-widget-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
-        .vortex-widget-value { font-size: 1.5rem; font-weight: 800; color: #8b5cf6; margin-bottom: 4px; }
+        .vortex-quick-label { font-size: 0.65rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px; }
+        .vortex-badge-figure { font-size: 1.5rem; font-weight: 800; color: #8b5cf6; margin-bottom: 4px; }
         .vortex-widget-bar { width: 100%; height: 6px; background: rgba(255,255,255,0.1); border-radius: 3px; overflow: hidden; margin-bottom: 8px; }
         .vortex-widget-fill { height: 100%; background: linear-gradient(90deg, #7c3aed, #00e5ff); border-radius: 3px; width: 0%; transition: width 2s cubic-bezier(0.16, 1, 0.3, 1); }
         .vortex-widget-status { font-size: 0.8rem; font-weight: 600; color: #8b5cf6; }
-        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(10px); border-bottom: 1px solid rgba(124, 58, 237, 0.2); }
+        .nav { position: fixed; top: 0; left: 0; right: 0; padding: 3rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 100; background: rgba(12, 18, 32, 0.95); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(124, 58, 237, 0.2); }
         .nav-logo { display: flex; align-items: center; gap: 0.5rem; text-decoration: none; }
         .nav-logo .logo-img { height: 28px; width: auto; }
         .nav-logo .logo-text { font-size: 1.25rem; font-weight: 800; color: #fff; -webkit-text-fill-color: #fff; }
         .nav-logo .logo-text span { color: #00b4d8; -webkit-text-fill-color: #00b4d8; }
-        .nav-links { display: flex; gap: 1.5rem; }
+        .nav-links { display: flex; gap: 1.54rem; }
         .nav-links a { color: #94a3b8; text-decoration: none; font-size: 0.9rem; font-weight: 500; transition: color 0.3s ease; }
         .nav-links a:hover { color: #8b5cf6; }
-        .nav-cta { background: linear-gradient(135deg, #7c3aed 0%, #00b4d8 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.3s ease; }
-        .nav-cta:hover { transform: translateY(-2px); box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4); }
-        .breadcrumb { padding: 1rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
-        .breadcrumb-container { max-width: 1200px; margin: 0 auto; }
+        .nav-cta { background: linear-gradient(135deg, #7c3aed 0%, #00b4d8 100%); color: #ffffff; padding: 0.6rem 1.25rem; border-radius: 8px; text-decoration: none; font-weight: 700; font-size: 0.85rem; transition: all 0.65s cubic-bezier(0.33, 1, 0.68, 1); }
+        .nav-cta:hover { transform: scale(1.03); box-shadow: 0 4px 20px rgba(124, 58, 237, 0.4); }
+        .breadcrumb { padding: 3rem 2rem; background: rgba(255,255,255,0.02); margin-top: 60px; position: relative; z-index: 2; }
+        .breadcrumb-container { max-width: 1400px; margin: 0 auto; }
         .breadcrumb a { color: #64748b; text-decoration: none; font-size: 0.875rem; }
         .breadcrumb a:hover { color: #8b5cf6; }
         .breadcrumb span { color: #64748b; margin: 0 0.5rem; }
@@ -147,51 +148,51 @@
         .hero h1 { font-size: clamp(2rem, 5vw, 3rem); font-weight: 800; line-height: 1.2; margin-bottom: 1.5rem; }
         .hero-intro { font-size: 1.2rem; color: #e2e8f0; margin-bottom: 2.5rem; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.7; }
         .hero-intro strong { color: #8b5cf6; }
-        .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
-        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 1rem 2rem; border-radius: 12px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.3s ease; cursor: pointer; border: none; }
-        .btn-primary { background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%); color: #ffffff; }
-        .btn-primary:hover { transform: translateY(-3px); box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4); }
-        .btn-secondary { background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); color: #8b5cf6; }
-        .btn-secondary:hover { background: rgba(124, 58, 237, 0.2); transform: translateY(-3px); }
+        .hero-cta { display: flex; gap: 1.15rem; justify-content: center; flex-wrap: wrap; margin-bottom: 2rem; }
+        .btn { display: inline-flex; align-items: center; gap: 0.5rem; padding: 3rem 2rem; border-radius: 11px; font-weight: 700; font-size: 1rem; text-decoration: none; transition: all 0.7s cubic-bezier(0.33, 1, 0.68, 1); cursor: pointer; border: none; }
+        .btn-launch { background: linear-gradient(135deg, #7c3aed 0%, #8b5cf6 100%); color: #ffffff; }
+        .btn-launch:hover { transform: translateY(-6px); box-shadow: 0 8px 30px rgba(124, 58, 237, 0.4); }
+        .btn-view { background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); color: #8b5cf6; }
+        .btn-view:hover { background: rgba(124, 58, 237, 0.2); transform: translateY(-3px) scale(1.01); }
         .warning-banner { background: rgba(245, 158, 11, 0.1); border: 1px solid rgba(245, 158, 11, 0.3); border-left: 4px solid #f59e0b; padding: 1rem 1.5rem; border-radius: 0 12px 12px 0; margin-top: 1rem; text-align: left; max-width: 700px; margin-left: auto; margin-right: auto; animation: warning-flash 3s ease-in-out infinite; }
         @keyframes warning-flash { 0%, 100% { border-left-color: #f59e0b; } 50% { border-left-color: #ff6b7a; box-shadow: inset 0 0 30px rgba(245, 158, 11, 0.05); } }
         .warning-banner strong { color: #f59e0b; }
         .warning-banner p { font-size: 0.95rem; color: #e2e8f0; }
         .trust-bar { padding: 3rem 2rem; position: relative; z-index: 2; border-bottom: 1px solid rgba(124, 58, 237, 0.1); }
-        .trust-bar-container { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem; text-align: center; }
+        .trust-bar-container { max-width: 1350px; margin: 0 auto; display: grid; grid-template-columns: repeat(4, 1fr); gap: 2.29rem; text-align: center; }
         .trust-item .counter { font-size: 2.5rem; font-weight: 800; color: #7c3aed; margin-bottom: 0.25rem; }
         .trust-item .trust-label { font-size: 0.85rem; color: #64748b; }
         section { position: relative; z-index: 2; }
-        .section-dark { padding: 5rem 2rem; }
+        .section-dark { padding: 6rem 2rem; }
         .section-alt { padding: 5rem 2rem; background: rgba(124, 58, 237, 0.03); }
-        .section-container { max-width: 1200px; margin: 0 auto; }
-        .section-header { text-align: center; margin-bottom: 3rem; }
-        .section-header h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
-        .section-header h2 .accent { color: #7c3aed; }
-        .section-header p { font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 0 auto; }
-        .vortex-viz { position: relative; background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 20px; padding: 2rem; margin-bottom: 3rem; overflow: hidden; }
-        .vortex-canvas-container { width: 100%; height: 350px; position: relative; border-radius: 12px; overflow: hidden; }
+        .section-container { max-width: 1150px; margin: 0 auto; }
+        .section-title-area { text-align: center; margin-bottom: 3rem; }
+        .section-title-area h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
+        .section-title-area h2 .accent { color: #7c3aed; }
+        .section-title-area p { font-size: 1.1rem; color: #94a3b8; max-width: 700px; margin: 0 auto; }
+        .vortex-viz { position: relative; background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.2); border-radius: 17px; padding: 2rem; margin-bottom: 3rem; overflow: hidden; }
+        .vortex-canvas-container { width: 100%; height: 350px; position: relative; border-radius: 9px; overflow: hidden; }
         #vortexCanvas { width: 100%; height: 100%; display: block; }
-        .vortex-legend { display: flex; gap: 2rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
+        .vortex-legend { display: flex; gap: 1.74rem; justify-content: center; margin-top: 1.5rem; flex-wrap: wrap; }
         .vortex-legend-item { display: flex; align-items: center; gap: 0.5rem; font-size: 0.85rem; color: #94a3b8; }
         .legend-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2rem; }
-        .content-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 16px; padding: 2rem; transition: all 0.4s ease; }
-        .content-card:hover { transform: translateY(-6px); border-color: rgba(124, 58, 237, 0.4); box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15); }
-        .card-icon { width: 48px; height: 48px; background: rgba(124, 58, 237, 0.15); border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
+        .content-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 2.15rem; }
+        .content-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 14px; padding: 2rem; transition: all 0.75s cubic-bezier(0.4, 0, 0.2, 1); }
+        .content-card:hover { transform: translateY(-3px) scale(1.01); border-color: rgba(124, 58, 237, 0.4); box-shadow: 0 8px 30px rgba(124, 58, 237, 0.15); }
+        .card-icon { width: 48px; height: 48px; background: rgba(124, 58, 237, 0.15); border-radius: 11px; display: flex; align-items: center; justify-content: center; margin-bottom: 1rem; font-size: 1.5rem; }
         .content-card h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: 0.75rem; color: #ffffff; }
         .content-card p { font-size: 0.95rem; color: #94a3b8; line-height: 1.7; }
         .content-card .highlight { color: #8b5cf6; font-weight: 700; }
         .damage-timeline { position: relative; padding-left: 3rem; }
         .damage-timeline::before { content: ''; position: absolute; left: 14px; top: 0; bottom: 0; width: 2px; background: linear-gradient(180deg, #7c3aed, #00e5ff, #7c3aed); }
-        .timeline-event { position: relative; margin-bottom: 2.5rem; padding: 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 12px; }
+        .timeline-event { position: relative; margin-bottom: 2.5rem; padding: 1.5rem; background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 13px; }
         .timeline-event::before { content: ''; position: absolute; left: -2.35rem; top: 1.5rem; width: 14px; height: 14px; border-radius: 50%; background: #7c3aed; border: 3px solid #0c1220; box-shadow: 0 0 12px rgba(124, 58, 237, 0.5); }
         .timeline-event h4 { font-size: 1rem; font-weight: 700; color: #8b5cf6; margin-bottom: 0.5rem; }
         .timeline-event p { font-size: 0.9rem; color: #94a3b8; line-height: 1.7; }
         .timeline-year { font-size: 0.75rem; color: #64748b; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 0.25rem; }
-        .materials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
-        .material-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 16px; padding: 1.75rem; text-align: center; transition: all 0.4s ease; position: relative; overflow: hidden; }
-        .material-card:hover { transform: translateY(-6px); border-color: rgba(124, 58, 237, 0.4); }
+        .materials-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.29rem; }
+        .material-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 18px; padding: 1.75rem; text-align: center; transition: all 0.4s ease-in-out; position: relative; overflow: hidden; }
+        .material-card:hover { transform: translateY(-5px); border-color: rgba(124, 58, 237, 0.4); }
         .material-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; }
         .material-card .material-rating { font-size: 2rem; font-weight: 800; color: #7c3aed; margin-bottom: 0.5rem; }
         .material-card p { font-size: 0.85rem; color: #94a3b8; line-height: 1.6; }
@@ -200,7 +201,7 @@
         .tag-good { background: rgba(0, 229, 255, 0.15); color: #00e5ff; }
         .tag-limited { background: rgba(245, 158, 11, 0.15); color: #f59e0b; }
         .tag-poor { background: rgba(255, 71, 87, 0.15); color: #ff4757; }
-        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; align-items: start; }
+        .split-section { display: grid; grid-template-columns: 1fr 1fr; gap: 2.78rem; align-items: start; }
         .split-content h3 { font-size: 1.5rem; font-weight: 700; margin-bottom: 1.5rem; }
         .split-content h3 .accent { color: #7c3aed; }
         .split-content p { font-size: 1rem; color: #94a3b8; line-height: 1.8; margin-bottom: 1.25rem; }
@@ -215,31 +216,31 @@
         .force-table .val-warn { color: #f59e0b; font-weight: 700; }
         .force-table .val-danger { color: #ff4757; font-weight: 700; }
         .retrofit-steps { counter-reset: step; }
-        .retrofit-step { display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start; }
+        .retrofit-step { display: flex; gap: 1.78rem; margin-bottom: 2rem; align-items: flex-start; }
         .step-number { counter-increment: step; flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%; background: linear-gradient(135deg, #7c3aed, #8b5cf6); display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.2rem; color: #fff; box-shadow: 0 4px 15px rgba(124, 58, 237, 0.3); }
         .step-content h4 { font-size: 1.05rem; font-weight: 700; color: #fff; margin-bottom: 0.5rem; }
         .step-content p { font-size: 0.9rem; color: #94a3b8; line-height: 1.7; }
-        .faq { padding: 5rem 2rem; }
+        .faq { padding: 6rem 2rem; }
         .faq-container { max-width: 800px; margin: 0 auto; }
         .faq-list { margin-top: 2rem; }
-        .faq-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 12px; margin-bottom: 1rem; overflow: hidden; transition: all 0.3s ease; }
-        .faq-item:hover { border-color: rgba(124, 58, 237, 0.3); }
-        .faq-question { padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; color: #ffffff; }
-        .faq-question::after { content: '+'; font-size: 1.5rem; color: #7c3aed; transition: transform 0.3s ease; flex-shrink: 0; }
-        .faq-item.open .faq-question::after { transform: rotate(45deg); }
-        .faq-answer { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
-        .faq-item.open .faq-answer { max-height: 500px; padding: 0 1.5rem 1.25rem; }
-        .faq-answer p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
-        .cta-section { padding: 5rem 2rem; text-align: center; position: relative; z-index: 2; }
-        .cta-section h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
-        .cta-section p { font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; }
+        .learn-item { background: rgba(255,255,255,0.03); border: 1px solid rgba(124, 58, 237, 0.15); border-radius: 14px; margin-bottom: 1rem; overflow: hidden; transition: all 0.65s cubic-bezier(0.4, 0, 0.2, 1); }
+        .learn-item:hover { border-color: rgba(124, 58, 237, 0.3); }
+        .expand-trigger { padding: 1.25rem 1.5rem; cursor: pointer; font-weight: 600; font-size: 1.05rem; display: flex; justify-content: space-between; align-items: center; gap: 0.95rem; color: #ffffff; }
+        .expand-trigger::after { content: '+'; font-size: 1.5rem; color: #7c3aed; transition: transform 0.3s ease; flex-shrink: 0; }
+        .learn-item.open .expand-trigger::after { transform: rotate(45deg); }
+        .knowledge-body { max-height: 0; overflow: hidden; transition: max-height 0.4s ease, padding 0.3s ease; }
+        .learn-item.open .knowledge-body { max-height: 500px; padding: 0 1.5rem 1.25rem; }
+        .knowledge-body p { color: #94a3b8; font-size: 0.95rem; line-height: 1.7; }
+        .engage-section { padding: 4rem 2rem; text-align: center; position: relative; z-index: 2; }
+        .engage-section h2 { font-size: clamp(1.5rem, 3vw, 2.25rem); font-weight: 800; margin-bottom: 1rem; }
+        .engage-section p { font-size: 1.1rem; color: #94a3b8; max-width: 600px; margin: 0 auto 2rem; }
         footer { padding: 2rem; text-align: center; border-top: 1px solid rgba(124, 58, 237, 0.1); position: relative; z-index: 2; }
         footer p { font-size: 0.85rem; color: #64748b; margin-bottom: 0.5rem; }
         footer a { color: #64748b; text-decoration: none; transition: color 0.3s ease; }
         footer a:hover { color: #8b5cf6; }
         @media (max-width: 768px) {
             .nav-links { display: none; }
-            .trust-bar-container { grid-template-columns: repeat(2, 1fr); }
+            .trust-bar-container { grid-template-columns: 1fr 1fr; }
             .content-grid { grid-template-columns: 1fr; }
             .materials-grid { grid-template-columns: 1fr; }
             .split-section { grid-template-columns: 1fr; }
@@ -253,8 +254,8 @@
     <div class="grid-pattern"></div>
 
     <div class="vortex-widget" id="vortexWidget">
-        <div class="vortex-widget-label">Shedding Frequency</div>
-        <div class="vortex-widget-value" id="widgetFreq">0 Hz</div>
+        <div class="vortex-quick-label">Shedding Frequency</div>
+        <div class="vortex-badge-figure" id="widgetFreq">0 Hz</div>
         <div class="vortex-widget-bar"><div class="vortex-widget-fill" id="widgetFill"></div></div>
         <div class="vortex-widget-status" id="widgetStatus">Analyzing...</div>
     </div>
@@ -292,8 +293,8 @@
             <h1>Church Steeple <span class="hero-shimmer">Wind Load Engineering</span> in Miami-Dade HVHZ</h1>
             <p class="hero-intro">Church steeples are among the most aerodynamically vulnerable structures in South Florida. Rising <strong>40 to 120 feet above the roof line</strong>, these slender towers face vortex shedding, cross-wind galloping, and velocity pressures amplified by height that push design loads far beyond what the main building envelope encounters. In Miami-Dade's HVHZ, the <strong>180 MPH basic wind speed</strong> combined with dynamic amplification factors can produce effective tip forces equivalent to a sustained Category 5 blast.</p>
             <div class="hero-cta">
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-primary">Calculate Steeple Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-secondary">View Specialty Calculators</a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-launch">Calculate Steeple Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+                <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-view">View Specialty Calculators</a>
             </div>
             <div class="warning-banner">
                 <p><strong>Engineering Alert:</strong> Steeples with height-to-width ratios exceeding 4:1 require dynamic wind analysis per ASCE 7-22 Section 26.11 in Miami-Dade HVHZ. The standard 0.85 gust effect factor does not apply. Flexible structure analysis with vortex shedding checks is mandatory for permit approval.</p>
@@ -325,7 +326,7 @@
     <!-- Vortex Shedding Visualization -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>Vortex Shedding <span class="accent">Frequency Visualization</span></h2>
                 <p>When wind flows past a cylindrical steeple, alternating vortices shed from each side at a predictable frequency. When that frequency matches the structure's natural frequency, resonance produces catastrophic cross-wind oscillations.</p>
             </div>
@@ -346,7 +347,7 @@
     <!-- Dynamic Wind Effects -->
     <section class="section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>Dynamic Wind Effects on <span class="accent">Slender Towers</span></h2>
                 <p>Steeples behave fundamentally differently from typical building components. Their slenderness ratio triggers dynamic response modes that standard C&C analysis cannot capture.</p>
             </div>
@@ -386,7 +387,7 @@
     <!-- ASCE 7-22 Classification -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>ASCE 7-22 Classification & <span class="accent">Load Calculation</span></h2>
                 <p>How to properly classify and analyze church steeples under the current wind load standard used in Miami-Dade's HVHZ.</p>
             </div>
@@ -461,7 +462,7 @@
     <!-- Historical Damage -->
     <section class="section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>Historical Hurricane Damage to <span class="accent">Church Steeples</span></h2>
                 <p>South Florida hurricanes have repeatedly demonstrated that church steeples are among the first structures to fail. Each storm teaches the engineering community critical lessons about dynamic wind response.</p>
             </div>
@@ -493,7 +494,7 @@
     <!-- Material Considerations -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>Steeple Construction <span class="accent">Materials Compared</span></h2>
                 <p>Each steeple material system brings distinct advantages and vulnerabilities under 180 MPH wind conditions. The engineering approach differs substantially for each material type.</p>
             </div>
@@ -541,7 +542,7 @@
     <!-- Connection Design & Retrofit -->
     <section class="section-alt">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>Connection Design & <span class="accent">Retrofit Strategies</span></h2>
                 <p>The steeple-to-building connection is the single most critical engineering element. Historical hurricane data proves that this junction is where the majority of steeple failures originate.</p>
             </div>
@@ -605,7 +606,7 @@
     <!-- Foundation Requirements -->
     <section class="section-dark">
         <div class="section-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>Foundation Requirements for <span class="accent">Steeple Base Reactions</span></h2>
                 <p>The foundation beneath a steeple must resist forces that dwarf typical building loads. Overturning moments at 180 MPH create extreme bearing pressure differentials and anchor tension demands.</p>
             </div>
@@ -631,43 +632,43 @@
     <!-- FAQ Section -->
     <section class="faq">
         <div class="faq-container">
-            <div class="section-header reveal">
+            <div class="section-title-area reveal">
                 <h2>Frequently Asked Questions: <span class="accent">Church Steeple Wind Loads</span></h2>
                 <p>Answers to the most common engineering questions about designing and retrofitting church steeples for Miami-Dade's extreme wind conditions.</p>
             </div>
             <div class="faq-list stagger-children">
-                <div class="faq-item open">
-                    <div class="faq-question">What wind speed must a church steeple withstand in Miami-Dade HVHZ?</div>
-                    <div class="faq-answer"><p>Church steeples in Miami-Dade's High Velocity Hurricane Zone must be designed for a basic wind speed of 180 MPH (3-second gust at 33 feet, Exposure C). Because churches are assembly occupancies, they typically fall under Risk Category III with an importance factor of 1.15. At steeple heights of 40-120 feet above the roof line (potentially 80-160 feet above grade for a church with a 40-foot roof peak), the velocity pressure exposure coefficient Kz can reach 1.78 or higher, producing velocity pressures exceeding 75 psf. The combination of extreme wind speed, height amplification, and importance factor makes Miami-Dade steeple engineering the most demanding in the continental United States.</p></div>
+                <div class="learn-item open">
+                    <div class="expand-trigger">What wind speed must a church steeple withstand in Miami-Dade HVHZ?</div>
+                    <div class="knowledge-body"><p>Church steeples in Miami-Dade's High Velocity Hurricane Zone must be designed for a basic wind speed of 180 MPH (3-second gust at 33 feet, Exposure C). Because churches are assembly occupancies, they typically fall under Risk Category III with an importance factor of 1.15. At steeple heights of 40-120 feet above the roof line (potentially 80-160 feet above grade for a church with a 40-foot roof peak), the velocity pressure exposure coefficient Kz can reach 1.78 or higher, producing velocity pressures exceeding 75 psf. The combination of extreme wind speed, height amplification, and importance factor makes Miami-Dade steeple engineering the most demanding in the continental United States.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What is vortex shedding and why does it matter for church steeples?</div>
-                    <div class="faq-answer"><p>Vortex shedding occurs when wind flows past a cylindrical or tapered shape like a steeple, creating alternating low-pressure vortices on each side. These vortices produce oscillating cross-wind forces at a frequency governed by the Strouhal relationship: f = S * V / D (where S is approximately 0.20 for circular sections, V is wind velocity, and D is steeple diameter). When the shedding frequency matches the steeple's natural frequency, resonance amplifies deflections dramatically. For a 3-foot diameter steeple in 90 MPH sustained winds, the shedding frequency is approximately 8.8 Hz. If the structure's natural frequency falls near that value, cross-wind oscillations can exceed along-wind deflections by a factor of 3 to 5 — producing visible swaying and potential fatigue failure of connections.</p></div>
+                <div class="learn-item">
+                    <div class="expand-trigger">What is vortex shedding and why does it matter for church steeples?</div>
+                    <div class="knowledge-body"><p>Vortex shedding occurs when wind flows past a cylindrical or tapered shape like a steeple, creating alternating low-pressure vortices on each side. These vortices produce oscillating cross-wind forces at a frequency governed by the Strouhal relationship: f = S * V / D (where S is approximately 0.20 for circular sections, V is wind velocity, and D is steeple diameter). When the shedding frequency matches the steeple's natural frequency, resonance amplifies deflections dramatically. For a 3-foot diameter steeple in 90 MPH sustained winds, the shedding frequency is approximately 8.8 Hz. If the structure's natural frequency falls near that value, cross-wind oscillations can exceed along-wind deflections by a factor of 3 to 5 — producing visible swaying and potential fatigue failure of connections.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">How does ASCE 7-22 classify church steeples for wind load analysis?</div>
-                    <div class="faq-answer"><p>ASCE 7-22 does not have a dedicated chapter for steeples. Engineers classify them under Chapter 29 as chimneys, stacks, and similar structures when structurally independent, or as a rooftop structure under Chapter 30 C&C provisions when integrated into the building envelope. Force coefficients Cf from Figure 29.4-1 range from 0.5 to 1.2 depending on cross-section shape and aspect ratio. The critical distinction is the height-to-width ratio: steeples with h/D exceeding 4 require dynamic analysis per Section 26.11, using the flexible structure gust effect factor Gf instead of the default 0.85 for rigid structures. This section mandates calculating resonant response, background turbulence, and peak factor, typically producing Gf values of 1.1 to 1.8 for slender steeples.</p></div>
+                <div class="learn-item">
+                    <div class="expand-trigger">How does ASCE 7-22 classify church steeples for wind load analysis?</div>
+                    <div class="knowledge-body"><p>ASCE 7-22 does not have a dedicated chapter for steeples. Engineers classify them under Chapter 29 as chimneys, stacks, and similar structures when structurally independent, or as a rooftop structure under Chapter 30 C&C provisions when integrated into the building envelope. Force coefficients Cf from Figure 29.4-1 range from 0.5 to 1.2 depending on cross-section shape and aspect ratio. The critical distinction is the height-to-width ratio: steeples with h/D exceeding 4 require dynamic analysis per Section 26.11, using the flexible structure gust effect factor Gf instead of the default 0.85 for rigid structures. This section mandates calculating resonant response, background turbulence, and peak factor, typically producing Gf values of 1.1 to 1.8 for slender steeples.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">What is cross-wind galloping and can it destroy a steeple?</div>
-                    <div class="faq-answer"><p>Cross-wind galloping is a self-excited aeroelastic instability where a non-circular cross-section oscillates perpendicular to the wind with progressively increasing amplitude. Unlike vortex shedding (which has bounded amplitude), galloping is divergent — once the onset wind speed is exceeded, oscillations grow until the structure fails. Square and octagonal steeple sections are susceptible. The onset velocity depends on the aerodynamic derivative dCL/d(alpha), the structural damping ratio, and the mass-damping parameter. For lightweight fiberglass steeples with low damping (0.5%), galloping can begin at 80-100 MPH, well below the 180 MPH design wind speed. The only reliable prevention is ensuring adequate structural damping (above 2%) or avoiding susceptible cross-section shapes.</p></div>
+                <div class="learn-item">
+                    <div class="expand-trigger">What is cross-wind galloping and can it destroy a steeple?</div>
+                    <div class="knowledge-body"><p>Cross-wind galloping is a self-excited aeroelastic instability where a non-circular cross-section oscillates perpendicular to the wind with progressively increasing amplitude. Unlike vortex shedding (which has bounded amplitude), galloping is divergent — once the onset wind speed is exceeded, oscillations grow until the structure fails. Square and octagonal steeple sections are susceptible. The onset velocity depends on the aerodynamic derivative dCL/d(alpha), the structural damping ratio, and the mass-damping parameter. For lightweight fiberglass steeples with low damping (0.5%), galloping can begin at 80-100 MPH, well below the 180 MPH design wind speed. The only reliable prevention is ensuring adequate structural damping (above 2%) or avoiding susceptible cross-section shapes.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">How are church steeples connected to the main building structure?</div>
-                    <div class="faq-answer"><p>The steeple-to-building connection must transfer the full base shear and overturning moment into the main structural system. For an 80-foot steeple at 180 MPH, base shear can reach 25,000 lbs and overturning moment 550,000 ft-lbs. Common connection systems include: steel base plates with anchor bolts into a reinforced concrete ring beam (preferred for new construction), through-bolted steel brackets bearing on existing masonry walls (retrofit), and steel moment frames distributing loads to multiple bearing points below the roof structure. Every connection requires a complete load path to the foundation. The most common historical failure mode is steeple detachment at this junction due to inadequate anchorage, decayed wood framing, or corroded steel connectors.</p></div>
+                <div class="learn-item">
+                    <div class="expand-trigger">How are church steeples connected to the main building structure?</div>
+                    <div class="knowledge-body"><p>The steeple-to-building connection must transfer the full base shear and overturning moment into the main structural system. For an 80-foot steeple at 180 MPH, base shear can reach 25,000 lbs and overturning moment 550,000 ft-lbs. Common connection systems include: steel base plates with anchor bolts into a reinforced concrete ring beam (preferred for new construction), through-bolted steel brackets bearing on existing masonry walls (retrofit), and steel moment frames distributing loads to multiple bearing points below the roof structure. Every connection requires a complete load path to the foundation. The most common historical failure mode is steeple detachment at this junction due to inadequate anchorage, decayed wood framing, or corroded steel connectors.</p></div>
                 </div>
-                <div class="faq-item">
-                    <div class="faq-question">Can an existing wood-frame steeple be retrofitted for HVHZ compliance?</div>
-                    <div class="faq-answer"><p>Existing wood-frame steeples can be retrofitted, but the engineering is complex and costs range from $40,000 to $150,000 depending on height and condition. Common strategies include internal steel bracing frames within the existing shell, steel tension rods from tip to building structural frame, steel plate wrapping at the base with through-bolts into a new concrete ring beam, or complete replacement with a fiberglass shell over structural steel. Any retrofit in HVHZ requires a Florida PE to provide sealed calculations and drawings. Miami-Dade permits take 6-12 weeks for plan review, and steeples over 50 feet trigger threshold building inspection requirements with a special inspector monitoring all structural connections during construction.</p></div>
+                <div class="learn-item">
+                    <div class="expand-trigger">Can an existing wood-frame steeple be retrofitted for HVHZ compliance?</div>
+                    <div class="knowledge-body"><p>Existing wood-frame steeples can be retrofitted, but the engineering is complex and costs range from $40,000 to $150,000 depending on height and condition. Common strategies include internal steel bracing frames within the existing shell, steel tension rods from tip to building structural frame, steel plate wrapping at the base with through-bolts into a new concrete ring beam, or complete replacement with a fiberglass shell over structural steel. Any retrofit in HVHZ requires a Florida PE to provide sealed calculations and drawings. Miami-Dade permits take 6-12 weeks for plan review, and steeples over 50 feet trigger threshold building inspection requirements with a special inspector monitoring all structural connections during construction.</p></div>
                 </div>
             </div>
         </div>
     </section>
 
-    <section class="cta-section reveal-scale">
+    <section class="engage-section reveal-scale">
         <h2>Engineer Your Steeple for <span style="color:#7c3aed">180 MPH</span> Winds</h2>
         <p>Get precise wind load calculations for your church steeple project. Know the forces, frequencies, and connection demands before you design or retrofit.</p>
-        <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-primary">Calculate Steeple Wind Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
+        <a href="https://windloadcalc.com/shop/specialty.html" class="btn btn-launch">Calculate Steeple Wind Loads<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
     </section>
 
     <footer>
@@ -678,11 +679,11 @@
 
     <script>
         // FAQ Toggle
-        document.querySelectorAll('.faq-question').forEach(function(q) {
+        document.querySelectorAll('.expand-trigger').forEach(function(q) {
             q.addEventListener('click', function() {
                 var item = q.parentElement;
                 var wasOpen = item.classList.contains('open');
-                document.querySelectorAll('.faq-item').forEach(function(i) { i.classList.remove('open'); });
+                document.querySelectorAll('.learn-item').forEach(function(i) { i.classList.remove('open'); });
                 if (!wasOpen) item.classList.add('open');
             });
         });
@@ -698,10 +699,10 @@
         Particle.prototype.reset = function() {
             this.x = Math.random() * canvas.width;
             this.y = Math.random() * canvas.height;
-            this.size = Math.random() * 2 + 0.5;
-            this.speedX = Math.random() * 2 + 0.5;
+            this.size = Math.random() * 1.5 + 0.4;
+            this.speedX = Math.random() * 2.2 + 0.6;
             this.speedY = Math.random() * 1 - 0.5;
-            this.opacity = Math.random() * 0.25 + 0.05;
+            this.opacity = Math.random() * 0.29 + 0.06;
             var r = Math.random();
             this.color = r > 0.7 ? '#00e5ff' : r > 0.3 ? '#8b5cf6' : '#7c3aed';
         };
@@ -957,7 +958,7 @@
         var widgetShown = false;
         function updateWidget() {
             var scrollPercent = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-            if (scrollPercent > 0.05 && !widgetShown) {
+            if (scrollPercent > 0.08 && !widgetShown) {
                 widgetShown = true;
                 vortexWidget.classList.add('visible');
                 var freq = 0;
