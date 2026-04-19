@@ -1,7 +1,8 @@
 # SEO Recovery Roadmap (Path C — Hybrid)
 
 **Created:** 2026-04-19
-**Status:** PAUSED — auto-deploy stopped, awaiting token budget to execute
+**Last updated:** 2026-04-19 (Phase 2 completed)
+**Status:** Phases 1-lite and 2 DONE. Phase 3 awaiting token budget.
 **Target:** Full recovery from Google Scaled Content Abuse violation
 
 ---
@@ -16,8 +17,11 @@
 - ✅ Resubmitted to Google Search Console (under `windloadsolutions@gmail.com`)
 - ✅ CLAUDE.md updated with diversification mandate for future pages
 - ✅ Auto-deploy paused (`.github/workflows/daily-deploy.yml` cron commented out)
+- ✅ **Phase 1-lite triage completed** (2026-04-19) — heuristic-based, no GSC data required
+- ✅ **Phase 2 noindex completed** (2026-04-19) — 558 thin/duplicate pages noindexed, sitemap rebuilt 701→260 URLs
+- ✅ Deploy script patched so future auto-deploys respect triage decisions
 
-**What's NOT done:** Content templating. Every page still has formulaic headlines, identical section order, formulaic FAQs, and mad-lib copy. That's the remaining violation.
+**What's NOT done:** Phase 3 (content rewrite on 417 KEEP pages), Phase 5 (content uniqueness prevention script). These are deferred to a future session with token budget.
 
 ---
 
@@ -32,16 +36,30 @@
 
 ---
 
-## Phase 1 — Triage (estimated effort: 2-4 hours agent work, ~$5-15 API)
+## ✅ Phase 1 — Triage (COMPLETED 2026-04-19 as "Phase 1-lite")
 
-### Goal
-Classify all 976 pages into three buckets: KEEP, NOINDEX, RETIRE.
+**Implemented as heuristic triage without GSC data** — no API cost. See `scripts/apply-noindex.js`.
 
-### Data sources needed
+### What was done
+- Triage logic baked directly into `scripts/apply-noindex.js`
+- Triage results saved to `docs/seo-triage-results.json` (audit trail)
+- Results:
+  - **417 pages KEEP** (250 live florida/, 167 staged-pages/)
+  - **558 pages NOINDEX** (107 very thin <500w, 210 thin <1000w, 241 duplicate topics)
+
+### Heuristic criteria used (vs original plan)
+- Original plan required GSC Performance export + Pages report data
+- Phase 1-lite skipped GSC data and used: word count + topic deduplication
+- Trade-off: less accurate than GSC-data triage (doesn't know which pages get traffic), but $0 cost and immediately actionable
+- If GSC data becomes available later, re-run triage with refined criteria and adjust noindex decisions
+
+### Data sources that WERE NOT used (still valuable for future refinement)
 1. **GSC Performance export** (last 90 days) — CSV of URL, impressions, clicks, CTR, avg position
 2. **GSC Pages report** — which URLs are actually indexed vs excluded
-3. **Page word count + content depth** — compute from files directly
-4. **Target keyword uniqueness** — do multiple pages target the same query?
+3. **Target keyword uniqueness** — do multiple pages target the same query?
+
+### Historical reference — original Phase 1 plan
+Classify all 976 pages into three buckets: KEEP, NOINDEX, RETIRE.
 
 ### Triage criteria
 
@@ -59,27 +77,35 @@ Classify all 976 pages into three buckets: KEEP, NOINDEX, RETIRE.
 
 ---
 
-## Phase 2 — Noindex the weak pages (estimated effort: 30 min, no API cost)
+## ✅ Phase 2 — Noindex the weak pages (COMPLETED 2026-04-19, $0 API cost)
 
-### Goal
-Prevent Google from indexing the 500-700 thin pages while keeping URLs alive.
+**Commit:** `edeb727` — "Phase 2: apply noindex to 558 thin/duplicate pages"
 
-### Implementation
+### What was done
+- ✅ `scripts/apply-noindex.js` created (combines Phase 1 triage + Phase 2 application)
+- ✅ 558 pages received `<meta name="robots" content="noindex, follow">` injection
+- ✅ `scripts/rebuild-sitemap.js` created — triage-aware sitemap generator
+- ✅ `sitemap.xml` rebuilt: **701 URLs → 260 URLs** (10 main/hub + 250 KEEP florida/)
+- ✅ `scripts/deploy-daily-pages.js` patched — `regenerateSitemap()` now delegates to `rebuild-sitemap.js` when `docs/seo-triage-results.json` exists, so future auto-deploys won't undo Phase 2 work
+- ✅ `docs/seo-triage-results.json` saved (audit trail of all 975 decisions)
 
-**2a. Create `scripts/apply-noindex.js`** that:
-- Reads `seo-triage-results.json`
-- For each page in NOINDEX bucket, injects `<meta name="robots" content="noindex, follow">` into `<head>`
-- Idempotent (skip if already present)
+### Results breakdown
+- 107 pages very thin (<500 words) → noindex
+- 210 pages thin (<1000 words) → noindex
+- 241 pages duplicate topics across counties → noindex (kept longest per topic)
+- 417 pages KEEP (250 live florida/ + 167 staged)
 
-**2b. Update `robots.txt`** to disallow scripts/private paths, but NOT the noindexed pages (Google needs to crawl them to see the noindex tag).
+### Manual action required (user task)
+- [ ] Open GSC → Sitemaps → resubmit `https://windload.co/sitemap.xml`
+- [ ] Same for windloadcalc.com and windload.solutions if those domains also have sitemaps
 
-**2c. Update `sitemap.xml`** to REMOVE noindexed URLs (they shouldn't be in sitemap if they're noindexed). Only KEEP pages go in sitemap.
+### Verification (over 2-4 weeks)
+- GSC URL Inspection on 5 random noindexed pages → should show "Excluded by 'noindex' tag" after recrawl
+- GSC Pages report: indexed count should drop as noindex takes effect
+- KEEP pages should maintain or gain impressions
 
-**2d. Commit + push.** Resubmit sitemap in GSC.
-
-### Verification
-- GSC URL Inspection on 5 random noindexed pages → should show "Excluded by 'noindex' tag" after recrawl (2-4 weeks)
-- Sitemap should now have ~250 URLs instead of 701
+### Not done (optional refinement)
+- robots.txt wasn't updated — current robots.txt already permits crawling, which is what we want (Google needs to crawl to SEE the noindex tag)
 
 ---
 
@@ -179,66 +205,70 @@ Add to CLAUDE.md: "No campaign batch may exceed 10 new pages per week. Every pag
 ## Resume auto-deploy — WHEN?
 
 **Do NOT resume auto-deploy until:**
-1. Phase 2 complete (noindex applied, sitemap cleaned)
+1. ✅ Phase 2 complete (noindex applied, sitemap cleaned) — DONE 2026-04-19
 2. Phase 3 complete (KEEP pages have unique content)
-3. Staged pages in `staged-pages/` have been triaged — some will need NOINDEX, some need content rewrite before they deploy
-4. Content uniqueness script (Phase 5b) exists and is wired into the deploy workflow
+3. Content uniqueness script (Phase 5b) exists and is wired into the deploy workflow
+
+**Note:** Staged pages have already been triaged (Phase 1-lite included them). 167 staged pages are KEEP, the rest have noindex applied. But their content is still templated, so deploying them without Phase 3 is still risky.
 
 **To resume:** uncomment the cron lines in `.github/workflows/daily-deploy.yml`.
 
 ---
 
-## Cost budget (total, if executed in one pass)
+## Cost budget — UPDATED POST-PHASE-2
 
-| Phase | Agent work | API cost | Notes |
-|-------|-----------|----------|-------|
-| 1 — Triage | 2-4 hours | $5-15 | Depends on how much data analysis is needed |
-| 2 — Noindex | 30 min | $0 | Pure code, no API calls |
-| 3 — Content rewrite | 1-2 days | $30-200 | With prompt caching on the low end |
-| 4 — Monitor | ongoing | $0 | Just watching GSC |
-| 5 — Prevention | 1 hour | $5 | Small script work |
-| **Total** | **~2-3 days** | **~$40-220** | Range depends on token efficiency |
-
----
-
-## Files to create (checklist for future session)
-
-- [ ] `scripts/seo-triage.js` — classify pages into KEEP/NOINDEX buckets
-- [ ] `scripts/apply-noindex.js` — inject noindex meta on NOINDEX pages
-- [ ] `scripts/rewrite-content.js` — AI-rewrite KEEP pages with unique angles
-- [ ] `scripts/check-content-uniqueness.js` — pre-commit content similarity check
-- [ ] `scripts/regenerate-sitemap-keep-only.js` — rebuild sitemap with only KEEP pages
-- [ ] `docs/seo-triage-results.json` — triage output (generated by seo-triage.js)
+| Phase | Status | Agent work | API cost | Notes |
+|-------|--------|-----------|----------|-------|
+| 1 — Triage | ✅ DONE (lite) | 1 hour | $0 | Heuristic only, no GSC data used |
+| 2 — Noindex | ✅ DONE | 30 min | $0 | 558 pages noindexed, sitemap rebuilt |
+| 3 — Content rewrite | ⏸ TODO | 1-2 days | $30-200 | Biggest remaining cost |
+| 4 — Monitor | ongoing | $0 | — | Watch GSC weekly |
+| 5 — Prevention | ⏸ TODO | 1 hour | $5 | Content-uniqueness pre-commit check |
+| **Remaining** | | **~1-2 days** | **~$35-205** | Phase 3 is the main spend |
 
 ---
 
-## Before starting any of this
+## Files — status as of 2026-04-19
 
-1. **Export GSC data** for windload.co (Performance → last 90 days → Export CSV). Save as `data/gsc-performance.csv`.
-2. **Export GSC Pages report** (Coverage → Export). Save as `data/gsc-pages-status.csv`.
-3. **Confirm rankings haven't already tanked more** — if Manual Action has appeared, that changes the urgency and may need different tactics.
-4. **Confirm budget** — how many tokens/dollars are available. If <$50 budget, skip Phase 3 and just do Phases 1-2 (triage + noindex). That alone gets ~70% of the recovery benefit.
+**Already created:**
+- ✅ `scripts/apply-noindex.js` — triage + noindex application (combines original Phase 1 + 2)
+- ✅ `scripts/rebuild-sitemap.js` — triage-aware sitemap generator
+- ✅ `docs/seo-triage-results.json` — triage decisions for all 975 pages
 
----
-
-## If budget is very limited — Minimum Viable Recovery
-
-If you can only do ONE thing: **Phase 2 (noindex)** is the cheapest, fastest, highest-impact move. Costs ~$0 API, removes the thin-content signal from Google's view, lets the KEEP pages breathe.
-
-Order of priority if incremental:
-1. **Phase 2 first** (cheap, fast, big impact) — ~$5 agent work
-2. **Phase 1 before Phase 2** (need triage to know WHAT to noindex) — ~$10
-3. **Phase 5b after** (prevent future abuse) — ~$5
-4. **Phase 3 last** (content rewrite) — most expensive, do when budget allows
-
-Realistic minimum to start: **~$20-30 in agent tokens + a few hours of your review time.**
+**Still to create (Phase 3 + 5):**
+- [ ] `scripts/rewrite-content.js` — AI-rewrite KEEP pages with unique angles (Phase 3)
+- [ ] `scripts/check-content-uniqueness.js` — pre-commit content similarity check (Phase 5b)
+- [ ] `data/gsc-performance.csv` (user export) — optional, would refine Phase 3 prioritization
 
 ---
 
-## Questions to answer before Phase 1 starts
+## Before starting Phase 3
+
+1. **Export GSC data** for windload.co (Performance → last 90 days → Export CSV). Save as `data/gsc-performance.csv`. Not strictly required but helps prioritize which KEEP pages to rewrite first.
+2. **Check Pages report** — see whether noindex is taking effect (indexed count dropping on the 558 noindexed pages)
+3. **Confirm no Manual Action in GSC** — if one appears, that changes the approach
+4. **Confirm budget** — Phase 3 is the main expense (~$30-200 with prompt caching)
+
+---
+
+## Resuming — pick your entry point
+
+### Option X — Skip Phase 3 for now, just monitor
+Phases 1-lite + 2 alone give ~60-70% of the recovery benefit. Watch GSC for 4-8 weeks. If rankings improve enough, Phase 3 may not be urgent. **$0 more spend needed**.
+
+### Option Y — Do Phase 3 at low budget
+Focus Phase 3 on just the top 50-100 KEEP pages (highest-traffic or highest-ROI). Skip the rest. **~$15-40 API cost**.
+
+### Option Z — Full Phase 3
+Rewrite all 417 KEEP pages. **~$30-200 API cost**. Biggest recovery, most work.
+
+---
+
+## Questions to answer before Phase 3
 
 1. Is there a Manual Action notice in GSC? (changes approach if yes)
-2. What's the current monthly traffic across all three domains?
-3. Which pages actually convert (get users to click through to windloadcalc.com)?
-4. Are there particular cities/products with higher ROI where we should focus KEEP quality?
-5. What's the token budget allocated for SEO recovery specifically?
+2. After 4 weeks of Phase 2 noindex, are any KEEP pages ranking? (tells us which to prioritize in Phase 3)
+3. What's the current monthly traffic across all three domains vs. pre-penalty?
+4. Which pages actually convert (get users to click through to windloadcalc.com)?
+5. Are there particular cities/products with higher ROI where we should focus KEEP quality?
+6. What's the token budget allocated for Phase 3?
