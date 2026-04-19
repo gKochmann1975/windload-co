@@ -162,7 +162,19 @@ function deployPage(page) {
 }
 
 // Regenerate sitemap.xml with all live pages
+//
+// SEO RECOVERY NOTE (2026-04-19): This function indexes ALL florida/ pages,
+// which would re-include noindexed thin pages in the sitemap and undo Phase 2
+// triage work. If docs/seo-triage-results.json exists, delegate to the
+// triage-aware rebuild-sitemap.js script instead.
 function regenerateSitemap() {
+    const TRIAGE_FILE = path.join(ROOT_DIR, 'docs', 'seo-triage-results.json');
+    if (fs.existsSync(TRIAGE_FILE)) {
+        console.log('Using triage-aware sitemap rebuild (respects noindex)...');
+        execSync('node scripts/rebuild-sitemap.js', { cwd: ROOT_DIR, stdio: 'inherit' });
+        return;
+    }
+
     const SITEMAP_FILE = path.join(ROOT_DIR, 'sitemap.xml');
     const today = new Date().toISOString().split('T')[0];
 
