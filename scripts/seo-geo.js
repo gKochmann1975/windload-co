@@ -20,7 +20,7 @@ const path = require('path');
 
 const ROOT = path.resolve(__dirname, '..');
 const SITE = 'https://windload.co';
-const OG_IMAGE = SITE + '/assets/favicon-512x512.png'; // real 512x512 brand asset
+const OG_IMAGE = SITE + '/assets/og-card.png'; // 1200x630 branded social card (scripts/make-og-card.py)
 const ORG_LOGO = SITE + '/assets/windload.co_0018ff.png';
 const SHOP = 'https://windloadcalc.com/wind-load-calculator-shop.html';
 
@@ -301,6 +301,8 @@ function buildBlock(slug, cfg, html) {
 
   let stripped = html.replace(new RegExp(MARK_OPEN + '[\\s\\S]*?' + MARK_CLOSE, 'g'), '');
   stripped = stripLegacyLd(stripped);
+  // remove any pre-existing twitter card meta so we emit exactly one set (with image)
+  stripped = stripped.replace(/[ \t]*<meta\s+name="twitter:[^>]*>\s*/gi, '');
   const hasOgImage = /property="og:image"/i.test(stripped);
 
   const lines = [MARK_OPEN];
